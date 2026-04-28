@@ -178,7 +178,7 @@
     border: 1px solid var(--frame-border);
     border-radius: 14px;
     overflow: hidden;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    box-shadow: 0 40px 80px var(--scrim-modal), 0 0 0 1px var(--hover) inset;
     display: flex; flex-direction: column;
     min-height: 920px;
   }
@@ -192,9 +192,9 @@
   }
   .lights { display: flex; gap: 8px; }
   .light { width: 12px; height: 12px; border-radius: 50%; }
-  .light.red    { background: #FF5F57; }
-  .light.yellow { background: #FEBC2E; }
-  .light.green  { background: #28C840; }
+  .light.red    { background: var(--alarm-600); }
+  .light.yellow { background: var(--amber-orn-500); }
+  .light.green  { background: var(--connection-600); }
   .title-row { display: flex; align-items: center; gap: 14px; justify-content: center; font-size: 13px; color: var(--text); font-weight: 500; }
   .title-row .diamond { color: var(--p-accent); transition: color 280ms; }
   .title-row .breadcrumb { color: var(--text-dim); font-size: 12px; font-weight: 400; }
@@ -230,7 +230,7 @@
   .product-tab:first-child { border-left: 1px solid var(--frame-border); }
   .product-tab .pt-glyph { width: 6px; height: 6px; border-radius: 50%; background: var(--text-faint); transition: background 180ms; }
   .product-tab .pt-shape { font-size: 9px; color: var(--text-faint); margin-left: 4px; letter-spacing: 0.08em; }
-  .product-tab:hover { color: var(--text-mid); background: rgba(255,255,255,0.02); }
+  .product-tab:hover { color: var(--text-mid); background: var(--hover); }
   .product-tab.is-active { color: var(--text); }
   /* register-specific active treatments · accents do different jobs */
   /* Personal · diligence · inward · thin underline only · no fill */
@@ -249,10 +249,10 @@
   .product-tab[data-product="team"].is-active .pt-glyph { background: var(--synthesis); }
   /* Business · outreach · institutional · full block · weighted */
   .product-tab[data-product="business"].is-active {
-    color: #0F1A12;
+    color: var(--connection-tint);
     background: var(--outreach);
   }
-  .product-tab[data-product="business"].is-active .pt-glyph { background: #0F1A12; }
+  .product-tab[data-product="business"].is-active .pt-glyph { background: var(--connection-tint); }
   .product-tab[data-product="business"].is-active .pt-shape { color: rgba(15,26,18,0.6); }
 
   .surface-meta {
@@ -313,9 +313,9 @@
     cursor: pointer;
     display: block;
   }
-  .subject-item:hover, .case-item:hover { background: rgba(255,255,255,0.02); }
+  .subject-item:hover, .case-item:hover { background: var(--hover); }
   .subject-item.is-active, .case-item.is-active {
-    background: rgba(255,255,255,0.04);
+    background: var(--hover);
     border-left-color: var(--p-accent);
   }
   .subject-row1 {
@@ -615,13 +615,13 @@
   }
   @keyframes slated-settle {
     0%   { transform: translateY(-22px) scale(1.03); opacity: 0;
-           box-shadow: 0 24px 48px rgba(0,0,0,0.55), 0 0 36px var(--p-accent); }
+           box-shadow: 0 24px 48px var(--scrim-modal), 0 0 36px var(--p-accent); }
     55%  { transform: translateY(2px) scale(1.0); opacity: 1;
            box-shadow: 0 18px 32px rgba(0,0,0,0.45), 0 0 28px var(--p-accent-bg); }
     78%  { transform: translateY(-1px) scale(1.0);
            box-shadow: 0 8px 18px rgba(0,0,0,0.30), 0 0 16px var(--p-accent-bg); }
     100% { transform: translateY(0) scale(1); opacity: 1;
-           box-shadow: 0 1px 0 rgba(255,255,255,0.02) inset; }
+           box-shadow: 0 1px 0 var(--hover) inset; }
   }
   /* fresh ring · faint accent halo fades after the settle resolves */
   .slated.is-just-landed::before {
@@ -710,7 +710,7 @@
     position: absolute; inset: 0;
     background: repeating-linear-gradient(135deg,
       transparent 0 8px,
-      rgba(233,0,149,0.05) 8px 16px);
+      var(--wholeness-50) 8px 16px);
     border-radius: 6px;
     pointer-events: none;
   }
@@ -767,7 +767,7 @@
   .sparkline path { fill: none; stroke-width: 1.5; }
   .sparkline .line-int  { stroke: var(--text-mid); }
   .sparkline .line-ext  { stroke: var(--judgment); }
-  .sparkline .gap       { fill: rgba(233,0,149,0.10); stroke: none; }
+  .sparkline .gap       { fill: var(--wholeness-100); stroke: none; }
   .sparkline-meta {
     display: flex; justify-content: space-between;
     font-family: var(--mono); font-size: 9.5px;
@@ -849,7 +849,7 @@
   }
   .mystic-quote {
     font-family: var(--display); font-style: italic; font-size: 13.5px;
-    color: #F6A8D6; line-height: 1.5;
+    color: var(--wholeness-300); line-height: 1.5;
   }
 
   /* vault calibration · the moat in motion */
@@ -881,7 +881,7 @@
     height: 30px; padding: 0 14px;
     font-family: var(--mono); font-size: 10px;
     letter-spacing: 0.16em; text-transform: uppercase;
-    background: rgba(255,255,255,0.02);
+    background: var(--hover);
     border: 1px solid var(--card-border);
     color: var(--text-mid);
     transition: background 180ms, color 180ms, border-color 180ms;
@@ -910,13 +910,13 @@
   .dispo-artifact {
     margin: 22px 32px 0;
     position: relative;
-    background: #F5EFE2;          /* warm bone paper · lifts off dark canvas */
-    color: #2A2820;
+    background: var(--cream-100);          /* warm bone paper · lifts off dark canvas */
+    color: var(--vital-soft);
     border: 1px solid rgba(0,0,0,0.16);
     border-radius: 3px;            /* signed paper, not rounded UI */
     box-shadow:
-      0 1px 0 rgba(255,255,255,0.04) inset,
-      0 18px 38px rgba(0,0,0,0.55),
+      0 1px 0 var(--hover) inset,
+      0 18px 38px var(--scrim-modal),
       0 6px 14px rgba(0,0,0,0.35),
       0 0 0 4px rgba(0,0,0,0.25);  /* dark mat surrounding the card */
     overflow: hidden;
@@ -948,7 +948,7 @@
     display: flex; align-items: center; gap: 14px;
     padding: 14px 22px 10px 28px;
     background: transparent;
-    color: #2A2820;
+    color: var(--vital-soft);
     border-bottom: 1px dashed rgba(60,40,10,0.22);
     position: relative;
     z-index: 1;
@@ -964,11 +964,11 @@
     border-radius: 999px;
     flex-shrink: 0;
     transform: rotate(-3deg);
-    box-shadow: 0 0 0 1px rgba(255,255,255,0.04) inset;
+    box-shadow: 0 0 0 1px var(--hover) inset;
   }
   .da-title {
     font-family: var(--display); font-size: 15px;
-    color: #1A1810;
+    color: var(--vitality-soft);
     font-weight: 500;
     letter-spacing: -0.005em;
     font-style: italic;            /* signed-paper · scribed feel */
@@ -996,7 +996,7 @@
   }
   .da-text {
     font-family: var(--serif); font-size: 13.5px;
-    color: #1A1810;
+    color: var(--vitality-soft);
     line-height: 1.5;
   }
   .da-text em { font-style: italic; color: rgba(42,40,32,0.75); }
@@ -1029,7 +1029,7 @@
   }
   .da-hash-label { letter-spacing: 0.16em; text-transform: uppercase; }
   .da-hash code {
-    color: #1A1810;
+    color: var(--vitality-soft);
     background: rgba(60,40,10,0.08);
     border: 1px solid rgba(60,40,10,0.16);
     font-size: 10px;
@@ -1459,7 +1459,7 @@
     opacity: 0.7;
     transform: scale(0.97) rotate(0deg);
     box-shadow:
-      -10px 14px 38px rgba(0,0,0,0.55),
+      -10px 14px 38px var(--scrim-modal),
       0 0 36px var(--p-accent);
     border-color: var(--p-accent);
     z-index: 6;
@@ -1492,10 +1492,10 @@
     box-shadow: none;
   }
   .tile.is-refused { border-color: var(--judgment-soft); }
-  .tile.is-refused .tile-window { background: rgba(233,0,149,0.05); }
-  .tile.is-refused .tile-bar { background: rgba(233,0,149,0.10); border-bottom-color: var(--judgment-soft); }
+  .tile.is-refused .tile-window { background: var(--wholeness-50); }
+  .tile.is-refused .tile-bar { background: var(--wholeness-100); border-bottom-color: var(--judgment-soft); }
   .tile.is-classified .tile-bar { background: rgba(233,0,149,0.07); }
-  .tile.is-vault .tile-bar { background: rgba(142,102,251,0.06); }
+  .tile.is-vault .tile-bar { background: var(--clarity-100); }
 
   /* the window's title-bar · macOS-style with traffic lights */
   .tile-bar {
@@ -1555,7 +1555,7 @@
     letter-spacing: -0.005em;
     line-height: 1.25;
     padding: 9px 12px 6px;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid var(--hover);
   }
   .tile.is-refused .tile-label { color: var(--judgment); text-decoration: line-through; text-decoration-thickness: 1px; }
 
@@ -1585,7 +1585,7 @@
     display: flex; align-items: center; justify-content: center;
     font-family: var(--mono);
   }
-  .tile-preview.slack .ts-avatar.b { background: var(--synthesis); color: #1a1a1a; }
+  .tile-preview.slack .ts-avatar.b { background: var(--synthesis); color: var(--bg); }
   .tile-preview.slack .ts-msg-body {
     font-family: var(--sans); font-size: 11px;
     color: var(--text-mid); line-height: 1.35;
@@ -1706,7 +1706,7 @@
     font-family: var(--mono); font-size: 8.5px;
     color: var(--text-faint); letter-spacing: 0.08em;
     text-transform: lowercase;
-    border-top: 1px solid rgba(255,255,255,0.04);
+    border-top: 1px solid var(--hover);
   }
   .tile-meta .tm-classification { color: var(--judgment); letter-spacing: 0.12em; text-transform: uppercase; }
   .tile-meta .tm-consent { color: var(--text-faint); }
@@ -1719,7 +1719,7 @@
     padding: 10px 12px;
     border: 1px dashed var(--card-border-2);
     border-radius: 6px;
-    background: rgba(255,255,255,0.02);
+    background: var(--hover);
     font-family: var(--serif); font-style: italic;
     font-size: 11.5px;
     color: var(--text-dim);
@@ -2015,7 +2015,7 @@
     display: inline-flex; align-items: center; justify-content: center;
     min-width: 16px; height: 16px;
     padding: 0 4px;
-    background: rgba(255,255,255,0.04);
+    background: var(--hover);
     border: 1px solid var(--card-border);
     border-radius: 2px;
     font-family: var(--mono); font-size: 9px;
@@ -2032,7 +2032,7 @@
     inset: 0;
     z-index: 200;
     display: flex; align-items: center; justify-content: center;
-    background: rgba(0,0,0,0.55);
+    background: var(--scrim-modal);
     backdrop-filter: blur(4px);
     animation: kbd-scrim-in 220ms ease-out;
   }
@@ -2046,7 +2046,7 @@
     background: var(--frame-bg);
     border: 1px solid var(--card-border);
     border-radius: 6px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 0 1px var(--hover) inset;
     overflow: hidden;
     animation: kbd-card-in 280ms cubic-bezier(0.32, 0.72, 0.16, 1);
   }
@@ -2084,7 +2084,7 @@
     cursor: pointer;
     transition: color 160ms, background 160ms;
   }
-  .kbd-close:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+  .kbd-close:hover { color: var(--text); background: var(--hover); }
   .kbd-body {
     padding: 18px 22px 14px;
     display: grid;
@@ -2160,7 +2160,7 @@
      ════════════════════════════════════════════════════════════════ */
   .entry-overlay {
     position: fixed; inset: 0; z-index: 250;
-    background: radial-gradient(ellipse 1200px 800px at 50% 40%, rgba(142,102,251,0.08), rgba(0,0,0,0) 60%), rgba(0,0,0,0.92);
+    background: radial-gradient(ellipse 1200px 800px at 50% 40%, rgba(142,102,251,0.08), rgba(0,0,0,0) 60%), var(--scrim-overlay);
     backdrop-filter: blur(6px);
     display: flex; align-items: center; justify-content: center;
     padding: 24px;
@@ -2175,7 +2175,7 @@
     border: 1px solid var(--card-border);
     border-radius: 8px;
     padding: 36px 40px 28px;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px var(--hover) inset;
     text-align: center;
     animation: entry-card-in 480ms cubic-bezier(0.32, 0.72, 0.16, 1);
   }
@@ -2347,7 +2347,7 @@
   }
   .cn-item:hover {
     color: var(--text);
-    background: rgba(255,255,255,0.02);
+    background: var(--hover);
   }
   .cn-item.is-active {
     color: var(--text);

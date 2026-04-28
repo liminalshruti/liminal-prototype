@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cut 03 · Calibration · Liminal</title>
+
+<!--
+  Cut 03 · Calibration · Your OS over time
+  ──────────────────────────────────────────────────────────────────────
+  ICP        · founder · operator
+  Surface    · personal
+  Spec ref   · liminal-ip/04-design/UI_GAP_SPEC.md §3.3
+  Status     · refining
+  ──────────────────────────────────────────────────────────────────────
+
+  CONTRACT WITH THE STUDIO ARCHITECTURE
+
+  · Tokens come from design-system/tokens/design-tokens.css · DO NOT redefine.
+  · The calibration view uses a temporal grid (weeks × registers), not the
+    slate-tray surface from cut-shell. The grid is a Layer C surface per
+    layer-model.md · restrained, existing-token only.
+  · Per-agent drill panel populates on click · shows correction history for
+    that agent over the 12-week window.
+  · This is the record, not a productivity dashboard. Pattern is the signal;
+    the 9-tag taxonomy is load-bearing.
+  · Mock data: 12 weeks, 4 registers, 13 agents, ~6-8 corrections per week
+    (realistic variance). Tags drawn from correction-tags.js.
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- canon · DO NOT REDEFINE TOKENS -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+
+<!-- shared desktop-app shell · import, then override with per-cut styles -->
+<link rel="stylesheet" href="../lib/cut-shell.css">
+
+<style>
+  /* Calibration view · temporal grid · per UI_GAP_SPEC §3.3
+     ────────────────────────────────────────────────────────────────
+     PER-CUT TOKEN MAP · binds calibration-vocabulary tokens to canon.
+     Per cuts/CONTRIBUTING.md rule #1: cuts cannot redefine canon
+     tokens. We add new prototype-vocabulary aliases (--paper, --text-soft,
+     --border, etc.) that bind into existing canon tokens (--frame-bg,
+     --text-mid, --card-border, --diligence, --synthesis etc.). When canon
+     changes, this view picks up the change.
+     ──────────────────────────────────────────────────────────────── */
+  :root {
+    /* surface aliases · calibration uses paper-vocabulary */
+    --paper:           var(--frame-bg,      #0E0E11);
+    --paper-lift:      var(--frame-bg-2,    #0C0C0F);
+    --paper-soft:      var(--frame-bg-3,    #15161A);
+    --border:          var(--card-border,   #232327);
+    --border-soft:     var(--frame-border,  #1F1F23);
+    --cell-bg:         var(--frame-bg-2,    #0C0C0F);
+    --text-soft:       var(--text-dim,      #7A7A82);
+    --easing:          var(--ease-out, cubic-bezier(0.4, 0, 0.2, 1));
+
+    /* signal aliases · per-register ink/paper · bind to canon hue scales */
+    --signal-violet-ink:   var(--clarity-500,    #8E66FB);
+    --signal-violet-paper: var(--clarity-bg,     rgba(142,102,251,0.06));
+    --signal-solar-ink:    var(--agency-500,     #FFD24A);
+    --signal-solar-paper:  var(--agency-bg,      rgba(255,210,74,0.06));
+    --signal-pink-ink:     var(--wholeness-500,  #E90095);
+    --signal-pink-paper:   var(--wholeness-bg,   rgba(233,0,149,0.06));
+    --signal-jade-ink:     var(--connection-500, #3EE878);
+    --signal-jade-paper:   var(--connection-bg,  rgba(62,232,120,0.06));
+  }
+
+  /* Override shell grid to accommodate the temporal view */
+  .stage {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .frame {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  /* Titlebar stays from shell */
+  .titlebar {
+    flex-shrink: 0;
+  }
+
+  /* Main content: the temporal grid */
+  .cal-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--paper);
+    padding: 2rem;
+    gap: 2rem;
+  }
+
+  .cal-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .cal-eyebrow {
+    font-family: Newsreader, serif;
+    font-style: italic;
+    font-size: 0.875rem;
+    color: var(--text-soft);
+    line-height: 1.4;
+  }
+
+  .cal-title {
+    font-family: Geist, sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .cal-helper {
+    font-family: Geist, sans-serif;
+    font-size: 0.875rem;
+    color: var(--text-soft);
+    line-height: 1.5;
+  }
+
+  /* Grid container */
+  .cal-grid-wrapper {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    gap: 2rem;
+  }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: 120px repeat(12, 1fr);
+    grid-template-rows: 40px repeat(4, 1fr);
+    gap: 1px;
+    background: var(--paper-soft);
+    padding: 1px;
+    min-width: max-content;
+  }
+
+  /* Week headers */
+  .cal-week-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Geist Mono, monospace;
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    background: var(--paper);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .cal-week-header.corner {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  /* Register row labels */
+  .cal-register-label {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-family: Geist, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--paper);
+    cursor: pointer;
+    user-select: none;
+    transition: background 140ms var(--easing);
+  }
+
+  .cal-register-label:hover {
+    background: var(--paper-lift);
+  }
+
+  .cal-register-label.diligence {
+    color: var(--diligence);
+  }
+
+  .cal-register-label.synthesis {
+    color: var(--synthesis);
+  }
+
+  .cal-register-label.judgment {
+    color: var(--judgment);
+  }
+
+  .cal-register-label.outreach {
+    color: var(--outreach);
+  }
+
+  /* Cells: correction count + tag */
+  .cal-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    padding: 0.75rem;
+    background: var(--paper);
+    border: 1px solid var(--border-soft);
+    cursor: pointer;
+    transition: all 140ms var(--easing);
+    position: relative;
+  }
+
+  .cal-cell:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    border-color: var(--border);
+  }
+
+  .cal-cell.diligence {
+    --cell-accent: var(--diligence);
+    --cell-bg: var(--diligence-bg);
+  }
+
+  .cal-cell.synthesis {
+    --cell-accent: var(--synthesis);
+    --cell-bg: var(--synthesis-bg);
+  }
+
+  .cal-cell.judgment {
+    --cell-accent: var(--judgment);
+    --cell-bg: var(--judgment-bg);
+  }
+
+  .cal-cell.outreach {
+    --cell-accent: var(--outreach);
+    --cell-bg: var(--outreach-bg);
+  }
+
+  /* Correction intensity encoding */
+  .cal-cell.empty {
+    background: var(--paper);
+    border: 1px dashed var(--border-soft);
+  }
+
+  .cal-cell.light {
+    background: color-mix(in oklch, var(--cell-bg) 25%, var(--paper) 75%);
+  }
+
+  .cal-cell.medium {
+    background: color-mix(in oklch, var(--cell-bg) 50%, var(--paper) 50%);
+  }
+
+  .cal-cell.saturated {
+    background: color-mix(in oklch, var(--cell-bg) 75%, var(--paper) 25%);
+  }
+
+  .cal-cell-count {
+    font-family: Geist Mono, monospace;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .cal-cell-tag {
+    font-family: Geist, sans-serif;
+    font-size: 0.625rem;
+    color: var(--text-mid);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    max-width: 100%;
+    text-align: center;
+    line-height: 1.2;
+    word-wrap: break-word;
+  }
+
+  .cal-cell.empty .cal-cell-tag {
+    display: none;
+  }
+
+  /* Drill panel */
+  .cal-drill {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--paper);
+    border-left: 1px solid var(--border-soft);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    overflow-y: auto;
+  }
+
+  .cal-drill.empty {
+    display: none;
+  }
+
+  .cal-drill-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .cal-drill-close {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    color: var(--text-soft);
+    cursor: pointer;
+    font-family: Geist Mono, monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    padding: 0.25rem 0;
+    transition: color 140ms var(--easing);
+  }
+
+  .cal-drill-close:hover {
+    color: var(--text);
+  }
+
+  .cal-drill-agent {
+    font-family: Geist, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .cal-drill-agent-register {
+    font-family: Geist, sans-serif;
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .cal-drill-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--paper-lift);
+    border-radius: 4px;
+  }
+
+  .cal-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .cal-stat-label {
+    font-family: Geist, sans-serif;
+    font-size: 0.625rem;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .cal-stat-value {
+    font-family: Geist Mono, monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .cal-drill-history {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .cal-history-label {
+    font-family: Geist, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .cal-history-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 0.75rem;
+    background: var(--paper-lift);
+    border-radius: 3px;
+    font-family: Newsreader, serif;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--text);
+  }
+
+  .cal-history-time {
+    font-family: Geist Mono, monospace;
+    font-size: 0.65rem;
+    color: var(--text-soft);
+  }
+
+  /* Vault calibration footer */
+  .cal-footer {
+    flex-shrink: 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-soft);
+    font-family: Newsreader, serif;
+    font-size: 0.875rem;
+    font-style: italic;
+    color: var(--text-soft);
+    line-height: 1.6;
+  }
+
+  /* Responsive: hide drill on very small screens */
+  @media (max-width: 1024px) {
+    .cal-drill {
+      display: none;
+    }
+  }
+
+  /* Keyboard shortcuts hint */
+  .cal-keys {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    font-family: Geist Mono, monospace;
+    font-size: 0.625rem;
+    color: var(--text-soft);
+    line-height: 1.4;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body data-product="personal">
+
+<!-- desktop-app shell frame stays from cut-shell -->
+<div class="stage">
+  <div class="frame">
+
+    <!-- titlebar from cut-shell -->
+    <header class="titlebar">
+      <div class="lights">
+        <span class="light red"></span>
+        <span class="light yellow"></span>
+        <span class="light green"></span>
+      </div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="app-label">Liminal</span>
+        <span class="spacer"></span>
+      </div>
+    </header>
+
+    <!-- Calibration view content -->
+    <div class="cal-container">
+      <div class="cal-header">
+        <div class="cal-eyebrow">Your OS over time</div>
+        <h1 class="cal-title">12 weeks · four registers</h1>
+        <p class="cal-helper">The vault record. Each cell shows corrections that week for that register. Click a cell or agent name to see the pattern.</p>
+      </div>
+
+      <div class="cal-grid-wrapper">
+        <div class="cal-grid" id="cal-grid">
+          <!-- Grid populated by JS -->
+        </div>
+
+        <div class="cal-drill empty" id="cal-drill">
+          <!-- Drill panel populated on click -->
+        </div>
+      </div>
+
+      <div class="cal-footer">
+        Correction is how you stay legible to yourself. The record is the vault. Pattern is the signal.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script type="module">
+  // Mock correction taxonomy (from liminal-agents/lib/correction-tags.js)
+  const CORRECTION_TAGS = [
+    "wrong_frame",
+    "wrong_intensity",
+    "wrong_theory",
+    "right_but_useless",
+    "right_but_already_known",
+    "too_generic",
+    "missed_compensation",
+    "assumes_facts_not_in_evidence",
+    "off_by_layer",
+  ];
+
+  // Registers and their agents
+  const REGISTERS = [
+    {
+      id: "diligence",
+      label: "Diligence",
+      agents: ["Operator", "Synthesizer", "Witness"]
+    },
+    {
+      id: "synthesis",
+      label: "Synthesis",
+      agents: ["Strategist", "Editor"]
+    },
+    {
+      id: "judgment",
+      label: "Judgment",
+      agents: ["Contrarian", "Manager"]
+    },
+    {
+      id: "outreach",
+      label: "Outreach",
+      agents: ["Planner", "SDR"]
+    }
+  ];
+
+  // All agents (13 total)
+  const ALL_AGENTS = [
+    { name: "Operator", register: "diligence" },
+    { name: "Synthesizer", register: "diligence" },
+    { name: "Witness", register: "diligence" },
+    { name: "Strategist", register: "synthesis" },
+    { name: "Editor", register: "synthesis" },
+    { name: "Contrarian", register: "judgment" },
+    { name: "Manager", register: "judgment" },
+    { name: "Planner", register: "outreach" },
+    { name: "SDR", register: "outreach" }
+  ];
+
+  // Generate 12 weeks of mock correction data
+  function generateMockData() {
+    const data = {};
+    const weeks = ["w-12", "w-11", "w-10", "w-9", "w-8", "w-7", "w-6", "w-5", "w-4", "w-3", "w-2", "w-1"];
+    const dates = [
+      "2026-02-07", "2026-02-14", "2026-02-21", "2026-02-28",
+      "2026-03-07", "2026-03-14", "2026-03-21", "2026-03-28",
+      "2026-04-04", "2026-04-11", "2026-04-18", "2026-04-25"
+    ];
+
+    weeks.forEach((week, idx) => {
+      data[week] = {};
+      REGISTERS.forEach(reg => {
+        const cellCount = Math.random() > 0.3 ? Math.floor(Math.random() * 7) + 1 : 0;
+        const dominantTag = cellCount > 0 ? CORRECTION_TAGS[Math.floor(Math.random() * CORRECTION_TAGS.length)] : null;
+
+        // Generate per-agent corrections for this week
+        const agentCorrections = {};
+        reg.agents.forEach(agentName => {
+          const agentCellCount = cellCount > 0 ? Math.floor(Math.random() * 4) : 0;
+          agentCorrections[agentName] = {
+            count: agentCellCount,
+            tag: agentCellCount > 0 ? CORRECTION_TAGS[Math.floor(Math.random() * CORRECTION_TAGS.length)] : null,
+            entries: []
+          };
+
+          // Generate sample history entries
+          for (let i = 0; i < agentCellCount && i < 3; i++) {
+            const contexts = [
+              `during the ${["founding round", "seed round", "product planning", "hiring push", "market analysis"][Math.floor(Math.random() * 5)]}`,
+              `while evaluating ${["creative work", "team dynamics", "strategic options", "vendor contracts", "competitive positioning"][Math.floor(Math.random() * 5)]}`,
+              `reviewing ${["scenario analysis", "customer feedback", "technical spec", "market research", "partnership terms"][Math.floor(Math.random() * 5)]}`
+            ];
+            agentCorrections[agentName].entries.push({
+              date: dates[idx],
+              tag: agentCorrections[agentName].tag,
+              context: contexts[i % contexts.length]
+            });
+          }
+        });
+
+        data[week][reg.id] = {
+          count: cellCount,
+          dominantTag: dominantTag,
+          agentCorrections: agentCorrections
+        };
+      });
+    });
+
+    return { weeks, data };
+  }
+
+  const mockData = generateMockData();
+
+  // Render grid
+  function renderGrid() {
+    const grid = document.getElementById("cal-grid");
+    const weeks = mockData.weeks;
+
+    // Corner cell
+    const corner = document.createElement("div");
+    corner.className = "cal-week-header corner";
+    grid.appendChild(corner);
+
+    // Week headers
+    weeks.forEach(week => {
+      const header = document.createElement("div");
+      header.className = "cal-week-header";
+      header.textContent = week;
+      grid.appendChild(header);
+    });
+
+    // Register rows
+    REGISTERS.forEach((register) => {
+      // Register label
+      const label = document.createElement("div");
+      label.className = `cal-register-label ${register.id}`;
+      label.textContent = register.label;
+      label.role = "button";
+      label.tabIndex = 0;
+      label.addEventListener("click", () => showDrill(register, null));
+      label.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") showDrill(register, null);
+      });
+      grid.appendChild(label);
+
+      // Cells for each week
+      weeks.forEach(week => {
+        const cellData = mockData.data[week][register.id];
+        const cell = document.createElement("div");
+        cell.className = `cal-cell ${register.id}`;
+
+        // Intensity encoding
+        if (cellData.count === 0) {
+          cell.classList.add("empty");
+        } else if (cellData.count <= 2) {
+          cell.classList.add("light");
+        } else if (cellData.count <= 4) {
+          cell.classList.add("medium");
+        } else {
+          cell.classList.add("saturated");
+        }
+
+        // Count
+        const count = document.createElement("div");
+        count.className = "cal-cell-count";
+        count.textContent = cellData.count || "·";
+        cell.appendChild(count);
+
+        // Tag
+        if (cellData.dominantTag) {
+          const tag = document.createElement("div");
+          tag.className = "cal-cell-tag";
+          tag.textContent = cellData.dominantTag.replace(/_/g, "·");
+          cell.appendChild(tag);
+        }
+
+        cell.role = "button";
+        cell.tabIndex = 0;
+        cell.addEventListener("click", () => showDrill(register, week));
+        cell.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") showDrill(register, week);
+        });
+
+        grid.appendChild(cell);
+      });
+    });
+  }
+
+  // Show drill panel
+  function showDrill(register, week) {
+    const drill = document.getElementById("cal-drill");
+
+    if (!week) {
+      // Show register summary (all agents in that register, total over all weeks)
+      const totalByAgent = {};
+      register.agents.forEach(agentName => {
+        totalByAgent[agentName] = 0;
+        mockData.weeks.forEach(w => {
+          totalByAgent[agentName] += mockData.data[w][register.id].agentCorrections[agentName].count;
+        });
+      });
+
+      const primaryAgent = register.agents[0];
+      const primaryTotal = totalByAgent[primaryAgent];
+      const primaryTag = getPrimaryTag(primaryAgent);
+
+      drill.innerHTML = `
+        <div class="cal-drill-header">
+          <button class="cal-drill-close" id="drill-close">Esc · close</button>
+          <div class="cal-drill-agent">${primaryAgent}</div>
+          <div class="cal-drill-agent-register">${register.label}</div>
+        </div>
+        <div class="cal-drill-stats">
+          <div class="cal-stat">
+            <div class="cal-stat-label">Corrections (12 weeks)</div>
+            <div class="cal-stat-value">${primaryTotal}</div>
+          </div>
+          <div class="cal-stat">
+            <div class="cal-stat-label">Most common</div>
+            <div class="cal-stat-value">${primaryTag.replace(/_/g, "·")}</div>
+          </div>
+        </div>
+        <div class="cal-drill-history">
+          <div class="cal-history-label">Recent</div>
+          ${generateHistoryItems(primaryAgent, 4).map(item => `
+            <div class="cal-history-item">
+              <div>Corrected for <strong>${item.tag.replace(/_/g, "·")}</strong> ${item.context}</div>
+              <div class="cal-history-time">${item.date}</div>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    } else {
+      // Show week details for that register
+      const weekData = mockData.data[week][register.id];
+      drill.innerHTML = `
+        <div class="cal-drill-header">
+          <button class="cal-drill-close" id="drill-close">Esc · close</button>
+          <div class="cal-drill-agent">${register.label}</div>
+          <div class="cal-drill-agent-register">${week}</div>
+        </div>
+        <div class="cal-drill-stats">
+          <div class="cal-stat">
+            <div class="cal-stat-label">Corrections</div>
+            <div class="cal-stat-value">${weekData.count}</div>
+          </div>
+          <div class="cal-stat">
+            <div class="cal-stat-label">Dominant tag</div>
+            <div class="cal-stat-value">${weekData.dominantTag ? weekData.dominantTag.replace(/_/g, "·") : "·"}</div>
+          </div>
+        </div>
+        <div class="cal-drill-history">
+          <div class="cal-history-label">By agent</div>
+          ${register.agents.map(agent => {
+            const ac = weekData.agentCorrections[agent];
+            return `
+              <div style="font-family: Geist, sans-serif; font-size: 0.8125rem; color: var(--text-soft); margin: 0.5rem 0;">
+                ${agent}: <strong>${ac.count}</strong>
+              </div>
+            `;
+          }).join("")}
+        </div>
+      `;
+    }
+
+    drill.classList.remove("empty");
+    document.getElementById("drill-close").addEventListener("click", closeDrill);
+    document.addEventListener("keydown", handleDrillKeydown);
+  }
+
+  function closeDrill() {
+    const drill = document.getElementById("cal-drill");
+    drill.classList.add("empty");
+    document.removeEventListener("keydown", handleDrillKeydown);
+  }
+
+  function handleDrillKeydown(e) {
+    if (e.key === "Escape") {
+      closeDrill();
+    }
+  }
+
+  function getPrimaryTag(agentName) {
+    let tagCount = {};
+    mockData.weeks.forEach(week => {
+      REGISTERS.forEach(reg => {
+        const ac = mockData.data[week][reg.id].agentCorrections[agentName];
+        if (ac.tag) {
+          tagCount[ac.tag] = (tagCount[ac.tag] || 0) + ac.count;
+        }
+      });
+    });
+    return Object.entries(tagCount).sort((a, b) => b[1] - a[1])[0]?.[0] || "no_data";
+  }
+
+  function generateHistoryItems(agentName, limit) {
+    const items = [];
+    mockData.weeks.slice(0, 6).forEach(week => {
+      REGISTERS.forEach(reg => {
+        const ac = mockData.data[week][reg.id].agentCorrections[agentName];
+        items.push(...ac.entries.map(e => ({ ...e, week })));
+      });
+    });
+    return items.sort(() => Math.random() - 0.5).slice(0, limit);
+  }
+
+  // Initialize
+  renderGrid();
+</script>
+
+</body>
+</html>
