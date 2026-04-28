@@ -41,7 +41,7 @@
  */
 
 export const SPEC_VERSION = "v0.3.11";
-export const PROTOTYPE_VERSION = "v0.8.7-entry-contrast";
+export const PROTOTYPE_VERSION = "v0.8.8-cascade-circular-fix";
 // Bump on every commit. Examples:
 //   v0.3.2-two-product-spine        · two-product fork is the spine
 //   v0.3.3-disagreement-as-signal   · refusal-theatre out · disagreement-as-signal flow in

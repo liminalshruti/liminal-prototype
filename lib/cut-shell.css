@@ -53,10 +53,19 @@
        keep their hardcoded values · these are prototype-internal extensions
        that should be promoted to canon in a follow-up audit.
        ────────────────────────────────────────────────────────────────── */
-    --frame-bg-3:   #15161A;                   /* prototype-only · TODO: promote to canon */
-    --frame-border: var(--frame-border, #1F1F23);
-    --card-border:  #232327;                   /* prototype-only · TODO: promote to canon */
-    --card-border-2:#2A2A2F;                   /* prototype-only · TODO: promote to canon */
+    /* surfaces and borders · explicit values · matches canon intent.
+       Self-referential `var(--name, fallback)` bindings invalidate when
+       canon hasn't loaded yet OR the same prop is being defined right
+       now · CSS treats the chain as circular and falls through to
+       initial value (transparent for color, currentColor for border).
+       Use explicit values to avoid the circular-ref invalidation trap. */
+    --bg:           #0A0A0B;
+    --frame-bg:     #0E0E11;
+    --frame-bg-2:   #0C0C0F;
+    --frame-bg-3:   #15161A;
+    --frame-border: #1F1F23;
+    --card-border:  #232327;
+    --card-border-2:#2A2A2F;
 
     /* register hues · 4 of the 12-wheel · canon owns the values */
     --diligence:    var(--clarity,     #8E66FB);
@@ -90,11 +99,17 @@
     --p-accent-bg:   var(--diligence-bg);
     --p-accent-edge: var(--diligence-edge);
 
-    /* ink scale · canon already provides --text + tiers */
-    --text:       var(--text,       #E8E8EA);
-    --text-mid:   var(--text-mid,   #B0B0B6);
-    --text-dim:   var(--text-dim,   #7A7A82);
-    --text-faint: var(--text-faint, #4A4A52);
+    /* ink scale · canon's --text/-mid/-dim/-faint are self-referenced
+       circularly here, which evaluates to invalid initial color (black).
+       Fix · use explicit hex values that match canon's intended palette,
+       so prototype renders correctly even when canon's value is absent
+       OR the var-self-ref invalidation hits.
+       Canon target values: --text #F4F2EE · --text-mid #C9C5BD ·
+       --text-dim #8A8780 · --text-faint #5A5852 · these match. */
+    --text:       #F4F2EE;
+    --text-mid:   #C9C5BD;
+    --text-dim:   #8A8780;
+    --text-faint: #5A5852;
 
     --display: "Newsreader", Georgia, serif;
     --serif:   "Newsreader", Georgia, serif;
