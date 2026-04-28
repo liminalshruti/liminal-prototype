@@ -24,8 +24,12 @@
     that agent over the 12-week window.
   · This is the record, not a productivity dashboard. Pattern is the signal;
     the 9-tag taxonomy is load-bearing.
-  · Mock data: 12 weeks, 4 registers, 13 agents, ~6-8 corrections per week
-    (realistic variance). Tags drawn from correction-tags.js.
+  · DATA: real corrections from lib/vault-store.js (IndexedDB) layered on
+    top of a seeded baseline so the demo is never empty. Real entries
+    rise to the top of the drill history with a "live" badge. Subscribes
+    to `liminal:vault:appended` (same tab) and `storage` (cross-tab) so
+    writes from other cuts update this grid live. Tags drawn from the
+    9-tag canon (vault-store.CORRECTION_TAGS).
   ──────────────────────────────────────────────────────────────────────
 -->
 
@@ -497,113 +501,216 @@
 </div>
 
 <script type="module">
-  // Mock correction taxonomy (from liminal-agents/lib/correction-tags.js)
-  const CORRECTION_TAGS = [
-    "wrong_frame",
-    "wrong_intensity",
-    "wrong_theory",
-    "right_but_useless",
-    "right_but_already_known",
-    "too_generic",
-    "missed_compensation",
-    "assumes_facts_not_in_evidence",
-    "off_by_layer",
-  ];
+  /* Cut 03 · Calibration · live data binding
+     ────────────────────────────────────────────────────────────────────
+     Reads real corrections from lib/vault-store.js (IndexedDB) and
+     layers them on top of a seeded mock baseline so the demo is never
+     empty but real user activity shows through immediately.
 
-  // Registers and their agents
+     Data flow:
+       1. seed mock baseline (12 weeks × 4 registers · varied densities)
+       2. load real corrections from IDB (surface=personal · personal is
+          the founder-OS surface that cut 03 belongs to)
+       3. bucket each real correction into its week column based on ts
+       4. merge into the same {weeks, data} shape mock uses
+       5. re-render on `liminal:vault:appended` (same tab) and on
+          `storage` event (cross-tab) so the grid stays live
+
+     The 9-tag canon is mirrored from vault-store.js · keep in sync.
+     ──────────────────────────────────────────────────────────────── */
+
+  import * as vaultStore from "../lib/vault-store.js";
+
+  const CORRECTION_TAGS = vaultStore.CORRECTION_TAGS;
+
+  /* Registers · 4-pillar canon · agents listed lowercase to match the
+     `data-agent` strings slate.js writes into the picker · the display
+     name (capitalized) is computed from the lowercase id */
   const REGISTERS = [
-    {
-      id: "diligence",
-      label: "Diligence",
-      agents: ["Operator", "Synthesizer", "Witness"]
-    },
-    {
-      id: "synthesis",
-      label: "Synthesis",
-      agents: ["Strategist", "Editor"]
-    },
-    {
-      id: "judgment",
-      label: "Judgment",
-      agents: ["Contrarian", "Manager"]
-    },
-    {
-      id: "outreach",
-      label: "Outreach",
-      agents: ["Planner", "SDR"]
+    { id: "diligence", label: "Diligence", agents: ["operator", "synthesizer", "witness"] },
+    { id: "synthesis", label: "Synthesis", agents: ["strategist", "editor", "cartographer"] },
+    { id: "judgment",  label: "Judgment",  agents: ["contrarian", "manager", "mystic"] },
+    { id: "outreach",  label: "Outreach",  agents: ["planner", "sdr"] }
+  ];
+
+  /* Agent → register lookup · built from REGISTERS · case-insensitive
+     · falls back to "diligence" for unmapped agent names so a typo
+     in slate doesn't drop the correction off the grid */
+  const AGENT_REGISTER = {};
+  REGISTERS.forEach(r => r.agents.forEach(a => { AGENT_REGISTER[a] = r.id; }));
+  function registerOf(agent) {
+    if (!agent) return "diligence";
+    return AGENT_REGISTER[agent.toLowerCase()] || "diligence";
+  }
+  function displayAgent(agent) {
+    if (!agent) return "Agent";
+    return agent.charAt(0).toUpperCase() + agent.slice(1);
+  }
+
+  /* week buckets · w-1 is the most recent 7 days, w-12 the oldest. We
+     compute dates dynamically from `now` so the labels track real time. */
+  function buildWeeks(now = Date.now()) {
+    const ONE_WEEK = 7 * 24 * 60 * 60 * 1000;
+    const weeks = [];
+    for (let i = 12; i >= 1; i--) {
+      const end = now - (i - 1) * ONE_WEEK;
+      const start = now - i * ONE_WEEK;
+      const d = new Date(start);
+      const label = `${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}`;
+      weeks.push({ id: `w-${i}`, label, start, end });
     }
-  ];
+    return weeks;
+  }
 
-  // All agents (13 total)
-  const ALL_AGENTS = [
-    { name: "Operator", register: "diligence" },
-    { name: "Synthesizer", register: "diligence" },
-    { name: "Witness", register: "diligence" },
-    { name: "Strategist", register: "synthesis" },
-    { name: "Editor", register: "synthesis" },
-    { name: "Contrarian", register: "judgment" },
-    { name: "Manager", register: "judgment" },
-    { name: "Planner", register: "outreach" },
-    { name: "SDR", register: "outreach" }
-  ];
+  /* deterministic-feeling pseudo-random for the mock baseline · keeps
+     the demo grid visually interesting but stable across refreshes */
+  function seededRand(seed) {
+    let s = seed;
+    return () => {
+      s = (s * 1664525 + 1013904223) % 4294967296;
+      return s / 4294967296;
+    };
+  }
 
-  // Generate 12 weeks of mock correction data
-  function generateMockData() {
+  function emptyCell() {
+    return { count: 0, dominantTag: null, agentCorrections: {}, entries: [] };
+  }
+
+  function buildBaseline(weeks) {
     const data = {};
-    const weeks = ["w-12", "w-11", "w-10", "w-9", "w-8", "w-7", "w-6", "w-5", "w-4", "w-3", "w-2", "w-1"];
-    const dates = [
-      "2026-02-07", "2026-02-14", "2026-02-21", "2026-02-28",
-      "2026-03-07", "2026-03-14", "2026-03-21", "2026-03-28",
-      "2026-04-04", "2026-04-11", "2026-04-18", "2026-04-25"
-    ];
-
-    weeks.forEach((week, idx) => {
-      data[week] = {};
+    const rand = seededRand(0xCAFEFACE);
+    weeks.forEach((wk, idx) => {
+      data[wk.id] = {};
       REGISTERS.forEach(reg => {
-        const cellCount = Math.random() > 0.3 ? Math.floor(Math.random() * 7) + 1 : 0;
-        const dominantTag = cellCount > 0 ? CORRECTION_TAGS[Math.floor(Math.random() * CORRECTION_TAGS.length)] : null;
-
-        // Generate per-agent corrections for this week
+        const seed = Math.floor(rand() * 6) - 1;
+        const count = Math.max(0, seed);
+        const tag = count > 0 ? CORRECTION_TAGS[Math.floor(rand() * CORRECTION_TAGS.length)] : null;
         const agentCorrections = {};
-        reg.agents.forEach(agentName => {
-          const agentCellCount = cellCount > 0 ? Math.floor(Math.random() * 4) : 0;
-          agentCorrections[agentName] = {
-            count: agentCellCount,
-            tag: agentCellCount > 0 ? CORRECTION_TAGS[Math.floor(Math.random() * CORRECTION_TAGS.length)] : null,
+        reg.agents.forEach(a => {
+          const ac = count > 0 ? Math.floor(rand() * 3) : 0;
+          agentCorrections[a] = {
+            count: ac,
+            tag: ac > 0 ? CORRECTION_TAGS[Math.floor(rand() * CORRECTION_TAGS.length)] : null,
             entries: []
           };
-
-          // Generate sample history entries
-          for (let i = 0; i < agentCellCount && i < 3; i++) {
-            const contexts = [
-              `during the ${["founding round", "seed round", "product planning", "hiring push", "market analysis"][Math.floor(Math.random() * 5)]}`,
-              `while evaluating ${["creative work", "team dynamics", "strategic options", "vendor contracts", "competitive positioning"][Math.floor(Math.random() * 5)]}`,
-              `reviewing ${["scenario analysis", "customer feedback", "technical spec", "market research", "partnership terms"][Math.floor(Math.random() * 5)]}`
-            ];
-            agentCorrections[agentName].entries.push({
-              date: dates[idx],
-              tag: agentCorrections[agentName].tag,
-              context: contexts[i % contexts.length]
-            });
-          }
         });
-
-        data[week][reg.id] = {
-          count: cellCount,
-          dominantTag: dominantTag,
-          agentCorrections: agentCorrections
+        data[wk.id][reg.id] = {
+          count,
+          dominantTag: tag,
+          agentCorrections,
+          entries: []
         };
       });
     });
-
-    return { weeks, data };
+    return data;
   }
 
-  const mockData = generateMockData();
+  /* Merge a real correction row into the data shape. Mutates `data`. */
+  function mergeReal(data, weeks, row) {
+    const wk = weeks.find(w => row.ts >= w.start && row.ts < w.end);
+    if (!wk) return; // older than the 12-week window · drop
+    const regId = registerOf(row.agent);
+    const cell = data[wk.id][regId];
+    cell.count += 1;
+
+    /* tag tally · whichever tag has the highest count in this cell wins
+       as `dominantTag` · reset to null if no tags present */
+    cell._tagTally = cell._tagTally || {};
+    if (row.tag) {
+      cell._tagTally[row.tag] = (cell._tagTally[row.tag] || 0) + 1;
+      cell.dominantTag = Object.entries(cell._tagTally)
+        .sort((a, b) => b[1] - a[1])[0][0];
+    }
+
+    /* per-agent · same shape as baseline */
+    const agentKey = (row.agent || "").toLowerCase();
+    if (!cell.agentCorrections[agentKey]) {
+      cell.agentCorrections[agentKey] = { count: 0, tag: null, entries: [] };
+    }
+    const ac = cell.agentCorrections[agentKey];
+    ac.count += 1;
+    if (row.tag) ac.tag = row.tag;
+    ac.entries.push({
+      date: new Date(row.ts).toISOString().slice(0, 10),
+      tag: row.tag,
+      note: row.note,
+      scenario: row.scenario,
+      context: row.note || row.scenario || "personal vault commit",
+      isReal: true
+    });
+
+    cell.entries.push({
+      ts: row.ts,
+      agent: agentKey,
+      tag: row.tag,
+      note: row.note,
+      scenario: row.scenario
+    });
+  }
+
+  /* Top-level state · regenerated on each load() */
+  let weeks = buildWeeks();
+  let data = buildBaseline(weeks);
+  let realCount = 0;
+
+  /* QA seed · ?qa-seed=1 in URL pre-populates IDB with a representative
+     mix of corrections so visual QA can exercise the live data path
+     without requiring the slate cut. Idempotent · clears first.
+     Strip this and the call below before shipping if seed-via-URL is a
+     concern · for the prototype it's a useful affordance. */
+  async function maybeQASeed() {
+    if (!new URLSearchParams(location.search).has("qa-seed")) return;
+    if (!vaultStore.isAvailable()) return;
+    await vaultStore.init();
+    await vaultStore.clear();
+    const seeds = [
+      { surface: "personal", agent: "contrarian",  tag: "wrong_intensity",         note: "hedging when should commit",     scenario: "founding_close_decision" },
+      { surface: "personal", agent: "synthesizer", tag: "right_but_already_known", note: "saw this pattern already",       scenario: "eng_hire_decision" },
+      { surface: "personal", agent: "operator",    tag: "too_generic",             note: "could apply to anyone",          scenario: "self_baseline_check" },
+      { surface: "personal", agent: "mystic",      tag: "off_by_layer",            note: "right direction wrong layer",    scenario: "field_studio_rebrand" },
+      { surface: "personal", agent: "editor",      tag: "wrong_frame",             note: "lens is off",                    scenario: "design_system_migration" },
+      { surface: "personal", agent: "contrarian",  tag: "missed_compensation",     note: "you're already balancing",       scenario: "founding_close_decision" },
+      { surface: "personal", agent: "synthesizer", tag: "assumes_facts_not_in_evidence", note: "projected context not there", scenario: "eng_hire_decision" },
+      { surface: "personal", agent: "witness",     tag: "wrong_theory",            note: "causal story is wrong",          scenario: "self_baseline_check" },
+    ];
+    for (const s of seeds) await vaultStore.appendCorrection(s);
+  }
+
+  async function load() {
+    await maybeQASeed();
+    weeks = buildWeeks();
+    data = buildBaseline(weeks);
+    realCount = 0;
+    if (vaultStore.isAvailable()) {
+      try {
+        await vaultStore.init();
+        const rows = await vaultStore.read({ surface: "personal" });
+        rows.forEach(r => {
+          mergeReal(data, weeks, r);
+          realCount += 1;
+        });
+      } catch (err) {
+        console.warn("[cut03] vault read failed · falling back to mock", err);
+      }
+    }
+  }
+
+  /* exposed for the rest of the script · matches old `mockData` shape
+     so render code below keeps working unchanged */
+  const view = {
+    get weeks() { return weeks.map(w => w.id); },
+    get weekLabels() { return weeks; },
+    get data() { return data; },
+    get realCount() { return realCount; }
+  };
+
+  // Back-compat alias · the render code below was written against `mockData`
+  const mockData = view;
 
   // Render grid
   function renderGrid() {
     const grid = document.getElementById("cal-grid");
+    grid.innerHTML = ""; // re-render replaces · live updates need this
     const weeks = mockData.weeks;
 
     // Corner cell
@@ -611,11 +718,12 @@
     corner.className = "cal-week-header corner";
     grid.appendChild(corner);
 
-    // Week headers
-    weeks.forEach(week => {
+    // Week headers · use computed labels (mm/dd) when available
+    weeks.forEach((week, idx) => {
       const header = document.createElement("div");
       header.className = "cal-week-header";
-      header.textContent = week;
+      header.textContent = mockData.weekLabels[idx]?.label || week;
+      header.title = `${week} · starting ${new Date(mockData.weekLabels[idx].start).toISOString().slice(0,10)}`;
       grid.appendChild(header);
     });
 
@@ -696,18 +804,24 @@
       register.agents.forEach(agentName => {
         totalByAgent[agentName] = 0;
         mockData.weeks.forEach(w => {
-          totalByAgent[agentName] += mockData.data[w][register.id].agentCorrections[agentName].count;
+          const ac = mockData.data[w][register.id].agentCorrections[agentName];
+          if (ac) totalByAgent[agentName] += ac.count;
         });
       });
 
-      const primaryAgent = register.agents[0];
-      const primaryTotal = totalByAgent[primaryAgent];
+      /* primary = highest-count agent · falls back to first listed if all
+         counts equal. Switching from "first listed" to "highest count"
+         makes the drill responsive to live data: when contrarian gets
+         corrected most, contrarian becomes the headline · not operator. */
+      const sortedAgents = Object.entries(totalByAgent).sort((a, b) => b[1] - a[1]);
+      const primaryAgent = sortedAgents[0]?.[0] || register.agents[0];
+      const primaryTotal = totalByAgent[primaryAgent] || 0;
       const primaryTag = getPrimaryTag(primaryAgent);
 
       drill.innerHTML = `
         <div class="cal-drill-header">
           <button class="cal-drill-close" id="drill-close">Esc · close</button>
-          <div class="cal-drill-agent">${primaryAgent}</div>
+          <div class="cal-drill-agent">${displayAgent(primaryAgent)}</div>
           <div class="cal-drill-agent-register">${register.label}</div>
         </div>
         <div class="cal-drill-stats">
@@ -724,10 +838,10 @@
           <div class="cal-history-label">Recent</div>
           ${generateHistoryItems(primaryAgent, 4).map(item => `
             <div class="cal-history-item">
-              <div>Corrected for <strong>${item.tag.replace(/_/g, "·")}</strong> ${item.context}</div>
+              <div>${item.isReal ? '<span style="color: var(--signal-violet-ink); font-family: Geist Mono, monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.5rem;">live</span>' : ""}Corrected for <strong>${(item.tag || "untagged").replace(/_/g, "·")}</strong> ${item.context}</div>
               <div class="cal-history-time">${item.date}</div>
             </div>
-          `).join("")}
+          `).join("") || '<div style="font-family: Newsreader, serif; font-style: italic; color: var(--text-soft); font-size: 0.875rem;">No history for this agent yet.</div>'}
         </div>
       `;
     } else {
@@ -753,9 +867,10 @@
           <div class="cal-history-label">By agent</div>
           ${register.agents.map(agent => {
             const ac = weekData.agentCorrections[agent];
+            const cnt = ac?.count || 0;
             return `
               <div style="font-family: Geist, sans-serif; font-size: 0.8125rem; color: var(--text-soft); margin: 0.5rem 0;">
-                ${agent}: <strong>${ac.count}</strong>
+                ${displayAgent(agent)}: <strong>${cnt}</strong>
               </div>
             `;
           }).join("")}
@@ -785,7 +900,7 @@
     mockData.weeks.forEach(week => {
       REGISTERS.forEach(reg => {
         const ac = mockData.data[week][reg.id].agentCorrections[agentName];
-        if (ac.tag) {
+        if (ac && ac.tag) {
           tagCount[ac.tag] = (tagCount[ac.tag] || 0) + ac.count;
         }
       });
@@ -794,18 +909,78 @@
   }
 
   function generateHistoryItems(agentName, limit) {
-    const items = [];
-    mockData.weeks.slice(0, 6).forEach(week => {
+    /* Real entries always come first · sorted newest-first · then mock
+       entries fill the rest if needed. The "live" badge in the drill
+       UI marks real entries so the founder can see persisted corrections
+       immediately rise to the top. */
+    const real = [];
+    const mock = [];
+    mockData.weeks.forEach(week => {
       REGISTERS.forEach(reg => {
         const ac = mockData.data[week][reg.id].agentCorrections[agentName];
-        items.push(...ac.entries.map(e => ({ ...e, week })));
+        if (!ac) return;
+        ac.entries.forEach(e => {
+          const item = { ...e, week };
+          if (e.isReal) real.push(item); else mock.push(item);
+        });
       });
     });
-    return items.sort(() => Math.random() - 0.5).slice(0, limit);
+    real.sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+    return [...real, ...mock].slice(0, limit);
   }
 
+  /* live indicator · small pill that says "live · N real" when real
+     corrections have been merged in. Sits in the cal-header so it
+     doesn't compete with grid real estate. */
+  function renderLiveIndicator() {
+    const header = document.querySelector(".cal-header");
+    if (!header) return;
+    let pill = document.getElementById("cal-live-pill");
+    if (!pill) {
+      pill = document.createElement("div");
+      pill.id = "cal-live-pill";
+      pill.style.cssText = `
+        font-family: Geist Mono, monospace;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--signal-violet-ink, #8E66FB);
+        margin-top: 0.25rem;
+        opacity: 0;
+        transition: opacity 200ms var(--easing);
+      `;
+      header.appendChild(pill);
+    }
+    if (mockData.realCount > 0) {
+      pill.textContent = `live · ${mockData.realCount} real correction${mockData.realCount === 1 ? "" : "s"} from vault · ${mockData.realCount + " merged onto seeded baseline"}`;
+      pill.style.opacity = "1";
+    } else {
+      pill.textContent = "seed only · commit a correction in the slate to see it here";
+      pill.style.opacity = "0.6";
+    }
+  }
+
+  /* full re-render · called on init and on any vault append */
+  async function refresh() {
+    await load();
+    renderGrid();
+    renderLiveIndicator();
+  }
+
+  /* live updates · same-tab via CustomEvent, cross-tab via storage event.
+     Both fire when slate.js commits a correction · refresh redraws the
+     grid + indicator. The drill panel stays open if it was open: the
+     user might be looking at one register while another fires. */
+  window.addEventListener("liminal:vault:appended", refresh);
+  window.addEventListener("storage", (e) => {
+    if (e.key === "liminal:vault:pulse") refresh();
+  });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) refresh();
+  });
+
   // Initialize
-  renderGrid();
+  refresh();
 </script>
 
 </body>
