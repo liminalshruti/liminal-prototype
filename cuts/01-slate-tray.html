@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cut 01 · Three-surface slate · Liminal</title>
+
+<!--
+  Cut 01 · Three-surface slate · the canonical live build
+  ──────────────────────────────────────────────────────────────────────
+  Personal · Team · Business · operator-subject relationships
+  slate · tray · vault · 13 agents in 4 registers (incl. Witness)
+  ──────────────────────────────────────────────────────────────────────
+  Spec authority   · _scratch/2026-04-27_liminal-agents-architecture-refactor.md v0.3.11
+  IP-side spec     · liminal-ip/04-design/UI_GAP_SPEC.md v0.2
+  Studio docs      · _scratch/2026-04-28_liminal-icp-org-matrix-wireframes.md
+  ──────────────────────────────────────────────────────────────────────
+  This cut owns its own DOM bubble inside the catalog iframe. Imports
+  canonical tokens from design-system, shared shell from lib/cut-shell,
+  and the runtime from lib/boot.js (modular ES modules).
+
+  When loaded standalone (not via parent catalog) it works the same
+  way · self-contained, no parent dependency.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- canon · 12-wheel tokens · single source of truth -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+
+<!-- shared shell · register accents + frame chrome + slate/tray + brief + dispo
+     + audit ribbon + classification + marginalia + boot animations -->
+<link rel="stylesheet" href="../lib/cut-shell.css">
+
+</head>
+<body data-product="team">
+
+<!-- entry overlay · three doors · per UI_GAP_SPEC §2.4 · first-session only -->
+<div class="entry-overlay" id="entry-overlay" hidden role="dialog" aria-label="Choose a scenario">
+  <div class="entry-card">
+    <div class="entry-brand">Liminal · gives form to inner life.</div>
+    <h1 class="entry-wedge">A founder OS for state, deliberation, and the record of how you disagree with what AI reads of you.</h1>
+    <p class="entry-prompt">Try one</p>
+    <div class="entry-doors">
+      <button class="entry-door" data-product="team" data-context="brian_eng" type="button">
+        <span class="ed-eyebrow">Founder · Team</span>
+        <span class="ed-title">Read your direct report</span>
+        <span class="ed-helper">Brian's pattern has narrowed. Pattern-only consent. Three open paths.</span>
+      </button>
+      <button class="entry-door" data-product="personal" data-context="self_baseline_check" type="button">
+        <span class="ed-eyebrow">Operator · Personal</span>
+        <span class="ed-title">Read your own pattern</span>
+        <span class="ed-helper">90-day own-baseline. Where you've drifted from your stated values.</span>
+      </button>
+      <button class="entry-door" data-product="personal" data-context="field_studio_rebrand" type="button">
+        <span class="ed-eyebrow">Creative · Personal</span>
+        <span class="ed-title">Read your work-in-progress</span>
+        <span class="ed-helper">Field Studio rebrand. Technically right. Somatically wrong.</span>
+      </button>
+    </div>
+    <button class="entry-skip" id="entry-skip" type="button">skip · go straight to Team</button>
+  </div>
+</div>
+
+
+<!-- desktop-app shell · the slate-tray surface -->
+<div class="stage">
+  <div class="frame">
+
+    <!-- titlebar -->
+    <header class="titlebar">
+      <div class="lights">
+        <span class="light red"></span>
+        <span class="light yellow"></span>
+        <span class="light green"></span>
+      </div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="brand">Liminal · Slate</span>
+        <span class="crumb-sep" id="crumb-sep" hidden>·</span>
+        <span class="breadcrumb" id="breadcrumb"></span>
+      </div>
+      <div class="vault-pill" id="vault-pill" data-annotation="vault-pill">
+        <span class="diamond">◇</span>vault: <strong id="vault-count">·</strong>
+      </div>
+    </header>
+
+    <!-- product/surface row -->
+    <nav class="product-row" data-annotation="product-row">
+      <button class="product-tab" data-product="personal" data-annotation="tab-personal">
+        <span class="pt-glyph"></span>personal<span class="pt-shape">self-read</span>
+      </button>
+      <button class="product-tab" data-product="team" data-annotation="tab-team">
+        <span class="pt-glyph"></span>team<span class="pt-shape">peer-read</span>
+      </button>
+      <button class="product-tab" data-product="business" data-annotation="tab-business">
+        <span class="pt-glyph"></span>business<span class="pt-shape">institutional-read</span>
+      </button>
+      <div class="surface-meta" id="surface-meta">
+        <span class="sm-banner" id="sm-banner">·</span>
+      </div>
+    </nav>
+
+    <!-- main -->
+    <main class="main">
+
+      <!-- left rail · subjects (Team) or queue (Business) -->
+      <aside class="rail-left">
+        <div class="rail-header">
+          <span id="rail-l-label">·</span>
+          <span class="rh-meta" id="rail-l-meta">·</span>
+        </div>
+        <div id="rail-l-list"></div>
+      </aside>
+
+      <!-- center · slate area -->
+      <section class="slate-area">
+
+        <div class="classification" id="classification">·</div>
+
+        <header class="slate-header">
+          <div class="slate-eyebrow" id="slate-eyebrow">·</div>
+          <h1 class="slate-title" id="slate-title">·</h1>
+          <p class="slate-subtitle" id="slate-subtitle">·</p>
+        </header>
+
+        <div class="slate-canvas" id="slate-canvas" data-empty="1" data-layout="freeform" data-annotation="slate-canvas">
+          <div class="slate-empty" id="slate-empty">
+            <div class="se-glyph">◇</div>
+            <div class="se-eyebrow" id="se-eyebrow">Composition surface</div>
+            <h2 class="se-headline" id="se-headline">Drop a window from the tray to begin a read.</h2>
+            <p class="se-helper" id="se-helper">The agents read what you compose. The slate holds what you place. Anything dropped is captured to the local vault.</p>
+            <div class="se-keys">
+              <kbd>⌘.</kbd><span>open tray</span>
+              <span style="opacity:0.4;">·</span>
+              <kbd>drag</kbd><span>to compose</span>
+            </div>
+          </div>
+          <div class="slate-tiles" id="slate-tiles"></div>
+        </div>
+
+        <div class="brief-area" id="brief-area" hidden data-annotation="brief-area">
+          <div class="brief-head">
+            <span class="bh-glyph">◇</span>
+            <span>Brief · agents read the composition</span>
+          </div>
+          <p class="brief-body" id="brief-body">·</p>
+          <div class="mystic-margin" id="mystic-margin" hidden>
+            <div class="mystic-attr" id="mystic-attr">CONTRARIAN · in the margin</div>
+            <p class="mystic-quote" id="mystic-quote">·</p>
+          </div>
+          <div class="vault-calib" id="vault-calib" hidden>
+            <span class="vc-label">Vault · calibration</span>
+            <span class="vc-text" id="vault-calib-text">·</span>
+          </div>
+          <div class="disposition" id="disposition">
+            <button class="dispo-btn is-primary" id="dispo-primary">Confirm</button>
+            <button class="dispo-btn is-defer" id="dispo-defer">Defer 7d</button>
+            <button class="preview-sub" id="preview-sub">Preview subject view</button>
+          </div>
+        </div>
+
+        <!-- disposition artifact · materializes after disposition is signed -->
+        <div class="dispo-artifact" id="dispo-artifact" hidden data-annotation="dispo-artifact">
+          <div class="da-bar">
+            <span class="da-stamp">Signed</span>
+            <span class="da-title" id="da-title">·</span>
+            <span class="da-time" id="da-time">·</span>
+          </div>
+          <div class="da-body">
+            <div class="da-section">
+              <div class="da-label">Disposition</div>
+              <div class="da-text" id="da-disposition">·</div>
+            </div>
+            <div class="da-section">
+              <div class="da-label">Committed to vault</div>
+              <div class="da-text" id="da-committed">·</div>
+            </div>
+            <div class="da-section">
+              <div class="da-label">Next action</div>
+              <div class="da-text" id="da-next">·</div>
+            </div>
+            <div class="da-section">
+              <div class="da-label">Subject can request</div>
+              <div class="da-text" id="da-subject">·</div>
+            </div>
+          </div>
+          <div class="da-foot">
+            <div class="da-hash">
+              <span class="da-hash-label">SHA-256</span>
+              <code id="da-hash">·</code>
+            </div>
+            <div class="da-handoff">
+              <button class="dispo-btn da-handoff-btn" id="da-handoff">Hand off ›</button>
+              <button class="dispo-btn da-handoff-btn" id="da-share">Share with subject</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-ribbon" id="audit-ribbon" data-annotation="audit-ribbon">
+          <span class="ar-label">Audit chain</span>
+          <div id="audit-rows" style="display:flex;gap:14px;"></div>
+        </div>
+      </section>
+
+      <!-- right rail · agency console -->
+      <aside class="rail-right" data-annotation="agency-rail">
+        <div class="rail-right-header">
+          <span>AGENCY · 12 BOUNDED</span>
+          <span class="live-indicator">live</span>
+        </div>
+        <div id="register-blocks"></div>
+      </aside>
+    </main>
+
+  </div><!-- /.frame -->
+
+  <!-- tray · attached to frame's right edge · slides out from there -->
+  <div class="tray-pop" id="tray-pop" data-annotation="tray">
+    <button class="tray-pill" id="tray-pill" aria-label="Toggle tray">
+      <span class="tp-chevron"></span>
+      <span class="tp-glyph">◇</span>
+      <span class="tp-count">tray <strong id="tp-count-strong">·</strong></span>
+      <span class="tp-dot"></span>
+    </button>
+    <div class="tray-panel" id="tray-panel" aria-hidden="true">
+      <div class="tray-panel-head">
+        <span class="tpa-title" id="tpa-title">Tray</span>
+        <span class="tpa-meta">
+          <strong id="tpa-live-count">·</strong> live · <span id="tpa-meta-detail">·</span>
+        </span>
+      </div>
+      <div class="tpa-sub" id="tpa-sub">·</div>
+      <div class="tray-tiles" id="tray-tiles"></div>
+    </div>
+  </div>
+
+</div><!-- /.stage -->
+
+<!-- preview subject view modal -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <h2 class="modal-title" id="modal-title">·</h2>
+      <span class="modal-tag" id="modal-tag">·</span>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label" id="modal-label-1">·</div>
+      <div class="modal-content" id="modal-content-1">·</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Audit chain · what was read, by whom, when</div>
+      <div class="modal-chain" id="modal-chain"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="dispo-btn" id="modal-close">Close</button>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- global chrome · version pin (dev-only) · notes toggle · kbd hint + help · toast -->
+<!-- version pin · spec ↔ proto drift · dev-only · ?dev to reveal -->
+<div class="v-pin" id="v-pin" hidden>
+  spec <strong id="vp-spec">·</strong>
+  <span class="vp-sep">›</span>
+  proto <strong id="vp-proto">·</strong>
+</div>
+
+<!-- editor's notes toggle · Caveat marginalia from sr -->
+<button class="notes-toggle" id="notes-toggle" type="button" aria-label="Toggle editor's notes">notes</button>
+
+<!-- keyboard hint · subtle bottom-left chrome · clicks open the help panel -->
+<button class="kbd-hint" id="kbd-hint" type="button" aria-label="Keyboard shortcuts">
+  <kbd>⌘</kbd><kbd>?</kbd><span>shortcuts</span>
+</button>
+
+<!-- keyboard help overlay · ⌘? to open · Esc to close -->
+<div class="kbd-help" id="kbd-help" hidden role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+  <div class="kbd-card">
+    <header class="kbd-head">
+      <span class="kbd-eyebrow">Keyboard</span>
+      <h3 class="kbd-title">Shortcuts</h3>
+      <button class="kbd-close" id="kbd-close" type="button" aria-label="Close">×</button>
+    </header>
+    <div class="kbd-body">
+      <div class="kbd-section">
+        <div class="kbd-section-label">Composition</div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>Z</kbd><span>Undo last placement</span></div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>Enter</kbd><span>Confirm disposition</span></div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>D</kbd><span>Defer 7 days</span></div>
+      </div>
+      <div class="kbd-section">
+        <div class="kbd-section-label">Navigation</div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>1</kbd><span>Personal · self-read</span></div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>2</kbd><span>Team · peer-read</span></div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>3</kbd><span>Business · institutional-read</span></div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>[</kbd><span>Previous subject / case</span></div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>]</kbd><span>Next subject / case</span></div>
+      </div>
+      <div class="kbd-section">
+        <div class="kbd-section-label">Surfaces</div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>.</kbd><span>Toggle tray</span></div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>N</kbd><span>Toggle editor's notes</span></div>
+        <div class="kbd-row"><kbd>⌘</kbd><kbd>?</kbd><span>This panel</span></div>
+        <div class="kbd-row"><kbd>Esc</kbd><span>Close tray / overlay</span></div>
+      </div>
+    </div>
+    <footer class="kbd-foot">
+      <span>⌘ on macOS · Ctrl elsewhere</span>
+    </footer>
+  </div>
+</div>
+
+<!-- toast -->
+<div class="toast" id="toast">
+  <span class="t-glyph">◇</span>
+  <span id="toast-msg">·</span>
+</div>
+
+<!-- runtime · 10 ES modules · imported via boot.js entrypoint
+     · paths are relative to this cut's location · ../lib/ -->
+<script type="module">
+  import "../lib/boot.js";
+</script>
+
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cut XX · [name] · Liminal</title>
+
+<!--
+  Cut XX · [name] · [one-line purpose]
+  ──────────────────────────────────────────────────────────────────────
+  ICP        · founder · operator · creative · [or specific role]
+  Surface    · personal · team · business · [or new]
+  Spec ref   · [path to spec doc + section that drives this cut]
+  Status     · stub · sketch · refining · live
+  ──────────────────────────────────────────────────────────────────────
+
+  CONTRACT WITH THE STUDIO ARCHITECTURE
+
+  · Tokens come from design-system/tokens/design-tokens.css · DO NOT redefine.
+  · Shared shell comes from lib/cut-shell.css · adopt it; if a divergent shell
+    is required, document why at the top of this file and import a per-cut
+    shell css alongside (lib/cut-XX-shell.css).
+  · Runtime modules come from lib/*.js · import what you need; if a new
+    module is required, add it under lib/ with a clear contract block.
+  · This cut owns its DOM bubble. When loaded inside the parent catalog's
+    iframe, parent ↔ cut messages flow over postMessage (see lib/parent-bus.js
+    if/when wired). When loaded standalone (open this file directly) it works
+    the same way.
+  · No vibe-coded slop · every flourish is grounded in a spec ref, a substrate
+    citation, or a named experiment.
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- canon · DO NOT REDEFINE TOKENS -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+
+<!-- shared desktop-app shell · adopt unless a documented divergence requires otherwise -->
+<link rel="stylesheet" href="../lib/cut-shell.css">
+
+<style>
+  /* per-cut layout overrides ONLY · no token redefines · no new colors */
+</style>
+</head>
+<body data-product="personal">
+
+<!-- the cut content goes here -->
+<div class="cut-stub">
+  <div class="stub-glyph">◇</div>
+  <div class="stub-eyebrow">Cut XX · [name]</div>
+  <h2>[the cut's load-bearing claim, in one italic sentence]</h2>
+  <p>[one paragraph naming what this cut shows · what it consumes · what it owns · what comes next]</p>
+  <span class="stub-status">Stub · [spec ref]</span>
+</div>
+
+<!-- runtime modules · import what's needed · uncomment + add as the cut grows -->
+<!--
+<script type="module">
+  import { ... } from "../lib/state.js";
+  import { ... } from "../lib/slate.js";
+</script>
+-->
+
+</body>
+</html>
