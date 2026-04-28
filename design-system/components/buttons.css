@@ -1,0 +1,230 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Button
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   Trigger user action. The primary user-facing decision surface.
+ *
+ * Variants
+ *   primary       · the action that advances the flow (seal · save · ship)
+ *   secondary     · a parallel action (branch · alternate path)
+ *   destructive   · removes / discards (cancel signal · delete vault entry)
+ *   ghost         · low-emphasis · for navigation that doesn't commit
+ *   icon-only     · for compact toolbars · always paired with aria-label
+ *
+ * States
+ *   idle · hover · active (mousedown) · focus-visible · disabled · loading
+ *
+ * Keyboard
+ *   Enter or Space activates the button (native <button> behavior)
+ *   Tab moves focus · Shift+Tab moves focus backward
+ *   Esc · no behavior (modal-dialog handles its own dismissal)
+ *
+ * ARIA
+ *   Use native <button>. Never <div role="button">.
+ *   aria-busy="true" while loading
+ *   aria-disabled="true" + disabled attribute when not pressable
+ *   aria-label="..." required for icon-only variants
+ *   aria-pressed="..." for toggle buttons
+ *
+ * Tokens used
+ *   --ui-action-primary, --ui-action-primary-hover, --ui-action-primary-active
+ *   --ui-action-primary-bg, --ui-action-primary-border
+ *   --ui-action-secondary, --ui-action-secondary-hover
+ *   --ui-action-secondary-bg, --ui-action-secondary-border
+ *   --ui-action-destructive, --ui-action-destructive-bg, --ui-action-destructive-border
+ *   --ui-focus-ring, --ui-focus-bg
+ *   --space-2, --space-3 (multiplied by --density-scale)
+ *   --radius-2
+ *   --fs-mono-sm, --ls-mono-sm, --mono
+ *   --tx-base, --ease
+ *
+ * Relationship matrix (when capability gate applies)
+ *   self                    | all variants allowed · operator-equals-subject
+ *   cofounder-mutual        | all variants allowed · joint-correction may apply (.is-joint)
+ *   direct-report           | primary/secondary by consent-class · destructive often gated
+ *   institutional-subject   | gated by clearance ladder · destructive requires reviewer
+ *   self-as-subject         | most actions disabled · only "request audit chain" allowed
+ *   peer                    | most actions disabled · informational only
+ *   oversight               | review-only · all actions render as .is-review
+ *   public                  | refused surface · button does not render
+ *
+ * Do not
+ *   - reference --clarity-500 or other hue tokens directly · use --ui-action-primary
+ *   - use --accent (legacy alias) · use --ui-action-primary
+ *   - use color-only state changes for critical actions · pair with text or glyph
+ *   - use raw hex values
+ *   - omit focus-visible styling
+ *   - omit reduced-motion fallback
+ *
+ * Last edited: 2026-04-28 · v1
+ */
+
+/* ─── base · all variants share this ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--space-2) * var(--density-scale));
+  padding: calc(var(--space-2) * var(--density-scale))
+           calc(var(--space-3) * var(--density-scale));
+  font: var(--fs-mono-sm)/1 var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  border-radius: var(--radius-2);
+  background: transparent;
+  cursor: pointer;
+  transition: color var(--tx-base) var(--ease),
+              background var(--tx-base) var(--ease),
+              border-color var(--tx-base) var(--ease);
+  /* don't shrink under flex layouts · respect content width */
+  flex-shrink: 0;
+  /* protect against accidental selection during drag */
+  user-select: none;
+  /* no underline on the wrapper — the variants paint borders explicitly */
+  text-decoration: none;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--ui-focus-ring);
+  outline-offset: 2px;
+}
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── primary · hairline-bottom · the canonical action ─── */
+.btn-primary {
+  color: var(--ui-action-primary);
+  border-bottom: 1px solid var(--ui-action-primary-border);
+  border-radius: 0;
+  padding: calc(var(--space-2) * var(--density-scale)) 0;
+}
+.btn-primary:hover {
+  color: var(--text);
+  background: var(--ui-action-primary-hover);
+  border-bottom-color: var(--ui-action-primary);
+}
+.btn-primary:active {
+  color: var(--text);
+  background: var(--ui-action-primary-active);
+}
+.btn-primary.is-joint {
+  /* mutual-cofounder · joint-correction · liminal accent for the "both signed" register */
+  color: var(--ui-capability-joint);
+  border-bottom-color: var(--ui-capability-joint);
+}
+
+/* ─── secondary · bordered · parallel action ─── */
+.btn-secondary {
+  color: var(--ui-action-secondary);
+  border: 1px solid var(--ui-action-secondary-border);
+  background: var(--ui-action-secondary-bg);
+}
+.btn-secondary:hover {
+  color: var(--ui-action-secondary-hover);
+  border-color: var(--ui-action-primary);
+  background: var(--ui-action-primary-bg);
+}
+
+/* ─── destructive · bordered alarm · removes / discards ─── */
+.btn-destructive {
+  color: var(--ui-action-destructive);
+  border: 1px solid var(--ui-action-destructive-border);
+  background: var(--ui-action-destructive-bg);
+}
+.btn-destructive:hover {
+  background: var(--alarm-200);
+  border-color: var(--alarm-500);
+}
+
+/* ─── ghost · transparent · low-emphasis nav ─── */
+.btn-ghost {
+  color: var(--text-mute);
+  border: 0;
+  background: transparent;
+}
+.btn-ghost:hover {
+  color: var(--text-faint);
+}
+
+/* ─── icon-only · square · compact toolbar ─── */
+.btn-icon {
+  width: calc(32px * var(--density-scale));
+  height: calc(32px * var(--density-scale));
+  padding: 0;
+  border: 1px solid var(--ui-action-secondary-border);
+  border-radius: var(--radius-2);
+  color: var(--text-dim);
+  font-size: 14px;
+  justify-content: center;
+}
+.btn-icon:hover {
+  color: var(--text);
+  border-color: var(--ui-action-primary);
+}
+
+/* ─── loading state · uses inline spinner · respects reduced-motion ─── */
+.btn[aria-busy="true"] {
+  cursor: progress;
+}
+.btn[aria-busy="true"] .btn-spinner {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border: 1.5px solid var(--card-border);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: btn-rotate 0.9s linear infinite;
+  vertical-align: -1px;
+}
+@keyframes btn-rotate { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .btn { transition: none; }
+  .btn[aria-busy="true"] .btn-spinner {
+    animation: none;
+    border-top-color: var(--text-mid);
+  }
+}
+
+/* ─── relationship-typed: review (oversight) ─── */
+/* When body[data-relationship="oversight"], all action buttons render as review-only */
+body[data-relationship="oversight"] .btn-primary,
+body[data-relationship="oversight"] .btn-destructive,
+.btn.is-review {
+  color: var(--ui-capability-review);
+  border-bottom-color: var(--ui-capability-review);
+  border-color: var(--ui-capability-review);
+  background: var(--ui-capability-review-bg);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+body[data-relationship="oversight"] .btn-primary::after,
+.btn.is-review::after {
+  content: ' · review only';
+  font-size: 9px;
+  color: var(--ui-capability-review);
+  margin-left: 6px;
+  letter-spacing: var(--ls-mono-sm);
+}
+
+/* ─── relationship-typed: subject (self-as-subject) ─── */
+/* The subject role can request audit-chain disclosure but cannot drag/drop/correct */
+body[data-relationship="self-as-subject"] .btn-primary[data-cap="seal"],
+body[data-relationship="self-as-subject"] .btn-primary[data-cap="correct"],
+body[data-relationship="self-as-subject"] .btn-primary[data-cap="drop"] {
+  display: none;
+}
+
+/* ─── group · button-row · for compact toolbars ─── */
+.btn-row {
+  display: inline-flex;
+  gap: calc(var(--space-2) * var(--density-scale));
+  align-items: center;
+}
+.btn-row.is-end {
+  justify-content: flex-end;
+}
