@@ -36,41 +36,65 @@
     --bg:           #0A0A0B;
     --frame-bg:     #0E0E11;
     --frame-bg-2:   #0C0C0F;
-    --frame-bg-3:   #15161A;
-    --frame-border: #1F1F23;
-    --card-border:  #232327;
-    --card-border-2:#2A2A2F;
+    /* ──────────────────────────────────────────────────────────────────
+       CASCADE BRIDGE · prototype tokens bind to canon tokens
+       ──────────────────────────────────────────────────────────────────
+       This block is the cascade seam: when design-system/tokens/design-
+       tokens.css updates a hue scale, every rule downstream that uses
+       --diligence, --p-accent, --synthesis-soft, etc. picks up the change
+       on next page load. No per-cut copies. No drift.
 
-    --diligence:    #8E66FB;
-    --judgment:     #E90095;
-    --outreach:     #3EE878;
-    --synthesis:    #FFD24A;
-    --good:         #45C9A3;
-    --amber:        #F5A524;
-    --red:          #F04040;
+       Each `var(--canon-name, fallback)` reads the canon first. The
+       fallback only fires if the canon hasn't been imported (e.g., when
+       working on cut-shell.css standalone). Inside the catalog/cuts where
+       design-tokens.css is imported above, canon always wins.
 
-    --diligence-soft: rgba(142,102,251,0.40);
-    --diligence-bg:   rgba(142,102,251,0.06);
-    --diligence-edge: rgba(142,102,251,0.22);
-    --judgment-soft:  rgba(233,0,149,0.40);
-    --judgment-bg:    rgba(233,0,149,0.06);
-    --judgment-edge:  rgba(233,0,149,0.22);
-    --outreach-soft:  rgba(62,232,120,0.40);
-    --outreach-bg:    rgba(62,232,120,0.06);
-    --outreach-edge:  rgba(62,232,120,0.22);
-    --synthesis-soft: rgba(255,210,74,0.40);
-    --synthesis-bg:   rgba(255,210,74,0.06);
-    --synthesis-edge: rgba(255,210,74,0.22);
+       Tokens not in canon (--frame-bg-3, --card-border, --card-border-2)
+       keep their hardcoded values · these are prototype-internal extensions
+       that should be promoted to canon in a follow-up audit.
+       ────────────────────────────────────────────────────────────────── */
+    --frame-bg-3:   #15161A;                   /* prototype-only · TODO: promote to canon */
+    --frame-border: var(--frame-border, #1F1F23);
+    --card-border:  #232327;                   /* prototype-only · TODO: promote to canon */
+    --card-border-2:#2A2A2F;                   /* prototype-only · TODO: promote to canon */
 
+    /* register hues · 4 of the 12-wheel · canon owns the values */
+    --diligence:    var(--clarity,     #8E66FB);
+    --judgment:     var(--wholeness,   #E90095);
+    --outreach:     var(--connection,  #3EE878);
+    --synthesis:    var(--agency,      #FFD24A);
+
+    /* semantic states · canon owns */
+    --good:         var(--good,        #45C9A3);
+    --amber:        var(--amber-orn,   #F5A524);
+    --red:          var(--red,         #F04040);
+
+    /* register alpha aliases · canon already provides -soft/-bg/-edge per hue
+       · we re-bind to the 4-register vocabulary the prototype uses */
+    --diligence-soft: var(--clarity-soft,    rgba(142,102,251,0.40));
+    --diligence-bg:   var(--clarity-bg,      rgba(142,102,251,0.06));
+    --diligence-edge: var(--clarity-edge,    rgba(142,102,251,0.22));
+    --judgment-soft:  var(--wholeness-soft,  rgba(233,0,149,0.40));
+    --judgment-bg:    var(--wholeness-bg,    rgba(233,0,149,0.06));
+    --judgment-edge:  var(--wholeness-edge,  rgba(233,0,149,0.22));
+    --outreach-soft:  var(--connection-soft, rgba(62,232,120,0.40));
+    --outreach-bg:    var(--connection-bg,   rgba(62,232,120,0.06));
+    --outreach-edge:  var(--connection-edge, rgba(62,232,120,0.22));
+    --synthesis-soft: var(--agency-soft,     rgba(255,210,74,0.40));
+    --synthesis-bg:   var(--agency-bg,       rgba(255,210,74,0.06));
+    --synthesis-edge: var(--agency-edge,     rgba(255,210,74,0.22));
+
+    /* per-product accent · default Personal · overridden per body[data-product] below */
     --p-accent:      var(--diligence);
     --p-accent-soft: var(--diligence-soft);
     --p-accent-bg:   var(--diligence-bg);
     --p-accent-edge: var(--diligence-edge);
 
-    --text:       #E8E8EA;
-    --text-mid:   #B0B0B6;
-    --text-dim:   #7A7A82;
-    --text-faint: #4A4A52;
+    /* ink scale · canon already provides --text + tiers */
+    --text:       var(--text,       #E8E8EA);
+    --text-mid:   var(--text-mid,   #B0B0B6);
+    --text-dim:   var(--text-dim,   #7A7A82);
+    --text-faint: var(--text-faint, #4A4A52);
 
     --display: "Newsreader", Georgia, serif;
     --serif:   "Newsreader", Georgia, serif;
