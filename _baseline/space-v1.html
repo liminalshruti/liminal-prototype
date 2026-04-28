@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liminal Agents · Space</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --frame-bg: #0E0E11;
+    --frame-bg-2: #0C0C0F;
+    --frame-border: #1F1F23;
+    --card-border: #232327;
+    --card-border-2: #2A2A2F;
+    --accent: #8e66fb;
+    --accent-soft: rgba(142,102,251,0.4);
+    --pink: #e90095;
+    --amber: #f5a524;
+    --red: #f04040;
+    --good: #45c9a3;
+    --text: #E8E8EA;
+    --text-dim: #7A7A82;
+    --text-faint: #4A4A52;
+    --text-mid: #B0B0B6;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: 'Geist', system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    overflow: hidden;
+  }
+  body { display: flex; align-items: center; justify-content: center; }
+
+  .wrap {
+    width: 1920px; height: 1080px;
+    position: relative;
+    transform-origin: center center;
+    flex-shrink: 0;
+  }
+  .stage {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .stage::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 1100px 700px at 50% 50%, rgba(142,102,251,0.05), transparent 70%);
+    pointer-events: none;
+  }
+  .stage::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+  }
+
+  /* frame */
+  .frame {
+    position: relative;
+    width: 1640px; height: 920px;
+    background: var(--frame-bg);
+    border: 1px solid var(--frame-border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    display: flex; flex-direction: column;
+  }
+  .titlebar {
+    height: 44px;
+    border-bottom: 1px solid var(--frame-border);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 16px;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.005);
+  }
+  .lights { display: flex; gap: 8px; }
+  .light { width: 12px; height: 12px; border-radius: 50%; }
+  .light.red { background: #FF5F57; }
+  .light.yellow { background: #FEBC2E; }
+  .light.green { background: #28C840; }
+  .title {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
+    text-align: center;
+    display: flex; align-items: center; gap: 12px; justify-content: center;
+  }
+  .title .diamond { color: var(--accent); }
+  .title .breadcrumb {
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .title .crumb-sep { color: var(--text-faint); margin: 0 8px; }
+  .vault-pill {
+    justify-self: end;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    background: rgba(142,102,251,0.05);
+    border: 1px solid rgba(142,102,251,0.2);
+    padding: 5px 12px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    animation: pill-pulse 20s ease-in-out infinite;
+  }
+  .vault-pill .diamond { color: var(--accent); margin-right: 4px; }
+  @keyframes pill-pulse {
+    0%, 73% {
+      box-shadow: 0 0 0 rgba(142,102,251,0);
+      background: rgba(142,102,251,0.05);
+      border-color: rgba(142,102,251,0.2);
+    }
+    77% {
+      box-shadow: 0 0 32px rgba(142,102,251,0.5);
+      background: rgba(142,102,251,0.16);
+      border-color: rgba(142,102,251,0.55);
+      color: var(--text);
+    }
+    85% {
+      box-shadow: 0 0 0 rgba(142,102,251,0);
+      background: rgba(142,102,251,0.05);
+      border-color: rgba(142,102,251,0.2);
+    }
+    100% {
+      box-shadow: 0 0 0 rgba(142,102,251,0);
+      background: rgba(142,102,251,0.05);
+      border-color: rgba(142,102,251,0.2);
+    }
+  }
+
+  /* layout */
+  .main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 260px 1fr 320px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* === LEFT RAIL: SIGNALS === */
+  .rail-left {
+    border-right: 1px solid var(--frame-border);
+    padding: 18px 12px;
+    background: var(--frame-bg-2);
+    overflow: hidden;
+  }
+  .rail-header {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.16em;
+    margin-bottom: 12px;
+    padding: 0 8px;
+  }
+  .signal {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    position: relative;
+    margin-bottom: 4px;
+    transition: all 0.4s ease;
+  }
+  .signal-app {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.16em;
+    margin-bottom: 4px;
+  }
+  .signal-text {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+  .signal.pulse {
+    background: rgba(142,102,251,0.05);
+    border-color: rgba(142,102,251,0.22);
+  }
+  .signal.pulse .signal-app { color: rgba(142,102,251,0.85); }
+  .signal.pulse .signal-text { color: var(--text); }
+  .signal.pulse::before {
+    content: '';
+    position: absolute;
+    top: 14px; right: 12px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(142,102,251,0.6);
+    animation: dot-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(142,102,251,0.55); }
+    70% { box-shadow: 0 0 0 8px rgba(142,102,251,0); }
+  }
+  /* "reading" highlight when source is being cited */
+  .signal[data-read="1"] { animation: read-flash-1 20s ease-out infinite; }
+  .signal[data-read="2"] { animation: read-flash-2 20s ease-out infinite; }
+  .signal[data-read="3"] { animation: read-flash-3 20s ease-out infinite; }
+  @keyframes read-flash-1 {
+    0%, 18% { background: transparent; border-color: transparent; }
+    20%, 22% {
+      background: rgba(142,102,251,0.12);
+      border-color: rgba(142,102,251,0.4);
+      box-shadow: 0 0 24px rgba(142,102,251,0.3);
+    }
+    27%, 100% { background: transparent; border-color: transparent; box-shadow: none; }
+  }
+  @keyframes read-flash-2 {
+    0%, 21% { background: transparent; border-color: transparent; }
+    23%, 25% {
+      background: rgba(142,102,251,0.12);
+      border-color: rgba(142,102,251,0.4);
+      box-shadow: 0 0 24px rgba(142,102,251,0.3);
+    }
+    30%, 100% { background: transparent; border-color: transparent; box-shadow: none; }
+  }
+  @keyframes read-flash-3 {
+    0%, 24% { background: transparent; border-color: transparent; }
+    26%, 28% {
+      background: rgba(142,102,251,0.12);
+      border-color: rgba(142,102,251,0.4);
+      box-shadow: 0 0 24px rgba(142,102,251,0.3);
+    }
+    33%, 100% { background: transparent; border-color: transparent; box-shadow: none; }
+  }
+  /* keep .pulse styling on the granola signal but allow read-flash to layer */
+  .signal.pulse[data-read] { background: rgba(142,102,251,0.05); }
+
+  /* === DOC AREA === */
+  .doc-area {
+    overflow: hidden;
+    position: relative;
+    background: var(--frame-bg);
+  }
+  .doc-scroll {
+    height: 100%;
+    overflow-y: auto;
+    padding: 0;
+    position: relative;
+  }
+  .doc-content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 36px 48px 60px;
+    position: relative;
+  }
+
+  /* doc header */
+  .doc-meta {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.18em;
+    margin-bottom: 10px;
+  }
+  .doc-meta .dot { color: var(--accent); margin: 0 8px; }
+  .doc-title {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .doc-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .tag {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-border);
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  /* rough notes */
+  .rough-notes-label {
+    font-size: 12px;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .rough-list {
+    list-style: none;
+    margin-bottom: 22px;
+  }
+  .rough-list li {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.65;
+    padding-left: 18px;
+    position: relative;
+  }
+  .rough-list li::before {
+    content: '·';
+    position: absolute;
+    left: 4px;
+    color: var(--text-faint);
+    font-size: 18px;
+    line-height: 1;
+    top: 4px;
+  }
+
+  /* invocation divider */
+  .invocation-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 0 22px;
+    opacity: 0;
+    animation: appear-13 20s ease-out infinite;
+  }
+  .invocation-divider::before, .invocation-divider::after {
+    content: '';
+    height: 1px;
+    background: var(--card-border);
+    flex: 1;
+  }
+  .invocation-divider span {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(142,102,251,0.7);
+    letter-spacing: 0.14em;
+    white-space: nowrap;
+  }
+
+  /* doc section */
+  .doc-section {
+    margin-bottom: 22px;
+    opacity: 0;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+  }
+  .section-label .glyph {
+    font-size: 12px;
+    color: var(--accent);
+  }
+  .section-label .reg-name {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    background: rgba(142,102,251,0.08);
+    border: 1px solid rgba(142,102,251,0.22);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .section-label .sec-title {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+  .section-label .sec-time {
+    font-size: 10px;
+    color: var(--text-faint);
+    margin-left: auto;
+    letter-spacing: 0.08em;
+  }
+
+  /* citations */
+  .citation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 4px;
+  }
+  .citation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.015);
+    border: 1px solid var(--card-border);
+    border-radius: 5px;
+    opacity: 0;
+  }
+  .citation .cite-source {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--accent);
+    background: rgba(142,102,251,0.1);
+    border: 1px solid rgba(142,102,251,0.25);
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.14em;
+    flex-shrink: 0;
+  }
+  .citation .cite-text {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.4;
+  }
+  .citation .cite-text em {
+    color: var(--text);
+    font-style: normal;
+    font-weight: 500;
+  }
+  .citation-1 { animation: appear-20 20s ease-out infinite; }
+  .citation-2 { animation: appear-225 20s ease-out infinite; }
+  .citation-3 { animation: appear-25 20s ease-out infinite; }
+
+  .diligence-section { animation: appear-17 20s ease-out infinite; }
+  .synthesis-section { animation: appear-385 20s ease-out infinite; }
+  .judgment-section { animation: appear-67 20s ease-out infinite; }
+
+  /* synthesis */
+  .synth-body {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text);
+    padding: 4px 4px;
+    opacity: 0;
+    animation: appear-41 20s ease-out infinite;
+  }
+  .synth-body em {
+    font-style: italic;
+    color: var(--text-mid);
+  }
+  .synth-body .hl-good {
+    color: var(--text);
+    background: linear-gradient(transparent 60%, rgba(69,201,163,0.18) 60%);
+    padding: 0 2px;
+  }
+  .synth-body .annotated {
+    position: relative;
+    background: linear-gradient(transparent 60%, rgba(240,64,64,0.16) 60%);
+    text-decoration: line-through;
+    text-decoration-color: rgba(240,64,64,0.55);
+    text-decoration-thickness: 1px;
+    color: rgba(232,232,234,0.7);
+    opacity: 0;
+    animation: appear-65 20s ease-out infinite;
+  }
+  .synth-body .annotated .risk-tag {
+    display: inline-block;
+    margin-left: 6px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--red);
+    background: rgba(240,64,64,0.1);
+    border: 1px solid rgba(240,64,64,0.3);
+    padding: 1px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    vertical-align: 2px;
+  }
+  /* the part of the sentence that gets struck has its own opacity ramp */
+  .synth-body .annotated-text {
+    /* nested text */
+  }
+
+  /* mystic margin note */
+  .mystic-margin {
+    position: absolute;
+    right: -240px;
+    top: 0;
+    width: 220px;
+    padding: 14px 16px;
+    background: rgba(233,0,149,0.04);
+    border-left: 2px solid var(--pink);
+    border-radius: 2px;
+    opacity: 0;
+    animation: appear-50-with-glow 20s ease-out infinite;
+  }
+  .mystic-attr {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--pink);
+    letter-spacing: 0.18em;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mystic-attr .pink-glyph { color: var(--pink); }
+  .mystic-quote {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 14px;
+    font-style: italic;
+    color: #f6a8d6;
+    line-height: 1.45;
+  }
+
+  .synthesis-section { position: relative; }
+
+  /* not-ready banner */
+  .banner {
+    position: absolute;
+    top: 0;
+    left: 0; right: 0;
+    height: 0;
+    background: linear-gradient(180deg, rgba(245,165,36,0.12), rgba(245,165,36,0.04));
+    border-bottom: 1px solid rgba(245,165,36,0.4);
+    overflow: hidden;
+    z-index: 5;
+    transform: translateY(-4px);
+    animation: banner-slide 20s ease-out infinite;
+  }
+  .banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 32px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .banner-icon {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: rgba(245,165,36,0.15);
+    border: 1px solid rgba(245,165,36,0.4);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--amber);
+    font-size: 13px;
+  }
+  .banner-text {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--amber);
+    letter-spacing: 0.06em;
+    flex: 1;
+  }
+  .banner-text strong { font-weight: 500; }
+  .banner-attr {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(245,165,36,0.6);
+    letter-spacing: 0.12em;
+  }
+  @keyframes banner-slide {
+    0%, 61% { height: 0; opacity: 0; transform: translateY(-8px); }
+    63%, 91% { height: 56px; opacity: 1; transform: translateY(0); }
+    94%, 100% { height: 0; opacity: 0; transform: translateY(-4px); }
+  }
+
+  /* verdict card */
+  .verdict-card {
+    background: rgba(255,255,255,0.018);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-top: 6px;
+  }
+  .verdict-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .verdict-badge {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--amber);
+    background: rgba(245,165,36,0.1);
+    border: 1px solid rgba(245,165,36,0.3);
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.14em;
+  }
+  .verdict-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .verdict-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: auto;
+    letter-spacing: 0.04em;
+  }
+  .fix-list {
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  .fix-item {
+    display: flex; gap: 12px;
+    padding: 10px 12px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+    border-left: 2px solid rgba(240,64,64,0.5);
+  }
+  .fix-num {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    width: 14px;
+  }
+  .fix-content { flex: 1; }
+  .fix-title {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 3px;
+  }
+  .fix-by {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+  }
+  .cartographer-note {
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: rgba(142,102,251,0.04);
+    border: 1px solid rgba(142,102,251,0.18);
+    border-radius: 5px;
+    font-size: 12px;
+    font-style: italic;
+    color: var(--text-mid);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .cartographer-note .carto-glyph {
+    color: var(--accent);
+    font-style: normal;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .cartographer-note strong { color: var(--text); font-weight: 500; }
+
+  /* === RIGHT RAIL: AGENCY CONSOLE === */
+  .rail-right {
+    border-left: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    padding: 18px 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .rail-right-header {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.16em;
+    padding: 0 8px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .rail-right-header .live-indicator {
+    display: flex; align-items: center; gap: 4px;
+    color: rgba(142,102,251,0.7);
+    font-size: 9px;
+  }
+  .live-indicator::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    animation: dot-pulse 1.6s ease-in-out infinite;
+  }
+
+  .register-block {
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 12px;
+    background: rgba(255,255,255,0.005);
+    transition: all 0.4s ease;
+  }
+  .register-block.diligence { animation: reg-diligence 20s ease-in-out infinite; }
+  .register-block.outreach { animation: reg-outreach 20s ease-in-out infinite; }
+  .register-block.judgment { animation: reg-judgment 20s ease-in-out infinite; }
+  .register-block.synthesis { animation: reg-synthesis 20s ease-in-out infinite; }
+
+  @keyframes reg-diligence {
+    0%, 14% { border-color: var(--card-border); box-shadow: none; }
+    16%, 36% {
+      border-color: var(--accent);
+      box-shadow: 0 0 22px rgba(142,102,251,0.18), inset 0 0 0 1px rgba(142,102,251,0.06);
+    }
+    38%, 91% { border-color: rgba(142,102,251,0.4); box-shadow: none; }
+    93%, 100% { border-color: var(--card-border); box-shadow: none; }
+  }
+  @keyframes reg-outreach {
+    0%, 14% { border-color: var(--card-border); opacity: 1; }
+    16%, 91% { border-color: var(--card-border-2); opacity: 0.55; }
+    93%, 100% { border-color: var(--card-border); opacity: 1; }
+  }
+  @keyframes reg-judgment {
+    0%, 14% { border-color: var(--card-border); opacity: 1; }
+    16%, 58% { border-color: var(--card-border-2); opacity: 0.55; }
+    61%, 67% {
+      border-color: var(--accent);
+      opacity: 1;
+      box-shadow: 0 0 22px rgba(142,102,251,0.18), inset 0 0 0 1px rgba(142,102,251,0.06);
+    }
+    69%, 91% { border-color: rgba(142,102,251,0.4); opacity: 1; }
+    93%, 100% { border-color: var(--card-border); opacity: 1; }
+  }
+  @keyframes reg-synthesis {
+    0%, 14% { border-color: var(--card-border); opacity: 1; }
+    16%, 36% { border-color: var(--card-border-2); opacity: 0.55; }
+    39%, 58% {
+      border-color: var(--accent);
+      opacity: 1;
+      box-shadow: 0 0 22px rgba(142,102,251,0.18), inset 0 0 0 1px rgba(142,102,251,0.06);
+    }
+    60%, 91% { border-color: rgba(142,102,251,0.4); opacity: 1; }
+    93%, 100% { border-color: var(--card-border); opacity: 1; }
+  }
+
+  .reg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .reg-name-block {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--text);
+    letter-spacing: 0.14em;
+  }
+  .reg-status {
+    position: relative;
+    height: 16px;
+    min-width: 56px;
+    display: flex; justify-content: flex-end; align-items: center;
+  }
+  .status {
+    position: absolute;
+    right: 0;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    opacity: 0;
+  }
+  .status.idle { background: rgba(255,255,255,0.04); color: var(--text-faint); }
+  .status.active { background: rgba(142,102,251,0.18); color: var(--accent); }
+  .status.refused { background: rgba(255,255,255,0.025); color: var(--text-faint); font-style: italic; }
+  .status.done { background: rgba(142,102,251,0.08); color: rgba(142,102,251,0.78); }
+  .mystic-row .status.active { background: rgba(233,0,149,0.18); color: var(--pink); }
+  .mystic-row .status.done { background: rgba(233,0,149,0.08); color: rgba(233,0,149,0.78); }
+
+  .reg-agents {
+    display: flex; flex-direction: column;
+    gap: 4px;
+  }
+  .reg-agent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 3px 0;
+    height: 22px;
+  }
+  .reg-agent .agent-name { font-weight: 400; }
+  .reg-agent.mystic-row .agent-name { color: #f6a8d6; }
+  .reg-agent .agent-detail {
+    position: relative;
+    height: 18px;
+    min-width: 80px;
+    display: flex; justify-content: flex-end; align-items: center;
+  }
+  .agent-detail .detail {
+    position: absolute;
+    right: 0;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    font-style: italic;
+    opacity: 0;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .agent-detail .detail.active-d {
+    color: var(--accent);
+    font-style: normal;
+    background: rgba(142,102,251,0.12);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .mystic-row .agent-detail .detail.active-d {
+    color: var(--pink);
+    background: rgba(233,0,149,0.12);
+  }
+
+  /* status visibility timing windows (% of 20s loop) */
+  /* IDLE: 0-13%, 93-100% */
+  .show-idle { animation: w-idle 20s ease-in-out infinite; }
+  @keyframes w-idle {
+    0%, 13% { opacity: 1; }
+    15%, 91% { opacity: 0; }
+    93%, 100% { opacity: 1; }
+  }
+  /* DA: 16-36% (Diligence active phase, refuse-analyst, refuse-wait-d) */
+  .show-da { animation: w-da 20s ease-in-out infinite; }
+  @keyframes w-da {
+    0%, 14% { opacity: 0; }
+    16%, 36% { opacity: 1; }
+    38%, 100% { opacity: 0; }
+  }
+  /* DD: 38-91% (Diligence done) */
+  .show-dd { animation: w-dd 20s ease-in-out infinite; }
+  @keyframes w-dd {
+    0%, 36% { opacity: 0; }
+    38%, 91% { opacity: 0.85; }
+    93%, 100% { opacity: 0; }
+  }
+  /* OR: 16-91% outreach refused throughout */
+  .show-or { animation: w-or 20s ease-in-out infinite; }
+  @keyframes w-or {
+    0%, 14% { opacity: 0; }
+    16%, 91% { opacity: 1; }
+    93%, 100% { opacity: 0; }
+  }
+  /* JR: 16-58% judgment refused */
+  .show-jr { animation: w-jr 20s ease-in-out infinite; }
+  @keyframes w-jr {
+    0%, 14% { opacity: 0; }
+    16%, 58% { opacity: 1; }
+    60%, 100% { opacity: 0; }
+  }
+  /* SR: 16-36% synthesis refused */
+  .show-sr { animation: w-sr 20s ease-in-out infinite; }
+  @keyframes w-sr {
+    0%, 14% { opacity: 0; }
+    16%, 36% { opacity: 1; }
+    38%, 100% { opacity: 0; }
+  }
+  /* SA: 39-58% synthesis active, "REFUSE → Strategist" */
+  .show-sa { animation: w-sa 20s ease-in-out infinite; }
+  @keyframes w-sa {
+    0%, 37% { opacity: 0; }
+    39%, 58% { opacity: 1; }
+    60%, 100% { opacity: 0; }
+  }
+  /* SD: 60-91% synthesis done, "REFUSE → Auditor" (outreach) */
+  .show-sd { animation: w-sd 20s ease-in-out infinite; }
+  @keyframes w-sd {
+    0%, 58% { opacity: 0; }
+    60%, 91% { opacity: 0.85; }
+    93%, 100% { opacity: 0; }
+  }
+  /* JA: 61-67% judgment active */
+  .show-ja { animation: w-ja 20s ease-in-out infinite; }
+  @keyframes w-ja {
+    0%, 59% { opacity: 0; }
+    61%, 67% { opacity: 1; }
+    69%, 100% { opacity: 0; }
+  }
+  /* JD: 69-91% judgment done */
+  .show-jd { animation: w-jd 20s ease-in-out infinite; }
+  @keyframes w-jd {
+    0%, 67% { opacity: 0; }
+    69%, 91% { opacity: 0.85; }
+    93%, 100% { opacity: 0; }
+  }
+
+  /* doc element appearance keyframes (each fades in at X%, holds, fades at 92%) */
+  @keyframes appear-13 {
+    0%, 11% { opacity: 0; transform: translateY(6px); }
+    14%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-17 {
+    0%, 15% { opacity: 0; transform: translateY(6px); }
+    18%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-20 {
+    0%, 18% { opacity: 0; transform: translateY(6px); }
+    21%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-225 {
+    0%, 20.5% { opacity: 0; transform: translateY(6px); }
+    23.5%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-25 {
+    0%, 23% { opacity: 0; transform: translateY(6px); }
+    26%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-385 {
+    0%, 36.5% { opacity: 0; transform: translateY(6px); }
+    39.5%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-41 {
+    0%, 39% { opacity: 0; transform: translateY(6px); }
+    42%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-50-with-glow {
+    0%, 48% { opacity: 0; transform: translateX(12px); box-shadow: none; }
+    51% { opacity: 1; transform: translateX(0); box-shadow: -8px 0 32px rgba(233,0,149,0.25); }
+    55% { opacity: 1; transform: translateX(0); box-shadow: -2px 0 0 rgba(233,0,149,0); }
+    91% { opacity: 1; transform: translateX(0); }
+    94%, 100% { opacity: 0; transform: translateX(8px); }
+  }
+  @keyframes appear-65 {
+    0%, 63% { opacity: 0; }
+    66%, 91% { opacity: 1; }
+    94%, 100% { opacity: 0; }
+  }
+  @keyframes appear-67 {
+    0%, 65% { opacity: 0; transform: translateY(8px); }
+    68%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+
+  /* === BOTTOM BAR === */
+  .bottombar {
+    height: 60px;
+    border-top: 1px solid var(--frame-border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 12px;
+    background: rgba(0,0,0,0.25);
+    flex-shrink: 0;
+    position: relative;
+    animation: input-pulse 20s ease-in-out infinite;
+  }
+  @keyframes input-pulse {
+    0%, 11% { box-shadow: inset 0 0 0 1px transparent; background: rgba(0,0,0,0.25); }
+    13.5% {
+      box-shadow: inset 0 1px 0 rgba(142,102,251,0.5), inset 0 0 50px rgba(142,102,251,0.08);
+      background: rgba(142,102,251,0.04);
+    }
+    17% { box-shadow: inset 0 0 0 1px transparent; background: rgba(0,0,0,0.25); }
+    100% { box-shadow: inset 0 0 0 1px transparent; background: rgba(0,0,0,0.25); }
+  }
+  .prompt-prefix {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    color: var(--accent);
+    font-size: 13px;
+  }
+  .prompt-text {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--text);
+    white-space: pre;
+    letter-spacing: 0.01em;
+  }
+  .cursor {
+    display: inline-block;
+    width: 7px; height: 14px;
+    background: var(--accent);
+    animation: blink 1s steps(2) infinite;
+    vertical-align: -2px;
+    margin-left: 1px;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* helper meta on bottombar right */
+  .input-meta {
+    margin-left: auto;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    display: flex; gap: 16px;
+  }
+  .input-meta .meta-key {
+    background: rgba(255,255,255,0.04);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--text-dim);
+  }
+
+  /* toast */
+  .toast {
+    position: absolute;
+    bottom: 80px;
+    right: 28px;
+    background: rgba(20,20,24,0.96);
+    border: 1px solid rgba(142,102,251,0.4);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--text);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.55), 0 0 32px rgba(142,102,251,0.22);
+    transform: translateX(140%);
+    opacity: 0;
+    z-index: 12;
+    letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 10px;
+    animation: toast-slide 20s ease-in-out infinite;
+  }
+  .toast .diamond { color: var(--accent); }
+  .toast-divider { color: var(--text-faint); }
+  @keyframes toast-slide {
+    0%, 73% { transform: translateX(140%); opacity: 0; }
+    77% { transform: translateX(0); opacity: 1; }
+    84% { transform: translateX(0); opacity: 1; }
+    87% { transform: translateX(140%); opacity: 0; }
+    100% { transform: translateX(140%); opacity: 0; }
+  }
+
+  /* scrollbar */
+  .doc-scroll::-webkit-scrollbar { width: 6px; }
+  .doc-scroll::-webkit-scrollbar-track { background: transparent; }
+  .doc-scroll::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+  <div class="stage">
+    <div class="frame">
+      <!-- titlebar -->
+      <div class="titlebar">
+        <div class="lights">
+          <span class="light red"></span>
+          <span class="light yellow"></span>
+          <span class="light green"></span>
+        </div>
+        <div class="title">
+          <span class="diamond">◇</span>
+          <span class="breadcrumb">Liminal<span class="crumb-sep">/</span>Spaces<span class="crumb-sep">/</span></span>
+          Tuesday — Andrew Chen call
+        </div>
+        <div class="vault-pill"><span class="diamond">◇</span>vault: encrypted · 47 signals</div>
+      </div>
+
+      <div class="main">
+        <!-- LEFT RAIL -->
+        <div class="rail-left">
+          <div class="rail-header">SIGNALS · LIVE</div>
+          <div class="signal pulse" data-read="1">
+            <div class="signal-app">GRANOLA</div>
+            <div class="signal-text">Coffee with Maya at Northstar</div>
+          </div>
+          <div class="signal" data-read="2">
+            <div class="signal-app">OBSIDIAN</div>
+            <div class="signal-text">research/competitors/granola-teardown.md</div>
+          </div>
+          <div class="signal" data-read="3">
+            <div class="signal-app">APPLE REMINDERS</div>
+            <div class="signal-text">Tuesday: Andrew Chen call</div>
+          </div>
+          <div class="signal">
+            <div class="signal-app">CLAUDE CODE</div>
+            <div class="signal-text">user_message</div>
+          </div>
+          <div class="signal">
+            <div class="signal-app">GIT</div>
+            <div class="signal-text">feat: bounded refusal in agent prompts</div>
+          </div>
+        </div>
+
+        <!-- DOC AREA -->
+        <div class="doc-area">
+          <!-- not-ready banner -->
+          <div class="banner">
+            <div class="banner-inner">
+              <div class="banner-icon">⚠</div>
+              <div class="banner-text"><strong>NOT READY</strong> · 2 fixes required before sending</div>
+              <div class="banner-attr">AUDITOR</div>
+            </div>
+          </div>
+
+          <div class="doc-scroll">
+            <div class="doc-content">
+              <!-- header -->
+              <div class="doc-meta">SPACE<span class="dot">·</span>TODAY<span class="dot">·</span>14:32</div>
+              <h1 class="doc-title">Tuesday — Andrew Chen call</h1>
+              <div class="doc-tags">
+                <span class="tag">1pm Northstar</span>
+                <span class="tag">a16z Speedrun</span>
+                <span class="tag">positioning</span>
+                <span class="tag">prep</span>
+              </div>
+
+              <!-- rough notes -->
+              <div class="rough-notes-label">quick context I had on file:</div>
+              <ul class="rough-list">
+                <li>1pm coffee at Northstar</li>
+                <li>he tracks Granola apparently</li>
+                <li>question: what to say about positioning?</li>
+              </ul>
+
+              <!-- invocation -->
+              <div class="invocation-divider">
+                <span>/agency invoked · 14:32:08</span>
+              </div>
+
+              <!-- diligence -->
+              <div class="doc-section diligence-section">
+                <div class="section-label">
+                  <span class="glyph">◇</span>
+                  <span class="reg-name">DILIGENCE</span>
+                  <span class="sec-title">context loaded</span>
+                  <span class="sec-time">+0.4s</span>
+                </div>
+                <div class="citation-list">
+                  <div class="citation citation-1">
+                    <span class="cite-source">GRANOLA</span>
+                    <span class="cite-text"><em>Series B</em> · $43M · meeting capture for consumer creators · Andrew Chen tracked them since seed</span>
+                  </div>
+                  <div class="citation citation-2">
+                    <span class="cite-source">OBSIDIAN</span>
+                    <span class="cite-text">/competitors/granola-teardown.md · last edited Nov 12 · core thesis: capture ≠ correction</span>
+                  </div>
+                  <div class="citation citation-3">
+                    <span class="cite-source">REMINDERS</span>
+                    <span class="cite-text">Andrew flagged 2 weeks ago — "tracking Granola, would love a take"</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- synthesis -->
+              <div class="doc-section synthesis-section">
+                <div class="section-label">
+                  <span class="glyph">◇</span>
+                  <span class="reg-name">SYNTHESIS</span>
+                  <span class="sec-title">frame the move</span>
+                  <span class="sec-time">+4.6s</span>
+                </div>
+                <p class="synth-body">
+                  Liminal and Granola are both <em>capture-tools</em>, but they
+                  operate on <span class="hl-good">different layers</span>. Granola captures
+                  the raw signal &mdash; what was said. Liminal operates on
+                  <span class="annotated">⌜the corrected layer⌝<span class="risk-tag">risk: claim</span></span> &mdash;
+                  what you're actually deciding.
+                </p>
+
+                <!-- mystic margin -->
+                <aside class="mystic-margin">
+                  <div class="mystic-attr"><span class="pink-glyph">◇</span>MYSTIC</div>
+                  <div class="mystic-quote">
+                    "Don't position against Granola. Position as the thing their listening was supposed to become."
+                  </div>
+                </aside>
+              </div>
+
+              <!-- judgment -->
+              <div class="doc-section judgment-section">
+                <div class="section-label">
+                  <span class="glyph">◇</span>
+                  <span class="reg-name">JUDGMENT</span>
+                  <span class="sec-title">verdict + fixes</span>
+                  <span class="sec-time">+9.0s</span>
+                </div>
+                <div class="verdict-card">
+                  <div class="verdict-header">
+                    <span class="verdict-badge">NOT READY</span>
+                    <span class="verdict-title">2 fixes before this is shippable</span>
+                    <span class="verdict-sub">incl. this demo</span>
+                  </div>
+                  <div class="fix-list">
+                    <div class="fix-item">
+                      <span class="fix-num">01</span>
+                      <div class="fix-content">
+                        <div class="fix-title">Unsupported moat claim — line 12</div>
+                        <div class="fix-by">RISK · the kind of claim Andrew will probe</div>
+                      </div>
+                    </div>
+                    <div class="fix-item">
+                      <span class="fix-num">02</span>
+                      <div class="fix-content">
+                        <div class="fix-title">Need an actual user quote — abstract framing reads thin</div>
+                        <div class="fix-by">EDITOR · a moment, not a category</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cartographer-note">
+                    <span class="carto-glyph">◇</span>
+                    <span><strong>CARTOGRAPHER:</strong> Granola = capture. Liminal = correction. Adjacent, not competitive — say it that way.</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT RAIL: AGENCY CONSOLE -->
+        <div class="rail-right">
+          <div class="rail-right-header">
+            <span>AGENCY · 12 BOUNDED</span>
+            <span class="live-indicator">live</span>
+          </div>
+
+          <!-- DILIGENCE -->
+          <div class="register-block diligence">
+            <div class="reg-head">
+              <span class="reg-name-block">DILIGENCE</span>
+              <div class="reg-status">
+                <span class="status idle show-idle">IDLE</span>
+                <span class="status active show-da">ACTIVE ◇</span>
+                <span class="status done show-dd">DONE</span>
+              </div>
+            </div>
+            <div class="reg-agents">
+              <div class="reg-agent"><span class="agent-name">Analyst</span><span class="agent-detail"><span class="detail active-d show-da">streaming</span><span class="detail show-dd">3 sources cited</span></span></div>
+              <div class="reg-agent"><span class="agent-name">Researcher</span><span class="agent-detail"><span class="detail active-d show-da">streaming</span><span class="detail show-dd">cross-checked</span></span></div>
+              <div class="reg-agent"><span class="agent-name">Compliance</span><span class="agent-detail"><span class="detail active-d show-da">auditing</span><span class="detail show-dd">1 claim flagged</span></span></div>
+            </div>
+          </div>
+
+          <!-- OUTREACH -->
+          <div class="register-block outreach">
+            <div class="reg-head">
+              <span class="reg-name-block">OUTREACH</span>
+              <div class="reg-status">
+                <span class="status idle show-idle">IDLE</span>
+                <span class="status refused show-or">REFUSE</span>
+              </div>
+            </div>
+            <div class="reg-agents">
+              <div class="reg-agent">
+                <span class="agent-name">SDR</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ Analyst</span>
+                  <span class="detail show-sa">→ Strategist</span>
+                  <span class="detail show-sd">→ Auditor</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Copywriter</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ Analyst</span>
+                  <span class="detail show-sa">→ Strategist</span>
+                  <span class="detail show-sd">→ Auditor</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Negotiator</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ Analyst</span>
+                  <span class="detail show-sa">→ Strategist</span>
+                  <span class="detail show-sd">→ Auditor</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- JUDGMENT -->
+          <div class="register-block judgment">
+            <div class="reg-head">
+              <span class="reg-name-block">JUDGMENT</span>
+              <div class="reg-status">
+                <span class="status idle show-idle">IDLE</span>
+                <span class="status refused show-jr">REFUSE</span>
+                <span class="status active show-ja">ACTIVE ◇</span>
+                <span class="status done show-jd">DONE</span>
+              </div>
+            </div>
+            <div class="reg-agents">
+              <div class="reg-agent">
+                <span class="agent-name">Auditor</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail show-sa">→ wait</span>
+                  <span class="detail active-d show-ja">streaming</span>
+                  <span class="detail show-jd">NOT READY · 2 fixes</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Risk</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail show-sa">→ wait</span>
+                  <span class="detail active-d show-ja">streaming</span>
+                  <span class="detail show-jd">1 unsupported claim</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Cartographer</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail show-sa">→ wait</span>
+                  <span class="detail active-d show-ja">streaming</span>
+                  <span class="detail show-jd">adjacent, not vs.</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SYNTHESIS -->
+          <div class="register-block synthesis">
+            <div class="reg-head">
+              <span class="reg-name-block">SYNTHESIS</span>
+              <div class="reg-status">
+                <span class="status idle show-idle">IDLE</span>
+                <span class="status refused show-sr">REFUSE</span>
+                <span class="status active show-sa">ACTIVE ◇</span>
+                <span class="status done show-sd">DONE</span>
+              </div>
+            </div>
+            <div class="reg-agents">
+              <div class="reg-agent">
+                <span class="agent-name">Strategist</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail active-d show-sa">framing</span>
+                  <span class="detail show-sd">corrected layer</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Editor</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail active-d show-sa">tightening</span>
+                  <span class="detail show-sd">2 cuts proposed</span>
+                </span>
+              </div>
+              <div class="reg-agent mystic-row">
+                <span class="agent-name">Mystic</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail active-d show-sa">listening</span>
+                  <span class="detail show-sd">margin note posted</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- bottom bar -->
+      <div class="bottombar">
+        <span class="prompt-prefix">▸</span>
+        <span class="prompt-text" id="prompt"></span>
+        <span class="cursor"></span>
+        <div class="input-meta">
+          <span><span class="meta-key">/</span> agency</span>
+          <span><span class="meta-key">⌘K</span> command</span>
+          <span><span class="meta-key">⌘.</span> vault</span>
+        </div>
+      </div>
+
+      <!-- toast -->
+      <div class="toast">
+        <span class="diamond">◇</span>
+        <span>+ 1 deliberation stored</span>
+        <span class="toast-divider">·</span>
+        <span>12 reads</span>
+        <span class="toast-divider">·</span>
+        <span>3 corrections</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// scale stage to viewport
+function fitStage() {
+  const wrap = document.getElementById('wrap');
+  const sw = window.innerWidth, sh = window.innerHeight;
+  const scale = Math.min(sw / 1920, sh / 1080);
+  wrap.style.transform = 'scale(' + scale + ')';
+}
+window.addEventListener('resize', fitStage);
+fitStage();
+
+// typing animation in bottom bar — synced to 20s loop
+const promptText = "/agency tuesday call with andrew chen — he tracks granola — what do I say";
+const promptEl = document.getElementById('prompt');
+let typingTimer = null;
+function startTyping() {
+  if (typingTimer) clearInterval(typingTimer);
+  promptEl.textContent = '';
+  let i = 0;
+  typingTimer = setInterval(() => {
+    if (i >= promptText.length) {
+      clearInterval(typingTimer);
+      return;
+    }
+    promptEl.textContent += promptText[i++];
+  }, 32);
+}
+startTyping();
+setInterval(startTyping, 20000);
+</script>
+</body>
+</html>

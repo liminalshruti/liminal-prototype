@@ -1,0 +1,12 @@
+{
+  "name": "liminal-prototype",
+  "version": "0.1.0",
+  "description": "Public interactive prototype for Liminal Agents — workflow demo with bounded refusal, deliberation, correction, and vault loops.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs"
+  },
+  "license": "MIT"
+}

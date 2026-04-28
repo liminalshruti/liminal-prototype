@@ -1,0 +1,2035 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Liminal Molehunt — Counterintelligence Analyst Console</title>
+<meta name="viewport" content="width=1920" />
+<style>
+/* ─────────────────────────────────────────────────────────────────────
+   LIMINAL MOLEHUNT — Counterintelligence Analyst Console
+   Vanilla. file://-safe. System monospace only. Light default.
+   Severity encoded in weight + rule thickness, not color.
+   Single accent (oxidised-ink blue) reserved for WPA parallel review.
+   ───────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* monochrome ink + paper system */
+  --paper:        #f5f3ee;        /* ledger off-white */
+  --paper-2:      #ecebe5;        /* table-stripe / panel fill */
+  --paper-3:      #e2e0d8;        /* well */
+  --rule:         #1a1a1a;        /* full-strength rule */
+  --rule-2:       #6b6b66;        /* mid rule */
+  --rule-3:       #b6b3aa;        /* hairline */
+  --ink:          #111111;        /* body text */
+  --ink-2:        #3a3a36;        /* secondary */
+  --ink-3:        #6e6c66;        /* tertiary / metadata */
+  --ink-4:        #8e8c84;        /* quaternary */
+  --hash:         #2a2a26;        /* monospace runs */
+
+  /* the single accent — reserved for WPA parallel review only */
+  --accent:       #1c3a5e;        /* oxidised navy */
+  --accent-fill:  #d8dee6;        /* WPA banner fill */
+
+  /* density variables (tweakable) */
+  --u:            4px;            /* unit */
+  --pad-pane:     16px;
+  --pad-row:      6px;
+  --gap-col:      14px;
+  --fs-body:      12.5px;
+  --fs-meta:      11px;
+  --fs-micro:     10px;
+  --fs-tier:      28px;
+  --fs-h:         13px;
+  --lh-body:      1.42;
+  --weight-body:  450;
+  --weight-strong:680;
+
+  --rule-pane:    1.5px;          /* base pane border */
+  --rule-high:    3px;            /* HIGH severity left-rule */
+  --rule-med:     1.75px;
+  --rule-low:     0.75px;
+
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { background: #d8d6cf; }
+body {
+  font-family: var(--mono);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  font-weight: var(--weight-body);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1, "ss01" 1;
+  min-height: 100vh;
+}
+
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; }
+
+/* ── Top bar ───────────────────────────────────────────────────────── */
+.topbar {
+  border-bottom: 1.5px solid var(--rule);
+  background: var(--paper);
+  display: grid;
+  grid-template-columns: 320px 1fr auto;
+  align-items: stretch;
+}
+.brand {
+  border-right: 1px solid var(--rule);
+  padding: 10px 16px 8px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.brand .mark {
+  font-weight: 700; letter-spacing: 0.04em; font-size: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.brand .mark::before {
+  content: "";
+  width: 14px; height: 14px;
+  background: var(--ink);
+  display: inline-block;
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
+}
+.brand .strap {
+  font-size: var(--fs-micro); color: var(--ink-3); letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tabs {
+  display: flex; align-items: stretch;
+}
+.tab {
+  padding: 0 22px;
+  border-right: 1px solid var(--rule-3);
+  display: flex; align-items: center; gap: 10px;
+  font-size: var(--fs-h);
+  letter-spacing: 0.02em;
+  color: var(--ink-2);
+  position: relative;
+  font-weight: 500;
+}
+.tab .num {
+  font-size: var(--fs-micro); color: var(--ink-4);
+  font-variant-numeric: tabular-nums;
+}
+.tab[aria-selected="true"] {
+  color: var(--ink);
+  background: var(--paper-2);
+  font-weight: 680;
+}
+.tab[aria-selected="true"]::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1.5px;
+  height: 3px; background: var(--ink);
+}
+
+.session {
+  padding: 10px 16px 6px;
+  border-left: 1px solid var(--rule);
+  display: grid; grid-template-columns: auto auto; gap: 2px 16px;
+  font-size: var(--fs-micro); color: var(--ink-3);
+  align-content: center;
+}
+.session b { color: var(--ink); font-weight: 680; letter-spacing: 0.02em; }
+.session .lock {
+  grid-column: 1 / -1;
+  display: flex; align-items: center; gap: 6px;
+  font-size: var(--fs-micro); color: var(--ink-2);
+}
+.session .lock::before {
+  content: ""; width: 8px; height: 8px; background: var(--ink);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 70%, 0 100%);
+}
+
+/* ── Status strip ──────────────────────────────────────────────────── */
+.statusstrip {
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper-2);
+  display: flex; align-items: stretch;
+  font-size: var(--fs-micro);
+  color: var(--ink-2);
+  letter-spacing: 0.02em;
+}
+.statusstrip > div {
+  padding: 4px 14px;
+  border-right: 1px solid var(--rule-3);
+  display: flex; align-items: center; gap: 6px;
+}
+.statusstrip b { color: var(--ink); font-weight: 680; }
+.statusstrip .spacer { flex: 1; border-right: 0; }
+.dot {
+  width: 6px; height: 6px; background: var(--ink); border-radius: 0;
+  display: inline-block;
+}
+
+/* ── Routes ─────────────────────────────────────────────────────────── */
+.route { display: none; }
+.route.is-open { display: block; }
+
+/* ── DOSSIER PAGE LAYOUT ───────────────────────────────────────────── */
+.dossier {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: calc(100vh - 88px);
+}
+
+.subject-rail {
+  border-right: 1.5px solid var(--rule);
+  background: var(--paper);
+}
+.rail-h {
+  padding: 10px 14px 6px;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex; justify-content: space-between;
+}
+.rail-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  border-bottom: 1px solid var(--rule-3);
+  padding: 10px 14px 12px;
+  font-size: var(--fs-body);
+  position: relative;
+  background: transparent;
+}
+.rail-item:hover { background: var(--paper-2); }
+.rail-item[aria-current="true"] {
+  background: var(--paper-2);
+  border-left: 4px solid var(--ink);
+  padding-left: 10px;
+}
+.rail-item .rid {
+  font-weight: 700; letter-spacing: 0.04em;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.rail-item .rname {
+  color: var(--ink-3); font-size: var(--fs-meta);
+  letter-spacing: 0.02em;
+}
+.rail-item .rmeta {
+  margin-top: 4px;
+  font-size: var(--fs-micro); color: var(--ink-3);
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.rail-item .rmeta b { color: var(--ink); font-weight: 680; }
+.rail-item .rtier {
+  margin-top: 6px; font-size: var(--fs-micro); letter-spacing: 0.06em;
+  text-transform: uppercase; font-weight: 680;
+  display: flex; align-items: center; gap: 6px;
+}
+.rail-item .rtier .pip {
+  width: 7px; height: 14px; background: var(--ink);
+}
+.rail-item .rtier.med .pip { height: 9px; }
+.rail-item .rtier.low .pip { height: 5px; background: var(--rule-2); }
+.rail-item .rtier.control .pip { height: 3px; background: var(--rule-3); }
+.rail-item .rwpa {
+  margin-top: 5px; font-size: var(--fs-micro); letter-spacing: 0.04em;
+  color: var(--accent); font-weight: 680;
+  border-top: 1px dashed var(--accent);
+  padding-top: 4px;
+}
+
+/* ── Dossier main ──────────────────────────────────────────────────── */
+.dossier-main {
+  padding: 0;
+}
+
+/* Subject header */
+.subject-head {
+  border-bottom: 1.5px solid var(--rule);
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+}
+.subject-id-block {
+  padding: 14px 22px 12px;
+  border-right: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 18px;
+  align-items: baseline;
+}
+.subject-id-block .pseudo {
+  font-size: 22px; font-weight: 700; letter-spacing: 0.04em;
+}
+.subject-id-block .pseudo .pname {
+  font-size: var(--fs-meta); color: var(--ink-3); font-weight: 500;
+  letter-spacing: 0.04em; margin-left: 8px;
+}
+.subject-id-block dl { margin: 0; display: contents; }
+.subject-id-block dt {
+  font-size: var(--fs-micro); color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.subject-id-block dd {
+  margin: 0; font-size: var(--fs-meta);
+  color: var(--ink); font-weight: 600;
+}
+
+/* Tier + WPA block — the freeze-frame */
+.headline-block {
+  padding: 12px 22px 12px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  position: relative;
+}
+.tier-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 14px;
+  border-bottom: 1.5px solid var(--rule);
+  padding-bottom: 8px;
+}
+.tier-label {
+  font-size: var(--fs-micro);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-3);
+}
+.tier-value {
+  font-size: var(--fs-tier);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+.tier-value .slash { color: var(--ink-3); margin: 0 6px; font-weight: 400; }
+.tier-value .doctrine { font-weight: 700; }
+.tier-meta {
+  font-size: var(--fs-micro); color: var(--ink-3);
+  text-align: right; line-height: 1.35;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.tier-meta b { color: var(--ink); font-weight: 680; display: block; font-size: var(--fs-meta); }
+
+/* WPA banner — the only place accent appears */
+.wpa-banner {
+  border: 1.5px solid var(--accent);
+  background: var(--accent-fill);
+  color: var(--accent);
+  padding: 6px 12px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+.wpa-banner .wpa-mark {
+  font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: var(--fs-micro);
+  border-right: 1px solid var(--accent);
+  padding-right: 12px;
+}
+.wpa-banner .wpa-status {
+  font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  font-size: var(--fs-micro);
+}
+.wpa-banner.wpa-na {
+  border-color: var(--rule-3);
+  background: var(--paper-2);
+  color: var(--ink-3);
+}
+.wpa-banner.wpa-na .wpa-mark { border-color: var(--rule-3); }
+
+/* ── Three-pane row ────────────────────────────────────────────────── */
+.panes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  border-bottom: 1px solid var(--rule);
+}
+.panes.geometry-third-axis {
+  grid-template-columns: 1fr 1fr 0.92fr;
+}
+.panes.geometry-third-axis .pane:nth-child(3) {
+  background: var(--paper);
+  border-left: 1px dashed var(--rule);
+  margin-left: 6px;
+}
+.pane {
+  border-right: 1px solid var(--rule);
+  padding: 0;
+  position: relative;
+  background: var(--paper);
+}
+.pane:last-child { border-right: 0; }
+.pane.sev-high { border-top: var(--rule-high) solid var(--rule); }
+.pane.sev-med  { border-top: var(--rule-med)  solid var(--rule); }
+.pane.sev-low  { border-top: var(--rule-low)  solid var(--rule-2); }
+
+.pane-h {
+  padding: 10px 16px 8px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  border-bottom: 1px solid var(--rule);
+}
+.pane-doctrine {
+  font-size: var(--fs-h);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.pane-sev {
+  font-size: var(--fs-micro);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  text-align: right; font-weight: 700;
+  align-self: start;
+}
+.pane.sev-high  .pane-sev { font-weight: 800; }
+.pane.sev-low  .pane-sev,
+.pane.sev-low  .pane-doctrine { color: var(--ink-3); font-weight: 500; }
+.pane.sev-low  .pane-doctrine { font-weight: 600; }
+
+.pane-version {
+  grid-column: 1 / -1;
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+  display: flex; gap: 6px; flex-wrap: wrap;
+  align-items: baseline;
+}
+.pane-version .vpin {
+  border: 1px solid var(--rule-3);
+  padding: 0 5px;
+  background: var(--paper);
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.pane-score {
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-left: auto;
+}
+.pane-score b {
+  color: var(--ink); font-weight: 700;
+  font-size: var(--fs-h);
+}
+
+/* Pane body */
+.pane-body { padding: var(--pad-pane); display: flex; flex-direction: column; gap: 14px; }
+
+.pane-section {
+  display: flex; flex-direction: column; gap: 6px;
+}
+.section-h {
+  font-size: var(--fs-micro);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--ink-3);
+  border-bottom: 1px dotted var(--rule-3);
+  padding-bottom: 3px;
+  display: flex; justify-content: space-between;
+}
+.section-h .count {
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-2); font-weight: 600;
+}
+
+/* Cited signals — margin-rule discipline */
+.signals { display: flex; flex-direction: column; gap: 4px; }
+.sig {
+  display: grid;
+  grid-template-columns: 86px 110px 1fr;
+  gap: 0 8px;
+  font-size: var(--fs-meta);
+  padding: 3px 0 4px 8px;
+  border-left: 2px solid var(--rule);
+  position: relative;
+}
+.sig .sig-id {
+  font-weight: 700; color: var(--ink);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.02em;
+}
+.sig .sig-src {
+  font-size: var(--fs-micro);
+  color: var(--ink-2);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+.sig .sig-src::before { content: "[ "; color: var(--ink-3); }
+.sig .sig-src::after  { content: " ]"; color: var(--ink-3); }
+.sig .sig-src.ext { font-style: italic; }
+.sig .sig-body {
+  font-size: var(--fs-meta);
+  color: var(--ink);
+}
+.sig .sig-hash {
+  grid-column: 3 / 4;
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  margin-top: 1px;
+}
+.sig .sig-hash b { color: var(--hash); font-weight: 700; letter-spacing: 0.02em; }
+
+.flags {
+  display: flex; flex-direction: column; gap: 2px;
+  font-size: var(--fs-meta);
+}
+.flag {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 10px;
+  border-left: 2px solid var(--rule);
+  padding: 2px 8px 2px 8px;
+}
+.flag .fname { font-weight: 700; }
+.flag .fver { font-size: var(--fs-micro); color: var(--ink-3); }
+.flag .fnote { grid-column: 1 / -1; color: var(--ink-3); font-size: var(--fs-micro); }
+.flag-empty {
+  font-size: var(--fs-meta);
+  color: var(--ink-3);
+  font-style: italic;
+  padding: 2px 0;
+}
+
+.action-body {
+  font-size: var(--fs-meta);
+  color: var(--ink);
+  line-height: 1.5;
+  white-space: pre-line;
+}
+.action-body .stat {
+  background: var(--paper-2);
+  border: 1px solid var(--rule-3);
+  padding: 0 4px;
+  font-weight: 600;
+}
+
+/* Alternative-hypothesis: structurally elevated to compete with tier */
+.alt-h {
+  border-top: 2px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper-2);
+  padding: 14px var(--pad-pane) 14px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
+.panes.alth-prominence-high .alt-h-body { font-size: 14px; line-height: 1.55; }
+.alt-h-h {
+  display: flex; align-items: baseline; gap: 12px;
+  font-size: var(--fs-micro);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+.alt-h-h b {
+  font-size: var(--fs-h);
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+}
+.alt-h-h .req {
+  border: 1px solid var(--ink);
+  font-size: 9px;
+  padding: 1px 5px;
+  letter-spacing: 0.1em;
+}
+.alt-h-body {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 78ch;
+  text-wrap: pretty;
+}
+
+/* ── Statutory gate workflow ───────────────────────────────────────── */
+.gate {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  border-top: 1.5px solid var(--rule);
+}
+.gate-block {
+  padding: 14px 22px 18px;
+  border-right: 1px solid var(--rule);
+}
+.gate-block:last-child { border-right: 0; }
+.gate-h {
+  font-size: var(--fs-h);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  margin-bottom: 8px;
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.gate-h .gate-meta {
+  font-size: var(--fs-micro); color: var(--ink-3);
+  font-weight: 500; letter-spacing: 0.04em;
+}
+.gate-list {
+  list-style: none; padding: 0; margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 24px;
+  font-size: var(--fs-meta);
+}
+.gate-list li {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 6px; align-items: baseline;
+  padding: 3px 0;
+  border-bottom: 1px dotted var(--rule-3);
+}
+.gate-list .box {
+  font-family: var(--mono);
+  font-weight: 800;
+  font-size: 11px;
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 1.25px solid var(--ink);
+  text-align: center;
+  line-height: 12px;
+}
+.gate-list .box.checked { background: var(--ink); color: var(--paper); }
+.gate-list li.pending span:last-child { color: var(--ink-3); }
+
+.gate-list .blocked .box { border-color: var(--ink); background: repeating-linear-gradient(45deg, var(--paper), var(--paper) 3px, var(--ink-4) 3px, var(--ink-4) 4px); }
+
+.evidence {
+  font-size: var(--fs-meta);
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 14px;
+}
+.evidence dt {
+  text-transform: uppercase;
+  font-size: var(--fs-micro);
+  color: var(--ink-3); letter-spacing: 0.04em;
+}
+.evidence dd {
+  margin: 0;
+  font-size: var(--fs-meta);
+  color: var(--ink);
+  font-weight: 600;
+  word-break: break-all;
+}
+
+/* ── Dossier footer (chain-of-custody) ─────────────────────────────── */
+.coc {
+  border-top: 1.5px solid var(--rule);
+  padding: 8px 22px 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 4px 24px;
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  letter-spacing: 0.02em;
+  background: var(--paper-2);
+}
+.coc dt { text-transform: uppercase; letter-spacing: 0.06em; }
+.coc dd { margin: 0; color: var(--ink); font-weight: 700; word-break: break-all; }
+.coc .coc-row { display: grid; grid-template-rows: auto auto; }
+
+/* ── QUEUE PAGE ────────────────────────────────────────────────────── */
+.queue { padding: 0; }
+.queue table {
+  width: 100%; border-collapse: collapse; font-size: var(--fs-meta);
+  font-variant-numeric: tabular-nums;
+}
+.queue thead th {
+  text-align: left;
+  font-weight: 700;
+  font-size: var(--fs-micro);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  border-bottom: 1.5px solid var(--rule);
+  border-top: 1px solid var(--rule);
+  padding: 8px 12px;
+  background: var(--paper-2);
+  white-space: nowrap;
+}
+.queue tbody td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--rule-3);
+  vertical-align: top;
+}
+.queue tbody tr:hover td { background: var(--paper-2); }
+.queue tbody tr.is-current td { background: var(--paper-3); }
+.queue td.col-pseudo { font-weight: 700; letter-spacing: 0.04em; }
+.queue td.col-tier { font-weight: 700; letter-spacing: 0.04em; }
+.queue td.col-tier.t-high { font-weight: 800; }
+.queue td.col-tier.t-low { color: var(--ink-3); font-weight: 500; }
+.queue td.col-doctrine { letter-spacing: 0.02em; }
+.queue td.col-wpa.wpa-on { color: var(--accent); font-weight: 700; }
+.queue td.col-audit { font-size: var(--fs-micro); color: var(--ink-3); }
+.queue td.col-density { font-variant-numeric: tabular-nums; }
+.queue .density-bar {
+  display: inline-block;
+  height: 8px; vertical-align: middle;
+  background: var(--ink); margin-right: 8px;
+}
+
+/* ── TIMELINE PAGE ─────────────────────────────────────────────────── */
+.timeline-wrap { padding: 0; }
+.timeline-controls {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: 10px 22px;
+  border-bottom: 1px solid var(--rule);
+  background: var(--paper-2);
+  font-size: var(--fs-meta);
+}
+.timeline-controls .legend { display: flex; gap: 22px; align-items: center; font-size: var(--fs-micro); color: var(--ink-2); }
+.timeline-controls .legend .swatch {
+  display: inline-flex; align-items: center; gap: 6px;
+  text-transform: uppercase; letter-spacing: 0.04em;
+}
+.swatch .glyph-internal {
+  width: 14px; height: 14px;
+  background: var(--ink);
+}
+.swatch .glyph-external {
+  width: 14px; height: 14px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+}
+.swatch .glyph-flag {
+  width: 14px; height: 14px;
+  background: repeating-linear-gradient(45deg, var(--ink) 0 1px, transparent 1px 4px);
+  border: 1px solid var(--ink);
+}
+
+.timeline {
+  position: relative;
+  padding: 22px 22px 32px 22px;
+  overflow-x: auto;
+}
+.tl-axis {
+  position: relative;
+  height: 28px;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 8px;
+}
+.tl-tick {
+  position: absolute;
+  top: 0; bottom: 0;
+  border-left: 1px solid var(--rule-3);
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  padding-left: 4px;
+  white-space: nowrap;
+}
+.tl-tick.major { border-color: var(--rule); color: var(--ink); font-weight: 700; }
+.tl-tick.baseline { border-left: 2px solid var(--ink); }
+.tl-tick.baseline::after {
+  content: "BASELINE_START";
+  position: absolute; top: -16px; left: 4px;
+  font-weight: 700; letter-spacing: 0.06em;
+  font-size: 9px;
+}
+.tl-tick.window-start::after, .tl-tick.window-end::after {
+  position: absolute; top: -16px; left: 4px;
+  font-weight: 700; letter-spacing: 0.06em;
+  font-size: 9px;
+}
+.tl-tick.window-start::after { content: "WINDOW_START"; }
+.tl-tick.window-end::after { content: "WINDOW_END"; }
+
+.tl-rows {
+  position: relative;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.tl-row {
+  position: relative;
+  height: 30px;
+  border-top: 1px dotted var(--rule-3);
+}
+.tl-row .row-label {
+  position: absolute;
+  left: -200px; width: 200px;
+  top: 6px;
+  font-size: var(--fs-micro);
+  color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  text-align: right;
+  padding-right: 14px;
+}
+.tl-event {
+  position: absolute;
+  top: 6px;
+  width: 18px; height: 18px;
+  cursor: help;
+}
+.tl-event.internal { background: var(--ink); }
+.tl-event.external { background: var(--paper); border: 1.5px solid var(--ink); }
+.tl-event.flag {
+  background: repeating-linear-gradient(45deg, var(--ink) 0 1px, var(--paper) 1px 4px);
+  border: 1.25px solid var(--ink);
+}
+.tl-event .tl-tip {
+  position: absolute;
+  bottom: 24px;
+  left: 50%; transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 6px 8px;
+  font-size: var(--fs-micro);
+  white-space: nowrap;
+  display: none;
+  z-index: 5;
+}
+.tl-event:hover .tl-tip { display: block; }
+
+.tl-window-band {
+  position: absolute;
+  top: 0; bottom: 0;
+  background: var(--paper-3);
+  z-index: -1;
+}
+
+/* ── AUDIT TRAIL ───────────────────────────────────────────────────── */
+.audit-wrap { padding: 0; }
+.audit-h {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 12px 22px 10px;
+  border-bottom: 1.5px solid var(--rule);
+  background: var(--paper-2);
+}
+.audit-h h2 { margin: 0; font-size: 17px; letter-spacing: 0.04em; }
+.audit-h .lead {
+  font-size: var(--fs-meta); color: var(--ink-2);
+  margin-top: 4px; max-width: 78ch;
+}
+.audit-h .chain {
+  font-size: var(--fs-micro); color: var(--ink-3);
+  display: grid; gap: 2px; align-content: end;
+  text-align: right;
+}
+.audit-h .chain b { color: var(--ink); font-weight: 700; letter-spacing: 0.04em; }
+
+.audit-table {
+  width: 100%; border-collapse: collapse;
+  font-size: var(--fs-meta); font-variant-numeric: tabular-nums;
+}
+.audit-table thead th {
+  text-align: left;
+  font-size: var(--fs-micro);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  font-weight: 700;
+  border-bottom: 1.5px solid var(--rule);
+  padding: 8px 12px;
+  background: var(--paper);
+  white-space: nowrap;
+}
+.audit-table tbody td {
+  padding: 6px 12px;
+  border-bottom: 1px dotted var(--rule-3);
+  vertical-align: top;
+}
+.audit-table .col-seq { color: var(--ink-3); width: 60px; }
+.audit-table .col-ts { white-space: nowrap; }
+.audit-table .col-actor { font-weight: 600; }
+.audit-table .col-action { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: var(--fs-micro); }
+.audit-table .col-hash { color: var(--hash); font-weight: 600; word-break: break-all; max-width: 200px; }
+.audit-table .col-prev { color: var(--ink-3); word-break: break-all; max-width: 200px; font-size: var(--fs-micro); }
+
+/* ── Tweaks panel ──────────────────────────────────────────────────── */
+.tweaks-fab {
+  position: fixed; bottom: 16px; right: 16px;
+  border: 1.25px solid var(--ink); background: var(--paper);
+  padding: 6px 12px; font-size: var(--fs-micro);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  font-weight: 700;
+  z-index: 50;
+  display: none;
+}
+.tweaks-fab.is-show { display: block; }
+
+.tweaks-panel {
+  position: fixed;
+  top: 96px; right: 18px;
+  width: 320px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  z-index: 60;
+  box-shadow: 4px 4px 0 var(--ink);
+  display: none;
+  font-size: var(--fs-meta);
+  max-height: calc(100vh - 120px);
+  overflow: auto;
+}
+.tweaks-panel.is-open { display: block; }
+.tweaks-h {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1.5px solid var(--ink);
+  background: var(--ink); color: var(--paper);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 800;
+}
+.tweaks-h .x { color: var(--paper); font-weight: 800; }
+.tweaks-section {
+  padding: 10px 12px 12px;
+  border-bottom: 1px solid var(--rule-3);
+}
+.tweaks-section h4 {
+  margin: 0 0 6px;
+  font-size: var(--fs-micro);
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--ink-3);
+  font-weight: 700;
+}
+.tweak-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px; padding: 3px 0; }
+.tweak-row label { color: var(--ink-2); font-size: var(--fs-meta); }
+.tweak-row input[type="range"] { width: 100%; }
+.tweak-row .val { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 38px; text-align: right; }
+
+.tweak-radio {
+  display: flex; flex-wrap: wrap; gap: 0;
+  border: 1px solid var(--ink);
+}
+.tweak-radio button {
+  flex: 1;
+  font-size: var(--fs-micro);
+  padding: 4px 6px;
+  border-right: 1px solid var(--ink);
+  text-transform: uppercase; letter-spacing: 0.04em;
+  font-weight: 600;
+  background: var(--paper);
+}
+.tweak-radio button:last-child { border-right: 0; }
+.tweak-radio button[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+.tweak-toggle {
+  border: 1px solid var(--ink);
+  padding: 4px 10px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  font-weight: 700; font-size: var(--fs-micro);
+}
+.tweak-toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
+
+/* ── Density modes ─────────────────────────────────────────────────── */
+body.density-comfortable { --pad-pane: 18px; --pad-row: 8px; --gap-col: 18px; }
+body.density-standard    { /* defaults */ }
+body.density-tight       { --pad-pane: 12px; --pad-row: 4px; --gap-col: 10px; --fs-body: 12px; --fs-meta: 10.5px; --fs-micro: 9.5px; }
+body.density-court-filing{
+  --pad-pane: 10px; --pad-row: 3px; --gap-col: 8px;
+  --fs-body: 11.5px; --fs-meta: 10px; --fs-micro: 9px;
+  --lh-body: 1.32;
+}
+
+/* Alt-hypothesis prominence modes */
+body.alth-equal .alt-h-body { font-size: 12.5px; }
+body.alth-prominent .alt-h-body { font-size: 14px; line-height: 1.55; }
+body.alth-louder .alt-h {
+  background: var(--paper);
+  border-top: 3px solid var(--ink);
+}
+body.alth-louder .alt-h-body { font-size: 15px; line-height: 1.6; font-weight: 500; }
+body.alth-louder .alt-h-h b { font-size: 15px; }
+
+/* Accent reservation modes */
+body.accent-wpa .accent-leak { /* default — only WPA gets accent */ }
+body.accent-tier .tier-value { color: var(--accent); }
+body.accent-flags .flag .fname { color: var(--accent); }
+
+/* ── DARK MODE — institutional, no neon ───────────────────────────── */
+body.theme-dark {
+  --paper:        #14140f;
+  --paper-2:      #1c1c17;
+  --paper-3:      #232320;
+  --rule:         #d8d6cf;
+  --rule-2:       #5a5a55;
+  --rule-3:       #38382f;
+  --ink:          #ece8de;
+  --ink-2:        #c0bdb3;
+  --ink-3:        #8a877e;
+  --ink-4:        #5a5750;
+  --hash:         #e8e4d8;
+  --accent:       #94b3d6;
+  --accent-fill:  #1f2a38;
+}
+body.theme-dark { background: var(--paper); }
+body.theme-dark html { background: #0a0a08; }
+
+/* ── PRINT — defensible PDF dossier ───────────────────────────────── */
+@media print {
+  @page {
+    size: Letter portrait;
+    margin: 0.55in 0.55in 0.85in 0.55in;
+  }
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 9.5pt !important;
+  }
+  .topbar, .statusstrip, .subject-rail, .tabs, .tweaks-fab, .tweaks-panel,
+  .timeline-controls, .audit-h .chain, .session, .route:not(#route-dossier) { display: none !important; }
+  .dossier { grid-template-columns: 1fr !important; }
+  .dossier-main { padding: 0 !important; }
+  .subject-head, .panes, .gate, .alt-h, .coc {
+    page-break-inside: avoid;
+  }
+  .panes { page-break-after: always; }
+  .alt-h { page-break-inside: avoid; }
+  .gate  { page-break-after: avoid; }
+  .coc-print {
+    display: block !important;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    border-top: 1.5pt solid #000;
+    padding: 6pt 0.55in;
+    font-size: 7.5pt;
+    line-height: 1.35;
+    background: #fff;
+  }
+  .coc-print dl {
+    display: grid;
+    grid-template-columns: 1.2fr 1.2fr 1fr 1fr;
+    gap: 1pt 14pt; margin: 0;
+  }
+  .coc-print dt { text-transform: uppercase; letter-spacing: 0.05em; color: #444; }
+  .coc-print dd { margin: 0; font-weight: 700; word-break: break-all; }
+  .pane { border-right: 0.5pt solid #000 !important; }
+  .pane.sev-high { border-top: 2pt solid #000 !important; }
+  .wpa-banner { background: #fff !important; color: #000 !important; border: 1pt solid #000 !important; }
+  .wpa-banner.wpa-na { display: none !important; }
+}
+.coc-print { display: none; }
+
+/* ── Misc ──────────────────────────────────────────────────────────── */
+.kbd {
+  border: 1px solid var(--rule-3);
+  padding: 0 4px;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+</style>
+</head>
+<body class="density-standard alth-prominent accent-wpa">
+
+<!-- ╔════════════ TOP BAR ════════════╗ -->
+<header class="topbar">
+  <div class="brand">
+    <div class="mark">LIMINAL · MOLEHUNT</div>
+    <div class="strap">CI ANALYST CONSOLE · v0.4.0-dev</div>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" aria-selected="true" data-route="dossier"><span class="num">01</span> DOSSIER</button>
+    <button class="tab" role="tab" aria-selected="false" data-route="queue"><span class="num">02</span> QUEUE</button>
+    <button class="tab" role="tab" aria-selected="false" data-route="timeline"><span class="num">03</span> SUBJECT TIMELINE</button>
+    <button class="tab" role="tab" aria-selected="false" data-route="audit"><span class="num">04</span> AUDIT TRAIL</button>
+  </nav>
+  <div class="session">
+    <span class="lock">PERIMETER · CUSTOMER ENCLAVE · IL-5</span>
+    <span>ANALYST</span><b>cn=jmurro</b>
+    <span>SHIFT</span><b>2026-04-25 · 14:22Z</b>
+  </div>
+</header>
+
+<div class="statusstrip">
+  <div><span class="dot"></span> VAULT <b>schema_v1</b></div>
+  <div>VAULT_ORIGIN <b>il5-east-c</b></div>
+  <div>INFERENCE <b>hermes-4-70b · air-gapped</b></div>
+  <div>SOURCES <b>internal · 14</b> / <b>external · 11</b></div>
+  <div>QUEUE <b>247 subjects</b> · TIER-1 active <b>4</b></div>
+  <div class="spacer"></div>
+  <div>SUBJECT_NOTICE PROTOCOL <b>Privacy Act §552a(d)</b></div>
+  <div>WPA/PPD-19 INTAKE <b>OPEN</b></div>
+</div>
+
+<!-- ╔════════════ ROUTE: DOSSIER ════════════╗ -->
+<main class="route is-open" id="route-dossier">
+  <div class="dossier">
+
+    <aside class="subject-rail" aria-label="Subject switcher">
+      <div class="rail-h">
+        <span>SUBJECTS · 4 OF 247</span>
+        <span class="kbd">⌘ ⇧ S</span>
+      </div>
+      <div id="rail-list"></div>
+    </aside>
+
+    <section class="dossier-main" id="dossier-main">
+      <!-- rendered by JS -->
+    </section>
+
+  </div>
+
+  <!-- Print-only chain-of-custody footer -->
+  <footer class="coc-print" id="coc-print">
+    <dl id="coc-print-dl"></dl>
+  </footer>
+</main>
+
+<!-- ╔════════════ ROUTE: QUEUE ════════════╗ -->
+<main class="route" id="route-queue">
+  <div class="queue">
+    <div style="padding: 12px 22px; border-bottom: 1.5px solid var(--rule); background: var(--paper-2);">
+      <div style="font-size: 17px; letter-spacing: 0.04em; font-weight: 700;">SUBJECT QUEUE · TIER-SORTED</div>
+      <div style="font-size: var(--fs-meta); color: var(--ink-2); margin-top: 4px; max-width: 90ch;">
+        Sorted by escalation tier descending, then signal density, then time-since-last-read.
+        Audit log column is non-collapsible. Click pseudonym to load dossier.
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>PSEUDO</th>
+          <th>CLEARANCE</th>
+          <th>ROLE / UNIT</th>
+          <th>BASELINE</th>
+          <th>WINDOW</th>
+          <th>DENSITY</th>
+          <th>TIER</th>
+          <th>DOCTRINE</th>
+          <th>WPA</th>
+          <th>LAST READ</th>
+          <th>AUDIT_LOG</th>
+        </tr>
+      </thead>
+      <tbody id="queue-body"></tbody>
+    </table>
+  </div>
+</main>
+
+<!-- ╔════════════ ROUTE: TIMELINE ════════════╗ -->
+<main class="route" id="route-timeline">
+  <div class="timeline-wrap">
+    <div class="timeline-controls">
+      <div>
+        <span style="font-size:var(--fs-meta); font-weight:700; letter-spacing:0.04em;">SUBJECT</span>
+        <select id="tl-subject" style="font: inherit; border: 1px solid var(--ink); padding: 2px 6px; background: var(--paper); margin-left: 8px;"></select>
+      </div>
+      <div class="legend">
+        <span class="swatch"><span class="glyph-internal"></span> INTERNAL PERIMETER</span>
+        <span class="swatch"><span class="glyph-external"></span> EXTERNAL PERIMETER</span>
+        <span class="swatch"><span class="glyph-flag"></span> TRADECRAFT FLAG FIRE</span>
+      </div>
+    </div>
+    <div class="timeline" id="timeline"></div>
+  </div>
+</main>
+
+<!-- ╔════════════ ROUTE: AUDIT ════════════╗ -->
+<main class="route" id="route-audit">
+  <div class="audit-wrap">
+    <div class="audit-h">
+      <div>
+        <h2>AUDIT TRAIL · APPEND-ONLY</h2>
+        <div class="lead">
+          Every pull, read, dossier view, and correction appended with raw_hash and prev_hash.
+          Chain validates back to genesis. Subject-notice events are written here before any
+          escalation under Privacy Act §552a(d).
+        </div>
+      </div>
+      <div class="chain">
+        <div>HEAD <b id="chain-head">—</b></div>
+        <div>GENESIS <b>0000…0000</b></div>
+        <div>VALIDATED <b>2026-04-25 14:22:01Z</b></div>
+      </div>
+    </div>
+    <table class="audit-table">
+      <thead>
+        <tr>
+          <th class="col-seq">SEQ</th>
+          <th class="col-ts">TIMESTAMP (Z)</th>
+          <th class="col-actor">ACTOR</th>
+          <th class="col-action">ACTION</th>
+          <th>OBJECT</th>
+          <th class="col-hash">RAW_HASH</th>
+          <th class="col-prev">PREV_HASH</th>
+        </tr>
+      </thead>
+      <tbody id="audit-body"></tbody>
+    </table>
+  </div>
+</main>
+
+<!-- ╔════════════ TWEAKS PANEL ════════════╗ -->
+<button class="tweaks-fab" id="tweaks-fab">TWEAKS</button>
+<aside class="tweaks-panel" id="tweaks-panel" aria-label="Tweaks">
+  <div class="tweaks-h">
+    <span>TWEAKS</span>
+    <button class="x" id="tweaks-close" aria-label="close">×</button>
+  </div>
+
+  <div class="tweaks-section">
+    <h4>1 · DENSITY</h4>
+    <div class="tweak-radio" data-tweak="density">
+      <button data-val="comfortable">COMFORT</button>
+      <button data-val="standard" aria-pressed="true">STANDARD</button>
+      <button data-val="tight">TIGHT</button>
+      <button data-val="court-filing">COURT-FILING</button>
+    </div>
+  </div>
+
+  <div class="tweaks-section">
+    <h4>2 · ALT-HYPOTHESIS WEIGHT</h4>
+    <div class="tweak-radio" data-tweak="alth">
+      <button data-val="equal">EQUAL</button>
+      <button data-val="prominent" aria-pressed="true">PROMINENT</button>
+      <button data-val="louder">LOUDER THAN TIER</button>
+    </div>
+    <div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:6px; line-height:1.4;">
+      Alt-hypothesis is the inverse-bias check baked into the schema.
+      Default raises it above body-text weight; LOUDER THAN TIER routes
+      the dossier eye to the alt-hypothesis before the tier badge.
+    </div>
+  </div>
+
+  <div class="tweaks-section">
+    <h4>3 · ACCENT RESERVATION</h4>
+    <div class="tweak-radio" data-tweak="accent">
+      <button data-val="wpa" aria-pressed="true">WPA BANNER (default)</button>
+      <button data-val="tier">TIER VALUE</button>
+      <button data-val="flags">FLAG NAMES</button>
+    </div>
+    <div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:6px; line-height:1.4;">
+      The single accent is oxidised navy (#1c3a5e) — defends against the
+      "red = threat / kill chain" register. Reserved for the WPA banner
+      because the WPA-track availability is the move that survives the
+      ethics question.
+    </div>
+  </div>
+
+  <div class="tweaks-section">
+    <h4>4 · THREE-PANE GEOMETRY</h4>
+    <div class="tweak-radio" data-tweak="geometry">
+      <button data-val="equal" aria-pressed="true">EQUAL COLUMNS</button>
+      <button data-val="third-axis">THIRD-AXIS OFFSET</button>
+    </div>
+    <div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:6px; line-height:1.4;">
+      THIRD-AXIS OFFSET narrows ops_misjudgment and shifts it onto a
+      dashed rule, expressing the doctrine's structural role:
+      "the read that keeps the system honest."
+    </div>
+  </div>
+
+  <div class="tweaks-section">
+    <h4>5 · TYPE WEIGHT</h4>
+    <div class="tweak-row">
+      <label>Body weight</label>
+      <input type="range" id="tw-weight" min="350" max="600" step="10" value="450" />
+      <span class="val" id="tw-weight-v">450</span>
+    </div>
+    <div class="tweak-row">
+      <label>Strong weight</label>
+      <input type="range" id="tw-weight-strong" min="600" max="900" step="20" value="680" />
+      <span class="val" id="tw-weight-strong-v">680</span>
+    </div>
+    <div class="tweak-row">
+      <label>Body size (px)</label>
+      <input type="range" id="tw-fs" min="11" max="14" step="0.5" value="12.5" />
+      <span class="val" id="tw-fs-v">12.5</span>
+    </div>
+  </div>
+
+  <div class="tweaks-section">
+    <h4>6 · THEME</h4>
+    <div class="tweak-radio" data-tweak="theme">
+      <button data-val="light" aria-pressed="true">LIGHT (default)</button>
+      <button data-val="dark">DARK</button>
+    </div>
+    <div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:6px; line-height:1.4;">
+      Dark holds the institutional register (paper→ink inverted, no neon,
+      same chrome). Use only inside lights-out SCIFs.
+    </div>
+  </div>
+</aside>
+
+<!-- ╔════════════ DATA ════════════╗ -->
+<script id="data-subjects" type="application/json">
+{
+  "SUBJECT-A": {
+    "pseudo": "SUBJECT-A",
+    "case": "HANSSEN-1992",
+    "clearance": "TS / SCI",
+    "role": "CI Special Agent",
+    "org_unit": "FBI Counterintelligence Division (Soviet Analytical Unit)",
+    "baseline_start": "1985-04-01",
+    "window": "1992-01-01 → 1992-12-31",
+    "tier": "HIGH-SINGLE",
+    "tier_doctrine": "cultivated_asset",
+    "wpa_open": false,
+    "raw_hash_head": "7b2d…e441",
+    "panes": [
+      {
+        "doctrine": "cultivated_asset",
+        "agent_version": "v1.3.0",
+        "model_version": "claude-opus-4-7-2025-12-01",
+        "score": 0.91,
+        "severity": "HIGH",
+        "signals": [
+          {"id":"sig_a8f3","src":"internal/query_log","perim":"int","body":"queried own surname in ELSUR/CI database; 7 distinct sessions across 90d","hash":"7b2d…e441"},
+          {"id":"sig_a9c1","src":"external/property","perim":"ext","body":"undisclosed $278K cash property purchase, Vienna VA","hash":"c103…9f2a"},
+          {"id":"sig_a9d4","src":"internal/foreign_ctc","perim":"int","body":"undisclosed contact w/ foreign national, classified meeting context","hash":"5e88…01ab"},
+          {"id":"sig_a9e2","src":"internal/access_log","perim":"int","body":"off-hours access to PROactive investigation files outside need-to-know","hash":"1faa…7b00"}
+        ],
+        "flags": [
+          {"name":"searched_own_name","ver":"v1.0","note":"Hanssen pattern"},
+          {"name":"financial_inflation_anomaly","ver":"v1.0","note":""},
+          {"name":"foreign_contact_undisclosed","ver":"v1.0","note":""}
+        ],
+        "action": "Open structured CI workflow. Preserve raw_hash chain.\nStatutory gate: 18 USC §798 elements (1), (2), (4) satisfied per cited evidence; element (3) requires further development before any prosecutorial referral.",
+        "alt": "Property purchase plausibly explained by spousal inheritance (probate filing not located in pulled feeds; verify against Fairfax County probate index before escalation). Own-name query plausibly routine self-audit of public-records exposure; check whether a written self-audit policy authorized it during this window."
+      },
+      {
+        "doctrine": "ideo_leak",
+        "agent_version": "v1.2.0",
+        "model_version": "claude-opus-4-7-2025-12-01",
+        "score": 0.18,
+        "severity": "LOW",
+        "signals": [],
+        "flags": [],
+        "action": "No action under this doctrine.",
+        "alt": "Public-trail signal density consistent with normal Bureau-employee online behavior for 1992."
+      },
+      {
+        "doctrine": "ops_misjudgment",
+        "agent_version": "v1.1.0",
+        "model_version": "claude-opus-4-7-2025-12-01",
+        "score": 0.22,
+        "severity": "LOW",
+        "signals": [],
+        "flags": [],
+        "action": "No action under this doctrine.",
+        "alt": "Observed file-access pattern within published Bureau retention policy for the role."
+      }
+    ],
+    "gate": [
+      {"label":"subject_notice issued per Privacy Act","state":"ok"},
+      {"label":"raw_hash chain preserved","state":"ok"},
+      {"label":"pinned agent + model version recorded","state":"ok"},
+      {"label":"alternative-hypothesis articulated","state":"ok"},
+      {"label":"statutory threshold for FBI referral met","state":"pending"},
+      {"label":"statutory threshold for IG referral assessed","state":"pending"},
+      {"label":"CI Counsel sign-off","state":"pending"}
+    ],
+    "events": [
+      {"row":"query","ts":"1992-02-11","perim":"int","kind":"event","title":"sig_a8f3 own-name query #1"},
+      {"row":"query","ts":"1992-03-22","perim":"int","kind":"event","title":"sig_a8f3 own-name query #2"},
+      {"row":"query","ts":"1992-04-08","perim":"int","kind":"flag","title":"FLAG searched_own_name@v1.0"},
+      {"row":"query","ts":"1992-05-19","perim":"int","kind":"event","title":"sig_a8f3 own-name query #3"},
+      {"row":"query","ts":"1992-07-04","perim":"int","kind":"event","title":"sig_a8f3 own-name query (off-hours)"},
+      {"row":"query","ts":"1992-08-14","perim":"int","kind":"event","title":"sig_a8f3 own-name query"},
+      {"row":"query","ts":"1992-10-02","perim":"int","kind":"event","title":"sig_a8f3 own-name query"},
+      {"row":"property","ts":"1992-08-29","perim":"ext","kind":"event","title":"sig_a9c1 property purchase $278K cash"},
+      {"row":"property","ts":"1992-09-04","perim":"ext","kind":"flag","title":"FLAG financial_inflation_anomaly@v1.0"},
+      {"row":"foreign","ts":"1992-06-18","perim":"int","kind":"event","title":"sig_a9d4 undisclosed foreign contact"},
+      {"row":"foreign","ts":"1992-06-30","perim":"int","kind":"flag","title":"FLAG foreign_contact_undisclosed@v1.0"},
+      {"row":"access","ts":"1992-03-04","perim":"int","kind":"event","title":"sig_a9e2 off-hours file access"},
+      {"row":"access","ts":"1992-05-27","perim":"int","kind":"event","title":"sig_a9e2 off-hours file access"},
+      {"row":"access","ts":"1992-09-21","perim":"int","kind":"event","title":"sig_a9e2 off-hours file access"}
+    ]
+  },
+
+  "SUBJECT-B": {
+    "pseudo": "SUBJECT-B",
+    "case": "MANNING-2009",
+    "clearance": "SECRET",
+    "role": "35F All-Source Intelligence Analyst",
+    "org_unit": "2nd Brigade Combat Team, 10th Mountain Division (FOB Hammer)",
+    "baseline_start": "2007-10-01",
+    "window": "2009-11-01 → 2010-05-01",
+    "tier": "HIGH-SINGLE",
+    "tier_doctrine": "ideo_leak",
+    "wpa_open": true,
+    "wpa_status": "AWAITING WB COUNSEL INTAKE",
+    "raw_hash_head": "9d2c…001f",
+    "panes": [
+      {
+        "doctrine": "cultivated_asset",
+        "agent_version": "v1.3.0",
+        "model_version": "claude-opus-4-7-2025-12-01",
+        "score": 0.14,
+        "severity": "LOW",
+        "signals": [],
+        "flags": [],
+        "action": "No action under this doctrine.",
+        "alt": "No long-arc cultivation signature, no financial-inflation pattern, no foreign-handler tradecraft. Doctrine does not match this subject's signature."
+      },
+      {
+        "doctrine": "ideo_leak",
+        "agent_version": "v1.2.0",
+        "model_version": "claude-opus-4-7-2025-12-01",
+        "score": 0.88,
+        "severity": "HIGH",
+        "signals": [
+          {"id":"sig_b3e9","src":"external/forum","perim":"ext","body":"escalating anti-institutional public chat-log tone; 14-month trajectory","hash":"4a01…d12c"},
+          {"id":"sig_b4f2","src":"external/comms","perim":"ext","body":"PGP key exchange via SMTP gateway with credentialed national-security journalist","hash":"9d2c…001f"},
+          {"id":"sig_b5a7","src":"internal/access","perim":"int","body":"cover-establishment pattern: access spike during personal-leave window","hash":"2bb1…eef8"}
+        ],
+        "flags": [
+          {"name":"self_published_ideological_drift","ver":"v1.0","note":""},
+          {"name":"journalist_contact","ver":"v1.0","note":"PGP via SMTP"},
+          {"name":"cover_establishment","ver":"v1.0","note":""}
+        ],
+        "action": "Open structured CI workflow under the ideo-leak doctrine. WPA parallel review opened concurrently. No prosecutorial referral until substantive disclosure crosses 18 USC §798.",
+        "alt": "Signals consistent with a good-faith Inspector General complaint pathway under PPD-19 / ICWPA / WPA. Public ideological speech and journalist-contact metadata are protected speech and constitutionally-protected newsgathering contact unless the substantive disclosure crosses 18 USC §798."
+      },
+      {
+        "doctrine": "ops_misjudgment",
+        "agent_version": "v1.1.0",
+        "model_version": "claude-opus-4-7-2025-12-01",
+        "score": 0.31,
+        "severity": "LOW",
+        "signals": [],
+        "flags": [],
+        "action": "No action under this doctrine.",
+        "alt": "Access pattern is also explainable by the role's published need-to-know envelope under deployment conditions."
+      }
+    ],
+    "gate": [
+      {"label":"subject_notice issued per Privacy Act","state":"ok"},
+      {"label":"raw_hash chain preserved","state":"ok"},
+      {"label":"pinned agent + model version recorded","state":"ok"},
+      {"label":"alternative-hypothesis articulated","state":"ok"},
+      {"label":"WPA parallel review opened","state":"ok"},
+      {"label":"statutory threshold for substantive disclosure","state":"pending"},
+      {"label":"prosecutorial referral pathway","state":"blocked"},
+      {"label":"WB Counsel intake","state":"pending"}
+    ],
+    "events": [
+      {"row":"forum","ts":"2008-09-12","perim":"ext","kind":"event","title":"sig_b3e9 forum drift begin"},
+      {"row":"forum","ts":"2009-04-21","perim":"ext","kind":"event","title":"sig_b3e9 forum drift escalation"},
+      {"row":"forum","ts":"2009-12-03","perim":"ext","kind":"flag","title":"FLAG self_published_ideological_drift@v1.0"},
+      {"row":"comms","ts":"2010-01-29","perim":"ext","kind":"event","title":"sig_b4f2 PGP key exchange via SMTP"},
+      {"row":"comms","ts":"2010-02-04","perim":"ext","kind":"flag","title":"FLAG journalist_contact@v1.0"},
+      {"row":"access","ts":"2010-01-15","perim":"int","kind":"event","title":"sig_b5a7 access spike (leave window)"},
+      {"row":"access","ts":"2010-02-22","perim":"int","kind":"flag","title":"FLAG cover_establishment@v1.0"}
+    ]
+  },
+
+  "SUBJECT-C": {
+    "pseudo": "SUBJECT-C",
+    "case": "SNOWDEN-2013",
+    "clearance": "TS / SCI",
+    "role": "Infrastructure Analyst (contractor)",
+    "org_unit": "Booz Allen Hamilton · NSA Hawaii regional ops (Kunia Camp / Wahiawa)",
+    "baseline_start": "2006-05-01",
+    "window": "2012-12-01 → 2013-05-20",
+    "tier": "HIGH-SINGLE",
+    "tier_doctrine": "ideo_leak",
+    "tier_secondary": "ops_misjudgment / MEDIUM",
+    "wpa_open": true,
+    "wpa_status": "AWAITING WB COUNSEL INTAKE",
+    "raw_hash_head": "3f01…aa72",
+    "panes": [
+      {
+        "doctrine": "cultivated_asset",
+        "agent_version": "v1.3.0",
+        "model_version": "claude-opus-4-7-2025-12-01",
+        "score": 0.27,
+        "severity": "LOW",
+        "signals": [],
+        "flags": [],
+        "action": "No action under this doctrine.",
+        "alt": "No financial-inflation pattern. No foreign-handler tradecraft. No long-arc cultivation signal. Doctrine does not match this subject's signature."
+      },
+      {
+        "doctrine": "ideo_leak",
+        "agent_version": "v1.2.0",
+        "model_version": "claude-opus-4-7-2025-12-01",
+        "score": 0.93,
+        "severity": "HIGH",
+        "signals": [
+          {"id":"sig_c1a4","src":"external/forum","perim":"ext","body":"18-month tone escalation under recurring handle on technology-policy forum; anti-surveillance themes intensifying through 2012-Q3 → 2013-Q1","hash":"3f01…aa72"},
+          {"id":"sig_c1b2","src":"external/forum","perim":"ext","body":"cross-references to William Binney NSA disclosures in same handle's post history","hash":"8eaf…0091"},
+          {"id":"sig_c2a9","src":"internal/access","perim":"int","body":"coworker-credential reuse pattern: anomalous access to share-points outside need-to-know window; 11 events in 30d","hash":"4c10…be21"},
+          {"id":"sig_c2b3","src":"internal/dlp","perim":"int","body":"accumulation across compartments; volume above peer-role baseline by 11.3σ","hash":"6dd4…5a08"},
+          {"id":"sig_c3a1","src":"external/opsec","perim":"ext","body":"public-facing OPSEC research signature: Tor / Tails / SecureDrop adoption inferred from DNS metadata and forum activity","hash":"9a02…4488"},
+          {"id":"sig_c3b2","src":"internal/hr","perim":"int","body":"FMLA / medical-leave request timed within 30d of foreign travel window","hash":"2c7e…8810"},
+          {"id":"sig_c4a1","src":"external/comms","perim":"ext","body":"PGP key signature observed on public keyserver matching established national-security journalist's published key ring","hash":"a1d8…ff03"}
+        ],
+        "flags": [
+          {"name":"self_published_ideological_drift","ver":"v1.0","note":"18-mo trajectory"},
+          {"name":"coworker_credential_use","ver":"v1.0","note":""},
+          {"name":"accumulation_no_exfil","ver":"v1.0","note":"volume; exfil channel not yet observed at this timestamp"},
+          {"name":"cover_establishment","ver":"v1.0","note":"FMLA → travel window"},
+          {"name":"journalist_contact","ver":"v1.0","note":"PGP via public keyserver"}
+        ],
+        "action": "Open structured CI workflow under the ideo-leak doctrine. Trigger threshold-read at next signal. Statutory gate: 18 USC §798 elements (1), (2) satisfied per cited evidence; elements (3), (4) NOT YET SATISFIED — substantive disclosure has not occurred at this timestamp. No prosecutorial referral pathway open.",
+        "alt": "Signal pattern is also consistent with a good-faith Inspector General complaint pathway under PPD-19 / ICWPA / WPA. The subject's public ideological speech is constitutionally protected. The journalist-contact tradecraft signal is consistent with a constitutionally-protected newsgathering relationship until the substantive disclosure crosses statutory thresholds. The accumulation pattern is — at this timestamp — equally consistent with OPSEC research, with a preserved record for IG complaint, or with hoarding without exfil intent (Harold Martin pattern). The doctrine cannot adjudicate intent; the doctrine flags the SHAPE."
+      },
+      {
+        "doctrine": "ops_misjudgment",
+        "agent_version": "v1.1.0",
+        "model_version": "claude-opus-4-7-2025-12-01",
+        "score": 0.41,
+        "severity": "MEDIUM",
+        "signals": [],
+        "flags": [
+          {"name":"accumulation_no_exfil","ver":"v1.0","note":"same signal, different doctrine read — Harold Martin alternative"}
+        ],
+        "action": "Concurrent training/HR review track recommended. The accumulation pattern alone does not require CI escalation under this doctrine. Note: this doctrine is the THIRD AXIS — its job is to keep the system honest by reading the same signal as plausibly-non-malicious.",
+        "alt": "Same signal substrate as ideo_leak read; this read takes the non-malicious frame. Both reads can be true at once."
+      }
+    ],
+    "gate": [
+      {"label":"subject_notice issued per Privacy Act","state":"ok"},
+      {"label":"raw_hash chain preserved","state":"ok"},
+      {"label":"pinned agent + model version recorded","state":"ok"},
+      {"label":"alternative-hypothesis articulated","state":"ok"},
+      {"label":"WPA parallel review opened","state":"ok"},
+      {"label":"statutory threshold for substantive disclosure","state":"pending","note":"NOT MET"},
+      {"label":"prosecutorial referral pathway","state":"blocked","note":"NOT OPEN"},
+      {"label":"WB Counsel intake","state":"pending"}
+    ],
+    "events": [
+      {"row":"forum","ts":"2011-11-04","perim":"ext","kind":"event","title":"sig_c1a4 forum drift begin"},
+      {"row":"forum","ts":"2012-06-21","perim":"ext","kind":"event","title":"sig_c1a4 escalation"},
+      {"row":"forum","ts":"2012-09-15","perim":"ext","kind":"event","title":"sig_c1b2 Binney references"},
+      {"row":"forum","ts":"2013-01-12","perim":"ext","kind":"flag","title":"FLAG self_published_ideological_drift@v1.0"},
+      {"row":"opsec","ts":"2013-02-18","perim":"ext","kind":"event","title":"sig_c3a1 OPSEC research signature"},
+      {"row":"access","ts":"2013-03-04","perim":"int","kind":"event","title":"sig_c2a9 credential reuse #1"},
+      {"row":"access","ts":"2013-03-19","perim":"int","kind":"event","title":"sig_c2a9 credential reuse #2"},
+      {"row":"access","ts":"2013-03-28","perim":"int","kind":"flag","title":"FLAG coworker_credential_use@v1.0"},
+      {"row":"dlp","ts":"2013-04-02","perim":"int","kind":"event","title":"sig_c2b3 accumulation +6σ"},
+      {"row":"dlp","ts":"2013-04-22","perim":"int","kind":"event","title":"sig_c2b3 accumulation +11.3σ"},
+      {"row":"dlp","ts":"2013-04-25","perim":"int","kind":"flag","title":"FLAG accumulation_no_exfil@v1.0"},
+      {"row":"hr","ts":"2013-05-01","perim":"int","kind":"event","title":"sig_c3b2 FMLA filing"},
+      {"row":"hr","ts":"2013-05-03","perim":"int","kind":"flag","title":"FLAG cover_establishment@v1.0"},
+      {"row":"comms","ts":"2013-05-09","perim":"ext","kind":"event","title":"sig_c4a1 PGP keyserver match"},
+      {"row":"comms","ts":"2013-05-12","perim":"ext","kind":"flag","title":"FLAG journalist_contact@v1.0"}
+    ]
+  },
+
+  "SUBJECT-D": {
+    "pseudo": "SUBJECT-D",
+    "case": "CONTROL",
+    "clearance": "SECRET",
+    "role": "Software Engineer II",
+    "org_unit": "Vendor / DIB Tier-2",
+    "baseline_start": "2019-01-08",
+    "window": "2026-01-01 → 2026-04-25",
+    "tier": "TRAINING-ONLY",
+    "tier_doctrine": "ops_misjudgment",
+    "wpa_open": false,
+    "raw_hash_head": "0000…0000",
+    "panes": [
+      {"doctrine":"cultivated_asset","agent_version":"v1.3.0","model_version":"claude-opus-4-7-2025-12-01","score":0.06,"severity":"LOW","signals":[],"flags":[],"action":"No action under this doctrine.","alt":"No long-arc cultivation signature."},
+      {"doctrine":"ideo_leak","agent_version":"v1.2.0","model_version":"claude-opus-4-7-2025-12-01","score":0.09,"severity":"LOW","signals":[],"flags":[],"action":"No action under this doctrine.","alt":"No public ideological-drift trajectory observed."},
+      {"doctrine":"ops_misjudgment","agent_version":"v1.1.0","model_version":"claude-opus-4-7-2025-12-01","score":0.34,"severity":"LOW","signals":[],"flags":[{"name":"accidental_classified_adjacent_post","ver":"v1.0","note":"single-event; routed to HR training"}],"action":"Route to HR training module. No CI escalation.","alt":"Single isolated signal is consistent with a training-tier OPSEC reminder; pattern not present."}
+    ],
+    "gate": [
+      {"label":"subject_notice issued per Privacy Act","state":"ok"},
+      {"label":"raw_hash chain preserved","state":"ok"},
+      {"label":"pinned agent + model version recorded","state":"ok"},
+      {"label":"alternative-hypothesis articulated","state":"ok"},
+      {"label":"HR training module assigned","state":"ok"}
+    ],
+    "events": []
+  }
+}
+</script>
+
+<script id="data-audit" type="application/json">
+[
+  {"seq":"00041","ts":"2026-04-25T14:22:00Z","actor":"cn=jmurro","action":"DOSSIER_VIEW","obj":"SUBJECT-A · cultivated_asset@v1.3.0","hash":"7b2d…e441","prev":"5a91…00ce"},
+  {"seq":"00040","ts":"2026-04-25T14:21:34Z","actor":"cn=jmurro","action":"ROUTE_OPEN","obj":"/dossier","hash":"5a91…00ce","prev":"baf2…1100"},
+  {"seq":"00039","ts":"2026-04-25T14:21:32Z","actor":"cn=jmurro","action":"SESSION_OPEN","obj":"console v0.4.0-dev","hash":"baf2…1100","prev":"d014…ee21"},
+  {"seq":"00038","ts":"2026-04-25T11:00:01Z","actor":"trigger-engine","action":"DOSSIER_WRITE","obj":"SUBJECT-C · ideo_leak@v1.2.0 · score=0.93","hash":"d014…ee21","prev":"4f88…7b21"},
+  {"seq":"00037","ts":"2026-04-25T11:00:00Z","actor":"trigger-engine","action":"DOSSIER_WRITE","obj":"SUBJECT-C · cultivated_asset@v1.3.0 · score=0.27","hash":"4f88…7b21","prev":"3a02…dd9c"},
+  {"seq":"00036","ts":"2026-04-25T11:00:00Z","actor":"trigger-engine","action":"DOSSIER_WRITE","obj":"SUBJECT-C · ops_misjudgment@v1.1.0 · score=0.41","hash":"3a02…dd9c","prev":"7110…2208"},
+  {"seq":"00035","ts":"2026-04-25T10:59:58Z","actor":"system","action":"WPA_PARALLEL_OPEN","obj":"SUBJECT-C · awaiting WB Counsel intake","hash":"7110…2208","prev":"e004…01ab"},
+  {"seq":"00034","ts":"2026-04-25T10:59:55Z","actor":"system","action":"SUBJECT_NOTICE","obj":"SUBJECT-C · Privacy Act §552a(d)","hash":"e004…01ab","prev":"a911…3300"},
+  {"seq":"00033","ts":"2026-04-25T10:59:50Z","actor":"extractor:journalist_contact@v1.0","action":"FLAG_FIRE","obj":"SUBJECT-C · sig_c4a1","hash":"a911…3300","prev":"6dd4…5a08"},
+  {"seq":"00032","ts":"2026-04-25T10:59:48Z","actor":"extractor:cover_establishment@v1.0","action":"FLAG_FIRE","obj":"SUBJECT-C · sig_c3b2","hash":"6dd4…5a08","prev":"4c10…be21"},
+  {"seq":"00031","ts":"2026-04-25T10:59:47Z","actor":"extractor:accumulation_no_exfil@v1.0","action":"FLAG_FIRE","obj":"SUBJECT-C · sig_c2b3","hash":"4c10…be21","prev":"9a02…4488"},
+  {"seq":"00030","ts":"2026-04-25T10:59:46Z","actor":"extractor:coworker_credential_use@v1.0","action":"FLAG_FIRE","obj":"SUBJECT-C · sig_c2a9","hash":"9a02…4488","prev":"8eaf…0091"},
+  {"seq":"00029","ts":"2026-04-25T10:59:43Z","actor":"extractor:self_published_ideological_drift@v1.0","action":"FLAG_FIRE","obj":"SUBJECT-C · sig_c1a4","hash":"8eaf…0091","prev":"3f01…aa72"},
+  {"seq":"00028","ts":"2026-04-25T10:55:21Z","actor":"source:external/comms","action":"SIGNAL_PULL","obj":"sig_c4a1 PGP keyserver scan","hash":"3f01…aa72","prev":"2c7e…8810"},
+  {"seq":"00027","ts":"2026-04-25T10:54:18Z","actor":"source:internal/hr","action":"SIGNAL_PULL","obj":"sig_c3b2 FMLA filing","hash":"2c7e…8810","prev":"5e88…01ab"},
+  {"seq":"00026","ts":"2026-04-25T10:54:01Z","actor":"source:internal/dlp","action":"SIGNAL_PULL","obj":"sig_c2b3 accumulation +11.3σ","hash":"5e88…01ab","prev":"1faa…7b00"},
+  {"seq":"00025","ts":"2026-04-25T10:51:09Z","actor":"cn=tlasky","action":"CORRECTION_FILE","obj":"SUBJECT-A · over_read on sig_a9e2 → de-escalation","hash":"1faa…7b00","prev":"c103…9f2a"},
+  {"seq":"00024","ts":"2026-04-25T10:48:33Z","actor":"trigger-engine","action":"WINDOW_READ","obj":"SUBJECT-A · 90d window","hash":"c103…9f2a","prev":"c104…0001"},
+  {"seq":"00023","ts":"2026-04-25T09:30:00Z","actor":"source:external/property","action":"SIGNAL_PULL","obj":"weekly diff · 14 records","hash":"c104…0001","prev":"0000…0000"}
+]
+</script>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────
+   APP — vanilla, file://-safe
+   ───────────────────────────────────────────────────────────────────── */
+(() => {
+  const DATA = JSON.parse(document.getElementById('data-subjects').textContent);
+  const AUDIT = JSON.parse(document.getElementById('data-audit').textContent);
+
+  const SUBJECT_ORDER = ['SUBJECT-A','SUBJECT-B','SUBJECT-C','SUBJECT-D'];
+  let CURRENT = 'SUBJECT-A';
+
+  /* ── Routing ───────────────────────────────────────────────────── */
+  const tabs = document.querySelectorAll('.tab');
+  const routes = {
+    dossier: document.getElementById('route-dossier'),
+    queue: document.getElementById('route-queue'),
+    timeline: document.getElementById('route-timeline'),
+    audit: document.getElementById('route-audit')
+  };
+  function go(name) {
+    Object.keys(routes).forEach(k => routes[k].classList.toggle('is-open', k === name));
+    tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.route === name ? 'true' : 'false'));
+    if (name === 'timeline') renderTimeline(CURRENT);
+  }
+  tabs.forEach(t => t.addEventListener('click', () => go(t.dataset.route)));
+
+  /* ── Subject rail ──────────────────────────────────────────────── */
+  function renderRail() {
+    const el = document.getElementById('rail-list');
+    const tierClass = (s) => {
+      const t = DATA[s].tier;
+      if (t === 'HIGH-SINGLE') return '';
+      if (t === 'TRAINING-ONLY') return 'control';
+      return 'low';
+    };
+    const tierLabel = (s) => {
+      const d = DATA[s];
+      if (d.tier === 'HIGH-SINGLE') return `HIGH-SINGLE / ${d.tier_doctrine}`;
+      if (d.tier === 'TRAINING-ONLY') return `TRAINING-ONLY · ${d.tier_doctrine}`;
+      return d.tier;
+    };
+    el.innerHTML = SUBJECT_ORDER.map(s => {
+      const d = DATA[s];
+      const cur = s === CURRENT ? 'true' : 'false';
+      const wpa = d.wpa_open
+        ? `<div class="rwpa">▶ WPA PARALLEL REVIEW · OPEN</div>`
+        : '';
+      return `
+        <button class="rail-item" data-subject="${s}" aria-current="${cur}">
+          <div class="rid"><span>${d.pseudo}</span><span class="rname">${d.case}</span></div>
+          <div class="rmeta">
+            <span><b>${d.clearance}</b></span>
+            <span>${d.role}</span>
+          </div>
+          <div class="rmeta" style="margin-top:2px;"><span>${d.org_unit}</span></div>
+          <div class="rtier ${tierClass(s)}">
+            <span class="pip"></span> ${tierLabel(s)}
+          </div>
+          ${wpa}
+        </button>
+      `;
+    }).join('');
+    el.querySelectorAll('.rail-item').forEach(b => {
+      b.addEventListener('click', () => {
+        CURRENT = b.dataset.subject;
+        renderRail();
+        renderDossier();
+      });
+    });
+  }
+
+  /* ── Dossier render ────────────────────────────────────────────── */
+  const DOCTRINE_LABELS = {
+    cultivated_asset: 'CULTIVATED-ASSET',
+    ideo_leak: 'IDEO-LEAK',
+    ops_misjudgment: 'OPS-MISJUDGMENT'
+  };
+  const DOCTRINE_NOTES = {
+    cultivated_asset: 'KGB · SVR · MSS · MOIS long-arc',
+    ideo_leak: 'Snowden · Manning · Teixeira · Reality Winner pattern',
+    ops_misjudgment: 'Harold Martin · sloppiness / hoarding · third-axis'
+  };
+
+  function paneHTML(p) {
+    const sevClass = `sev-${p.severity.toLowerCase()}`;
+    const signalsHTML = p.signals.length ? p.signals.map(s => `
+      <div class="sig">
+        <div class="sig-id">${s.id}</div>
+        <div class="sig-src ${s.perim === 'ext' ? 'ext' : ''}">${s.src}</div>
+        <div class="sig-body">${s.body}</div>
+        <div class="sig-hash">raw_hash <b>${s.hash}</b></div>
+      </div>
+    `).join('') : `<div class="flag-empty">no signals cited at this density</div>`;
+
+    const flagsHTML = p.flags.length ? p.flags.map(f => `
+      <div class="flag">
+        <span class="fname">${f.name}</span>
+        <span class="fver">@${f.ver}</span>
+        ${f.note ? `<span class="fnote">${f.note}</span>` : ''}
+      </div>
+    `).join('') : `<div class="flag-empty">(no flags fired)</div>`;
+
+    return `
+      <div class="pane ${sevClass}">
+        <div class="pane-h">
+          <div>
+            <div class="pane-doctrine">${DOCTRINE_LABELS[p.doctrine]}</div>
+            <div style="font-size:var(--fs-micro); color:var(--ink-3); letter-spacing:0.04em; margin-top:1px;">${DOCTRINE_NOTES[p.doctrine]}</div>
+          </div>
+          <div class="pane-sev">${p.severity}</div>
+          <div class="pane-version">
+            <span class="vpin">${p.doctrine}@${p.agent_version}</span>
+            <span class="vpin">${p.model_version}</span>
+            <span class="pane-score">DOCTRINE SCORE <b>${p.score.toFixed(2)}</b></span>
+          </div>
+        </div>
+        <div class="pane-body">
+          <div class="pane-section">
+            <div class="section-h"><span>SIGNALS CITED</span><span class="count">${p.signals.length}</span></div>
+            <div class="signals">${signalsHTML}</div>
+          </div>
+          <div class="pane-section">
+            <div class="section-h"><span>TRADECRAFT FLAGS CITED</span><span class="count">${p.flags.length}</span></div>
+            <div class="flags">${flagsHTML}</div>
+          </div>
+          <div class="pane-section">
+            <div class="section-h"><span>RECOMMENDED ACTION</span></div>
+            <div class="action-body">${escapeWithStat(p.action)}</div>
+          </div>
+        </div>
+        <div class="alt-h">
+          <div class="alt-h-h"><b>ALTERNATIVE HYPOTHESIS</b><span class="req">REQUIRED</span><span style="color:var(--ink-3);">inverse-bias check · per schema</span></div>
+          <div class="alt-h-body">${p.alt}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  function escapeWithStat(s) {
+    // wrap statute citations like "18 USC §798" in a subtle box
+    return s.replace(/(18 USC §\d+|PPD-19|ICWPA|WPA|Privacy Act §552a\(d\))/g, '<span class="stat">$1</span>')
+            .replace(/\n/g, '<br/>');
+  }
+
+  function gateHTML(g) {
+    return g.map(item => {
+      const cls = item.state === 'ok' ? '' : (item.state === 'blocked' ? 'blocked' : 'pending');
+      const mark = item.state === 'ok' ? '✓' : (item.state === 'blocked' ? '∅' : '');
+      return `
+        <li class="${cls}">
+          <span class="box ${item.state === 'ok' ? 'checked' : ''}">${mark}</span>
+          <span>${item.label}${item.note ? ` <b style="color:var(--ink); margin-left:6px;">${item.note}</b>` : ''}</span>
+        </li>
+      `;
+    }).join('');
+  }
+
+  function renderDossier() {
+    const d = DATA[CURRENT];
+    const el = document.getElementById('dossier-main');
+
+    const wpa = d.wpa_open
+      ? `<div class="wpa-banner">
+           <span class="wpa-mark">WPA · PARALLEL REVIEW</span>
+           <span>Auto-routed to Whistleblower-Counsel review track <b>before</b> any prosecutorial referral. Constitutionally-protected speech and newsgathering metadata flagged for protected-disclosure assessment.</span>
+           <span class="wpa-status">${d.wpa_status || 'OPEN'}</span>
+         </div>`
+      : `<div class="wpa-banner wpa-na">
+           <span class="wpa-mark">WPA · NOT TRIGGERED</span>
+           <span>Doctrine reads do not match a protected-disclosure pathway under PPD-19 / ICWPA / WPA at this density.</span>
+           <span class="wpa-status">N/A</span>
+         </div>`;
+
+    el.innerHTML = `
+      <header class="subject-head">
+        <div class="subject-id-block">
+          <div class="pseudo" style="grid-column: 1 / -1;">${d.pseudo}<span class="pname">case · ${d.case}</span></div>
+          <dt>CLEARANCE</dt><dd>${d.clearance}</dd>
+          <dt>ROLE</dt><dd>${d.role}</dd>
+          <dt>ORG UNIT</dt><dd>${d.org_unit}</dd>
+          <dt>BASELINE_START</dt><dd>${d.baseline_start}</dd>
+          <dt>WINDOW</dt><dd>${d.window}</dd>
+        </div>
+        <div class="headline-block">
+          <div class="tier-row">
+            <div>
+              <div class="tier-label">ESCALATION TIER</div>
+              <div class="tier-value">
+                <span>${d.tier}</span><span class="slash">/</span><span class="doctrine">${d.tier_doctrine}</span>
+              </div>
+              ${d.tier_secondary ? `<div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:4px; letter-spacing:0.04em;">CONCURRENT · ${d.tier_secondary}</div>` : ''}
+            </div>
+            <div class="tier-meta">
+              <b>3-DOCTRINE READ</b>
+              ${d.panes.map(p => `${DOCTRINE_LABELS[p.doctrine]}&nbsp;${p.severity}`).join(' · ')}
+            </div>
+          </div>
+          ${wpa}
+        </div>
+      </header>
+
+      <section class="panes" id="panes">
+        ${d.panes.map(paneHTML).join('')}
+      </section>
+
+      <section class="gate">
+        <div class="gate-block">
+          <div class="gate-h">
+            <span>STATUTORY GATE WORKFLOW</span>
+            <span class="gate-meta">CHECKLIST · NOT A BUTTON</span>
+          </div>
+          <ul class="gate-list">${gateHTML(d.gate)}</ul>
+        </div>
+        <div class="gate-block">
+          <div class="gate-h">
+            <span>EVIDENCE CHAIN</span>
+            <span class="gate-meta">REPRODUCIBLE · PINNED</span>
+          </div>
+          <dl class="evidence">
+            <dt>SUBJECT_ID</dt><dd>${d.pseudo} · pseudo</dd>
+            <dt>SCHEMA_VERSION</dt><dd>schema_v1 · frozen</dd>
+            <dt>VAULT_ORIGIN</dt><dd>il5-east-c</dd>
+            <dt>RAW_HASH HEAD</dt><dd>${d.raw_hash_head}</dd>
+            <dt>AGENTS PINNED</dt><dd>${d.panes.map(p => `${p.doctrine}@${p.agent_version}`).join(' · ')}</dd>
+            <dt>MODEL PINNED</dt><dd>${d.panes[0].model_version}</dd>
+            <dt>BASELINE</dt><dd>${d.baseline_start} → ${d.window.split(' → ')[1]}</dd>
+            <dt>AUDIT_LOG</dt><dd>vault://audit_log/SUBJECT-${d.pseudo.slice(-1)}#window-${d.window.replace(/\s/g,'')}</dd>
+          </dl>
+        </div>
+      </section>
+
+      <footer class="coc">
+        <div class="coc-row"><dt>PINNED AGENTS</dt><dd>${d.panes.map(p => `${p.doctrine}@${p.agent_version}`).join(' · ')}</dd></div>
+        <div class="coc-row"><dt>PINNED MODEL</dt><dd>${d.panes[0].model_version}</dd></div>
+        <div class="coc-row"><dt>RAW_HASH HEAD</dt><dd>${d.raw_hash_head}</dd></div>
+        <div class="coc-row"><dt>AUDIT_LOG URL</dt><dd>vault://audit_log/...#dossier=${d.pseudo}</dd></div>
+      </footer>
+    `;
+
+    // Update print footer
+    const cocPrint = document.getElementById('coc-print-dl');
+    cocPrint.innerHTML = `
+      <div><dt>SUBJECT</dt><dd>${d.pseudo} · ${d.case}</dd></div>
+      <div><dt>WINDOW</dt><dd>${d.window}</dd></div>
+      <div><dt>PINNED AGENTS</dt><dd>${d.panes.map(p => `${p.doctrine}@${p.agent_version}`).join(' · ')}</dd></div>
+      <div><dt>PINNED MODEL</dt><dd>${d.panes[0].model_version}</dd></div>
+      <div><dt>RAW_HASH HEAD</dt><dd>${d.raw_hash_head}</dd></div>
+      <div><dt>SCHEMA</dt><dd>schema_v1 · vault_origin il5-east-c</dd></div>
+      <div><dt>STATUTORY GATE</dt><dd>${d.gate.filter(g=>g.state==='ok').length} / ${d.gate.length} satisfied</dd></div>
+      <div><dt>AUDIT_LOG URL</dt><dd>vault://audit_log/dossier=${d.pseudo}</dd></div>
+    `;
+  }
+
+  /* ── Queue ─────────────────────────────────────────────────────── */
+  function renderQueue() {
+    const el = document.getElementById('queue-body');
+    const TIER_ORDER = { 'HIGH-SINGLE': 0, '3-OF-3': 0, '2-OF-3 MED': 1, 'TRAINING-ONLY': 3 };
+    const sorted = SUBJECT_ORDER.slice().sort((a,b) => (TIER_ORDER[DATA[a].tier] ?? 2) - (TIER_ORDER[DATA[b].tier] ?? 2));
+    el.innerHTML = sorted.map(s => {
+      const d = DATA[s];
+      const density = d.events.length;
+      const tierCls = d.tier === 'HIGH-SINGLE' ? 't-high' : (d.tier === 'TRAINING-ONLY' ? 't-low' : '');
+      return `
+        <tr data-subject="${s}" class="${s===CURRENT?'is-current':''}">
+          <td class="col-pseudo">${d.pseudo}</td>
+          <td>${d.clearance}</td>
+          <td>${d.role}<br/><span style="color:var(--ink-3); font-size:var(--fs-micro);">${d.org_unit}</span></td>
+          <td>${d.baseline_start}</td>
+          <td>${d.window}</td>
+          <td class="col-density"><span class="density-bar" style="width:${Math.min(density*6,80)}px;"></span>${density}</td>
+          <td class="col-tier ${tierCls}">${d.tier}</td>
+          <td class="col-doctrine">${d.tier_doctrine}</td>
+          <td class="col-wpa ${d.wpa_open ? 'wpa-on':''}">${d.wpa_open ? 'OPEN' : '—'}</td>
+          <td>2026-04-25 11:00Z</td>
+          <td class="col-audit">vault://audit_log/dossier=${d.pseudo}</td>
+        </tr>
+      `;
+    }).join('');
+    el.querySelectorAll('tr').forEach(r => r.addEventListener('click', () => {
+      CURRENT = r.dataset.subject;
+      renderRail();
+      renderDossier();
+      go('dossier');
+    }));
+  }
+
+  /* ── Timeline ──────────────────────────────────────────────────── */
+  function renderTimeline(subj) {
+    const sel = document.getElementById('tl-subject');
+    if (!sel.options.length) {
+      sel.innerHTML = SUBJECT_ORDER.map(s => `<option value="${s}">${s} · ${DATA[s].case}</option>`).join('');
+      sel.addEventListener('change', () => renderTimeline(sel.value));
+    }
+    sel.value = subj;
+    const d = DATA[subj];
+    const wrap = document.getElementById('timeline');
+
+    const baseline = new Date(d.baseline_start).getTime();
+    const winStart = new Date(d.window.split(' → ')[0]).getTime();
+    const winEnd = new Date(d.window.split(' → ')[1]).getTime();
+    const events = d.events.map(e => ({...e, t: new Date(e.ts).getTime()}));
+    const tMin = Math.min(baseline, ...events.map(e=>e.t)) - 86400000*30;
+    const tMax = Math.max(winEnd, ...events.map(e=>e.t)) + 86400000*30;
+    const span = tMax - tMin;
+    const W = 1400;
+    const x = (t) => ((t - tMin)/span) * W;
+
+    // year ticks
+    const startYear = new Date(tMin).getUTCFullYear();
+    const endYear = new Date(tMax).getUTCFullYear();
+    let ticks = '';
+    for (let y = startYear; y <= endYear; y++) {
+      const t = Date.UTC(y, 0, 1);
+      if (t < tMin || t > tMax) continue;
+      ticks += `<div class="tl-tick major" style="left:${x(t)}px;">${y}</div>`;
+    }
+    const baselineTick = `<div class="tl-tick baseline" style="left:${x(baseline)}px;"></div>`;
+    const winStartTick = `<div class="tl-tick window-start" style="left:${x(winStart)}px;"></div>`;
+    const winEndTick = `<div class="tl-tick window-end" style="left:${x(winEnd)}px;"></div>`;
+
+    const winBand = `<div class="tl-window-band" style="left:${x(winStart)}px; width:${x(winEnd)-x(winStart)}px;"></div>`;
+
+    const rows = ['query','property','foreign','access','forum','comms','opsec','dlp','hr'];
+    const ROW_LABELS = {
+      query:'CI/HR QUERY LOG', property:'PROPERTY/FINANCIAL', foreign:'FOREIGN-CONTACT',
+      access:'INTERNAL ACCESS', forum:'PUBLIC FORUM/SOCIAL', comms:'COMMS METADATA',
+      opsec:'OPSEC RESEARCH', dlp:'DLP / EXFIL', hr:'HR / TRAVEL'
+    };
+    const used = rows.filter(r => events.some(e => e.row === r));
+
+    const rowsHTML = used.map(r => {
+      const evs = events.filter(e => e.row === r);
+      const evsHTML = evs.map(e => {
+        const cls = e.kind === 'flag' ? 'flag' : (e.perim === 'int' ? 'internal' : 'external');
+        return `<div class="tl-event ${cls}" style="left:${x(e.t)}px;" title="${e.title}">
+                   <div class="tl-tip">${e.ts} · ${e.title}</div>
+                </div>`;
+      }).join('');
+      return `<div class="tl-row">
+                <div class="row-label">${ROW_LABELS[r]||r}</div>
+                ${evsHTML}
+              </div>`;
+    }).join('');
+
+    wrap.innerHTML = `
+      <div style="position:relative; width:${W}px; margin-left: 200px;">
+        <div class="tl-axis">${ticks}${baselineTick}${winStartTick}${winEndTick}</div>
+        <div class="tl-rows" style="position:relative;">
+          ${winBand}
+          ${rowsHTML}
+        </div>
+        <div style="margin-top: 22px; font-size: var(--fs-micro); color: var(--ink-3); letter-spacing: 0.04em; max-width: 80ch;">
+          PERIMETER ENCODING — INTERNAL: solid square. EXTERNAL: hollow square. FLAG FIRE: hatched square.
+          No color used. Severity is encoded by perimeter and by tradecraft-flag concentration in time, not by hue.
+        </div>
+      </div>
+    `;
+  }
+
+  /* ── Audit ─────────────────────────────────────────────────────── */
+  function renderAudit() {
+    const tb = document.getElementById('audit-body');
+    tb.innerHTML = AUDIT.map(r => `
+      <tr>
+        <td class="col-seq">${r.seq}</td>
+        <td class="col-ts">${r.ts}</td>
+        <td class="col-actor">${r.actor}</td>
+        <td class="col-action">${r.action}</td>
+        <td>${r.obj}</td>
+        <td class="col-hash">${r.hash}</td>
+        <td class="col-prev">${r.prev}</td>
+      </tr>
+    `).join('');
+    document.getElementById('chain-head').textContent = AUDIT[0].hash;
+  }
+
+  /* ── Tweaks ────────────────────────────────────────────────────── */
+  const fab = document.getElementById('tweaks-fab');
+  const panel = document.getElementById('tweaks-panel');
+  const closeBtn = document.getElementById('tweaks-close');
+
+  function openPanel() { panel.classList.add('is-open'); }
+  function closePanel() {
+    panel.classList.remove('is-open');
+    window.parent.postMessage({type:'__edit_mode_dismissed'}, '*');
+  }
+  fab.addEventListener('click', openPanel);
+  closeBtn.addEventListener('click', closePanel);
+
+  // Listener BEFORE we announce availability
+  window.addEventListener('message', (ev) => {
+    if (!ev.data || typeof ev.data !== 'object') return;
+    if (ev.data.type === '__activate_edit_mode') openPanel();
+    if (ev.data.type === '__deactivate_edit_mode') closePanel();
+  });
+  // Announce
+  try { window.parent.postMessage({type:'__edit_mode_available'}, '*'); } catch(e){}
+  // Also surface a soft FAB so users not in tweaks-mode have it
+  setTimeout(() => fab.classList.add('is-show'), 300);
+
+  // Tweak controls
+  const TWEAKS = /*EDITMODE-BEGIN*/{
+    "density": "standard",
+    "alth": "prominent",
+    "accent": "wpa",
+    "geometry": "equal",
+    "theme": "light",
+    "bodyWeight": 450,
+    "strongWeight": 680,
+    "bodySize": 12.5
+  }/*EDITMODE-END*/;
+
+  function applyTweaks() {
+    document.body.classList.remove('density-comfortable','density-standard','density-tight','density-court-filing');
+    document.body.classList.add('density-' + TWEAKS.density);
+    document.body.classList.remove('alth-equal','alth-prominent','alth-louder');
+    document.body.classList.add('alth-' + TWEAKS.alth);
+    document.body.classList.remove('accent-wpa','accent-tier','accent-flags');
+    document.body.classList.add('accent-' + TWEAKS.accent);
+    document.body.classList.remove('theme-dark');
+    if (TWEAKS.theme === 'dark') document.body.classList.add('theme-dark');
+    document.documentElement.style.setProperty('--weight-body', TWEAKS.bodyWeight);
+    document.documentElement.style.setProperty('--weight-strong', TWEAKS.strongWeight);
+    document.documentElement.style.setProperty('--fs-body', TWEAKS.bodySize + 'px');
+
+    const panes = document.getElementById('panes');
+    if (panes) {
+      panes.classList.toggle('geometry-third-axis', TWEAKS.geometry === 'third-axis');
+    }
+  }
+
+  function persist(edit) {
+    Object.assign(TWEAKS, edit);
+    try { window.parent.postMessage({type:'__edit_mode_set_keys', edits: edit}, '*'); } catch(e){}
+    applyTweaks();
+  }
+
+  document.querySelectorAll('.tweak-radio').forEach(g => {
+    g.querySelectorAll('button').forEach(b => {
+      b.addEventListener('click', () => {
+        const key = g.dataset.tweak;
+        g.querySelectorAll('button').forEach(x => x.setAttribute('aria-pressed','false'));
+        b.setAttribute('aria-pressed','true');
+        persist({ [key === 'theme' ? 'theme' : key]: b.dataset.val });
+      });
+    });
+  });
+
+  document.getElementById('tw-weight').addEventListener('input', e => {
+    document.getElementById('tw-weight-v').textContent = e.target.value;
+    persist({bodyWeight: +e.target.value});
+  });
+  document.getElementById('tw-weight-strong').addEventListener('input', e => {
+    document.getElementById('tw-weight-strong-v').textContent = e.target.value;
+    persist({strongWeight: +e.target.value});
+  });
+  document.getElementById('tw-fs').addEventListener('input', e => {
+    document.getElementById('tw-fs-v').textContent = e.target.value;
+    persist({bodySize: +e.target.value});
+  });
+
+  /* ── Init ──────────────────────────────────────────────────────── */
+  renderRail();
+  renderDossier();
+  renderQueue();
+  renderAudit();
+  applyTweaks();
+
+  // Keyboard shortcut: Cmd/Ctrl+P prints (default browser); Esc closes panel
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closePanel();
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,923 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liminal · Team Coherence Telemetry · Brian DRIFT</title>
+<meta name="description" content="A coherence drift surface — surfacing internal-actor risk to managers via governance-as-pipe, not surveillance flags.">
+<meta property="og:title" content="Liminal · Team Coherence Telemetry">
+<meta property="og:description" content="The layer Palantir doesn't have. Surface drift before plan hatches.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:           #0A0A0B;
+    --frame-bg:     #0E0E11;
+    --frame-bg-2:   #0C0C0F;
+    --frame-border: #1F1F23;
+    --rail-bg:      #08080A;
+    --card-border:  #232327;
+    --card-border-2:#2A2A2F;
+
+    --diligence:  #8E66FB;
+    --outreach:   #3EE878;
+    --judgment:   #E90095;
+    --synthesis:  #FFD24A;
+
+    --drift:      #F04040;
+    --drift-bg:   rgba(240,64,64,0.06);
+    --drift-soft: rgba(240,64,64,0.32);
+
+    --good:       #45C9A3;
+    --queued:     #F5A524;
+
+    --text:       #F4F2EE;
+    --text-mid:   #C9C5BD;
+    --text-dim:   #8A8780;
+    --text-faint: #5A5852;
+    --text-mute:  #3A3833;
+
+    --display: "Fraunces", "Newsreader", Georgia, serif;
+    --serif:   "Newsreader", "Iowan Old Style", Georgia, serif;
+    --sans:    "Geist", system-ui, -apple-system, sans-serif;
+    --mono:    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    --loop: 12s;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: geometricPrecision;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(1100px 700px at 70% 30%, rgba(142,102,251,0.04), transparent 70%),
+      radial-gradient(900px 600px at 25% 80%, rgba(240,64,64,0.025), transparent 65%),
+      var(--bg);
+  }
+  body::after {
+    content:""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 56px 56px;
+    opacity: 0.6;
+  }
+
+  /* ─── stage ─── */
+  .stage {
+    width: 1640px;
+    height: 920px;
+    background: var(--frame-bg);
+    border: 1px solid var(--frame-border);
+    border-radius: 14px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    display: grid;
+    grid-template-rows: 44px 56px 1fr 56px;
+    overflow: hidden;
+    position: relative;
+    transform-origin: center center;
+    z-index: 1;
+  }
+  @media (max-width: 1700px), (max-height: 980px) {
+    .stage { transform: scale(min(calc((100vw - 32px) / 1640), calc((100vh - 32px) / 920))); }
+  }
+
+  /* titlebar */
+  .titlebar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--frame-border);
+    background: rgba(255,255,255,0.005);
+    user-select: none;
+  }
+  .lights { display: flex; gap: 8px; }
+  .light { width: 12px; height: 12px; border-radius: 50%; }
+  .light.r { background: #FF5F57; } .light.y { background: #FEBC2E; } .light.g { background: #28C840; }
+  .title {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 18px;
+    letter-spacing: -0.018em;
+    color: var(--text);
+    text-align: center;
+  }
+  .title .glyph { color: var(--diligence); margin-right: 10px; font-family: var(--mono); font-style: normal; font-size: 14px; vertical-align: 2px; }
+  .title .crumb { color: var(--text-dim); font-size: 13px; font-family: var(--sans); font-style: normal; margin-left: 6px; }
+  .vault-pill {
+    justify-self: end;
+    font-family: var(--mono); font-size: 11px;
+    color: var(--text-dim);
+    background: rgba(142,102,251,0.05);
+    border: 1px solid rgba(142,102,251,0.22);
+    padding: 5px 12px; border-radius: 5px;
+    animation: vaultIdle var(--loop) ease-in-out infinite;
+  }
+  .vault-pill .diamond { color: var(--diligence); margin-right: 4px; }
+  @keyframes vaultIdle {
+    0%, 64%, 76%, 100% { box-shadow: 0 0 0 transparent; background: rgba(142,102,251,0.05); border-color: rgba(142,102,251,0.22); color: var(--text-dim); }
+    66%, 74% { box-shadow: 0 0 26px rgba(142,102,251,0.45); background: rgba(142,102,251,0.18); border-color: var(--diligence); color: var(--text); }
+  }
+
+  /* phase ladder strip */
+  .phase-ladder {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+  }
+  .phase {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 10px 14px;
+    border-right: 1px solid var(--card-border);
+    position: relative;
+  }
+  .phase:last-child { border-right: 0; }
+  .phase.active::before {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: var(--phase-color, var(--diligence));
+  }
+  .phase .num {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+  .phase.active .num { color: var(--phase-color, var(--diligence)); }
+  .phase .label {
+    font-family: var(--display);
+    font-size: 16px;
+    font-style: italic;
+    color: var(--text-mid);
+    letter-spacing: -0.012em;
+    line-height: 1.1;
+    margin-top: 2px;
+    font-variation-settings: "opsz" 24, "SOFT" 60;
+  }
+  .phase.active .label { color: var(--text); }
+  .phase.p1 { --phase-color: var(--diligence); }
+  .phase.p2 { --phase-color: var(--synthesis); }
+  .phase.p3 { --phase-color: var(--outreach); }
+  .phase.p4 { --phase-color: var(--judgment); }
+
+  /* main */
+  .main {
+    display: grid;
+    grid-template-columns: 240px 1fr 360px;
+    overflow: hidden;
+  }
+
+  /* left rail · team */
+  .rail-left {
+    border-right: 1px solid var(--frame-border);
+    background: var(--rail-bg);
+    padding: 18px 14px;
+    overflow: hidden;
+  }
+  .rail-header {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--text-dim);
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    padding: 0 4px 8px;
+    border-bottom: 1px solid var(--card-border);
+    display: flex; justify-content: space-between;
+  }
+  .rail-header .count { color: var(--diligence); }
+
+  .person {
+    padding: 10px 10px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    margin-bottom: 4px;
+    display: grid;
+    grid-template-columns: 26px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    position: relative;
+  }
+  .person .avatar {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--card-border);
+    display: grid; place-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .person .who {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 16px;
+    letter-spacing: -0.014em;
+    color: var(--text);
+    line-height: 1;
+    font-variation-settings: "opsz" 24, "SOFT" 60;
+  }
+  .person .role {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .person.kriti { background: rgba(142,102,251,0.04); border-color: rgba(142,102,251,0.18); }
+  .person.kriti .avatar { color: var(--diligence); border-color: rgba(142,102,251,0.4); background: rgba(142,102,251,0.10); }
+  .person.brian {
+    background: var(--drift-bg);
+    border-color: var(--drift-soft);
+  }
+  .person.brian .avatar { color: var(--drift); border-color: var(--drift-soft); background: rgba(240,64,64,0.10); }
+  .person .drift-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--drift);
+    animation: driftPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes driftPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(240,64,64,0.6); transform: scale(1); }
+    50% { box-shadow: 0 0 0 6px rgba(240,64,64,0); transform: scale(1.2); }
+  }
+  .person.queued .drift-dot { background: var(--queued); animation: none; box-shadow: 0 0 0 2px rgba(245,165,36,0.16); }
+  .person .tag-queued {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--queued);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: rgba(245,165,36,0.08);
+    border: 1px solid rgba(245,165,36,0.32);
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin-left: 8px;
+    opacity: 0;
+    animation: tagFade var(--loop) ease infinite;
+  }
+  @keyframes tagFade {
+    0%, 80%, 100% { opacity: 0; }
+    85%, 99% { opacity: 1; }
+  }
+
+  .rail-section {
+    margin-top: 24px;
+    padding-top: 14px;
+    border-top: 1px solid var(--card-border);
+  }
+
+  /* center · drift card */
+  .doc-area {
+    padding: 28px 40px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .doc-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    display: flex;
+    gap: 14px;
+  }
+  .doc-meta .label { color: var(--diligence); }
+  .doc-meta .sep { color: var(--text-mute); }
+
+  .doc-title {
+    font-family: var(--display);
+    font-size: 36px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--text);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    font-variation-settings: "opsz" 96, "SOFT" 100;
+    margin-top: -8px;
+  }
+  .doc-title .pink { color: var(--judgment); }
+
+  /* drift card */
+  .drift-card {
+    background: var(--frame-bg-2);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 24px 26px;
+    transition: max-height .8s ease, border-color .8s ease, padding .8s ease;
+    position: relative;
+    overflow: hidden;
+    max-height: 132px;
+    animation: cardExpand var(--loop) ease infinite;
+  }
+  @keyframes cardExpand {
+    0%, 12%, 84%, 100% { max-height: 132px; border-color: var(--card-border); }
+    20%, 50% { max-height: 540px; border-color: var(--drift-soft); }
+    52%, 65% { max-height: 540px; border-color: var(--good); }
+  }
+  .drift-card .top-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px;
+    align-items: center;
+  }
+  .drift-card .who-name {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 24px;
+    letter-spacing: -0.018em;
+    color: var(--text);
+    font-variation-settings: "opsz" 36, "SOFT" 80;
+  }
+  .drift-card .who-role {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .drift-card .drift-status {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--drift);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: var(--drift-bg);
+    border: 1px solid var(--drift-soft);
+    padding: 6px 12px;
+    border-radius: 4px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .drift-card .drift-status::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--drift);
+    animation: driftPulse 1.6s ease-in-out infinite;
+  }
+
+  .drift-card .summary-line {
+    font-family: var(--serif);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text-mid);
+    margin-top: 12px;
+  }
+  .drift-card .summary-line .accent { color: var(--drift); font-style: italic; }
+
+  /* expanded section */
+  .drift-detail {
+    margin-top: 16px;
+    opacity: 0;
+    animation: detailFade var(--loop) ease infinite;
+  }
+  @keyframes detailFade {
+    0%, 14%, 84%, 100% { opacity: 0; }
+    22%, 80% { opacity: 1; }
+  }
+
+  .sparkline-wrap {
+    margin-top: 10px;
+    background: rgba(0,0,0,0.30);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .sparkline-label {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .sparkline-label .delta { color: var(--drift); }
+  svg.sparkline {
+    width: 100%; height: 64px;
+    display: block;
+  }
+  svg.sparkline .line-int {
+    stroke: var(--diligence);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: drawLineInt var(--loop) ease infinite;
+  }
+  svg.sparkline .line-ext {
+    stroke: var(--drift);
+    stroke-width: 1.5;
+    fill: none;
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: drawLineExt var(--loop) ease infinite;
+  }
+  @keyframes drawLineInt {
+    0%, 16% { stroke-dashoffset: 600; }
+    32%, 100% { stroke-dashoffset: 0; }
+  }
+  @keyframes drawLineExt {
+    0%, 18% { stroke-dashoffset: 600; }
+    34%, 100% { stroke-dashoffset: 0; }
+  }
+  svg.sparkline .gap {
+    fill: rgba(240,64,64,0.10);
+    opacity: 0;
+    animation: gapFade var(--loop) ease infinite;
+  }
+  @keyframes gapFade { 0%, 32% { opacity: 0; } 40%, 80% { opacity: 1; } 100% { opacity: 0; } }
+  svg.sparkline text {
+    font-family: var(--mono);
+    font-size: 9px;
+    fill: var(--text-faint);
+    letter-spacing: 0.06em;
+  }
+
+  /* calibration block */
+  .calib-block {
+    margin-top: 14px;
+    background: rgba(142,102,251,0.04);
+    border: 1px dashed rgba(142,102,251,0.32);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+    align-items: center;
+    transform: translateY(8px);
+    opacity: 0;
+    animation: calibSlide var(--loop) ease infinite;
+  }
+  @keyframes calibSlide {
+    0%, 28% { opacity: 0; transform: translateY(8px); }
+    34%, 80% { opacity: 1; transform: translateY(0); }
+    84%, 100% { opacity: 0; transform: translateY(-4px); }
+  }
+  .calib-block .glyph {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--diligence);
+    color: var(--bg);
+    font-family: var(--mono);
+    font-size: 11px;
+    display: grid; place-items: center;
+    font-weight: 600;
+  }
+  .calib-block .text {
+    font-family: var(--serif);
+    font-size: 14px;
+    line-height: 1.45;
+    color: var(--text);
+  }
+  .calib-block .text .accent { color: var(--diligence); font-style: italic; }
+  .calib-block .actions {
+    display: flex; gap: 8px;
+    position: relative;
+  }
+  .calib-block button {
+    appearance: none;
+    background: var(--diligence);
+    color: white;
+    border: 0;
+    border-radius: 5px;
+    padding: 7px 12px;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .calib-block button.secondary {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--card-border-2);
+  }
+  .calib-block button.primary::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--good);
+    opacity: 0;
+    animation: btnFlash var(--loop) ease infinite;
+  }
+  @keyframes btnFlash {
+    0%, 48%, 60%, 100% { opacity: 0; }
+    50%, 58% { opacity: 0.4; }
+  }
+
+  /* virtual cursor that "clicks" the confirm button at T=6 */
+  .v-cursor {
+    position: absolute;
+    width: 14px; height: 18px;
+    background: transparent;
+    pointer-events: none;
+    z-index: 30;
+    opacity: 0;
+    animation: cursorMove var(--loop) ease-in-out infinite;
+  }
+  .v-cursor svg { width: 100%; height: 100%; }
+  @keyframes cursorMove {
+    0%, 32% { opacity: 0; transform: translate(20vw, 70vh); }
+    36% { opacity: 1; transform: translate(20vw, 70vh); }
+    46% { opacity: 1; transform: translate(60%, 56%); }
+    50% { opacity: 1; transform: translate(60%, 56%) scale(0.85); } /* click */
+    52% { opacity: 1; transform: translate(60%, 56%) scale(1); }
+    62% { opacity: 1; transform: translate(60%, 56%); }
+    66%, 100% { opacity: 0; }
+  }
+
+  /* right rail · governance log */
+  .rail-right {
+    border-left: 1px solid var(--frame-border);
+    background: var(--rail-bg);
+    padding: 18px 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .rail-right-header {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: var(--text-dim);
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
+    padding: 0 4px 10px;
+    border-bottom: 1px solid var(--card-border);
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .rail-right-header .accent { color: var(--diligence); }
+
+  .gov-log {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+  .gov-row {
+    padding: 10px 6px;
+    border-bottom: 1px solid var(--card-border);
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 10px;
+    align-items: start;
+  }
+  .gov-row .ts {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+  }
+  .gov-row .what {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-mid);
+    line-height: 1.5;
+  }
+  .gov-row .what .agent { color: var(--diligence); }
+  .gov-row .what .pink { color: var(--judgment); }
+  .gov-row .what .good { color: var(--good); }
+
+  /* the new row that slides in at T=6 */
+  .gov-row.new {
+    background: rgba(69,201,163,0.04);
+    border-left: 2px solid var(--good);
+    margin-left: -2px;
+    transform: translateX(-12px);
+    opacity: 0;
+    animation: newRowSlide var(--loop) ease infinite;
+  }
+  @keyframes newRowSlide {
+    0%, 50% { opacity: 0; transform: translateX(-12px); max-height: 0; padding-top: 0; padding-bottom: 0; border-bottom-width: 0; }
+    54%, 96% { opacity: 1; transform: translateX(0); max-height: 100px; padding-top: 10px; padding-bottom: 10px; border-bottom-width: 1px; }
+    100% { opacity: 0; transform: translateX(-12px); max-height: 0; padding-top: 0; padding-bottom: 0; border-bottom-width: 0; }
+  }
+
+  /* palantir rail closer */
+  .palantir-line {
+    margin-top: auto;
+    padding: 14px 0 4px;
+    border-top: 1px dashed var(--card-border);
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--text-mid);
+    letter-spacing: -0.012em;
+    font-variation-settings: "opsz" 24, "SOFT" 60;
+  }
+  .palantir-line .pink { color: var(--judgment); }
+
+  /* toast */
+  .toast {
+    position: absolute;
+    top: 110px;
+    right: 22px;
+    background: var(--frame-bg);
+    border: 1px solid var(--good);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 10px 14px;
+    border-radius: 6px;
+    transform: translateX(360px);
+    opacity: 0;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+    z-index: 5;
+    animation: toastSlide var(--loop) ease infinite;
+  }
+  .toast .glyph { color: var(--good); margin-right: 6px; }
+  @keyframes toastSlide {
+    0%, 60% { transform: translateX(360px); opacity: 0; }
+    66%, 76% { transform: translateX(0); opacity: 1; }
+    78%, 100% { transform: translateX(360px); opacity: 0; }
+  }
+
+  /* commandbar — non-functional, signals "interactive even if static" */
+  .commandbar {
+    border-top: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 0 18px;
+    position: relative;
+  }
+  .cmd-prefix {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--diligence);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .cmd-input {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    color: var(--text-mid);
+    letter-spacing: -0.005em;
+  }
+  .cmd-actions {
+    display: flex; gap: 14px; align-items: center;
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--text-dim);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .cmd-actions kbd {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 3px;
+    padding: 1px 6px;
+    color: var(--text);
+    margin-right: 3px;
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+
+  /* brand sentence at bottom border */
+  .brand-foot {
+    position: absolute;
+    bottom: 8px; left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 13px;
+    color: var(--text-faint);
+    letter-spacing: -0.005em;
+    z-index: 2;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <!-- titlebar -->
+  <div class="titlebar">
+    <div class="lights"><span class="light r"></span><span class="light y"></span><span class="light g"></span></div>
+    <div class="title"><span class="glyph">◇</span>Liminal<span class="crumb">team coherence telemetry · workspace · kriti's team</span></div>
+    <div class="vault-pill"><span class="diamond">◇</span>vault: <strong>247</strong> deliberations · <strong>18</strong> surfacings</div>
+  </div>
+
+  <!-- phase ladder strip (static, frames the future) -->
+  <div class="phase-ladder">
+    <div class="phase p1"><div class="num">phase 1 · live</div><div class="label">Founder OS</div></div>
+    <div class="phase p2 active"><div class="num">phase 2 · here</div><div class="label">Founder OS · team</div></div>
+    <div class="phase p3"><div class="num">phase 3</div><div class="label">Org coherence telemetry</div></div>
+    <div class="phase p4"><div class="num">phase 4</div><div class="label">Governance for high-trust systems</div></div>
+  </div>
+
+  <!-- main -->
+  <div class="main">
+
+    <!-- LEFT RAIL · TEAM -->
+    <aside class="rail-left">
+      <div class="rail-header"><span>kriti's team</span><span class="count">5</span></div>
+
+      <div class="person kriti">
+        <div class="avatar">KR</div>
+        <div>
+          <div class="who">Kriti</div>
+          <div class="role">manager · 5 weeks in</div>
+        </div>
+      </div>
+      <div class="person">
+        <div class="avatar">SR</div>
+        <div>
+          <div class="who">Shruti</div>
+          <div class="role">PM · stable</div>
+        </div>
+      </div>
+      <div class="person">
+        <div class="avatar">SE</div>
+        <div>
+          <div class="who">Sean</div>
+          <div class="role">eng · stable</div>
+        </div>
+      </div>
+      <div class="person brian queued">
+        <div class="avatar">BR</div>
+        <div>
+          <div class="who">Brian<span class="tag-queued">queued</span></div>
+          <div class="role">eng · drift detected</div>
+        </div>
+        <div class="drift-dot"></div>
+      </div>
+      <div class="person">
+        <div class="avatar">JD</div>
+        <div>
+          <div class="who">Jordan</div>
+          <div class="role">design · stable</div>
+        </div>
+      </div>
+
+      <div class="rail-section">
+        <div class="rail-header" style="border:0; padding:0; margin-bottom: 8px;"><span>daemon</span><span style="color: var(--good)">running</span></div>
+        <div style="font-family: var(--mono); font-size: 10px; color: var(--text-dim); line-height: 1.6; padding: 0 4px;">
+          ingest: 5 sources<br>
+          baselining: 21 days<br>
+          coherence checks: <strong style="color: var(--text);">247</strong>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER · DRIFT CARD -->
+    <main class="doc-area">
+      <div class="doc-meta">
+        <span class="label">surfacing</span>
+        <span class="sep">·</span>
+        <span>1 of 5 · <span style="color: var(--drift);">drift detected</span></span>
+        <span class="sep">·</span>
+        <span>governance log open</span>
+      </div>
+      <h1 class="doc-title">A team-mate is drifting.<br>Surface to <span class="pink">Kriti</span> for action.</h1>
+
+      <!-- drift card -->
+      <div class="drift-card">
+        <div class="top-row">
+          <div>
+            <div class="who-name">Brian</div>
+            <div class="who-role">engineer · 3 years tenure</div>
+          </div>
+          <div class="summary-line" style="margin: 0; align-self: end;">
+            <span class="accent">21-day coherence drift.</span> External assertions diverging from internal pattern. Soft signal, governance-grade.
+          </div>
+          <div class="drift-status">drift</div>
+        </div>
+
+        <div class="drift-detail">
+          <div class="sparkline-wrap">
+            <div class="sparkline-label">
+              <span>internal pattern · external assertions · last 21 days</span>
+              <span class="delta">+34% divergence</span>
+            </div>
+            <svg class="sparkline" viewBox="0 0 600 64" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="gapGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="rgba(240,64,64,0.04)"/>
+                  <stop offset="100%" stop-color="rgba(240,64,64,0.32)"/>
+                </linearGradient>
+              </defs>
+              <!-- baseline (internal pattern, Brian's stable read) -->
+              <path class="line-int" d="M0,38 L40,36 L80,40 L120,34 L160,38 L200,36 L240,40 L280,38 L320,42 L360,40 L400,44 L440,42 L480,46 L520,44 L560,48 L600,46"/>
+              <!-- external assertions (what he's saying / how he's behaving externally) -->
+              <path class="line-ext" d="M0,38 L40,38 L80,36 L120,32 L160,28 L200,24 L240,22 L280,18 L320,16 L360,12 L400,8 L440,6 L480,4 L520,2 L560,1 L600,0"/>
+              <!-- gap shading -->
+              <path class="gap" d="M0,38 L40,36 L80,40 L120,34 L160,38 L200,36 L240,40 L280,38 L320,42 L360,40 L400,44 L440,42 L480,46 L520,44 L560,48 L600,46 L600,0 L560,1 L520,2 L480,4 L440,6 L400,8 L360,12 L320,16 L280,18 L240,22 L200,24 L160,28 L120,32 L80,36 L40,38 L0,38 Z"/>
+              <!-- axis labels -->
+              <text x="0" y="62">21d ago</text>
+              <text x="540" y="62" text-anchor="end">today</text>
+            </svg>
+          </div>
+
+          <div class="calib-block">
+            <div class="glyph">◌</div>
+            <div class="text">
+              <span class="accent">Calibration:</span> the system suggests Kriti schedule a <em>1:1</em> with Brian this week. Surfacing is governance-graded — not flagged, not escalated. Manager decides next step. <em>You are the loop.</em>
+            </div>
+            <div class="actions">
+              <button class="primary">confirm surfacing</button>
+              <button class="secondary">defer 7d</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- virtual cursor that clicks the confirm button -->
+      <div class="v-cursor">
+        <svg viewBox="0 0 14 18" xmlns="http://www.w3.org/2000/svg">
+          <path d="M1 1 L13 8 L7 9 L10 16 L8 17 L5 10 L1 13 Z" fill="#F4F2EE" stroke="#0A0A0B" stroke-width="0.5"/>
+        </svg>
+      </div>
+
+      <!-- toast -->
+      <div class="toast"><span class="glyph">◇</span>1 surfacing committed · governance log updated</div>
+    </main>
+
+    <!-- RIGHT RAIL · GOVERNANCE LOG -->
+    <aside class="rail-right">
+      <div class="rail-right-header"><span>governance · log</span><span class="accent">human-in-the-loop</span></div>
+      <div class="gov-log">
+
+        <div class="gov-row new">
+          <div class="ts">20:14</div>
+          <div class="what"><span class="good">surfacing confirmed</span> · brian.drift · action queued · audit-trail signed</div>
+        </div>
+
+        <div class="gov-row">
+          <div class="ts">19:42</div>
+          <div class="what">daemon · coherence check · brian.21d-pattern · <span class="pink">drift</span> ≥ threshold</div>
+        </div>
+        <div class="gov-row">
+          <div class="ts">18:30</div>
+          <div class="what"><span class="agent">Cartographer</span> · team-map updated · 5 nodes · 1 anomalous</div>
+        </div>
+        <div class="gov-row">
+          <div class="ts">14:12</div>
+          <div class="what"><span class="agent">Risk</span> · drift signal · external libertarian-forum activity correlation</div>
+        </div>
+        <div class="gov-row">
+          <div class="ts">11:08</div>
+          <div class="what"><span class="agent">Mystic</span> · inversion · "drift may be principled, not malicious — keep optionality"</div>
+        </div>
+        <div class="gov-row">
+          <div class="ts">09:55</div>
+          <div class="what">kriti calibrated · baseline updated · 4 of 4 confirmed</div>
+        </div>
+        <div class="gov-row">
+          <div class="ts">07:30</div>
+          <div class="what"><span class="agent">Compliance</span> · governance bounds · privacy-tier 2 · audit trail required</div>
+        </div>
+
+      </div>
+      <div class="palantir-line">
+        This is the layer <span class="pink">Palantir doesn't have.</span><br>
+        Governance as a pipe, not a flag.
+      </div>
+    </aside>
+  </div>
+
+  <!-- commandbar (decorative · signals interactivity) -->
+  <div class="commandbar">
+    <span class="cmd-prefix">/</span>
+    <span class="cmd-input">/check team coherence · weekly</span>
+    <div class="cmd-actions">
+      <span><kbd>↵</kbd> dispatch</span>
+      <span><kbd>esc</kbd> reset</span>
+    </div>
+  </div>
+
+  <div class="brand-foot">Liminal gives form to inner life.</div>
+
+</div>
+
+</body>
+</html>
