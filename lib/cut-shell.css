@@ -2169,9 +2169,12 @@
   .entry-overlay[hidden] { display: none !important; }
   @keyframes entry-scrim-in { from { opacity: 0; } to { opacity: 1; } }
 
+  /* entry-card uses the deepest surface (--bg) so door cards (--frame-bg-3)
+     visibly LIFT above it · v0.8.6 visual QA caught the inversion where
+     entry-card was --frame-bg and doors were --frame-bg-2 (darker) */
   .entry-card {
     width: min(820px, 96vw);
-    background: var(--frame-bg);
+    background: var(--bg);
     border: 1px solid var(--card-border);
     border-radius: 8px;
     padding: 36px 40px 28px;
@@ -2192,7 +2195,7 @@
   .entry-wedge {
     font-family: var(--display); font-size: 24px;
     font-weight: 400; font-style: italic;
-    color: var(--text);
+    color: #F4F2EE;
     letter-spacing: -0.012em;
     line-height: 1.3;
     max-width: 640px;
@@ -2200,7 +2203,7 @@
   }
   .entry-prompt {
     font-family: var(--mono); font-size: 9.5px;
-    color: var(--text-faint);
+    color: #8A8780;
     letter-spacing: 0.2em; text-transform: uppercase;
     margin-bottom: 16px;
   }
@@ -2213,36 +2216,46 @@
   @media (max-width: 720px) {
     .entry-doors { grid-template-columns: 1fr; }
   }
+  /* doors sit ON TOP of entry-card (--frame-bg) · so doors need a LIFTED
+     surface (--frame-bg-3 · #15161A) not the deeper --frame-bg-2. Visual
+     QA caught the inversion in v0.8.6 · text was readable but cards
+     blended into the card backdrop. */
   .entry-door {
-    background: var(--frame-bg-2);
-    border: 1px solid var(--card-border);
+    background: var(--frame-bg-3);
+    border: 1px solid var(--card-border-2);
     border-radius: 5px;
     padding: 18px 16px 16px;
     cursor: pointer;
     text-align: left;
-    display: flex; flex-direction: column; gap: 6px;
+    display: flex; flex-direction: column; gap: 8px;
     transition: border-color 220ms, background 220ms, transform 220ms;
   }
   .entry-door:hover {
     border-color: var(--p-accent);
-    background: var(--frame-bg-3);
+    background: color-mix(in oklch, var(--frame-bg-3) 80%, var(--p-accent-bg) 20%);
     transform: translateY(-2px);
   }
   .entry-door .ed-eyebrow {
-    font-family: var(--mono); font-size: 8.5px;
+    font-family: var(--mono); font-size: 9px;
     color: var(--p-accent);
     letter-spacing: 0.18em; text-transform: uppercase;
+    font-weight: 500;
   }
   .entry-door .ed-title {
-    font-family: var(--display); font-size: 16px;
+    font-family: var(--display); font-size: 18px;
     font-weight: 500;
-    color: var(--text);
+    /* explicit pure-white for max contrast · v0.8.6 visual QA flagged
+       canon's warm-cream as reading dim in some display profiles ·
+       white guarantees AAA on every monitor */
+    color: #FFFFFF;
     letter-spacing: -0.005em;
+    line-height: 1.3;
   }
   .entry-door .ed-helper {
-    font-family: var(--serif); font-size: 12px;
-    color: var(--text-mid);
-    line-height: 1.45;
+    font-family: var(--serif); font-size: 13px;
+    /* explicit light-cream · always readable · AAA against --frame-bg-3 */
+    color: #E8E6E1;
+    line-height: 1.5;
     font-style: italic;
   }
   /* register-coded eyebrows · per Soleio's "registers as registers" rule */
@@ -2255,15 +2268,20 @@
 
   .entry-skip {
     background: transparent;
-    border: none;
-    color: var(--text-faint);
+    border: 1px solid transparent;
+    color: var(--text-dim);
     font-family: var(--mono); font-size: 9.5px;
     letter-spacing: 0.14em; text-transform: uppercase;
     cursor: pointer;
     padding: 6px 14px;
-    transition: color 180ms;
+    border-radius: 3px;
+    transition: color 180ms, border-color 180ms;
+    margin-top: 6px;
   }
-  .entry-skip:hover { color: var(--text-mid); }
+  .entry-skip:hover {
+    color: var(--text);
+    border-color: var(--card-border);
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .entry-overlay, .entry-card { animation: none !important; }
