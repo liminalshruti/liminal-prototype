@@ -754,6 +754,14 @@
     { agent: "Synthesizer", meta: "21d ago · drift",     calibration: "for own-baseline drift, prior 2 windows resolved benign · contrarian's mirror-check landed both" },
     { agent: "Contrarian",  meta: "1mo ago · cofounder", calibration: "research-side drift on cofounder · resolved as growth, not fragmentation" },
   );
+  /* Seed Business vault entries · so cut 02 boots with a real read count
+     instead of "0 reads" (bug caught in v0.8.5 visual QA pass) */
+  vaultLog.business.push(
+    { agent: "Auditor",     meta: "mar 28 · case-H · CI pattern review",  calibration: "for foreign-contact-intel · refusal at TS/SCI threshold is structural, not flag · subject can request §552a(d) trail" },
+    { agent: "Strategist",  meta: "apr 02 · case-M · disclosure review",  calibration: "for protected-disclosure cases · WPA/PPD-19 framing surfaces before any read · audit-chain releasability is the contract" },
+    { agent: "Contrarian",  meta: "apr 11 · case-S · escalation review",  calibration: "for 9-signal access patterns · n=147 cohort baseline must surface before disposition · no automated escalation" },
+    { agent: "Synthesizer", meta: "apr 19 · case-V · OSINT watchboard",   calibration: "for external-target alias resolution · public-domain only · sanctions + INTERPOL deltas weight stronger than media-event signal" },
+  );
 
   const PERSONA_TO_REGISTER = {
     operator: "diligence", synthesizer: "diligence",

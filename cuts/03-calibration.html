@@ -128,22 +128,27 @@
     line-height: 1.5;
   }
 
-  /* Grid container */
+  /* Grid container · grid takes full row · drill panel sits below it
+     (was side-by-side, but at desktop viewports the drill below reads
+     better and the grid gets full width for 12 columns) */
   .cal-grid-wrapper {
     flex: 1;
     overflow: auto;
     display: flex;
-    gap: 2rem;
+    flex-direction: column;
+    gap: 1.5rem;
+    min-height: 0;
   }
 
   .cal-grid {
     display: grid;
-    grid-template-columns: 120px repeat(12, 1fr);
-    grid-template-rows: 40px repeat(4, 1fr);
+    grid-template-columns: 100px repeat(12, minmax(0, 1fr));
+    grid-template-rows: 32px repeat(4, minmax(72px, 1fr));
     gap: 1px;
     background: var(--paper-soft);
     padding: 1px;
-    min-width: max-content;
+    width: 100%;
+    flex: 1;
   }
 
   /* Week headers */
@@ -200,19 +205,23 @@
     color: var(--outreach);
   }
 
-  /* Cells: correction count + tag */
+  /* Cells: correction count + tag · min-width:0 prevents grid blowout
+     when long tag names (ASSUMES_FACTS_NOT_IN_EVIDENCE) try to push width */
   .cal-cell {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
-    padding: 0.75rem;
+    padding: 0.5rem 0.4rem;
     background: var(--paper);
     border: 1px solid var(--border-soft);
     cursor: pointer;
     transition: all 140ms var(--easing);
     position: relative;
+    min-width: 0;
+    min-height: 64px;
+    overflow: hidden;
   }
 
   .cal-cell:hover {
@@ -274,24 +283,33 @@
     max-width: 100%;
     text-align: center;
     line-height: 1.2;
-    word-wrap: break-word;
+    /* truncate long tag names with ellipsis · the count gives the headline,
+       the tag adds context; if the tag's too long for the cell, hover or
+       click for the full thing in the drill panel */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
   }
 
   .cal-cell.empty .cal-cell-tag {
     display: none;
   }
 
-  /* Drill panel */
+  /* Drill panel · sits below the grid (was side-by-side · column layout reads
+     better on desktop where the grid wants 12 columns of breathing room) */
   .cal-drill {
-    width: 280px;
+    width: 100%;
     flex-shrink: 0;
-    background: var(--paper);
-    border-left: 1px solid var(--border-soft);
-    padding: 1.5rem;
+    background: var(--paper-lift);
+    border: 1px solid var(--border-soft);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     overflow-y: auto;
+    max-height: 280px;
   }
 
   .cal-drill.empty {
@@ -638,12 +656,22 @@
         count.textContent = cellData.count || "·";
         cell.appendChild(count);
 
-        // Tag
+        // Tag · abbreviate long names so cells stay grid-aligned · full name in title attr
         if (cellData.dominantTag) {
           const tag = document.createElement("div");
           tag.className = "cal-cell-tag";
-          tag.textContent = cellData.dominantTag.replace(/_/g, "·");
+          const fullTag = cellData.dominantTag.replace(/_/g, "·");
+          /* short display · long tags shown as first 2 segments + ellipsis · ellipsis-aware
+             so cell width never blows out, full tag accessible via title hover */
+          const segments = fullTag.split("·");
+          tag.textContent = segments.length > 2
+            ? segments.slice(0, 2).join("·")
+            : fullTag;
+          tag.title = fullTag;
           cell.appendChild(tag);
+          cell.title = `${cellData.count} corrections · ${fullTag}`;
+        } else if (cellData.count > 0) {
+          cell.title = `${cellData.count} corrections`;
         }
 
         cell.role = "button";
