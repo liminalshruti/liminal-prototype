@@ -40,8 +40,8 @@
  *   spec section that governs it.
  */
 
-export const SPEC_VERSION = "v0.3.9.1";
-export const PROTOTYPE_VERSION = "v0.7.1-modular";
+export const SPEC_VERSION = "v0.3.10";
+export const PROTOTYPE_VERSION = "v0.7.2-spec-sync";
 // Bump on every commit. Examples:
 //   v0.3.2-two-product-spine        · two-product fork is the spine
 //   v0.3.3-disagreement-as-signal   · refusal-theatre out · disagreement-as-signal flow in
