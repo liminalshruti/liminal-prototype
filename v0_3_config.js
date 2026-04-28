@@ -40,8 +40,8 @@
  *   spec section that governs it.
  */
 
-export const SPEC_VERSION = "v0.3.10";
-export const PROTOTYPE_VERSION = "v0.7.2-spec-sync";
+export const SPEC_VERSION = "v0.3.11";
+export const PROTOTYPE_VERSION = "v0.8.0-three-doors-creative-icp";
 // Bump on every commit. Examples:
 //   v0.3.2-two-product-spine        · two-product fork is the spine
 //   v0.3.3-disagreement-as-signal   · refusal-theatre out · disagreement-as-signal flow in
@@ -386,6 +386,21 @@ export const PERSONAL_THREADS = [
     color: "judgment",
     drift_state: "stable",
   },
+  /* The creative ICP scenario · per SCENARIO_SPEC_DESIGNER_REBRAND.md
+     · Field Studio is a founder-of-one design studio mid-rebrand
+     · The work is technically right and somatically wrong
+     · This is the "I can't name what's off" recognition cue
+     · Lives on Personal because the rebrand decision is a self-read */
+  {
+    id: "field_studio_rebrand",
+    label: "Field Studio · v3 rebrand",
+    eyebrow: "self-read · creative direction",
+    intro: "Three weeks into rebranding from playful generalist to operator-grade specialist. The work passes craft review. The strategic claim has receipts. And it's somatically wrong · you can't name what's off.",
+    last_touched: "today · 11:42 AM",
+    tile_count: 5,
+    color: "synthesis",
+    drift_state: "deciding",
+  },
 ];
 
 // Per-thread source tiles · the tray palette per Personal context.
@@ -543,6 +558,51 @@ export const PERSONAL_TILES_FOR_THREAD = {
       icon: "▣",
       requires_level: 0,
       kind: "git",
+    },
+  ],
+  /* Field Studio rebrand · creative-ICP scenario tiles · per SCENARIO_SPEC */
+  field_studio_rebrand: [
+    {
+      id: "field_v1_v2_assets",
+      label: "v1 + v2 identity · 36 assets",
+      source: "figma · field-studio-archive",
+      icon: "▣",
+      requires_level: 0,
+      kind: "vault",
+      cite: "field-1",
+    },
+    {
+      id: "field_v3_brand_guide",
+      label: "v3 brand guide · 18 pages",
+      source: "pdf · field-studio-v3-system.pdf",
+      icon: "▣",
+      requires_level: 0,
+      kind: "vault",
+      cite: "field-2",
+    },
+    {
+      id: "field_v3_wordmark",
+      label: "v3 wordmark · brutalist serif",
+      source: "figma · v3-wordmark.fig",
+      icon: "▣",
+      requires_level: 0,
+      kind: "vault",
+    },
+    {
+      id: "field_tagline_drafts",
+      label: "Tagline drafts · 3 variants",
+      source: "obsidian · field-studio/copy.md",
+      icon: "▣",
+      requires_level: 0,
+      kind: "obsidian",
+    },
+    {
+      id: "field_client_receipts",
+      label: "Receipts · 6 AI-native clients",
+      source: "linear · client-portfolio",
+      icon: "▣",
+      requires_level: 0,
+      kind: "linear-issue",
     },
   ],
 };
