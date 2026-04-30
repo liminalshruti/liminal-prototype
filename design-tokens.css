@@ -84,6 +84,7 @@
   --bg:           #0A0A0B;
   --frame-bg:     #0E0E11;
   --frame-bg-2:   #0C0C0F;
+  --frame-bg-3:   #15161A;   /* warmer panel · cards on darker frames · backported from liminal-agents-v1 2026-04-28 */
   --frame-border: #1F1F23;
   --rail-bg:      #08080A;
   --card-border:  #232327;
@@ -405,6 +406,22 @@
   --cream:      var(--cream-100);
   --cream-deep: var(--cream-200);
   --ink:        #0F0F10;
+
+  /* ─── paper aliases · printable artifact card on a dark shell ─
+   * Use these when an on-screen surface should read as paper:
+   * a packet, a Trust Packet, an audit artifact. Bind components
+   * to --paper-* so an eventual light-theme retune flips one set.
+   * Backported from liminal-agents-v1 2026-04-28 (P2 token convergence).
+   */
+  --paper-bg:        var(--cream-100);   /* card surface           */
+  --paper-bg-soft:   var(--cream-50);    /* highlight band, header */
+  --paper-bg-deep:   var(--cream-200);   /* nested fill            */
+  --paper-line:      var(--cream-300);   /* divider on cream       */
+  --paper-line-soft: var(--cream-400);   /* secondary divider      */
+  --paper-faint:     var(--cream-600);   /* dim text on cream      */
+  --paper-mid:       var(--cream-700);   /* body text on cream     */
+  --paper-strong:    var(--cream-800);   /* heading text on cream  */
+  --paper-fg:        var(--cream-900);   /* maximum contrast       */
 
   /* ─── REGISTER ALIASES · the 12-register vocabulary ─────────── */
   /*

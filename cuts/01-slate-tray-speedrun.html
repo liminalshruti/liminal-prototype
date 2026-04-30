@@ -3,17 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cut 01 · Three-surface slate · Liminal</title>
+<title>Cut 01 · Three-surface slate · Speedrun cut · Liminal</title>
 
 <!--
-  Cut 01 · Three-surface slate · the canonical live build
+  Cut 01 · Three-surface slate · SPEEDRUN-REGISTER VARIANT
   ──────────────────────────────────────────────────────────────────────
+  Same architecture as cut-01 canonical, audience-keyed surface swap.
+  Per COPY_AUDIT_2026-04-28.md Issue #5 + Maya Chen identity.json
+  three-tagline strategy: same vault state, same 12-agent reads, same
+  correction stream, same orbital-rail demo — flipped hero stack for
+  Speedrun-register audience.
+
+  Hero stack (flipped from canonical):
+    1. Founder OS sentence first (builder-oriented, agent-architecture)
+    2. Brand sentence second, italicized byline (therapy-adjacent register)
+
+  Canonical cut-01 keeps brand-sentence-first (theliminalspace.io ships
+  with the brand-canon-protected version). This variant ships into the
+  SR007 video demo + any Speedrun-partner-facing context.
+
   Personal · Team · Business · operator-subject relationships
   slate · tray · vault · 13 agents in 4 registers (incl. Witness)
   ──────────────────────────────────────────────────────────────────────
   Spec authority   · _scratch/2026-04-27_liminal-agents-architecture-refactor.md v0.3.11
   IP-side spec     · liminal-ip/04-design/UI_GAP_SPEC.md v0.2
   Studio docs      · _scratch/2026-04-28_liminal-icp-org-matrix-wireframes.md
+  Variant rationale · COPY_AUDIT_2026-04-28.md Issue #5
+  Persona corpus   · personae/maya-chen-founder-os/identity.json `_tagline_strategy`
   ──────────────────────────────────────────────────────────────────────
   This cut owns its own DOM bubble inside the catalog iframe. Imports
   canonical tokens from design-system, shared shell from lib/cut-shell,
@@ -191,6 +207,17 @@
     line-height: 1.4;
     opacity: 0.72;
   }
+
+  /* Speedrun-cut variant · P1 fix #5 — flipped hero stack
+     · entry-wedge becomes the lead (was sub-headline in canonical)
+     · entry-brand becomes italic byline beneath (was lead in canonical)
+     · order swap is HTML-level; this CSS just tunes the byline weight */
+  .entry-card .entry-brand {
+    font-style: italic;
+    font-size: 0.85em;
+    opacity: 0.72;
+    letter-spacing: 0.02em;
+  }
 </style>
 
 </head>
@@ -199,8 +226,8 @@
 <!-- entry overlay · three doors · per UI_GAP_SPEC §2.4 · first-session only -->
 <div class="entry-overlay" id="entry-overlay" hidden role="dialog" aria-label="Choose a scenario">
   <div class="entry-card">
-    <div class="entry-brand">Liminal · gives form to inner life.</div>
     <h1 class="entry-wedge">A founder OS where AI agents disagree, deliberate, and prompt you. The corrections are the moat.</h1>
+    <div class="entry-brand">Liminal — gives form to inner life.</div>
     <p class="entry-prompt">Try one</p>
     <div class="entry-doors">
       <button class="entry-door" data-product="personal" data-context="self_baseline_check" type="button">
