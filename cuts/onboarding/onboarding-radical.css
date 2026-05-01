@@ -1,0 +1,248 @@
+/* ════════════════════════════════════════════════════════════
+   onboarding-radical.css
+   ─────────────────────────────────────────────────────────────
+   styles specific to the 3-step "delta IS the onboarding" cut.
+   reuses tokens + frame chrome from onboarding.css; adds the
+   single-column reading-stage layout, the redline editor, the
+   signed-record block, and the 3-dot rail.
+   ════════════════════════════════════════════════════════════ */
+
+/* ─── stage: single column, reading-document feel ─── */
+.rstage {
+  position: relative;
+  max-width: 880px;
+  padding: 56px 64px 56px;
+  display: flex; flex-direction: column;
+  gap: 32px;
+}
+
+/* eyebrow: agent name + lane */
+.r-eyebrow {
+  display: flex; align-items: center; gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed var(--card-border);
+}
+.r-agent-tag {
+  font-family: var(--mono); font-size: 10px;
+  letter-spacing: var(--ls-mono); text-transform: uppercase;
+  padding: 4px 9px; border-radius: 2px;
+  border: 1px solid var(--clarity);
+  color: var(--clarity); background: var(--clarity-bg);
+}
+.r-agent-tag.witness  { border-color: var(--clarity);    color: var(--clarity);    background: var(--clarity-bg); }
+.r-agent-tag.signed   { border-color: var(--connection); color: var(--connection); background: rgba(64, 132, 175, 0.10); }
+.r-lane {
+  font-family: var(--mono); font-size: var(--fs-mono-xs);
+  color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase;
+}
+
+/* the read itself: display serif, big, page-filling */
+.r-read {
+  font-family: var(--serif);
+  font-size: 30px; line-height: 1.42;
+  color: var(--text); letter-spacing: -0.005em;
+  text-wrap: pretty;
+  font-weight: 400;
+  margin: 0;
+  max-width: 720px;
+}
+.r-read em {
+  font-style: italic;
+  color: var(--clarity);
+}
+
+/* metadata strip below the read (step 01 only) */
+.r-meta {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 18px 0 0;
+  border-top: 1px dashed var(--card-border);
+}
+.r-meta-row {
+  display: grid; grid-template-columns: 100px 1fr;
+  gap: 16px; align-items: baseline;
+}
+.r-meta-tag {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase;
+}
+.r-meta-text {
+  font-family: var(--mono); font-size: 12px;
+  color: var(--text-dim); line-height: 1.5;
+}
+
+/* ─── step 02: redline / inline editor ─── */
+.r-read.editable {
+  /* same big serif, but with redline marks inside */
+}
+.r-read .strike {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: var(--text-faint);
+  color: var(--text-faint);
+}
+.r-read .redline {
+  background: linear-gradient(180deg, transparent 0%, transparent 60%, var(--clarity-bg) 60%, var(--clarity-bg) 95%, transparent 95%);
+  color: var(--text);
+  text-decoration: none;
+  padding: 0 2px;
+  border-bottom: 1.5px solid var(--clarity);
+}
+.r-read .redline em {
+  color: var(--text);
+}
+.r-read .redline.insert::before {
+  content: "+ ";
+  color: var(--clarity);
+  font-family: var(--mono);
+  font-size: 0.7em;
+  vertical-align: 0.2em;
+  letter-spacing: 0;
+  margin-right: 2px;
+  font-style: normal;
+}
+
+.r-redline-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--card-border);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+}
+.r-rl-row {
+  background: var(--frame-bg-2);
+  padding: 14px 16px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.r-rl-row.pending { background: var(--frame-bg); }
+.r-rl-num {
+  font-family: var(--display);
+  font-size: 26px;
+  color: var(--clarity);
+  letter-spacing: var(--ls-tight);
+  font-weight: 400;
+}
+.r-rl-row.pending .r-rl-num { color: var(--text-faint); }
+.r-rl-text {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--text-dim); letter-spacing: var(--ls-mono); text-transform: uppercase;
+  line-height: 1.4;
+}
+
+/* ─── step 03: signed record block ─── */
+.r-record {
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  border-left: 2px solid var(--connection);
+  border-radius: var(--radius-3);
+  padding: 22px 26px;
+  display: flex; flex-direction: column; gap: 14px;
+}
+.r-record-hd {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--card-border);
+}
+.r-record-name {
+  font-family: var(--mono); font-size: 13px;
+  color: var(--text); letter-spacing: var(--ls-mono);
+}
+.r-record-when {
+  font-family: var(--mono); font-size: var(--fs-mono-xs);
+  color: var(--text-faint); letter-spacing: var(--ls-mono);
+}
+.r-record-body {
+  font-family: var(--serif);
+  font-size: 18px; line-height: 1.55;
+  color: var(--text);
+  text-wrap: pretty;
+  padding: 4px 0 8px;
+}
+.r-record-body em { font-style: italic; color: var(--clarity); }
+.r-record-body p { margin: 0; }
+
+.r-record-fp {
+  display: grid; grid-template-columns: 92px 1fr;
+  gap: 12px; align-items: baseline;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: var(--ls-mono);
+}
+.r-fp-lbl { color: var(--text-faint); text-transform: uppercase; }
+.r-fp-hex { color: var(--text-mid); }
+
+/* tray sigil row */
+.r-tray-row {
+  display: flex; align-items: center; gap: 18px;
+  padding: 18px 0;
+  border-top: 1px dashed var(--card-border);
+}
+.r-tray-cell {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 10px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  background: var(--frame-bg-2);
+}
+.r-tray-day {
+  font-family: var(--mono); font-size: 9px;
+  color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase;
+}
+.r-tray-arrow {
+  color: var(--text-faint); font-size: 18px;
+}
+.r-tray-lead {
+  font-family: var(--display); font-size: 17px;
+  color: var(--text); font-weight: 500;
+}
+.r-tray-sub {
+  font-family: var(--sans); font-size: 13px; line-height: 1.5;
+  color: var(--text-dim);
+  margin-top: 2px;
+  max-width: 480px;
+}
+
+/* row of buttons + footnote (shared) */
+.r-row {
+  display: flex; gap: 12px; align-items: center;
+  margin-top: 8px;
+}
+.r-foot {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: var(--fs-mono-xs);
+  color: var(--text-faint); letter-spacing: var(--ls-mono);
+  padding-top: 14px;
+  border-top: 1px dashed var(--card-border);
+}
+
+/* ─── 3-dot rail (replaces 7-step rail) ─── */
+.rail3 {
+  position: absolute; right: 26px; top: 80px;
+  display: flex; flex-direction: column; gap: 18px;
+  width: 180px;
+}
+.rail3-row {
+  display: grid; grid-template-columns: 24px 1fr 8px;
+  gap: 10px; align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid transparent;
+}
+.rail3-num {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--text-faint); letter-spacing: var(--ls-mono);
+}
+.rail3-nm {
+  font-family: var(--display); font-size: 13px;
+  color: var(--text-dim);
+  letter-spacing: var(--ls-tight);
+}
+.rail3-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--text-faint);
+}
+.rail3-row.now .rail3-num { color: var(--clarity); }
+.rail3-row.now .rail3-nm  { color: var(--text); }
+.rail3-row.now .rail3-dot { background: var(--clarity); border-color: var(--clarity); box-shadow: 0 0 8px var(--clarity-glow-soft); }
+.rail3-row.done .rail3-dot { background: var(--text-faint); border-color: var(--text-faint); }
+.rail3-row.upcoming .rail3-nm { color: var(--text-faint); }

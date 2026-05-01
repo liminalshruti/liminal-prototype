@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Liminal · Onboarding · two cuts</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!--
+  Cut 06 · Onboarding · Compare (Cut C vs Cut A · 7 steps vs 3 steps)
+  ──────────────────────────────────────────────────────────────────────
+  ICP        · founder · invite-only pilot · v0.1 · comparison view
+  Surface    · personal · canon (7 steps) vs radical (3 steps) face-off
+  Spec ref   · App onboarding-handoff.zip Apr 30 (Claude Design bundle)
+  Status     · live · imported from Apr 30 Claude Design handoff
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<!-- canon · 12-wheel tokens · single source of truth -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+
+<!-- shared layout -->
+<link rel="stylesheet" href="onboarding/onboarding.css?v=3">
+
+<!-- radical-cut additions (no conflict with above; pure additions) -->
+<link rel="stylesheet" href="onboarding/onboarding-radical.css?v=1">
+
+<style>
+  body { padding: 0 !important; }
+  :root {
+    --display: "Newsreader", Georgia, serif;
+    --serif:   "Newsreader", Georgia, serif;
+  }
+  [data-dc-artboard] { background: var(--bg) !important; }
+  /* v0.8.5 F5 — initial paint suppression. */
+  body {
+    opacity: 0;
+    transition: opacity 240ms ease-out;
+  }
+  body.ready {
+    opacity: 1;
+  }
+</style>
+
+</head>
+<body data-product="personal">
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="onboarding/design-canvas.jsx"></script>
+<script type="text/babel" src="onboarding/parts.jsx"></script>
+<script type="text/babel" src="onboarding/screens.jsx"></script>
+<script type="text/babel" src="onboarding/screens-radical.jsx"></script>
+
+<script type="text/babel">
+  const { DesignCanvas, DCSection, DCArtboard } = window;
+  const S = window.Screens;          // 7-step canonical (de-mythologized)
+  const R = window.ScreensRadical;   // 3-step radical (delta IS the onboarding)
+
+  const W = 1240;
+  const H = 880;
+
+  function App() {
+    return (
+      <DesignCanvas
+        title="Liminal · onboarding · two cuts"
+        subtitle="canon vs radical · 7 steps that explain the product vs 3 steps that ARE the product">
+
+        {/* ─── Cut C: canonical, de-mythologized ─── */}
+        <DCSection
+          id="canon"
+          title="Cut C · canonical (7 steps) · de-mythologized · explains the product">
+          <DCArtboard id="c01" label="01 · Pilot key"        width={W} height={H}><S.S01_Welcome /></DCArtboard>
+          <DCArtboard id="c02" label="02 · Vault"            width={W} height={H}><S.S02_Verify /></DCArtboard>
+          <DCArtboard id="c03" label="03 · Identity key"     width={W} height={H}><S.S03_Passphrase /></DCArtboard>
+          <DCArtboard id="c04" label="04 · Daemon"           width={W} height={H}><S.S04_Keys /></DCArtboard>
+          <DCArtboard id="c05" label="05 · Connect a source" width={W} height={H}><S.S05_Anchor /></DCArtboard>
+          <DCArtboard id="c06" label="06 · The three reads"  width={W} height={H}><S.S06_Primer /></DCArtboard>
+          <DCArtboard id="c07" label="07 · Day 1"            width={W} height={H}><S.S07_Day1 /></DCArtboard>
+        </DCSection>
+
+        {/* ─── Cut A: radical, the delta IS the onboarding ─── */}
+        <DCSection
+          id="radical"
+          title="Cut A · radical (3 steps) · the delta IS the onboarding · the product performs itself">
+          <DCArtboard id="r01" label="01 · A read"       width={W} height={H}><R.R01_Read /></DCArtboard>
+          <DCArtboard id="r02" label="02 · A correction" width={W} height={H}><R.R02_Correction /></DCArtboard>
+          <DCArtboard id="r03" label="03 · A signature"  width={W} height={H}><R.R03_Signature /></DCArtboard>
+        </DCSection>
+
+        {/* ─── opening-screen face-off ─── */}
+        <DCSection
+          id="openings"
+          title="Opening screen · what the user sees in the first 5 seconds">
+          <DCArtboard id="o-canon"   label="Cut C · 01 — explains, then asks for a key"  width={W} height={H}><S.S01_Welcome /></DCArtboard>
+          <DCArtboard id="o-radical" label="Cut A · 01 — does not explain · just reads"  width={W} height={H}><R.R01_Read /></DCArtboard>
+        </DCSection>
+
+        {/* ─── ending face-off ─── */}
+        <DCSection
+          id="endings"
+          title="Ending · what the user is left with">
+          <DCArtboard id="e-canon"   label="Cut C · 07 — workspace + 5-stage tray future" width={W} height={H}><S.S07_Day1 /></DCArtboard>
+          <DCArtboard id="e-radical" label="Cut A · 03 — one signed event · vault begun"  width={W} height={H}><R.R03_Signature /></DCArtboard>
+        </DCSection>
+
+      </DesignCanvas>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+  // v0.8.5 F5 — fade body in after React mounts
+  requestAnimationFrame(() => document.body.classList.add("ready"));
+</script>
+
+</body>
+</html>

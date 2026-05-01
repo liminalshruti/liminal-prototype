@@ -1,0 +1,288 @@
+/* ════════════════════════════════════════════════════════════
+   onboarding-argument.css
+   ─────────────────────────────────────────────────────────────
+   the comparison page styled AS event #1 of a vault — a long
+   single-column reading-document with the screens referenced
+   inline as numbered figures, redlines threading through the
+   prose, and marginalia in Caveat off to the right.
+
+   nothing here is marketing. it's a memo. the form is the
+   argument.
+   ════════════════════════════════════════════════════════════ */
+
+/* ─── outer page (full viewport, scrollable) ─── */
+.arg-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  display: flex; justify-content: center;
+  padding: 88px 0 160px;
+  position: relative;
+}
+
+/* ─── manuscript column ─── */
+.arg-doc {
+  width: 880px;
+  max-width: calc(100vw - 64px);
+  position: relative;
+}
+
+/* the right margin reserved for marginalia (caveat) */
+.arg-doc::after {
+  /* reserve right gutter on wider screens via padding-right */
+}
+
+/* ─── top meta / event header ─── */
+.arg-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-family: var(--mono); font-size: var(--fs-mono-xs);
+  color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase;
+  padding-bottom: 18px;
+  border-bottom: 1px dashed var(--card-border);
+  margin-bottom: 56px;
+}
+.arg-head .event-name {
+  color: var(--text-mid);
+}
+.arg-head .event-name b {
+  font-weight: 500; color: var(--text);
+}
+.arg-head .event-when {
+  text-align: right;
+}
+
+/* ─── the claim · display serif ─── */
+.arg-claim {
+  font-family: var(--serif);
+  font-size: 76px; line-height: 1.04;
+  color: var(--text); letter-spacing: -0.022em;
+  font-weight: 400;
+  margin: 0 0 18px;
+  text-wrap: balance;
+}
+.arg-claim em {
+  font-style: italic; color: var(--clarity);
+}
+.arg-subclaim {
+  font-family: var(--mono); font-size: 12px;
+  color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase;
+  margin: 0 0 56px;
+}
+
+/* ─── prose body · large reading serif ─── */
+.arg-body {
+  font-family: var(--serif);
+  font-size: 23px; line-height: 1.55;
+  color: var(--text);
+  text-wrap: pretty;
+  margin: 0;
+  font-weight: 400;
+}
+.arg-body p { margin: 0 0 28px; }
+.arg-body em { font-style: italic; color: var(--clarity); }
+.arg-body .lede {
+  font-size: 27px; line-height: 1.45;
+  color: var(--text);
+  margin-bottom: 36px;
+  letter-spacing: -0.005em;
+}
+
+/* redlines: same vocabulary as the radical cut, intentionally */
+.arg-body .strike {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+  text-decoration-color: var(--text-faint);
+  color: var(--text-faint);
+}
+.arg-body .redline {
+  background: linear-gradient(180deg, transparent 0%, transparent 60%, var(--clarity-bg) 60%, var(--clarity-bg) 95%, transparent 95%);
+  color: var(--text);
+  text-decoration: none;
+  padding: 0 3px;
+  border-bottom: 1.5px solid var(--clarity);
+}
+.arg-body .redline em { color: var(--text); }
+
+/* figure refs threaded in prose */
+.arg-figref {
+  font-family: var(--mono); font-size: 0.62em;
+  color: var(--clarity); letter-spacing: var(--ls-mono);
+  vertical-align: 0.45em;
+  font-style: normal;
+  padding: 0 1px;
+  cursor: default;
+}
+
+/* ─── section breaks ─── */
+.arg-rule {
+  margin: 56px 0 48px;
+  height: 1px; background: var(--card-border);
+  border: none;
+}
+.arg-section-tag {
+  font-family: var(--mono); font-size: 11px;
+  color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase;
+  margin: 0 0 20px;
+  display: flex; align-items: center; gap: 12px;
+}
+.arg-section-tag::before {
+  content: ""; width: 22px; height: 1px; background: var(--clarity);
+}
+
+/* ─── figure plates: scaled-down live screens ─── */
+.arg-figs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin: 12px 0 56px;
+}
+.arg-figs.three { grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.arg-figs.seven { grid-template-columns: repeat(7, 1fr); gap: 8px; }
+
+.arg-fig {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.arg-fig-frame {
+  position: relative;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+  /* aspect 1240:880 ≈ 1.41 — set width via grid, height via aspect-ratio */
+  aspect-ratio: 1240 / 880;
+}
+/* the live React frame inside is 1240×880; scale it down to fit */
+.arg-fig-frame .frame {
+  position: absolute; top: 0; left: 0;
+  width: 1240px; height: 880px;
+  transform-origin: top left;
+  /* default scale; overridden by JS via CSS variable */
+  transform: scale(var(--fig-scale, 0.35));
+}
+.arg-fig-cap {
+  display: flex; justify-content: space-between;
+  font-family: var(--mono); font-size: 10px;
+  color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase;
+}
+.arg-fig-num { color: var(--clarity); }
+.arg-fig-num b { color: var(--text); font-weight: 500; }
+.arg-fig-name { color: var(--text-dim); }
+
+/* big two-up (hero face-off) */
+.arg-figs.hero { gap: 28px; margin: 32px 0 64px; }
+.arg-figs.hero .arg-fig-frame { aspect-ratio: 1240 / 880; }
+.arg-figs.hero .arg-fig-frame .frame { transform: scale(var(--fig-scale, 0.34)); }
+
+/* ─── stat strip ─── */
+.arg-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--card-border);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  margin: 12px 0 64px;
+  overflow: hidden;
+}
+.arg-stat {
+  background: var(--frame-bg-2);
+  padding: 22px 22px 20px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.arg-stat .num {
+  font-family: var(--display);
+  font-size: 38px; line-height: 1;
+  color: var(--text); letter-spacing: -0.02em;
+  font-weight: 400;
+}
+.arg-stat .num .from {
+  color: var(--text-faint); text-decoration: line-through; text-decoration-thickness: 1.5px;
+  margin-right: 8px;
+}
+.arg-stat .num .arrow {
+  color: var(--text-faint); margin: 0 4px; font-size: 0.8em;
+}
+.arg-stat .num .to { color: var(--clarity); }
+.arg-stat .lbl {
+  font-family: var(--mono); font-size: 10px;
+  color: var(--text-dim); letter-spacing: var(--ls-mono); text-transform: uppercase;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+/* ─── marginalia · Caveat handwriting in right gutter ─── */
+.arg-marg {
+  position: absolute;
+  font-family: "Caveat", cursive;
+  font-size: 18px; line-height: 1.25;
+  color: var(--clarity);
+  width: 200px;
+  /* set top + (left | right) inline per note */
+  pointer-events: none;
+}
+.arg-marg::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  width: 18px; height: 1px;
+  background: var(--clarity);
+  opacity: 0.5;
+}
+.arg-marg.left  { right: calc(100% + 28px); text-align: right; }
+.arg-marg.left::before  { right: -22px; }
+.arg-marg.right { left: calc(100% + 28px); text-align: left; }
+.arg-marg.right::before { left: -22px; }
+
+/* on smaller viewports, marginalia collapse below */
+@media (max-width: 1300px) {
+  .arg-marg {
+    position: static;
+    width: auto;
+    margin: -16px 0 32px;
+    color: var(--clarity);
+    text-align: left;
+    padding-left: 28px;
+  }
+  .arg-marg::before {
+    left: 0; top: 0.7em; width: 18px;
+  }
+  .arg-marg.left { right: auto; text-align: left; }
+}
+
+/* ─── signature block at the foot ─── */
+.arg-sig {
+  margin-top: 96px;
+  padding: 28px 30px 26px;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  border-left: 2px solid var(--connection);
+  border-radius: var(--radius-3);
+}
+.arg-sig-hd {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding-bottom: 14px;
+  border-bottom: 1px dashed var(--card-border);
+  margin-bottom: 16px;
+  font-family: var(--mono); font-size: var(--fs-mono-xs);
+  color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase;
+}
+.arg-sig-hd b { color: var(--text); font-weight: 500; }
+.arg-sig-row {
+  display: grid; grid-template-columns: 96px 1fr; gap: 14px; align-items: baseline;
+  font-family: var(--mono); font-size: 11px;
+  letter-spacing: var(--ls-mono);
+  padding: 5px 0;
+}
+.arg-sig-row .lbl { color: var(--text-faint); text-transform: uppercase; }
+.arg-sig-row .val { color: var(--text-mid); }
+.arg-sig-row .val em { color: var(--clarity); font-style: normal; }
+
+/* ─── the page footer · meta-of-the-meta ─── */
+.arg-foot {
+  margin-top: 48px;
+  font-family: var(--mono); font-size: var(--fs-mono-xs);
+  color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase;
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--card-border);
+}
