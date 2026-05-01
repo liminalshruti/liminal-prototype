@@ -142,9 +142,14 @@
     dominant-baseline: middle;
     transition: fill 200ms ease;
   }
-  /* Status states */
+  /* Status states · v0.8.5 P3 fixes (mirrored from cut 01-slate-tray):
+     · F3 — opacity transition added for smoother loop reset
+     · F4 — pulse-glyph period synced to step duration (4.2s = 1 cycle per step) */
+  .agent-glyph {
+    transition: fill 200ms ease, opacity 400ms ease;
+  }
   .agent-glyph.queued   { fill: rgba(255, 255, 255, 0.22); }
-  .agent-glyph.reading  { fill: var(--text); animation: pulse-glyph 1.4s ease-in-out infinite; }
+  .agent-glyph.reading  { fill: var(--text); animation: pulse-glyph 4.2s ease-in-out infinite; }
   .agent-glyph.complete { fill: rgba(91, 193, 141, 0.85); }
   .agent-glyph.refused  { fill: rgba(247, 121, 78, 0.78); }
   @keyframes pulse-glyph { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
@@ -165,6 +170,24 @@
   .center-orb.convergent {
     fill: rgba(142, 102, 251, 0.18);
     stroke: rgba(142, 102, 251, 0.55);
+  }
+  /* v0.8.5 F2 — sealed state: rest step is visually distinct from convergent.
+     Mirrored from cut 01-slate-tray. Convergent = deliberation reaching a
+     recommendation. Sealed = vault committed. */
+  .center-orb.sealed {
+    fill: rgba(142, 102, 251, 0.32);
+    stroke: rgba(142, 102, 251, 0.85);
+    stroke-width: 1.5;
+    filter: drop-shadow(0 0 8px rgba(142, 102, 251, 0.35));
+  }
+
+  /* v0.8.5 F5 — initial paint suppression. */
+  body {
+    opacity: 0;
+    transition: opacity 240ms ease-out;
+  }
+  body.ready {
+    opacity: 1;
   }
 
   /* Refusal arrows (curved paths) */
@@ -685,8 +708,10 @@
                   contrarian: "complete", manager: "complete",
                   strategist: "complete", editor: "complete" },
         arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
-        coverage: "12 agents · read complete · the disagreement is the data",
-        convergent: true
+        coverage: "12 agents · vault committed · the disagreement is the data",
+        convergent: true,
+        sealed: true  /* v0.8.5 F2 — rest step distinguished from convergent
+                         via .sealed center-orb class. Mirrored from cut 01. */
       }
     ];
 
@@ -711,9 +736,12 @@
       // update coverage counts
       const counts = document.getElementById("coverage-counts");
       if (counts) counts.textContent = step.coverage;
-      // update center orb convergence
+      // update center orb convergence + sealed states (v0.8.5 F2)
       const orb = document.getElementById("orbital-center-orb");
-      if (orb) orb.classList.toggle("convergent", !!step.convergent);
+      if (orb) {
+        orb.classList.toggle("convergent", !!step.convergent && !step.sealed);
+        orb.classList.toggle("sealed", !!step.sealed);
+      }
     }
 
     function tick() {
@@ -721,9 +749,15 @@
       idx = (idx + 1) % STEPS.length;
     }
 
+    // v0.8.5 F1 — pre-apply STEP 0 synchronously at script execution
+    // (try/catch wrapped, DOM-not-ready safe).
+    try { applyStep(STEPS[0]); } catch (_) { /* DOM not ready yet, harmless */ }
+
     function start() {
       // skip if already running
       if (timer) return;
+      // v0.8.5 F5 — toggle body.ready to fade the cut in (240ms via CSS)
+      requestAnimationFrame(() => document.body.classList.add("ready"));
       // skip if reduced motion preferred
       const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       if (reduced) {
