@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cut 04 · Onboarding · Liminal</title>
+
+<!--
+  Cut 04 · Onboarding · the v0.1 pilot first-run experience
+  ──────────────────────────────────────────────────────────────────────
+  ICP        · founder · invite-only pilot · v0.1
+  Surface    · personal · vault, daemon, three reads
+  Spec ref   · App onboarding-handoff.zip Apr 30 (Claude Design bundle)
+               + docs/distribution-and-onboarding-v0.1.md
+  Status     · live · imported from Apr 30 Claude Design handoff
+  ──────────────────────────────────────────────────────────────────────
+
+  CONTRACT WITH THE STUDIO ARCHITECTURE
+
+  · Tokens come from design-system/tokens/design-tokens.css · DO NOT redefine.
+  · Per-cut layout comes from onboarding/onboarding.css (sibling).
+  · React 18 + Babel UMD runtime is CDN-only (no build step). The cut-shell
+    contract permits any runtime import the cut needs; React is what the
+    Claude Design bundle was authored in. Keeping that fidelity rather than
+    porting to vanilla loses no functional capability.
+  · 7 screens render inside a DesignCanvas: S01 Pilot key · S02 Vault ·
+    S03 Identity key · S04 Daemon · S05 Connect a source · S06 The three
+    reads · S07 Day 1.
+  · This cut owns its own DOM bubble · works standalone or inside catalog iframe.
+  · No vibe-coded slop · every screen is grounded in the v0.1 pilot spec.
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- canon · 12-wheel tokens · single source of truth -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+
+<!-- per-cut layout from Apr 30 Claude Design bundle -->
+<link rel="stylesheet" href="onboarding/onboarding.css?v=3">
+
+<style>
+  /* design-canvas needs to host dark frames; canvas chrome itself is light */
+  body { padding: 0 !important; }
+  /* tokens file uses Newsreader-equivalent (Perfectly Nineties) which we don't have;
+     remap display + serif to Newsreader (the cut's actual deployed face). */
+  :root {
+    --display: "Newsreader", Georgia, serif;
+    --serif:   "Newsreader", Georgia, serif;
+  }
+  /* artboard backdrop matches dark canvas */
+  [data-dc-artboard] { background: var(--bg) !important; }
+
+  /* v0.8.5 F5 — initial paint suppression (mirroring cut01-cut03 polish). */
+  body {
+    opacity: 0;
+    transition: opacity 240ms ease-out;
+  }
+  body.ready {
+    opacity: 1;
+  }
+</style>
+
+</head>
+<body data-product="personal">
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="onboarding/design-canvas.jsx"></script>
+<script type="text/babel" src="onboarding/parts.jsx"></script>
+<script type="text/babel" src="onboarding/screens.jsx"></script>
+
+<script type="text/babel">
+  const { DesignCanvas, DCSection, DCArtboard } = window;
+  const S = window.Screens;
+
+  const W = 1240; // matches frame max-width (stage)
+  const H = 880;  // tall enough for content
+
+  function App() {
+    return (
+      <DesignCanvas title="Liminal · Onboarding · v0.1 pilot first run" subtitle="Personal surface · invite-only pilot · vault, daemon, three reads">
+
+        <DCSection id="setup" title="Pilot · vault · key">
+          <DCArtboard id="s01" label="01 · Pilot key" width={W} height={H}><S.S01_Welcome /></DCArtboard>
+          <DCArtboard id="s02" label="02 · Vault" width={W} height={H}><S.S02_Verify /></DCArtboard>
+          <DCArtboard id="s03" label="03 · Identity key" width={W} height={H}><S.S03_Passphrase /></DCArtboard>
+        </DCSection>
+
+        <DCSection id="runtime" title="Daemon · sources · instrument · day 1">
+          <DCArtboard id="s04" label="04 · Daemon" width={W} height={H}><S.S04_Keys /></DCArtboard>
+          <DCArtboard id="s05" label="05 · Connect a source" width={W} height={H}><S.S05_Anchor /></DCArtboard>
+          <DCArtboard id="s06" label="06 · The three reads" width={W} height={H}><S.S06_Primer /></DCArtboard>
+          <DCArtboard id="s07" label="07 · Day 1" width={W} height={H}><S.S07_Day1 /></DCArtboard>
+        </DCSection>
+
+      </DesignCanvas>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+  // v0.8.5 F5 — fade body in after React mounts
+  requestAnimationFrame(() => document.body.classList.add("ready"));
+</script>
+
+</body>
+</html>

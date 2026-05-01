@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Liminal · event #1 · onboarding.corrected</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!--
+  Cut 05 · Onboarding · Argument · the redline IS the onboarding
+  ──────────────────────────────────────────────────────────────────────
+  ICP        · founder · invite-only pilot · v0.1 · argumentative variant
+  Surface    · personal · long-form essay framing of onboarding-as-correction
+  Spec ref   · App onboarding-handoff.zip Apr 30 (Claude Design bundle)
+  Status     · live · imported from Apr 30 Claude Design handoff (Cut C/A face-off in essay form)
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<!-- canon · 12-wheel tokens -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+
+<!-- shared frame chrome / buttons / fields -->
+<link rel="stylesheet" href="onboarding/onboarding.css?v=3">
+
+<!-- radical cut adds: redlines, signed-record, etc -->
+<link rel="stylesheet" href="onboarding/onboarding-radical.css?v=1">
+
+<!-- this page's specific composition -->
+<link rel="stylesheet" href="onboarding/onboarding-argument.css?v=1">
+
+<style>
+  body { padding: 0 !important; margin: 0; }
+  :root {
+    --display: "Newsreader", Georgia, serif;
+    --serif:   "Newsreader", Georgia, serif;
+  }
+  /* v0.8.5 F5 — initial paint suppression (mirroring cut01-cut04 polish). */
+  body {
+    opacity: 0;
+    transition: opacity 240ms ease-out;
+  }
+  body.ready {
+    opacity: 1;
+  }
+</style>
+
+</head>
+<body data-product="personal">
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="onboarding/parts.jsx"></script>
+<script type="text/babel" src="onboarding/screens.jsx"></script>
+<script type="text/babel" src="onboarding/screens-radical.jsx"></script>
+
+<script type="text/babel">
+  const S = window.Screens;          // 7-step canonical (de-mythologized)
+  const R = window.ScreensRadical;   // 3-step radical
+
+  // ─── small wrapper that scales a 1240×880 frame into a thumb cell ───
+  // We render the live React frame; the cell uses aspect-ratio + transform-origin
+  // to fit. JS measures the cell width post-mount and sets --fig-scale so the
+  // 1240px-wide frame fits exactly.
+
+  function Fig({ num, name, scale, children }) {
+    const ref = React.useRef(null);
+    const [s, setS] = React.useState(scale || 0.35);
+    React.useLayoutEffect(() => {
+      if (!ref.current) return;
+      const measure = () => {
+        const w = ref.current.clientWidth;
+        if (w > 0) setS(w / 1240);
+      };
+      measure();
+      const ro = new ResizeObserver(measure);
+      ro.observe(ref.current);
+      return () => ro.disconnect();
+    }, []);
+    return (
+      <figure className="arg-fig">
+        <div className="arg-fig-frame" ref={ref} style={{ ["--fig-scale"]: s }}>
+          {children}
+        </div>
+        <figcaption className="arg-fig-cap">
+          <span className="arg-fig-num"><b>fig.{num}</b></span>
+          <span className="arg-fig-name">{name}</span>
+        </figcaption>
+      </figure>
+    );
+  }
+
+  // ─── caveat marginalia ───
+  function Marg({ side="right", top, children }) {
+    return (
+      <aside className={"arg-marg " + side} style={{ top }}>
+        {children}
+      </aside>
+    );
+  }
+
+  // ─── small inline token used in prose ───
+  const FRef = ({ n }) => <span className="arg-figref">[fig.{n}]</span>;
+
+  // ─── the page itself ───
+  function App() {
+    return (
+      <div className="arg-page">
+        <article className="arg-doc">
+
+          {/* top meta band */}
+          <header className="arg-head">
+            <span className="event-name">event <b>#1</b> · onboarding.corrected</span>
+            <span className="event-when">2026-04-26 · vault: design-partners/founder · unsigned draft</span>
+          </header>
+
+          {/* the claim */}
+          <h1 className="arg-claim">
+            Most onboarding asks the user<br/>
+            to perform <em>belonging.</em>
+          </h1>
+          <p className="arg-subclaim">— a read of conventional onboarding · being corrected here, in front of you</p>
+
+          {/* prose body with threaded redlines */}
+          <div className="arg-body">
+
+            <p className="lede">
+              The standard SaaS first-run flow asks the user to{" "}
+              <span className="strike">create an account, verify an email, name a workspace, invite a team, choose a plan, set a password, confirm the password, agree to terms, complete a profile, watch a tutorial, dismiss a tour, and accept a notification permission</span>{" "}
+              <span className="redline">read one short observation, redline what is wrong with it, and sign the corrected version</span>.
+              The first artifact most products produce on behalf of the user is{" "}
+              <span className="strike">a customer record in the vendor's database</span>{" "}
+              <span className="redline">a signed event in the user's own vault</span>.
+              That difference is the entire product.
+              <FRef n="1"/><FRef n="2"/><FRef n="3"/>
+            </p>
+
+            <Marg side="right" top="-32px">
+              ← I keep wanting<br/>to delete this whole page<br/>and just ship fig.1.
+            </Marg>
+
+            <p>
+              The redline shown above is event #1 of an empty vault. The original
+              read — the line in grey — is <span className="strike">the seven-step
+              flow we built first</span> <FRef n="C"/>. It is not wrong, exactly. It
+              de-mythologizes earlier drafts (no Jung, no chakra body, no twelve
+              agents, no morning-and-evening invitation). It is{" "}
+              <em>correct</em>. But it is not <em>the product.</em> It is a
+              brochure for the product, in the format of a first-run flow.
+            </p>
+
+            <p>
+              The redline — three steps, no fields — replaces it{" "}
+              <FRef n="A"/>. The user reads a Witness observation about the
+              moment of installation; redlines what is wrong with it; signs
+              the redline. The vault is created as a side effect of the
+              first interaction. There is no separate setup. The thing the
+              user does in the first sixty seconds is the same thing the
+              user will be doing on day thirty.
+            </p>
+
+          </div>
+
+          {/* hero face-off · two figures */}
+          <hr className="arg-rule"/>
+          <p className="arg-section-tag">the first screen, two ways</p>
+
+          <div className="arg-figs hero">
+            <Fig num="C·1" name="Cut C — Pilot key (de-mythologized)">
+              <S.S01_Welcome />
+            </Fig>
+            <Fig num="A·1" name="Cut A — A read (the redline IS the onboarding)">
+              <R.R01_Read />
+            </Fig>
+          </div>
+
+          {/* prose continues, with a sharper claim */}
+          <div className="arg-body">
+            <p>
+              Look at <FRef n="C·1"/>. It is asking the user to perform{" "}
+              <em>arrival</em> — paste a key, confirm an identity, agree to
+              the premise. Look at <FRef n="A·1"/>. It is performing the
+              product on the user. The user has not yet typed a single
+              character; the page has already produced the kind of
+              observation Liminal is for.
+            </p>
+
+            <p>
+              The right move is not <span className="strike">to pick the
+              shorter flow because it is shorter</span>{" "}
+              <span className="redline">to pick the flow whose first
+              screen is itself an instance of the primitive</span>.
+              The argument is not <em>fewer steps.</em> The argument is{" "}
+              <em>the shape of the first artifact</em>.
+            </p>
+
+            <Marg side="left" top="50px">
+              this is the line<br/>I would put on<br/>the homepage →
+            </Marg>
+          </div>
+
+          {/* stat strip · what was deleted */}
+          <hr className="arg-rule"/>
+          <p className="arg-section-tag">what comes out</p>
+
+          <div className="arg-stats">
+            <div className="arg-stat">
+              <div className="num"><span className="from">07</span><span className="arrow">→</span><span className="to">03</span></div>
+              <div className="lbl">screens before the daemon is live</div>
+            </div>
+            <div className="arg-stat">
+              <div className="num"><span className="from">05</span><span className="arrow">→</span><span className="to">00</span></div>
+              <div className="lbl">form fields the user must fill in</div>
+            </div>
+            <div className="arg-stat">
+              <div className="num"><span className="from">~4m</span><span className="arrow">→</span><span className="to">~60s</span></div>
+              <div className="lbl">time from first launch to first signed event</div>
+            </div>
+            <div className="arg-stat">
+              <div className="num"><span className="from">00</span><span className="arrow">→</span><span className="to">01</span></div>
+              <div className="lbl">artifacts written before the user sees the workspace</div>
+            </div>
+          </div>
+
+          {/* the redline cut · 3 figures */}
+          <hr className="arg-rule"/>
+          <p className="arg-section-tag">cut A · the redline · in full</p>
+
+          <div className="arg-figs three">
+            <Fig num="A·1" name="A read"><R.R01_Read /></Fig>
+            <Fig num="A·2" name="A correction"><R.R02_Correction /></Fig>
+            <Fig num="A·3" name="A signature"><R.R03_Signature /></Fig>
+          </div>
+
+          {/* the canonical cut · 7 figures, contact-sheet small */}
+          <p className="arg-section-tag">cut C · the canonical · for reference</p>
+
+          <div className="arg-figs seven">
+            <Fig num="C·1" name="Pilot key"><S.S01_Welcome /></Fig>
+            <Fig num="C·2" name="Vault"><S.S02_Verify /></Fig>
+            <Fig num="C·3" name="Identity key"><S.S03_Passphrase /></Fig>
+            <Fig num="C·4" name="Daemon"><S.S04_Keys /></Fig>
+            <Fig num="C·5" name="Source"><S.S05_Anchor /></Fig>
+            <Fig num="C·6" name="Three reads"><S.S06_Primer /></Fig>
+            <Fig num="C·7" name="Day 1"><S.S07_Day1 /></Fig>
+          </div>
+
+          {/* refusal section · what the radical cut DOES NOT include */}
+          <hr className="arg-rule"/>
+          <p className="arg-section-tag">refused, by name</p>
+
+          <div className="arg-body">
+            <p>
+              <span className="strike">A signup form.</span>{" "}
+              <span className="strike">An email-verification screen.</span>{" "}
+              <span className="strike">A passphrase field with a strength meter and a confirm input.</span>{" "}
+              <span className="strike">A "name your workspace" prompt.</span>{" "}
+              <span className="strike">A profile photo upload.</span>{" "}
+              <span className="strike">A team-invite step the user can skip but feels guilty about.</span>{" "}
+              <span className="strike">A tutorial overlay with a "got it" button.</span>{" "}
+              <span className="strike">A welcome email confirming what the user already knows.</span>{" "}
+              <span className="strike">A "complete your profile to unlock features" nag in the corner.</span>
+              <br/><br/>
+              The product cannot include these things. They contradict it.
+              Each is a small request to perform belonging before the work begins.
+              The work — the corrected stream — does not begin with a request.
+              It begins with an observation.
+            </p>
+
+            <Marg side="right" top="50px">
+              none of this exists<br/>in the radical cut.<br/>that is the cut.
+            </Marg>
+          </div>
+
+          {/* the signature · this page IS event #1 */}
+          <div className="arg-sig">
+            <div className="arg-sig-hd">
+              <span>event <b>#1</b> · onboarding.corrected</span>
+              <span>signed by founder</span>
+            </div>
+            <div className="arg-sig-row">
+              <span className="lbl">parent</span>
+              <span className="val">— · genesis · no prior event</span>
+            </div>
+            <div className="arg-sig-row">
+              <span className="lbl">read</span>
+              <span className="val">cut C · 7 screens · "explains the product"</span>
+            </div>
+            <div className="arg-sig-row">
+              <span className="lbl">redline</span>
+              <span className="val"><em>cut A · 3 screens · "performs the product"</em></span>
+            </div>
+            <div className="arg-sig-row">
+              <span className="lbl">refused</span>
+              <span className="val">9 screens, 5 fields, ~3 minutes of explanation</span>
+            </div>
+            <div className="arg-sig-row">
+              <span className="lbl">signature</span>
+              <span className="val">ed25519 · 4f7c 8b2e 91a3 d6f0 · 22e8 1c4b 7a9d e305</span>
+            </div>
+          </div>
+
+          <footer className="arg-foot">
+            <span>liminal · v0.1 pilot · personal surface</span>
+            <span>this page is the artifact · file: <span style={{color:"var(--clarity)"}}>onboarding.corrected</span></span>
+          </footer>
+
+        </article>
+      </div>
+    );
+  }
+
+  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+  // v0.8.5 F5 — fade body in after React mounts
+  requestAnimationFrame(() => document.body.classList.add("ready"));
+</script>
+
+</body>
+</html>
