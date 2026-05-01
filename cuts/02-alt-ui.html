@@ -114,6 +114,14 @@
     padding: 40px 24px;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* v0.8.5 F5 — initial paint suppression. body opacity 0 → 1 toggle
+       eliminates pre-setProduct flash. .ready class fires after first
+       setProduct() applies body[data-product=business] classes. */
+    opacity: 0;
+    transition: opacity 240ms ease-out;
+  }
+  body.ready {
+    opacity: 1;
   }
   button { cursor: pointer; }
 
@@ -1160,6 +1168,8 @@
   });
 
   setProduct("business");
+  // v0.8.5 F5 — fade body in after initial render is configured
+  requestAnimationFrame(() => document.body.classList.add("ready"));
 </script>
 </body>
 </html>
