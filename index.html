@@ -302,6 +302,14 @@
   </div>
 
   <div class="cn-section">
+    <div class="cn-section-label"><span>NatSec</span><span class="count">1</span></div>
+    <a class="cn-item" data-cut="08" href="#cut-08">
+      <span class="num">08</span><span class="lbl">Liminal Custody</span>
+      <span class="meta">live</span>
+    </a>
+  </div>
+
+  <div class="cn-section">
     <div class="cn-section-label"><span>Speced not built</span><span class="count">3</span></div>
     <a class="cn-item" data-cut="03" href="#cut-03">
       <span class="num">03</span><span class="lbl">Calibration view</span>
@@ -331,10 +339,14 @@
       <span class="num">▸</span><span class="lbl">Cut 01 · Speedrun cut</span>
       <span class="meta">tab</span>
     </a>
+    <a class="cn-item" href="cuts/08-liminal-custody.html" target="_blank">
+      <span class="num">▸</span><span class="lbl">Cut 08 · Liminal Custody</span>
+      <span class="meta">tab</span>
+    </a>
   </div>
 
   <div class="cn-foot">
-    ⌘⇧1 ··· ⌘⇧5<br>cuts via keys
+    ⌘⇧1 ··· ⌘⇧5 · ⌘⇧8<br>cuts via keys
   </div>
 </aside>
 
@@ -357,6 +369,15 @@
     data-cut="02"
     src="cuts/02-alt-ui.html"
     title="Cut 02 · Alt UI · v0.4 doc-shape"
+    loading="lazy"></iframe>
+
+  <!-- Cut 08 · iframe-loaded · Liminal Custody · NatSec desktop prototype -->
+  <iframe
+    id="cut-08"
+    class="cut-frame"
+    data-cut="08"
+    src="cuts/08-liminal-custody.html"
+    title="Cut 08 · Liminal Custody"
     loading="lazy"></iframe>
 
   <!-- Cut 03 · stub -->
@@ -389,11 +410,11 @@
 </main>
 
 <!-- catalog routing · hash-aware · keyboard-aware · iframe-and-stub-aware
-     · ⌘⇧1...⌘⇧5 routes (SHIFT discriminates from cut 01's internal ⌘1/⌘2/⌘3
+     · ⌘⇧1...⌘⇧5 plus ⌘⇧8 route between cuts (SHIFT discriminates from cut 01's internal ⌘1/⌘2/⌘3
        which route between Personal/Team/Business inside the slate-tray iframe) -->
 <script>
   (function () {
-    const VALID_CUTS = ["01", "02", "03", "04", "05"];
+    const VALID_CUTS = ["01", "02", "03", "04", "05", "08"];
 
     function activateCut(id) {
       const cutId = String(id).padStart(2, "0");
@@ -424,13 +445,13 @@
 
     window.addEventListener("hashchange", () => activateCut(fromHash()));
 
-    /* parent-level keyboard · ⌘⇧1...⌘⇧5 routes between cuts.
+    /* parent-level keyboard · ⌘⇧1...⌘⇧5 plus ⌘⇧8 route between cuts.
        cut 01's internal keyboard handler (inside the iframe) handles ⌘1/⌘2/⌘3
        for product-switches independently · the SHIFT modifier separates them. */
     document.addEventListener("keydown", (e) => {
       if (!(e.metaKey || e.ctrlKey) || !e.shiftKey) return;
       const k = e.key;
-      if (k >= "1" && k <= "5") {
+      if (["1", "2", "3", "4", "5", "8"].includes(k)) {
         e.preventDefault();
         activateCut(k);
       }
