@@ -1,5 +1,7 @@
 # liminal-prototype
 
+**Live: <https://liminalshruti.github.io/liminal-prototype/>**
+
 Public, click-able, interactive prototype for Liminal Agents — the bounded multi-agent system from the [AgentHansa AI Agent Economy Hackathon](https://luma.com/jmfpws97) submission, Apr 25 2026.
 
 This isn't the production product. It's a single-file embodiment of the four loops:
