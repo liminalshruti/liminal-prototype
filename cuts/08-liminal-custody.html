@@ -1527,6 +1527,34 @@
 
         <section class="rail-section">
           <div class="section-head">
+            <span class="section-label">Real-world findings</span>
+            <span class="section-meta">NatSec hackathon · 2026-05-03</span>
+          </div>
+          <p class="scenario-blurb" style="font-size: 11px; line-height: 1.45; color: var(--ink-muted, #8a8b8f); margin-bottom: 8px;">
+            Surfaced live during the hackathon demo from real Strait of Hormuz OSINT feeds. No staged data. Same agents as production.
+          </p>
+          <div class="findings-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px; line-height: 1.4;">
+            <div class="finding-item" style="padding: 6px 8px; border-left: 2px solid var(--accent, #d4a373); background: rgba(0,0,0,0.02);">
+              <strong style="color: var(--ink-strong, #1a1a1a);">Iranian crude tanker MMSI spoofing.</strong>
+              <span style="color: var(--ink-muted, #8a8b8f);">Multiple distinct intel markers chained. Each signal unremarkable alone, suspicious in sequence.</span>
+            </div>
+            <div class="finding-item" style="padding: 6px 8px; border-left: 2px solid var(--accent, #d4a373); background: rgba(0,0,0,0.02);">
+              <strong style="color: var(--ink-strong, #1a1a1a);">Sanctions-fleet evasion.</strong>
+              <span style="color: var(--ink-muted, #8a8b8f);">Routing choices, gray-market destinations, timing patterns connecting commercial behavior to sanctions risk.</span>
+            </div>
+            <div class="finding-item" style="padding: 6px 8px; border-left: 2px solid var(--accent, #d4a373); background: rgba(0,0,0,0.02);">
+              <strong style="color: var(--ink-strong, #1a1a1a);">Loitering clusters.</strong>
+              <span style="color: var(--ink-muted, #8a8b8f);">Pattern-not-anomaly framing. Cluster behavior with contextual markers as intent indicator.</span>
+            </div>
+            <div class="finding-item" style="padding: 6px 8px; border-left: 2px solid var(--accent, #d4a373); background: rgba(0,0,0,0.02);">
+              <strong style="color: var(--ink-strong, #1a1a1a);">Vessel-identity changes over time.</strong>
+              <span style="color: var(--ink-muted, #8a8b8f);">Standalone identity change is administrative; chained with other markers, it becomes an indicator.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="rail-section">
+          <div class="section-head">
             <span class="section-label">Replay beats</span>
             <span class="section-meta" id="beat-meta">step 1 of 5</span>
           </div>

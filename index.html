@@ -3,473 +3,222 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liminal · Catalog</title>
-
-<!--
-  Liminal · Catalog Shell · v0.8.2-iframe-cuts
-  ══════════════════════════════════════════════════════════════════════
-  This is the consolidation surface for all Liminal mocks, flows, and
-  design experiments. Each cut is a real HTML file under cuts/ that:
-
-    · imports the canonical tokens from design-system/tokens/
-    · imports the shared desktop-app shell from lib/cut-shell.css
-    · imports the runtime modules it needs from lib/
-
-  The parent shell does only three things:
-
-    1. Render the catalog rail (left) · always visible
-    2. Host one iframe (center) showing the active cut
-    3. Route between cuts via URL hash + clicks + ⌘⇧1...⌘⇧5
-
-  Adding a new cut is one file in cuts/ and one nav-item in this file.
-  No copy-paste, no token redefinition, no shell forking.
-
-  STUDIO INTENT
-  ─────────────
-  This architecture is the substrate for:
-    · desktop client       (Tauri loads each cut as a webview)
-    · marketing site       (theliminalspace.io serves cuts standalone)
-    · mobile app           (each cut becomes a screen)
-    · brand · creative     (cuts can be exported as static demos for decks)
-
-  Discipline that prevents slop:
-    · cuts cannot redefine canon tokens
-    · stubs render in canon vocabulary so even sketches look like Liminal
-    · each cut has a top-of-file contract block (see cuts/_template.html)
-    · each cut versions independently; one cut's bump doesn't touch others
-  ══════════════════════════════════════════════════════════════════════
--->
+<title>Liminal · Live Demos</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
 
-<!-- canon · the parent shell consumes only the tokens it needs for chrome -->
 <link rel="stylesheet" href="design-system/tokens/design-tokens.css">
 
 <style>
-  /* ════════════════════════════════════════════════════════════════
-     PARENT SHELL · catalog chrome only · cut content lives in iframes
-     ────────────────────────────────────────────────────────────────
-     Token cascade: the canon (design-system/tokens/design-tokens.css)
-     defines --bg, --frame-bg, --frame-border, --text, --text-mid,
-     --text-faint, --display, --serif, --sans, --mono, plus the 12-wheel
-     hue scales (--clarity, --wholeness, etc.). Every value below either
-     `var()`s into canon (with hardcoded fallbacks for offline preview)
-     or names a parent-shell-internal extension.
-
-     Edit a value in canon → next page load picks it up here. No copies.
-     ──────────────────────────────────────────────────────────────── */
-
-  /* parent-shell-internal token aliases · bind to canon · prototype-vocabulary */
   :root {
-    --shell-bg:           var(--bg,           #0A0A0B);
-    --shell-frame-bg:     var(--frame-bg,     #0E0E11);
-    --shell-frame-border: var(--frame-border, #1F1F24);
-    --shell-text:         var(--text,         #E8E8EA);
-    --shell-text-mid:     var(--text-mid,     #B0B0B6);
-    --shell-text-faint:   var(--text-faint,   #4A4A52);
-    --shell-card-border:  #2A2A30;             /* not in canon · TODO promote */
-
-    /* register accent for the parent rail · uses Personal/diligence · canon-bound */
-    --shell-accent:       var(--clarity,      #8E66FB);
-    --shell-accent-bg:    var(--clarity-bg,   rgba(142,102,251,0.06));
-    --shell-accent-soft:  var(--clarity-soft, rgba(142,102,251,0.40));
-
-    /* type families · canon-bound · fallback to current stack */
-    --shell-display: var(--display, "Newsreader", Georgia, serif);
-    --shell-serif:   var(--serif,   "Newsreader", Georgia, serif);
-    --shell-sans:    var(--sans,    "Geist", -apple-system, system-ui, sans-serif);
-    --shell-mono:    var(--mono,    "Geist Mono", "SF Mono", monospace);
+    --bg:           #0A0A0B;
+    --frame-bg:     #0E0E11;
+    --frame-border: #1F1F24;
+    --text:         #E8E8EA;
+    --text-mid:     #B0B0B6;
+    --text-faint:   #4A4A52;
+    --accent:       var(--clarity, #8E66FB);
+    --accent-bg:    var(--clarity-bg, rgba(142,102,251,0.06));
+    --card-border:  #2A2A30;
+    --display:      "Newsreader", Georgia, serif;
+    --sans:         "Geist", -apple-system, system-ui, sans-serif;
+    --mono:         "Geist Mono", "SF Mono", monospace;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
   html, body {
-    width: 100%; height: 100%;
-    overflow: hidden;
-    background: var(--shell-bg);
-    color: var(--shell-text);
-    font-family: var(--shell-sans);
+    min-height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
     -webkit-font-smoothing: antialiased;
   }
+
   body {
-    display: grid;
-    grid-template-columns: 188px 1fr;
-    grid-template-rows: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 72px 24px 80px;
+    gap: 0;
   }
 
-  /* ─── catalog rail (left) ──────────────────────────────────────── */
-  .catalog-nav {
-    grid-column: 1; grid-row: 1;
-    background: var(--shell-frame-bg);
-    border-right: 1px solid var(--shell-frame-border);
-    overflow-y: auto;
-    padding: 24px 0;
-    display: flex; flex-direction: column;
+  /* ── header ── */
+  header {
+    width: 100%;
+    max-width: 640px;
+    margin-bottom: 52px;
   }
-  .catalog-nav::-webkit-scrollbar { width: 6px; }
-  .catalog-nav::-webkit-scrollbar-thumb { background: var(--shell-card-border); border-radius: 3px; }
 
-  .cn-brand {
-    padding: 0 18px 18px;
-    border-bottom: 1px solid var(--shell-frame-border);
-    margin-bottom: 14px;
+  .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
   }
-  .cn-mark {
-    display: flex; align-items: center; gap: 8px;
-    font-family: var(--shell-display);
-    font-size: 16px;
-    color: var(--shell-text);
+
+  .wordmark-glyph {
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 18px;
+  }
+
+  .wordmark-name {
+    font-family: var(--display);
+    font-size: 20px;
     font-weight: 500;
-    letter-spacing: -0.005em;
-  }
-  .cn-mark .glyph {
-    color: var(--shell-accent);
-    font-family: var(--shell-mono);
-    font-size: 14px;
-  }
-  .cn-sub {
-    font-family: var(--shell-mono);
-    font-size: 9px;
-    color: var(--shell-text-faint);
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    margin-top: 5px;
+    letter-spacing: -0.01em;
+    color: var(--text);
   }
 
-  .cn-section { padding: 0 0 14px; margin-bottom: 6px; }
-  .cn-section-label {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding: 0 18px 8px;
-    font-family: var(--shell-mono);
-    font-size: 9px;
-    color: var(--shell-text-faint);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-  }
-  .cn-section-label .count { color: var(--shell-text-faint); font-size: 9px; }
-
-  .cn-item {
-    display: flex; align-items: baseline; gap: 10px;
-    padding: 7px 18px 7px 22px;
-    color: var(--shell-text-mid);
-    font-family: var(--shell-sans);
-    font-size: 12.5px;
-    text-decoration: none;
-    border-left: 2px solid transparent;
-    transition: color 180ms, background 180ms, border-color 180ms;
-    cursor: pointer;
-  }
-  .cn-item:hover { color: var(--shell-text); background: rgba(255,255,255,0.02); }
-  .cn-item.is-active {
-    color: var(--shell-text);
-    background: var(--shell-accent-bg);
-    border-left-color: var(--shell-accent);
-  }
-  .cn-item .num {
-    font-family: var(--shell-mono);
-    font-size: 9.5px;
-    color: var(--shell-text-faint);
-    flex-shrink: 0;
-    width: 20px;
-  }
-  .cn-item.is-active .num { color: var(--shell-accent); }
-  .cn-item .lbl { flex: 1; min-width: 0; line-height: 1.3; }
-  .cn-item .meta {
-    font-family: var(--shell-mono);
-    font-size: 8.5px;
-    color: var(--shell-text-faint);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+  .lede {
+    font-family: var(--display);
+    font-size: 15px;
+    font-style: italic;
+    color: var(--text-mid);
+    line-height: 1.55;
+    max-width: 480px;
   }
 
-  .cn-foot {
-    margin-top: auto;
-    padding: 14px 18px 0;
-    border-top: 1px solid var(--shell-frame-border);
-    font-family: var(--shell-mono);
-    font-size: 9px;
-    color: var(--shell-text-faint);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1.6;
-  }
-
-  /* ─── stage (right) · holds the active cut ─────────────────────── */
-  .cut-stage {
-    grid-column: 2; grid-row: 1;
-    position: relative;
+  /* ── demo cards ── */
+  .demos {
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--frame-border);
+    border: 1px solid var(--frame-border);
+    border-radius: 8px;
     overflow: hidden;
   }
-  .cut-frame {
-    width: 100%; height: 100%;
-    border: 0;
-    background: transparent;
-    display: none;
-  }
-  .cut-frame.is-active { display: block; }
 
-  /* inline stub-cut presentation · for cuts not yet extracted to iframes */
-  .cut-stub {
-    width: 100%; height: 100%;
-    display: none;
+  .demo-card {
+    display: flex;
     flex-direction: column;
-    align-items: center; justify-content: center;
-    padding: 40px 24px;
-    gap: 18px;
-    text-align: center;
-    background: radial-gradient(ellipse 1100px 700px at 50% 50%, var(--shell-accent-bg), transparent 70%), var(--shell-bg);
-  }
-  .cut-stub.is-active { display: flex; }
-  .stub-glyph {
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    border: 1px dashed var(--shell-accent-soft);
-    display: inline-flex; align-items: center; justify-content: center;
-    color: var(--shell-accent);
-    font-family: var(--shell-mono);
-    font-size: 22px;
-    background: var(--shell-accent-bg);
-  }
-  .stub-eyebrow {
-    font-family: var(--shell-mono);
-    font-size: 9.5px;
-    color: var(--shell-accent);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-  }
-  .cut-stub h2 {
-    font-family: var(--shell-display);
-    font-size: 28px;
-    font-style: italic;
-    font-weight: 500;
-    color: var(--shell-text);
-    letter-spacing: -0.012em;
-    margin: 0;
-    max-width: 600px;
-    line-height: 1.25;
-  }
-  .cut-stub p {
-    font-family: var(--shell-serif);
-    font-size: 14px;
-    color: var(--shell-text-mid);
-    line-height: 1.55;
-    max-width: 540px;
-    margin: 0;
-  }
-  .stub-status {
-    font-family: var(--shell-mono);
-    font-size: 9px;
-    color: var(--shell-text-faint);
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    border: 1px solid var(--shell-card-border);
-    padding: 4px 10px;
-    border-radius: 3px;
+    gap: 6px;
+    padding: 24px 28px;
+    background: var(--frame-bg);
+    text-decoration: none;
+    transition: background 160ms;
+    position: relative;
   }
 
-  /* responsive · catalog rail collapses under 900px */
-  @media (max-width: 900px) {
-    body { grid-template-columns: 1fr; }
-    .catalog-nav { display: none; }
-    .cut-stage { grid-column: 1; }
+  .demo-card:hover {
+    background: var(--accent-bg);
   }
+
+  .demo-card:hover .demo-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .demo-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .demo-title {
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  .demo-desc {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.5;
+    max-width: 520px;
+  }
+
+  .demo-arrow {
+    position: absolute;
+    right: 28px;
+    top: 50%;
+    transform: translateX(-4px) translateY(-50%);
+    color: var(--accent);
+    font-family: var(--mono);
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 160ms, transform 160ms;
+  }
+
+  /* ── footer ── */
+  footer {
+    width: 100%;
+    max-width: 640px;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--frame-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .footer-note {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .footer-link {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-decoration: none;
+    transition: color 160ms;
+  }
+
+  .footer-link:hover { color: var(--text-mid); }
 </style>
 </head>
 <body>
 
-<!-- catalog rail · routes between cuts -->
-<aside class="catalog-nav" id="catalog-nav" aria-label="Cuts catalog">
-  <div class="cn-brand">
-    <div class="cn-mark"><span class="glyph">◇</span>Liminal</div>
-    <div class="cn-sub">v0.8.2 · cuts catalog</div>
+<header>
+  <div class="wordmark">
+    <span class="wordmark-glyph">◇</span>
+    <span class="wordmark-name">Liminal</span>
   </div>
+  <p class="lede">Judgment infrastructure for founders running multi-agent systems. Drag any window into the tray. Twelve bounded agents read it, disagree, and propose one move. You correct the read. The vault holds the record.</p>
+</header>
 
-  <div class="cn-section">
-    <div class="cn-section-label"><span>Live</span><span class="count">1</span></div>
-    <a class="cn-item is-active" data-cut="01" href="#cut-01">
-      <span class="num">01</span><span class="lbl">Three-surface slate</span>
-      <span class="meta">live</span>
-    </a>
-  </div>
+<div class="demos" role="list">
 
-  <div class="cn-section">
-    <div class="cn-section-label"><span>Alts</span><span class="count">1</span></div>
-    <a class="cn-item" data-cut="02" href="#cut-02">
-      <span class="num">02</span><span class="lbl">Alt UI · v0.4 doc-shape</span>
-      <span class="meta">alt</span>
-    </a>
-  </div>
+  <a class="demo-card" href="cuts/01-slate-tray-speedrun.html" role="listitem">
+    <span class="demo-tag">Primary demo</span>
+    <span class="demo-title">Slate tray — founder OS</span>
+    <p class="demo-desc">The core workflow: drag a Slack thread, Notion doc, or meeting transcript into the tray. Twelve bounded agents read it and disagree. Stage one next move. Correct the read. The vault keeps the record.</p>
+    <span class="demo-arrow">→</span>
+  </a>
 
-  <div class="cn-section">
-    <div class="cn-section-label"><span>NatSec</span><span class="count">1</span></div>
-    <a class="cn-item" data-cut="08" href="#cut-08">
-      <span class="num">08</span><span class="lbl">Liminal Custody</span>
-      <span class="meta">live</span>
-    </a>
-  </div>
+  <a class="demo-card" href="cuts/08-liminal-custody.html" role="listitem">
+    <span class="demo-tag">NatSec stress-case</span>
+    <span class="demo-title">Liminal Custody — defense surface</span>
+    <p class="demo-desc">Same architecture under maximum operational constraint: overload, ambiguity, accountability. Built at NatSec May 2–3. Top 16 of 102 in 48 hours. Do not automate the moral lever — equip the human holding it.</p>
+    <span class="demo-arrow">→</span>
+  </a>
 
-  <div class="cn-section">
-    <div class="cn-section-label"><span>Speced not built</span><span class="count">3</span></div>
-    <a class="cn-item" data-cut="03" href="#cut-03">
-      <span class="num">03</span><span class="lbl">Calibration view</span>
-      <span class="meta">stub</span>
-    </a>
-    <a class="cn-item" data-cut="04" href="#cut-04">
-      <span class="num">04</span><span class="lbl">Vault surface</span>
-      <span class="meta">stub</span>
-    </a>
-    <a class="cn-item" data-cut="05" href="#cut-05">
-      <span class="num">05</span><span class="lbl">Morning ritual</span>
-      <span class="meta">stub</span>
-    </a>
-  </div>
+</div>
 
-  <div class="cn-section">
-    <div class="cn-section-label"><span>Reference</span></div>
-    <a class="cn-item" href="design-system.html" target="_blank">
-      <span class="num">▸</span><span class="lbl">Design system</span>
-      <span class="meta">live</span>
-    </a>
-    <a class="cn-item" href="cuts/01-slate-tray.html" target="_blank">
-      <span class="num">▸</span><span class="lbl">Cut 01 standalone</span>
-      <span class="meta">tab</span>
-    </a>
-    <a class="cn-item" href="cuts/01-slate-tray-speedrun.html" target="_blank">
-      <span class="num">▸</span><span class="lbl">Cut 01 · Speedrun cut</span>
-      <span class="meta">tab</span>
-    </a>
-    <a class="cn-item" href="cuts/08-liminal-custody.html" target="_blank">
-      <span class="num">▸</span><span class="lbl">Cut 08 · Liminal Custody</span>
-      <span class="meta">tab</span>
-    </a>
-  </div>
-
-  <div class="cn-foot">
-    ⌘⇧1 ··· ⌘⇧5 · ⌘⇧8<br>cuts via keys
-  </div>
-</aside>
-
-<!-- stage · one iframe-cut at a time · inline stubs for not-yet-extracted cuts -->
-<main class="cut-stage" id="cut-stage">
-
-  <!-- Cut 01 · iframe-loaded · the canonical live build · slate-tray -->
-  <iframe
-    id="cut-01"
-    class="cut-frame is-active"
-    data-cut="01"
-    src="cuts/01-slate-tray.html"
-    title="Cut 01 · Three-surface slate"
-    loading="eager"></iframe>
-
-  <!-- Cut 02 · iframe-loaded · v0.4 doc-shape · alt UI exploration -->
-  <iframe
-    id="cut-02"
-    class="cut-frame"
-    data-cut="02"
-    src="cuts/02-alt-ui.html"
-    title="Cut 02 · Alt UI · v0.4 doc-shape"
-    loading="lazy"></iframe>
-
-  <!-- Cut 08 · iframe-loaded · Liminal Custody · NatSec desktop prototype -->
-  <iframe
-    id="cut-08"
-    class="cut-frame"
-    data-cut="08"
-    src="cuts/08-liminal-custody.html"
-    title="Cut 08 · Liminal Custody"
-    loading="lazy"></iframe>
-
-  <!-- Cut 03 · stub -->
-  <div class="cut-stub" data-cut="03">
-    <div class="stub-glyph">◐</div>
-    <div class="stub-eyebrow">Cut 03 · Calibration view</div>
-    <h2>The vault claim, made visible.</h2>
-    <p>Temporal grid · weeks across the top, registers down the side. Each cell shows correction count + dominant tag for that week × register. Click an agent to drill into correction history. Pattern, not score.</p>
-    <span class="stub-status">Stub · UI_GAP_SPEC §3.3 · HIGH severity</span>
-  </div>
-
-  <!-- Cut 04 · stub -->
-  <div class="cut-stub" data-cut="04">
-    <div class="stub-glyph">◈</div>
-    <div class="stub-eyebrow">Cut 04 · Vault surface</div>
-    <h2>The accumulated record, on screen.</h2>
-    <p>Reverse-chronological list of every correction · timestamp, agent, what it said, what was corrected, 9-tag, scenario context. Persistence in IndexedDB. Per UI_GAP_SPEC §3.2 · category-credibility blocker.</p>
-    <span class="stub-status">Stub · UI_GAP_SPEC §3.2 · HIGH severity</span>
-  </div>
-
-  <!-- Cut 05 · stub -->
-  <div class="cut-stub" data-cut="05">
-    <div class="stub-glyph">◑</div>
-    <div class="stub-eyebrow">Cut 05 · Morning ritual</div>
-    <h2>The operator's daily loop, reflected back.</h2>
-    <p>You read Brian. You read your cofounder. You read Maya. Then you came back to your own thread. Personal surface shows you the 4 reads this morning, with cumulative correction-stream weight. The act of moving across surfaces IS the ritual.</p>
-    <span class="stub-status">Stub · matrix doc §5 · MEDIUM severity</span>
-  </div>
-
-</main>
-
-<!-- catalog routing · hash-aware · keyboard-aware · iframe-and-stub-aware
-     · ⌘⇧1...⌘⇧5 plus ⌘⇧8 route between cuts (SHIFT discriminates from cut 01's internal ⌘1/⌘2/⌘3
-       which route between Personal/Team/Business inside the slate-tray iframe) -->
-<script>
-  (function () {
-    const VALID_CUTS = ["01", "02", "03", "04", "05", "08"];
-
-    function activateCut(id) {
-      const cutId = String(id).padStart(2, "0");
-      if (!VALID_CUTS.includes(cutId)) return;
-      document.querySelectorAll(".cut-frame, .cut-stub").forEach(el => {
-        el.classList.toggle("is-active", el.dataset.cut === cutId);
-      });
-      document.querySelectorAll(".cn-item[data-cut]").forEach(el => {
-        el.classList.toggle("is-active", el.dataset.cut === cutId);
-      });
-      const want = "#cut-" + cutId;
-      if (location.hash !== want) history.replaceState(null, "", want);
-    }
-
-    function fromHash() {
-      const m = (location.hash || "").match(/cut-(\d{2})/);
-      return m ? m[1] : "01";
-    }
-
-    document.addEventListener("DOMContentLoaded", () => activateCut(fromHash()));
-
-    document.addEventListener("click", (e) => {
-      const item = e.target.closest(".cn-item[data-cut]");
-      if (!item) return;
-      e.preventDefault();
-      activateCut(item.dataset.cut);
-    });
-
-    window.addEventListener("hashchange", () => activateCut(fromHash()));
-
-    /* parent-level keyboard · ⌘⇧1...⌘⇧5 plus ⌘⇧8 route between cuts.
-       cut 01's internal keyboard handler (inside the iframe) handles ⌘1/⌘2/⌘3
-       for product-switches independently · the SHIFT modifier separates them. */
-    document.addEventListener("keydown", (e) => {
-      if (!(e.metaKey || e.ctrlKey) || !e.shiftKey) return;
-      const k = e.key;
-      if (["1", "2", "3", "4", "5", "8"].includes(k)) {
-        e.preventDefault();
-        activateCut(k);
-      }
-    });
-
-    /* ─── parent ↔ cut postMessage bus · minimal seam for future shared state
-       · cut publishes events: { type: "liminal:toast", detail: "msg" } etc.
-       · parent broadcasts: { type: "liminal:command", detail: "open-cut-03" }
-       · today this just listens for toast forwarding so cut toasts can
-         eventually surface at parent-level without duplicating the toast UI */
-    window.addEventListener("message", (ev) => {
-      const data = ev.data;
-      if (!data || typeof data !== "object" || !data.type?.startsWith("liminal:")) return;
-      /* future: forward to parent-level toast / handle navigation requests */
-      // console.debug("[parent-bus]", data);
-    });
-  })();
-</script>
+<footer>
+  <span class="footer-note">theliminalspace.io · May 2026</span>
+  <a class="footer-link" href="https://theliminalspace.io">site</a>
+</footer>
 
 </body>
 </html>
