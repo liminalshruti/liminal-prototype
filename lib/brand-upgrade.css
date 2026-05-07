@@ -1,53 +1,124 @@
 /*
  * brand-upgrade.css · Liminal prototype · 2026-05-07
  * ═══════════════════════════════════════════════════
- * Applies brand fonts (NinetiesHeadliner + PerfectlyNineties) + visual
- * upgrades (warm backgrounds, monochrome orbital, magenta convergence,
- * neutral tray) to any cut that imports cut-shell.css.
+ * Full design system: brand fonts, type hierarchy, 12-wheel colors,
+ * neutral surfaces, orbital/tray/rail overrides.
  *
- * Usage: add after cut-shell.css import —
- *   <link rel="stylesheet" href="../lib/brand-upgrade.css">
- *   (or "lib/brand-upgrade.css" from root-level files)
- *
- * Font files are referenced relative to the CSS file location (lib/).
+ * Import after cut-shell.css:
+ *   <link rel="stylesheet" href="../lib/brand-upgrade.css">   (cuts/)
+ *   <link rel="stylesheet" href="lib/brand-upgrade.css">      (root)
  */
 
-/* ── Brand fonts ─────────────────────────────────── */
+/* ══════════════════════════════════════════════════════
+   BRAND FONTS — PerfectlyNineties full 16-weight range
+   No italic used for emphasis — weight is the emphasis axis.
+   ══════════════════════════════════════════════════════ */
 @font-face {
   font-family: 'NinetiesHeadliner';
   src: url('../fonts/nineties-headliner.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'PerfectlyNineties';
+  src: url('../fonts/PerfectlyNineties-Thin.otf') format('opentype');
+  font-weight: 100; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'PerfectlyNineties';
+  src: url('../fonts/PerfectlyNineties-Extralight.otf') format('opentype');
+  font-weight: 200; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'PerfectlyNineties';
   src: url('../fonts/perfectly-nineties-light.otf') format('opentype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 300; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'PerfectlyNineties';
   src: url('../fonts/perfectly-nineties-regular.otf') format('opentype');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'PerfectlyNineties';
+  src: url('../fonts/PerfectlyNineties-Semibold.otf') format('opentype');
+  font-weight: 600; font-style: normal; font-display: swap;
 }
 @font-face {
   font-family: 'PerfectlyNineties';
   src: url('../fonts/perfectly-nineties-bold.otf') format('opentype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'PerfectlyNineties';
+  src: url('../fonts/PerfectlyNineties-Extrabold.otf') format('opentype');
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'PerfectlyNineties';
+  src: url('../fonts/PerfectlyNineties-Black.otf') format('opentype');
+  font-weight: 900; font-style: normal; font-display: swap;
 }
 
-/* ── Token overrides ─────────────────────────────── */
-:root {
-  --mono:    "Geist Mono", "SF Mono", ui-monospace, monospace;
-  --display: "NinetiesHeadliner", "Newsreader", Georgia, serif;
-  --serif:   "PerfectlyNineties", "Newsreader", Georgia, serif;
+/* ══════════════════════════════════════════════════════
+   TYPE SYSTEM — scale ratio 1.250 (Major Third)
+   Weight axis replaces italic for all emphasis. No italic.
 
+   DISPLAY   NinetiesHeadliner 700   4.8–9rem    -0.04em  ← hero numbers, brand wordmark
+   SUBHEAD   NinetiesHeadliner 700   1.5–2.4rem  -0.03em  ← section headers, slate titles
+   H1        PerfectlyNineties 700   2.4–3.6rem  -0.03em  ← major section headlines
+   H2        PerfectlyNineties 600   1.5–2rem    -0.025em ← card titles, panel headers
+   BODY      PerfectlyNineties 300   0.9–1rem    -0.005em ← all running prose
+   EMPHASIS  PerfectlyNineties 600   inherit      inherit  ← inline stress, no italic
+   LABEL     Geist Mono 400          0.58–0.72rem  0.16em ← UI labels, status tags
+   EYEBROW   Geist Mono 400          0.52–0.58rem  0.22em ← register names, section tags
+   META      Geist Mono 400          0.52rem       0.12em ← timestamps, counts
+
+   CSS custom properties for consistent reuse:
+   ══════════════════════════════════════════════════════ */
+:root {
+  /* Font stacks */
+  --font-display:  "NinetiesHeadliner", Georgia, serif;
+  --font-serif:    "PerfectlyNineties", Georgia, serif;
+  --font-mono:     "Geist Mono", "SF Mono", ui-monospace, monospace;
+  --font-sans:     "Geist", -apple-system, system-ui, sans-serif;
+
+  /* Cut-shell compat aliases */
+  --display: var(--font-display);
+  --serif:   var(--font-serif);
+  --mono:    var(--font-mono);
+  --sans:    var(--font-sans);
+
+  /* Type scale — 1.250 Major Third ratio, base 16px */
+  --text-2xs:  0.512rem;   /* 8.2px  — meta, footnote */
+  --text-xs:   0.64rem;    /* 10.2px — eyebrow, label */
+  --text-sm:   0.8rem;     /* 12.8px — caption, UI */
+  --text-base: 1rem;       /* 16px   — body */
+  --text-md:   1.25rem;    /* 20px   — large body */
+  --text-lg:   1.563rem;   /* 25px   — h3 */
+  --text-xl:   1.953rem;   /* 31px   — h2 */
+  --text-2xl:  2.441rem;   /* 39px   — h1 */
+  --text-3xl:  3.052rem;   /* 49px   — display sm */
+  --text-4xl:  3.815rem;   /* 61px   — display md */
+  --text-5xl:  4.768rem;   /* 76px   — display lg */
+  --text-6xl:  5.96rem;    /* 95px   — hero */
+
+  /* Line heights */
+  --leading-tight:  0.9;
+  --leading-snug:   1.1;
+  --leading-normal: 1.5;
+  --leading-relaxed:1.65;
+  --leading-loose:  1.8;
+
+  /* Letter spacing */
+  --tracking-tight:   -0.04em;
+  --tracking-snug:    -0.03em;
+  --tracking-normal:  -0.01em;
+  --tracking-body:    -0.005em;
+  --tracking-wide:     0.12em;
+  --tracking-wider:    0.16em;
+  --tracking-widest:   0.22em;
+
+  /* Backgrounds — warm black axis */
   --bg:           #08080a;
   --frame-bg:     #0c0c0f;
   --frame-bg-2:   #0a0a0d;
@@ -56,39 +127,38 @@
   --card-border:  #202026;
   --card-border-2:#28282e;
 
+  /* Ink scale — warm cream axis */
   --text:       #F2F0EC;
   --text-mid:   #C4C0B8;
   --text-dim:   #847F79;
   --text-faint: #504C47;
 
-  /* ── 12-wheel canon register colors ─────────────────
-     Replace off-spec hues across all cuts.
-     Diligence = clarity violet · Judgment = wholeness pink
-     Synthesis = cerulean blue  · Outreach  = connection green
-     These are the ONLY 4 agent-register colors allowed.
-     No orange, no yellow, no coral, no teal in register UI.
+  /* ── 12-wheel register colors ─────────────────────
+     4 agent registers only. No orange/yellow/coral/teal.
+     Diligence = clarity violet  · Judgment = wholeness magenta
+     Synthesis = cerulean blue   · Outreach = connection green
   ─────────────────────────────────────────────────── */
-  --clarity:     #8E66FB;
+  --clarity:      #8E66FB;
   --clarity-soft: rgba(142,102,251,0.35);
   --clarity-bg:   rgba(142,102,251,0.07);
   --clarity-edge: rgba(142,102,251,0.22);
 
-  --wholeness:     #E8006A;
+  --wholeness:      #E8006A;
   --wholeness-soft: rgba(232,0,106,0.35);
   --wholeness-bg:   rgba(232,0,106,0.07);
   --wholeness-edge: rgba(232,0,106,0.22);
 
-  --cerulean:     #197EEB;
+  --cerulean:      #197EEB;
   --cerulean-soft: rgba(25,126,235,0.35);
   --cerulean-bg:   rgba(25,126,235,0.07);
   --cerulean-edge: rgba(25,126,235,0.22);
 
-  --connection:     #31E682;
+  --connection:      #31E682;
   --connection-soft: rgba(49,230,130,0.35);
   --connection-bg:   rgba(49,230,130,0.07);
   --connection-edge: rgba(49,230,130,0.22);
 
-  /* Register bindings — canon names map to register roles */
+  /* Register → role bindings */
   --diligence:      var(--clarity);
   --diligence-soft: var(--clarity-soft);
   --diligence-bg:   var(--clarity-bg);
@@ -108,27 +178,36 @@
   --outreach-soft:  var(--connection-soft);
   --outreach-bg:    var(--connection-bg);
   --outreach-edge:  var(--connection-edge);
+}
 
-  /* Primary accent — magenta (Liminal Pink / wholeness) */
+/* body-level accent — wins over per-file :root overrides */
+body {
   --accent:      #E8006A;
   --accent-soft: rgba(232,0,106,0.35);
   --accent-bg:   rgba(232,0,106,0.07);
   --accent-edge: rgba(232,0,106,0.22);
   --accent-glow: 0 0 20px rgba(232,0,106,0.4);
+  --pink:        #E8006A;
+  --clarity:     #8E66FB;
 }
 
-/* ── Accent remap — neutral tray, no violet bleed ── */
-body,
-body[data-product="personal"],
-body[data-product="team"],
-body[data-product="business"] {
-  --p-accent:      rgba(240,238,234,0.5);
-  --p-accent-soft: rgba(240,238,234,0.2);
-  --p-accent-bg:   rgba(240,238,234,0.04);
-  --p-accent-edge: rgba(240,238,234,0.1);
+/* ══════════════════════════════════════════════════════
+   GLOBAL EMPHASIS RULE — weight not italic
+   em/strong always → PerfectlyNineties semibold, no slant
+   ══════════════════════════════════════════════════════ */
+em, strong,
+.brief-body em, .brief-body strong,
+.move-body em, .panel-body em,
+.se-helper em, .slate-subtitle em {
+  font-family: "PerfectlyNineties", Georgia, serif !important;
+  font-weight: 600 !important;
+  font-style: normal !important;
+  color: var(--text) !important;
 }
 
-/* ── Entry overlay ───────────────────────────────── */
+/* ══════════════════════════════════════════════════════
+   ENTRY OVERLAY
+   ══════════════════════════════════════════════════════ */
 .entry-overlay {
   background: rgba(8,8,10,0.96) !important;
   backdrop-filter: blur(32px) !important;
@@ -143,25 +222,27 @@ body[data-product="business"] {
   max-width: 640px !important;
 }
 .entry-wedge {
-  font-family: "NinetiesHeadliner", "PerfectlyNineties", Georgia, serif !important;
-  font-size: 1.55rem !important;
-  font-weight: 400 !important;
-  line-height: 1.3 !important;
-  letter-spacing: -0.02em !important;
-  color: #F2F0EC !important;
-  margin-bottom: 10px !important;
+  font-family: "NinetiesHeadliner", Georgia, serif !important;
+  font-size: var(--text-xl) !important;
+  font-weight: 700 !important;
+  line-height: var(--leading-snug) !important;
+  letter-spacing: var(--tracking-snug) !important;
+  color: var(--text) !important;
+  font-style: normal !important;
 }
 .entry-card .entry-brand {
   font-family: "PerfectlyNineties", Georgia, serif !important;
-  font-style: italic !important;
-  font-size: 0.9rem !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
+  font-size: var(--text-sm) !important;
   color: rgba(242,240,236,0.4) !important;
-  letter-spacing: 0.01em !important;
+  letter-spacing: var(--tracking-body) !important;
 }
 .entry-prompt {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.6rem !important;
-  letter-spacing: 0.2em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-widest) !important;
   text-transform: uppercase !important;
   color: rgba(242,240,236,0.3) !important;
   margin-top: 32px !important;
@@ -179,135 +260,198 @@ body[data-product="business"] {
   border-color: rgba(255,255,255,0.14) !important;
 }
 .ed-eyebrow {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.58rem !important;
-  letter-spacing: 0.18em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wider) !important;
   text-transform: uppercase !important;
   color: rgba(242,240,236,0.35) !important;
   margin-bottom: 6px !important;
 }
 .ed-title {
-  font-family: "NinetiesHeadliner", "PerfectlyNineties", Georgia, serif !important;
-  font-size: 1rem !important;
-  font-weight: 400 !important;
-  letter-spacing: -0.01em !important;
-  color: #F2F0EC !important;
+  font-family: "NinetiesHeadliner", Georgia, serif !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  font-size: var(--text-base) !important;
+  letter-spacing: var(--tracking-normal) !important;
+  color: var(--text) !important;
   margin-bottom: 6px !important;
 }
 .ed-helper {
-  font-size: 0.78rem !important;
+  font-family: "PerfectlyNineties", Georgia, serif !important;
+  font-weight: 300 !important;
+  font-size: var(--text-sm) !important;
   color: rgba(242,240,236,0.4) !important;
-  line-height: 1.55 !important;
+  line-height: var(--leading-normal) !important;
 }
 .entry-skip {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.6rem !important;
-  letter-spacing: 0.14em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wide) !important;
   color: rgba(242,240,236,0.2) !important;
   text-transform: uppercase !important;
   margin-top: 24px !important;
 }
 
-/* ── Frame chrome ────────────────────────────────── */
+/* ══════════════════════════════════════════════════════
+   FRAME CHROME
+   ══════════════════════════════════════════════════════ */
 .titlebar {
   background: #0c0c0f !important;
   border-bottom: 1px solid rgba(255,255,255,0.06) !important;
 }
 .brand {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.62rem !important;
-  letter-spacing: 0.2em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-widest) !important;
   text-transform: uppercase !important;
   color: rgba(242,240,236,0.55) !important;
 }
 .diamond { color: rgba(142,102,251,0.8) !important; }
 .product-tab {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.62rem !important;
-  letter-spacing: 0.14em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wider) !important;
 }
 
-/* ── Slate ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════
+   SLATE
+   ══════════════════════════════════════════════════════ */
 .slate-title {
-  font-family: "NinetiesHeadliner", "PerfectlyNineties", Georgia, serif !important;
-  font-weight: 400 !important;
-  letter-spacing: -0.025em !important;
+  font-family: "NinetiesHeadliner", Georgia, serif !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  letter-spacing: var(--tracking-snug) !important;
+}
+.slate-subtitle {
+  font-family: "PerfectlyNineties", Georgia, serif !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
+  font-size: var(--text-base) !important;
+  line-height: var(--leading-relaxed) !important;
+  letter-spacing: var(--tracking-body) !important;
 }
 .se-headline {
-  font-family: "NinetiesHeadliner", "PerfectlyNineties", Georgia, serif !important;
-  font-weight: 400 !important;
-  letter-spacing: -0.02em !important;
-  font-size: 1.1rem !important;
-  line-height: 1.4 !important;
+  font-family: "NinetiesHeadliner", Georgia, serif !important;
+  font-weight: 700 !important;
+  font-style: normal !important;
+  font-size: var(--text-md) !important;
+  line-height: var(--leading-snug) !important;
+  letter-spacing: var(--tracking-snug) !important;
   color: rgba(242,240,236,0.55) !important;
 }
 .se-glyph {
   color: rgba(142,102,251,0.5) !important;
-  font-size: 1.2rem !important;
+  font-size: var(--text-lg) !important;
 }
 .classification {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.58rem !important;
-  letter-spacing: 0.2em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-widest) !important;
 }
 
-/* ── Brief + disposition ─────────────────────────── */
+/* ══════════════════════════════════════════════════════
+   BRIEF + DISPOSITION
+   ══════════════════════════════════════════════════════ */
 .brief-head {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.6rem !important;
-  letter-spacing: 0.16em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wider) !important;
   text-transform: uppercase !important;
   color: rgba(242,240,236,0.35) !important;
 }
+.brief-head .glyph { color: var(--wholeness) !important; }
 .brief-body {
-  font-family: "PerfectlyNineties", "Newsreader", Georgia, serif !important;
-  font-size: 0.95rem !important;
-  line-height: 1.65 !important;
-  letter-spacing: -0.01em !important;
+  font-family: "PerfectlyNineties", Georgia, serif !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
+  font-size: var(--text-sm) !important;
+  line-height: var(--leading-relaxed) !important;
+  letter-spacing: var(--tracking-body) !important;
   color: rgba(242,240,236,0.82) !important;
 }
-.dispo-btn.is-primary {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.62rem !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
-  border-radius: 2px !important;
+.brief-body em, .brief-body strong {
+  font-weight: 600 !important;
+  font-style: normal !important;
+  color: var(--text) !important;
 }
 
-/* ── Agency rail ─────────────────────────────────── */
+/* Disposition buttons — neutral, no green */
+.brief-disposition .dispo-btn,
+.dispo-btn {
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wider) !important;
+  text-transform: uppercase !important;
+  border-radius: 2px !important;
+  border: 1px solid rgba(242,240,236,0.18) !important;
+  background: rgba(242,240,236,0.05) !important;
+  color: rgba(242,240,236,0.65) !important;
+  transition: background 0.15s, border-color 0.15s !important;
+}
+.brief-disposition .dispo-btn:hover,
+.dispo-btn:hover {
+  background: rgba(242,240,236,0.1) !important;
+  border-color: rgba(242,240,236,0.3) !important;
+  color: var(--text) !important;
+}
+.brief-disposition .dispo-btn:first-child,
+.dispo-btn.is-primary {
+  background: rgba(242,240,236,0.1) !important;
+  border-color: rgba(242,240,236,0.28) !important;
+  color: var(--text) !important;
+}
+.brief-disposition .dispo-signed {
+  color: var(--wholeness) !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   AGENCY RAIL
+   ══════════════════════════════════════════════════════ */
 .rail-right-header {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.58rem !important;
-  letter-spacing: 0.18em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wider) !important;
+  text-transform: uppercase !important;
   border-bottom: 1px solid rgba(255,255,255,0.06) !important;
   padding-bottom: 10px !important;
 }
 .agent-slot {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
+  font-family: var(--font-mono) !important;
 }
 .ar-label {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.58rem !important;
-  letter-spacing: 0.18em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wider) !important;
 }
 
-/* ── Orbital diagram — monochrome plates ─────────── */
+/* ══════════════════════════════════════════════════════
+   ORBITAL DIAGRAM — monochrome plates, magenta convergence
+   ══════════════════════════════════════════════════════ */
 .reg-plate {
   fill: rgba(255,255,255,0.02) !important;
   stroke: rgba(255,255,255,0.1) !important;
   stroke-width: 0.75 !important;
 }
-.reg-plate.diligence,
-.reg-plate.outreach,
-.reg-plate.synthesis,
-.reg-plate.judgment { stroke: rgba(255,255,255,0.1) !important; }
+.reg-plate.diligence, .reg-plate.outreach,
+.reg-plate.synthesis, .reg-plate.judgment {
+  stroke: rgba(255,255,255,0.1) !important;
+}
+.reg-label.diligence, .reg-label.outreach,
+.reg-label.synthesis, .reg-label.judgment {
+  fill: rgba(255,255,255,0.28) !important;
+  font-family: "Geist Mono", monospace !important;
+}
 
-.reg-label.diligence,
-.reg-label.outreach,
-.reg-label.synthesis,
-.reg-label.judgment { fill: rgba(255,255,255,0.28) !important; }
-
-/* ── Orbital convergence — magenta ──────────────── */
+/* Convergence → magenta */
 .center-orb.convergent {
   fill: rgba(232,0,106,0.12) !important;
   stroke: rgba(232,0,106,0.45) !important;
@@ -319,14 +463,27 @@ body[data-product="business"] {
   filter: drop-shadow(0 0 10px rgba(232,0,106,0.4)) !important;
 }
 
-/* ── Refusal arrows — neutral ────────────────────── */
+/* Refusal arrows — neutral */
 .refusal-arrow.active { opacity: 0.3 !important; }
-.refusal-arrow.diligence,
-.refusal-arrow.outreach,
-.refusal-arrow.synthesis,
-.refusal-arrow.judgment { stroke: rgba(255,255,255,0.5) !important; }
+.refusal-arrow.diligence, .refusal-arrow.outreach,
+.refusal-arrow.synthesis, .refusal-arrow.judgment {
+  stroke: rgba(255,255,255,0.5) !important;
+}
 
-/* ── Rails ───────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════
+   RAILS + SURFACES
+   ══════════════════════════════════════════════════════ */
+
+/* Accent remap — neutral tray/rail */
+body[data-product="personal"],
+body[data-product="team"],
+body[data-product="business"] {
+  --p-accent:      rgba(240,238,234,0.5);
+  --p-accent-soft: rgba(240,238,234,0.2);
+  --p-accent-bg:   rgba(240,238,234,0.04);
+  --p-accent-edge: rgba(240,238,234,0.1);
+}
+
 .rail-right {
   background: #0c0c0f !important;
   border-left-color: rgba(255,255,255,0.07) !important;
@@ -335,8 +492,6 @@ body[data-product="business"] {
   background: #0a0a0d !important;
   border-right-color: rgba(255,255,255,0.06) !important;
 }
-
-/* ── Tray — neutral, no violet ───────────────────── */
 .tray-panel, .tray-pop .tray-panel {
   background: #0d0d10 !important;
   border-color: rgba(255,255,255,0.08) !important;
@@ -362,183 +517,79 @@ body[data-product="business"] {
 }
 
 /* ══════════════════════════════════════════════════════
-   EMBED DEMO + AGENTHANSA REGISTER COLOR CANON
-   Overrides inline multi-color palettes in embed demos.
-   4 register colors only — from 12-wheel canon.
+   EMBED DEMO REGISTER COLORS + STATUS BADGES
    ══════════════════════════════════════════════════════ */
 
-/* Register column headers */
-.col-header[data-register="diligence"],
-.register-header.diligence,
-[class*="diligence"] .col-label,
-.col-diligence .col-header,
-.col-diligence .register-name {
-  color: var(--clarity) !important;
-  border-color: var(--clarity-edge) !important;
-}
-.col-header[data-register="judgment"],
-.register-header.judgment,
-[class*="judgment"] .col-label,
-.col-judgment .col-header,
-.col-judgment .register-name {
-  color: var(--wholeness) !important;
-  border-color: var(--wholeness-edge) !important;
-}
-.col-header[data-register="synthesis"],
-.register-header.synthesis,
-[class*="synthesis"] .col-label,
-.col-synthesis .col-header,
-.col-synthesis .register-name {
-  color: var(--cerulean) !important;
-  border-color: var(--cerulean-edge) !important;
-}
-.col-header[data-register="outreach"],
-.register-header.outreach,
-[class*="outreach"] .col-label,
-.col-outreach .col-header,
-.col-outreach .register-name {
-  color: var(--connection) !important;
-  border-color: var(--connection-edge) !important;
-}
-
-/* Agent status badges */
-.status-badge, .agent-status, .move-status {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.58rem !important;
-  letter-spacing: 0.14em !important;
-  text-transform: uppercase !important;
-  border-radius: 2px !important;
-}
-
-/* REFUSED tag — was orange, now magenta */
-.status-badge.refused,
-.tag-refused,
-[class*="refused"],
-.agent-tag.refused {
+/* REFUSED → magenta (was orange) */
+.status-badge.refused, .tag-refused,
+[class*="refused"], .agent-tag.refused {
   color: var(--wholeness) !important;
   background: var(--wholeness-bg) !important;
   border-color: var(--wholeness-edge) !important;
 }
 
-/* Active/reading status — clarity violet */
-.status-badge.active,
-.status-badge.reading,
-.agent-tag.active,
-.move-tag.dispatched {
+/* Active/reading → clarity violet */
+.status-badge.active, .status-badge.reading,
+.agent-tag.active, .move-tag.dispatched {
   color: var(--clarity) !important;
   background: var(--clarity-bg) !important;
   border-color: var(--clarity-edge) !important;
 }
 
-/* Primary accent override — body wins over :root, catches hardcoded file overrides */
-body {
-  --accent:      #E8006A;
-  --accent-soft: rgba(232,0,106,0.35);
-  --accent-bg:   rgba(232,0,106,0.07);
-  --accent-edge: rgba(232,0,106,0.22);
-  --accent-glow: 0 0 20px rgba(232,0,106,0.4);
-  --pink:        #E8006A;
-  --clarity:     #8E66FB;
+/* Status badges — mono, tight */
+.status-badge, .agent-status, .move-status {
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wide) !important;
+  text-transform: uppercase !important;
+  border-radius: 2px !important;
 }
 
-/* Agenthansa: override purple --accent → magenta */
-.signal-dot,
-.live-dot,
-.status-live {
+/* Live dot → magenta */
+.signal-dot, .live-dot, .status-live {
   background: var(--wholeness) !important;
   box-shadow: 0 0 8px var(--wholeness) !important;
 }
 
-/* Typography consistency for embed demos */
+/* Column/panel headers */
 .col-header, .register-name, .panel-label,
 .section-label, .move-label, .agent-name {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  letter-spacing: 0.12em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wider) !important;
   text-transform: uppercase !important;
 }
 
+/* Panel body text */
 .move-body, .agent-read, .dispatch-body,
 .commit-body, .panel-body {
-  font-family: "PerfectlyNineties", "Newsreader", Georgia, serif !important;
-  font-size: 0.88rem !important;
-  line-height: 1.65 !important;
-  letter-spacing: -0.005em !important;
+  font-family: "PerfectlyNineties", Georgia, serif !important;
+  font-weight: 300 !important;
+  font-style: normal !important;
+  font-size: var(--text-sm) !important;
+  line-height: var(--leading-relaxed) !important;
+  letter-spacing: var(--tracking-body) !important;
 }
 
-/* Section headline in vault/embed demos */
+/* Section headlines */
 .panel-headline, .section-headline,
 .move-title, .dispatch-title {
   font-family: "NinetiesHeadliner", Georgia, serif !important;
-  letter-spacing: -0.02em !important;
   font-weight: 700 !important;
+  font-style: normal !important;
+  letter-spacing: var(--tracking-snug) !important;
 }
 
-/* Footer / meta strips */
+/* Footer strips */
 .footer-strip, .meta-bar, .bottom-bar,
 .stat-strip, .count-strip {
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.6rem !important;
-  letter-spacing: 0.16em !important;
+  font-family: var(--font-mono) !important;
+  font-size: var(--text-2xs) !important;
+  font-weight: 400 !important;
+  letter-spacing: var(--tracking-wider) !important;
   text-transform: uppercase !important;
   color: var(--text-faint) !important;
   border-top-color: rgba(255,255,255,0.07) !important;
 }
-
-/* ══════════════════════════════════════════════════════
-   EMBED-SLATE-TRAY-DEMO specific upgrades
-   Brief body, disposition button, tray tile borders
-   ══════════════════════════════════════════════════════ */
-
-/* Brief glyph + italic emphasis — was green, now magenta */
-.brief-head .glyph {
-  color: var(--wholeness) !important;
-}
-.brief-body em,
-.brief-body strong {
-  color: #F2F0EC !important;
-  font-style: italic !important;
-}
-
-/* Disposition buttons — cream CTA style */
-.brief-disposition .dispo-btn,
-.dispo-btn {
-  border: 1px solid rgba(242,240,236,0.18) !important;
-  background: rgba(242,240,236,0.06) !important;
-  color: rgba(242,240,236,0.75) !important;
-  font-family: "Geist Mono", ui-monospace, monospace !important;
-  font-size: 0.6rem !important;
-  letter-spacing: 0.16em !important;
-  text-transform: uppercase !important;
-  border-radius: 2px !important;
-  transition: background 0.15s, border-color 0.15s !important;
-}
-.brief-disposition .dispo-btn:hover,
-.dispo-btn:hover {
-  background: rgba(242,240,236,0.1) !important;
-  border-color: rgba(242,240,236,0.3) !important;
-  color: #F2F0EC !important;
-}
-/* Primary confirm button — cream solid */
-.brief-disposition .dispo-btn:first-child,
-.dispo-btn.is-primary,
-.dispo-btn:not([style*="opacity"]):first-of-type {
-  background: rgba(242,240,236,0.12) !important;
-  border-color: rgba(242,240,236,0.3) !important;
-  color: #F2F0EC !important;
-}
-
-/* Disposition signed flash — magenta */
-.brief-disposition .dispo-signed {
-  color: var(--wholeness) !important;
-}
-
-/* Tray tiles — neutral borders, no violet */
-.tray-tile {
-  border-color: rgba(255,255,255,0.07) !important;
-}
-.tray-tile:hover {
-  border-color: rgba(255,255,255,0.14) !important;
-}
-
-/* Vault/read count in embed — clarity violet is fine here (architectural claim) */
-/* Keep as-is — --clarity is canon */
