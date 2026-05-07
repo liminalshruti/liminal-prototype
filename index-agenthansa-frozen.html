@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liminal Agents · Space</title>
+<title>Liminal · Agency · Bardo · Speedrun pipeline</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
     --card-border-2: #2A2A2F;
     --accent: #8e66fb;
     --accent-soft: rgba(142,102,251,0.4);
-    --pink: #e90095;
+    --pink: var(--accent);
     --amber: #f5a524;
     --red: #f04040;
     --good: #45c9a3;
@@ -481,8 +481,8 @@
     top: 0;
     width: 220px;
     padding: 14px 16px;
-    background: rgba(233,0,149,0.04);
-    border-left: 2px solid var(--pink);
+    background: rgba(142,102,251,0.04);
+    border-left: 2px solid var(--accent);
     border-radius: 2px;
     opacity: 0;
     animation: appear-50-with-glow 20s ease-out infinite;
@@ -500,7 +500,7 @@
     font-family: 'Newsreader', Georgia, serif;
     font-size: 14px;
     font-style: italic;
-    color: #f6a8d6;
+    color: rgba(232,232,234,0.85);
     line-height: 1.45;
   }
 
@@ -762,8 +762,8 @@
   .status.active { background: rgba(142,102,251,0.18); color: var(--accent); }
   .status.refused { background: rgba(255,255,255,0.025); color: var(--text-faint); font-style: italic; }
   .status.done { background: rgba(142,102,251,0.08); color: rgba(142,102,251,0.78); }
-  .mystic-row .status.active { background: rgba(233,0,149,0.18); color: var(--pink); }
-  .mystic-row .status.done { background: rgba(233,0,149,0.08); color: rgba(233,0,149,0.78); }
+  .mystic-row .status.active { background: rgba(142,102,251,0.18); color: var(--accent); }
+  .mystic-row .status.done { background: rgba(142,102,251,0.08); color: rgba(142,102,251,0.78); }
 
   .reg-agents {
     display: flex; flex-direction: column;
@@ -779,7 +779,7 @@
     height: 22px;
   }
   .reg-agent .agent-name { font-weight: 400; }
-  .reg-agent.mystic-row .agent-name { color: #f6a8d6; }
+  .reg-agent.mystic-row .agent-name { color: var(--accent); }
   .reg-agent .agent-detail {
     position: relative;
     height: 18px;
@@ -805,8 +805,8 @@
     border-radius: 3px;
   }
   .mystic-row .agent-detail .detail.active-d {
-    color: var(--pink);
-    background: rgba(233,0,149,0.12);
+    color: var(--accent);
+    background: rgba(142,102,251,0.12);
   }
 
   /* status visibility timing windows (% of 20s loop) */
@@ -919,8 +919,8 @@
   }
   @keyframes appear-50-with-glow {
     0%, 48% { opacity: 0; transform: translateX(12px); box-shadow: none; }
-    51% { opacity: 1; transform: translateX(0); box-shadow: -8px 0 32px rgba(233,0,149,0.25); }
-    55% { opacity: 1; transform: translateX(0); box-shadow: -2px 0 0 rgba(233,0,149,0); }
+    51% { opacity: 1; transform: translateX(0); box-shadow: -8px 0 32px rgba(142,102,251,0.25); }
+    55% { opacity: 1; transform: translateX(0); box-shadow: -2px 0 0 rgba(142,102,251,0); }
     91% { opacity: 1; transform: translateX(0); }
     94%, 100% { opacity: 0; transform: translateX(8px); }
   }
@@ -1044,8 +1044,8 @@
         </div>
         <div class="title">
           <span class="diamond">◇</span>
-          <span class="breadcrumb">Liminal<span class="crumb-sep">/</span>Spaces<span class="crumb-sep">/</span></span>
-          Tuesday — Andrew Chen call
+          <span class="breadcrumb">Liminal<span class="crumb-sep">/</span>Bardo<span class="crumb-sep">/</span></span>
+          Tuesday — Speedrun partner call
         </div>
         <div class="vault-pill"><span class="diamond">◇</span>vault: encrypted · 47 signals</div>
       </div>
@@ -1064,7 +1064,7 @@
           </div>
           <div class="signal" data-read="3">
             <div class="signal-app">APPLE REMINDERS</div>
-            <div class="signal-text">Tuesday: Andrew Chen call</div>
+            <div class="signal-text">Tuesday: Speedrun partner call</div>
           </div>
           <div class="signal">
             <div class="signal-app">CLAUDE CODE</div>
@@ -1090,8 +1090,8 @@
           <div class="doc-scroll">
             <div class="doc-content">
               <!-- header -->
-              <div class="doc-meta">SPACE<span class="dot">·</span>TODAY<span class="dot">·</span>14:32</div>
-              <h1 class="doc-title">Tuesday — Andrew Chen call</h1>
+              <div class="doc-meta">BARDO<span class="dot">·</span>TODAY<span class="dot">·</span>14:32</div>
+              <h1 class="doc-title">Tuesday — Speedrun partner call</h1>
               <div class="doc-tags">
                 <span class="tag">1pm Northstar</span>
                 <span class="tag">a16z Speedrun</span>
@@ -1123,7 +1123,7 @@
                 <div class="citation-list">
                   <div class="citation citation-1">
                     <span class="cite-source">GRANOLA</span>
-                    <span class="cite-text"><em>Series B</em> · $43M · meeting capture for consumer creators · Andrew Chen tracked them since seed</span>
+                    <span class="cite-text"><em>Series B</em> · $43M · meeting capture for consumer creators · partner tracked them since seed</span>
                   </div>
                   <div class="citation citation-2">
                     <span class="cite-source">OBSIDIAN</span>
@@ -1131,7 +1131,7 @@
                   </div>
                   <div class="citation citation-3">
                     <span class="cite-source">REMINDERS</span>
-                    <span class="cite-text">Andrew flagged 2 weeks ago — "tracking Granola, would love a take"</span>
+                    <span class="cite-text">Partner flagged 2 weeks ago — "tracking Granola, would love a take"</span>
                   </div>
                 </div>
               </div>
@@ -1180,7 +1180,7 @@
                       <span class="fix-num">01</span>
                       <div class="fix-content">
                         <div class="fix-title">Unsupported moat claim — line 12</div>
-                        <div class="fix-by">RISK · the kind of claim Andrew will probe</div>
+                        <div class="fix-by">RISK · the kind of claim a partner will probe</div>
                       </div>
                     </div>
                     <div class="fix-item">
@@ -1383,7 +1383,7 @@ window.addEventListener('resize', fitStage);
 fitStage();
 
 // typing animation in bottom bar — synced to 20s loop
-const promptText = "/agency tuesday call with andrew chen — he tracks granola — what do I say";
+const promptText = "/agency tuesday speedrun partner call — they track granola — what do I say — bardo";
 const promptEl = document.getElementById('prompt');
 let typingTimer = null;
 function startTyping() {
