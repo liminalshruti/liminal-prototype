@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liminal · Hero Demo</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
+
+<style>
+/*
+ * 00-hero-demo.html · Liminal · 2026-05-07
+ * ─────────────────────────────────────────
+ * Purpose-built hero iframe for theliminalspace.io landing page.
+ * Stripped from agenthansa: no left signal rail, no individual agent names.
+ * Two-column: CENTER (decision + agent reads) + RIGHT (4 register summaries)
+ *
+ * Story (18s loop, grounded in SR007 positioning + Speedrun rubric):
+ *   Beat 1 (0–3s)    Idle — "You made the call. You can't find it."
+ *   Beat 2 (3–5s)    /agency invoked — agents prompted the founder, not reverse
+ *   Beat 3 (5–10s)   Three agents read in sequence
+ *                    Outreach refused → "out of lane" visible
+ *   Beat 4 (10–15s)  Verdict: NOT READY · 2 fixes
+ *                    Earned secret in Mystic margin note
+ *   Beat 5 (15–18s)  Correction typed. Vault sealed. Reset.
+ *
+ * Speedrun rubric grounding:
+ *   — Proactive agent thesis (Kenan): agents prompt the founder
+ *   — Earned secret (Fareed): capture ≠ correction
+ *   — Frontier-lab moat (Tom Hammer): refusal is the architecture
+ *   — Correction stream: the moat is behavioral, not legal
+ */
+
+  :root {
+    --cycle: 18s;
+    --bg: #08080a;
+    --frame-bg: #0c0c0f;
+    --frame-bg-2: #0a0a0d;
+    --frame-border: #1c1c22;
+    --card: #111116;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: var(--font-sans, "Geist", system-ui, sans-serif);
+    color: var(--text, #F2F0EC);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Outer stage ──────────────────────────────────── */
+  .stage {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px;
+  }
+
+  /* Aurora behind frame */
+  .stage::before {
+    content: '';
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 30% 40%, rgba(142,102,251,0.07), transparent 65%),
+      radial-gradient(ellipse 50% 40% at 75% 70%, rgba(232,0,106,0.05), transparent 65%);
+    pointer-events: none; z-index: 0;
+    animation: aurora var(--cycle) ease-in-out infinite alternate;
+  }
+  @keyframes aurora {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(20px, -15px) scale(1.05); }
+  }
+
+  /* ── App frame ────────────────────────────────────── */
+  .frame {
+    position: relative; z-index: 1;
+    width: 100%; height: 100%;
+    background: var(--frame-bg);
+    border: 1px solid var(--frame-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.025) inset;
+    display: flex; flex-direction: column;
+  }
+
+  /* ── Titlebar ─────────────────────────────────────── */
+  .titlebar {
+    height: 38px; flex-shrink: 0;
+    display: flex; align-items: center;
+    padding: 0 16px; gap: 0;
+    border-bottom: 1px solid var(--frame-border);
+    background: rgba(255,255,255,0.005);
+  }
+  .lights { display: flex; gap: 7px; margin-right: 16px; }
+  .light { width: 12px; height: 12px; border-radius: 50%; }
+  .light.r { background: #FF5F57; }
+  .light.y { background: #FEBC2E; }
+  .light.g { background: #28C840; }
+
+  .title-wordmark {
+    font-family: var(--font-display, "NinetiesHeadliner", serif);
+    font-size: 15px; font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-right: 8px;
+  }
+  .title-sep { color: var(--text-faint, #504C47); margin: 0 10px; font-size: 12px; }
+  .title-crumb {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-faint, #504C47);
+  }
+  .title-crumb.active { color: var(--text-mid, #C4C0B8); }
+
+  /* Vault pill — right side */
+  .vault-pill {
+    margin-left: auto;
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-faint, #504C47);
+    display: flex; align-items: center; gap: 7px;
+    padding: 4px 12px;
+    border: 1px solid var(--frame-border);
+    border-radius: 3px;
+    background: rgba(255,255,255,0.02);
+    transition: all 0.4s ease;
+    /* sealed state fires at beat 5 */
+    animation: vault-seal var(--cycle) ease-in-out infinite;
+  }
+  .vault-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--text-faint, #504C47);
+    animation: vault-dot var(--cycle) ease-in-out infinite;
+  }
+  @keyframes vault-seal {
+    0%, 54%  { background: rgba(255,255,255,0.02); border-color: var(--frame-border); color: var(--text-faint); }
+    56%, 88% { background: rgba(232,0,106,0.08); border-color: rgba(232,0,106,0.35); color: var(--wholeness, #E8006A); }
+    90%, 100%{ background: rgba(255,255,255,0.02); border-color: var(--frame-border); color: var(--text-faint); }
+  }
+  @keyframes vault-dot {
+    0%, 54%  { background: var(--text-faint); box-shadow: none; }
+    56%, 88% { background: var(--wholeness, #E8006A); box-shadow: 0 0 6px var(--wholeness, #E8006A); }
+    90%, 100%{ background: var(--text-faint); box-shadow: none; }
+  }
+
+  /* ── Main two-column layout ───────────────────────── */
+  .main {
+    flex: 1; min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 260px;
+    overflow: hidden;
+  }
+
+  /* ── CENTER COLUMN ────────────────────────────────── */
+  .center {
+    display: flex; flex-direction: column;
+    padding: 28px 32px;
+    overflow: hidden; min-height: 0;
+    border-right: 1px solid var(--frame-border);
+    position: relative;
+  }
+
+  /* Eyebrow — context label */
+  .eyebrow {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-faint, #504C47);
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--wholeness, #E8006A);
+    box-shadow: 0 0 8px var(--wholeness, #E8006A);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.45; }
+  }
+
+  /* Decision headline */
+  .decision {
+    font-family: var(--font-display, "NinetiesHeadliner", serif);
+    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
+    font-weight: 700; letter-spacing: -0.03em; line-height: 1.0;
+    color: var(--text, #F2F0EC);
+    margin-bottom: 20px;
+  }
+
+  /* Context signals — 3 tiles that appear at beat 2 */
+  .signals {
+    display: flex; flex-direction: column; gap: 6px;
+    margin-bottom: 20px;
+    animation: signals-appear var(--cycle) ease-out infinite;
+  }
+  @keyframes signals-appear {
+    0%, 14%  { opacity: 0; transform: translateY(6px); }
+    18%, 90% { opacity: 1; transform: translateY(0); }
+    93%, 100%{ opacity: 0; }
+  }
+  .signal-tile {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid var(--frame-border);
+    border-radius: 4px;
+  }
+  .signal-source {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 8.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--clarity, #8E66FB); flex-shrink: 0; width: 72px;
+  }
+  .signal-text {
+    font-family: var(--font-serif, "PerfectlyNineties", serif);
+    font-size: 12px; font-weight: 300;
+    color: var(--text-mid, #C4C0B8); line-height: 1.35;
+  }
+  .signal-text strong {
+    font-weight: 600; color: var(--text, #F2F0EC); font-style: normal;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px; background: var(--frame-border);
+    margin-bottom: 20px;
+    animation: signals-appear var(--cycle) ease-out infinite;
+  }
+
+  /* Agent reads — appear sequentially at beat 3 */
+  .reads { display: flex; flex-direction: column; gap: 10px; }
+
+  .read {
+    display: flex; gap: 14px; align-items: flex-start;
+    opacity: 0;
+  }
+  .read-register {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+    flex-shrink: 0; width: 76px; padding-top: 2px;
+  }
+  .read-register.diligence { color: var(--clarity, #8E66FB); }
+  .read-register.synthesis { color: var(--cerulean, #197EEB); }
+  .read-register.outreach  { color: var(--connection, #31E682); }
+  .read-register.judgment  { color: var(--wholeness, #E8006A); }
+
+  .read-body {
+    font-family: var(--font-serif, "PerfectlyNineties", serif);
+    font-size: 13px; font-weight: 300;
+    color: var(--text-mid, #C4C0B8); line-height: 1.55;
+  }
+  .read-body strong {
+    font-weight: 600; color: var(--text, #F2F0EC); font-style: normal;
+  }
+  .refused-tag {
+    display: inline-block;
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 7.5px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--wholeness, #E8006A);
+    background: rgba(232,0,106,0.08);
+    border: 1px solid rgba(232,0,106,0.25);
+    padding: 1px 6px; border-radius: 2px; margin-right: 6px;
+  }
+
+  /* Staggered appearance for reads */
+  .read.r1 { animation: read-appear var(--cycle) ease-out infinite; animation-delay: 0s; }
+  .read.r2 { animation: read-appear var(--cycle) ease-out infinite; animation-delay: 1.2s; }
+  .read.r3 { animation: read-appear var(--cycle) ease-out infinite; animation-delay: 2.4s; }
+  .read.r4 { animation: read-appear var(--cycle) ease-out infinite; animation-delay: 3.2s; }
+
+  @keyframes read-appear {
+    /* fires at ~28% (5s) */
+    0%, 26%  { opacity: 0; transform: translateY(5px); }
+    29%, 90% { opacity: 1; transform: translateY(0); }
+    93%, 100%{ opacity: 0; }
+  }
+
+  /* Verdict banner — NOT READY — beat 4 */
+  .verdict {
+    margin-top: 20px;
+    padding: 14px 16px;
+    border-radius: 4px;
+    border-left: 3px solid var(--wholeness, #E8006A);
+    background: rgba(232,0,106,0.05);
+    border-top: 1px solid rgba(232,0,106,0.2);
+    border-right: 1px solid rgba(232,0,106,0.12);
+    border-bottom: 1px solid rgba(232,0,106,0.12);
+    opacity: 0;
+    animation: verdict-appear var(--cycle) ease-out infinite;
+  }
+  @keyframes verdict-appear {
+    0%, 54%  { opacity: 0; transform: translateY(8px); }
+    57%, 90% { opacity: 1; transform: translateY(0); }
+    93%, 100%{ opacity: 0; }
+  }
+  .verdict-label {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--wholeness, #E8006A); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .verdict-label::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--wholeness, #E8006A);
+    box-shadow: 0 0 8px var(--wholeness, #E8006A);
+    flex-shrink: 0;
+  }
+  .verdict-fixes {
+    display: flex; flex-direction: column; gap: 5px;
+  }
+  .verdict-fix {
+    font-family: var(--font-serif, "PerfectlyNineties", serif);
+    font-size: 12px; font-weight: 300;
+    color: var(--text-mid, #C4C0B8); line-height: 1.4;
+    padding-left: 14px; position: relative;
+  }
+  .verdict-fix::before {
+    content: '↳';
+    position: absolute; left: 0;
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 9px; color: var(--wholeness, #E8006A);
+  }
+  .verdict-fix strong {
+    font-weight: 600; color: var(--text, #F2F0EC); font-style: normal;
+  }
+
+  /* Correction typed — beat 5 */
+  .correction-row {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    opacity: 0;
+    animation: correction-appear var(--cycle) ease-out infinite;
+  }
+  @keyframes correction-appear {
+    0%, 77%  { opacity: 0; }
+    80%, 90% { opacity: 1; }
+    93%, 100%{ opacity: 0; }
+  }
+  .correction-label {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--text-faint, #504C47); margin-bottom: 4px;
+  }
+  .correction-text {
+    font-family: var(--font-serif, "PerfectlyNineties", serif);
+    font-size: 12px; font-weight: 600;
+    color: var(--text, #F2F0EC); font-style: normal;
+    line-height: 1.4;
+  }
+  .correction-text .cursor {
+    display: inline-block; width: 8px; height: 1em;
+    background: var(--wholeness, #E8006A); margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 0.8s steps(2) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* ── RIGHT COLUMN · 4 register summaries ─────────── */
+  .rail {
+    display: flex; flex-direction: column;
+    padding: 20px 16px; gap: 8px;
+    overflow: hidden; min-height: 0;
+    background: var(--frame-bg-2);
+  }
+
+  .rail-header {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 8.5px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--text-faint, #504C47);
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--frame-border);
+    margin-bottom: 4px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .rail-live {
+    display: flex; align-items: center; gap: 5px;
+    color: var(--wholeness, #E8006A); font-size: 8px;
+    opacity: 0;
+    animation: rail-live-appear var(--cycle) ease-out infinite;
+  }
+  @keyframes rail-live-appear {
+    0%, 26%  { opacity: 0; }
+    29%, 90% { opacity: 1; }
+    93%, 100%{ opacity: 0; }
+  }
+  .rail-live::before {
+    content: ''; width: 4px; height: 4px; border-radius: 50%;
+    background: var(--wholeness, #E8006A);
+    box-shadow: 0 0 6px var(--wholeness, #E8006A);
+    animation: pulse-dot 1.5s ease-in-out infinite;
+  }
+
+  /* Register block */
+  .reg {
+    padding: 12px 14px;
+    border-radius: 4px;
+    border: 1px solid var(--frame-border);
+    background: rgba(255,255,255,0.015);
+    display: flex; flex-direction: column; gap: 6px;
+    opacity: 0;
+    transition: border-color 0.4s, background 0.4s;
+  }
+  .reg-name {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .reg-status {
+    font-size: 7.5px; letter-spacing: 0.12em;
+    padding: 1px 6px; border-radius: 2px;
+    font-weight: 400;
+  }
+  .reg-summary {
+    font-family: var(--font-serif, "PerfectlyNineties", serif);
+    font-size: 11px; font-weight: 300;
+    color: var(--text-dim, #847F79); line-height: 1.45;
+  }
+  .reg-summary strong {
+    font-weight: 600; color: var(--text-mid, #C4C0B8); font-style: normal;
+  }
+
+  /* Register-specific colors */
+  .reg.diligence .reg-name { color: var(--clarity, #8E66FB); }
+  .reg.diligence .reg-status.done {
+    color: var(--clarity, #8E66FB);
+    background: rgba(142,102,251,0.1);
+    border: 1px solid rgba(142,102,251,0.25);
+  }
+
+  .reg.synthesis .reg-name { color: var(--cerulean, #197EEB); }
+  .reg.synthesis .reg-status.done {
+    color: var(--cerulean, #197EEB);
+    background: rgba(25,126,235,0.1);
+    border: 1px solid rgba(25,126,235,0.25);
+  }
+
+  .reg.outreach .reg-name { color: var(--connection, #31E682); }
+  .reg.outreach .reg-status.refused {
+    color: var(--wholeness, #E8006A);
+    background: rgba(232,0,106,0.08);
+    border: 1px solid rgba(232,0,106,0.25);
+  }
+
+  .reg.judgment .reg-name { color: var(--wholeness, #E8006A); }
+  .reg.judgment .reg-status.done {
+    color: var(--wholeness, #E8006A);
+    background: rgba(232,0,106,0.08);
+    border: 1px solid rgba(232,0,106,0.25);
+  }
+
+  /* Reg blocks appear sequentially matching center reads */
+  .reg.r1 { animation: reg-appear var(--cycle) ease-out infinite; animation-delay: 0s; }
+  .reg.r2 { animation: reg-appear var(--cycle) ease-out infinite; animation-delay: 1.2s; }
+  .reg.r3 { animation: reg-appear var(--cycle) ease-out infinite; animation-delay: 2.4s; }
+  .reg.r4 { animation: reg-appear var(--cycle) ease-out infinite; animation-delay: 3.2s; }
+
+  @keyframes reg-appear {
+    0%, 26%  { opacity: 0; transform: translateX(8px); }
+    29%, 90% { opacity: 1; transform: translateX(0); }
+    93%, 100%{ opacity: 0; }
+  }
+
+  /* Earned secret — Mystic margin note — appears at beat 4 */
+  .mystic {
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-left: 2px solid rgba(142,102,251,0.4);
+    background: rgba(142,102,251,0.04);
+    border-radius: 0 4px 4px 0;
+    opacity: 0;
+    animation: mystic-appear var(--cycle) ease-out infinite;
+  }
+  @keyframes mystic-appear {
+    0%, 56%  { opacity: 0; transform: translateY(6px); }
+    60%, 90% { opacity: 1; transform: translateY(0); }
+    93%, 100%{ opacity: 0; }
+  }
+  .mystic-attr {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 7.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--clarity, #8E66FB); margin-bottom: 6px;
+    opacity: 0.7;
+  }
+  .mystic-quote {
+    font-family: var(--font-serif, "PerfectlyNineties", serif);
+    font-size: 11.5px; font-weight: 300;
+    color: var(--text-mid, #C4C0B8); line-height: 1.5;
+    font-style: normal;
+  }
+  .mystic-quote strong {
+    font-weight: 600; color: var(--text, #F2F0EC); font-style: normal;
+  }
+
+  /* ── Command bar ──────────────────────────────────── */
+  .command-bar {
+    height: 38px; flex-shrink: 0;
+    display: flex; align-items: center;
+    padding: 0 16px; gap: 12px;
+    border-top: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+  }
+  .cmd-prompt {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 9px; letter-spacing: 0.14em;
+    color: var(--wholeness, #E8006A); flex-shrink: 0;
+  }
+  .cmd-text {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px; letter-spacing: 0.06em;
+    color: var(--text-mid, #C4C0B8); flex: 1;
+    overflow: hidden; white-space: nowrap;
+  }
+  /* Idle state text */
+  .cmd-idle {
+    animation: cmd-idle-show var(--cycle) ease-in-out infinite;
+  }
+  @keyframes cmd-idle-show {
+    0%, 13%  { opacity: 1; }
+    16%, 100%{ opacity: 0; }
+  }
+  /* Command typed — beat 2 */
+  .cmd-active {
+    animation: cmd-active-show var(--cycle) ease-in-out infinite;
+  }
+  @keyframes cmd-active-show {
+    0%, 14%  { opacity: 0; }
+    17%, 90% { opacity: 1; }
+    93%, 100%{ opacity: 0; }
+  }
+  .cmd-cursor {
+    display: inline-block; width: 7px; height: 12px;
+    background: var(--text-mid, #C4C0B8);
+    vertical-align: text-bottom; margin-left: 1px;
+    animation: blink 1s steps(2) infinite;
+  }
+
+  .cmd-right {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 8.5px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-faint, #504C47);
+    display: flex; gap: 14px; flex-shrink: 0;
+  }
+
+  /* ── Idle state overlay ───────────────────────────── */
+  .idle-overlay {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; gap: 14px;
+    padding: 40px;
+    pointer-events: none;
+    animation: idle-show var(--cycle) ease-in-out infinite;
+  }
+  @keyframes idle-show {
+    0%, 12%  { opacity: 1; }
+    15%, 97% { opacity: 0; }
+    100%     { opacity: 1; }
+  }
+  .idle-glyph {
+    font-family: var(--font-display, "NinetiesHeadliner", serif);
+    font-size: 48px; color: rgba(142,102,251,0.25);
+    line-height: 1;
+    animation: glyph-breathe 4s ease-in-out infinite;
+  }
+  @keyframes glyph-breathe {
+    0%, 100% { opacity: 0.25; }
+    50%      { opacity: 0.55; }
+  }
+  .idle-headline {
+    font-family: var(--font-display, "NinetiesHeadliner", serif);
+    font-size: clamp(1.1rem, 2.2vw, 1.65rem);
+    font-weight: 700; letter-spacing: -0.03em; line-height: 1.05;
+    color: var(--text, #F2F0EC);
+    max-width: 22ch;
+  }
+  .idle-sub {
+    font-family: var(--font-serif, "PerfectlyNineties", serif);
+    font-size: 13px; font-weight: 300;
+    color: var(--text-dim, #847F79); line-height: 1.55;
+    max-width: 32ch;
+  }
+  .idle-sub strong {
+    font-weight: 600; color: var(--text-mid, #C4C0B8); font-style: normal;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <div class="frame">
+
+    <!-- TITLEBAR -->
+    <header class="titlebar">
+      <div class="lights">
+        <span class="light r"></span>
+        <span class="light y"></span>
+        <span class="light g"></span>
+      </div>
+      <span class="title-wordmark">Liminal</span>
+      <span class="title-sep">·</span>
+      <span class="title-crumb">Maia</span>
+      <span class="title-sep">›</span>
+      <span class="title-crumb active">Tuesday — Speedrun partner call</span>
+
+      <div class="vault-pill">
+        <span class="vault-dot"></span>
+        vault · sealed
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- CENTER -->
+      <div class="center">
+
+        <!-- Idle overlay — beat 1 -->
+        <div class="idle-overlay">
+          <div class="idle-glyph">◇</div>
+          <div class="idle-headline">You made the call.<br>You can't find it.</div>
+          <div class="idle-sub">
+            The agents prompt <strong>you.</strong><br>
+            You don't prompt them.
+          </div>
+        </div>
+
+        <!-- Eyebrow -->
+        <div class="eyebrow">
+          <span class="eyebrow-dot"></span>
+          Maia · Today · 14:32 · /agency invoked
+        </div>
+
+        <!-- Decision -->
+        <div class="decision">Tuesday — Speedrun partner call</div>
+
+        <!-- Context signals — beat 2 -->
+        <div class="signals">
+          <div class="signal-tile">
+            <span class="signal-source">Granola</span>
+            <span class="signal-text">Coffee w/ Maya at Northstar — <strong>she tracks Granola, would love a take</strong></span>
+          </div>
+          <div class="signal-tile">
+            <span class="signal-source">Obsidian</span>
+            <span class="signal-text">research/competitors/granola-teardown.md · <strong>core thesis: capture ≠ correction</strong></span>
+          </div>
+          <div class="signal-tile">
+            <span class="signal-source">Reminders</span>
+            <span class="signal-text">Tuesday: Speedrun partner call · <strong>positioning not locked</strong></span>
+          </div>
+        </div>
+        <div class="divider"></div>
+
+        <!-- Agent reads — beat 3, staggered -->
+        <div class="reads">
+          <div class="read r1">
+            <span class="read-register diligence">Diligence</span>
+            <span class="read-body">They track Granola. <strong>Granola captures the signal — what was said. Liminal captures the judgment about the signal.</strong> Not competitors. Different layers.</span>
+          </div>
+          <div class="read r2">
+            <span class="read-register synthesis">Synthesis</span>
+            <span class="read-body">This is a <strong>positioning question, not a sales question.</strong> Frame the layer distinction before the call. Don't wait for her to raise it.</span>
+          </div>
+          <div class="read r3">
+            <span class="read-register outreach">Outreach</span>
+            <span class="read-body"><span class="refused-tag">refused</span> Out of jurisdiction — <strong>routing to Synthesis.</strong> No outbound before positioning is locked.</span>
+          </div>
+          <div class="read r4">
+            <span class="read-register judgment">Judgment</span>
+            <span class="read-body"><strong>Not ready to send the deck.</strong> Two claims need locking before this call. Vault the correction stream first.</span>
+          </div>
+        </div>
+
+        <!-- Verdict — beat 4 -->
+        <div class="verdict">
+          <div class="verdict-label">Not ready · 2 fixes before sending</div>
+          <div class="verdict-fixes">
+            <div class="verdict-fix"><strong>Lock the positioning claim</strong> — capture ≠ correction, stated plainly, before the call</div>
+            <div class="verdict-fix"><strong>Unsupported moat claim</strong> — correction stream as cornered data resource needs the evidence</div>
+          </div>
+          <!-- Correction — beat 5 -->
+          <div class="correction-row">
+            <div class="correction-label">Your correction</div>
+            <div class="correction-text">
+              Granola is the transcript. Liminal is the correction to the transcript.<span class="cursor"></span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /center -->
+
+      <!-- RIGHT RAIL · 4 register summaries -->
+      <div class="rail">
+        <div class="rail-header">
+          Agency · 12 bounded
+          <span class="rail-live">live</span>
+        </div>
+
+        <div class="reg diligence r1">
+          <div class="reg-name">
+            Diligence
+            <span class="reg-status done">Done</span>
+          </div>
+          <div class="reg-summary"><strong>3 sources cited.</strong> Competitive layer distinction identified. 1 claim flagged.</div>
+        </div>
+
+        <div class="reg synthesis r2">
+          <div class="reg-name">
+            Synthesis
+            <span class="reg-status done">Done</span>
+          </div>
+          <div class="reg-summary"><strong>Frame locked.</strong> Positioning question framed. Strategist drafted the move.</div>
+        </div>
+
+        <div class="reg outreach r3">
+          <div class="reg-name">
+            Outreach
+            <span class="reg-status refused">Refused</span>
+          </div>
+          <div class="reg-summary"><strong>Out of lane.</strong> No outbound before positioning locked. Routed to Synthesis.</div>
+        </div>
+
+        <div class="reg judgment r4">
+          <div class="reg-name">
+            Judgment
+            <span class="reg-status done">Not ready</span>
+          </div>
+          <div class="reg-summary"><strong>2 fixes required.</strong> Positioning claim + moat evidence. Outreach blocked until resolved.</div>
+        </div>
+
+        <!-- Earned secret — Mystic margin note -->
+        <div class="mystic">
+          <div class="mystic-attr">Mystic · in the margin</div>
+          <div class="mystic-quote">
+            <strong>"Don't position against Granola."</strong>
+            Position as the layer their listening was supposed to become.
+          </div>
+        </div>
+
+      </div><!-- /rail -->
+
+    </div><!-- /main -->
+
+    <!-- COMMAND BAR -->
+    <div class="command-bar">
+      <span class="cmd-prompt">›</span>
+      <span class="cmd-text">
+        <span class="cmd-idle">waiting for /agency · agents prompt you, not the other way around<span class="cmd-cursor"></span></span>
+        <span class="cmd-active">/agency tuesday speedrun partner call — positioning not locked — maia</span>
+      </span>
+      <div class="cmd-right">
+        <span>/ agency</span>
+        <span>⌘⌘ command</span>
+        <span>⌘. vault</span>
+      </div>
+    </div>
+
+  </div><!-- /frame -->
+</div><!-- /stage -->
+
+<script src="../lib/brand-upgrade.js"></script>
+</body>
+</html>
