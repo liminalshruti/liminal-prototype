@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liminal · Composition · Slate &amp; Tray</title>
+<meta name="description" content="Drag any window from the tray onto the slate. Agents read what you compose. Brief composes itself.">
+<meta property="og:title" content="Liminal · Composition · Slate & Tray">
+<meta property="og:description" content="The slate-tray surface, running. Drag-to-compose, agent-read, brief-compose, vault-commit.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  @font-face { font-family: "Nineties Headliner"; src: url("fonts/nineties-headliner.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Perfectly Nineties"; src: url("fonts/perfectly-nineties-light.otf") format("opentype"); font-weight: 300; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Perfectly Nineties"; src: url("fonts/perfectly-nineties-regular.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Perfectly Nineties"; src: url("fonts/perfectly-nineties-bold.otf") format("opentype"); font-weight: 700; font-style: normal; font-display: swap; }
+</style>
+
+<style>
+  /* ═══════════════════════════════════════════════════════════════════
+   * EMBED-SLATE-TRAY-DEMO · sibling of embed-vault-demo.html
+   * Same OS-window chassis · slate + tray composition surface.
+   * Loop master clock: 18s
+   * Phases:
+   *   0–4s:   tray pulses with windows · slate empty
+   *   4–9s:   windows fly from tray onto slate (drop animation)
+   *   9–14s:  agents read what's on the slate · brief composes
+   *   14–17s: vault commits · founder signs disposition
+   *   17–18s: hold + restart
+   * ═══════════════════════════════════════════════════════════════════ */
+  :root {
+    --bg: #0A0A0B;
+    --frame-bg: #0E0E11;
+    --frame-bg-2: #0C0C0F;
+    --frame-border: #1F1F23;
+    --card-border: #232327;
+    --card-border-2: #2A2A2F;
+    --clarity: #8e66fb;
+    --clarity-soft: rgba(142,102,251,0.4);
+    --clarity-glow: rgba(142,102,251,0.5);
+    --wholeness: #e90095;
+    --wholeness-soft: rgba(233,0,149,0.4);
+    --connection: #31e682;
+    --connection-soft: rgba(49,230,130,0.4);
+    --connection-glow: rgba(49,230,130,0.5);
+    --expression: #ff9549;
+    --cerulean: #197eeb;
+    --cerulean-soft: rgba(25,126,235,0.4);
+    --pink: #e90095;
+    --amber: #f5a524;
+    --good: #31e682;
+    --red: #f04040;
+    --text: #E8E8EA;
+    --text-mid: #B0B0B6;
+    --text-dim: #7A7A82;
+    --text-faint: #4A4A52;
+    --display: "Nineties Headliner", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
+    --serif: "Newsreader", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
+    --sans: "Geist", system-ui, sans-serif;
+    --mono: "Geist Mono", ui-monospace, monospace;
+    --hand: "Caveat", cursive;
+    --ls-mono: 0.14em;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: var(--sans);
+    color: var(--text);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body { display: flex; align-items: center; justify-content: center; }
+
+  .wrap {
+    width: 100%; height: 100%;
+    min-width: 1100px; min-height: 440px;
+    position: relative; transform-origin: center center;
+  }
+  .stage { width: 100%; height: 100%; position: relative; display: flex; align-items: stretch; justify-content: stretch; overflow: hidden; }
+
+  /* aurora backdrop · same as siblings */
+  .stage::before {
+    content: '';
+    position: absolute; inset: -10%;
+    background:
+      radial-gradient(ellipse 800px 600px at 25% 30%, rgba(142,102,251,0.08), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 78% 72%, rgba(233,0,149,0.05), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 50% 50%, rgba(245,165,36,0.025), transparent 70%);
+    filter: blur(40px);
+    pointer-events: none; z-index: 0;
+    animation: drift 28s ease-in-out infinite alternate;
+  }
+  @keyframes drift { 0% { transform: translate(0,0); } 100% { transform: translate(40px,-30px); } }
+  .stage::after {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none; z-index: 0;
+  }
+
+  /* ═══ FRAME · OS-window chassis ═══ */
+  .frame {
+    position: relative;
+    width: calc(100% - 24px); height: calc(100% - 24px);
+    margin: 12px;
+    background: var(--frame-bg);
+    border: 1px solid var(--frame-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    display: flex; flex-direction: column;
+    z-index: 1;
+  }
+
+  /* TITLEBAR */
+  .titlebar {
+    height: 36px;
+    border-bottom: 1px solid var(--frame-border);
+    display: grid; grid-template-columns: 180px 1fr auto;
+    align-items: center; padding: 0 14px; flex-shrink: 0;
+    background: rgba(255,255,255,0.005); gap: 18px;
+  }
+  .lights { display: flex; gap: 8px; }
+  .light { width: 12px; height: 12px; border-radius: 50%; }
+  .light.r { background: #FF5F57; } .light.y { background: #FEBC2E; } .light.g { background: #28C840; }
+  .brand { font-family: var(--display); font-size: 19px; color: var(--text); letter-spacing: -0.018em; display: flex; align-items: baseline; gap: 10px; margin-left: 18px; }
+  .brand .glyph { font-family: var(--display); font-size: 14px; color: var(--clarity); }
+  .brand .liminal-mark { font-style: italic; font-family: var(--serif); opacity: 0.78; font-size: 14px; margin-left: 6px; }
+  .crumbs { font-family: var(--mono); font-size: 11px; color: var(--text-faint); letter-spacing: var(--ls-mono); text-transform: uppercase; text-align: center; display: flex; gap: 14px; align-items: center; justify-content: center; }
+  .crumbs .sep { color: var(--text-faint); opacity: 0.5; }
+  .crumbs .now { color: var(--clarity); }
+  .vault-tag {
+    font-family: var(--mono); font-size: 11px; color: var(--text-dim);
+    background: rgba(142,102,251,0.05); border: 1px solid rgba(142,102,251,0.2);
+    padding: 6px 12px; border-radius: 4px; display: flex; align-items: center; gap: 8px;
+    animation: vaultPulse 18s ease-in-out infinite;
+  }
+  .vault-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--clarity); box-shadow: 0 0 6px var(--clarity); }
+  @keyframes vaultPulse {
+    0%, 78%   { background: rgba(142,102,251,0.05); border-color: rgba(142,102,251,0.2); box-shadow: none; }
+    82%, 92%  { background: rgba(142,102,251,0.18); border-color: rgba(142,102,251,0.55); box-shadow: 0 0 32px rgba(142,102,251,0.4); color: var(--text); }
+    100%      { background: rgba(142,102,251,0.05); border-color: rgba(142,102,251,0.2); }
+  }
+
+  /* SCENARIO STRIP */
+  .scenario-strip {
+    display: flex; align-items: center; gap: 14px;
+    padding: 7px 14px; border-bottom: 1px solid var(--frame-border);
+    background: var(--frame-bg-2); flex-shrink: 0;
+    font-family: var(--mono); font-size: 10.5px; color: var(--text-mid); letter-spacing: 0.02em;
+  }
+  .scenario-strip .role { color: var(--text); font-weight: 500; }
+  .scenario-strip .time { color: var(--text-dim); }
+  .scenario-strip .situation { color: var(--text-mid); flex: 1; }
+  .scenario-strip .phase-mark { color: var(--text-faint); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  /* ═══ MAIN ═══ slate area + tray attached to right edge */
+  .main {
+    flex: 1; display: grid;
+    grid-template-columns: 280px 1fr 320px;
+    overflow: hidden;
+    position: relative;
+    min-height: 0;
+  }
+
+  /* LEFT RAIL · live signal feed */
+  .rail-l {
+    border-right: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    padding: 14px 12px;
+    display: flex; flex-direction: column; gap: 10px;
+    overflow: hidden;
+    min-height: 0;
+  }
+  .rail-h {
+    font-family: var(--mono); font-size: 10px; color: var(--text-faint);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 0 6px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .rail-h .live { display: flex; align-items: center; gap: 5px; color: rgba(142,102,251,0.8); font-size: 9px; }
+  .rail-h .live::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--clarity); box-shadow: 0 0 6px var(--clarity);
+    animation: dotPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(142,102,251,0.55); }
+    70%      { box-shadow: 0 0 0 7px rgba(142,102,251,0); }
+  }
+  .rail-caption {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.5;
+    color: var(--text-dim); padding: 0 6px 8px; margin-bottom: 4px;
+    border-bottom: 1px dashed var(--frame-border); letter-spacing: 0.01em;
+  }
+  .rail-caption em { color: var(--text-mid); font-style: italic; }
+  .signals { display: flex; flex-direction: column; gap: 5px; }
+  .signal {
+    padding: 11px 12px; border-radius: 6px;
+    border: 1px solid transparent; background: rgba(255,255,255,0.014);
+    transition: all 0.4s ease;
+  }
+  .signal-app { font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px; display: flex; justify-content: space-between; }
+  .signal-app .v { color: var(--text-dim); letter-spacing: 0.04em; text-transform: none; }
+  .signal-text { font-size: 12px; color: var(--text-dim); line-height: 1.4; }
+  .signal-text em { font-style: italic; color: var(--text-mid); }
+  .signal-catch { font-family: var(--mono); font-size: 10px; color: var(--connection); letter-spacing: 0.02em; margin-top: 4px; opacity: 0.85; }
+
+  /* When a signal is being "read" by an agent — pulse highlight */
+  .signal[data-read="1"] { animation: readPulse 18s ease-out infinite; animation-delay: 0s; }
+  .signal[data-read="2"] { animation: readPulse 18s ease-out infinite; animation-delay: 1.4s; }
+  .signal[data-read="3"] { animation: readPulse 18s ease-out infinite; animation-delay: 2.8s; }
+  @keyframes readPulse {
+    0%, 12%   { background: rgba(255,255,255,0.014); border-color: transparent; box-shadow: none; }
+    16%, 22%  { background: rgba(142,102,251,0.14); border-color: rgba(142,102,251,0.45); box-shadow: 0 0 22px rgba(142,102,251,0.3); }
+    28%, 100% { background: rgba(255,255,255,0.014); border-color: transparent; box-shadow: none; }
+  }
+
+  /* CENTER · SLATE AREA */
+  .slate-area {
+    overflow: hidden; position: relative;
+    display: flex; flex-direction: column;
+    padding: 16px 22px;
+    min-height: 0;
+  }
+  .classification {
+    font-family: var(--mono); font-size: 9px; color: var(--text-faint);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    padding: 4px 10px; align-self: flex-start;
+    border: 1px solid var(--card-border); border-radius: 2px;
+    background: rgba(255,255,255,0.018); margin-bottom: 14px;
+  }
+  .slate-header { margin-bottom: 16px; }
+  .slate-eyebrow {
+    font-family: var(--mono); font-size: 10px; color: var(--clarity);
+    letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .slate-title {
+    font-family: var(--display); font-size: 24px; font-weight: 400;
+    color: var(--text); line-height: 1.04; letter-spacing: -0.024em;
+    margin-bottom: 4px;
+  }
+  .slate-title em { font-family: var(--serif); font-style: italic; color: var(--clarity); font-weight: 400; }
+  .slate-subtitle {
+    font-family: var(--serif); font-size: 14px; line-height: 1.5;
+    color: var(--text-mid); font-style: italic;
+  }
+
+  /* The slate canvas — where windows land when dropped from tray */
+  .slate-canvas {
+    flex: 1; position: relative;
+    border: 1px dashed var(--card-border);
+    border-radius: 8px;
+    background: rgba(255,255,255,0.01);
+    padding: 18px;
+    overflow: hidden;
+  }
+
+  /* Empty-state (visible 0-4s, fades out as windows drop) */
+  .slate-empty {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 24px;
+    opacity: 1;
+    animation: emptyFade 18s ease-out infinite;
+  }
+  @keyframes emptyFade {
+    0%, 18%   { opacity: 1; }
+    24%, 100% { opacity: 0; }
+  }
+  .se-glyph {
+    font-family: var(--display); font-size: 64px; color: var(--clarity);
+    line-height: 1; margin-bottom: 16px;
+    animation: glyphPulse 4s ease-in-out infinite;
+  }
+  @keyframes glyphPulse {
+    0%, 100% { opacity: 0.4; }
+    50%      { opacity: 1; }
+  }
+  .se-eyebrow { font-family: var(--mono); font-size: 10px; color: var(--clarity); letter-spacing: 0.22em; text-transform: uppercase; margin-bottom: 12px; }
+  .se-headline {
+    font-family: var(--display); font-size: 28px; font-weight: 400;
+    color: var(--text); line-height: 1.15; max-width: 22ch; margin-bottom: 10px;
+  }
+  .se-helper { font-family: var(--serif); font-size: 13px; color: var(--text-dim); line-height: 1.5; max-width: 36ch; margin-bottom: 18px; }
+  .se-keys { font-family: var(--mono); font-size: 10px; color: var(--text-faint); letter-spacing: 0.16em; text-transform: uppercase; display: flex; gap: 10px; align-items: center; }
+  .se-keys kbd {
+    font-family: var(--mono); font-size: 10px;
+    border: 1px solid var(--card-border); border-radius: 3px;
+    padding: 2px 6px; background: rgba(255,255,255,0.025);
+  }
+
+  /* The slate tiles — windows that have been dropped from tray */
+  .slate-tiles {
+    position: absolute; inset: 18px;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .tile {
+    padding: 14px 16px;
+    border: 1px solid var(--clarity-soft);
+    border-radius: 6px;
+    background: rgba(142,102,251,0.06);
+    box-shadow: 0 0 22px rgba(142,102,251,0.15);
+    display: flex; flex-direction: column; gap: 6px;
+    opacity: 0;
+    transform: translate(280px, -80px) scale(0.85);
+    animation: tileDrop 18s ease-out infinite;
+  }
+  .tile:nth-child(1) { animation-delay: 4s; }
+  .tile:nth-child(2) { animation-delay: 4.7s; }
+  .tile:nth-child(3) { animation-delay: 5.4s; }
+  .tile:nth-child(4) { animation-delay: 6.1s; }
+  @keyframes tileDrop {
+    0%, 22%  { opacity: 0; transform: translate(280px, -80px) scale(0.85); }
+    27%      { opacity: 1; transform: translate(0, 0) scale(1); }
+    32%, 95% { opacity: 1; transform: translate(0, 0) scale(1); }
+    100%     { opacity: 0; transform: translate(280px, -80px) scale(0.85); }
+  }
+  .tile-app {
+    font-family: var(--mono); font-size: 9px; color: var(--clarity);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    display: flex; justify-content: space-between;
+  }
+  .tile-app .v { color: var(--text-dim); letter-spacing: 0.04em; text-transform: none; }
+  .tile-name { font-size: 13px; color: var(--text); line-height: 1.4; }
+  .tile-name em { font-style: italic; color: var(--text-mid); }
+  .tile-meta { font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.06em; }
+
+  /* Brief area — composes itself after windows are on slate (9-14s) */
+  .brief-area {
+    margin-top: auto;
+    border: 1px solid var(--card-border);
+    border-left: 2px solid var(--connection);
+    border-radius: 4px;
+    padding: 14px 16px;
+    background: rgba(49,230,130,0.04);
+    opacity: 0;
+    animation: briefIn 18s ease-out infinite;
+  }
+  @keyframes briefIn {
+    0%, 50%  { opacity: 0; transform: translateY(8px); }
+    56%, 95% { opacity: 1; transform: translateY(0); }
+    100%     { opacity: 0; transform: translateY(8px); }
+  }
+  .brief-head {
+    font-family: var(--mono); font-size: 10px; color: var(--connection);
+    letter-spacing: 0.16em; text-transform: uppercase;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .brief-head .glyph { color: var(--connection); }
+  .brief-body {
+    font-family: var(--serif); font-size: 14px; line-height: 1.5;
+    color: var(--text); font-style: italic;
+  }
+  .brief-body em { color: var(--connection); font-style: italic; font-weight: 500; }
+  .brief-disposition {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px dashed var(--card-border);
+    display: flex; gap: 8px; align-items: center;
+    font-family: var(--mono); font-size: 10px; color: var(--text-faint);
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .brief-disposition .dispo-btn {
+    padding: 4px 10px; border-radius: 3px;
+    border: 1px solid var(--connection-soft);
+    background: rgba(49,230,130,0.10);
+    color: var(--connection);
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .brief-disposition .dispo-signed {
+    margin-left: auto; color: var(--connection);
+    animation: signedFlash 18s ease-out infinite;
+  }
+  @keyframes signedFlash {
+    0%, 75%   { opacity: 0; }
+    80%, 95%  { opacity: 1; }
+    100%      { opacity: 0; }
+  }
+
+  /* RIGHT RAIL · the Tray (slides from right edge) */
+  .tray-pop {
+    border-left: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    padding: 14px 12px;
+    display: flex; flex-direction: column; gap: 10px;
+    overflow: hidden; position: relative;
+    min-height: 0;
+  }
+  .tray-pop::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
+    background: var(--clarity);
+    opacity: 0;
+    animation: trayEdgeGlow 18s ease-out infinite;
+  }
+  @keyframes trayEdgeGlow {
+    0%, 18%, 32%, 100% { opacity: 0; }
+    20%, 28%           { opacity: 0.85; box-shadow: 0 0 12px var(--clarity); }
+  }
+  .tray-h {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-faint); letter-spacing: 0.18em; text-transform: uppercase;
+    padding-bottom: 10px; border-bottom: 1px dashed var(--frame-border);
+  }
+  .tray-h .glyph { font-family: var(--display); color: var(--clarity); font-size: 14px; }
+  .tray-h .label { color: var(--text); flex: 1; padding-left: 8px; }
+  .tray-h .count {
+    color: var(--clarity); font-family: var(--display);
+    font-size: 18px; line-height: 1; letter-spacing: -0.02em;
+  }
+  .tray-caption {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.5;
+    color: var(--text-dim); letter-spacing: 0.01em;
+    padding-bottom: 6px;
+  }
+  .tray-caption em { color: var(--text-mid); font-style: italic; }
+  .tray-tiles { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .tray-tile {
+    padding: 10px 12px; border-radius: 5px;
+    border: 1px solid var(--card-border);
+    background: rgba(255,255,255,0.022);
+    display: flex; flex-direction: column; gap: 4px;
+    cursor: grab;
+    animation: trayTilePulse 18s ease-in-out infinite;
+  }
+  .tray-tile:nth-child(1) { animation-delay: 0s; }
+  .tray-tile:nth-child(2) { animation-delay: 0.4s; }
+  .tray-tile:nth-child(3) { animation-delay: 0.8s; }
+  .tray-tile:nth-child(4) { animation-delay: 1.2s; }
+  @keyframes trayTilePulse {
+    0%, 18%   { background: rgba(255,255,255,0.022); border-color: var(--card-border); }
+    22%, 28%  { background: rgba(142,102,251,0.10); border-color: var(--clarity); transform: translateX(-4px); }
+    32%, 95%  { background: rgba(255,255,255,0.022); border-color: var(--card-border); transform: translateX(0); opacity: 0.45; }
+    100%      { background: rgba(255,255,255,0.022); border-color: var(--card-border); opacity: 1; }
+  }
+  .tray-tile .tt-app {
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--clarity);
+    display: flex; justify-content: space-between;
+  }
+  .tray-tile .tt-app .v { color: var(--text-faint); letter-spacing: 0.04em; text-transform: none; }
+  .tray-tile .tt-name { font-size: 12px; color: var(--text); line-height: 1.35; }
+  .tray-tile .tt-name em { font-style: italic; color: var(--text-mid); }
+  .tray-tile .tt-meta { font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.06em; }
+
+  /* drag-glyph hint — appears briefly on each tile during the drag phase */
+  .tray-tile::after {
+    content: "DRAG →";
+    position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+    color: var(--clarity); opacity: 0; pointer-events: none;
+    animation: dragHint 18s ease-out infinite;
+  }
+  .tray-tile { position: relative; }
+  @keyframes dragHint {
+    0%, 18%, 32%, 100% { opacity: 0; }
+    22%, 28%           { opacity: 0.65; }
+  }
+
+  /* DECK FOOTER */
+  .deck-foot {
+    height: 32px;
+    border-top: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    gap: 18px; align-items: center; padding: 0 16px;
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--text-faint); letter-spacing: 0.10em;
+    text-transform: uppercase; flex-shrink: 0;
+  }
+  .deck-foot .left { color: var(--text-mid); }
+  .deck-foot .left b { color: var(--text); font-weight: 500; }
+  .deck-foot .center { color: var(--text-dim); letter-spacing: 0.14em; text-align: center; }
+  .deck-foot .center b { color: var(--text); font-weight: 500; }
+  .deck-foot .right { color: var(--connection); text-align: right; }
+  .deck-foot .right b { color: var(--connection); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="stage">
+    <div class="frame">
+
+      <!-- TITLEBAR -->
+      <header class="titlebar">
+        <div style="display:flex; align-items:center;">
+          <div class="lights">
+            <span class="light r"></span>
+            <span class="light y"></span>
+            <span class="light g"></span>
+          </div>
+          <div class="brand">
+            <span class="glyph">◇</span>
+            Liminal<span class="liminal-mark">· Composition</span>
+          </div>
+        </div>
+        <div class="crumbs">
+          <span>session 0xa3f1</span>
+          <span class="sep">›</span>
+          <span>intent · land the maya intro</span>
+          <span class="sep">›</span>
+          <span class="now">composing on the slate</span>
+        </div>
+        <div class="vault-tag">
+          <span class="dot"></span>
+          vault · sealed
+          <span style="color: var(--text-faint); margin: 0 6px;">·</span>
+          <span style="color: var(--clarity);">read · 3 · disposed · 0</span>
+        </div>
+      </header>
+
+      <!-- SCENARIO STRIP -->
+      <div class="scenario-strip">
+        <span class="role">Solo founder · pre-seed.</span>
+        <span class="time">Tuesday afternoon.</span>
+        <span class="situation">A VC intro thread is nine days cold. The deck is the only thing in the way.<em style="color:var(--text-faint); font-style:italic;"> Drag the relevant context onto the slate; the agents will read it.</em></span>
+        <span class="phase-mark">tray · slate · brief · vault</span>
+      </div>
+
+      <!-- MAIN GRID -->
+      <section class="main">
+
+        <!-- LEFT RAIL · live signals (the substrate, before composition) -->
+        <aside class="rail-l">
+          <div class="rail-h">
+            substrate <span class="live">live</span>
+          </div>
+          <div class="rail-caption">
+            Six signals across six surfaces. None suspicious alone. <em>The chain is the read.</em>
+          </div>
+          <div class="signals">
+            <div class="signal" data-read="1">
+              <div class="signal-app"><span>granola</span><span class="v">14:02 · 38m</span></div>
+              <div class="signal-text">Coffee w/ Maya — <em>"let me know when there's a deck I can show Saanvi."</em></div>
+              <div class="signal-catch">→ implicit deadline · saanvi-tier intro</div>
+            </div>
+            <div class="signal" data-read="2">
+              <div class="signal-app"><span>obsidian</span><span class="v">deck/v3.md</span></div>
+              <div class="signal-text">deck shipped to design last Thursday · still no cover slide</div>
+              <div class="signal-catch">→ blocker is one slide, not the deck</div>
+            </div>
+            <div class="signal" data-read="3">
+              <div class="signal-app"><span>cal</span><span class="v">tue 09:30</span></div>
+              <div class="signal-text">Maya · Saanvi · 30m hold · <em>tentative · waiting on you</em></div>
+              <div class="signal-catch">→ confirmation latency is the cost</div>
+            </div>
+            <div class="signal">
+              <div class="signal-app"><span>sent · gmail</span><span class="v">9 days ago</span></div>
+              <div class="signal-text">last touch w/ Maya · <em>"will circle back when ready"</em></div>
+              <div class="signal-catch">→ "perfectionism" misframes it</div>
+            </div>
+          </div>
+        </aside>
+
+        <!-- CENTER · SLATE AREA -->
+        <section class="slate-area">
+
+          <div class="classification">PERSONAL · SELF-READ · SLATE-CANVAS</div>
+
+          <header class="slate-header">
+            <div class="slate-eyebrow">composition · in flight</div>
+            <h1 class="slate-title">Drag any window in. <em>The agents read what's there.</em></h1>
+            <p class="slate-subtitle">No pipes. No integrations. The Tray is the substrate the operator's other tools enter.</p>
+          </header>
+
+          <!-- THE SLATE CANVAS — empty 0-4s, then tiles drop in from tray -->
+          <div class="slate-canvas">
+
+            <!-- empty state · visible early -->
+            <div class="slate-empty">
+              <div class="se-glyph">◇</div>
+              <div class="se-eyebrow">Composition surface</div>
+              <h2 class="se-headline">Drop a window from the tray to begin a read.</h2>
+              <p class="se-helper">The agents read what you compose. The slate holds what you place. Anything dropped is captured to the local vault.</p>
+              <div class="se-keys">
+                <kbd>⌘.</kbd><span>open tray</span>
+                <span style="opacity:0.4;">·</span>
+                <kbd>drag</kbd><span>to compose</span>
+              </div>
+            </div>
+
+            <!-- slate tiles · windows that have been dropped from tray -->
+            <div class="slate-tiles">
+              <div class="tile">
+                <span class="tile-app"><span>slack</span><span class="v">14:23 · pinned</span></span>
+                <span class="tile-name">#fundraise — <em>thread w/ Maya re: saanvi intro</em></span>
+                <span class="tile-meta">last reply: 2m ago</span>
+              </div>
+              <div class="tile">
+                <span class="tile-app"><span>granola</span><span class="v">38m · last week</span></span>
+                <span class="tile-name">Coffee w/ Maya · <em>deck-for-saanvi mention</em></span>
+                <span class="tile-meta">key quote at 14:02</span>
+              </div>
+              <div class="tile">
+                <span class="tile-app"><span>obsidian</span><span class="v">deck/v3.md</span></span>
+                <span class="tile-name">Deck v3 · <em>cover slide still missing</em></span>
+                <span class="tile-meta">designed shipped thurs</span>
+              </div>
+              <div class="tile">
+                <span class="tile-app"><span>cal</span><span class="v">tue 09:30</span></span>
+                <span class="tile-name">Maya · Saanvi · <em>30m tentative hold</em></span>
+                <span class="tile-meta">awaiting your confirm</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BRIEF AREA · composes after windows are on slate -->
+          <div class="brief-area">
+            <div class="brief-head">
+              <span class="glyph">◇</span>
+              <span>Brief · agents read the composition</span>
+            </div>
+            <p class="brief-body">
+              <em>The intro is not blocked by the deck — it's blocked by one cover slide and a 30-minute hold you haven't confirmed.</em> Architect proposes: send the deck as-is to Maya, sealing Tuesday 09:30 as the meeting. Witness flags: this same blur cost you the Saanvi window twice in Q1. Cartographer refused to read the cap-table — out of jurisdiction — routing to Counsel.
+            </p>
+            <div class="brief-disposition">
+              <span>disposition →</span>
+              <button class="dispo-btn">Confirm</button>
+              <button class="dispo-btn" style="opacity:0.5;">Defer 7d</button>
+              <span class="dispo-signed">✓ founder signed · 14:25</span>
+            </div>
+          </div>
+
+        </section>
+
+        <!-- RIGHT · TRAY (the floating drawer of composable windows) -->
+        <aside class="tray-pop">
+          <div class="tray-h">
+            <span class="glyph">◇</span>
+            <span class="label">tray</span>
+            <span class="count">4</span>
+          </div>
+          <div class="tray-caption">
+            Live windows from the operator's other tools. <em>Drag onto slate to compose.</em>
+          </div>
+          <div class="tray-tiles">
+            <div class="tray-tile">
+              <span class="tt-app"><span>slack</span><span class="v">14:23 · pinned</span></span>
+              <span class="tt-name">#fundraise — Maya re: saanvi</span>
+              <span class="tt-meta">live · 2m ago</span>
+            </div>
+            <div class="tray-tile">
+              <span class="tt-app"><span>granola</span><span class="v">38m · last week</span></span>
+              <span class="tt-name">Coffee w/ Maya — <em>deck mention</em></span>
+              <span class="tt-meta">transcript pinned</span>
+            </div>
+            <div class="tray-tile">
+              <span class="tt-app"><span>obsidian</span><span class="v">deck/v3.md</span></span>
+              <span class="tt-name">Deck v3 — <em>cover missing</em></span>
+              <span class="tt-meta">live</span>
+            </div>
+            <div class="tray-tile">
+              <span class="tt-app"><span>cal</span><span class="v">tue 09:30</span></span>
+              <span class="tt-name">Maya · Saanvi · 30m</span>
+              <span class="tt-meta">tentative</span>
+            </div>
+          </div>
+        </aside>
+
+      </section>
+
+      <!-- DECK FOOTER -->
+      <div class="deck-foot">
+        <span class="left">tray → slate → brief → vault · <b>the founder operates at agentic scale</b></span>
+        <span class="center"><b>3,041</b> refusals across <b>1,287</b> deliberations · N=19 v0 cohort</span>
+        <span class="right">network calls during this loop · <b>0</b></span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liminal · Vault + Agents · The Founder OS</title>
+<meta name="description" content="Drag any window in. Twelve bounded agents read it. Founder signs off. Vault commits the record. Network calls during this loop: zero.">
+<meta property="og:title" content="Liminal · The Founder OS">
+<meta property="og:description" content="Compose → read → dispatch → commit. The founder OS, running.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+  @font-face { font-family: "Nineties Headliner"; src: url("fonts/nineties-headliner.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Perfectly Nineties"; src: url("fonts/perfectly-nineties-light.otf") format("opentype"); font-weight: 300; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Perfectly Nineties"; src: url("fonts/perfectly-nineties-regular.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Perfectly Nineties"; src: url("fonts/perfectly-nineties-bold.otf") format("opentype"); font-weight: 700; font-style: normal; font-display: swap; }
+</style>
+<style>
+  /* ════════════════════════════════════════════════════════════
+   * EMBED-VAULT-DEMO · sibling of embed-agent-hack.html
+   * Same OS-window chassis · different content payload.
+   * Loop master clock: 18s (matches embed-agent-hack.html)
+   * Phases inside loop:
+   *   0–4s:  COMPOSE — windows drop into the Tray
+   *   4–8s:  READ — agents catch / disagree / refuse
+   *   8–12s: DISPATCH — moves emerge, founder signs
+   *   12–16s: COMMIT — vault terminal types, encrypts
+   *   16–18s: hold + restart
+   * ════════════════════════════════════════════════════════════ */
+  :root {
+    /* ALIGNED WITH embed-agent-hack.html · do not divulge tokens */
+    --bg: #0A0A0B;
+    --frame-bg: #0E0E11;
+    --frame-bg-2: #0C0C0F;
+    --frame-border: #1F1F23;
+    --card-border: #232327;
+    --card-border-2: #2A2A2F;
+    --clarity: #8e66fb;
+    --clarity-soft: rgba(142,102,251,0.4);
+    --clarity-glow: rgba(142,102,251,0.5);
+    --wholeness: #e90095;
+    --wholeness-soft: rgba(233,0,149,0.4);
+    --wholeness-glow: rgba(233,0,149,0.5);
+    --connection: #31e682;
+    --connection-soft: rgba(49,230,130,0.4);
+    --connection-glow: rgba(49,230,130,0.5);
+    --expression: #ff9549;
+    --cerulean: #197eeb;
+    --cerulean-soft: rgba(25,126,235,0.4);
+    --pink: #e90095;
+    --amber: #f5a524;
+    --good: #31e682;
+    --red: #f04040;
+    --text: #E8E8EA;
+    --text-mid: #B0B0B6;
+    --text-dim: #7A7A82;
+    --text-faint: #4A4A52;
+    --display: "Nineties Headliner", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
+    --serif: "Newsreader", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
+    --sans: "Geist", system-ui, sans-serif;
+    --mono: "Geist Mono", ui-monospace, monospace;
+    --ls-mono: 0.14em;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: var(--sans);
+    color: var(--text);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body { display: flex; align-items: center; justify-content: center; }
+
+  .wrap {
+    width: 100%; height: 100%;
+    min-width: 1100px; min-height: 440px;
+    position: relative;
+    transform-origin: center center;
+  }
+  .stage {
+    width: 100%; height: 100%;
+    position: relative;
+    display: flex; align-items: stretch; justify-content: stretch;
+    overflow: hidden;
+  }
+  /* aurora backdrop · same as embed-agent-hack */
+  .stage::before {
+    content: '';
+    position: absolute;
+    inset: -10%;
+    background:
+      radial-gradient(ellipse 800px 600px at 25% 30%, rgba(142,102,251,0.08), transparent 60%),
+      radial-gradient(ellipse 700px 500px at 78% 72%, rgba(233,0,149,0.05), transparent 60%),
+      radial-gradient(ellipse 600px 400px at 50% 50%, rgba(245,165,36,0.025), transparent 70%);
+    filter: blur(40px);
+    pointer-events: none;
+    z-index: 0;
+    animation: drift 28s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(40px, -30px); }
+  }
+  .stage::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 56px 56px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== FRAME · macOS-window register · same as embed-agent-hack ===== */
+  .frame {
+    position: relative;
+    width: calc(100% - 24px); height: calc(100% - 24px);
+    margin: 12px;
+    background: var(--frame-bg);
+    border: 1px solid var(--frame-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    display: flex; flex-direction: column;
+    z-index: 1;
+  }
+
+  /* TITLEBAR · cloned chassis */
+  .titlebar {
+    height: 36px;
+    border-bottom: 1px solid var(--frame-border);
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    align-items: center;
+    padding: 0 14px;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.005);
+    gap: 18px;
+  }
+  .lights { display: flex; gap: 8px; }
+  .light { width: 12px; height: 12px; border-radius: 50%; }
+  .light.r { background: #FF5F57; }
+  .light.y { background: #FEBC2E; }
+  .light.g { background: #28C840; }
+  .brand {
+    font-family: var(--display);
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--text);
+    letter-spacing: -0.018em;
+    display: flex; align-items: baseline; gap: 10px;
+    margin-left: 18px;
+  }
+  .brand .glyph {
+    font-family: var(--display);
+    font-size: 14px;
+    color: var(--clarity);
+  }
+  .brand .liminal-mark {
+    font-style: italic;
+    font-family: var(--serif);
+    font-weight: 400;
+    opacity: 0.78;
+    font-size: 14px;
+    margin-left: 6px;
+  }
+  .crumbs {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: var(--ls-mono);
+    text-transform: uppercase;
+    text-align: center;
+    display: flex; gap: 14px; align-items: center; justify-content: center;
+  }
+  .crumbs .sep { color: var(--text-faint); opacity: 0.5; }
+  .crumbs .now { color: var(--clarity); }
+  .vault-tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    background: rgba(142,102,251,0.05);
+    border: 1px solid rgba(142,102,251,0.2);
+    padding: 6px 12px;
+    border-radius: 4px;
+    display: flex; align-items: center; gap: 8px;
+    animation: vaultPulse 18s ease-in-out infinite;
+  }
+  .vault-tag .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--clarity); box-shadow: 0 0 6px var(--clarity); }
+  @keyframes vaultPulse {
+    0%, 78% { background: rgba(142,102,251,0.05); border-color: rgba(142,102,251,0.2); box-shadow: none; }
+    82%, 92% { background: rgba(142,102,251,0.18); border-color: rgba(142,102,251,0.55); box-shadow: 0 0 32px rgba(142,102,251,0.4); color: var(--text); }
+    100% { background: rgba(142,102,251,0.05); border-color: rgba(142,102,251,0.2); }
+  }
+
+  /* SCENARIO STRIP · operator frame · same chrome as embed-agent-hack */
+  .scenario-strip {
+    display: flex; align-items: center; gap: 14px;
+    padding: 7px 14px;
+    border-bottom: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    font-family: var(--mono); font-size: 10.5px; color: var(--text-mid); letter-spacing: 0.02em;
+    flex-shrink: 0;
+  }
+  .scenario-strip .role { color: var(--text); font-weight: 500; }
+  .scenario-strip .time { color: var(--text-dim); }
+  .scenario-strip .situation { color: var(--text-mid); flex: 1; }
+  .scenario-strip .phase-mark { color: var(--text-faint); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
+
+  /* MAIN GRID · 4 phase columns */
+  .main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1.25fr 1fr 0.95fr;
+    overflow: hidden;
+  }
+
+  /* PANE BASE — every phase column shares the same chrome */
+  .pane {
+    border-right: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    padding: 14px 14px;
+    display: flex; flex-direction: column; gap: 10px;
+    overflow: hidden;
+    position: relative;
+    min-height: 0;
+  }
+  .pane:last-child { border-right: 0; }
+  .pane-h {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-faint); letter-spacing: 0.18em; text-transform: uppercase;
+    padding-bottom: 10px; border-bottom: 1px dashed var(--frame-border);
+  }
+  .pane-h .num {
+    color: var(--clarity); font-family: var(--display); font-size: 22px;
+    line-height: 1; letter-spacing: -0.02em;
+  }
+  .pane-h .title { color: var(--text); flex: 1; padding-left: 10px; }
+  .pane-h .live {
+    display: flex; align-items: center; gap: 5px; color: rgba(142,102,251,0.8); font-size: 9px;
+  }
+  .pane-h .live::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--clarity); box-shadow: 0 0 6px var(--clarity);
+    animation: dotPulse 1.6s ease-in-out infinite;
+  }
+  @keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(142,102,251,0.55); }
+    70% { box-shadow: 0 0 0 7px rgba(142,102,251,0); }
+  }
+  .pane-caption {
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.5;
+    color: var(--text-dim); letter-spacing: 0.01em;
+    padding-bottom: 8px;
+  }
+  .pane-caption em { color: var(--text-mid); font-style: italic; }
+  .pane-foot {
+    font-family: var(--serif); font-size: 11.5px; line-height: 1.45;
+    color: var(--text-dim); padding-top: 10px;
+    border-top: 1px dashed var(--card-border);
+    margin-top: auto;
+  }
+  .pane-foot em { font-style: italic; color: var(--text-mid); }
+
+  /* COMPOSE · windows */
+  .windows { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .win {
+    padding: 11px 12px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: rgba(255,255,255,0.014);
+    transition: all 0.4s ease;
+    opacity: 0.55;
+    animation: windowDrop 18s ease-out infinite;
+  }
+  .win:nth-child(1) { animation-delay: 0s; }
+  .win:nth-child(2) { animation-delay: 0.4s; }
+  .win:nth-child(3) { animation-delay: 0.8s; }
+  .win:nth-child(4) { animation-delay: 1.2s; }
+  @keyframes windowDrop {
+    0%       { opacity: 0.55; background: rgba(255,255,255,0.014); border-color: transparent; transform: translateX(-8px); }
+    8%, 14%  { opacity: 1;    background: rgba(142,102,251,0.10);  border-color: rgba(142,102,251,0.45); box-shadow: 0 0 18px rgba(142,102,251,0.22); transform: translateX(0); }
+    22%, 92% { opacity: 1;    background: rgba(142,102,251,0.06);  border-color: rgba(142,102,251,0.22); transform: translateX(0); }
+    100%     { opacity: 0.55; background: rgba(255,255,255,0.014); border-color: transparent; transform: translateX(-8px); }
+  }
+  .win .app {
+    font-family: var(--mono); font-size: 9px; color: var(--text-faint);
+    letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 4px;
+    display: flex; justify-content: space-between;
+  }
+  .win .app .v { color: var(--text-dim); letter-spacing: 0.04em; text-transform: none; }
+  .win .name { font-size: 12px; color: var(--text); line-height: 1.4; }
+  .win .name em { font-style: italic; color: var(--text-mid); }
+  .win .catch {
+    font-family: var(--mono); font-size: 10px; color: var(--connection);
+    letter-spacing: 0.02em; margin-top: 4px; opacity: 0.85;
+  }
+
+  /* READ · agent rows */
+  .reads { display: flex; flex-direction: column; gap: 7px; flex: 1; }
+  .read-row {
+    padding: 9px 11px;
+    border: 1px solid var(--card-border);
+    border-left: 2px solid var(--clarity-soft);
+    background: rgba(142,102,251,0.04);
+    border-radius: 4px;
+    opacity: 0.4;
+    animation: readIn 18s ease-out infinite;
+  }
+  .read-row:nth-child(1) { animation-delay: 2.4s; }
+  .read-row:nth-child(2) { animation-delay: 3.2s; }
+  .read-row:nth-child(3) { animation-delay: 4s; border-left-color: var(--red); }
+  .read-row:nth-child(4) { animation-delay: 4.8s; }
+  @keyframes readIn {
+    0%, 12%  { opacity: 0.4; transform: translateY(4px); }
+    18%, 92% { opacity: 1;   transform: translateY(0); }
+    100%     { opacity: 0.4; transform: translateY(4px); }
+  }
+  .read-row.refused { border-left-color: var(--red); background: rgba(240,64,64,0.05); }
+  .read-row .who {
+    font-family: var(--mono); font-size: 10px; color: var(--clarity);
+    letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 3px;
+    display: flex; justify-content: space-between;
+  }
+  .read-row.refused .who { color: var(--red); }
+  .read-row .who .lane { color: var(--text-faint); letter-spacing: 0.04em; text-transform: lowercase; font-style: italic; }
+  .read-row .text { font-size: 12px; color: var(--text); line-height: 1.4; }
+  .read-row .text em { font-style: italic; color: var(--clarity); }
+  .read-row.refused .text em { color: var(--red); }
+  .read-row .badge {
+    display: inline-block; background: var(--red); color: var(--bg);
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+    font-weight: 500; padding: 1px 5px; border-radius: 2px; margin-right: 6px;
+    animation: refusePulse 18s ease-out infinite;
+  }
+  @keyframes refusePulse {
+    0%, 22%, 30%, 100% { box-shadow: none; }
+    25%, 28%           { box-shadow: 0 0 14px rgba(240,64,64,0.55); }
+  }
+
+  /* DISPATCH · move cards */
+  .moves { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .move {
+    padding: 10px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 4px;
+    background: rgba(0,0,0,0.4);
+    opacity: 0.4;
+    animation: moveIn 18s ease-out infinite;
+  }
+  .move:nth-child(1) { animation-delay: 6.4s; }
+  .move:nth-child(2) { animation-delay: 7s; }
+  .move:nth-child(3) { animation-delay: 7.6s; }
+  @keyframes moveIn {
+    0%, 33%  { opacity: 0.4; transform: translateY(4px); }
+    40%, 92% { opacity: 1;   transform: translateY(0); }
+    100%     { opacity: 0.4; transform: translateY(4px); }
+  }
+  .move .num {
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--clarity); font-weight: 500; margin-bottom: 4px;
+    display: flex; justify-content: space-between;
+  }
+  .move .num .from { color: var(--text-faint); letter-spacing: 0.04em; text-transform: lowercase; font-style: italic; }
+  .move .text { font-size: 12px; color: var(--text); line-height: 1.4; }
+  .move .text em { font-style: italic; color: var(--clarity); }
+  .move .signed {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--connection); margin-top: 6px;
+    padding-top: 6px; border-top: 1px dashed var(--card-border);
+    display: flex; justify-content: space-between;
+  }
+  .move .signed::before { content: '✓ '; }
+
+  /* COMMIT · vault terminal */
+  .vault-pane { background: linear-gradient(180deg, rgba(142,102,251,0.025), transparent 80%); }
+  .vault-rows { display: flex; flex-direction: column; gap: 9px; flex: 1; }
+  .vault-row {
+    font-family: var(--mono); font-size: 11px; line-height: 1.5;
+    border-left: 2px solid var(--clarity-soft);
+    padding: 6px 10px;
+    background: rgba(255,255,255,0.012);
+    border-radius: 3px;
+    opacity: 0.4;
+    animation: termIn 18s ease-out infinite;
+  }
+  .vault-row:nth-child(1) { animation-delay: 9.6s; }
+  .vault-row:nth-child(2) { animation-delay: 10.4s; }
+  .vault-row:nth-child(3) { animation-delay: 11.2s; }
+  @keyframes termIn {
+    0%, 50%  { opacity: 0.4; }
+    55%, 92% { opacity: 1; }
+    100%     { opacity: 0.4; }
+  }
+  .vault-row .cmd { color: var(--text); display: block; }
+  .vault-row .cmd .prompt { color: var(--clarity); margin-right: 6px; }
+  .vault-row .out { color: var(--text-dim); display: block; padding-left: 14px; margin-top: 2px; }
+  .vault-row .out em { font-style: normal; color: var(--text); }
+
+  /* FOOTER · 3 clauses */
+  .deck-foot {
+    height: 32px;
+    border-top: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 18px;
+    align-items: center;
+    padding: 0 16px;
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--text-faint); letter-spacing: 0.10em;
+    text-transform: uppercase; flex-shrink: 0;
+  }
+  .deck-foot .left { color: var(--text-mid); }
+  .deck-foot .left b { color: var(--text); font-weight: 500; }
+  .deck-foot .center {
+    color: var(--text-dim); letter-spacing: 0.14em;
+    text-align: center;
+  }
+  .deck-foot .center b { color: var(--text); font-weight: 500; }
+  .deck-foot .right {
+    color: var(--connection); text-align: right;
+  }
+  .deck-foot .right b { color: var(--connection); font-weight: 500; }
+
+  /* PHASE STAGE INDICATOR · cycles through 4 phases on the scenario-strip */
+  .scenario-strip .phase-now {
+    color: var(--clarity); font-weight: 500;
+    animation: phaseRoll 18s linear infinite;
+  }
+  @keyframes phaseRoll {
+    0%, 22%   { content: "compose"; }
+    23%, 44%  { content: "read"; }
+    45%, 66%  { content: "dispatch"; }
+    67%, 92%  { content: "commit"; }
+    93%, 100% { content: "loop · 4 ×"; }
+  }
+
+  /* RESPONSIVE · embed at non-1920 widths */
+  @media (max-aspect-ratio: 16/9) {
+    .frame { transform: scale(0.96); }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="stage">
+    <div class="frame">
+
+      <!-- ── TITLEBAR · OS-window chrome (cloned from embed-agent-hack) ── -->
+      <header class="titlebar">
+        <div style="display:flex; align-items:center;">
+          <div class="lights">
+            <span class="light r"></span>
+            <span class="light y"></span>
+            <span class="light g"></span>
+          </div>
+          <div class="brand">
+            <span class="glyph">◇</span>
+            Liminal<span class="liminal-mark">· The Founder OS</span>
+          </div>
+        </div>
+        <div class="crumbs">
+          <span>session 0xc7e2</span>
+          <span class="sep">›</span>
+          <span>tuesday 14:23</span>
+          <span class="sep">›</span>
+          <span class="now">composing the next move</span>
+        </div>
+        <div class="vault-tag">
+          <span class="dot"></span>
+          vault · sealed
+          <span style="color: var(--text-faint); margin: 0 6px;">·</span>
+          <span style="color: var(--clarity);">3 dispatched · 0 outbound</span>
+        </div>
+      </header>
+
+      <!-- ── SCENARIO STRIP · operator frame ── -->
+      <div class="scenario-strip">
+        <span class="role">Solo founder · pre-seed.</span>
+        <span class="time">Tuesday afternoon.</span>
+        <span class="situation">A diffuse week <em style="color:var(--text-faint); font-style:italic;">(four open work surfaces, one investor call Monday)</em> has to compress into three signed moves before end-of-day.</span>
+        <span class="phase-mark">cycle · compose → read → dispatch → commit</span>
+      </div>
+
+      <!-- ── MAIN GRID · 4 phase columns ── -->
+      <section class="main">
+
+        <!-- PHASE 1 · COMPOSE -->
+        <aside class="pane">
+          <div class="pane-h">
+            <span class="num">01</span>
+            <span class="title">compose</span>
+            <span class="live">live</span>
+          </div>
+          <div class="pane-caption">
+            Drag any window into the Tray. <em>No pipes, no integrations</em> — Slack, Granola, VS Code, Notion all read by the same agents.
+          </div>
+          <div class="windows">
+            <div class="win">
+              <div class="app"><span>slack</span><span class="v">14:02 · 14 unread</span></div>
+              <div class="name">#fundraise — investor threads, board prep, deck v3</div>
+              <div class="catch">→ context cluster · investor surface</div>
+            </div>
+            <div class="win">
+              <div class="app"><span>granola</span><span class="v">38m · last week</span></div>
+              <div class="name">Board prep · transcript w/ chair, 38min</div>
+              <div class="catch">→ scheduling collision implicit</div>
+            </div>
+            <div class="win">
+              <div class="app"><span>vs code</span><span class="v">live</span></div>
+              <div class="name">vault-schema.rs <em>· WIP migration</em></div>
+              <div class="catch">→ build state · uncommitted</div>
+            </div>
+            <div class="win">
+              <div class="app"><span>notion</span><span class="v">v4 · 1h ago</span></div>
+              <div class="name">Q3 hiring plan · v4 draft</div>
+              <div class="catch">→ resource plan · cross-references fundraise</div>
+            </div>
+          </div>
+          <div class="pane-foot">
+            Four surfaces, one substrate. <em>The Tray IS the intake primitive</em> — drop, don't integrate.
+          </div>
+        </aside>
+
+        <!-- PHASE 2 · READ -->
+        <aside class="pane">
+          <div class="pane-h">
+            <span class="num">02</span>
+            <span class="title">read</span>
+            <span class="live">12 agents</span>
+          </div>
+          <div class="pane-caption">
+            Twelve bounded agents read what's in the Tray. Each one has a lane. <em>Refusal is the trust signal.</em>
+          </div>
+          <div class="reads">
+            <div class="read-row">
+              <div class="who"><span>Strategist</span><span class="lane">operational lane</span></div>
+              <div class="text"><em>Caught:</em> hiring plan and fundraise calendar collide week 3 — board call is Monday.</div>
+            </div>
+            <div class="read-row">
+              <div class="who"><span>Editor</span><span class="lane">editorial lane</span></div>
+              <div class="text"><em>Caught:</em> two deck slides re-litigate the moat. Cut one before partner sees redundancy.</div>
+            </div>
+            <div class="read-row refused">
+              <div class="who"><span>Cartographer</span><span class="lane">jurisdictional refusal</span></div>
+              <div class="text"><span class="badge">REFUSED</span><em>Out of jurisdiction</em> — cap-table is Counsel's lane. Routing.</div>
+            </div>
+            <div class="read-row">
+              <div class="who"><span>Witness</span><span class="lane">longitudinal lane</span></div>
+              <div class="text"><em>Recognized:</em> founder corrected this same context-blur three weeks ago. Pattern, not noise.</div>
+            </div>
+          </div>
+          <div class="pane-foot">
+            Four reads, four registers — <em>operational, editorial, jurisdictional, longitudinal.</em> The disagreement is the data.
+          </div>
+        </aside>
+
+        <!-- PHASE 3 · DISPATCH -->
+        <aside class="pane">
+          <div class="pane-h">
+            <span class="num">03</span>
+            <span class="title">dispatch</span>
+            <span class="live">founder signs</span>
+          </div>
+          <div class="pane-caption">
+            Founder reviews each move. <em>Signs or corrects.</em> Every dispatch is a packet — single decision, audit-grade.
+          </div>
+          <div class="moves">
+            <div class="move">
+              <div class="num">→ Move 01 · scheduling<span class="from">strategist</span></div>
+              <div class="text"><em>Reschedule board prep</em> to Friday so Monday's investor call lands clean.</div>
+              <div class="signed">founder signed<span>14:24</span></div>
+            </div>
+            <div class="move">
+              <div class="num">→ Move 02 · narrative<span class="from">editor</span></div>
+              <div class="text"><em>Collapse moat-slide v1+v2</em> into one. Frontier-banner stays.</div>
+              <div class="signed">founder signed<span>14:24</span></div>
+            </div>
+            <div class="move">
+              <div class="num">→ Move 03 · memo<span class="from">witness</span></div>
+              <div class="text"><em>Draft disagreement memo</em> before hiring loop opens — pattern compounds in vault.</div>
+              <div class="signed">founder signed<span>14:25</span></div>
+            </div>
+          </div>
+          <div class="pane-foot">
+            Three moves dispatched in <em>~90 seconds.</em> Each one a signed packet, each one written back as judgment-record.
+          </div>
+        </aside>
+
+        <!-- PHASE 4 · COMMIT -->
+        <aside class="pane vault-pane">
+          <div class="pane-h">
+            <span class="num">04</span>
+            <span class="title">commit · vault-local</span>
+            <span class="live">PPA #7</span>
+          </div>
+          <div class="pane-caption">
+            Vault on-device, model-agnostic by design. <em>Refusals run local; synthesis can route to frontier.</em> Vault contents never touch the network.
+          </div>
+          <div class="vault-rows">
+            <div class="vault-row">
+              <span class="cmd"><span class="prompt">$</span>sqlcipher vault.db ".schema correction_stream"</span>
+              <span class="out">→ <em>encrypted at rest</em> · AES-256 · founder is the only key-holder</span>
+            </div>
+            <div class="vault-row">
+              <span class="cmd"><span class="prompt">$</span>ls -la ~/.liminal/vault.db</span>
+              <span class="out">→ <em>0600 · user-only</em> · vault file unreadable to any other process</span>
+            </div>
+            <div class="vault-row">
+              <span class="cmd"><span class="prompt">$</span>liminal --inspect-routes</span>
+              <span class="out">refusal: <em>local</em> · synth: <em>frontier</em> · vault: <em>never crosses the network</em></span>
+            </div>
+          </div>
+          <div class="pane-foot">
+            Three commands, three guarantees. <em>Vault-local. Model-agnostic. Sean-defensible.</em>
+          </div>
+        </aside>
+
+      </section>
+
+      <!-- ── DECK FOOTER · ledger of the loop ── -->
+      <div class="deck-foot">
+        <span class="left">compose → read → dispatch → commit · <b>the founder operates at agentic scale</b></span>
+        <span class="center"><b>3,041</b> refusals across <b>1,287</b> deliberations · N=19 v0 cohort</span>
+        <span class="right">network calls during this loop · <b>0</b></span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TODO: confirm with Sean: liminal --inspect-routes output line — is the lane-ledger format what he'd ship? -->
+
+</body>
+</html>
