@@ -42,13 +42,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
-
 <!-- canon · 12-wheel tokens · single source of truth -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
 
 <!-- shared shell · register accents + frame chrome + slate/tray + brief + dispo
      + audit ribbon + classification + marginalia + boot animations -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
   /* per-cut polish · v0.8.3 P1 fix #3 — agency hover affordance
@@ -100,30 +100,30 @@
   }
   .orbital-svg { width: 100%; height: 100%; display: block; overflow: visible; }
 
-  /* Register plate (concave-edged rect, accent-tinted at 8%) */
+  /* Register plate — restrained, all same hairline white. Color only on active state. */
   .reg-plate {
-    fill: rgba(255, 255, 255, 0.025);
-    stroke: var(--frame-border);
-    stroke-width: 1;
+    fill: rgba(255, 255, 255, 0.02);
+    stroke: rgba(255, 255, 255, 0.1);
+    stroke-width: 0.75;
   }
-  .reg-plate.diligence { stroke: var(--diligence, #8E66FB); }
-  .reg-plate.outreach  { stroke: var(--outreach,  #F7A83E); }
-  .reg-plate.synthesis { stroke: var(--synthesis, #E8C547); }
-  .reg-plate.judgment  { stroke: var(--judgment,  #5BC18D); }
+  .reg-plate.diligence { stroke: rgba(255, 255, 255, 0.1); }
+  .reg-plate.outreach  { stroke: rgba(255, 255, 255, 0.1); }
+  .reg-plate.synthesis { stroke: rgba(255, 255, 255, 0.1); }
+  .reg-plate.judgment  { stroke: rgba(255, 255, 255, 0.1); }
 
-  /* Register label inside plate (mono caps, accent-tinted) */
+  /* Register label — uniform muted, not color-coded */
   .reg-label {
-    font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 8px;
-    letter-spacing: 0.16em;
+    font-family: var(--mono, "Geist Mono", ui-monospace, monospace);
+    font-size: 7.5px;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     text-anchor: middle;
     dominant-baseline: middle;
   }
-  .reg-label.diligence { fill: var(--diligence, #8E66FB); }
-  .reg-label.outreach  { fill: var(--outreach,  #F7A83E); }
-  .reg-label.synthesis { fill: var(--synthesis, #E8C547); }
-  .reg-label.judgment  { fill: var(--judgment,  #5BC18D); }
+  .reg-label.diligence { fill: rgba(255,255,255,0.28); }
+  .reg-label.outreach  { fill: rgba(255,255,255,0.28); }
+  .reg-label.synthesis { fill: rgba(255,255,255,0.28); }
+  .reg-label.judgment  { fill: rgba(255,255,255,0.28); }
 
   /* Agent slot inside plate */
   .agent-slot {
@@ -168,17 +168,14 @@
     transition: fill 600ms ease, stroke 600ms ease;
   }
   .center-orb.convergent {
-    fill: rgba(142, 102, 251, 0.18);
-    stroke: rgba(142, 102, 251, 0.55);
+    fill: rgba(232, 0, 106, 0.12);
+    stroke: rgba(232, 0, 106, 0.45);
   }
-  /* v0.8.5 F2 — sealed state: rest step is visually distinct from convergent.
-     Mirrored from cut 01-slate-tray. Convergent = deliberation reaching a
-     recommendation. Sealed = vault committed. */
   .center-orb.sealed {
-    fill: rgba(142, 102, 251, 0.32);
-    stroke: rgba(142, 102, 251, 0.85);
+    fill: rgba(232, 0, 106, 0.22);
+    stroke: rgba(232, 0, 106, 0.75);
     stroke-width: 1.5;
-    filter: drop-shadow(0 0 8px rgba(142, 102, 251, 0.35));
+    filter: drop-shadow(0 0 10px rgba(232, 0, 106, 0.4));
   }
 
   /* v0.8.5 F5 — initial paint suppression. */
@@ -198,11 +195,11 @@
     transition: opacity 320ms ease;
     stroke-linecap: round;
   }
-  .refusal-arrow.active { opacity: 0.55; }
-  .refusal-arrow.diligence { stroke: var(--diligence, #8E66FB); }
-  .refusal-arrow.outreach  { stroke: var(--outreach,  #F7A83E); }
-  .refusal-arrow.synthesis { stroke: var(--synthesis, #E8C547); }
-  .refusal-arrow.judgment  { stroke: var(--judgment,  #5BC18D); }
+  .refusal-arrow.active { opacity: 0.3; }
+  .refusal-arrow.diligence { stroke: rgba(255,255,255,0.5); }
+  .refusal-arrow.outreach  { stroke: rgba(255,255,255,0.5); }
+  .refusal-arrow.synthesis { stroke: rgba(255,255,255,0.5); }
+  .refusal-arrow.judgment  { stroke: rgba(255,255,255,0.5); }
 
   /* Coverage line (mono caps below diagram) */
   .orbital-coverage {
@@ -231,16 +228,15 @@
     opacity: 0.72;
   }
 
-  /* Speedrun-cut variant · P1 fix #5 — flipped hero stack
-     · entry-wedge becomes the lead (was sub-headline in canonical)
-     · entry-brand becomes italic byline beneath (was lead in canonical)
-     · order swap is HTML-level; this CSS just tunes the byline weight */
+  /* Speedrun-cut variant · P1 fix #5 — flipped hero stack */
   .entry-card .entry-brand {
     font-style: italic;
     font-size: 0.85em;
     opacity: 0.72;
     letter-spacing: 0.02em;
   }
+
+  /* speedrun-cut: entry wedge is lead (flipped from canonical brand-first) */
 </style>
 
 </head>
