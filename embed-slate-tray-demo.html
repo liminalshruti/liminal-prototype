@@ -82,7 +82,8 @@
     min-width: 1100px; min-height: 440px;
     position: relative; transform-origin: center center;
   }
-  .stage { width: 100%; height: 100%; position: relative; display: flex; align-items: stretch; justify-content: stretch; overflow: hidden; }
+  /* Two sibling windows side by side — vault (flex:1) + tray (fixed 280px) */
+  .stage { width: 100%; height: 100%; position: relative; display: flex; flex-direction: row; align-items: stretch; gap: 8px; padding: 12px; overflow: hidden; box-sizing: border-box; }
 
   /* aurora backdrop · same as siblings */
   .stage::before {
@@ -106,18 +107,67 @@
     pointer-events: none; z-index: 0;
   }
 
-  /* ═══ FRAME · OS-window chassis ═══ */
+  /* ═══ VAULT FRAME · primary OS-window ═══ */
   .frame {
     position: relative;
-    width: calc(100% - 24px); height: calc(100% - 24px);
-    margin: 12px;
+    flex: 1; height: 100%;
     background: var(--frame-bg);
     border: 1px solid var(--frame-border);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.02) inset;
     display: flex; flex-direction: column;
     z-index: 1;
+    min-width: 0;
+  }
+
+  /* ═══ TRAY FRAME · sibling window beside the vault ═══ */
+  .tray-frame {
+    position: relative;
+    width: 280px; flex-shrink: 0; height: 100%;
+    background: var(--frame-bg-2);
+    border: 1px solid var(--frame-border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    display: flex; flex-direction: column;
+    z-index: 1;
+  }
+  /* Glow on tray edge facing vault — shows the connection */
+  .tray-frame::before {
+    content: "";
+    position: absolute; left: -1px; top: 20%; bottom: 20%; width: 1px;
+    background: var(--clarity);
+    opacity: 0;
+    animation: trayEdgeGlow 18s ease-out infinite;
+    border-radius: 1px;
+  }
+  /* Tray titlebar */
+  .tray-titlebar {
+    height: 36px; flex-shrink: 0;
+    border-bottom: 1px solid var(--frame-border);
+    display: flex; align-items: center;
+    padding: 0 14px; gap: 10px;
+    background: rgba(255,255,255,0.005);
+  }
+  .tray-titlebar .lights { display: flex; gap: 6px; }
+  .tray-titlebar .lights span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.1); }
+  .tray-title-label {
+    font-family: var(--mono); font-size: 9.5px; color: var(--text-faint);
+    letter-spacing: 0.2em; text-transform: uppercase; margin-left: 8px;
+  }
+  .tray-title-count {
+    margin-left: auto;
+    font-family: var(--mono); font-size: 9px; color: var(--clarity);
+    letter-spacing: 0.14em; text-transform: uppercase;
+    background: var(--clarity-bg); border: 1px solid var(--clarity-edge);
+    padding: 2px 8px; border-radius: 2px;
+  }
+  /* Tray body — caption + tiles */
+  .tray-body {
+    flex: 1; overflow: hidden;
+    padding: 14px 12px;
+    display: flex; flex-direction: column; gap: 10px;
   }
 
   /* TITLEBAR */
@@ -162,10 +212,10 @@
   .scenario-strip .situation { color: var(--text-mid); flex: 1; }
   .scenario-strip .phase-mark { color: var(--text-faint); font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; }
 
-  /* ═══ MAIN ═══ slate area + tray attached to right edge */
+  /* ═══ MAIN ═══ left rail + slate only (tray is now a sibling window) */
   .main {
     flex: 1; display: grid;
-    grid-template-columns: 280px 1fr 320px;
+    grid-template-columns: 220px 1fr;
     overflow: hidden;
     position: relative;
     min-height: 0;
@@ -387,43 +437,15 @@
     100%      { opacity: 0; }
   }
 
-  /* RIGHT RAIL · the Tray (slides from right edge) */
-  .tray-pop {
-    border-left: 1px solid var(--frame-border);
-    background: var(--frame-bg-2);
-    padding: 14px 12px;
-    display: flex; flex-direction: column; gap: 10px;
-    overflow: hidden; position: relative;
-    min-height: 0;
-  }
-  .tray-pop::before {
-    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px;
-    background: var(--clarity);
-    opacity: 0;
-    animation: trayEdgeGlow 18s ease-out infinite;
-  }
   @keyframes trayEdgeGlow {
     0%, 18%, 32%, 100% { opacity: 0; }
-    20%, 28%           { opacity: 0.85; box-shadow: 0 0 12px var(--clarity); }
-  }
-  .tray-h {
-    display: flex; justify-content: space-between; align-items: baseline;
-    font-family: var(--mono); font-size: 10px;
-    color: var(--text-faint); letter-spacing: 0.18em; text-transform: uppercase;
-    padding-bottom: 10px; border-bottom: 1px dashed var(--frame-border);
-  }
-  .tray-h .glyph { font-family: var(--display); color: var(--clarity); font-size: 14px; }
-  .tray-h .label { color: var(--text); flex: 1; padding-left: 8px; }
-  .tray-h .count {
-    color: var(--clarity); font-family: var(--display);
-    font-size: 18px; line-height: 1; letter-spacing: -0.02em;
+    20%, 28%           { opacity: 0.85; }
   }
   .tray-caption {
-    font-family: var(--mono); font-size: 10.5px; line-height: 1.5;
+    font-family: var(--mono); font-size: 10px; line-height: 1.55;
     color: var(--text-dim); letter-spacing: 0.01em;
-    padding-bottom: 6px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--frame-border);
   }
-  .tray-caption em { color: var(--text-mid); font-style: italic; }
   .tray-tiles { display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .tray-tile {
     padding: 10px 12px; border-radius: 5px;
@@ -637,40 +659,6 @@
 
         </section>
 
-        <!-- RIGHT · TRAY (the floating drawer of composable windows) -->
-        <aside class="tray-pop">
-          <div class="tray-h">
-            <span class="glyph">◇</span>
-            <span class="label">tray</span>
-            <span class="count">4</span>
-          </div>
-          <div class="tray-caption">
-            Live windows from the operator's other tools. <em>Drag onto slate to compose.</em>
-          </div>
-          <div class="tray-tiles">
-            <div class="tray-tile">
-              <span class="tt-app"><span>slack</span><span class="v">14:23 · pinned</span></span>
-              <span class="tt-name">#fundraise — Maya re: saanvi</span>
-              <span class="tt-meta">live · 2m ago</span>
-            </div>
-            <div class="tray-tile">
-              <span class="tt-app"><span>granola</span><span class="v">38m · last week</span></span>
-              <span class="tt-name">Coffee w/ Maya — <em>deck mention</em></span>
-              <span class="tt-meta">transcript pinned</span>
-            </div>
-            <div class="tray-tile">
-              <span class="tt-app"><span>obsidian</span><span class="v">deck/v3.md</span></span>
-              <span class="tt-name">Deck v3 — <em>cover missing</em></span>
-              <span class="tt-meta">live</span>
-            </div>
-            <div class="tray-tile">
-              <span class="tt-app"><span>cal</span><span class="v">tue 09:30</span></span>
-              <span class="tt-name">Maya · Saanvi · 30m</span>
-              <span class="tt-meta">tentative</span>
-            </div>
-          </div>
-        </aside>
-
       </section>
 
       <!-- DECK FOOTER -->
@@ -680,9 +668,66 @@
         <span class="right">network calls during this loop · <b>0</b></span>
       </div>
 
-    </div>
-  </div>
-</div>
+    </div><!-- /frame (vault) -->
+
+    <!-- TRAY FRAME · separate window beside the vault -->
+    <div class="tray-frame">
+      <div class="tray-titlebar">
+        <div class="lights">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="tray-title-label">Tray</span>
+        <span class="tray-title-count">4 live</span>
+      </div>
+
+      <div class="tray-body">
+        <div class="tray-caption">
+          Your work surfaces. Each tile is a window from your own work — Granola, Slack, Linear, Obsidian, calendar, git. Liminal reads what you compose · stored locally · no one else sees this read.
+        </div>
+
+        <div class="tray-tiles">
+          <div class="tray-tile">
+            <span class="tt-app"><span>slack</span><span class="v">14:23 · pinned</span></span>
+            <span class="tt-name">#fundraise — Maya re: saanvi</span>
+            <span class="tt-meta">live · 2m ago</span>
+          </div>
+          <div class="tray-tile">
+            <span class="tt-app"><span>granola</span><span class="v">38m · last week</span></span>
+            <span class="tt-name">Coffee w/ Maya — deck mention</span>
+            <span class="tt-meta">transcript pinned</span>
+          </div>
+          <div class="tray-tile">
+            <span class="tt-app"><span>obsidian</span><span class="v">deck/v3.md</span></span>
+            <span class="tt-name">Deck v3 — cover still missing</span>
+            <span class="tt-meta">live</span>
+          </div>
+          <div class="tray-tile">
+            <span class="tt-app"><span>cal</span><span class="v">tue 09:30</span></span>
+            <span class="tt-name">Maya · Saanvi · 30m</span>
+            <span class="tt-meta">tentative hold</span>
+          </div>
+        </div>
+
+        <!-- Drop zone hint -->
+        <div style="
+          margin-top: auto;
+          border: 1px dashed rgba(255,255,255,0.08);
+          border-radius: 6px;
+          padding: 14px 12px;
+          text-align: center;
+        ">
+          <div style="font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px;">
+            DROP WINDOW HERE
+          </div>
+          <div style="font-family: var(--serif); font-size: 12px; color: var(--text-dim); line-height: 1.5;">
+            Any browser or app window dragged into the tray becomes a Playwright-style live session under Liminal's view · scoped to that one window only · vaulted as it streams.
+          </div>
+        </div>
+      </div>
+    </div><!-- /tray-frame -->
+
+  </div><!-- /stage -->
+</div><!-- /wrap -->
 
 <script src="lib/brand-upgrade.js"></script>
 </body>
