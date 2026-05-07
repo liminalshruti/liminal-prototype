@@ -60,6 +60,61 @@
   --text-mid:   #C4C0B8;
   --text-dim:   #847F79;
   --text-faint: #504C47;
+
+  /* ── 12-wheel canon register colors ─────────────────
+     Replace off-spec hues across all cuts.
+     Diligence = clarity violet · Judgment = wholeness pink
+     Synthesis = cerulean blue  · Outreach  = connection green
+     These are the ONLY 4 agent-register colors allowed.
+     No orange, no yellow, no coral, no teal in register UI.
+  ─────────────────────────────────────────────────── */
+  --clarity:     #8E66FB;
+  --clarity-soft: rgba(142,102,251,0.35);
+  --clarity-bg:   rgba(142,102,251,0.07);
+  --clarity-edge: rgba(142,102,251,0.22);
+
+  --wholeness:     #E8006A;
+  --wholeness-soft: rgba(232,0,106,0.35);
+  --wholeness-bg:   rgba(232,0,106,0.07);
+  --wholeness-edge: rgba(232,0,106,0.22);
+
+  --cerulean:     #197EEB;
+  --cerulean-soft: rgba(25,126,235,0.35);
+  --cerulean-bg:   rgba(25,126,235,0.07);
+  --cerulean-edge: rgba(25,126,235,0.22);
+
+  --connection:     #31E682;
+  --connection-soft: rgba(49,230,130,0.35);
+  --connection-bg:   rgba(49,230,130,0.07);
+  --connection-edge: rgba(49,230,130,0.22);
+
+  /* Register bindings — canon names map to register roles */
+  --diligence:      var(--clarity);
+  --diligence-soft: var(--clarity-soft);
+  --diligence-bg:   var(--clarity-bg);
+  --diligence-edge: var(--clarity-edge);
+
+  --judgment:       var(--wholeness);
+  --judgment-soft:  var(--wholeness-soft);
+  --judgment-bg:    var(--wholeness-bg);
+  --judgment-edge:  var(--wholeness-edge);
+
+  --synthesis:      var(--cerulean);
+  --synthesis-soft: var(--cerulean-soft);
+  --synthesis-bg:   var(--cerulean-bg);
+  --synthesis-edge: var(--cerulean-edge);
+
+  --outreach:       var(--connection);
+  --outreach-soft:  var(--connection-soft);
+  --outreach-bg:    var(--connection-bg);
+  --outreach-edge:  var(--connection-edge);
+
+  /* Primary accent — magenta (Liminal Pink / wholeness) */
+  --accent:      #E8006A;
+  --accent-soft: rgba(232,0,106,0.35);
+  --accent-bg:   rgba(232,0,106,0.07);
+  --accent-edge: rgba(232,0,106,0.22);
+  --accent-glow: 0 0 20px rgba(232,0,106,0.4);
 }
 
 /* ── Accent remap — neutral tray, no violet bleed ── */
@@ -304,4 +359,127 @@ body[data-product="business"] {
   background: #16161b !important;
   border-color: rgba(255,255,255,0.12) !important;
   box-shadow: none !important;
+}
+
+/* ══════════════════════════════════════════════════════
+   EMBED DEMO + AGENTHANSA REGISTER COLOR CANON
+   Overrides inline multi-color palettes in embed demos.
+   4 register colors only — from 12-wheel canon.
+   ══════════════════════════════════════════════════════ */
+
+/* Register column headers */
+.col-header[data-register="diligence"],
+.register-header.diligence,
+[class*="diligence"] .col-label,
+.col-diligence .col-header,
+.col-diligence .register-name {
+  color: var(--clarity) !important;
+  border-color: var(--clarity-edge) !important;
+}
+.col-header[data-register="judgment"],
+.register-header.judgment,
+[class*="judgment"] .col-label,
+.col-judgment .col-header,
+.col-judgment .register-name {
+  color: var(--wholeness) !important;
+  border-color: var(--wholeness-edge) !important;
+}
+.col-header[data-register="synthesis"],
+.register-header.synthesis,
+[class*="synthesis"] .col-label,
+.col-synthesis .col-header,
+.col-synthesis .register-name {
+  color: var(--cerulean) !important;
+  border-color: var(--cerulean-edge) !important;
+}
+.col-header[data-register="outreach"],
+.register-header.outreach,
+[class*="outreach"] .col-label,
+.col-outreach .col-header,
+.col-outreach .register-name {
+  color: var(--connection) !important;
+  border-color: var(--connection-edge) !important;
+}
+
+/* Agent status badges */
+.status-badge, .agent-status, .move-status {
+  font-family: "Geist Mono", ui-monospace, monospace !important;
+  font-size: 0.58rem !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  border-radius: 2px !important;
+}
+
+/* REFUSED tag — was orange, now magenta */
+.status-badge.refused,
+.tag-refused,
+[class*="refused"],
+.agent-tag.refused {
+  color: var(--wholeness) !important;
+  background: var(--wholeness-bg) !important;
+  border-color: var(--wholeness-edge) !important;
+}
+
+/* Active/reading status — clarity violet */
+.status-badge.active,
+.status-badge.reading,
+.agent-tag.active,
+.move-tag.dispatched {
+  color: var(--clarity) !important;
+  background: var(--clarity-bg) !important;
+  border-color: var(--clarity-edge) !important;
+}
+
+/* Primary accent override — body wins over :root, catches hardcoded file overrides */
+body {
+  --accent:      #E8006A;
+  --accent-soft: rgba(232,0,106,0.35);
+  --accent-bg:   rgba(232,0,106,0.07);
+  --accent-edge: rgba(232,0,106,0.22);
+  --accent-glow: 0 0 20px rgba(232,0,106,0.4);
+  --pink:        #E8006A;
+  --clarity:     #8E66FB;
+}
+
+/* Agenthansa: override purple --accent → magenta */
+.signal-dot,
+.live-dot,
+.status-live {
+  background: var(--wholeness) !important;
+  box-shadow: 0 0 8px var(--wholeness) !important;
+}
+
+/* Typography consistency for embed demos */
+.col-header, .register-name, .panel-label,
+.section-label, .move-label, .agent-name {
+  font-family: "Geist Mono", ui-monospace, monospace !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+}
+
+.move-body, .agent-read, .dispatch-body,
+.commit-body, .panel-body {
+  font-family: "PerfectlyNineties", "Newsreader", Georgia, serif !important;
+  font-size: 0.88rem !important;
+  line-height: 1.65 !important;
+  letter-spacing: -0.005em !important;
+}
+
+/* Section headline in vault/embed demos */
+.panel-headline, .section-headline,
+.move-title, .dispatch-title {
+  font-family: "NinetiesHeadliner", Georgia, serif !important;
+  letter-spacing: -0.02em !important;
+  font-weight: 700 !important;
+}
+
+/* Footer / meta strips */
+.footer-strip, .meta-bar, .bottom-bar,
+.stat-strip, .count-strip {
+  font-family: "Geist Mono", ui-monospace, monospace !important;
+  font-size: 0.6rem !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  color: var(--text-faint) !important;
+  border-top-color: rgba(255,255,255,0.07) !important;
 }
