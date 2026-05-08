@@ -3,782 +3,1405 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cut 01 · Three-surface slate · Speedrun cut · Liminal</title>
-
-<!--
-  Cut 01 · Three-surface slate · SPEEDRUN-REGISTER VARIANT
-  ──────────────────────────────────────────────────────────────────────
-  Same architecture as cut-01 canonical, audience-keyed surface swap.
-  Per COPY_AUDIT_2026-04-28.md Issue #5 + Maya Chen identity.json
-  three-tagline strategy: same vault state, same 12-agent reads, same
-  correction stream, same orbital-rail demo — flipped hero stack for
-  Speedrun-register audience.
-
-  Hero stack (flipped from canonical):
-    1. Founder OS sentence first (builder-oriented, agent-architecture)
-    2. Brand sentence second, italicized byline (therapy-adjacent register)
-
-  Canonical cut-01 keeps brand-sentence-first (theliminalspace.io ships
-  with the brand-canon-protected version). This variant ships into the
-  SR007 video demo + any Speedrun-partner-facing context.
-
-  Personal · Team · Business · operator-subject relationships
-  slate · tray · vault · 13 agents in 4 registers (incl. Witness)
-  ──────────────────────────────────────────────────────────────────────
-  Spec authority   · _scratch/2026-04-27_liminal-agents-architecture-refactor.md v0.3.11
-  IP-side spec     · liminal-ip/04-design/UI_GAP_SPEC.md v0.2
-  Studio docs      · _scratch/2026-04-28_liminal-icp-org-matrix-wireframes.md
-  Variant rationale · COPY_AUDIT_2026-04-28.md Issue #5
-  Persona corpus   · personae/maya-chen-founder-os/identity.json `_tagline_strategy`
-  ──────────────────────────────────────────────────────────────────────
-  This cut owns its own DOM bubble inside the catalog iframe. Imports
-  canonical tokens from design-system, shared shell from lib/cut-shell,
-  and the runtime from lib/boot.js (modular ES modules).
-
-  When loaded standalone (not via parent catalog) it works the same
-  way · self-contained, no parent dependency.
--->
-
+<title>Liminal · Agency · Maia · Speedrun pipeline</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- canon · 12-wheel tokens · single source of truth -->
-<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
-
-<!-- shared shell · register accents + frame chrome + slate/tray + brief + dispo
-     + audit ribbon + classification + marginalia + boot animations -->
-<link rel="stylesheet" href="../lib/cut-shell.css">
-<link rel="stylesheet" href="../lib/brand-upgrade.css">
-
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
-  /* per-cut polish · v0.8.3 P1 fix #3 — agency hover affordance
-     · cursor:help + dotted underline signals the title-tooltip surface
-     · matches the cut-shell classification-token tooltip idiom (cursor:help) */
-  .agency-label {
-    cursor: help;
-    border-bottom: 1px dotted currentColor;
-    border-bottom-color: rgba(255, 255, 255, 0.18);
-    padding-bottom: 1px;
+  :root {
+    --bg: #0A0A0B;
+    --frame-bg: #0E0E11;
+    --frame-bg-2: #0C0C0F;
+    --frame-border: #1F1F23;
+    --card-border: #232327;
+    --card-border-2: #2A2A2F;
+    --accent: #8e66fb;
+    --accent-soft: rgba(142,102,251,0.4);
+    --pink: var(--accent);
+    --amber: #f5a524;
+    --red: #f04040;
+    --good: #45c9a3;
+    --text: #E8E8EA;
+    --text-dim: #7A7A82;
+    --text-faint: #4A4A52;
+    --text-mid: #B0B0B6;
   }
-  .agency-label:hover {
-    border-bottom-color: rgba(255, 255, 255, 0.42);
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    font-family: 'Geist', system-ui, -apple-system, sans-serif;
+    color: var(--text);
+    overflow: hidden;
   }
+  body { display: flex; align-items: center; justify-content: center; }
 
-  /* ─── v0.8.4 — orbital agency rail · inspo-register correction ──────────
-     Per COPY_AUDIT_2026-04-28.md cross-cutting note: the inspo register
-     (Houdini Containment MUBs #3, Pinterest pin orbital diagram) prescribed
-     flat / saturated / hard-edged / instrument-grade rendering for the
-     architectural-claim surfaces.
-
-     This block replaces the vertical register-list with the orbital diagram
-     that puts 4 register plates around a central ◇ glyph. Agents are slots
-     within plates with status glyphs (◯ ◉ ● ⊘). Refusal arrows draw between
-     plates as curved SVG paths. A built-in demo loop cycles agents through
-     reading + refusing + redirecting states even when the slate is empty —
-     so the architectural claim is always visible, not gated on user input.
-
-     Single visual deliverable named in inspo investigation: the diagram IS
-     the architecture. Investors pattern-match diagrams as IP receipts.
-  ──────────────────────────────────────────────────────────────────── */
-
-  /* Static orbital glyph in the rail header (small ~20min visual cue) */
-  .orbital-glyph {
-    display: inline-block;
-    width: 14px; height: 14px;
-    margin-right: 6px;
-    vertical-align: middle;
-    color: var(--text-mid);
-  }
-
-  /* Orbital container — replaces #register-blocks visually */
-  .orbital-rail {
+  .wrap {
+    width: 1920px; height: 1080px;
     position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1.15;
-    margin: 8px auto 14px;
-    padding: 0 10px;
+    transform-origin: center center;
+    flex-shrink: 0;
   }
-  .orbital-svg { width: 100%; height: 100%; display: block; overflow: visible; }
-
-  /* Register plate — restrained, all same hairline white. Color only on active state. */
-  .reg-plate {
-    fill: rgba(255, 255, 255, 0.02);
-    stroke: rgba(255, 255, 255, 0.1);
-    stroke-width: 0.75;
+  .stage {
+    width: 100%; height: 100%;
+    background: var(--bg);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
   }
-  .reg-plate.diligence { stroke: rgba(255, 255, 255, 0.1); }
-  .reg-plate.outreach  { stroke: rgba(255, 255, 255, 0.1); }
-  .reg-plate.synthesis { stroke: rgba(255, 255, 255, 0.1); }
-  .reg-plate.judgment  { stroke: rgba(255, 255, 255, 0.1); }
-
-  /* Register label — uniform muted, not color-coded */
-  .reg-label {
-    font-family: var(--mono, "Geist Mono", ui-monospace, monospace);
-    font-size: 7.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    text-anchor: middle;
-    dominant-baseline: middle;
+  .stage::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 1100px 700px at 50% 50%, rgba(142,102,251,0.05), transparent 70%);
+    pointer-events: none;
   }
-  .reg-label.diligence { fill: rgba(255,255,255,0.28); }
-  .reg-label.outreach  { fill: rgba(255,255,255,0.28); }
-  .reg-label.synthesis { fill: rgba(255,255,255,0.28); }
-  .reg-label.judgment  { fill: rgba(255,255,255,0.28); }
-
-  /* Agent slot inside plate */
-  .agent-slot {
-    font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 7.5px;
-    letter-spacing: 0.04em;
-    text-anchor: middle;
-    dominant-baseline: middle;
-    fill: rgba(255, 255, 255, 0.55);
-    transition: fill 200ms ease;
-  }
-  .agent-glyph {
-    font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 9px;
-    text-anchor: middle;
-    dominant-baseline: middle;
-    transition: fill 200ms ease;
-  }
-  /* Status states · v0.8.5 P3 fixes (mirrored from cut 01-slate-tray):
-     · F3 — opacity transition added for smoother loop reset
-     · F4 — pulse-glyph period synced to step duration (4.2s = 1 cycle per step) */
-  .agent-glyph {
-    transition: fill 200ms ease, opacity 400ms ease;
-  }
-  .agent-glyph.queued   { fill: rgba(255, 255, 255, 0.22); }
-  .agent-glyph.reading  { fill: var(--text); animation: pulse-glyph 4.2s ease-in-out infinite; }
-  .agent-glyph.complete { fill: rgba(91, 193, 141, 0.85); }
-  .agent-glyph.refused  { fill: rgba(247, 121, 78, 0.78); }
-  @keyframes pulse-glyph { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
-
-  /* Central ◇ glyph */
-  .center-mark {
-    font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 14px;
-    text-anchor: middle;
-    dominant-baseline: middle;
-    fill: rgba(255, 255, 255, 0.42);
-  }
-  .center-orb {
-    fill: rgba(142, 102, 251, 0.0);
-    stroke: rgba(142, 102, 251, 0.0);
-    transition: fill 600ms ease, stroke 600ms ease;
-  }
-  .center-orb.convergent {
-    fill: rgba(232, 0, 106, 0.12);
-    stroke: rgba(232, 0, 106, 0.45);
-  }
-  .center-orb.sealed {
-    fill: rgba(232, 0, 106, 0.22);
-    stroke: rgba(232, 0, 106, 0.75);
-    stroke-width: 1.5;
-    filter: drop-shadow(0 0 10px rgba(232, 0, 106, 0.4));
+  .stage::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
   }
 
-  /* v0.8.5 F5 — initial paint suppression. */
-  body {
-    opacity: 0;
-    transition: opacity 240ms ease-out;
+  /* frame */
+  .frame {
+    position: relative;
+    width: 1640px; height: 920px;
+    background: var(--frame-bg);
+    border: 1px solid var(--frame-border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.02) inset;
+    display: flex; flex-direction: column;
   }
-  body.ready {
-    opacity: 1;
+  .titlebar {
+    height: 44px;
+    border-bottom: 1px solid var(--frame-border);
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    padding: 0 16px;
+    flex-shrink: 0;
+    background: rgba(255,255,255,0.005);
   }
-
-  /* Refusal arrows (curved paths) */
-  .refusal-arrow {
-    fill: none;
-    stroke-width: 1;
-    opacity: 0;
-    transition: opacity 320ms ease;
-    stroke-linecap: round;
-  }
-  .refusal-arrow.active { opacity: 0.3; }
-  .refusal-arrow.diligence { stroke: rgba(255,255,255,0.5); }
-  .refusal-arrow.outreach  { stroke: rgba(255,255,255,0.5); }
-  .refusal-arrow.synthesis { stroke: rgba(255,255,255,0.5); }
-  .refusal-arrow.judgment  { stroke: rgba(255,255,255,0.5); }
-
-  /* Coverage line (mono caps below diagram) */
-  .orbital-coverage {
-    font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 8.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-faint);
+  .lights { display: flex; gap: 8px; }
+  .light { width: 12px; height: 12px; border-radius: 50%; }
+  .light.red { background: #FF5F57; }
+  .light.yellow { background: #FEBC2E; }
+  .light.green { background: #28C840; }
+  .title {
+    font-size: 13px;
+    color: var(--text);
+    font-weight: 500;
     text-align: center;
-    padding: 0 14px;
-    margin-top: -4px;
-    line-height: 1.55;
+    display: flex; align-items: center; gap: 12px; justify-content: center;
   }
-  .orbital-coverage .coverage-emphasis {
+  .title .diamond { color: var(--accent); }
+  .title .breadcrumb {
+    color: var(--text-dim);
+    font-size: 12px;
+    font-weight: 400;
+  }
+  .title .crumb-sep { color: var(--text-faint); margin: 0 8px; }
+  .vault-pill {
+    justify-self: end;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    background: rgba(142,102,251,0.05);
+    border: 1px solid rgba(142,102,251,0.2);
+    padding: 5px 12px;
+    border-radius: 4px;
+    transition: all 0.3s;
+    animation: pill-pulse 20s ease-in-out infinite;
+  }
+  .vault-pill .diamond { color: var(--accent); margin-right: 4px; }
+  @keyframes pill-pulse {
+    0%, 73% {
+      box-shadow: 0 0 0 rgba(142,102,251,0);
+      background: rgba(142,102,251,0.05);
+      border-color: rgba(142,102,251,0.2);
+    }
+    77% {
+      box-shadow: 0 0 32px rgba(142,102,251,0.5);
+      background: rgba(142,102,251,0.16);
+      border-color: rgba(142,102,251,0.55);
+      color: var(--text);
+    }
+    85% {
+      box-shadow: 0 0 0 rgba(142,102,251,0);
+      background: rgba(142,102,251,0.05);
+      border-color: rgba(142,102,251,0.2);
+    }
+    100% {
+      box-shadow: 0 0 0 rgba(142,102,251,0);
+      background: rgba(142,102,251,0.05);
+      border-color: rgba(142,102,251,0.2);
+    }
+  }
+
+  /* layout */
+  .main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 260px 1fr 320px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* === LEFT RAIL: SIGNALS === */
+  .rail-left {
+    border-right: 1px solid var(--frame-border);
+    padding: 18px 12px;
+    background: var(--frame-bg-2);
+    overflow: hidden;
+  }
+  .rail-header {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.16em;
+    margin-bottom: 12px;
+    padding: 0 8px;
+  }
+  .signal {
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    position: relative;
+    margin-bottom: 4px;
+    transition: all 0.4s ease;
+  }
+  .signal-app {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.16em;
+    margin-bottom: 4px;
+  }
+  .signal-text {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+  .signal.pulse {
+    background: rgba(142,102,251,0.05);
+    border-color: rgba(142,102,251,0.22);
+  }
+  .signal.pulse .signal-app { color: rgba(142,102,251,0.85); }
+  .signal.pulse .signal-text { color: var(--text); }
+  .signal.pulse::before {
+    content: '';
+    position: absolute;
+    top: 14px; right: 12px;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0 rgba(142,102,251,0.6);
+    animation: dot-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes dot-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(142,102,251,0.55); }
+    70% { box-shadow: 0 0 0 8px rgba(142,102,251,0); }
+  }
+  /* "reading" highlight when source is being cited */
+  .signal[data-read="1"] { animation: read-flash-1 20s ease-out infinite; }
+  .signal[data-read="2"] { animation: read-flash-2 20s ease-out infinite; }
+  .signal[data-read="3"] { animation: read-flash-3 20s ease-out infinite; }
+  @keyframes read-flash-1 {
+    0%, 18% { background: transparent; border-color: transparent; }
+    20%, 22% {
+      background: rgba(142,102,251,0.12);
+      border-color: rgba(142,102,251,0.4);
+      box-shadow: 0 0 24px rgba(142,102,251,0.3);
+    }
+    27%, 100% { background: transparent; border-color: transparent; box-shadow: none; }
+  }
+  @keyframes read-flash-2 {
+    0%, 21% { background: transparent; border-color: transparent; }
+    23%, 25% {
+      background: rgba(142,102,251,0.12);
+      border-color: rgba(142,102,251,0.4);
+      box-shadow: 0 0 24px rgba(142,102,251,0.3);
+    }
+    30%, 100% { background: transparent; border-color: transparent; box-shadow: none; }
+  }
+  @keyframes read-flash-3 {
+    0%, 24% { background: transparent; border-color: transparent; }
+    26%, 28% {
+      background: rgba(142,102,251,0.12);
+      border-color: rgba(142,102,251,0.4);
+      box-shadow: 0 0 24px rgba(142,102,251,0.3);
+    }
+    33%, 100% { background: transparent; border-color: transparent; box-shadow: none; }
+  }
+  /* keep .pulse styling on the granola signal but allow read-flash to layer */
+  .signal.pulse[data-read] { background: rgba(142,102,251,0.05); }
+
+  /* === DOC AREA === */
+  .doc-area {
+    overflow: hidden;
+    position: relative;
+    background: var(--frame-bg);
+  }
+  .doc-scroll {
+    height: 100%;
+    overflow-y: auto;
+    padding: 0;
+    position: relative;
+  }
+  .doc-content {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 36px 48px 60px;
+    position: relative;
+  }
+
+  /* doc header */
+  .doc-meta {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.18em;
+    margin-bottom: 10px;
+  }
+  .doc-meta .dot { color: var(--accent); margin: 0 8px; }
+  .doc-title {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.15;
+    margin-bottom: 14px;
+    letter-spacing: -0.01em;
+  }
+  .doc-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .tag {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-border);
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+  }
+
+  /* rough notes */
+  .rough-notes-label {
+    font-size: 12px;
+    color: var(--text-faint);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+  .rough-list {
+    list-style: none;
+    margin-bottom: 22px;
+  }
+  .rough-list li {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.65;
+    padding-left: 18px;
+    position: relative;
+  }
+  .rough-list li::before {
+    content: '·';
+    position: absolute;
+    left: 4px;
+    color: var(--text-faint);
+    font-size: 18px;
+    line-height: 1;
+    top: 4px;
+  }
+
+  /* invocation divider */
+  .invocation-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 14px 0 22px;
+    opacity: 0;
+    animation: appear-13 20s ease-out infinite;
+  }
+  .invocation-divider::before, .invocation-divider::after {
+    content: '';
+    height: 1px;
+    background: var(--card-border);
+    flex: 1;
+  }
+  .invocation-divider span {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(142,102,251,0.7);
+    letter-spacing: 0.14em;
+    white-space: nowrap;
+  }
+
+  /* doc section */
+  .doc-section {
+    margin-bottom: 22px;
+    opacity: 0;
+  }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+  }
+  .section-label .glyph {
+    font-size: 12px;
+    color: var(--accent);
+  }
+  .section-label .reg-name {
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: var(--accent);
+    background: rgba(142,102,251,0.08);
+    border: 1px solid rgba(142,102,251,0.22);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+  .section-label .sec-title {
+    font-size: 12px;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+  .section-label .sec-time {
+    font-size: 10px;
+    color: var(--text-faint);
+    margin-left: auto;
+    letter-spacing: 0.08em;
+  }
+
+  /* citations */
+  .citation-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-left: 4px;
+  }
+  .citation {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: rgba(255,255,255,0.015);
+    border: 1px solid var(--card-border);
+    border-radius: 5px;
+    opacity: 0;
+  }
+  .citation .cite-source {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--accent);
+    background: rgba(142,102,251,0.1);
+    border: 1px solid rgba(142,102,251,0.25);
+    padding: 2px 6px;
+    border-radius: 3px;
+    letter-spacing: 0.14em;
+    flex-shrink: 0;
+  }
+  .citation .cite-text {
+    font-size: 13px;
+    color: var(--text-mid);
+    line-height: 1.4;
+  }
+  .citation .cite-text em {
+    color: var(--text);
+    font-style: normal;
+    font-weight: 500;
+  }
+  .citation-1 { animation: appear-20 20s ease-out infinite; }
+  .citation-2 { animation: appear-225 20s ease-out infinite; }
+  .citation-3 { animation: appear-25 20s ease-out infinite; }
+
+  .diligence-section { animation: appear-17 20s ease-out infinite; }
+  .synthesis-section { animation: appear-385 20s ease-out infinite; }
+  .judgment-section { animation: appear-67 20s ease-out infinite; }
+
+  /* synthesis */
+  .synth-body {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--text);
+    padding: 4px 4px;
+    opacity: 0;
+    animation: appear-41 20s ease-out infinite;
+  }
+  .synth-body em {
+    font-style: italic;
     color: var(--text-mid);
   }
-  .orbital-coverage .coverage-input {
-    display: block;
+  .synth-body .hl-good {
+    color: var(--text);
+    background: linear-gradient(transparent 60%, rgba(69,201,163,0.18) 60%);
+    padding: 0 2px;
+  }
+  .synth-body .annotated {
+    position: relative;
+    background: linear-gradient(transparent 60%, rgba(240,64,64,0.16) 60%);
+    text-decoration: line-through;
+    text-decoration-color: rgba(240,64,64,0.55);
+    text-decoration-thickness: 1px;
+    color: rgba(232,232,234,0.7);
+    opacity: 0;
+    animation: appear-65 20s ease-out infinite;
+  }
+  .synth-body .annotated .risk-tag {
+    display: inline-block;
+    margin-left: 6px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--red);
+    background: rgba(240,64,64,0.1);
+    border: 1px solid rgba(240,64,64,0.3);
+    padding: 1px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    vertical-align: 2px;
+  }
+  /* the part of the sentence that gets struck has its own opacity ramp */
+  .synth-body .annotated-text {
+    /* nested text */
+  }
+
+  /* mystic margin note */
+  .mystic-margin {
+    position: absolute;
+    right: -240px;
+    top: 0;
+    width: 220px;
+    padding: 14px 16px;
+    background: rgba(142,102,251,0.04);
+    border-left: 2px solid var(--accent);
+    border-radius: 2px;
+    opacity: 0;
+    animation: appear-50-with-glow 20s ease-out infinite;
+  }
+  .mystic-attr {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--pink);
+    letter-spacing: 0.18em;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .mystic-attr .pink-glyph { color: var(--pink); }
+  .mystic-quote {
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 14px;
     font-style: italic;
-    color: var(--text-faint);
-    text-transform: none;
-    letter-spacing: 0.02em;
+    color: rgba(232,232,234,0.85);
+    line-height: 1.45;
+  }
+
+  .synthesis-section { position: relative; }
+
+  /* not-ready banner */
+  .banner {
+    position: absolute;
+    top: 0;
+    left: 0; right: 0;
+    height: 0;
+    background: linear-gradient(180deg, rgba(245,165,36,0.12), rgba(245,165,36,0.04));
+    border-bottom: 1px solid rgba(245,165,36,0.4);
+    overflow: hidden;
+    z-index: 5;
+    transform: translateY(-4px);
+    animation: banner-slide 20s ease-out infinite;
+  }
+  .banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 32px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .banner-icon {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: rgba(245,165,36,0.15);
+    border: 1px solid rgba(245,165,36,0.4);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--amber);
+    font-size: 13px;
+  }
+  .banner-text {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--amber);
+    letter-spacing: 0.06em;
+    flex: 1;
+  }
+  .banner-text strong { font-weight: 500; }
+  .banner-attr {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(245,165,36,0.6);
+    letter-spacing: 0.12em;
+  }
+  @keyframes banner-slide {
+    0%, 61% { height: 0; opacity: 0; transform: translateY(-8px); }
+    63%, 91% { height: 56px; opacity: 1; transform: translateY(0); }
+    94%, 100% { height: 0; opacity: 0; transform: translateY(-4px); }
+  }
+
+  /* verdict card */
+  .verdict-card {
+    background: rgba(255,255,255,0.018);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 18px 20px;
     margin-top: 6px;
-    padding: 0 8px;
+  }
+  .verdict-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .verdict-badge {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--amber);
+    background: rgba(245,165,36,0.1);
+    border: 1px solid rgba(245,165,36,0.3);
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.14em;
+  }
+  .verdict-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .verdict-sub {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-left: auto;
+    letter-spacing: 0.04em;
+  }
+  .fix-list {
+    display: flex; flex-direction: column;
+    gap: 10px;
+  }
+  .fix-item {
+    display: flex; gap: 12px;
+    padding: 10px 12px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 6px;
+    border-left: 2px solid rgba(240,64,64,0.5);
+  }
+  .fix-num {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+    flex-shrink: 0;
+    width: 14px;
+  }
+  .fix-content { flex: 1; }
+  .fix-title {
+    font-size: 13px;
+    color: var(--text);
     line-height: 1.4;
-    opacity: 0.72;
+    margin-bottom: 3px;
   }
-
-  /* Speedrun-cut variant · P1 fix #5 — flipped hero stack */
-  .entry-card .entry-brand {
+  .fix-by {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+  }
+  .cartographer-note {
+    margin-top: 14px;
+    padding: 10px 12px;
+    background: rgba(142,102,251,0.04);
+    border: 1px solid rgba(142,102,251,0.18);
+    border-radius: 5px;
+    font-size: 12px;
     font-style: italic;
-    font-size: 0.85em;
-    opacity: 0.72;
-    letter-spacing: 0.02em;
+    color: var(--text-mid);
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .cartographer-note .carto-glyph {
+    color: var(--accent);
+    font-style: normal;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .cartographer-note strong { color: var(--text); font-weight: 500; }
+
+  /* === RIGHT RAIL: AGENCY CONSOLE === */
+  .rail-right {
+    border-left: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    padding: 18px 14px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .rail-right-header {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.16em;
+    padding: 0 8px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .rail-right-header .live-indicator {
+    display: flex; align-items: center; gap: 4px;
+    color: rgba(142,102,251,0.7);
+    font-size: 9px;
+  }
+  .live-indicator::before {
+    content: '';
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 6px var(--accent);
+    animation: dot-pulse 1.6s ease-in-out infinite;
   }
 
-  /* speedrun-cut: entry wedge is lead (flipped from canonical brand-first) */
+  .register-block {
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 12px;
+    background: rgba(255,255,255,0.005);
+    transition: all 0.4s ease;
+  }
+  .register-block.diligence { animation: reg-diligence 20s ease-in-out infinite; }
+  .register-block.outreach { animation: reg-outreach 20s ease-in-out infinite; }
+  .register-block.judgment { animation: reg-judgment 20s ease-in-out infinite; }
+  .register-block.synthesis { animation: reg-synthesis 20s ease-in-out infinite; }
+
+  @keyframes reg-diligence {
+    0%, 14% { border-color: var(--card-border); box-shadow: none; }
+    16%, 36% {
+      border-color: var(--accent);
+      box-shadow: 0 0 22px rgba(142,102,251,0.18), inset 0 0 0 1px rgba(142,102,251,0.06);
+    }
+    38%, 91% { border-color: rgba(142,102,251,0.4); box-shadow: none; }
+    93%, 100% { border-color: var(--card-border); box-shadow: none; }
+  }
+  @keyframes reg-outreach {
+    0%, 14% { border-color: var(--card-border); opacity: 1; }
+    16%, 91% { border-color: var(--card-border-2); opacity: 0.55; }
+    93%, 100% { border-color: var(--card-border); opacity: 1; }
+  }
+  @keyframes reg-judgment {
+    0%, 14% { border-color: var(--card-border); opacity: 1; }
+    16%, 58% { border-color: var(--card-border-2); opacity: 0.55; }
+    61%, 67% {
+      border-color: var(--accent);
+      opacity: 1;
+      box-shadow: 0 0 22px rgba(142,102,251,0.18), inset 0 0 0 1px rgba(142,102,251,0.06);
+    }
+    69%, 91% { border-color: rgba(142,102,251,0.4); opacity: 1; }
+    93%, 100% { border-color: var(--card-border); opacity: 1; }
+  }
+  @keyframes reg-synthesis {
+    0%, 14% { border-color: var(--card-border); opacity: 1; }
+    16%, 36% { border-color: var(--card-border-2); opacity: 0.55; }
+    39%, 58% {
+      border-color: var(--accent);
+      opacity: 1;
+      box-shadow: 0 0 22px rgba(142,102,251,0.18), inset 0 0 0 1px rgba(142,102,251,0.06);
+    }
+    60%, 91% { border-color: rgba(142,102,251,0.4); opacity: 1; }
+    93%, 100% { border-color: var(--card-border); opacity: 1; }
+  }
+
+  .reg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .reg-name-block {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11px;
+    color: var(--text);
+    letter-spacing: 0.14em;
+  }
+  .reg-status {
+    position: relative;
+    height: 16px;
+    min-width: 56px;
+    display: flex; justify-content: flex-end; align-items: center;
+  }
+  .status {
+    position: absolute;
+    right: 0;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    padding: 2px 6px;
+    border-radius: 3px;
+    opacity: 0;
+  }
+  .status.idle { background: rgba(255,255,255,0.04); color: var(--text-faint); }
+  .status.active { background: rgba(142,102,251,0.18); color: var(--accent); }
+  .status.refused { background: rgba(255,255,255,0.025); color: var(--text-faint); font-style: italic; }
+  .status.done { background: rgba(142,102,251,0.08); color: rgba(142,102,251,0.78); }
+  .mystic-row .status.active { background: rgba(142,102,251,0.18); color: var(--accent); }
+  .mystic-row .status.done { background: rgba(142,102,251,0.08); color: rgba(142,102,251,0.78); }
+
+  .reg-agents {
+    display: flex; flex-direction: column;
+    gap: 4px;
+  }
+  .reg-agent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-dim);
+    padding: 3px 0;
+    height: 22px;
+  }
+  .reg-agent .agent-name { font-weight: 400; }
+  .reg-agent.mystic-row .agent-name { color: var(--accent); }
+  .reg-agent .agent-detail {
+    position: relative;
+    height: 18px;
+    min-width: 80px;
+    display: flex; justify-content: flex-end; align-items: center;
+  }
+  .agent-detail .detail {
+    position: absolute;
+    right: 0;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: var(--text-faint);
+    font-style: italic;
+    opacity: 0;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .agent-detail .detail.active-d {
+    color: var(--accent);
+    font-style: normal;
+    background: rgba(142,102,251,0.12);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+  .mystic-row .agent-detail .detail.active-d {
+    color: var(--accent);
+    background: rgba(142,102,251,0.12);
+  }
+
+  /* status visibility timing windows (% of 20s loop) */
+  /* IDLE: 0-13%, 93-100% */
+  .show-idle { animation: w-idle 20s ease-in-out infinite; }
+  @keyframes w-idle {
+    0%, 13% { opacity: 1; }
+    15%, 91% { opacity: 0; }
+    93%, 100% { opacity: 1; }
+  }
+  /* DA: 16-36% (Diligence active phase, refuse-analyst, refuse-wait-d) */
+  .show-da { animation: w-da 20s ease-in-out infinite; }
+  @keyframes w-da {
+    0%, 14% { opacity: 0; }
+    16%, 36% { opacity: 1; }
+    38%, 100% { opacity: 0; }
+  }
+  /* DD: 38-91% (Diligence done) */
+  .show-dd { animation: w-dd 20s ease-in-out infinite; }
+  @keyframes w-dd {
+    0%, 36% { opacity: 0; }
+    38%, 91% { opacity: 0.85; }
+    93%, 100% { opacity: 0; }
+  }
+  /* OR: 16-91% outreach refused throughout */
+  .show-or { animation: w-or 20s ease-in-out infinite; }
+  @keyframes w-or {
+    0%, 14% { opacity: 0; }
+    16%, 91% { opacity: 1; }
+    93%, 100% { opacity: 0; }
+  }
+  /* JR: 16-58% judgment refused */
+  .show-jr { animation: w-jr 20s ease-in-out infinite; }
+  @keyframes w-jr {
+    0%, 14% { opacity: 0; }
+    16%, 58% { opacity: 1; }
+    60%, 100% { opacity: 0; }
+  }
+  /* SR: 16-36% synthesis refused */
+  .show-sr { animation: w-sr 20s ease-in-out infinite; }
+  @keyframes w-sr {
+    0%, 14% { opacity: 0; }
+    16%, 36% { opacity: 1; }
+    38%, 100% { opacity: 0; }
+  }
+  /* SA: 39-58% synthesis active, "REFUSE → Strategist" */
+  .show-sa { animation: w-sa 20s ease-in-out infinite; }
+  @keyframes w-sa {
+    0%, 37% { opacity: 0; }
+    39%, 58% { opacity: 1; }
+    60%, 100% { opacity: 0; }
+  }
+  /* SD: 60-91% synthesis done, "REFUSE → Auditor" (outreach) */
+  .show-sd { animation: w-sd 20s ease-in-out infinite; }
+  @keyframes w-sd {
+    0%, 58% { opacity: 0; }
+    60%, 91% { opacity: 0.85; }
+    93%, 100% { opacity: 0; }
+  }
+  /* JA: 61-67% judgment active */
+  .show-ja { animation: w-ja 20s ease-in-out infinite; }
+  @keyframes w-ja {
+    0%, 59% { opacity: 0; }
+    61%, 67% { opacity: 1; }
+    69%, 100% { opacity: 0; }
+  }
+  /* JD: 69-91% judgment done */
+  .show-jd { animation: w-jd 20s ease-in-out infinite; }
+  @keyframes w-jd {
+    0%, 67% { opacity: 0; }
+    69%, 91% { opacity: 0.85; }
+    93%, 100% { opacity: 0; }
+  }
+
+  /* doc element appearance keyframes (each fades in at X%, holds, fades at 92%) */
+  @keyframes appear-13 {
+    0%, 11% { opacity: 0; transform: translateY(6px); }
+    14%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-17 {
+    0%, 15% { opacity: 0; transform: translateY(6px); }
+    18%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-20 {
+    0%, 18% { opacity: 0; transform: translateY(6px); }
+    21%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-225 {
+    0%, 20.5% { opacity: 0; transform: translateY(6px); }
+    23.5%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-25 {
+    0%, 23% { opacity: 0; transform: translateY(6px); }
+    26%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-385 {
+    0%, 36.5% { opacity: 0; transform: translateY(6px); }
+    39.5%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-41 {
+    0%, 39% { opacity: 0; transform: translateY(6px); }
+    42%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+  @keyframes appear-50-with-glow {
+    0%, 48% { opacity: 0; transform: translateX(12px); box-shadow: none; }
+    51% { opacity: 1; transform: translateX(0); box-shadow: -8px 0 32px rgba(142,102,251,0.25); }
+    55% { opacity: 1; transform: translateX(0); box-shadow: -2px 0 0 rgba(142,102,251,0); }
+    91% { opacity: 1; transform: translateX(0); }
+    94%, 100% { opacity: 0; transform: translateX(8px); }
+  }
+  @keyframes appear-65 {
+    0%, 63% { opacity: 0; }
+    66%, 91% { opacity: 1; }
+    94%, 100% { opacity: 0; }
+  }
+  @keyframes appear-67 {
+    0%, 65% { opacity: 0; transform: translateY(8px); }
+    68%, 91% { opacity: 1; transform: translateY(0); }
+    94%, 100% { opacity: 0; transform: translateY(-2px); }
+  }
+
+  /* === BOTTOM BAR === */
+  .bottombar {
+    height: 60px;
+    border-top: 1px solid var(--frame-border);
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 12px;
+    background: rgba(0,0,0,0.25);
+    flex-shrink: 0;
+    position: relative;
+    animation: input-pulse 20s ease-in-out infinite;
+  }
+  @keyframes input-pulse {
+    0%, 11% { box-shadow: inset 0 0 0 1px transparent; background: rgba(0,0,0,0.25); }
+    13.5% {
+      box-shadow: inset 0 1px 0 rgba(142,102,251,0.5), inset 0 0 50px rgba(142,102,251,0.08);
+      background: rgba(142,102,251,0.04);
+    }
+    17% { box-shadow: inset 0 0 0 1px transparent; background: rgba(0,0,0,0.25); }
+    100% { box-shadow: inset 0 0 0 1px transparent; background: rgba(0,0,0,0.25); }
+  }
+  .prompt-prefix {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    color: var(--accent);
+    font-size: 13px;
+  }
+  .prompt-text {
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 13px;
+    color: var(--text);
+    white-space: pre;
+    letter-spacing: 0.01em;
+  }
+  .cursor {
+    display: inline-block;
+    width: 7px; height: 14px;
+    background: var(--accent);
+    animation: blink 1s steps(2) infinite;
+    vertical-align: -2px;
+    margin-left: 1px;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  /* helper meta on bottombar right */
+  .input-meta {
+    margin-left: auto;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    display: flex; gap: 16px;
+  }
+  .input-meta .meta-key {
+    background: rgba(255,255,255,0.04);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--text-dim);
+  }
+
+  /* toast */
+  .toast {
+    position: absolute;
+    bottom: 80px;
+    right: 28px;
+    background: rgba(20,20,24,0.96);
+    border: 1px solid rgba(142,102,251,0.4);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 11.5px;
+    color: var(--text);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.55), 0 0 32px rgba(142,102,251,0.22);
+    transform: translateX(140%);
+    opacity: 0;
+    z-index: 12;
+    letter-spacing: 0.02em;
+    display: flex; align-items: center; gap: 10px;
+    animation: toast-slide 20s ease-in-out infinite;
+  }
+  .toast .diamond { color: var(--accent); }
+  .toast-divider { color: var(--text-faint); }
+  @keyframes toast-slide {
+    0%, 73% { transform: translateX(140%); opacity: 0; }
+    77% { transform: translateX(0); opacity: 1; }
+    84% { transform: translateX(0); opacity: 1; }
+    87% { transform: translateX(140%); opacity: 0; }
+    100% { transform: translateX(140%); opacity: 0; }
+  }
+
+  /* scrollbar */
+  .doc-scroll::-webkit-scrollbar { width: 6px; }
+  .doc-scroll::-webkit-scrollbar-track { background: transparent; }
+  .doc-scroll::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
 </style>
-
+<link rel="stylesheet" href="lib/brand-upgrade.css">
 </head>
-<body data-product="personal">
-
-<!-- entry overlay · three doors · per UI_GAP_SPEC §2.4 · first-session only -->
-<div class="entry-overlay" id="entry-overlay" hidden role="dialog" aria-label="Choose a scenario">
-  <div class="entry-card">
-    <h1 class="entry-wedge">A founder OS where AI agents disagree, deliberate, and prompt you. The corrections are the moat.</h1>
-    <div class="entry-brand">Liminal — gives form to inner life.</div>
-    <p class="entry-prompt">Try one</p>
-    <div class="entry-doors">
-      <button class="entry-door" data-product="personal" data-context="self_baseline_check" type="button">
-        <span class="ed-eyebrow">Operator · Personal</span>
-        <span class="ed-title">Read your own pattern</span>
-        <span class="ed-helper">Last 30 days of decisions, read against your stated thesis.</span>
-      </button>
-      <button class="entry-door" data-product="team" data-context="brian_eng" type="button">
-        <span class="ed-eyebrow">Founder · Team</span>
-        <span class="ed-title">Read your cofounder thread</span>
-        <span class="ed-helper">Devon flagged a substrate gap in your fundraise narrative. Three corrections, one defer.</span>
-      </button>
-      <button class="entry-door" data-product="personal" data-context="field_studio_rebrand" type="button">
-        <span class="ed-eyebrow">Creative · Personal</span>
-        <span class="ed-title">Read your work-in-progress</span>
-        <span class="ed-helper">Judge feedback memo, read against your application draft.</span>
-      </button>
-    </div>
-    <button class="entry-skip" id="entry-skip" type="button">skip · go straight to Personal</button>
-  </div>
-</div>
-
-
-<!-- desktop-app shell · the slate-tray surface -->
-<div class="stage">
-  <div class="frame">
-
-    <!-- titlebar -->
-    <header class="titlebar">
-      <div class="lights">
-        <span class="light red"></span>
-        <span class="light yellow"></span>
-        <span class="light green"></span>
+<body>
+<div class="wrap" id="wrap">
+  <div class="stage">
+    <div class="frame">
+      <!-- titlebar -->
+      <div class="titlebar">
+        <div class="lights">
+          <span class="light red"></span>
+          <span class="light yellow"></span>
+          <span class="light green"></span>
+        </div>
+        <div class="title">
+          <span class="diamond">◇</span>
+          <span class="breadcrumb">Liminal<span class="crumb-sep">/</span>Maia<span class="crumb-sep">/</span></span>
+          Tuesday — Speedrun partner call
+        </div>
+        <div class="vault-pill"><span class="diamond">◇</span>vault: encrypted · 47 signals</div>
       </div>
-      <div class="title-row">
+
+      <div class="main">
+        <!-- LEFT RAIL -->
+        <div class="rail-left">
+          <div class="rail-header">SIGNALS · LIVE</div>
+          <div class="signal pulse" data-read="1">
+            <div class="signal-app">GRANOLA</div>
+            <div class="signal-text">Coffee with Maya at Northstar</div>
+          </div>
+          <div class="signal" data-read="2">
+            <div class="signal-app">OBSIDIAN</div>
+            <div class="signal-text">research/competitors/granola-teardown.md</div>
+          </div>
+          <div class="signal" data-read="3">
+            <div class="signal-app">APPLE REMINDERS</div>
+            <div class="signal-text">Tuesday: Speedrun partner call</div>
+          </div>
+          <div class="signal">
+            <div class="signal-app">CLAUDE CODE</div>
+            <div class="signal-text">user_message</div>
+          </div>
+          <div class="signal">
+            <div class="signal-app">GIT</div>
+            <div class="signal-text">feat: bounded refusal in agent prompts</div>
+          </div>
+        </div>
+
+        <!-- DOC AREA -->
+        <div class="doc-area">
+          <!-- not-ready banner -->
+          <div class="banner">
+            <div class="banner-inner">
+              <div class="banner-icon">⚠</div>
+              <div class="banner-text"><strong>NOT READY</strong> · 2 fixes required before sending</div>
+              <div class="banner-attr">AUDITOR</div>
+            </div>
+          </div>
+
+          <div class="doc-scroll">
+            <div class="doc-content">
+              <!-- header -->
+              <div class="doc-meta">MAIA<span class="dot">·</span>TODAY<span class="dot">·</span>14:32</div>
+              <h1 class="doc-title">Tuesday — Speedrun partner call</h1>
+              <div class="doc-tags">
+                <span class="tag">1pm Northstar</span>
+                <span class="tag">a16z Speedrun</span>
+                <span class="tag">positioning</span>
+                <span class="tag">prep</span>
+              </div>
+
+              <!-- rough notes -->
+              <div class="rough-notes-label">quick context I had on file:</div>
+              <ul class="rough-list">
+                <li>1pm coffee at Northstar</li>
+                <li>he tracks Granola apparently</li>
+                <li>question: what to say about positioning?</li>
+              </ul>
+
+              <!-- invocation -->
+              <div class="invocation-divider">
+                <span>/agency invoked · 14:32:08</span>
+              </div>
+
+              <!-- diligence -->
+              <div class="doc-section diligence-section">
+                <div class="section-label">
+                  <span class="glyph">◇</span>
+                  <span class="reg-name">DILIGENCE</span>
+                  <span class="sec-title">context loaded</span>
+                  <span class="sec-time">+0.4s</span>
+                </div>
+                <div class="citation-list">
+                  <div class="citation citation-1">
+                    <span class="cite-source">GRANOLA</span>
+                    <span class="cite-text"><em>Series B</em> · $43M · meeting capture for consumer creators · partner tracked them since seed</span>
+                  </div>
+                  <div class="citation citation-2">
+                    <span class="cite-source">OBSIDIAN</span>
+                    <span class="cite-text">/competitors/granola-teardown.md · last edited Nov 12 · core thesis: capture ≠ correction</span>
+                  </div>
+                  <div class="citation citation-3">
+                    <span class="cite-source">REMINDERS</span>
+                    <span class="cite-text">Partner flagged 2 weeks ago — "tracking Granola, would love a take"</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- synthesis -->
+              <div class="doc-section synthesis-section">
+                <div class="section-label">
+                  <span class="glyph">◇</span>
+                  <span class="reg-name">SYNTHESIS</span>
+                  <span class="sec-title">frame the move</span>
+                  <span class="sec-time">+4.6s</span>
+                </div>
+                <p class="synth-body">
+                  Liminal and Granola are both <em>capture-tools</em>, but they
+                  operate on <span class="hl-good">different layers</span>. Granola captures
+                  the raw signal &mdash; what was said. Liminal operates on
+                  <span class="annotated">⌜the corrected layer⌝<span class="risk-tag">risk: claim</span></span> &mdash;
+                  what you're actually deciding.
+                </p>
+
+                <!-- mystic margin -->
+                <aside class="mystic-margin">
+                  <div class="mystic-attr"><span class="pink-glyph">◇</span>MYSTIC</div>
+                  <div class="mystic-quote">
+                    "Don't position against Granola. Position as the thing their listening was supposed to become."
+                  </div>
+                </aside>
+              </div>
+
+              <!-- judgment -->
+              <div class="doc-section judgment-section">
+                <div class="section-label">
+                  <span class="glyph">◇</span>
+                  <span class="reg-name">JUDGMENT</span>
+                  <span class="sec-title">verdict + fixes</span>
+                  <span class="sec-time">+9.0s</span>
+                </div>
+                <div class="verdict-card">
+                  <div class="verdict-header">
+                    <span class="verdict-badge">NOT READY</span>
+                    <span class="verdict-title">2 fixes before this is shippable</span>
+                    <span class="verdict-sub">incl. this demo</span>
+                  </div>
+                  <div class="fix-list">
+                    <div class="fix-item">
+                      <span class="fix-num">01</span>
+                      <div class="fix-content">
+                        <div class="fix-title">Unsupported moat claim — line 12</div>
+                        <div class="fix-by">RISK · the kind of claim a partner will probe</div>
+                      </div>
+                    </div>
+                    <div class="fix-item">
+                      <span class="fix-num">02</span>
+                      <div class="fix-content">
+                        <div class="fix-title">Need an actual user quote — abstract framing reads thin</div>
+                        <div class="fix-by">EDITOR · a moment, not a category</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="cartographer-note">
+                    <span class="carto-glyph">◇</span>
+                    <span><strong>CARTOGRAPHER:</strong> Granola = capture. Liminal = correction. Adjacent, not competitive — say it that way.</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT RAIL: AGENCY CONSOLE -->
+        <div class="rail-right">
+          <div class="rail-right-header">
+            <span>AGENCY · 12 BOUNDED</span>
+            <span class="live-indicator">live</span>
+          </div>
+
+          <!-- DILIGENCE -->
+          <div class="register-block diligence">
+            <div class="reg-head">
+              <span class="reg-name-block">DILIGENCE</span>
+              <div class="reg-status">
+                <span class="status idle show-idle">IDLE</span>
+                <span class="status active show-da">ACTIVE ◇</span>
+                <span class="status done show-dd">DONE</span>
+              </div>
+            </div>
+            <div class="reg-agents">
+              <div class="reg-agent"><span class="agent-name">Analyst</span><span class="agent-detail"><span class="detail active-d show-da">streaming</span><span class="detail show-dd">3 sources cited</span></span></div>
+              <div class="reg-agent"><span class="agent-name">Researcher</span><span class="agent-detail"><span class="detail active-d show-da">streaming</span><span class="detail show-dd">cross-checked</span></span></div>
+              <div class="reg-agent"><span class="agent-name">Compliance</span><span class="agent-detail"><span class="detail active-d show-da">auditing</span><span class="detail show-dd">1 claim flagged</span></span></div>
+            </div>
+          </div>
+
+          <!-- OUTREACH -->
+          <div class="register-block outreach">
+            <div class="reg-head">
+              <span class="reg-name-block">OUTREACH</span>
+              <div class="reg-status">
+                <span class="status idle show-idle">IDLE</span>
+                <span class="status refused show-or">REFUSE</span>
+              </div>
+            </div>
+            <div class="reg-agents">
+              <div class="reg-agent">
+                <span class="agent-name">SDR</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ Analyst</span>
+                  <span class="detail show-sa">→ Strategist</span>
+                  <span class="detail show-sd">→ Auditor</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Copywriter</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ Analyst</span>
+                  <span class="detail show-sa">→ Strategist</span>
+                  <span class="detail show-sd">→ Auditor</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Negotiator</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ Analyst</span>
+                  <span class="detail show-sa">→ Strategist</span>
+                  <span class="detail show-sd">→ Auditor</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- JUDGMENT -->
+          <div class="register-block judgment">
+            <div class="reg-head">
+              <span class="reg-name-block">JUDGMENT</span>
+              <div class="reg-status">
+                <span class="status idle show-idle">IDLE</span>
+                <span class="status refused show-jr">REFUSE</span>
+                <span class="status active show-ja">ACTIVE ◇</span>
+                <span class="status done show-jd">DONE</span>
+              </div>
+            </div>
+            <div class="reg-agents">
+              <div class="reg-agent">
+                <span class="agent-name">Auditor</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail show-sa">→ wait</span>
+                  <span class="detail active-d show-ja">streaming</span>
+                  <span class="detail show-jd">NOT READY · 2 fixes</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Risk</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail show-sa">→ wait</span>
+                  <span class="detail active-d show-ja">streaming</span>
+                  <span class="detail show-jd">1 unsupported claim</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Cartographer</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail show-sa">→ wait</span>
+                  <span class="detail active-d show-ja">streaming</span>
+                  <span class="detail show-jd">adjacent, not vs.</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SYNTHESIS -->
+          <div class="register-block synthesis">
+            <div class="reg-head">
+              <span class="reg-name-block">SYNTHESIS</span>
+              <div class="reg-status">
+                <span class="status idle show-idle">IDLE</span>
+                <span class="status refused show-sr">REFUSE</span>
+                <span class="status active show-sa">ACTIVE ◇</span>
+                <span class="status done show-sd">DONE</span>
+              </div>
+            </div>
+            <div class="reg-agents">
+              <div class="reg-agent">
+                <span class="agent-name">Strategist</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail active-d show-sa">framing</span>
+                  <span class="detail show-sd">corrected layer</span>
+                </span>
+              </div>
+              <div class="reg-agent">
+                <span class="agent-name">Editor</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail active-d show-sa">tightening</span>
+                  <span class="detail show-sd">2 cuts proposed</span>
+                </span>
+              </div>
+              <div class="reg-agent mystic-row">
+                <span class="agent-name">Mystic</span>
+                <span class="agent-detail">
+                  <span class="detail show-da">→ wait</span>
+                  <span class="detail active-d show-sa">listening</span>
+                  <span class="detail show-sd">margin note posted</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- bottom bar -->
+      <div class="bottombar">
+        <span class="prompt-prefix">▸</span>
+        <span class="prompt-text" id="prompt"></span>
+        <span class="cursor"></span>
+        <div class="input-meta">
+          <span><span class="meta-key">/</span> agency</span>
+          <span><span class="meta-key">⌘K</span> command</span>
+          <span><span class="meta-key">⌘.</span> vault</span>
+        </div>
+      </div>
+
+      <!-- toast -->
+      <div class="toast">
         <span class="diamond">◇</span>
-        <span class="brand">Liminal · Composition</span>
-        <span class="crumb-sep" id="crumb-sep" hidden>·</span>
-        <span class="breadcrumb" id="breadcrumb"></span>
+        <span>+ 1 deliberation stored</span>
+        <span class="toast-divider">·</span>
+        <span>12 reads</span>
+        <span class="toast-divider">·</span>
+        <span>3 corrections</span>
       </div>
-      <div class="vault-pill" id="vault-pill" data-annotation="vault-pill">
-        <span class="diamond">◇</span>vault: <strong id="vault-count">·</strong>
-      </div>
-    </header>
-
-    <!-- product/surface row -->
-    <nav class="product-row" data-annotation="product-row">
-      <button class="product-tab" data-product="personal" data-annotation="tab-personal">
-        <span class="pt-glyph"></span>personal<span class="pt-shape">self-read</span>
-      </button>
-      <button class="product-tab" data-product="team" data-annotation="tab-team">
-        <span class="pt-glyph"></span>team<span class="pt-shape">peer-read</span>
-      </button>
-      <button class="product-tab" data-product="business" data-annotation="tab-business">
-        <span class="pt-glyph"></span>business<span class="pt-shape">institutional-read</span>
-      </button>
-      <div class="surface-meta" id="surface-meta">
-        <span class="sm-banner" id="sm-banner">·</span>
-      </div>
-    </nav>
-
-    <!-- main -->
-    <main class="main">
-
-      <!-- left rail · subjects (Team) or queue (Business) -->
-      <aside class="rail-left">
-        <div class="rail-header">
-          <span id="rail-l-label">·</span>
-          <span class="rh-meta" id="rail-l-meta">·</span>
-        </div>
-        <div id="rail-l-list"></div>
-      </aside>
-
-      <!-- center · slate area -->
-      <section class="slate-area">
-
-        <div class="classification" id="classification">·</div>
-
-        <header class="slate-header">
-          <div class="slate-eyebrow" id="slate-eyebrow">·</div>
-          <h1 class="slate-title" id="slate-title">·</h1>
-          <p class="slate-subtitle" id="slate-subtitle">·</p>
-        </header>
-
-        <div class="slate-canvas" id="slate-canvas" data-empty="1" data-layout="freeform" data-annotation="slate-canvas">
-          <div class="slate-empty" id="slate-empty">
-            <div class="se-glyph">◇</div>
-            <div class="se-eyebrow" id="se-eyebrow">Composition surface</div>
-            <h2 class="se-headline" id="se-headline">Drop a window from the tray to begin a read.</h2>
-            <p class="se-helper" id="se-helper">The agents read what you compose. The slate holds what you place. Anything dropped is captured to the local vault.</p>
-            <div class="se-keys">
-              <kbd>⌘.</kbd><span>open tray</span>
-              <span style="opacity:0.4;">·</span>
-              <kbd>drag</kbd><span>to compose</span>
-            </div>
-          </div>
-          <div class="slate-tiles" id="slate-tiles"></div>
-        </div>
-
-        <div class="brief-area" id="brief-area" hidden data-annotation="brief-area">
-          <div class="brief-head">
-            <span class="bh-glyph">◇</span>
-            <span>Brief · agents read the composition</span>
-          </div>
-          <p class="brief-body" id="brief-body">·</p>
-          <div class="mystic-margin" id="mystic-margin" hidden>
-            <div class="mystic-attr" id="mystic-attr">CONTRARIAN · in the margin</div>
-            <p class="mystic-quote" id="mystic-quote">·</p>
-          </div>
-          <div class="vault-calib" id="vault-calib" hidden>
-            <span class="vc-label">Vault · calibration</span>
-            <span class="vc-text" id="vault-calib-text">·</span>
-          </div>
-          <div class="disposition" id="disposition">
-            <button class="dispo-btn is-primary" id="dispo-primary">Confirm</button>
-            <button class="dispo-btn is-defer" id="dispo-defer">Defer 7d</button>
-            <button class="preview-sub" id="preview-sub">Preview subject view</button>
-          </div>
-        </div>
-
-        <!-- disposition artifact · materializes after disposition is signed -->
-        <div class="dispo-artifact" id="dispo-artifact" hidden data-annotation="dispo-artifact">
-          <div class="da-bar">
-            <span class="da-stamp">Signed</span>
-            <span class="da-title" id="da-title">·</span>
-            <span class="da-time" id="da-time">·</span>
-          </div>
-          <div class="da-body">
-            <div class="da-section">
-              <div class="da-label">Disposition</div>
-              <div class="da-text" id="da-disposition">·</div>
-            </div>
-            <div class="da-section">
-              <div class="da-label">Committed to vault</div>
-              <div class="da-text" id="da-committed">·</div>
-            </div>
-            <div class="da-section">
-              <div class="da-label">Next action</div>
-              <div class="da-text" id="da-next">·</div>
-            </div>
-            <div class="da-section">
-              <div class="da-label">Subject can request</div>
-              <div class="da-text" id="da-subject">·</div>
-            </div>
-          </div>
-          <div class="da-foot">
-            <div class="da-hash">
-              <span class="da-hash-label">SHA-256</span>
-              <code id="da-hash">·</code>
-            </div>
-            <div class="da-handoff">
-              <button class="dispo-btn da-handoff-btn" id="da-handoff">Hand off ›</button>
-              <button class="dispo-btn da-handoff-btn" id="da-share">Share with subject</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="audit-ribbon" id="audit-ribbon" data-annotation="audit-ribbon">
-          <span class="ar-label">Audit chain</span>
-          <div id="audit-rows" style="display:flex;gap:14px;"></div>
-        </div>
-      </section>
-
-      <!-- right rail · agency console (orbital · v0.8.4) -->
-      <aside class="rail-right" data-annotation="agency-rail">
-        <div class="rail-right-header">
-          <span class="agency-label" title="Twelve bounded specialists in four registers — Diligence, Outreach, Synthesis, Judgment. Each refuses out of lane and names the right agent. The refusal is the feature.">
-            <!-- static orbital glyph: 4 quadrant arcs around a ◇ -->
-            <svg class="orbital-glyph" viewBox="0 0 14 14" aria-hidden="true">
-              <path d="M 7 1 A 6 6 0 0 1 13 7" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-              <path d="M 13 7 A 6 6 0 0 1 7 13" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-              <path d="M 7 13 A 6 6 0 0 1 1 7" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-              <path d="M 1 7 A 6 6 0 0 1 7 1" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
-              <text x="7" y="7.5" font-family="inherit" font-size="6" text-anchor="middle" fill="currentColor">◇</text>
-            </svg>AGENCY · 12 BOUNDED</span>
-          <span class="live-indicator">live</span>
-        </div>
-
-        <!-- orbital diagram · 4 register plates around central ◇ ──────────
-             Plates positioned: top=diligence, right=judgment,
-             bottom=synthesis, left=outreach. Each plate carries 3 agents
-             in slots. Status glyphs and refusal arrows are toggled by
-             the orbital-demo loop in the script block below. -->
-        <div class="orbital-rail">
-          <svg class="orbital-svg" viewBox="0 0 280 320" preserveAspectRatio="xMidYMid meet">
-
-            <!-- Refusal arrows (drawn first so they sit beneath plates) -->
-            <g class="refusal-arrows">
-              <!-- Witness (Diligence) → Strategist (Synthesis): top→bottom curve via right -->
-              <path id="arrow-witness-strategist" class="refusal-arrow diligence"
-                    d="M 140 88 Q 220 160 140 232" />
-              <!-- Planner (Outreach) → Liaison (also Outreach): in-plate handled inside slot -->
-              <!-- SDR (Outreach) → Closer (Outreach): same -->
-              <!-- Operator (Diligence) → Bookkeeper (Synthesis): top-left → bottom diagonal -->
-              <path id="arrow-operator-bookkeeper" class="refusal-arrow diligence"
-                    d="M 110 88 Q 90 200 130 240" />
-              <!-- Skeptic (Judgment) → Editor (Synthesis): right → bottom -->
-              <path id="arrow-skeptic-editor" class="refusal-arrow judgment"
-                    d="M 232 184 Q 200 240 170 240" />
-            </g>
-
-            <!-- DILIGENCE PLATE · top -->
-            <g class="plate-group" data-register="diligence">
-              <rect class="reg-plate diligence" x="60" y="20" width="160" height="68" rx="4" />
-              <text class="reg-label diligence" x="140" y="34">Diligence</text>
-              <!-- 3 agents -->
-              <g class="agent" transform="translate(90, 58)">
-                <text class="agent-glyph reading" data-agent="operator">◉</text>
-                <text class="agent-slot" y="14">Operator</text>
-              </g>
-              <g class="agent" transform="translate(140, 58)">
-                <text class="agent-glyph queued" data-agent="synthesizer">◯</text>
-                <text class="agent-slot" y="14">Synthesizr</text>
-              </g>
-              <g class="agent" transform="translate(190, 58)">
-                <text class="agent-glyph refused" data-agent="witness">⊘</text>
-                <text class="agent-slot" y="14">Witness</text>
-              </g>
-            </g>
-
-            <!-- OUTREACH PLATE · left -->
-            <g class="plate-group" data-register="outreach">
-              <rect class="reg-plate outreach" x="8" y="116" width="92" height="88" rx="4" />
-              <text class="reg-label outreach" x="54" y="130">Outreach</text>
-              <g class="agent" transform="translate(54, 152)">
-                <text class="agent-glyph queued" data-agent="planner">◯</text>
-                <text class="agent-slot" y="14">Planner</text>
-              </g>
-              <g class="agent" transform="translate(54, 182)">
-                <text class="agent-glyph queued" data-agent="sdr">◯</text>
-                <text class="agent-slot" y="14">SDR</text>
-              </g>
-            </g>
-
-            <!-- JUDGMENT PLATE · right -->
-            <g class="plate-group" data-register="judgment">
-              <rect class="reg-plate judgment" x="180" y="116" width="92" height="88" rx="4" />
-              <text class="reg-label judgment" x="226" y="130">Judgment</text>
-              <g class="agent" transform="translate(226, 152)">
-                <text class="agent-glyph complete" data-agent="contrarian">●</text>
-                <text class="agent-slot" y="14">Contrarian</text>
-              </g>
-              <g class="agent" transform="translate(226, 182)">
-                <text class="agent-glyph reading" data-agent="manager">◉</text>
-                <text class="agent-slot" y="14">Manager</text>
-              </g>
-            </g>
-
-            <!-- SYNTHESIS PLATE · bottom -->
-            <g class="plate-group" data-register="synthesis">
-              <rect class="reg-plate synthesis" x="60" y="232" width="160" height="68" rx="4" />
-              <text class="reg-label synthesis" x="140" y="246">Synthesis</text>
-              <g class="agent" transform="translate(110, 270)">
-                <text class="agent-glyph complete" data-agent="strategist">●</text>
-                <text class="agent-slot" y="14">Strategist</text>
-              </g>
-              <g class="agent" transform="translate(170, 270)">
-                <text class="agent-glyph queued" data-agent="editor">◯</text>
-                <text class="agent-slot" y="14">Editor</text>
-              </g>
-            </g>
-
-            <!-- CENTRAL GLYPH ◇ + convergence orb -->
-            <g class="center">
-              <circle class="center-orb" id="orbital-center-orb" cx="140" cy="160" r="14" />
-              <text class="center-mark" x="140" y="160">◇</text>
-            </g>
-          </svg>
-        </div>
-
-        <!-- coverage line + demo input -->
-        <div class="orbital-coverage" id="orbital-coverage">
-          <span><span class="coverage-emphasis" id="coverage-counts">12 agents · 5 in lane · 3 refused with named redirect · 4 queued</span></span>
-          <span class="coverage-input" id="coverage-input">demo input: "head-of-eng offer slipped a third time, sleep is broken, customer X escalated again"</span>
-        </div>
-      </aside>
-    </main>
-
-  </div><!-- /.frame -->
-
-  <!-- tray · attached to frame's right edge · slides out from there -->
-  <div class="tray-pop" id="tray-pop" data-annotation="tray">
-    <button class="tray-pill" id="tray-pill" aria-label="Toggle tray">
-      <span class="tp-chevron"></span>
-      <span class="tp-glyph">◇</span>
-      <span class="tp-count">tray <strong id="tp-count-strong">·</strong></span>
-      <span class="tp-dot"></span>
-    </button>
-    <div class="tray-panel" id="tray-panel" aria-hidden="true">
-      <div class="tray-panel-head">
-        <span class="tpa-title" id="tpa-title">Tray</span>
-        <span class="tpa-meta">
-          <strong id="tpa-live-count">·</strong> live · <span id="tpa-meta-detail">·</span>
-        </span>
-      </div>
-      <div class="tpa-sub" id="tpa-sub">·</div>
-      <div class="tray-tiles" id="tray-tiles"></div>
-    </div>
-  </div>
-
-</div><!-- /.stage -->
-
-<!-- preview subject view modal -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal" id="modal">
-    <div class="modal-head">
-      <h2 class="modal-title" id="modal-title">·</h2>
-      <span class="modal-tag" id="modal-tag">·</span>
-    </div>
-    <div class="modal-section">
-      <div class="modal-label" id="modal-label-1">·</div>
-      <div class="modal-content" id="modal-content-1">·</div>
-    </div>
-    <div class="modal-section">
-      <div class="modal-label">Audit chain · what was read, by whom, when</div>
-      <div class="modal-chain" id="modal-chain"></div>
-    </div>
-    <div class="modal-actions">
-      <button class="dispo-btn" id="modal-close">Close</button>
     </div>
   </div>
 </div>
 
-
-
-<!-- global chrome · version pin (dev-only) · notes toggle · kbd hint + help · toast -->
-<!-- version pin · spec ↔ proto drift · dev-only · ?dev to reveal -->
-<div class="v-pin" id="v-pin" hidden>
-  spec <strong id="vp-spec">·</strong>
-  <span class="vp-sep">›</span>
-  proto <strong id="vp-proto">·</strong>
-</div>
-
-<!-- editor's notes toggle · Caveat marginalia from sr -->
-<button class="notes-toggle" id="notes-toggle" type="button" aria-label="Toggle editor's notes">notes</button>
-
-<!-- keyboard hint · subtle bottom-left chrome · clicks open the help panel -->
-<button class="kbd-hint" id="kbd-hint" type="button" aria-label="Keyboard shortcuts">
-  <kbd>⌘</kbd><kbd>?</kbd><span>shortcuts</span>
-</button>
-
-<!-- keyboard help overlay · ⌘? to open · Esc to close -->
-<div class="kbd-help" id="kbd-help" hidden role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
-  <div class="kbd-card">
-    <header class="kbd-head">
-      <span class="kbd-eyebrow">Keyboard</span>
-      <h3 class="kbd-title">Shortcuts</h3>
-      <button class="kbd-close" id="kbd-close" type="button" aria-label="Close">×</button>
-    </header>
-    <div class="kbd-body">
-      <div class="kbd-section">
-        <div class="kbd-section-label">Composition</div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>Z</kbd><span>Undo last placement</span></div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>Enter</kbd><span>Confirm disposition</span></div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>D</kbd><span>Defer 7 days</span></div>
-      </div>
-      <div class="kbd-section">
-        <div class="kbd-section-label">Navigation</div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>1</kbd><span>Personal · self-read</span></div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>2</kbd><span>Team · peer-read</span></div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>3</kbd><span>Business · institutional-read</span></div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>[</kbd><span>Previous subject / case</span></div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>]</kbd><span>Next subject / case</span></div>
-      </div>
-      <div class="kbd-section">
-        <div class="kbd-section-label">Surfaces</div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>.</kbd><span>Toggle tray</span></div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>N</kbd><span>Toggle editor's notes</span></div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>?</kbd><span>This panel</span></div>
-        <div class="kbd-row"><kbd>Esc</kbd><span>Close tray / overlay</span></div>
-      </div>
-      <div class="kbd-section">
-        <div class="kbd-section-label">Vault</div>
-        <div class="kbd-row"><kbd>⌘</kbd><kbd>⇧</kbd><kbd>R</kbd><span>Reset vault · clears IndexedDB · the user is in control</span></div>
-      </div>
-    </div>
-    <footer class="kbd-foot">
-      <span>⌘ on macOS · Ctrl elsewhere · vault persists in browser IndexedDB · device-local</span>
-    </footer>
-  </div>
-</div>
-
-<!-- toast -->
-<div class="toast" id="toast">
-  <span class="t-glyph">◇</span>
-  <span id="toast-msg">·</span>
-</div>
-
-<!-- v0.8.4 — orbital-rail demo loop · self-contained · zero deps
-     ─────────────────────────────────────────────────────────────────
-     Cycles agents through queued → reading → complete / refused states
-     on a 4.2s cadence so the orbital diagram is always-animated even
-     when the slate is empty. Runs independently of the agency.js
-     ticker (which targets #register-blocks, now absent — it no-ops
-     silently per its existing null-guard).
-
-     The cycle plays a synthetic "head-of-eng / customer-X" scenario
-     (substrate-grounded to the canonical example in INVENTIONS.md
-     bounded-agent demo flow). Refusal arrows fade in when the
-     refusing agent activates. Center orb saturates when 2+ in-lane
-     agents converge on the same recommendation.
-     ───────────────────────────────────────────────────────────────── -->
 <script>
-  (function orbitalDemo() {
-    // states: queued → reading → complete OR refused
-    const GLYPHS = { queued: "◯", reading: "◉", complete: "●", refused: "⊘" };
+// scale stage to viewport
+function fitStage() {
+  const wrap = document.getElementById('wrap');
+  const sw = window.innerWidth, sh = window.innerHeight;
+  const scale = Math.min(sw / 1920, sh / 1080);
+  wrap.style.transform = 'scale(' + scale + ')';
+}
+window.addEventListener('resize', fitStage);
+fitStage();
 
-    // 5-step demo cycle · each step takes 4200ms · loops indefinitely
-    // Agent reads + arrow visibility + counts label per step
-    const STEPS = [
-      {
-        name: "scan",
-        agents: { operator: "reading", synthesizer: "queued", witness: "queued",
-                  planner: "queued", sdr: "queued",
-                  contrarian: "queued", manager: "queued",
-                  strategist: "queued", editor: "queued" },
-        arrows: [],
-        coverage: "12 agents · 1 reading · 11 queued",
-        convergent: false
-      },
-      {
-        name: "diligence-cascade",
-        agents: { operator: "complete", synthesizer: "reading", witness: "refused",
-                  planner: "queued", sdr: "queued",
-                  contrarian: "reading", manager: "queued",
-                  strategist: "queued", editor: "queued" },
-        arrows: ["arrow-witness-strategist"],
-        coverage: "12 agents · 2 reading · 1 in lane · 1 refused → Strategist · 8 queued",
-        convergent: false
-      },
-      {
-        name: "outreach-refuses",
-        agents: { operator: "complete", synthesizer: "complete", witness: "refused",
-                  planner: "refused", sdr: "refused",
-                  contrarian: "reading", manager: "reading",
-                  strategist: "reading", editor: "queued" },
-        arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper"],
-        coverage: "12 agents · 3 reading · 2 in lane · 3 refused with named redirect · 4 queued",
-        convergent: false
-      },
-      {
-        name: "judgment-converges",
-        agents: { operator: "complete", synthesizer: "complete", witness: "refused",
-                  planner: "refused", sdr: "refused",
-                  contrarian: "complete", manager: "complete",
-                  strategist: "complete", editor: "queued" },
-        arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
-        coverage: "12 agents · 5 in lane · 3 refused with named redirect · convergence: head-of-eng call",
-        convergent: true
-      },
-      {
-        name: "rest",
-        agents: { operator: "complete", synthesizer: "complete", witness: "refused",
-                  planner: "refused", sdr: "refused",
-                  contrarian: "complete", manager: "complete",
-                  strategist: "complete", editor: "complete" },
-        arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
-        coverage: "12 agents · vault committed · the disagreement is the data",
-        convergent: true,
-        sealed: true  /* v0.8.5 F2 — rest step distinguished from convergent
-                         via .sealed center-orb class. Mirrored from cut 01. */
-      }
-    ];
-
-    let idx = 0;
-    let timer = null;
-
-    function applyStep(step) {
-      // update agent glyphs
-      Object.entries(step.agents).forEach(([agent, state]) => {
-        const el = document.querySelector(`[data-agent="${agent}"]`);
-        if (!el) return;
-        el.textContent = GLYPHS[state];
-        el.classList.remove("queued", "reading", "complete", "refused");
-        el.classList.add(state);
-      });
-      // update arrow visibility
-      document.querySelectorAll(".refusal-arrow").forEach(a => a.classList.remove("active"));
-      step.arrows.forEach(id => {
-        const a = document.getElementById(id);
-        if (a) a.classList.add("active");
-      });
-      // update coverage counts
-      const counts = document.getElementById("coverage-counts");
-      if (counts) counts.textContent = step.coverage;
-      // update center orb convergence + sealed states (v0.8.5 F2)
-      const orb = document.getElementById("orbital-center-orb");
-      if (orb) {
-        orb.classList.toggle("convergent", !!step.convergent && !step.sealed);
-        orb.classList.toggle("sealed", !!step.sealed);
-      }
+// typing animation in bottom bar — synced to 20s loop
+const promptText = "/agency tuesday speedrun partner call — they track granola — what do I say — maia";
+const promptEl = document.getElementById('prompt');
+let typingTimer = null;
+function startTyping() {
+  if (typingTimer) clearInterval(typingTimer);
+  promptEl.textContent = '';
+  let i = 0;
+  typingTimer = setInterval(() => {
+    if (i >= promptText.length) {
+      clearInterval(typingTimer);
+      return;
     }
-
-    function tick() {
-      applyStep(STEPS[idx]);
-      idx = (idx + 1) % STEPS.length;
-    }
-
-    // v0.8.5 F1 — pre-apply STEP 0 synchronously at script execution
-    // (try/catch wrapped, DOM-not-ready safe).
-    try { applyStep(STEPS[0]); } catch (_) { /* DOM not ready yet, harmless */ }
-
-    function start() {
-      // skip if already running
-      if (timer) return;
-      // v0.8.5 F5 — toggle body.ready to fade the cut in (240ms via CSS)
-      requestAnimationFrame(() => document.body.classList.add("ready"));
-      // skip if reduced motion preferred
-      const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      if (reduced) {
-        // render the convergent step statically and stop
-        applyStep(STEPS[3]);
-        return;
-      }
-      tick();
-      timer = setInterval(tick, 4200);
-    }
-
-    // start on DOM ready
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", start);
-    } else {
-      start();
-    }
-  })();
+    promptEl.textContent += promptText[i++];
+  }, 32);
+}
+startTyping();
+setInterval(startTyping, 20000);
 </script>
-
-<!-- runtime · 10 ES modules · imported via boot.js entrypoint
-     · paths are relative to this cut's location · ../lib/ -->
-<script type="module">
-  import "../lib/boot.js";
-</script>
-
+<script src="lib/brand-upgrade.js"></script>
 </body>
 </html>
