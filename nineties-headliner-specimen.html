@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NinetiesHeadliner — Visual Inspection · Liminal</title>
+
+<style>
+  /* Load the actual font binary on disk */
+  @font-face {
+    font-family: 'NinetiesHeadliner';
+    src: url('fonts/nineties-headliner.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'PerfectlyNineties';
+    src: url('fonts/perfectly-nineties-light.otf') format('opentype');
+    font-weight: 300;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'PerfectlyNineties';
+    src: url('fonts/perfectly-nineties-regular.otf') format('opentype');
+    font-weight: 400;
+    font-display: swap;
+  }
+  @font-face {
+    font-family: 'PerfectlyNineties';
+    src: url('fonts/perfectly-nineties-bold.otf') format('opentype');
+    font-weight: 700;
+    font-display: swap;
+  }
+
+  @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap');
+
+  :root {
+    --ink: #08090c;
+    --paper: #f2f0ec;
+    --paper-dim: rgba(242, 240, 236, 0.45);
+    --paper-faint: rgba(242, 240, 236, 0.18);
+    --line: rgba(255, 255, 255, 0.08);
+    --accent: #c084fc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'PerfectlyNineties', Georgia, serif;
+    font-weight: 300;
+    line-height: 1.5;
+    padding: 64px 48px;
+    min-height: 100vh;
+  }
+
+  .specimen {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 32px;
+    margin-bottom: 64px;
+  }
+  .header-eyebrow {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--paper-faint);
+    margin-bottom: 8px;
+  }
+  .header-title {
+    font-family: 'NinetiesHeadliner', Georgia, serif;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+  }
+  .header-subtitle {
+    font-family: 'PerfectlyNineties', Georgia, serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--paper-dim);
+    margin-top: 12px;
+  }
+
+  .section {
+    margin-bottom: 80px;
+  }
+  .section-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--paper-faint);
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-meta {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--paper-faint);
+    margin-top: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  /* ═══ ACTUAL FONT RENDERS ═══ */
+
+  .hero-9rem {
+    font-family: 'NinetiesHeadliner', Georgia, serif;
+    font-weight: 700;
+    font-size: 9rem; /* 144px — max hero scale per brand-upgrade.css */
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+  }
+  .hero-6rem {
+    font-family: 'NinetiesHeadliner', Georgia, serif;
+    font-weight: 700;
+    font-size: 6rem; /* 96px */
+    line-height: 1.0;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+  }
+  .hero-4-8rem {
+    font-family: 'NinetiesHeadliner', Georgia, serif;
+    font-weight: 700;
+    font-size: 4.8rem; /* 76.8px — min hero per brand-upgrade.css */
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+  }
+
+  .subhead-2-4rem {
+    font-family: 'NinetiesHeadliner', Georgia, serif;
+    font-weight: 700;
+    font-size: 2.4rem; /* 38.4px — max subhead */
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+  }
+  .subhead-2rem {
+    font-family: 'NinetiesHeadliner', Georgia, serif;
+    font-weight: 700;
+    font-size: 2rem; /* 32px */
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+  }
+  .subhead-1-5rem {
+    font-family: 'NinetiesHeadliner', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.5rem; /* 24px — min subhead */
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+  }
+
+  /* deployment-context blocks — exact contexts NinetiesHeadliner ships in */
+  .deploy {
+    background: #0f0f13;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 48px 40px;
+    margin-bottom: 24px;
+  }
+  .deploy-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--paper-faint);
+    margin-bottom: 24px;
+  }
+
+  /* exact entry-wedge styling (cut 01 speedrun first impression) */
+  .entry-wedge-real {
+    font-family: 'NinetiesHeadliner', Georgia, serif;
+    font-weight: 700;
+    font-size: 32px;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--paper);
+    margin-bottom: 16px;
+  }
+  .entry-brand-real {
+    font-family: 'PerfectlyNineties', Georgia, serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: rgba(242,240,236,0.4);
+    letter-spacing: 0.01em;
+  }
+
+  /* glyph survey — letterform deep dive */
+  .glyph-set {
+    display: grid;
+    grid-template-columns: repeat(13, 1fr);
+    gap: 8px;
+    margin-top: 24px;
+  }
+  .glyph {
+    font-family: 'NinetiesHeadliner', Georgia, serif;
+    font-weight: 700;
+    font-size: 64px;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--paper);
+    padding: 12px 4px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .glyph-mono {
+    font-family: 'Geist Mono', monospace;
+    font-size: 9px;
+    color: var(--paper-faint);
+    text-align: center;
+    margin-top: 4px;
+    letter-spacing: 0.06em;
+  }
+
+  /* comparison panel: NinetiesHeadliner vs candidate alternatives */
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 32px;
+  }
+  .compare-cell {
+    background: #0f0f13;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 32px 28px;
+  }
+  .compare-label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  .compare-sample {
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+  }
+  .compare-meta {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    color: var(--paper-faint);
+    margin-top: 12px;
+    letter-spacing: 0.02em;
+  }
+  .compare-sample.headliner { font-family: 'NinetiesHeadliner', Georgia, serif; font-weight: 700; }
+  .compare-sample.serif-fallback { font-family: Georgia, serif; font-weight: 700; }
+
+  /* observations panel */
+  .obs {
+    background: rgba(192, 132, 252, 0.05);
+    border-left: 2px solid var(--accent);
+    padding: 24px 32px;
+    margin-top: 32px;
+    border-radius: 0 4px 4px 0;
+  }
+  .obs-title {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .obs p {
+    font-family: 'PerfectlyNineties', Georgia, serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--paper);
+    margin-bottom: 10px;
+  }
+  .obs strong { font-weight: 700; }
+
+  hr.divider {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 48px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="specimen">
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header-eyebrow">FONT VISUAL INSPECTION · 2026-05-12 · CORRECTED</div>
+    <h1 class="header-title">NinetiesHeadliner</h1>
+    <p class="header-subtitle">A bold nostalgic SANS (not a serif) by Jen Wagner Co · inspired by text-focused magazine ads of the 80s and 90s · designed for logos and wordmarks, used sparingly. Paired with PerfectlyNineties (16-style serif workhorse). Brand-mark register, not a general-purpose display font. Desktop license $17. Two-font system total ~$66 desktop. <strong>What I was wrong about earlier:</strong> this isn't a $2K Sharp Type display serif — it's a much more accessible Jen Wagner Co sans that does ONE thing (logo) very well.</p>
+  </header>
+
+  <!-- ═══ HERO SCALE ═══ -->
+  <section class="section">
+    <div class="section-label">01 · Hero scale — where the font lives most dramatically</div>
+
+    <div style="margin-bottom: 64px;">
+      <div class="hero-9rem">Liminal</div>
+      <div class="section-meta">9rem (144px) · the max hero scale per brand-upgrade.css · this is the wordmark / cover-deck-slide register</div>
+    </div>
+
+    <div style="margin-bottom: 64px;">
+      <div class="hero-6rem">Judgment infrastructure.</div>
+      <div class="section-meta">6rem (96px) · large hero copy · landing page H1, brand-canon assertions</div>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <div class="hero-4-8rem">A founder OS where AI agents disagree.</div>
+      <div class="section-meta">4.8rem (76.8px) · min hero scale · most-used display weight</div>
+    </div>
+  </section>
+
+  <!-- ═══ SUBHEAD SCALE ═══ -->
+  <section class="section">
+    <div class="section-label">02 · Subhead scale — where the font does its quieter work</div>
+
+    <div style="margin-bottom: 48px;">
+      <div class="subhead-2-4rem">Read your own pattern</div>
+      <div class="section-meta">2.4rem (38.4px) · max subhead · section headers, entry-card door titles</div>
+    </div>
+
+    <div style="margin-bottom: 48px;">
+      <div class="subhead-2rem">The corrections are the moat</div>
+      <div class="section-meta">2rem (32px) · mid subhead · slate titles in the live app</div>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <div class="subhead-1-5rem">Drop context to begin a read</div>
+      <div class="section-meta">1.5rem (24px) · min subhead · empty-state headlines, brief area titles</div>
+    </div>
+  </section>
+
+  <!-- ═══ ACTUAL DEPLOYMENT CONTEXT ═══ -->
+  <section class="section">
+    <div class="section-label">03 · How it actually deploys in the cut 01 speedrun shell</div>
+
+    <div class="deploy">
+      <div class="deploy-label">Entry overlay · first-impression scaffold (speedrun cut)</div>
+      <div class="entry-wedge-real">A founder OS where AI agents disagree, deliberate, and prompt you. The corrections are the moat.</div>
+      <div class="entry-brand-real">Liminal — gives form to inner life.</div>
+    </div>
+
+    <div class="deploy">
+      <div class="deploy-label">Slate title · live composition surface</div>
+      <div class="subhead-2rem">Read your own pattern</div>
+      <p style="font-family: 'PerfectlyNineties', Georgia, serif; font-weight: 300; font-size: 14px; color: rgba(242,240,236,0.5); margin-top: 8px;">Last 30 days of decisions, read against your stated thesis. Drop a window from the tray to begin.</p>
+    </div>
+
+    <div class="deploy">
+      <div class="deploy-label">Brand wordmark · titlebar</div>
+      <div style="font-family: 'NinetiesHeadliner', Georgia, serif; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; color: var(--paper);">
+        ◇ Liminal · Composition
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ GLYPH SURVEY ═══ -->
+  <section class="section">
+    <div class="section-label">04 · Glyph survey — letterforms at display scale</div>
+
+    <div class="glyph-set">
+      <div><div class="glyph">A</div><div class="glyph-mono">CAP A</div></div>
+      <div><div class="glyph">B</div><div class="glyph-mono">CAP B</div></div>
+      <div><div class="glyph">C</div><div class="glyph-mono">CAP C</div></div>
+      <div><div class="glyph">D</div><div class="glyph-mono">CAP D</div></div>
+      <div><div class="glyph">E</div><div class="glyph-mono">CAP E</div></div>
+      <div><div class="glyph">G</div><div class="glyph-mono">CAP G</div></div>
+      <div><div class="glyph">K</div><div class="glyph-mono">CAP K</div></div>
+      <div><div class="glyph">M</div><div class="glyph-mono">CAP M</div></div>
+      <div><div class="glyph">N</div><div class="glyph-mono">CAP N</div></div>
+      <div><div class="glyph">Q</div><div class="glyph-mono">CAP Q</div></div>
+      <div><div class="glyph">R</div><div class="glyph-mono">CAP R</div></div>
+      <div><div class="glyph">S</div><div class="glyph-mono">CAP S</div></div>
+      <div><div class="glyph">&</div><div class="glyph-mono">AMP</div></div>
+    </div>
+
+    <div class="glyph-set" style="margin-top: 24px;">
+      <div><div class="glyph">a</div><div class="glyph-mono">a</div></div>
+      <div><div class="glyph">e</div><div class="glyph-mono">e</div></div>
+      <div><div class="glyph">f</div><div class="glyph-mono">f</div></div>
+      <div><div class="glyph">g</div><div class="glyph-mono">g</div></div>
+      <div><div class="glyph">k</div><div class="glyph-mono">k</div></div>
+      <div><div class="glyph">m</div><div class="glyph-mono">m</div></div>
+      <div><div class="glyph">o</div><div class="glyph-mono">o</div></div>
+      <div><div class="glyph">p</div><div class="glyph-mono">p</div></div>
+      <div><div class="glyph">q</div><div class="glyph-mono">q</div></div>
+      <div><div class="glyph">r</div><div class="glyph-mono">r</div></div>
+      <div><div class="glyph">s</div><div class="glyph-mono">s</div></div>
+      <div><div class="glyph">y</div><div class="glyph-mono">y</div></div>
+      <div><div class="glyph">?</div><div class="glyph-mono">QMK</div></div>
+    </div>
+
+    <div class="obs">
+      <div class="obs-title">What to look for in a replacement</div>
+      <p>Examine the <strong>caps' spine ↔ bracket relationship</strong> — NinetiesHeadliner uses bracketed serifs (slight curve where serif meets stem). Replacements should match. Slab-serif replacements (Bodoni-pure, hairline-slab) will read as "different brand."</p>
+      <p>Examine <strong>g, a, k</strong> — these letters carry the most personality. Double-story g (vs single-story) signals editorial / book register. Open vs closed a aperture changes warmth.</p>
+      <p>Examine <strong>R, K, &</strong> — terminals here distinguish display serifs from each other. Ball terminals vs flag terminals vs droplet terminals. NinetiesHeadliner has specific terminal treatment that's part of its register.</p>
+      <p>Examine <strong>numerals and ampersand</strong> at hero scale — these are the "vibe carriers" most users notice without naming.</p>
+    </div>
+  </section>
+
+  <!-- ═══ NUMERAL + PUNCTUATION SURVEY ═══ -->
+  <section class="section">
+    <div class="section-label">05 · Numerals, ampersand, em dash — the vibe carriers</div>
+
+    <div class="glyph-set">
+      <div><div class="glyph">0</div><div class="glyph-mono">0</div></div>
+      <div><div class="glyph">1</div><div class="glyph-mono">1</div></div>
+      <div><div class="glyph">2</div><div class="glyph-mono">2</div></div>
+      <div><div class="glyph">3</div><div class="glyph-mono">3</div></div>
+      <div><div class="glyph">4</div><div class="glyph-mono">4</div></div>
+      <div><div class="glyph">5</div><div class="glyph-mono">5</div></div>
+      <div><div class="glyph">6</div><div class="glyph-mono">6</div></div>
+      <div><div class="glyph">7</div><div class="glyph-mono">7</div></div>
+      <div><div class="glyph">8</div><div class="glyph-mono">8</div></div>
+      <div><div class="glyph">9</div><div class="glyph-mono">9</div></div>
+      <div><div class="glyph">&</div><div class="glyph-mono">AMP</div></div>
+      <div><div class="glyph">—</div><div class="glyph-mono">EMDASH</div></div>
+      <div><div class="glyph">·</div><div class="glyph-mono">MIDDOT</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ COMPARISON ═══ -->
+  <section class="section">
+    <div class="section-label">06 · Direct comparison — NinetiesHeadliner vs Georgia fallback at same size</div>
+
+    <div class="compare">
+      <div class="compare-cell">
+        <div class="compare-label">NinetiesHeadliner 700 (the real font)</div>
+        <div class="compare-sample headliner">Read your own pattern</div>
+        <div class="compare-meta">48px · weight 700 · letter-spacing -0.03em</div>
+      </div>
+
+      <div class="compare-cell">
+        <div class="compare-label">Georgia 700 (system fallback shown)</div>
+        <div class="compare-sample serif-fallback">Read your own pattern</div>
+        <div class="compare-meta">48px · weight 700 · letter-spacing -0.03em · this is what users see if font fails to load</div>
+      </div>
+    </div>
+
+    <div class="obs">
+      <div class="obs-title">What you should be looking for now</div>
+      <p>Compare the <strong>stroke contrast</strong> (thick/thin ratio in vertical vs horizontal strokes) between NinetiesHeadliner and Georgia. NinetiesHeadliner is high-contrast modern; Georgia is moderate-contrast transitional. <strong>This is the load-bearing visual difference.</strong></p>
+      <p>If a replacement candidate has Georgia-level contrast, it will read as "ordinary serif." If it matches NinetiesHeadliner's contrast, it will read as "editorial brand." Free fonts with high-enough contrast: Newsreader (closer), Playfair Display (closer but overused), Cormorant Garamond (closer). Paid candidates: Pangram Pangram Editorial New, Klim Domaine Display, Displaay Reckless-XL.</p>
+      <p>The <strong>x-height + tall ascenders</strong> are also load-bearing — NinetiesHeadliner has a moderate x-height with tall ascenders that read as "literary" not "compressed news." Replacements should match.</p>
+    </div>
+  </section>
+
+  <!-- ═══ EMOTIONAL TEMPERATURE ═══ -->
+  <section class="section">
+    <div class="section-label">07 · The brand-canon copy rendered at every scale (read-out-loud test)</div>
+
+    <div style="margin-bottom: 32px;">
+      <div class="hero-4-8rem" style="font-size: 7rem;">Liminal gives form to inner life.</div>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <div class="hero-4-8rem">The corrections are the moat.</div>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <div class="subhead-2-4rem">Founders are running agentic load before their orgs are.</div>
+    </div>
+
+    <div style="margin-bottom: 32px;">
+      <div class="subhead-2rem">The bottleneck moved from output to judgment, and there's no record of judgment yet.</div>
+    </div>
+
+    <div class="obs">
+      <div class="obs-title">The test that matters</div>
+      <p>If <em>"Liminal gives form to inner life"</em> renders in a replacement font and STILL feels like brand canon — you've found the right font. If it feels like "another premium SaaS," reject and keep looking.</p>
+      <p>The display font carries the <strong>emotional temperature of the brand</strong>. NinetiesHeadliner is warm-editorial-with-quiet-conviction. Replacements must match that temperature, not just the technical letterforms.</p>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
