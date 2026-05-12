@@ -237,6 +237,212 @@
   }
 
   /* speedrun-cut: entry wedge is lead (flipped from canonical brand-first) */
+
+  /* ─── v0.9.0 — sr-cut anointment + reorder pass ────────────────────────
+     Scoped to this cut only. Promotes if Shayaun/sr accept. Eight moves:
+       1. Slate title is hero — everything else demotes a step.
+       2. Brief renders above the tiles · pitch-order, not substrate-order.
+       3. Tray is quieter than slate — supply doesn't yell over composition.
+       4. Agents coverage line is the pitch · promoted to readable type.
+       5. Contrarian magenta softened so it reads as margin, not primary.
+       6. Disposition trio: Decide primary · Sleep secondary outline · Preview text link.
+       7. Slate tiles strip O/E avatars + × chrome — tray keeps theirs.
+       8. Vault pill carries a delta so it reads as substrate-in-motion.
+     ──────────────────────────────────────────────────────────────────── */
+
+  /* 1. Anointment — slate title is the loudest object on the surface */
+  .slate-title {
+    font-size: 36px !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.05 !important;
+    margin-bottom: 8px !important;
+  }
+  .slate-subtitle { font-size: 15px !important; opacity: 0.88; }
+  /* sidebars & agency demote one step */
+  .rail-header, .rail-right-header,
+  .tray-panel-head .tpa-title { opacity: 0.62; }
+  .agency-label { font-size: 9px !important; letter-spacing: 0.18em !important; opacity: 0.62; }
+
+  /* 2. Reorder · brief above tiles */
+  .slate-area { display: flex; flex-direction: column; }
+  .slate-area > .classification     { order: 1; }
+  .slate-area > .slate-header       { order: 2; }
+  .slate-area > .metric-band        { order: 3; }
+  .slate-area > .brief-area         { order: 4; }
+  .slate-area > .slate-canvas       { order: 5; }
+  .slate-area > .dispo-artifact     { order: 6; }
+  .slate-area > .audit-disclosure   { order: 7; }
+  .slate-area > .audit-ribbon       { order: 8; }
+  /* brief takes a small breathing border at the top so it reads as primary */
+  .brief-area {
+    border-top: none !important;
+    border-bottom: 1px solid var(--frame-border);
+    padding-top: 18px !important;
+    padding-bottom: 22px !important;
+  }
+  /* tiles below the brief read as evidence-chips · slightly tighter */
+  .slate-area > .slate-canvas { padding-top: 18px !important; min-height: 240px !important; }
+
+  /* 3. Tray quieter */
+  .tray-panel { background-color: color-mix(in oklch, var(--frame-bg) 92%, transparent) !important; }
+  .tray-tiles .tile, .tray-tiles [class*="tile"] { opacity: 0.92; }
+  .tray-tiles .tile:hover, .tray-tiles [class*="tile"]:hover { opacity: 1; }
+  .tray-panel .live-indicator,
+  .tray-panel [class*="pill"] { opacity: 0.55; }
+
+  /* 4. Promote the agents coverage line — this is the pitch */
+  .orbital-coverage {
+    font-size: 11px !important;
+    line-height: 1.65 !important;
+    margin-top: 0 !important;
+    padding-top: 4px;
+  }
+  .orbital-coverage .coverage-emphasis { color: var(--text) !important; }
+  /* highlight the refusal substring (set inline by JS step text · uses :has) */
+  .orbital-coverage .coverage-emphasis strong,
+  .orbital-coverage [data-refused] {
+    color: var(--judgment, rgba(247, 121, 78, 0.95));
+    font-weight: 500;
+  }
+
+  /* 5. Soften contrarian magenta — margin voice, not primary */
+  .mystic-margin {
+    background: color-mix(in oklch, var(--judgment-bg) 65%, transparent) !important;
+    border-left-color: color-mix(in oklch, var(--judgment) 70%, transparent) !important;
+  }
+  .mystic-attr { opacity: 0.78; }
+  .mystic-quote { color: var(--text-mid) !important; }
+
+  /* 6. Disposition hierarchy — primary / secondary outline / text link */
+  .disposition .dispo-btn.is-defer {
+    background: transparent !important;
+    border-color: var(--card-border-2) !important;
+    color: var(--text-mid) !important;
+  }
+  .disposition .preview-sub {
+    border: none !important;
+    background: transparent !important;
+    text-decoration: underline;
+    text-decoration-color: rgba(255,255,255,0.18);
+    text-underline-offset: 3px;
+    padding-left: 0 !important; padding-right: 0 !important;
+  }
+  .disposition .preview-sub:hover {
+    text-decoration-color: var(--text-mid);
+    color: var(--text);
+  }
+
+  /* 7. Slate tiles · strip avatars + × (tray keeps theirs intact) */
+  .slate-tiles .tile-avatars,
+  .slate-tiles [class*="avatar"],
+  .slate-tiles .tile-close,
+  .slate-tiles [class*="close"] {
+    display: none !important;
+  }
+
+  /* 8. Vault pill delta · static count → moving count */
+  .vault-pill::after {
+    content: " · +3 this week";
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--p-accent);
+    opacity: 0.72;
+    margin-left: 4px;
+  }
+
+  /* ─── v0.9.1 — desktop interface primitives lifted from cut 06 ────────
+     Three patterns: number-cell band · disclosure accordion · footer receipt.
+     Injected via DOM at end of body to keep HTML structure-clean.
+     ──────────────────────────────────────────────────────────────────── */
+
+  /* number-cell band — three big numbers between slate-header and brief */
+  .metric-band {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-bottom: 1px solid var(--frame-border);
+    background: var(--frame-bg);
+  }
+  .metric-cell {
+    padding: 14px 24px;
+    border-right: 1px solid var(--frame-border);
+  }
+  .metric-cell:last-child { border-right: none; }
+  .metric-label {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--text-faint); letter-spacing: 0.18em;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .metric-number {
+    font-family: var(--display); font-size: 24px;
+    color: var(--text); font-weight: 500;
+    letter-spacing: -0.02em; line-height: 1.1;
+    margin-bottom: 2px;
+  }
+  .metric-caption {
+    font-family: var(--serif); font-size: 11px;
+    color: var(--text-mid); font-style: italic;
+    line-height: 1.3;
+  }
+  /* disclosure accordion — collapse audit ribbon into a + row */
+  .slate-area > .audit-ribbon {
+    padding: 0 !important;
+    border-top: 1px solid var(--frame-border) !important;
+    border-bottom: none !important;
+    background: transparent !important;
+  }
+  .slate-area > .audit-ribbon > .ar-label {
+    display: none !important;
+  }
+  .audit-disclosure {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 32px;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-faint); letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    background: var(--frame-bg);
+    border-bottom: 1px solid var(--frame-border);
+    transition: color 180ms;
+  }
+  .audit-disclosure:hover { color: var(--text-mid); }
+  .audit-disclosure .ad-plus {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 1px solid var(--card-border-2);
+    border-radius: 2px;
+    text-align: center; line-height: 12px;
+    font-size: 10px; color: var(--text-faint);
+    transition: transform 180ms, color 180ms;
+  }
+  .audit-disclosure[aria-expanded="true"] .ad-plus { transform: rotate(45deg); color: var(--text); }
+  .audit-disclosure .ad-meta {
+    margin-left: auto;
+    color: var(--text-faint);
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-size: 10px;
+  }
+  .slate-area > .audit-ribbon[hidden] { display: none !important; }
+  .slate-area > .audit-ribbon { padding: 14px 32px !important; background: var(--frame-bg-2) !important; }
+
+  /* footer receipt — full-width status bar across the frame */
+  .frame-receipt {
+    border-top: 1px solid var(--frame-border);
+    padding: 7px 24px;
+    background: var(--frame-bg);
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--text-faint); letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: flex; gap: 14px; align-items: center;
+    overflow: hidden; white-space: nowrap;
+  }
+  .frame-receipt .fr-glyph { color: var(--p-accent); }
+  .frame-receipt .fr-sep { color: var(--card-border-2); }
+  .frame-receipt .fr-strong { color: var(--text-mid); }
+  .frame-receipt .fr-right { margin-left: auto; color: var(--text-faint); opacity: 0.72; }
 </style>
 
 </head>
@@ -781,5 +987,96 @@
 </script>
 
 <script src="../lib/brand-upgrade.js"></script>
+
+<!-- v0.9.1 · desktop interface primitives lifted from cut 06
+     1. number-cell band · 2. audit accordion · 3. footer receipt -->
+<script>
+(function srCutInterfacePatterns() {
+  function inject() {
+    const slateArea = document.querySelector('.slate-area');
+    const frame = document.querySelector('.frame');
+    if (!slateArea || !frame) return;
+
+    // 1. Number-cell band — insert after .slate-header
+    if (!slateArea.querySelector('.metric-band')) {
+      const band = document.createElement('div');
+      band.className = 'metric-band';
+      band.innerHTML = `
+        <div class="metric-cell">
+          <div class="metric-label">Runway · if signed</div>
+          <div class="metric-number">14 → 22mo</div>
+          <div class="metric-caption">cash extends, optionality shrinks</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">Round you're chasing</div>
+          <div class="metric-number">6 wks</div>
+          <div class="metric-caption">theoretical · earliest close</div>
+        </div>
+        <div class="metric-cell">
+          <div class="metric-label">Vault precedent</div>
+          <div class="metric-number">7 of 9</div>
+          <div class="metric-caption">slower path · not regretted</div>
+        </div>
+      `;
+      const header = slateArea.querySelector('.slate-header');
+      if (header && header.nextSibling) {
+        slateArea.insertBefore(band, header.nextSibling);
+      } else {
+        slateArea.appendChild(band);
+      }
+    }
+
+    // 2. Audit disclosure — collapse audit ribbon behind a + toggle
+    const audit = slateArea.querySelector('.audit-ribbon');
+    if (audit && !slateArea.querySelector('.audit-disclosure')) {
+      const disclosure = document.createElement('div');
+      disclosure.className = 'audit-disclosure';
+      disclosure.setAttribute('role', 'button');
+      disclosure.setAttribute('tabindex', '0');
+      disclosure.setAttribute('aria-expanded', 'false');
+      disclosure.innerHTML = `
+        <span class="ad-plus">+</span>
+        <span>Proof · audit chain</span>
+        <span class="ad-meta">3 drops · today 15:25–15:27</span>
+      `;
+      audit.hidden = true;
+      audit.parentNode.insertBefore(disclosure, audit);
+      const toggle = () => {
+        const expanded = disclosure.getAttribute('aria-expanded') === 'true';
+        disclosure.setAttribute('aria-expanded', String(!expanded));
+        audit.hidden = expanded;
+      };
+      disclosure.addEventListener('click', toggle);
+      disclosure.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    }
+
+    // 3. Footer receipt — full-width status bar inside .frame
+    if (!frame.querySelector('.frame-receipt')) {
+      const receipt = document.createElement('div');
+      receipt.className = 'frame-receipt';
+      receipt.innerHTML = `
+        <span class="fr-glyph">◇</span>
+        <span class="fr-strong">read · sr-founding-0512</span>
+        <span class="fr-sep">·</span>
+        <span>3 tiles · 2 agents · 38 prior</span>
+        <span class="fr-sep">·</span>
+        <span>vault-sealed · device-local</span>
+        <span class="fr-right">⌘? shortcuts · ⌘. tray</span>
+      `;
+      frame.appendChild(receipt);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => setTimeout(inject, 50));
+  } else {
+    setTimeout(inject, 50);
+  }
+  // Re-run on hashchange / product switches in case slate-area re-renders
+  window.addEventListener('hashchange', () => setTimeout(inject, 100));
+})();
+</script>
 </body>
 </html>
