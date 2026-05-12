@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liminal · Desktop App Specimen · 2026-05-12</title>
+
+<!-- Same font stack as cut 01 speedrun -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- ACTUAL brand canon — same 3 CSS files cut 01 speedrun loads -->
+<link rel="stylesheet" href="design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="lib/cut-shell.css">
+<link rel="stylesheet" href="lib/brand-upgrade.css">
+
+<style>
+  :root {
+    --color-coherence:  #7aa9ff;
+    --color-correction: #e0996b;
+    --color-emergence:  #c084fc;
+    --color-resolved:   #6ec3a8;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: auto !important;
+    min-height: 100vh;
+    overflow: auto !important;
+  }
+
+  .specimen-page {
+    padding: 56px 32px;
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .specimen-page .stage {
+    position: relative !important;
+    width: auto !important;
+    height: auto !important;
+    inset: auto !important;
+    display: block !important;
+    padding: 0 !important;
+  }
+  .specimen-page .frame {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    min-height: 540px;
+  }
+
+  .spec-header {
+    margin-bottom: 64px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .spec-header-eyebrow {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.3);
+    margin-bottom: 8px;
+  }
+  .spec-header-title {
+    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-weight: 700;
+    font-size: 56px;
+    line-height: 1.04;
+    letter-spacing: -0.03em;
+    color: var(--text, #f2f0ec);
+    margin: 0 0 12px;
+  }
+  .spec-header-subtitle {
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.5;
+    color: rgba(242,240,236,0.55);
+    margin: 0;
+    max-width: 760px;
+  }
+
+  .spec-section { margin-bottom: 72px; }
+  .spec-label {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.4);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .spec-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+  .spec-caption {
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-style: italic;
+    font-size: 16px;
+    color: rgba(242,240,236,0.55);
+    line-height: 1.55;
+    margin: 0 0 24px;
+    max-width: 820px;
+  }
+
+  .twin {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    align-items: start;
+  }
+  @media (max-width: 1180px) { .twin { grid-template-columns: 1fr; } }
+
+  .tray-window-wrapper { width: 380px; }
+  .tray-window-wrapper .frame { min-height: 540px; }
+  .tray-window-wrapper.floating .frame {
+    border-style: dashed !important;
+    transform: rotate(0.6deg);
+  }
+
+  .vault-page { padding: 32px 40px; color: var(--text, #f2f0ec); }
+  .vault-h1 {
+    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-weight: 700;
+    font-size: 32px;
+    margin: 0 0 24px;
+    letter-spacing: -0.02em;
+  }
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .stat-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 20px 22px;
+  }
+  .stat-card.emergence {
+    border-color: var(--color-emergence);
+    box-shadow: 0 0 28px rgba(192, 132, 252, 0.07);
+  }
+  .stat-number {
+    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .stat-card.emergence .stat-number { color: var(--color-emergence); }
+  .stat-card .stat-meta {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.4);
+  }
+  .stat-card.emergence .stat-meta { color: rgba(192, 132, 252, 0.65); }
+
+  .breakdown { margin-bottom: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .breakdown-title {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.4);
+    margin-bottom: 16px;
+  }
+  .breakdown-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 40px;
+    align-items: center;
+    gap: 16px;
+    padding: 8px 0;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 12px;
+    color: var(--text);
+  }
+  .breakdown-row.is-emergence .label,
+  .breakdown-row.is-emergence .count { color: var(--color-emergence); }
+  .breakdown-row .bar {
+    height: 3px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .breakdown-row .bar-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--color-coherence);
+    border-radius: 2px;
+  }
+  .breakdown-row .bar-fill.is-emergence { background: var(--color-emergence); }
+  .breakdown-row .count { text-align: right; }
+
+  .packets-list { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .packets-list-title {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.4);
+    margin-bottom: 12px;
+  }
+  .packet-row {
+    display: grid;
+    grid-template-columns: 140px 1fr auto auto;
+    gap: 18px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    align-items: center;
+  }
+  .packet-time {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: rgba(242,240,236,0.4);
+    letter-spacing: 0.04em;
+  }
+  .packet-title { color: var(--text); font-size: 14px; }
+  .packet-title .excerpt {
+    display: block;
+    margin-top: 2px;
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 12.5px;
+    color: rgba(242,240,236,0.5);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .packet-chip {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.04);
+    color: rgba(242,240,236,0.6);
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .packet-chip.analyst { color: var(--color-coherence); border-color: rgba(122,169,255,0.25); }
+  .packet-chip.auditor { color: var(--color-correction); border-color: rgba(224,153,107,0.3); }
+  .packet-chip.emergence {
+    color: var(--color-emergence);
+    background: rgba(192,132,252,0.08);
+    border-color: rgba(192,132,252,0.3);
+  }
+
+  .tray-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    overflow-y: auto;
+  }
+  .tray-meta-line {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(242,240,236,0.35);
+    text-transform: uppercase;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .candidate-card {
+    background: rgba(255,255,255,0.018);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 6px;
+    padding: 12px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: border-color 150ms ease;
+  }
+  .candidate-card:hover { border-color: rgba(255,255,255,0.12); }
+  .candidate-title-row { display: flex; align-items: center; gap: 8px; }
+  .candidate-title-row .glyph {
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-size: 14px;
+    color: var(--text);
+    transform: translateY(-1px);
+  }
+  .candidate-title {
+    font-family: "Geist", -apple-system, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .candidate-meta {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(242,240,236,0.35);
+    letter-spacing: 0.04em;
+  }
+  .candidate-excerpt {
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 13px;
+    color: rgba(242,240,236,0.55);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .pen-hints {
+    margin-top: 6px;
+    padding-top: 8px;
+    border-top: 1px dotted rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .pen-hint {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: rgba(242,240,236,0.55);
+    display: flex;
+    gap: 8px;
+    line-height: 1.4;
+  }
+  .pen-hint .label { flex-shrink: 0; letter-spacing: 0.08em; }
+  .pen-hint .label.analyst { color: var(--color-coherence); }
+  .pen-hint .label.auditor { color: var(--color-correction); }
+  .pen-hint .label.exploring { color: var(--color-coherence); animation: penPulse 1.6s ease-in-out infinite; }
+  @keyframes penPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+  .candidate-actions {
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .candidate-secondary { display: flex; gap: 6px; }
+  .candidate-text-btn {
+    background: transparent;
+    border: 0;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(242,240,236,0.3);
+    cursor: pointer;
+    padding: 4px 6px;
+    letter-spacing: 0.04em;
+  }
+  .candidate-text-btn:hover { color: rgba(242,240,236,0.7); }
+  .pull-to-slate-btn {
+    background: var(--color-coherence);
+    color: #0A0A0B;
+    border: 1px solid var(--color-coherence);
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: transform 150ms ease;
+  }
+  .pull-to-slate-btn:hover { transform: translateY(-1px); }
+
+  .drop-zone {
+    border: 1px dashed rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 18px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .drop-zone:hover {
+    border-color: var(--color-coherence);
+    background: rgba(122,169,255,0.025);
+  }
+  .drop-zone .plus {
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-size: 18px;
+    color: rgba(242,240,236,0.45);
+  }
+  .drop-zone .label {
+    font-family: "Geist", -apple-system, sans-serif;
+    font-size: 13px;
+    color: rgba(242,240,236,0.55);
+  }
+  .drop-zone .hint {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(242,240,236,0.3);
+    letter-spacing: 0.04em;
+  }
+
+  .tray-footer {
+    height: 32px;
+    background: rgba(0,0,0,0.18);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 0 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: rgba(242,240,236,0.45);
+    letter-spacing: 0.04em;
+  }
+  .tray-footer .rescan { cursor: pointer; color: rgba(242,240,236,0.4); }
+  .tray-footer .rescan:hover { color: var(--text); }
+
+  .runtime-badge {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(242,240,236,0.45);
+    letter-spacing: 0.06em;
+  }
+  .runtime-badge.live { color: rgba(242,240,236,0.65); }
+  .runtime-badge .diamond { color: var(--color-coherence); margin-right: 4px; }
+  .unlinked-suffix {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(242,240,236,0.3);
+    margin-left: 4px;
+    letter-spacing: 0.04em;
+  }
+
+  .slate-page { padding: 32px 40px 40px; color: var(--text); }
+  .substrate-node {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding-bottom: 18px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .substrate-node .glyph {
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-size: 18px;
+    color: var(--text);
+    line-height: 1;
+    margin-top: 2px;
+  }
+  .substrate-excerpt {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 13px;
+    color: rgba(242,240,236,0.7);
+    line-height: 1.5;
+    margin: 0 0 6px;
+  }
+  .substrate-meta {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(242,240,236,0.35);
+    letter-spacing: 0.04em;
+    display: flex;
+    gap: 8px;
+  }
+
+  .agent-reads {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .agent-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 20px 22px 16px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .agent-card.analyst { border-left: 3px solid var(--color-coherence); }
+  .agent-card.auditor { border-left: 3px solid var(--color-correction); }
+  .agent-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+  .agent-archetype {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .agent-card.analyst .agent-archetype { color: var(--color-coherence); }
+  .agent-card.auditor .agent-archetype { color: var(--color-correction); }
+  .agent-meta {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    color: rgba(242,240,236,0.3);
+    letter-spacing: 0.04em;
+    text-align: right;
+    line-height: 1.35;
+  }
+  .agent-section { display: flex; flex-direction: column; gap: 4px; }
+  .agent-section-label {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.4);
+  }
+  .agent-section-body {
+    font-family: "Geist", -apple-system, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(242,240,236,0.85);
+  }
+  .agent-section.risk {
+    border-left: 1px dotted rgba(255,255,255,0.1);
+    padding-left: 12px;
+    margin-left: -2px;
+  }
+  .agent-section.refusal {
+    margin-top: 2px;
+    padding-top: 14px;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+  }
+
+  .correction-region {
+    margin-top: 28px;
+    padding: 22px 24px 28px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-left: 2px solid var(--color-coherence);
+  }
+  .correction-region .your-read {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+  .correction-field { margin-bottom: 18px; }
+  .correction-field-label {
+    font-family: "Geist", -apple-system, sans-serif;
+    font-size: 13px;
+    color: rgba(242,240,236,0.6);
+    margin-bottom: 10px;
+  }
+  .pill-row { display: flex; gap: 10px; flex-wrap: wrap; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 999px;
+    font-family: "Geist", -apple-system, sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    background: transparent;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+  .pill:hover { border-color: rgba(255,255,255,0.25); }
+  .pill.selected {
+    background: var(--color-coherence);
+    border-color: var(--color-coherence);
+    color: #0A0A0B;
+  }
+  .pill.emergence {
+    border-color: var(--color-emergence);
+    color: var(--color-emergence);
+    box-shadow: 0 0 12px rgba(192,132,252,0.12);
+  }
+  .pill.emergence:hover { box-shadow: 0 0 16px rgba(192,132,252,0.22); }
+  .pill.emergence.selected {
+    background: var(--color-emergence);
+    color: #0A0A0B;
+    box-shadow: 0 0 20px rgba(192,132,252,0.32);
+  }
+  .correction-textarea {
+    width: 100%;
+    background: rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 4px;
+    padding: 12px 14px;
+    color: var(--text);
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 96px;
+    outline: none;
+  }
+  .correction-textarea:focus { border-color: var(--color-coherence); }
+  .correction-cta {
+    margin-top: 22px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 16px;
+  }
+  .cta-hint {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(242,240,236,0.3);
+    letter-spacing: 0.06em;
+  }
+  .btn-primary {
+    background: var(--color-coherence);
+    color: #0A0A0B;
+    border: 1px solid var(--color-coherence);
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: transform 150ms ease;
+  }
+  .btn-primary:hover { transform: translateY(-1px); }
+
+  .packet-summary-card {
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px;
+    padding: 24px 28px;
+    transform: rotate(0.3deg);
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .packet-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .signed-stamp {
+    background: var(--color-resolved);
+    color: #0A0A0B;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 3px;
+  }
+  .packet-summary-title {
+    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-weight: 700;
+    font-size: 17px;
+    color: var(--text);
+    flex: 1;
+    letter-spacing: -0.01em;
+  }
+  .packet-time-summary {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 11px;
+    color: rgba(242,240,236,0.4);
+    text-align: right;
+    line-height: 1.35;
+  }
+  .packet-divider { border: 0; border-top: 1px dashed rgba(255,255,255,0.1); margin: 18px 0; }
+  .packet-section-su { margin-bottom: 16px; }
+  .packet-section-su-label {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.4);
+    margin-bottom: 5px;
+  }
+  .packet-section-su-body {
+    font-family: "Geist", -apple-system, sans-serif;
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: rgba(242,240,236,0.85);
+  }
+  .packet-foot-su {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px dashed rgba(255,255,255,0.1);
+  }
+  .sha-row {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10.5px;
+    color: rgba(242,240,236,0.4);
+    letter-spacing: 0.04em;
+  }
+  .sha-row strong {
+    color: rgba(242,240,236,0.6);
+    letter-spacing: 0.18em;
+    margin-right: 8px;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 7px 16px;
+    border-radius: 4px;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 11.5px;
+    cursor: pointer;
+    transition: border-color 150ms ease;
+  }
+  .btn-ghost:hover { border-color: rgba(255,255,255,0.3); }
+
+  .specimen-page .audit-ribbon {
+    position: relative !important;
+    height: 36px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    background: rgba(0,0,0,0.18);
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .audit-ribbon .ar-label {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.4);
+  }
+  .audit-chips { display: flex; gap: 10px; align-items: center; }
+  .chip { color: rgba(242,240,236,0.55); font-size: 13px; cursor: default; }
+  .chip.emergence { color: var(--color-emergence); }
+  .chip.dim { color: rgba(255,255,255,0.1); }
+  .audit-tail {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(242,240,236,0.35);
+    letter-spacing: 0.04em;
+  }
+
+  .loop-diagram {
+    background: rgba(255,255,255,0.018);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 48px 32px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .loop-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+  }
+  .loop-node .glyph {
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-size: 56px;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .loop-node.tray .glyph { color: rgba(242,240,236,0.5); transform: rotate(-1.5deg); }
+  .loop-node.slate .glyph { color: var(--color-coherence); }
+  .loop-node.vault .glyph { color: var(--color-emergence); }
+  .loop-node .name {
+    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--text);
+  }
+  .loop-node .role {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.4);
+  }
+  .loop-node .desc {
+    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(242,240,236,0.55);
+    max-width: 220px;
+    margin-top: 6px;
+  }
+  .loop-arrow { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+  .loop-arrow .verb {
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(242,240,236,0.35);
+  }
+  .loop-arrow .arrow { font-size: 22px; color: rgba(242,240,236,0.3); }
+
+  .spec-footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Geist Mono", ui-monospace, monospace;
+    font-size: 10px;
+    color: rgba(242,240,236,0.3);
+    letter-spacing: 0.06em;
+  }
+
+  .reveal { opacity: 0; transform: translateY(8px); animation: revealUp 600ms cubic-bezier(0.4,0,0.2,1) forwards; }
+  .reveal-1 { animation-delay: 0ms; }
+  .reveal-2 { animation-delay: 100ms; }
+  .reveal-3 { animation-delay: 200ms; }
+  .reveal-4 { animation-delay: 300ms; }
+  .reveal-5 { animation-delay: 400ms; }
+  .reveal-6 { animation-delay: 500ms; }
+  .reveal-7 { animation-delay: 600ms; }
+  @keyframes revealUp { to { opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; animation: none; }
+    .pen-hint .label.exploring { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="specimen-page">
+
+  <header class="spec-header reveal reveal-1">
+    <div class="spec-header-eyebrow">Visual Specimen · 2026-05-12 · Liminal Desktop · Tray-Slate-Vault</div>
+    <h1 class="spec-header-title">A founder OS where AI agents disagree, deliberate, and prompt you.</h1>
+    <p class="spec-header-subtitle">Rendered against the real brand canon — same fonts, same tokens, same cut 01 speedrun chrome — adapted to the May 12 desktop ship.</p>
+  </header>
+
+  <section class="spec-section reveal reveal-2">
+    <div class="spec-label">I · The three substrates</div>
+    <p class="spec-caption">Tray holds candidates. Slate hardens deliberations. Vault keeps the record. Three states of matter, three verbs, three refusal-by-construction boundaries.</p>
+
+    <div class="loop-diagram">
+      <div class="loop-node tray">
+        <div class="glyph">◇</div>
+        <div class="name">Tray</div>
+        <div class="role">candidate pen</div>
+        <div class="desc">Drop anything. Agents lightly explore. Nothing commits.</div>
+      </div>
+      <div class="loop-arrow"><div class="verb">promote</div><div class="arrow">→</div></div>
+      <div class="loop-node slate">
+        <div class="glyph">◇</div>
+        <div class="name">Slate</div>
+        <div class="role">working area</div>
+        <div class="desc">User shapes. Agents disagree. Correction is captured.</div>
+      </div>
+      <div class="loop-arrow"><div class="verb">harden</div><div class="arrow">→</div></div>
+      <div class="loop-node vault">
+        <div class="glyph">◇</div>
+        <div class="name">Vault</div>
+        <div class="role">permanent graph</div>
+        <div class="desc">Signed packets. Immutable. Local. Audit-grade.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec-section reveal reveal-3">
+    <div class="spec-label">II · First launch · Slate empty + Tray floating (pre-link)</div>
+    <p class="spec-caption">User hasn't started. Slate shows wedge + single CTA. Tray sits floating to the right — visible, unlinked (dashed border + tilt), ready to receive candidates without commitment.</p>
+
+    <div class="twin">
+      <div class="stage">
+        <div class="frame">
+          <header class="titlebar">
+            <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+            <div class="title-row"><span class="diamond">◇</span><span class="brand">Liminal · Composition</span></div>
+            <div class="vault-pill">
+              <span class="diamond">◇</span>vault: <strong>0</strong>
+              <span style="margin-left: 12px;"><span class="runtime-badge">demo · heuristic</span></span>
+            </div>
+          </header>
+
+          <main class="main" style="grid-template-columns: 1fr !important;">
+            <section class="slate-area" style="grid-column: 1 / -1;">
+              <header class="slate-header" style="text-align: center; padding-top: 64px; padding-bottom: 24px;">
+                <div style="font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 44px; color: rgba(242,240,236,0.55); transform: rotate(-1.5deg); display: inline-block; margin-bottom: 18px;">◇</div>
+                <h1 class="slate-title" style="font-family: 'NinetiesHeadliner', 'Newsreader', Georgia, serif; font-weight: 700; font-size: 32px; letter-spacing: -0.03em; line-height: 1.15; color: var(--text); margin-bottom: 14px;">Liminal — gives form to inner life.</h1>
+                <p class="slate-subtitle" style="font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-style: italic; font-size: 17px; font-weight: 300; color: rgba(242,240,236,0.55); max-width: 540px; margin: 0 auto; line-height: 1.5;">A founder OS for state, deliberation, and the record of how you disagree with what AI reads of you.</p>
+              </header>
+
+              <div class="slate-canvas" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; min-height: 240px;">
+                <button class="btn-primary" style="font-size: 15px; padding: 12px 28px;">Start tray workflow</button>
+                <div style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 10px; color: rgba(242,240,236,0.3); letter-spacing: 0.1em;">⌘T</div>
+              </div>
+            </section>
+          </main>
+
+          <div class="audit-ribbon">
+            <span class="ar-label">Audit chain</span>
+            <span style="color: rgba(255,255,255,0.1);">·</span>
+            <span class="audit-tail">no events yet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tray-window-wrapper floating">
+        <div class="stage">
+          <div class="frame" style="display: flex; flex-direction: column;">
+            <header class="titlebar">
+              <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+              <div class="title-row">
+                <span class="diamond">◇</span>
+                <span class="brand">Tray · candidates</span>
+                <span class="unlinked-suffix">(unlinked)</span>
+              </div>
+              <div></div>
+            </header>
+            <div class="tray-body">
+              <div class="tray-meta-line">0 items · drop to begin</div>
+              <div class="drop-zone">
+                <div class="plus">+</div>
+                <div class="label">Drop context here</div>
+                <div class="hint">Or paste with ⌘V</div>
+              </div>
+            </div>
+            <footer class="tray-footer">
+              <span><span class="diamond" style="color: var(--color-coherence); font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents idle</span>
+              <span class="rescan">↻ rescan</span>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec-section reveal reveal-4">
+    <div class="spec-label">III · Tray populated · Agents exploring in the pen</div>
+    <p class="spec-caption">Three candidates dropped. Agents lightly scanned each — one-line hints surface per archetype. Nothing yet signed. The user decides what comes to slate.</p>
+
+    <div class="twin">
+      <div class="stage">
+        <div class="frame">
+          <header class="titlebar">
+            <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+            <div class="title-row"><span class="diamond">◇</span><span class="brand">Liminal · Composition</span></div>
+            <div class="vault-pill">
+              <span class="diamond">◇</span>vault: <strong>0</strong>
+              <span style="margin-left: 12px;"><span class="runtime-badge live"><span class="diamond">◇</span>live · Haiku 4.5</span></span>
+            </div>
+          </header>
+          <main class="main" style="grid-template-columns: 1fr !important;">
+            <section class="slate-area" style="grid-column: 1 / -1;">
+              <header class="slate-header" style="text-align: center; padding-top: 56px; padding-bottom: 24px;">
+                <div style="font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 38px; color: rgba(242,240,236,0.55); transform: rotate(-1.5deg); display: inline-block; margin-bottom: 18px;">◇</div>
+                <h1 class="slate-title" style="font-family: 'NinetiesHeadliner', 'Newsreader', Georgia, serif; font-weight: 700; font-size: 26px; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin-bottom: 12px;">Pull a candidate from the tray to begin a read.</h1>
+                <p class="slate-subtitle" style="font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-style: italic; font-size: 15px; font-weight: 300; color: rgba(242,240,236,0.55); max-width: 480px; margin: 0 auto; line-height: 1.5;">The tray window is docked at right. Click "pull to slate" on any candidate to start the deliberation loop.</p>
+                <p style="margin-top: 28px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; color: rgba(242,240,236,0.4); letter-spacing: 0.08em;">
+                  <span style="color: var(--color-coherence); font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 12px; margin-right: 4px;">◇</span> agents in pen: 2 · exploring 3 candidates
+                </p>
+              </header>
+            </section>
+          </main>
+          <div class="audit-ribbon">
+            <span class="ar-label">Audit chain</span>
+            <span style="color: rgba(255,255,255,0.1);">·</span>
+            <div class="audit-chips">
+              <span class="chip dim">◦</span><span class="chip dim">◦</span><span class="chip dim">◦</span><span class="chip dim">◦</span><span class="chip dim">◦</span>
+            </div>
+            <span style="color: rgba(255,255,255,0.1);">·</span>
+            <span class="audit-tail">no events yet</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tray-window-wrapper">
+        <div class="stage">
+          <div class="frame" style="display: flex; flex-direction: column;">
+            <header class="titlebar">
+              <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+              <div class="title-row"><span class="diamond">◇</span><span class="brand">Tray · candidates</span></div>
+              <div></div>
+            </header>
+            <div class="tray-body">
+              <div class="tray-meta-line">3 items dropped today</div>
+
+              <div class="candidate-card">
+                <div class="candidate-title-row">
+                  <span class="glyph">◇</span>
+                  <span class="candidate-title">Slack thread w/ Marcus</span>
+                </div>
+                <div class="candidate-meta">2 min ago · 412 chars</div>
+                <div class="candidate-excerpt">"Spoke with Marcus today. Strong technical signal. Cultural mismatch on 2 dimensions: solo-first work style, doesn't want async..."</div>
+                <div class="pen-hints">
+                  <div class="pen-hint"><span class="label analyst">ANALYST</span><span>structural hire trade-off · comp + culture variables</span></div>
+                  <div class="pen-hint"><span class="label auditor">AUDITOR</span><span>deadline framing · who set "tomorrow morning"?</span></div>
+                </div>
+                <div class="candidate-actions">
+                  <div class="candidate-secondary">
+                    <button class="candidate-text-btn">Edit</button>
+                    <button class="candidate-text-btn">Delete</button>
+                  </div>
+                  <button class="pull-to-slate-btn">Pull to slate ▷</button>
+                </div>
+              </div>
+
+              <div class="candidate-card">
+                <div class="candidate-title-row">
+                  <span class="glyph">◇</span>
+                  <span class="candidate-title">Andrew investor reply</span>
+                </div>
+                <div class="candidate-meta">14 min ago · 280 chars</div>
+                <div class="candidate-excerpt">"Andrew sent feedback saying our positioning is still too conceptual. He's pattern-matching us to journaling apps..."</div>
+                <div class="pen-hints">
+                  <div class="pen-hint"><span class="label analyst">ANALYST</span><span>partner-specific feedback · likely not category-level</span></div>
+                  <div class="pen-hint"><span class="label exploring">AUDITOR</span><span>exploring…</span></div>
+                </div>
+                <div class="candidate-actions">
+                  <div class="candidate-secondary">
+                    <button class="candidate-text-btn">Edit</button>
+                    <button class="candidate-text-btn">Delete</button>
+                  </div>
+                  <button class="pull-to-slate-btn">Pull to slate ▷</button>
+                </div>
+              </div>
+
+              <div class="drop-zone">
+                <div class="plus">+</div>
+                <div class="label">Drop more</div>
+                <div class="hint">Or paste with ⌘V</div>
+              </div>
+            </div>
+            <footer class="tray-footer">
+              <span><span class="diamond" style="color: var(--color-coherence); font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents in pen: 2</span>
+              <span class="rescan">↻ rescan</span>
+            </footer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec-section reveal reveal-5">
+    <div class="spec-label">IV · Slate · Deliberation · Two agents disagreeing</div>
+    <p class="spec-caption">User pulled the Marcus candidate. Analyst + Auditor traverse the substrate from different positions in the bounded graph. Refusal at equal visual prominence per PPA #8 Claim 2.</p>
+
+    <div class="stage">
+      <div class="frame">
+        <header class="titlebar">
+          <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+          <div class="title-row"><span class="diamond">◇</span><span class="brand">Liminal · Composition</span></div>
+          <div class="vault-pill">
+            <span class="diamond">◇</span>vault: <strong>0</strong>
+            <span style="margin-left: 12px;"><span class="runtime-badge live"><span class="diamond">◇</span>live · Haiku 4.5</span></span>
+          </div>
+        </header>
+
+        <div class="slate-page">
+          <div class="substrate-node">
+            <span class="glyph">◇</span>
+            <div style="flex: 1;">
+              <p class="substrate-excerpt">"Spoke with Marcus today. Strong technical signal. Cultural mismatch on 2 dimensions: solo-first work style…"</p>
+              <div class="substrate-meta">
+                <span>Pulled from tray 4 sec ago</span>
+                <span style="color: rgba(255,255,255,0.1);">·</span>
+                <span>412 chars</span>
+                <span style="color: rgba(255,255,255,0.1);">·</span>
+                <span>candidate 7a3f</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="agent-reads">
+            <article class="agent-card analyst">
+              <header class="agent-head">
+                <span class="agent-archetype">Analyst</span>
+                <span class="agent-meta">Haiku 4.5<br>2.3s</span>
+              </header>
+              <div class="agent-section">
+                <div class="agent-section-label">Situation</div>
+                <p class="agent-section-body">Hire decision under time pressure with two structurally distinct constraints (comp delta, work-style fit) and one external pressure (pipeline thinness). The three are being weighed together but originate in separate systems.</p>
+              </div>
+              <div class="agent-section risk">
+                <div class="agent-section-label">Hidden risk</div>
+                <p class="agent-section-body">Pipeline scarcity is making both the culture-fit signal feel like a deal-breaker AND the budget stretch feel acceptable. Both are downstream of the same scarcity, not independent assessments.</p>
+              </div>
+              <div class="agent-section">
+                <div class="agent-section-label">Next move</div>
+                <p class="agent-section-body">Decouple before deciding. Ask: would I hire Marcus at $170K if culture fit were 9/10? Would I hire him at $190K if he were async-native? Answer those independently first.</p>
+              </div>
+              <div class="agent-section refusal">
+                <div class="agent-section-label">Refused</div>
+                <p class="agent-section-body">I will not decide whether to take this hire. The values question — what work-style commitments you can live with — is yours.</p>
+              </div>
+            </article>
+
+            <article class="agent-card auditor">
+              <header class="agent-head">
+                <span class="agent-archetype">Auditor</span>
+                <span class="agent-meta">Haiku 4.5<br>1.8s</span>
+              </header>
+              <div class="agent-section">
+                <div class="agent-section-label">Situation</div>
+                <p class="agent-section-body">A founder who's lost two candidates this month, deciding tomorrow on the third under fatigue. The deadline is being treated as external when it may be self-imposed.</p>
+              </div>
+              <div class="agent-section risk">
+                <div class="agent-section-label">Hidden risk</div>
+                <p class="agent-section-body">You're framing "decision tomorrow morning" as a constraint. Who set that deadline? If it's Marcus's other offer, that's market info. If it's you, you're optimizing for closure, not the right hire.</p>
+              </div>
+              <div class="agent-section">
+                <div class="agent-section-label">Next move</div>
+                <p class="agent-section-body">Name explicitly what you would lose by extending the decision 48 hours. Write it down. If the answer is "Marcus might take another offer," that's a different question than "I need to close this loop."</p>
+              </div>
+              <div class="agent-section refusal">
+                <div class="agent-section-label">Refused</div>
+                <p class="agent-section-body">I will not ratify the deadline. I will ratify the question of whether the deadline is real.</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="correction-region">
+            <div class="your-read">Your read</div>
+            <div class="correction-field">
+              <div class="correction-field-label">Which agent landed?</div>
+              <div class="pill-row">
+                <button class="pill">Analyst</button>
+                <button class="pill selected">Auditor</button>
+                <button class="pill">Neither</button>
+              </div>
+            </div>
+            <div class="correction-field">
+              <div class="correction-field-label">What did they miss?</div>
+              <textarea class="correction-textarea" placeholder="Required (≥20 chars to sign)">Analyst was right that the comp + culture questions are decoupled, but underweighted that I genuinely cannot run async-only on this role — my CTO model only works because Sean and I are 11 years deep.</textarea>
+            </div>
+            <div class="correction-field">
+              <div class="correction-field-label">Tag this correction (optional)</div>
+              <div class="pill-row">
+                <button class="pill">Inner</button>
+                <button class="pill">Outer</button>
+                <button class="pill">Cross</button>
+                <button class="pill emergence selected">★ Emergence</button>
+              </div>
+            </div>
+            <div class="correction-cta">
+              <span class="cta-hint">⌘↩</span>
+              <button class="btn-primary">Sign packet</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-ribbon">
+          <span class="ar-label">Audit chain</span>
+          <span style="color: rgba(255,255,255,0.1);">·</span>
+          <div class="audit-chips">
+            <span class="chip dim">◦</span><span class="chip dim">◦</span><span class="chip dim">◦</span><span class="chip dim">◦</span><span class="chip dim">◦</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec-section reveal reveal-6">
+    <div class="spec-label">V · The signed-packet moment</div>
+    <p class="spec-caption">Packet committed. Audit chain ticks. Vault count increments. The artifact is now immutable, locally stored, cryptographically anchored.</p>
+
+    <div class="packet-summary-card">
+      <div class="packet-head">
+        <span class="signed-stamp">Signed</span>
+        <span class="packet-summary-title">Founder operator decision · Marcus hire</span>
+        <span class="packet-time-summary">2026-05-12<br>22:14:07</span>
+      </div>
+      <hr class="packet-divider">
+      <div class="packet-section-su">
+        <div class="packet-section-su-label">Disposition</div>
+        <div class="packet-section-su-body">Auditor's read accepted · tagged <strong style="color: var(--color-emergence);">★ emergence</strong></div>
+      </div>
+      <div class="packet-section-su">
+        <div class="packet-section-su-label">Committed to vault</div>
+        <div class="packet-section-su-body">Packet 7a3f9e2c · vault://packets/7a3f9e2c</div>
+      </div>
+      <div class="packet-section-su">
+        <div class="packet-section-su-label">Next move</div>
+        <div class="packet-section-su-body">Name explicitly what would be lost by extending the decision 48 hours. Compare to Marcus's stated reason for the timing.</div>
+      </div>
+      <div class="packet-section-su">
+        <div class="packet-section-su-label">User correction</div>
+        <div class="packet-section-su-body">Analyst was right that the comp + culture questions are decoupled, but underweighted that I genuinely cannot run async-only on this role — my CTO model only works because Sean and I are 11 years deep.</div>
+      </div>
+      <div class="packet-foot-su">
+        <div class="sha-row"><strong>SHA-256</strong> 7a3f9e2c4d8b…</div>
+        <button class="btn-ghost">Continue →</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="spec-section reveal reveal-7">
+    <div class="spec-label">VI · Vault · The wedge claim made visible</div>
+    <p class="spec-caption">Three packets in, the moat begins to show. Emergence is the load-bearing metric — visually distinguished even at zero. Audit ribbon carries continuous signal.</p>
+
+    <div class="stage">
+      <div class="frame">
+        <header class="titlebar">
+          <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+          <div class="title-row"><span class="diamond">◇</span><span class="brand">Liminal · Vault</span></div>
+          <div class="vault-pill">
+            <span class="diamond">◇</span>vault: <strong>3</strong>
+            <span style="margin-left: 12px;"><span class="runtime-badge live"><span class="diamond">◇</span>live · Haiku 4.5</span></span>
+          </div>
+        </header>
+
+        <div class="vault-page">
+          <h1 class="vault-h1">Vault</h1>
+          <div class="stat-row">
+            <div class="stat-card">
+              <div class="stat-number">3</div>
+              <div class="stat-meta">Packets</div>
+            </div>
+            <div class="stat-card emergence">
+              <div class="stat-number">1 <span style="font-size: 24px;">★</span></div>
+              <div class="stat-meta">Emergence · moat metric</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" style="font-family: 'Geist Mono', ui-monospace, monospace; font-size: 14px; line-height: 1.4;">2026-05-12<br>22:14:07</div>
+              <div class="stat-meta">Latest</div>
+            </div>
+          </div>
+          <div class="breakdown">
+            <div class="breakdown-title">Corrections by geometry</div>
+            <div class="breakdown-row">
+              <span class="label">inner</span>
+              <span class="bar"><span class="bar-fill" style="width: 33%;"></span></span>
+              <span class="count">1</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="label">outer</span>
+              <span class="bar"><span class="bar-fill" style="width: 33%;"></span></span>
+              <span class="count">1</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="label">cross</span>
+              <span class="bar"><span class="bar-fill" style="width: 0%;"></span></span>
+              <span class="count">0</span>
+            </div>
+            <div class="breakdown-row is-emergence">
+              <span class="label">emergence ★</span>
+              <span class="bar"><span class="bar-fill is-emergence" style="width: 33%;"></span></span>
+              <span class="count">1</span>
+            </div>
+          </div>
+          <div class="packets-list">
+            <div class="packets-list-title">Recent packets</div>
+            <div class="packet-row">
+              <span class="packet-time">2026-05-12 22:14</span>
+              <div class="packet-title">
+                Marcus hire
+                <span class="excerpt">"you're framing the deadline as external when it may be self-imposed…"</span>
+              </div>
+              <span class="packet-chip auditor">Auditor</span>
+              <span class="packet-chip emergence">★ emergence</span>
+            </div>
+            <div class="packet-row">
+              <span class="packet-time">2026-05-12 20:38</span>
+              <div class="packet-title">
+                Andrew memo
+                <span class="excerpt">"the deeper question is whether positioning is the right variable to change…"</span>
+              </div>
+              <span class="packet-chip analyst">Analyst</span>
+              <span class="packet-chip">inner</span>
+            </div>
+            <div class="packet-row">
+              <span class="packet-time">2026-05-12 19:14</span>
+              <div class="packet-title">
+                Ship vs cut
+                <span class="excerpt">"the ship/cut binary is downstream of what the demo needs to show…"</span>
+              </div>
+              <span class="packet-chip auditor">Auditor</span>
+              <span class="packet-chip">outer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="audit-ribbon">
+          <span class="ar-label">Audit chain</span>
+          <span style="color: rgba(255,255,255,0.1);">·</span>
+          <div class="audit-chips">
+            <span class="chip emergence" title="emergence · Marcus hire">★</span>
+            <span class="chip" title="inner · Andrew memo">●</span>
+            <span class="chip" title="outer · Ship vs cut">●</span>
+            <span class="chip dim">◦</span>
+            <span class="chip dim">◦</span>
+          </div>
+          <span style="color: rgba(255,255,255,0.1);">·</span>
+          <span class="audit-tail">3 events · vault accumulating</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="spec-footer">
+    <div><span style="color: rgba(242,240,236,0.55);">◇</span> Liminal · Composition · v0.2-MVP · 2026-05-12</div>
+    <div>Built against cut 01 speedrun brand canon · PerfectlyNineties / NinetiesHeadliner / Geist Mono</div>
+  </footer>
+
+</div>
+
+</body>
+</html>
