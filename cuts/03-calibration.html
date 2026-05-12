@@ -434,6 +434,39 @@
   }
 
   /* Vault calibration footer */
+  /* ─── v0.9.3 — cut 03 minimal anointment ──────────────────────────────
+     Cut 03 is a dashboard view (12wk × 4-register vault heatmap), not a
+     workspace. Most v0.9 moves don't fit. Only two apply:
+       1. title hero — 1.5rem → 36px
+       2. thin packet-receipt strip below the prose footer
+     (no vault pill in this cut · skipped)
+     ──────────────────────────────────────────────────────────────────── */
+  .cal-title {
+    font-size: 36px !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.05 !important;
+  }
+  /* Thin packet-receipt strip below the existing prose footer */
+  .frame-receipt {
+    display: flex; gap: 14px; align-items: center;
+    padding: 8px 24px;
+    border-top: 1px solid var(--frame-border);
+    background: var(--frame-bg);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    overflow: hidden; white-space: nowrap;
+  }
+  .frame-receipt .fr-glyph { color: var(--accent, var(--p-accent)); }
+  .frame-receipt .fr-strong { color: var(--text-mid); }
+  .frame-receipt .fr-right { margin-left: auto; opacity: 0.72; }
+
+  /* boot staging — cut 03 has no shell boot system; receipt fades in */
+  .frame-receipt { transition: opacity 320ms ease; }
+
   .cal-footer {
     flex-shrink: 0;
     padding-top: 1rem;
@@ -994,6 +1027,27 @@
   refresh();
   // v0.8.5 F5 — fade body in after initial refresh() completes
   requestAnimationFrame(() => document.body.classList.add("ready"));
+</script>
+
+<!-- v0.9.3 · cut 03 thin packet-receipt strip below the prose footer -->
+<script>
+(function cut03Receipt() {
+  function inject() {
+    const frame = document.querySelector('.frame');
+    if (!frame || frame.querySelector('.frame-receipt')) return;
+    const receipt = document.createElement('div');
+    receipt.className = 'frame-receipt';
+    receipt.innerHTML = `
+      <span class="fr-glyph">◇</span>
+      <span class="fr-strong">read · vault-calibration-12wk</span>
+      <span>23 corrections · 4 registers · personal</span>
+      <span class="fr-right">device-local · pattern is the signal</span>
+    `;
+    frame.appendChild(receipt);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(inject, 50));
+  else setTimeout(inject, 50);
+})();
 </script>
 
 </body>
