@@ -604,6 +604,154 @@
     border-radius: 18px 4px 22px 6px / 4px 18px 6px 22px;
     pointer-events: none; opacity: 0.4;
   }
+
+  /* ─── v0.9.3 — cut 02 anointment + doc-shape primitives ───────────────
+     Cut 02 is doc-shape (sequential prose flow), not workspace-shape.
+     v0.9 moves from cut 01 are translated, not copy-pasted:
+       1. doc-title is hero — was already 32px, now 40px display
+       2. verdict-band lifted above the doc — decision before evidence
+          (parallel to "brief above tiles" in cut 01)
+       3. intake list collapsed behind + disclosure (was shouting 8 lines)
+       4. contrarian magenta softened (same move as cut 01)
+       5. vault pill carries · +1 read today delta
+       6. bottombar promoted to packet-receipt format
+       7. respects cut 02's existing .ready boot pattern (not [data-boot])
+     Scoped to per-cut <style> + body-end <script>. Shell untouched.
+     ──────────────────────────────────────────────────────────────────── */
+
+  /* 1. Doc title hero */
+  .doc-title {
+    font-size: 40px !important;
+    font-weight: 500 !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.05 !important;
+    margin-bottom: 10px !important;
+  }
+
+  /* 2. Verdict-band (injected) — three-cell promotion above the agency reads */
+  .verdict-band {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 0 0 28px 0;
+    border-top: 1px solid var(--frame-border);
+    border-bottom: 1px solid var(--frame-border);
+    background: var(--frame-bg);
+  }
+  .vb-cell {
+    padding: 14px 20px;
+    border-right: 1px solid var(--frame-border);
+  }
+  .vb-cell:last-child { border-right: none; }
+  .vb-label {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--text-faint); letter-spacing: 0.18em;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .vb-value {
+    font-family: var(--display); font-size: 22px;
+    color: var(--text); font-weight: 500;
+    letter-spacing: -0.02em; line-height: 1.15;
+    margin-bottom: 2px;
+  }
+  .vb-caption {
+    font-family: var(--serif); font-size: 11px;
+    color: var(--text-mid); font-style: italic;
+    line-height: 1.3;
+  }
+  .vb-cell.is-verdict .vb-value { color: var(--judgment, var(--p-accent)); }
+
+  /* 3. Intake disclosure — wrap the rough list behind a + accordion.
+     The label + list become content of the disclosure body. */
+  .intake-disclosure {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0;
+    margin-bottom: 18px;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-faint); letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+    border-top: 1px solid var(--frame-border);
+    border-bottom: 1px solid var(--frame-border);
+    transition: color 180ms;
+    user-select: none;
+  }
+  .intake-disclosure:hover { color: var(--text-mid); }
+  .intake-disclosure .id-plus {
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 1px solid var(--card-border-2, rgba(255,255,255,0.18));
+    border-radius: 2px;
+    text-align: center; line-height: 12px;
+    font-size: 10px; color: var(--text-faint);
+    transition: transform 180ms, color 180ms;
+  }
+  .intake-disclosure[aria-expanded="true"] .id-plus { transform: rotate(45deg); color: var(--text); }
+  .intake-disclosure .id-meta {
+    margin-left: auto;
+    color: var(--text-faint);
+    text-transform: none;
+    letter-spacing: 0.04em;
+    font-size: 10px;
+  }
+  /* hide the original label + list when intake is collapsed; show only
+     when disclosure is expanded (intake-collapsed class on body) */
+  body.intake-collapsed .rough-notes-label,
+  body.intake-collapsed .rough-list {
+    display: none;
+  }
+
+  /* 4. Contrarian softened */
+  .mystic-margin {
+    background: color-mix(in oklch, var(--judgment-bg, rgba(247,121,78,0.12)) 65%, transparent) !important;
+    border-left-color: color-mix(in oklch, var(--judgment, rgba(247,121,78,0.78)) 70%, transparent) !important;
+  }
+  .mystic-attr { opacity: 0.78; }
+  .mystic-quote { color: var(--text-mid) !important; }
+
+  /* 5. Vault pill delta — match cut 02's "vault: N · M reads" shape */
+  .vault-pill::after {
+    content: " · +1 read today";
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--p-accent);
+    opacity: 0.72;
+    margin-left: 6px;
+  }
+
+  /* 6. Bottombar promoted to packet-receipt format */
+  .bottombar {
+    /* keep the existing flex layout from shell, just add receipt vibe */
+    border-top: 1px solid var(--frame-border);
+  }
+  .bottombar .receipt-glyph {
+    color: var(--p-accent);
+    margin-right: 8px;
+  }
+  .bottombar .receipt-id {
+    color: var(--text-mid);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    margin-right: 10px;
+  }
+  .bottombar .receipt-state {
+    color: var(--text-faint);
+    font-family: var(--mono);
+    font-size: 9.5px;
+    letter-spacing: 0.1em;
+    margin-left: 10px;
+  }
+
+  /* 7. Boot staging — cut 02 uses body.ready (line 118-119), not [data-boot] */
+  body:not(.ready) .verdict-band,
+  body:not(.ready) .intake-disclosure {
+    opacity: 0;
+  }
+  .verdict-band, .intake-disclosure {
+    transition: opacity 320ms ease;
+  }
 </style>
 </head>
 <body data-product="business">
@@ -1170,6 +1318,172 @@
   setProduct("business");
   // v0.8.5 F5 — fade body in after initial render is configured
   requestAnimationFrame(() => document.body.classList.add("ready"));
+</script>
+
+<!-- v0.9.3 · cut 02 anointment + doc-shape primitives
+     1. verdict-band injected above the doc-flow
+     2. intake list wrapped behind + disclosure (collapsed by default)
+     3. bottombar promoted to packet-receipt format
+     Re-renders on scenario switch via MutationObserver on #doc-title. -->
+<script>
+(function cut02InterfacePatterns() {
+  function pickVerdictTone() {
+    /* Cut 02's pillar/featured_pillar maps verdict color via CSS; we read
+       the verdict-badge text to choose a tone — fallback graceful if absent. */
+    const badge = (document.getElementById('verdict-badge')?.textContent || '').toLowerCase();
+    if (badge.includes('refus') || badge.includes('hold')) return 'hold';
+    if (badge.includes('escalat')) return 'escalate';
+    if (badge.includes('approve') || badge.includes('confirm')) return 'approve';
+    return 'calibrate';
+  }
+
+  function ensureVerdictBand() {
+    const docContent = document.querySelector('.doc-content');
+    const tags = document.getElementById('doc-tags');
+    if (!docContent || !tags) return;
+
+    let band = docContent.querySelector('.verdict-band');
+    if (!band) {
+      band = document.createElement('div');
+      band.className = 'verdict-band';
+      tags.parentNode.insertBefore(band, tags.nextSibling);
+    }
+
+    /* Compose three cells from existing rendered DOM:
+       cell 1 — read-shape (from doc-meta tail token)
+       cell 2 — verdict (from verdict-badge + verdict-title)
+       cell 3 — agency state (from active register, e.g. SYNTHESIS streaming) */
+    const docMeta = document.getElementById('doc-meta')?.textContent || '';
+    const shape = docMeta.split('·').pop()?.trim() || 'case';
+    const verdictBadge = document.getElementById('verdict-badge')?.textContent || 'verdict';
+    const verdictTitle = document.getElementById('verdict-title')?.textContent || '·';
+    const verdictSub = document.getElementById('verdict-sub')?.textContent || '';
+    const agencyActive = document.querySelector('.register-block.is-active .reg-name')?.textContent
+                       || document.querySelector('[data-register].is-active')?.dataset?.register
+                       || 'reading';
+
+    band.innerHTML = `
+      <div class="vb-cell">
+        <div class="vb-label">Read shape</div>
+        <div class="vb-value">${shape}</div>
+        <div class="vb-caption">surface posture for this case</div>
+      </div>
+      <div class="vb-cell is-verdict">
+        <div class="vb-label">${verdictBadge}</div>
+        <div class="vb-value">${verdictTitle}</div>
+        <div class="vb-caption">${verdictSub}</div>
+      </div>
+      <div class="vb-cell">
+        <div class="vb-label">Agency</div>
+        <div class="vb-value">${agencyActive}</div>
+        <div class="vb-caption">12 bounded · live</div>
+      </div>
+    `;
+  }
+
+  function ensureIntakeDisclosure() {
+    const docContent = document.querySelector('.doc-content');
+    const label = docContent?.querySelector('.rough-notes-label');
+    const list = document.getElementById('rough-list');
+    if (!docContent || !label || !list) return;
+
+    if (!docContent.querySelector('.intake-disclosure')) {
+      const disclosure = document.createElement('div');
+      disclosure.className = 'intake-disclosure';
+      disclosure.setAttribute('role', 'button');
+      disclosure.setAttribute('tabindex', '0');
+      disclosure.setAttribute('aria-expanded', 'false');
+      disclosure.innerHTML = `
+        <span class="id-plus">+</span>
+        <span>Intake · case file</span>
+        <span class="id-meta">${list.children.length} items</span>
+      `;
+      label.parentNode.insertBefore(disclosure, label);
+      const toggle = () => {
+        const expanded = disclosure.getAttribute('aria-expanded') === 'true';
+        disclosure.setAttribute('aria-expanded', String(!expanded));
+        document.body.classList.toggle('intake-collapsed', expanded);
+      };
+      disclosure.addEventListener('click', toggle);
+      disclosure.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+      /* start collapsed */
+      document.body.classList.add('intake-collapsed');
+    } else {
+      /* update count on scenario change */
+      const meta = docContent.querySelector('.intake-disclosure .id-meta');
+      if (meta) meta.textContent = `${list.children.length} items`;
+    }
+  }
+
+  function ensureReceipt() {
+    const bar = document.querySelector('.bottombar');
+    if (!bar) return;
+    /* Don't replace the existing prompt + meta inside the bar; prepend
+       receipt-glyph + receipt-id and append receipt-state. Idempotent
+       via class lookup. */
+    if (!bar.querySelector('.receipt-glyph')) {
+      const glyph = document.createElement('span');
+      glyph.className = 'receipt-glyph';
+      glyph.textContent = '◇';
+      bar.insertBefore(glyph, bar.firstChild);
+
+      const id = document.createElement('span');
+      id.className = 'receipt-id';
+      bar.insertBefore(id, bar.children[1] || null);
+
+      const state = document.createElement('span');
+      state.className = 'receipt-state';
+      const meta = bar.querySelector('.input-meta');
+      if (meta) bar.insertBefore(state, meta);
+      else bar.appendChild(state);
+    }
+
+    /* refresh content from current scenario */
+    const breadcrumb = document.getElementById('breadcrumb')?.textContent?.trim() || '';
+    const slug = breadcrumb.toLowerCase().replace(/[·\s]+/g, '-').replace(/[^a-z0-9-]/g, '').slice(0, 32) || 'read';
+    const id = bar.querySelector('.receipt-id');
+    const state = bar.querySelector('.receipt-state');
+    if (id) id.textContent = `read · ${slug}`;
+    if (state) state.textContent = '· vault-sealed · device-local';
+  }
+
+  function inject() {
+    ensureVerdictBand();
+    ensureIntakeDisclosure();
+    ensureReceipt();
+  }
+
+  function boot() {
+    /* defer past renderDoc so DOM has scenario content */
+    setTimeout(inject, 80);
+
+    /* re-render on scenario change · #doc-title.textContent flips */
+    const title = document.getElementById('doc-title');
+    if (title) {
+      const obs = new MutationObserver(() => requestAnimationFrame(inject));
+      obs.observe(title, { childList: true, characterData: true, subtree: true });
+    }
+
+    /* also catch product-tab switches (body[data-product] flips) */
+    const bodyObs = new MutationObserver(records => {
+      for (const r of records) {
+        if (r.attributeName === 'data-product') {
+          requestAnimationFrame(inject);
+          return;
+        }
+      }
+    });
+    bodyObs.observe(document.body, { attributes: true, attributeFilter: ['data-product'] });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();
 </script>
 </body>
 </html>
