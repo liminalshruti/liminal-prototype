@@ -1469,6 +1469,56 @@
       font-size: 26px;
     }
   }
+
+  /* ─── v0.9.3 — cut 08 custody anointment ──────────────────────────────
+     Cut 08 (natsec custody view) already has hero-stats which is the
+     equivalent of a metric-band; we don't need to inject one. Three moves:
+       1. center-title 32 -> 40px
+       2. vault-pill delta for desktop-demo state
+       3. footer packet-receipt promotion (custody-packet format)
+     ──────────────────────────────────────────────────────────────────── */
+  .center-title {
+    font-size: 40px !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.05 !important;
+  }
+  .vault-pill::after {
+    content: " · custody chain · 14 events";
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--accent, var(--p-accent));
+    opacity: 0.72;
+    margin-left: 6px;
+  }
+  /* hero-stats — promote spacing + label register to match the metric-band primitive */
+  .hero-stats {
+    border-top: 1px solid var(--frame-border, rgba(255,255,255,0.08));
+    border-bottom: 1px solid var(--frame-border, rgba(255,255,255,0.08));
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+  }
+  .hero-stat-label {
+    text-transform: uppercase;
+    letter-spacing: 0.18em !important;
+  }
+
+  /* footer packet-receipt strip */
+  .frame-receipt {
+    display: flex; gap: 14px; align-items: center;
+    padding: 8px 24px;
+    border-top: 1px solid var(--frame-border, rgba(255,255,255,0.08));
+    background: var(--frame-bg, #0E0E11);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px;
+    color: var(--text-faint, rgba(255,255,255,0.4));
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    overflow: hidden; white-space: nowrap;
+  }
+  .frame-receipt .fr-glyph { color: var(--accent, var(--p-accent)); }
+  .frame-receipt .fr-strong { color: var(--text-mid, rgba(255,255,255,0.7)); }
+  .frame-receipt .fr-right { margin-left: auto; opacity: 0.72; }
 </style>
 </head>
 <body data-product="business">
@@ -2722,5 +2772,26 @@
   }
 </script>
 <script src="../lib/brand-upgrade.js"></script>
+
+<!-- v0.9.3 · cut 08 custody packet-receipt strip -->
+<script>
+(function cut08Receipt() {
+  function inject() {
+    const frame = document.querySelector('.frame, .custody-stage');
+    if (!frame || frame.querySelector('.frame-receipt')) return;
+    const receipt = document.createElement('div');
+    receipt.className = 'frame-receipt';
+    receipt.innerHTML = `
+      <span class="fr-glyph">◇</span>
+      <span class="fr-strong">custody-packet · case-014</span>
+      <span>14 events · 3 guards · 1 contested</span>
+      <span class="fr-right">evidence integrity before command · device-local</span>
+    `;
+    frame.appendChild(receipt);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(inject, 50));
+  else setTimeout(inject, 50);
+})();
+</script>
 </body>
 </html>
