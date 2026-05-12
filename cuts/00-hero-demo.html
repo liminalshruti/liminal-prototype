@@ -1029,6 +1029,74 @@
   .doc-scroll::-webkit-scrollbar { width: 6px; }
   .doc-scroll::-webkit-scrollbar-track { background: transparent; }
   .doc-scroll::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+
+  /* ─── v0.9.3 — cut 00 hero anointment + doc-shape primitives ─────────
+     Translated from cut 02's v0.9.3 treatment (PR #5). Cut 00 is doc-shape
+     (single scenario, no switcher), so no MutationObserver needed — just
+     static injection of: title hero · verdict-band · intake disclosure ·
+     contrarian soften · vault delta · bottombar receipt.
+     ──────────────────────────────────────────────────────────────────── */
+
+  .doc-title { font-size: 40px !important; font-weight: 500 !important; letter-spacing: -0.025em !important; line-height: 1.05 !important; margin-bottom: 10px !important; }
+
+  .verdict-band {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    margin: 0 0 28px 0;
+    border-top: 1px solid var(--frame-border);
+    border-bottom: 1px solid var(--frame-border);
+    background: var(--frame-bg);
+  }
+  .vb-cell { padding: 14px 20px; border-right: 1px solid var(--frame-border); }
+  .vb-cell:last-child { border-right: none; }
+  .vb-label { font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 4px; }
+  .vb-value { font-family: var(--display); font-size: 22px; color: var(--text); font-weight: 500; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 2px; }
+  .vb-caption { font-family: var(--serif); font-size: 11px; color: var(--text-mid); font-style: italic; line-height: 1.3; }
+  .vb-cell.is-verdict .vb-value { color: var(--judgment, var(--p-accent)); }
+
+  .intake-disclosure {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0; margin-bottom: 18px;
+    font-family: var(--mono); font-size: 10px; color: var(--text-faint);
+    letter-spacing: 0.14em; text-transform: uppercase; cursor: pointer;
+    border-top: 1px solid var(--frame-border); border-bottom: 1px solid var(--frame-border);
+    transition: color 180ms; user-select: none;
+  }
+  .intake-disclosure:hover { color: var(--text-mid); }
+  .intake-disclosure .id-plus {
+    display: inline-block; width: 14px; height: 14px;
+    border: 1px solid var(--card-border-2, rgba(255,255,255,0.18));
+    border-radius: 2px; text-align: center; line-height: 12px;
+    font-size: 10px; color: var(--text-faint);
+    transition: transform 180ms, color 180ms;
+  }
+  .intake-disclosure[aria-expanded="true"] .id-plus { transform: rotate(45deg); color: var(--text); }
+  .intake-disclosure .id-meta { margin-left: auto; color: var(--text-faint); text-transform: none; letter-spacing: 0.04em; font-size: 10px; }
+  body.intake-collapsed .rough-notes-label,
+  body.intake-collapsed .rough-list { display: none; }
+
+  .mystic-margin {
+    background: color-mix(in oklch, var(--judgment-bg, rgba(247,121,78,0.12)) 65%, transparent) !important;
+    border-left-color: color-mix(in oklch, var(--judgment, rgba(247,121,78,0.78)) 70%, transparent) !important;
+  }
+  .mystic-attr { opacity: 0.78; }
+  .mystic-quote { color: var(--text-mid) !important; }
+
+  .vault-pill::after {
+    content: " · +2 this hour";
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.1em; color: var(--p-accent);
+    opacity: 0.72; margin-left: 6px;
+  }
+
+  .bottombar { border-top: 1px solid var(--frame-border); }
+  .bottombar .receipt-glyph { color: var(--p-accent); margin-right: 8px; }
+  .bottombar .receipt-id { color: var(--text-mid); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; margin-right: 10px; }
+  .bottombar .receipt-state { color: var(--text-faint); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; margin-left: 10px; }
+
+  /* boot staging — cut 00 uses body.ready */
+  body:not(.ready) .verdict-band,
+  body:not(.ready) .intake-disclosure { opacity: 0; }
+  .verdict-band, .intake-disclosure { transition: opacity 320ms ease; }
 </style>
 <link rel="stylesheet" href="lib/brand-upgrade.css">
 </head>
@@ -1403,5 +1471,86 @@ startTyping();
 setInterval(startTyping, 20000);
 </script>
 <script src="lib/brand-upgrade.js"></script>
+
+<!-- v0.9.3 · cut 00 hero anointment + doc-shape primitives
+     Single-scenario, so static injection — no MutationObserver. -->
+<script>
+(function cut00InterfacePatterns() {
+  function inject() {
+    const docContent = document.querySelector('.doc-content') ||
+                       document.querySelector('h1.doc-title')?.closest('div');
+    if (!docContent) return;
+
+    /* 1. Verdict-band — three cells composed from existing DOM */
+    if (!docContent.querySelector('.verdict-band')) {
+      /* Read shape preference: first .tag (e.g. "1pm Northstar") falls back
+         to "partner call" — avoids picking up the timestamp tail of doc-meta. */
+      const firstTag = docContent.querySelector('.doc-tags .tag')?.textContent?.trim();
+      const shape = firstTag || 'partner call';
+      const verdictBadge = docContent.querySelector('.verdict-badge')?.textContent?.trim() || 'NOT READY';
+      const verdictTitle = docContent.querySelector('.verdict-title')?.textContent?.trim() || '·';
+      const verdictSub = docContent.querySelector('.verdict-sub')?.textContent?.trim() || '';
+
+      const band = document.createElement('div');
+      band.className = 'verdict-band';
+      band.innerHTML = `
+        <div class="vb-cell">
+          <div class="vb-label">Read shape</div>
+          <div class="vb-value">${shape}</div>
+          <div class="vb-caption">surface posture for this read</div>
+        </div>
+        <div class="vb-cell is-verdict">
+          <div class="vb-label">${verdictBadge}</div>
+          <div class="vb-value">${verdictTitle}</div>
+          <div class="vb-caption">${verdictSub}</div>
+        </div>
+        <div class="vb-cell">
+          <div class="vb-label">Agency</div>
+          <div class="vb-value">streaming</div>
+          <div class="vb-caption">12 bounded · live</div>
+        </div>
+      `;
+      const tags = docContent.querySelector('.doc-tags');
+      if (tags && tags.parentNode) tags.parentNode.insertBefore(band, tags.nextSibling);
+      else docContent.insertBefore(band, docContent.querySelector('.rough-notes-label'));
+    }
+
+    /* 2. Intake disclosure — wrap rough-notes-label + rough-list */
+    const label = docContent.querySelector('.rough-notes-label');
+    const list = docContent.querySelector('.rough-list');
+    if (label && list && !docContent.querySelector('.intake-disclosure')) {
+      const d = document.createElement('div');
+      d.className = 'intake-disclosure';
+      d.setAttribute('role', 'button'); d.setAttribute('tabindex', '0'); d.setAttribute('aria-expanded', 'false');
+      d.innerHTML = `<span class="id-plus">+</span><span>Intake · context on file</span><span class="id-meta">${list.children.length} items</span>`;
+      label.parentNode.insertBefore(d, label);
+      const toggle = () => {
+        const e = d.getAttribute('aria-expanded') === 'true';
+        d.setAttribute('aria-expanded', String(!e));
+        document.body.classList.toggle('intake-collapsed', e);
+      };
+      d.addEventListener('click', toggle);
+      d.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+      document.body.classList.add('intake-collapsed');
+    }
+
+    /* 3. Bottombar receipt */
+    const bar = document.querySelector('.bottombar');
+    if (bar && !bar.querySelector('.receipt-glyph')) {
+      const glyph = document.createElement('span'); glyph.className = 'receipt-glyph'; glyph.textContent = '◇';
+      bar.insertBefore(glyph, bar.firstChild);
+      const id = document.createElement('span'); id.className = 'receipt-id'; id.textContent = 'read · maia-tuesday-1432';
+      bar.insertBefore(id, bar.children[1] || null);
+      const state = document.createElement('span'); state.className = 'receipt-state'; state.textContent = '· vault-encrypted · 47 signals';
+      const meta = bar.querySelector('.input-meta');
+      if (meta) bar.insertBefore(state, meta); else bar.appendChild(state);
+    }
+  }
+
+  function boot() { setTimeout(inject, 80); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
 </body>
 </html>
