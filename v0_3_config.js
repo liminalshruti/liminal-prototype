@@ -203,7 +203,7 @@ export const SLATE_TRAY_PHASES = {
   phase_1_spec_only:  "v0.3.8 · spec + config locked · no prototype changes",
   phase_2_xtech:      "v0.4.x · Business · Case Console as slate-and-tray surface (May 2-3 demo target)",
   phase_3_desktop:    "v0.5.x · Personal as slate-and-tray surface (May 12 desktop MVP)",
-  phase_3b_team:      "v0.5.x · Team with Brian DRIFT enriched by slate composition",
+  phase_3b_team:      "v0.5.x · Team with Devon DRIFT enriched by slate composition",
   phase_4_v1:         "v1.0+ · spatial primitives (overlap, layer, decay) · adaptive theming · multi-operator slate",
   phase_now_v06:      "v0.6 · Team + Business dual slate/tray prototype (architecture-is-the-product demo)",
 };
@@ -250,8 +250,8 @@ export const TEAM_SUBJECTS = [
     intro: "shared from day one · symmetric coherence read · joint correction class",
   },
   {
-    id: "brian_eng",
-    label: "Brian",
+    id: "devon_eng",
+    label: "Devon",
     role: "Eng · 3yr tenure",
     relationship: "direct-report",
     consent_class: "pattern-baseline-only",
@@ -264,8 +264,8 @@ export const TEAM_SUBJECTS = [
     intro: "21-day own-pattern baseline · governance-graded · no message-content reads",
   },
   {
-    id: "maya_design",
-    label: "Maya",
+    id: "priya_design",
+    label: "Priya",
     role: "Design",
     relationship: "direct-report",
     consent_class: "calendar-attendance-only",
@@ -296,15 +296,15 @@ export const TEAM_SUBJECTS = [
 // Each tile carries a `requires_consent_level` · slate refuses tiles whose
 // requirement exceeds the subject's consent class level.
 export const TEAM_TILES_FOR_SUBJECT = {
-  brian_eng: [
-    { id: "brian_commits_21d",  label: "Commit pattern · 21d",   source: "git",       icon: "◇", requires_level: 1, kind: "pattern" },
-    { id: "brian_calendar_21d", label: "Calendar attendance",     source: "calendar",  icon: "◇", requires_level: 1, kind: "pattern" },
-    { id: "brian_slack_texture", label: "Slack channel texture · 21d", source: "slack", icon: "◇", requires_level: 1, kind: "pattern" },
-    { id: "brian_standups",     label: "Standup attendance",      source: "calendar",  icon: "◇", requires_level: 1, kind: "pattern" },
-    { id: "brian_dms",          label: "Direct messages · ✗",     source: "slack",     icon: "◇", requires_level: 3, kind: "content", refused_reason: "Brian opted into pattern-only · no message-content reads" },
-    { id: "brian_prior_w1",     label: "Prior window · Q4 2024",  source: "vault",     icon: "◈", requires_level: 1, kind: "vault", note: "academic-publication cleanup · resolved benign" },
-    { id: "brian_prior_w2",     label: "Prior window · Mar 2025", source: "vault",     icon: "◈", requires_level: 1, kind: "vault", note: "family bereavement · resolved benign" },
-    { id: "kriti_obsidian",     label: "Kriti's notes on Brian",  source: "obsidian",  icon: "◇", requires_level: 0, kind: "operator-self" },
+  devon_eng: [
+    { id: "devon_commits_21d",  label: "Commit pattern · 21d",   source: "git",       icon: "◇", requires_level: 1, kind: "pattern" },
+    { id: "devon_calendar_21d", label: "Calendar attendance",     source: "calendar",  icon: "◇", requires_level: 1, kind: "pattern" },
+    { id: "devon_slack_texture", label: "Slack channel texture · 21d", source: "slack", icon: "◇", requires_level: 1, kind: "pattern" },
+    { id: "devon_standups",     label: "Standup attendance",      source: "calendar",  icon: "◇", requires_level: 1, kind: "pattern" },
+    { id: "devon_dms",          label: "Direct messages · ✗",     source: "slack",     icon: "◇", requires_level: 3, kind: "content", refused_reason: "Devon opted into pattern-only · no message-content reads" },
+    { id: "devon_prior_w1",     label: "Prior window · Q4 2024",  source: "vault",     icon: "◈", requires_level: 1, kind: "vault", note: "academic-publication cleanup · resolved benign" },
+    { id: "devon_prior_w2",     label: "Prior window · Mar 2025", source: "vault",     icon: "◈", requires_level: 1, kind: "vault", note: "family bereavement · resolved benign" },
+    { id: "maia_obsidian",      label: "Maia's notes on Devon",   source: "obsidian",  icon: "◇", requires_level: 0, kind: "operator-self" },
   ],
   sean_cofounder: [
     { id: "sean_commits_17d",   label: "Commit pattern · 17d",    source: "git",      icon: "◇", requires_level: 1, kind: "pattern" },
@@ -1036,30 +1036,30 @@ export const BUSINESS_SCENARIOS = [
 
 // ─── Team scenarios · peer-read shape (LOCKED v0.3.7) ─────────────────────
 // Per Thread 1 substrate work · Team is the peer-read surface.
-// Brian DRIFT is canonical (per v0.2 cut 06). Cofounder coherence is the
+// Devon DRIFT is canonical (per v0.2 cut 06). Cofounder coherence is the
 // case-toggle pair (per v0.2 cut 05). First-hire alignment is joint-correction.
 // 5-stages-of-forming retro moves here (provisional · ambiguous between Team
 // and Business · folded into Team for v0.3.7).
 export const TEAM_SCENARIOS = [
   {
-    id: "manager_brian_drift",
-    label: "Brian DRIFT · weekly coherence read",
-    operator: "kriti · founding-team manager · liminal · eng",
-    case_file: "brian · 21-day own-baseline window · stated focus on roadmap unchanged · cadence of commits down 38% · breadth of references narrowed · slack texture flattened · daemon surfaces a drift",
+    id: "manager_devon_drift",
+    label: "Devon DRIFT · weekly coherence read",
+    operator: "maia · founding-team manager · liminal · eng",
+    case_file: "devon · 21-day own-baseline window · stated focus on roadmap unchanged · cadence of commits down 38% · breadth of references narrowed · slack texture flattened · daemon surfaces a drift",
     reads: {
-      operator: "brian's own-pattern baseline · 21 days · daemon registers drift · not a flag, an ask",
+      operator: "devon's own-pattern baseline · 21 days · daemon registers drift · not a flag, an ask",
       strategist: "options · do-nothing-and-watch (low cost, low signal) · 1:1 ask (medium cost, medium signal) · role-shape question (high cost, structural). the 1:1 ask is governance-graded, not a flag.",
-      synthesizer: "brian's prior 21-day windows · 2 had similar drifts · both resolved benign (one after a child was born, one after a relocation). this drift sits at the edge of those two patterns.",
-      contrarian: "the prior-pattern read is comfortable. but maybe the read is YOUR pattern, not brian's · you've been reading him through your own stress lately. check whether the drift is in him or in your read.",
-      planner: "1:1 thursday · pre-read: brian's last 30 days of commits · texture of his slack updates · don't open with the drift, open with what he's working on",
-      manager: "consent · audit chain visible to brian on request · this is not a flag, this is a structured ask. the system suggests a 1:1 · you are the loop.",
+      synthesizer: "devon's prior 21-day windows · 2 had similar drifts · both resolved benign (one after a child was born, one after a relocation). this drift sits at the edge of those two patterns.",
+      contrarian: "the prior-pattern read is comfortable. but maybe the read is YOUR pattern, not devon's · you've been reading him through your own stress lately. check whether the drift is in him or in your read.",
+      planner: "1:1 thursday · pre-read: devon's last 30 days of commits · texture of his slack updates · don't open with the drift, open with what he's working on",
+      manager: "consent · audit chain visible to devon on request · this is not a flag, this is a structured ask. the system suggests a 1:1 · you are the loop.",
     },
     disagreements: [
-      { a: "synthesizer", b: "contrarian", on: "drift in brian vs. drift in your read of brian" },
+      { a: "synthesizer", b: "contrarian", on: "drift in devon vs. drift in your read of devon" },
       { a: "strategist",  b: "contrarian", on: "1:1-ask vs. self-check first" },
     ],
     refusal: [
-      { agent_id: "operator", scope: "attribution-of-cause · operator does not name what's wrong with brian, only what the daemon registered" },
+      { agent_id: "operator", scope: "attribution-of-cause · operator does not name what's wrong with devon, only what the daemon registered" },
     ],
     correction_targets: ["synthesizer", "contrarian"],
     vault_calibration: "for own-baseline drift reads, you've corrected toward 'self-check first' 4 of 7 times in the last 90 days · calibration: surface contrarian's mirror-check before strategist's intervention options.",

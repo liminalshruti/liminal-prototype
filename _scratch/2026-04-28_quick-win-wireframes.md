@@ -99,7 +99,7 @@ Per the inspo investigation: investors pattern-match diagrams as IP receipts; pa
 ### Where the line originates
 
 Per `cut-01-slate-tray.html` body `data-product`:
-- **Team product** → line originates from a slate tile (e.g., Brian's narrowing-pattern tile) → terminates at Cut 08 (Disagreement Console). *"Seeing 12 agents disagree about Brian is the next move from reading Brian on the slate."*
+- **Team product** → line originates from a slate tile (e.g., Devon's narrowing-pattern tile) → terminates at Cut 08 (Disagreement Console). *"Seeing 12 agents disagree about Devon is the next move from reading Devon on the slate."*
 - **Personal product** → line originates from operator's own-pattern tile → terminates at Cut 07 (Diligence Memo) when the operator is mid-fundraise context. *"Reading your own pattern flows into producing the diligence memo a partner asks for."*
 - **Creative product** → line could terminate at either (deferred — Creative ICP is a Phase 2 audience for #1 and #3)
 
@@ -244,13 +244,13 @@ Status     · wireframe (this doc) → stub → live
 │ ◇ LIMINAL · DISAGREEMENT                            [⌘⇧8]  [⌘⇧1 back]│
 ├──────────────────────────────────────────────────────────────────────┤
 │                                                                       │
-│   INPUT · "Brian missed standup again. Maya is fielding questions     │
+│   INPUT · "Devon missed standup again. Maia is fielding questions    │
 │           about him. Customer X escalated for 3rd week."              │
 │                                                                       │
 │                                                                       │
 │              ┌─────────── DILIGENCE ─────────────┐                    │  ← register arc · top
 │              │   ◉ Operator        ◉ Synthesizr  │                    │     concave plate per
-│              │      "pattern…"        "Brian's…"  │                    │     Pinterest pin shape
+│              │      "pattern…"        "Devon's…" │                    │     Pinterest pin shape
 │              │           ⊘ Witness                │                    │
 │              │           "REFUSE→Strategist"      │                    │
 │              └────────────────────────────────────┘                    │
@@ -289,7 +289,7 @@ Status     · wireframe (this doc) → stub → live
 | Refusal arrows | Curved SVG path from refusing agent to target agent across plates. 1px stroke, accent-tinted to TARGET agent's register, terminating in small arrowhead. Per Pinterest pin directional arrows. | New SVG |
 | Convergence indicator | When 2+ in-lane agents reach similar judgment, a subtle 1px arc connects them through the center ◇. Drawn only when convergence detected, not always. | New convergence detector |
 | Coverage line at bottom | "12 agents · 5 in lane · 3 refused with named redirect · 4 queued" — mono, accent-tinted at faint opacity. The architectural claim made counted. | New computed field |
-| Glowing-line origin | Connector enters from cut-01's slate (e.g., from Brian's narrowing-pattern tile). The input field at top of cut-08 receives the slate's input contextually. | Wireframe pattern §"glowing-line connector" |
+| Glowing-line origin | Connector enters from cut-01's slate (e.g., from Devon's narrowing-pattern tile). The input field at top of cut-08 receives the slate's input contextually. | Wireframe pattern §"glowing-line connector" |
 
 ### What it does NOT have
 
@@ -331,7 +331,7 @@ Per `cut-01-slate-tray.html` body `data-product`:
 
 | Cut-01 product | Slate tile origin | Line terminates at | Why this pairing |
 |---|---|---|---|
-| Team (Brian read) | Brian's narrowing-pattern tile | Cut 08 (Disagreement Console) | "Seeing 12 agents disagree about Brian is the next move from reading him on the slate" |
+| Team (Devon read) | Devon's narrowing-pattern tile | Cut 08 (Disagreement Console) | "Seeing 12 agents disagree about Devon is the next move from reading him on the slate" |
 | Personal (own-baseline) | Operator's own-pattern tile | Cut 07 (Diligence Memo) | "Reading your own pattern flows into producing the diligence memo a partner is asking for" |
 | Creative (Field Studio) | Field Studio rebrand tile | (deferred) | Creative ICP is Phase 2 for both #1 and #3 |
 
@@ -359,7 +359,7 @@ Captions in mono, accent-tinted, readable at thumbnail size.
 - **Specify SVG path data.** Same reason
 - **Touch `lib/agency.js` to extend it.** The agency runtime already supports the data shape these screens need; the screens are new view layers on existing state. If extension is needed, that's an HTML-pass scope decision
 - **Pick the test dataroom for Cut 07.** Open question — synthetic (you draft) vs real (from AgentHansa interactions). Gating decision before HTML
-- **Pick the test scenario for Cut 08.** The Brian-narrowing-pattern scenario from cut-01 is the obvious default. Gating decision before HTML
+- **Pick the test scenario for Cut 08.** The Devon-narrowing-pattern scenario from cut-01 is the obvious default. Gating decision before HTML
 
 ---
 
@@ -370,7 +370,7 @@ Captions in mono, accent-tinted, readable at thumbnail size.
 | 1 | Cut 07 = Diligence Memo, Cut 08 = Disagreement Console — picked from the 5 candidates per prior triage. Right? | Yes | If you want #4 Dataroom Intake first or #2 Topology, name it |
 | 2 | Both new cuts ship as **iframe-loaded** in the catalog (not inline stubs) — i.e., real HTML files under `cuts/`. Right? | Yes | If you want stubs first to test the nav, that's a 5-min add |
 | 3 | Glowing-line connector lives in **parent shell** (`index.html`), not inside cut-01 iframe — preserves cut-01 standalone. Right? | Yes | If you want the line inside cut-01 (deeper integration but breaks standalone), that's the override |
-| 4 | Cut 07 line originates from **Personal-product own-pattern tile**; Cut 08 from **Team-product Brian tile**. Right? | Yes | If different pairings, name them per the table above |
+| 4 | Cut 07 line originates from **Personal-product own-pattern tile**; Cut 08 from **Team-product Devon tile**. Right? | Yes | If different pairings, name them per the table above |
 | 5 | Inspo register: **flat, saturated, hard-edged, instrument-grade** per Houdini #3 + Pinterest pin. NOT atmospheric / soft-glow / gradient-mist per v0.2 deck push. Right? | Yes | If atmospheric is preferred, that's the register-shift override (will read as inconsistent with the inspo investigation finding) |
 | 6 | Add the new "ICP screens" section to catalog rail with count of 2. Right? | Yes | Or add to "Speced not built" with stub status until iframes ship |
 | 7 | Token-canon discipline: zero token redefinition; all accents pulled from `design-tokens.css` 12-wheel; zero new colors. Right? | Yes | Non-negotiable per `_template.html` contract |

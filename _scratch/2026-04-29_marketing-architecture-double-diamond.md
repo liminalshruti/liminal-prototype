@@ -27,7 +27,7 @@ canon:
   - liminal-ip/06-evidence/INVENTIONS.md §10 (PPA #8 Packet Abstraction)
   - liminal-prototype design-tokens.css + cut-shell.css
   - personae/_meta/PERSONA_ARCHITECTURE.md (multi-ICP framing)
-  - personae/maya-chen-founder-os/identity.json (three-tagline strategy)
+  - personae/maia-founder-os/identity.json (three-tagline strategy)
   - PRIVACY_INVARIANTS.md (Options D + E substrate-preserving deliverable patterns)
   - COPY_AUDIT_2026-04-28.md (inspo register correction)
   - SR007-APPLICATION-DRAFT.md v4 (cites Company Website field)
@@ -69,11 +69,11 @@ These are decisions made + landed canonically across the corpus — they're cons
 | Three URLs · `liminalos.ai` + `liminalos.app` + `liminalos.dev` | Apr 29 evening, this session | Three sites, three domains, MECE coverage |
 | MECE JTBD split: brand / product / build | Apr 29 evening | Each site answers one visitor question only |
 | Packet abstraction as canonical IP primitive | INVENTIONS.md §10 PPA #8, propagated across 4 zones | The packet is the deliverable layer; substrate is the moat — must be visible on at least the brand site |
-| Maya Chen synthetic-substrate two-track discipline | personae/_meta/PERSONA_ARCHITECTURE.md | Marketing must use synthetic substrate, not real-Shruti substrate, for any persona/scenario rendering |
+| Maia synthetic-substrate two-track discipline | personae/_meta/PERSONA_ARCHITECTURE.md | Marketing must use synthetic substrate, not real-Shruti substrate, for any persona/scenario rendering |
 | Inspo register correction · instrumentation-grade, not atmospheric | COPY_AUDIT_2026-04-28.md | Hard-edged SVG over soft gradient; mono labels with accent dots; orbital diagram vocabulary; no glow halos / atmospheric blur / decorative ambient washes |
 | Brand OS Canon v4 expressiveness policy | liminal-creative/CLAUDE.md | Every expressive surface must answer "what signal does this render?" — gradients/grain/glass require measured-data justification |
 | Locked brand sentence | "Liminal gives form to inner life." | Must appear on every site, brand-canon-protected |
-| Three taglines per audience-keyed surface swap | personae/maya-chen-founder-os/identity.json | Each site can use its register-appropriate tagline (YC-aligned for `.ai`, Speedrun-aligned for `.app`, dev-aligned for `.dev`) without contradicting the others |
+| Three taglines per audience-keyed surface swap | personae/maia-founder-os/identity.json | Each site can use its register-appropriate tagline (YC-aligned for `.ai`, Speedrun-aligned for `.app`, dev-aligned for `.dev`) without contradicting the others |
 | PRIVACY_INVARIANTS Options D + E (Persona Export + Packet Sharing) | PRIVACY_INVARIANTS.md | Marketing can NOT introduce telemetry or vault-content-leaving-device patterns that contradict the structural-privacy invariants |
 | v0 wellness app at `theliminalspace.io` retired but preserved as artifact | This morning's URL audit | v0 must be honestly named + linked, not hidden |
 | `liminalwoman.substack.com` is the founder-voice publishing surface | Apr 28 corpus | Substack stays where it is; marketing sites link to it as JTBD-3 / publishing surface |
@@ -89,7 +89,7 @@ These are the questions Discover-phase has surfaced. Each needs an answer in Def
 2. What's the exact content boundary for `liminalos.app`? (Prototype redeployed verbatim, vs curated cut subset, vs new shell wrapping cuts as iframes, vs entirely new app surface)
 3. What's the exact content boundary for `liminalos.dev`? (Static landing linking to GitHub, vs GitHub Pages of an actual repo, vs hybrid pulling live README/PR data, vs documentation site for the open-source agents)
 4. Where does the packet abstraction live across the three? (Brand site only, all three, primary on brand + abbreviated on others, dedicated subdomain for IP-claim depth)
-5. Where does the Maya Chen persona system live? (Internal substrate only — never shipped to marketing, vs surfaced on `liminalos.dev` as canonical demo persona, vs spotlight-rotated across brand site)
+5. Where does the Maia persona system live? (Internal substrate only — never shipped to marketing, vs surfaced on `liminalos.dev` as canonical demo persona, vs spotlight-rotated across brand site)
 6. Where does the AgentHansa judge quote live? (One site, all three, primary on brand + abbreviated on others)
 
 **Cross-site shared infrastructure:**
@@ -165,7 +165,7 @@ Inventory of substrate that exists on disk and would feed the marketing surfaces
 This problem statement does five things:
 
 1. **Names the three sites by URL + JTBD** — locks the MECE structure
-2. **Names "audience-routed" as the architectural primitive** — same audience-keyed surface swap pattern as Maya Chen's three-tagline strategy
+2. **Names "audience-routed" as the architectural primitive** — same audience-keyed surface swap pattern as Maia's three-tagline strategy
 3. **Names "share enough infrastructure to be visually coherent"** — but doesn't lock to monolithic single-source vs distributed (that's a Develop-phase decision)
 4. **Names "integrate without duplicating"** — protects the prototype + agents + Substack from being re-implemented on the marketing surfaces
 5. **Excludes scope-creep** — doesn't mention pricing, lead capture, blog, docs, careers, press kit, anything else
@@ -182,7 +182,7 @@ For each of the 25 open structural questions surfaced in Discover, here are the 
 | 2 | `liminalos.app` content boundary | **Prototype redeployed verbatim.** `liminalos.app` IS `liminal-prototype/index.html` served from a static host. No curation, no shell rewrite. Cuts catalog stays, Cut 01 default | The prototype already does its job. Re-implementing it under a different chrome = duplicate work + drift between prototype and product-site. The prototype's catalog rail IS the product-site's nav |
 | 3 | `liminalos.dev` content boundary | **Single static landing page** with three sections: (a) GitHub repo cards (`liminal-agents` first, `liminal-desktop` second), (b) Heron paper download + abstract, (c) packet schema + INVENTIONS.md §10 highlights + PRIVACY_INVARIANTS verification snippet. No GitHub Pages of an actual repo. No live API pulls | Static = cheapest to maintain + most auditable. Live API pulls add infrastructure for visitor-uncertain benefit. Engineers click through to GitHub for live state anyway |
 | 4 | Packet abstraction location | **Primary on `liminalos.ai` (Section 2 visual centerpiece). Abbreviated mention on `liminalos.dev` (one card in the IP section). Absent on `liminalos.app`** (the product itself demonstrates packets via the agency rail) | Brand site carries the IP claim; engineering site carries the verifiable evidence; product site shows the architecture working. No duplication |
-| 5 | Maya Chen persona location | **Internal substrate only — never publicly shipped.** `liminalos.app` runs the prototype which currently uses synthetic-but-non-Maya try-one cards. If Maya Chen substrate eventually lands in the prototype, it lands as part of the deterministic-replay theatre cut, not on the marketing sites directly | The persona system is a marketing-discipline tool (synthetic substrate for hack submissions + recordings), not a brand-asset to surface publicly. Surfacing Maya on the marketing sites would dilute the audience-routing — visitors would start asking "who is Maya" |
+| 5 | Maia persona location | **Internal substrate only — never publicly shipped.** `liminalos.app` runs the prototype which currently uses synthetic-but-non-Maya try-one cards. If Maia substrate eventually lands in the prototype, it lands as part of the deterministic-replay theatre cut, not on the marketing sites directly | The persona system is a marketing-discipline tool (synthetic substrate for hack submissions + recordings), not a brand-asset to surface publicly. Surfacing Maya on the marketing sites would dilute the audience-routing — visitors would start asking "who is Maya" |
 | 6 | AgentHansa judge quote location | **Primary on `liminalos.ai` (Section 4 receipt). One-line abbreviated mention on `liminalos.dev` (under shipping receipts). Absent on `liminalos.app`** (the prototype IS the architecture the judge endorsed) | Same logic as #4 — one site carries the testimonial weight; the others reference it in their native register |
 
 #### Cross-site shared infrastructure (locks 7-11)
