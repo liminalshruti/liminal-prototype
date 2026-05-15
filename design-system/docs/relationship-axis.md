@@ -147,11 +147,11 @@ fixtures/
 
 ## Implications for the canon docs
 
-Section 10 of `design-system.html` becomes **The operator/subject/peer/oversight matrix**. For one canonical scenario (Brian DRIFT in Team, or the CI insider-threat case in Business), render the same scenario four ways:
+Section 10 of `design-system.html` becomes **The operator/subject/peer/oversight matrix**. For one canonical scenario (Devon DRIFT in Team, or the CI insider-threat case in Business), render the same scenario four ways:
 
-- Operator view (Kriti reading Brian · pattern-baseline-only)
-- Subject view (Brian seeing his own audit chain)
-- Peer view (Sean — Brian's teammate — sees: nothing about Brian)
+- Operator view (Maia reading Devon · pattern-baseline-only)
+- Subject view (Devon seeing his own audit chain)
+- Peer view (Sam — Devon's teammate — sees: nothing about Devon)
 - Oversight view (legal review of the read · audit chain visible · content not)
 
 The row-by-row diff is the system claim made visible.

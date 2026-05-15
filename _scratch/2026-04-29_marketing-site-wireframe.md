@@ -24,7 +24,7 @@ canon:
   - locked tagline · "Operational knowledge layer for solo operators running agentic teams." (primary, YC-aligned)
   - inspo register correction · COPY_AUDIT_2026-04-28.md (instrumentation grade, not atmospheric)
   - packet abstraction · liminal-ip/06-evidence/INVENTIONS.md §10 (PPA #8)
-  - persona system · personae/maya-chen-founder-os/identity.json
+  - persona system · personae/maia-founder-os/identity.json
   - existing prototype Speedrun cut · cuts/01-slate-tray-speedrun.html (hero stack precedent)
 
 target_domain:

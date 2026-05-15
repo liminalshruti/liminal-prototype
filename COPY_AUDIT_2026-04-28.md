@@ -2,7 +2,7 @@
 
 **Audit subject:** `cuts/01-slate-tray.html` (the live canonical cut surfaced via `index.html` as Cut 01) + `index.html` parent shell.
 
-**Audit lens:** Cross-checked against the Apr 28 corpus convergence — Founder OS wedge, Persona Architecture's multi-ICP framing, the Maya Chen synthetic-substrate marketing discipline, the YC RFS #4/#15 + Speedrun cross-thesis alignment, and the substrate-correction patterns from Apr 28 8:29 PM strategy session.
+**Audit lens:** Cross-checked against the Apr 28 corpus convergence — Founder OS wedge, Persona Architecture's multi-ICP framing, the Maia synthetic-substrate marketing discipline, the YC RFS #4/#15 + Speedrun cross-thesis alignment, and the substrate-correction patterns from Apr 28 8:29 PM strategy session.
 
 **Key finding:** The prototype is **architecturally on-thesis** and **production-ready as a surface** — three switchable surfaces (Personal/Team/Business) directly match three of the five Persona Architecture ICPs. The hero already names "founder OS" explicitly. The tray + composition + vault + agents + audit chain are all named in the UI.
 
@@ -29,7 +29,7 @@ The prototype's Personal · Team · Business surfaces correspond to three of the
 | Team · peer-read | Team (multi-cofounder coordination) — Lena Park persona |
 | Business · institutional-read | Business (operator running an org) — Darius Okonkwo persona |
 
-**Strategic implication:** the prototype is already structured to demo *each ICP through its own surface*. The Maya Chen Founder-OS demo runs primarily on Personal+Team. Future Lena Park / Darius / Connor demos slot into Team / Business / [a new Defense surface] without architectural changes.
+**Strategic implication:** the prototype is already structured to demo *each ICP through its own surface*. The Maia Founder-OS demo runs primarily on Personal+Team. Future Lena Park / Darius / Connor demos slot into Team / Business / [a new Defense surface] without architectural changes.
 
 ### 3. The tray + composition + vault + audit-chain naming is correct corpus vocabulary
 
@@ -51,26 +51,26 @@ The "12 bounded specialists in four registers" framing from the liminal-agents R
 
 ### Issue #1 — The three try-one cards use ungrounded synthetic-feeling content
 
-**Current copy (verbatim):**
-> Founder · Team — Read your direct report — "Brian's pattern has narrowed. Pattern-only consent. Three open paths."
+**Current copy (verbatim, pre-2026-05-13 rename):**
+> Founder · Team — Read your direct report — "Devon's pattern has narrowed. Pattern-only consent. Three open paths."
 > Operator · Personal — Read your own pattern — "90-day own-baseline. Where you've drifted from your stated values."
 > Creative · Personal — Read your work-in-progress — "Field Studio rebrand. Technically right. Somatically wrong."
 
-**Why this hurts the demo:** these read like *real substrate hints* but a cold viewer has no way to verify or place them. "Brian" is unattributed. "Field Studio" is unattributed. "90-day own-baseline" is jargon without grounding. The viewer's parser stalls — **is this a real example I'm supposed to recognize, or a synthetic prompt the demo is offering?**
+**Why this hurts the demo:** these read like *real substrate hints* but a cold viewer has no way to verify or place them. "Devon" is unattributed. "Field Studio" is unattributed. "90-day own-baseline" is jargon without grounding. The viewer's parser stalls — **is this a real example I'm supposed to recognize, or a synthetic prompt the demo is offering?**
 
-This is the same falsifiable-claim trap caught in application v4: a claim that *looks* like receipt-substrate but actually occupies *uncertain truth-status* breaks reader trust. The application fix was to either ground claims to verifiable artifacts or remove them. **The prototype's fix is to ground these to the Maya Chen persona system.**
+This is the same falsifiable-claim trap caught in application v4: a claim that *looks* like receipt-substrate but actually occupies *uncertain truth-status* breaks reader trust. The application fix was to either ground claims to verifiable artifacts or remove them. **The prototype's fix is to ground these to the Maia persona system.**
 
-**Recommended replacement (Maya-Chen-aligned):**
+**Recommended replacement (Maia-aligned):**
 
 | Surface | Try-one card (current) | Try-one card (recommended) |
 |---|---|---|
-| Founder · Team | "Brian's pattern has narrowed. Pattern-only consent. Three open paths." | "Devon flagged a substrate gap in your fundraise narrative. Three corrections, one defer." |
+| Founder · Team | "Devon's pattern has narrowed. Pattern-only consent. Three open paths." | "Devon flagged a substrate gap in your fundraise narrative. Three corrections, one defer." |
 | Operator · Personal | "90-day own-baseline. Where you've drifted from your stated values." | "Your last 30 days of decisions, read against your stated pre-seed thesis." |
 | Creative · Personal | "Field Studio rebrand. Technically right. Somatically wrong." | "Your AgentScale judge-feedback memo, read against your application draft." |
 
-These ground to the Maya Chen synthetic corpus (`Devon`, `AgentScale`, `pre-seed thesis`) without invoking real-Shruti substrate. **The viewer recognizes the same operator-class scenarios but they're demo-content, not founder-mystery.**
+These ground to the Maia synthetic corpus (`Devon`, `AgentScale`, `pre-seed thesis`) without invoking real-Shruti substrate. **The viewer recognizes the same operator-class scenarios but they're demo-content, not founder-mystery.**
 
-**Filing:** the recommended copy lives downstream in `personae/maya-chen-founder-os/snapshots/` once those snapshots are constructed Apr 30. Until then, the recommended copy is a placeholder consistent with the eventual demo.
+**Filing:** the recommended copy lives downstream in `personae/maia-founder-os/snapshots/` once those snapshots are constructed Apr 30. Until then, the recommended copy is a placeholder consistent with the eventual demo.
 
 ---
 
@@ -90,7 +90,7 @@ These ground to the Maya Chen synthetic corpus (`Devon`, `AgentScale`, `pre-seed
 | **B:** "A founder OS for the work no agent should automate. Twelve bounded specialists. Your corrections are the moat." | Names the founder-class + agents + moat | Slightly long for sub-headline |
 | **C:** "A founder OS for the moments before a decision. Twelve bounded agents disagree on what AI reads of you. Your corrections are the moat." | Names the operating context + agents + moat | Three-sentence sub-headline is heavy |
 
-**Recommended: variant A.** Tightest, most SCQA-compatible with the application v4 + Maya Chen persona's primary tagline ("Operational knowledge layer for solo operators running agentic teams"). Trade-off acknowledged: dropping "state" loses one architectural primitive — but the viewer doesn't decode "state" cold anyway, so the loss is internal-only.
+**Recommended: variant A.** Tightest, most SCQA-compatible with the application v4 + Maia persona's primary tagline ("Operational knowledge layer for solo operators running agentic teams"). Trade-off acknowledged: dropping "state" loses one architectural primitive — but the viewer doesn't decode "state" cold anyway, so the loss is internal-only.
 
 ---
 
@@ -166,7 +166,7 @@ Default: **rename to "Composition"** for consistency with the central-panel head
 
 Even without the 6 fixes, the prototype is recordable. The architectural primitives (tray + composition + vault + 12 agents + audit chain + 3 surfaces + keyboard shortcuts) are visible. The fixes are *quality polish*, not blockers.
 
-**Estimated effort to apply all 6 fixes:** ~2 hours of HTML edits + 1 hour of cross-check against the Maya Chen persona corpus once Apr 30 snapshots are built.
+**Estimated effort to apply all 6 fixes:** ~2 hours of HTML edits + 1 hour of cross-check against the Maia persona corpus once Apr 30 snapshots are built.
 
 ### B. The prototype's two-cut structure (Cut 01 live + Cut 02 alt) is the right shape
 
@@ -194,11 +194,11 @@ This is correct and self-contained. But the Apr 28 corpus convergence added a *c
 
 | Priority | Fix | Effort | Status |
 |---|---|---|---|
-| **P0** (pre-record) | Issue #1 — Replace try-one cards with Maya-Chen-aligned copy | 30 min | ✅ **DONE Apr 28 evening.** Personal-first ordering, synthetic-substrate-grounded scenarios. Devon (cofounder name from Maya Chen identity.json), "stated thesis", "Judge feedback memo", "application draft" — all consistent with the persona corpus and free of unverifiable-feeling content. |
+| **P0** (pre-record) | Issue #1 — Replace try-one cards with Maia-Chen-aligned copy | 30 min | ✅ **DONE Apr 28 evening.** Personal-first ordering, synthetic-substrate-grounded scenarios. Devon (cofounder name from Maia identity.json), "stated thesis", "Judge feedback memo", "application draft" — all consistent with the persona corpus and free of unverifiable-feeling content. |
 | **P0** (pre-record) | Issue #2 — Tighten sub-headline to variant A | 5 min | ✅ **DONE Apr 28 evening.** New copy: *"A founder OS where AI agents disagree, deliberate, and prompt you. The corrections are the moat."* Names the agent action + names the moat. |
 | **P0** (pre-record) | Issue #4 — Default skip-link to Personal (or remove) | 2 min | ✅ **DONE Apr 28 evening.** Three-point change: (a) copy "skip · go straight to Personal", (b) `boot.js` skip-handler routes via `dismissAndRoute("personal", null)`, (c) body default + `setProduct("personal")` aligned. Personal is now the wedge surface for first-visit, returning-visit, and skip-path. |
 | **P1** (post-record) | Issue #3 — Add hover-tooltip on AGENCY label | 15 min | ✅ **DONE Apr 28 evening.** Native HTML `title` attribute on `.agency-label` span carries the explanation: *"Twelve bounded specialists in four registers — Diligence, Outreach, Synthesis, Judgment. Each refuses out of lane and names the right agent. The refusal is the feature."* Plus per-cut CSS adds `cursor: help` + dotted-underline affordance so viewers know to hover. Matches the cut-shell classification-token tooltip idiom. |
-| **P1** (post-record) | Issue #5 — Produce Speedrun-cut variant with flipped hero | 30 min | ✅ **DONE Apr 28 evening.** New file `cuts/01-slate-tray-speedrun.html` cloned from canonical with three deltas: (a) header-block contract documents the variant rationale + persona-corpus link, (b) hero stack flipped — `<h1 class="entry-wedge">` (founder-OS line) precedes `<div class="entry-brand">` (brand sentence as italicized byline), (c) per-cut CSS makes `.entry-brand` italic / 0.85em / 0.72 opacity so it reads as byline. Catalog `index.html` Reference section gets a new nav-item linking the Speedrun variant alongside canonical Cut 01. Same architecture, audience-keyed surface swap — operationalizes Maya Chen's three-tagline pattern at the cut level. |
+| **P1** (post-record) | Issue #5 — Produce Speedrun-cut variant with flipped hero | 30 min | ✅ **DONE Apr 28 evening.** New file `cuts/01-slate-tray-speedrun.html` cloned from canonical with three deltas: (a) header-block contract documents the variant rationale + persona-corpus link, (b) hero stack flipped — `<h1 class="entry-wedge">` (founder-OS line) precedes `<div class="entry-brand">` (brand sentence as italicized byline), (c) per-cut CSS makes `.entry-brand` italic / 0.85em / 0.72 opacity so it reads as byline. Catalog `index.html` Reference section gets a new nav-item linking the Speedrun variant alongside canonical Cut 01. Same architecture, audience-keyed surface swap — operationalizes Maia's three-tagline pattern at the cut level. |
 | **P1** (post-record) | Issue #6 — Rename "Slate" rail to "Composition" | 5 min | ✅ **DONE Apr 28 evening.** Titlebar `<span class="brand">Liminal · Slate</span>` changed to `<span class="brand">Liminal · Composition</span>`. Removes the redundancy with the central panel's "Composition surface" heading. Viewer learns one term instead of two. |
 | **P2** (post-cohort) | README add cross-thesis-alignment sentence | 5 min | Pending May 3 |
 
@@ -227,7 +227,7 @@ All edits are surgical (no architectural changes). The prototype's iframe-loadab
 
 Re-extracted visible copy from `cuts/01-slate-tray.html` after fixes confirms all three P0 items applied cleanly:
 - Sub-headline reads as designed (variant A)
-- Try-one cards in Personal-first order with Maya-Chen-aligned helper text
+- Try-one cards in Personal-first order with Maia-Chen-aligned helper text
 - Skip-link copy + handler + body default + setProduct call all route to Personal
 
 Files changed in this fix pass:
@@ -243,7 +243,7 @@ All edits are surgical (no architectural changes). The prototype's iframe-loadab
 This audit lives at `liminal-prototype/COPY_AUDIT_2026-04-28.md` rather than in `founder-brain/` because it's prototype-specific and should travel with the prototype repo. Cross-references:
 
 - `personae/_meta/PERSONA_ARCHITECTURE.md` (corpus convergence on multi-ICP architecture)
-- `personae/maya-chen-founder-os/identity.json` (the synthetic substrate the recommended try-one cards ground to)
+- `personae/maia-founder-os/identity.json` (the synthetic substrate the recommended try-one cards ground to)
 - `~/liminal/founder-brain/fundraise/speedrun/sr007/application/SR007-APPLICATION-DRAFT.md` (the application v4 substrate the prototype demo-records support)
 
 The audit's architectural-layer findings (3-surface structure, 12-bounded label, brand-sentence preservation) should propagate into `~/liminal/founder-brain/liminal-ip/STRATEGY.md` as a "prototype is already on-thesis" note when next updated.
