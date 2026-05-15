@@ -194,7 +194,7 @@ This is correct and self-contained. But the Apr 28 corpus convergence added a *c
 
 | Priority | Fix | Effort | Status |
 |---|---|---|---|
-| **P0** (pre-record) | Issue #1 — Replace try-one cards with Maya-Chen-aligned copy | 30 min | ✅ **DONE Apr 28 evening.** Personal-first ordering, synthetic-substrate-grounded scenarios. Devon (cofounder name from Maia identity.json), "stated thesis", "Judge feedback memo", "application draft" — all consistent with the persona corpus and free of unverifiable-feeling content. |
+| **P0** (pre-record) | Issue #1 — Replace try-one cards with Maia-Chen-aligned copy | 30 min | ✅ **DONE Apr 28 evening.** Personal-first ordering, synthetic-substrate-grounded scenarios. Devon (cofounder name from Maia identity.json), "stated thesis", "Judge feedback memo", "application draft" — all consistent with the persona corpus and free of unverifiable-feeling content. |
 | **P0** (pre-record) | Issue #2 — Tighten sub-headline to variant A | 5 min | ✅ **DONE Apr 28 evening.** New copy: *"A founder OS where AI agents disagree, deliberate, and prompt you. The corrections are the moat."* Names the agent action + names the moat. |
 | **P0** (pre-record) | Issue #4 — Default skip-link to Personal (or remove) | 2 min | ✅ **DONE Apr 28 evening.** Three-point change: (a) copy "skip · go straight to Personal", (b) `boot.js` skip-handler routes via `dismissAndRoute("personal", null)`, (c) body default + `setProduct("personal")` aligned. Personal is now the wedge surface for first-visit, returning-visit, and skip-path. |
 | **P1** (post-record) | Issue #3 — Add hover-tooltip on AGENCY label | 15 min | ✅ **DONE Apr 28 evening.** Native HTML `title` attribute on `.agency-label` span carries the explanation: *"Twelve bounded specialists in four registers — Diligence, Outreach, Synthesis, Judgment. Each refuses out of lane and names the right agent. The refusal is the feature."* Plus per-cut CSS adds `cursor: help` + dotted-underline affordance so viewers know to hover. Matches the cut-shell classification-token tooltip idiom. |
@@ -227,7 +227,7 @@ All edits are surgical (no architectural changes). The prototype's iframe-loadab
 
 Re-extracted visible copy from `cuts/01-slate-tray.html` after fixes confirms all three P0 items applied cleanly:
 - Sub-headline reads as designed (variant A)
-- Try-one cards in Personal-first order with Maya-Chen-aligned helper text
+- Try-one cards in Personal-first order with Maia-Chen-aligned helper text
 - Skip-link copy + handler + body default + setProduct call all route to Personal
 
 Files changed in this fix pass:
