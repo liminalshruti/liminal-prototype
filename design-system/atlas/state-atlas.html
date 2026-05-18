@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>State Atlas · Liminal · v0.1</title>
+
+<!--
+  State Atlas · v0.2 · 2026-05-17
+  ──────────────────────────────────────────────────────────────────────
+  v0.2 corrects v0.1's "no style" failure:
+    · v0.1 declared Newsreader / Geist Mono — web defaults
+    · v0.1 missed lib/brand-upgrade.css — the actual Liminal type system
+    · v0.1 used italic for emphasis — banned per brand-upgrade.css line 65
+    · v0.1 invented alarm/watch/signal — canon names are diligence/judgment/synthesis/outreach
+  v0.2 inherits the locked register: NinetiesHeadliner + PerfectlyNineties (16-weight),
+  no italic anywhere (weight is the emphasis axis), canonical 4-register chrome,
+  64px grid lattice atmosphere, Bloomberg-terminal chrome density.
+
+  Imports (order matters):
+    1. design-system/tokens/design-tokens.css  — atoms
+    2. lib/cut-shell.css                       — shared chrome vocabulary
+    3. lib/brand-upgrade.css                   — fonts + type scale + register colors
+
+  Reading the page · row = primitive · column = state · cell = live render.
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<!-- canon · DO NOT REDEFINE TOKENS -->
+<link rel="stylesheet" href="../tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="../../lib/brand-upgrade.css">
+
+<style>
+  /* ─── per-page layout only · canon owns type + color · brand-upgrade owns fonts ─── */
+
+  body[data-page="state-atlas"] {
+    background: var(--bg, #08080a);
+    color: var(--text, #F2F0EC);
+    font-family: var(--font-sans, "PerfectlyNineties", Georgia, serif);
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    letter-spacing: var(--tracking-body, -0.005em);
+    position: relative;
+  }
+
+  /* 64px grid lattice · canon atmosphere · 1.4% opacity */
+  body[data-page="state-atlas"]::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.014) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.014) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+
+  .atlas {
+    position: relative;
+    z-index: 1;
+    max-width: 1720px;
+    margin: 0 auto;
+    padding: 56px 44px 96px;
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     PAGE HEADER · canon eyebrow + display + serif body
+     ═══════════════════════════════════════════════════════ */
+  .atlas__crown {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: end;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--frame-border, #1c1c22);
+    margin-bottom: 48px;
+  }
+  .atlas__crest {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    font-weight: 400;
+    color: var(--text-dim, #847F79);
+    letter-spacing: var(--tracking-widest, 0.22em);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .atlas__crest .reg { color: var(--diligence, #8E66FB); }
+  .atlas__title {
+    font-family: var(--font-display, "NinetiesHeadliner", Georgia, serif);
+    font-size: clamp(48px, 6vw, 88px);
+    font-weight: 700;
+    line-height: var(--leading-tight, 0.9);
+    letter-spacing: var(--tracking-tight, -0.04em);
+    color: var(--text);
+    margin: 0;
+  }
+  .atlas__lede {
+    font-family: var(--font-serif, "PerfectlyNineties", Georgia, serif);
+    font-weight: 300;
+    font-size: var(--text-md, 1.25rem);
+    line-height: var(--leading-relaxed, 1.65);
+    color: var(--text-mid, #C4C0B8);
+    max-width: 640px;
+    margin-top: 18px;
+  }
+  .atlas__lede strong {
+    font-weight: 600;
+    color: var(--text);
+  }
+  .atlas__meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide, 0.12em);
+    text-transform: uppercase;
+    color: var(--text-dim);
+    text-align: right;
+    line-height: 1.95;
+    min-width: 220px;
+  }
+  .atlas__meta .k { color: var(--text-faint, #504C47); margin-right: 8px; }
+  .atlas__meta .v { color: var(--text-mid); }
+
+  /* ═══════════════════════════════════════════════════════
+     LEGEND · the state-class chrome bar
+     ═══════════════════════════════════════════════════════ */
+  .atlas__legend {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    margin-bottom: 48px;
+    border-top: 1px solid var(--frame-border);
+    border-bottom: 1px solid var(--frame-border);
+  }
+  .legend-cell {
+    padding: 14px 16px;
+    border-right: 1px solid var(--frame-border);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .legend-cell:last-child { border-right: none; }
+  .legend-cell__name {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .legend-cell__name::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    background: currentColor;
+  }
+  .legend-cell__defn {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: var(--text-sm, 0.8rem);
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+  .legend--blank     .legend-cell__name { color: var(--text-faint); }
+  .legend--prepped   .legend-cell__name { color: var(--diligence); }
+  .legend--filled    .legend-cell__name { color: var(--outreach,  #31E682); }
+  .legend--corrected .legend-cell__name { color: var(--judgment,  #E8006A); }
+  .legend--refused   .legend-cell__name { color: var(--wholeness, #E8006A); }
+  .legend--stale     .legend-cell__name { color: var(--synthesis, #197EEB); }
+
+  /* ═══════════════════════════════════════════════════════
+     ROW · one primitive across its state columns
+     ═══════════════════════════════════════════════════════ */
+  .row {
+    margin-bottom: 80px;
+  }
+  .row__head {
+    display: grid;
+    grid-template-columns: auto auto 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--frame-border);
+    margin-bottom: 28px;
+  }
+  .row__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    color: var(--text-faint);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+  }
+  .row__name {
+    font-family: var(--font-display, "NinetiesHeadliner", Georgia, serif);
+    font-size: var(--text-2xl, 2.441rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: var(--tracking-snug);
+    color: var(--text);
+  }
+  .row__defn {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+    line-height: 1.5;
+    max-width: 540px;
+    justify-self: end;
+  }
+  .row__defn strong { font-weight: 600; color: var(--text); }
+  .row__count {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    color: var(--text-faint);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .row__cells {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(248px, 1fr));
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     CELL · primitive in one named state
+     ═══════════════════════════════════════════════════════ */
+  .cell {
+    display: flex;
+    flex-direction: column;
+    background: var(--frame-bg, #0c0c0f);
+    border: 1px solid var(--frame-border, #1c1c22);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+  }
+  .cell::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 2px;
+    background: currentColor;
+    opacity: 0.9;
+  }
+  .cell__caption {
+    padding: 10px 14px 9px 18px;
+    border-bottom: 1px solid var(--frame-border);
+    background: var(--frame-bg-2, #0a0a0d);
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-height: 56px;
+  }
+  .cell__state {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    font-weight: 400;
+    color: currentColor;
+  }
+  .cell__trigger {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: var(--text-sm);
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+  .cell__render {
+    flex: 1;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    min-height: 180px;
+  }
+
+  /* state-class colorways · agent-register canonical */
+  .cell--blank     { color: var(--text-faint); }
+  .cell--prepped   { color: var(--diligence); }
+  .cell--filled    { color: var(--outreach); }
+  .cell--corrected { color: var(--judgment); }
+  .cell--refused   { color: var(--wholeness); }
+  .cell--stale     { color: var(--synthesis); }
+
+  /* ═══════════════════════════════════════════════════════
+     PRIMITIVE RENDERS · live, in-cell
+     ═══════════════════════════════════════════════════════ */
+
+  /* shared chrome ─ small eyebrows + meta rows used inside primitives */
+  .px-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .px-eyebrow .reg { color: var(--text-mid); }
+  .px-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs, 0.64rem);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-dim);
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    align-items: center;
+  }
+  .px-row:last-child { border-bottom: none; }
+  .px-row .px-k { color: var(--text-faint); }
+  .px-row .px-v {
+    color: var(--text-mid);
+    font-weight: 500;
+    letter-spacing: var(--tracking-snug);
+    text-transform: none;
+    font-family: var(--font-serif);
+    font-size: var(--text-sm);
+  }
+  .px-row .px-bar {
+    width: 56px; height: 2px;
+    background: var(--frame-bg-3);
+    position: relative;
+  }
+  .px-row .px-bar i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    background: currentColor;
+  }
+
+  /* ─── slate ────────────────────────────────────────── */
+  .p-slate {
+    background: var(--frame-bg-3, #111116);
+    border: 1px solid var(--frame-border);
+    border-radius: 2px;
+    padding: 14px 16px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+  }
+  .p-slate__title {
+    font-family: var(--font-display);
+    font-size: var(--text-lg, 1.563rem);
+    font-weight: 700;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-snug);
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .p-slate__sub {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+  .p-slate__sub strong { font-weight: 600; color: var(--text); }
+  .p-slate--empty .p-slate__title { color: var(--text-faint); font-weight: 300; }
+  .p-slate__placeholder {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--frame-border);
+    border-radius: 2px;
+    margin-top: 8px;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .p-slate__correction {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--judgment-edge, rgba(232,0,106,0.22));
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--judgment);
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+  .p-slate__correction-body {
+    color: var(--text-mid);
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-body);
+    text-transform: none;
+  }
+
+  /* ─── tray ────────────────────────────────────────── */
+  .p-tray {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 160px;
+  }
+  .p-tray__item {
+    padding: 9px 12px;
+    background: var(--frame-bg-3);
+    border: 1px solid var(--frame-border);
+    border-radius: 2px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+  .p-tray__item-body {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+    line-height: 1.3;
+  }
+  .p-tray__item-body strong { font-weight: 600; color: var(--text); }
+  .p-tray__item-when {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .p-tray__item--alarm {
+    background: var(--wholeness-bg, rgba(232,0,106,0.07));
+    border-color: var(--wholeness);
+  }
+  .p-tray__item--alarm .p-tray__item-body { color: var(--wholeness); }
+  .p-tray__item--alarm .p-tray__item-body strong { color: var(--wholeness); }
+  .p-tray__item--alarm .p-tray__item-when { color: var(--wholeness); }
+  .p-tray__empty {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px dashed var(--frame-border);
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  /* ─── packet (paper subsystem on dark shell) ───────── */
+  .p-packet {
+    background: #F3F1EF;
+    color: #2a2620;
+    padding: 18px 16px 14px;
+    border-radius: 2px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.04),
+      0 8px 24px -6px rgba(0,0,0,0.55);
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  .p-packet__crest {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: #756c5d;
+    border-bottom: 1px solid #d4ccbe;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .p-packet__title {
+    font-family: var(--font-display, "NinetiesHeadliner", Georgia, serif);
+    font-size: var(--text-md, 1.25rem);
+    font-weight: 700;
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-snug);
+    color: #1a1610;
+  }
+  .p-packet__body {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: var(--text-sm);
+    color: #4a4238;
+    line-height: 1.5;
+    margin-top: 6px;
+    flex: 1;
+  }
+  .p-packet__body strong { font-weight: 600; color: #1a1610; }
+  .p-packet__seal {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--outreach);
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #d4ccbe;
+    display: flex;
+    justify-content: space-between;
+  }
+  .p-packet__seal--unsigned { color: #b89345; }
+  .p-packet__seal--revised  { color: var(--judgment); }
+  .p-packet__seal--stale    { color: #8a7d68; }
+  .p-packet--stale { opacity: 0.55; }
+
+  /* ─── vault (12-week × 4-register lattice) ────────── */
+  .p-vault {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 160px;
+  }
+  .p-vault__rail {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 6px;
+    align-items: center;
+  }
+  .p-vault__rail-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-align: right;
+  }
+  .p-vault__rail--diligence .p-vault__rail-label { color: var(--diligence); }
+  .p-vault__rail--judgment  .p-vault__rail-label { color: var(--judgment); }
+  .p-vault__rail--synthesis .p-vault__rail-label { color: var(--synthesis); }
+  .p-vault__rail--outreach  .p-vault__rail-label { color: var(--outreach); }
+  .p-vault__cells {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+  }
+  .p-vault__cell {
+    aspect-ratio: 1;
+    background: var(--frame-bg-3);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 1px;
+  }
+  .p-vault__cell--lit-d    { background: var(--diligence-soft); border-color: var(--diligence-edge); }
+  .p-vault__cell--lit-d-s  { background: var(--diligence); }
+  .p-vault__cell--lit-j    { background: var(--judgment-soft); border-color: var(--judgment-edge); }
+  .p-vault__cell--lit-j-s  { background: var(--judgment); }
+  .p-vault__cell--lit-s    { background: var(--synthesis-soft); border-color: var(--synthesis-edge); }
+  .p-vault__cell--lit-s-s  { background: var(--synthesis); }
+  .p-vault__cell--lit-o    { background: var(--outreach-soft); border-color: var(--outreach-edge); }
+  .p-vault__cell--lit-o-s  { background: var(--outreach); }
+  .p-vault__cell--miss     { background: transparent; border: 1px dashed var(--wholeness-edge); }
+
+  /* ─── command palette ─────────────────────────────── */
+  .p-command {
+    background: var(--frame-bg-3);
+    border: 1px solid var(--frame-border);
+    border-radius: 3px;
+    padding: 12px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .p-command__input {
+    border: 1px solid var(--frame-border);
+    border-radius: 2px;
+    padding: 9px 12px;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: var(--tracking-body);
+    color: var(--text);
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .p-command__input-prefix {
+    color: var(--text-faint);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+  }
+  .p-command__input--blank .p-command__input-prefix { color: var(--text-faint); }
+  .p-command__input--blank .p-command__input-text { color: var(--text-faint); font-weight: 300; }
+  .p-command__results {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .p-command__result {
+    padding: 7px 10px;
+    border-radius: 2px;
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: var(--text-sm);
+    color: var(--text-mid);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: center;
+  }
+  .p-command__result-glyph {
+    font-family: var(--font-mono);
+    color: var(--text-faint);
+  }
+  .p-command__result-kbd {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    color: var(--text-faint);
+  }
+  .p-command__result--active {
+    background: var(--diligence-bg, rgba(142,102,251,0.07));
+    color: var(--text);
+  }
+  .p-command__result--active .p-command__result-glyph { color: var(--diligence); }
+  .p-command__result--active .p-command__result-kbd   { color: var(--diligence); }
+  .p-command__result--refused { color: var(--wholeness); }
+  .p-command__result--refused .p-command__result-glyph { color: var(--wholeness); }
+
+  /* ─── refusal surface ─────────────────────────────── */
+  .p-refusal {
+    border: 1px solid var(--wholeness-edge, rgba(232,0,106,0.22));
+    background:
+      radial-gradient(circle at 50% 30%, var(--wholeness-bg) 0%, transparent 70%),
+      var(--frame-bg-3);
+    border-radius: 2px;
+    padding: 16px 14px;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    text-align: center;
+  }
+  .p-refusal__glyph {
+    font-family: var(--font-display);
+    font-size: 36px;
+    color: var(--wholeness);
+    line-height: 1;
+  }
+  .p-refusal__title {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--wholeness);
+    font-weight: 500;
+  }
+  .p-refusal__why {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: var(--text-sm);
+    color: var(--text);
+    line-height: var(--leading-snug);
+    letter-spacing: var(--tracking-body);
+  }
+  .p-refusal__why strong { font-weight: 600; }
+  .p-refusal__route {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-dim);
+    border-top: 1px solid var(--frame-border);
+    padding-top: 10px;
+    margin-top: 4px;
+  }
+  .p-refusal__route .arrow { color: var(--wholeness); }
+
+  /* ═══════════════════════════════════════════════════════
+     FOOTER · provenance
+     ═══════════════════════════════════════════════════════ */
+  .atlas__sole {
+    margin-top: 80px;
+    padding-top: 28px;
+    border-top: 1px solid var(--frame-border);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    line-height: 2;
+  }
+  .atlas__sole strong {
+    color: var(--text-mid);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .atlas__sole a {
+    color: var(--text-dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--frame-border);
+  }
+  .atlas__sole a:hover { color: var(--text); border-bottom-color: var(--diligence); }
+</style>
+</head>
+<body data-page="state-atlas" data-product="personal">
+
+<div class="atlas">
+
+  <!-- ═══════════════════════════════════════════════════════
+       CROWN · page header
+       ═══════════════════════════════════════════════════════ -->
+  <header class="atlas__crown">
+    <div>
+      <div class="atlas__crest"><span class="reg">◇</span>&nbsp; Liminal &nbsp;·&nbsp; design system &nbsp;·&nbsp; atlas &nbsp;·&nbsp; v0.1</div>
+      <h1 class="atlas__title">State&nbsp;Atlas</h1>
+      <p class="atlas__lede">
+        Every product primitive, in every state it can legitimately be in,
+        rendered live and side-by-side. The layer above tokens — names the
+        states a primitive can hold. <strong>What states a primitive can
+        be in is part of its definition.</strong>
+      </p>
+    </div>
+    <div class="atlas__meta">
+      <div><span class="k">status</span><span class="v">v0.1 · refining</span></div>
+      <div><span class="k">owner</span><span class="v">design canon</span></div>
+      <div><span class="k">pairs</span><span class="v">token contract</span></div>
+      <div><span class="k">pairs</span><span class="v">relationship axis</span></div>
+      <div><span class="k">captured</span><span class="v">2026·05·17</span></div>
+      <div><span class="k">primitives</span><span class="v">6</span></div>
+      <div><span class="k">states</span><span class="v">24</span></div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LEGEND · state-class chrome bar
+       ═══════════════════════════════════════════════════════ -->
+  <div class="atlas__legend">
+    <div class="legend-cell legend--blank">
+      <div class="legend-cell__name">blank</div>
+      <div class="legend-cell__defn">pre-substrate · the surface exists, the read has not begun</div>
+    </div>
+    <div class="legend-cell legend--prepped">
+      <div class="legend-cell__name">prepped</div>
+      <div class="legend-cell__defn">substrate landed · agents staged · awaiting the operator</div>
+    </div>
+    <div class="legend-cell legend--filled">
+      <div class="legend-cell__name">filled</div>
+      <div class="legend-cell__defn">read rendered · decision available · packet ready to sign</div>
+    </div>
+    <div class="legend-cell legend--corrected">
+      <div class="legend-cell__name">corrected</div>
+      <div class="legend-cell__defn">operator overrode an agent · correction logged · supersedes</div>
+    </div>
+    <div class="legend-cell legend--refused">
+      <div class="legend-cell__name">refused</div>
+      <div class="legend-cell__defn">out of lane · consent-gated · low-signal · refusal is a first-class state</div>
+    </div>
+    <div class="legend-cell legend--stale">
+      <div class="legend-cell__name">stale</div>
+      <div class="legend-cell__defn">past its stale-by window · still valid for audit · soft-grayed</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ROW 01 · SLATE
+       ═══════════════════════════════════════════════════════ -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">01</div>
+      <h2 class="row__name">Slate</h2>
+      <p class="row__defn">The operator's read. The surface where a <strong>measured state</strong> is shown to the person doing the work. One slate per moment.</p>
+      <div class="row__count">5 states</div>
+    </header>
+    <div class="row__cells">
+
+      <article class="cell cell--blank">
+        <div class="cell__caption">
+          <div class="cell__state">blank</div>
+          <div class="cell__trigger">no substrate yet — the operator opened the surface fresh</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-slate p-slate--empty">
+            <div class="px-eyebrow"><span>slate · personal · today</span><span class="reg">◇</span></div>
+            <div class="p-slate__title">No read yet</div>
+            <div class="p-slate__sub">drop substrate, run a check-in, or invoke ⌘K to begin</div>
+            <div class="p-slate__placeholder">awaiting substrate</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--prepped">
+        <div class="cell__caption">
+          <div class="cell__state">prepped</div>
+          <div class="cell__trigger">substrate landed · agents staged · awaiting operator</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-slate">
+            <div class="px-eyebrow"><span>slate · personal · today</span><span class="reg">◯</span></div>
+            <div class="p-slate__title">7-factor read · <strong>ready</strong></div>
+            <div class="p-slate__sub">three documents · two meetings · two agents staged</div>
+            <div class="px-row"><span class="px-k">substrate</span><span class="px-v">3 docs · 2 mtgs</span><span>―</span></div>
+            <div class="px-row"><span class="px-k">staged</span><span class="px-v">analyst · auditor</span><span>―</span></div>
+            <div class="px-row"><span class="px-k">awaits</span><span class="px-v">operator read</span><span>―</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--filled">
+        <div class="cell__caption">
+          <div class="cell__state">filled</div>
+          <div class="cell__trigger">read rendered · decision available · two factors out of pattern</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-slate">
+            <div class="px-eyebrow"><span>slate · personal · 14:32</span><span class="reg">◉</span></div>
+            <div class="p-slate__title">Coherence <strong>5/7</strong></div>
+            <div class="p-slate__sub">two factors out of pattern · diligence and judgment running soft</div>
+            <div class="px-row"><span class="px-k">vitality</span><span class="px-bar"><i style="width:71%"></i></span><span>5</span></div>
+            <div class="px-row"><span class="px-k">agency</span><span class="px-bar"><i style="width:86%"></i></span><span>6</span></div>
+            <div class="px-row"><span class="px-k">diligence</span><span class="px-bar"><i style="width:43%; background: var(--judgment)"></i></span><span>3</span></div>
+            <div class="px-row"><span class="px-k">judgment</span><span class="px-bar"><i style="width:57%; background: var(--judgment)"></i></span><span>4</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--corrected">
+        <div class="cell__caption">
+          <div class="cell__state">corrected</div>
+          <div class="cell__trigger">operator overrode an agent read · correction logged · supersedes</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-slate">
+            <div class="px-eyebrow"><span>slate · personal · 14:34</span><span class="reg">●</span></div>
+            <div class="p-slate__title">Coherence <strong>5/7</strong> · corrected</div>
+            <div class="p-slate__sub">operator raised diligence · agent missed last week's audit cadence</div>
+            <div class="px-row"><span class="px-k">diligence</span><span class="px-v">3 → <strong>5</strong></span><span>↑</span></div>
+            <div class="px-row"><span class="px-k">basis</span><span class="px-v">audit cadence</span><span>―</span></div>
+            <div class="p-slate__correction">
+              <span>⊘ correction</span>
+              <span class="p-slate__correction-body">agent missed last week's audit cadence — operator raised by 2 stops</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--refused">
+        <div class="cell__caption">
+          <div class="cell__state">refused</div>
+          <div class="cell__trigger">consent class forbids · surface routed elsewhere</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-slate">
+            <div class="px-eyebrow"><span>slate · institutional · subject view</span><span class="reg" style="color: var(--wholeness)">⊘</span></div>
+            <div class="p-slate__title" style="color: var(--wholeness)">Refused · consent class</div>
+            <div class="p-slate__sub">this slate is not available at the operator's current relationship to the subject</div>
+            <div class="p-slate__placeholder" style="color: var(--wholeness); border-color: var(--wholeness-edge)">routed → oversight surface</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ROW 02 · TRAY
+       ═══════════════════════════════════════════════════════ -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">02</div>
+      <h2 class="row__name">Tray</h2>
+      <p class="row__defn">The right-rail of items pending the operator's attention. <strong>Always on.</strong> Sorted by urgency, not chronology.</p>
+      <div class="row__count">4 states</div>
+    </header>
+    <div class="row__cells">
+
+      <article class="cell cell--blank">
+        <div class="cell__caption">
+          <div class="cell__state">empty</div>
+          <div class="cell__trigger">nothing pending · all read · the calm state</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-tray">
+            <div class="px-eyebrow"><span>tray · 0 pending</span><span>―</span></div>
+            <div class="p-tray__empty">nothing pending</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--prepped">
+        <div class="cell__caption">
+          <div class="cell__state">one</div>
+          <div class="cell__trigger">single item · light substrate · low urgency</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-tray">
+            <div class="px-eyebrow"><span>tray · 1 pending</span><span class="reg">◯</span></div>
+            <div class="p-tray__item">
+              <div class="p-tray__item-body"><strong>SR007</strong> clarification draft</div>
+              <div class="p-tray__item-when">2h</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--filled">
+        <div class="cell__caption">
+          <div class="cell__state">stack</div>
+          <div class="cell__trigger">multiple items · sorted by urgency, not arrival order</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-tray">
+            <div class="px-eyebrow"><span>tray · 4 pending</span><span class="reg">◉</span></div>
+            <div class="p-tray__item"><div class="p-tray__item-body"><strong>SR007</strong> clarification draft</div><div class="p-tray__item-when">2h</div></div>
+            <div class="p-tray__item"><div class="p-tray__item-body"><strong>cut 02</strong> rename refs</div><div class="p-tray__item-when">30m</div></div>
+            <div class="p-tray__item"><div class="p-tray__item-body"><strong>Sean</strong> weekly check-in</div><div class="p-tray__item-when">tmrw</div></div>
+            <div class="p-tray__item"><div class="p-tray__item-body"><strong>YC</strong> interview slot</div><div class="p-tray__item-when">jun·05</div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--refused">
+        <div class="cell__caption">
+          <div class="cell__state">alarm</div>
+          <div class="cell__trigger">contradicting notification caught · forensic agent flagged</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-tray">
+            <div class="px-eyebrow"><span>tray · 1 contradiction · 3 pending</span><span class="reg" style="color: var(--wholeness)">⊘</span></div>
+            <div class="p-tray__item p-tray__item--alarm">
+              <div class="p-tray__item-body"><strong>contradiction</strong> routing mismatch</div>
+              <div class="p-tray__item-when">!</div>
+            </div>
+            <div class="p-tray__item"><div class="p-tray__item-body"><strong>SR007</strong> clarification draft</div><div class="p-tray__item-when">2h</div></div>
+            <div class="p-tray__item"><div class="p-tray__item-body"><strong>cut 02</strong> rename refs</div><div class="p-tray__item-when">30m</div></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ROW 03 · PACKET
+       ═══════════════════════════════════════════════════════ -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">03</div>
+      <h2 class="row__name">Packet</h2>
+      <p class="row__defn">A <strong>signed decision artifact</strong>. What you decided, why, what changed your mind, what comes next. The unit the vault stores. Paper subsystem on the dark shell.</p>
+      <div class="row__count">4 states</div>
+    </header>
+    <div class="row__cells">
+
+      <article class="cell cell--prepped">
+        <div class="cell__caption">
+          <div class="cell__state">draft</div>
+          <div class="cell__trigger">composed from slate · not yet signed</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-packet">
+            <div class="p-packet__crest"><span>packet · draft</span><span>2026·05·17</span></div>
+            <div class="p-packet__title">SR007 clarification posture</div>
+            <div class="p-packet__body">Hold posture. Do <strong>not</strong> internalize Record A rejection until Record B status is confirmed by the venue.</div>
+            <div class="p-packet__seal p-packet__seal--unsigned"><span>· unsigned</span><span>—</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--filled">
+        <div class="cell__caption">
+          <div class="cell__state">signed</div>
+          <div class="cell__trigger">operator committed · landed in vault · cryptographically sealed</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-packet">
+            <div class="p-packet__crest"><span>packet · signed</span><span>2026·05·08</span></div>
+            <div class="p-packet__title">Routing mismatch · forensic audit</div>
+            <div class="p-packet__body">Two records · two emails · two IDs. Decision bound to <strong>A</strong>. Application <strong>B</strong> pending.</div>
+            <div class="p-packet__seal"><span>✓ signed</span><span>vault</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--corrected">
+        <div class="cell__caption">
+          <div class="cell__state">revised</div>
+          <div class="cell__trigger">operator updated a prior packet · v2 supersedes v1 · v1 stays in audit chain</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-packet">
+            <div class="p-packet__crest"><span>packet · v2</span><span>2026·05·17</span></div>
+            <div class="p-packet__title">Routing mismatch · response received</div>
+            <div class="p-packet__body">Supersedes v1. Venue confirmed <strong>Record B</strong> is in real review. The 4–6 week window holds.</div>
+            <div class="p-packet__seal p-packet__seal--revised"><span>✓ revised</span><span>supersedes v1</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--stale">
+        <div class="cell__caption">
+          <div class="cell__state">stale</div>
+          <div class="cell__trigger">past its stale-by window · still valid for audit · soft-grayed in lists</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-packet p-packet--stale">
+            <div class="p-packet__crest"><span>packet · stale</span><span>2026·04·02</span></div>
+            <div class="p-packet__title">Q1 cofounder check-in posture</div>
+            <div class="p-packet__body">Probationary-window posture. Expired <strong>2026·05·04</strong>. Superseded by Q2 cadence.</div>
+            <div class="p-packet__seal p-packet__seal--stale"><span>· stale</span><span>audit-only</span></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ROW 04 · VAULT
+       ═══════════════════════════════════════════════════════ -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">04</div>
+      <h2 class="row__name">Vault</h2>
+      <p class="row__defn">The <strong>local-only store</strong> of signed packets. Rendered as a 12-week × 4-register lattice. The moat made visible — never leaves the operator's machine.</p>
+      <div class="row__count">4 states</div>
+    </header>
+    <div class="row__cells">
+
+      <article class="cell cell--blank">
+        <div class="cell__caption">
+          <div class="cell__state">empty</div>
+          <div class="cell__trigger">new operator · no packets yet · empty lattice</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-vault">
+            <div class="px-eyebrow"><span>vault · 0 packets</span><span class="reg">◇</span></div>
+            <div class="p-vault__rail p-vault__rail--diligence"><span class="p-vault__rail-label">diligence</span><div class="p-vault__cells"><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--judgment"><span class="p-vault__rail-label">judgment</span><div class="p-vault__cells"><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--synthesis"><span class="p-vault__rail-label">synthesis</span><div class="p-vault__cells"><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--outreach"><span class="p-vault__rail-label">outreach</span><div class="p-vault__cells"><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div></div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--prepped">
+        <div class="cell__caption">
+          <div class="cell__state">seeded</div>
+          <div class="cell__trigger">first two weeks of packets · sparse lattice · diligence-leading</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-vault">
+            <div class="px-eyebrow"><span>vault · 6 packets · 2 wks</span><span class="reg">◯</span></div>
+            <div class="p-vault__rail p-vault__rail--diligence"><span class="p-vault__rail-label">diligence</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--judgment"><span class="p-vault__rail-label">judgment</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--synthesis"><span class="p-vault__rail-label">synthesis</span><div class="p-vault__cells"><div class="p-vault__cell"></div><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--outreach"><span class="p-vault__rail-label">outreach</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div><div class="p-vault__cell"></div></div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--filled">
+        <div class="cell__caption">
+          <div class="cell__state">dense</div>
+          <div class="cell__trigger">12 weeks · 4 registers · pattern visible · the read of the read</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-vault">
+            <div class="px-eyebrow"><span>vault · 44 packets · 12 wks</span><span class="reg">●</span></div>
+            <div class="p-vault__rail p-vault__rail--diligence"><span class="p-vault__rail-label">diligence</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--judgment"><span class="p-vault__rail-label">judgment</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--lit-j-s"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--lit-j-s"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--lit-j-s"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--lit-j-s"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--lit-j-s"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--synthesis"><span class="p-vault__rail-label">synthesis</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell p-vault__cell--lit-s-s"></div><div class="p-vault__cell"></div><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell p-vault__cell--lit-s-s"></div><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell"></div><div class="p-vault__cell p-vault__cell--lit-s-s"></div><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell p-vault__cell--lit-s-s"></div><div class="p-vault__cell"></div><div class="p-vault__cell p-vault__cell--lit-s"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--outreach"><span class="p-vault__rail-label">outreach</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div><div class="p-vault__cell"></div><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div><div class="p-vault__cell"></div></div></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--refused">
+        <div class="cell__caption">
+          <div class="cell__state">gapped</div>
+          <div class="cell__trigger">register-week with no packet · the audit makes the gap visible</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-vault">
+            <div class="px-eyebrow"><span>vault · 32 packets · 4 gaps</span><span class="reg" style="color: var(--wholeness)">⊘</span></div>
+            <div class="p-vault__rail p-vault__rail--diligence"><span class="p-vault__rail-label">diligence</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--miss"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--miss"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div><div class="p-vault__cell p-vault__cell--lit-d-s"></div><div class="p-vault__cell p-vault__cell--lit-d"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--judgment"><span class="p-vault__rail-label">judgment</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--miss"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--lit-j-s"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--lit-j-s"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--miss"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--lit-j-s"></div><div class="p-vault__cell p-vault__cell--lit-j"></div><div class="p-vault__cell p-vault__cell--lit-j-s"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--synthesis"><span class="p-vault__rail-label">synthesis</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell p-vault__cell--lit-s-s"></div><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell p-vault__cell--lit-s-s"></div><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell p-vault__cell--lit-s-s"></div><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell p-vault__cell--lit-s-s"></div><div class="p-vault__cell p-vault__cell--lit-s"></div><div class="p-vault__cell p-vault__cell--lit-s-s"></div><div class="p-vault__cell p-vault__cell--lit-s"></div></div></div>
+            <div class="p-vault__rail p-vault__rail--outreach"><span class="p-vault__rail-label">outreach</span><div class="p-vault__cells"><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div><div class="p-vault__cell p-vault__cell--lit-o"></div><div class="p-vault__cell p-vault__cell--lit-o-s"></div></div></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ROW 05 · COMMAND
+       ═══════════════════════════════════════════════════════ -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">05</div>
+      <h2 class="row__name">Command</h2>
+      <p class="row__defn"><strong>⌘K palette</strong>. Ephemeral. Anything typed here routes to the correct surface. Always available, never persistent.</p>
+      <div class="row__count">4 states</div>
+    </header>
+    <div class="row__cells">
+
+      <article class="cell cell--blank">
+        <div class="cell__caption">
+          <div class="cell__state">closed</div>
+          <div class="cell__trigger">resting · invoked with ⌘K</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-command">
+            <div class="px-eyebrow"><span>command · resting</span><span>⌘K</span></div>
+            <div class="p-command__input p-command__input--blank">
+              <span class="p-command__input-prefix">⌘K</span>
+              <span class="p-command__input-text">type to begin</span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--prepped">
+        <div class="cell__caption">
+          <div class="cell__state">typing</div>
+          <div class="cell__trigger">operator typing · routes resolving live</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-command">
+            <div class="px-eyebrow"><span>command · 3 routes</span><span>⌘K</span></div>
+            <div class="p-command__input">
+              <span class="p-command__input-prefix">›</span>
+              <span class="p-command__input-text">sr007|</span>
+            </div>
+            <div class="p-command__results">
+              <div class="p-command__result p-command__result--active"><span class="p-command__result-glyph">→</span><span>open · SR007 packet</span><span class="p-command__result-kbd">↵</span></div>
+              <div class="p-command__result"><span class="p-command__result-glyph">⌕</span><span>search · sr007</span><span class="p-command__result-kbd">⌘↵</span></div>
+              <div class="p-command__result"><span class="p-command__result-glyph">+</span><span>compose · clarification</span><span class="p-command__result-kbd">⌘N</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--filled">
+        <div class="cell__caption">
+          <div class="cell__state">routed</div>
+          <div class="cell__trigger">match found · palette closes on enter · surface opens</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-command">
+            <div class="px-eyebrow"><span>command · 1 match</span><span>⌘K</span></div>
+            <div class="p-command__input">
+              <span class="p-command__input-prefix">›</span>
+              <span class="p-command__input-text">open routing-mismatch packet</span>
+            </div>
+            <div class="p-command__results">
+              <div class="p-command__result p-command__result--active"><span class="p-command__result-glyph">→</span><span>vault · 2026·05·08 · routing-mismatch</span><span class="p-command__result-kbd">open</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--refused">
+        <div class="cell__caption">
+          <div class="cell__state">no-route</div>
+          <div class="cell__trigger">query doesn't resolve · refused with explanation</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-command">
+            <div class="px-eyebrow"><span>command · no route</span><span style="color: var(--wholeness)">⊘</span></div>
+            <div class="p-command__input">
+              <span class="p-command__input-prefix">›</span>
+              <span class="p-command__input-text">make me feel better</span>
+            </div>
+            <div class="p-command__results">
+              <div class="p-command__result p-command__result--refused"><span class="p-command__result-glyph">⊘</span><span>not a Liminal surface</span><span class="p-command__result-kbd">refused</span></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ROW 06 · REFUSAL
+       ═══════════════════════════════════════════════════════ -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">06</div>
+      <h2 class="row__name">Refusal</h2>
+      <p class="row__defn"><strong>Bounded refusal.</strong> An agent or surface declining out of lane, with a reason and a route. Refusal is a first-class state — not an error.</p>
+      <div class="row__count">3 states</div>
+    </header>
+    <div class="row__cells">
+
+      <article class="cell cell--refused">
+        <div class="cell__caption">
+          <div class="cell__state">out-of-lane</div>
+          <div class="cell__trigger">agent decided this isn't its ground · names the right one</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-refusal">
+            <div class="p-refusal__glyph">⊘</div>
+            <div class="p-refusal__title">SDR · out of lane</div>
+            <div class="p-refusal__why">This isn't a routing question. <strong>Auditor</strong> is the right agent here.</div>
+            <div class="p-refusal__route"><span class="arrow">→</span> route · Auditor</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--refused">
+        <div class="cell__caption">
+          <div class="cell__state">low-signal</div>
+          <div class="cell__trigger">substrate too thin to produce a read · silence is the output</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-refusal">
+            <div class="p-refusal__glyph">·</div>
+            <div class="p-refusal__title">Analyst · low signal</div>
+            <div class="p-refusal__why">Not enough substrate for a <strong>7-factor read</strong>. Drop two more sources or wait for tomorrow's check-in.</div>
+            <div class="p-refusal__route"><span class="arrow">→</span> deferred · re-eval at next slate</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--refused">
+        <div class="cell__caption">
+          <div class="cell__state">consent-gated</div>
+          <div class="cell__trigger">consent class forbids this read · co-sign required</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-refusal">
+            <div class="p-refusal__glyph">⊘</div>
+            <div class="p-refusal__title">refused · consent</div>
+            <div class="p-refusal__why">Mutual class. <strong>Joint correction required.</strong> Co-signer hasn't ratified this read.</div>
+            <div class="p-refusal__route"><span class="arrow">→</span> request · co-sign</div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SOLE · provenance
+       ═══════════════════════════════════════════════════════ -->
+  <footer class="atlas__sole">
+    <div>
+      <strong>Provenance</strong>
+      Captured 2026·05·17 · forked from May 17 design-system session with Sean. v0.2 corrects v0.1's "no style" failure — brand fonts now load, italic banished, register colors realigned to canon.
+    </div>
+    <div>
+      <strong>Pairs with</strong>
+      <a href="../tokens/design-tokens.css">tokens</a> · atoms<br>
+      <a href="../docs/relationship-axis.md">relationship axis</a> · 5-axis surface declaration<br>
+      <a href="../../cuts/_qa-grid.html">cuts catalog</a> · instances
+    </div>
+    <div>
+      <strong>Next</strong>
+      Flow spec · the named sequence a surface moves through · slate's flow is blank → prepped → filled → corrected → signed.<br><br>
+      Surface map · what is "home" · the hierarchy answer.
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
