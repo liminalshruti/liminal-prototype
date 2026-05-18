@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cut 02 · Forensic Agent · Diligence Loop · Liminal</title>
+
+<!--
+  Cut 02 · Forensic Agent · contradicting-notification diligence loop
+  ──────────────────────────────────────────────────────────────────────
+  ICP        · founder · operator
+  Surface    · personal · agent-mediated correspondence
+  Spec ref   · liminal-agents SPEC §13 (v0.3 forensic agent primitive,
+               named 2026-05-08 from a real routing-mismatch event)
+  Status     · refining
+
+  CONTRACT WITH THE STUDIO ARCHITECTURE
+
+  Replaces the prior v0.4 doc-shape alt UI. Adopts canon tokens + cut-shell
+  without register override · the cut composes cleanly with cut 01 in the
+  QA grid instead of fighting it.
+
+  Demo scenario: a venue sent a decision email that contradicts the
+  applicant's dashboard state. The forensic agent reads both, names the
+  contradiction, and surfaces an audit trail (record IDs, DKIM passes,
+  timing window) so the founder can act on substrate instead of vibes.
+
+  · Tokens come from design-system/tokens/design-tokens.css · DO NOT redefine.
+  · Shared shell comes from lib/cut-shell.css · adopted as-is.
+  · Per-cut layout overrides only · no token redefines · no new colors.
+  · This cut owns its DOM bubble · works standalone or inside catalog iframe.
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- canon · DO NOT REDEFINE TOKENS -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+
+<!-- shared desktop-app shell -->
+<link rel="stylesheet" href="../lib/cut-shell.css">
+
+<style>
+  /* ─── Cut 02 · per-cut layout only · no token redefines ─────────── */
+
+  body[data-cut="02"] {
+    background: var(--ink-1, #0a0b0d);
+    color: var(--ink-9, #e8e6e1);
+    font-family: var(--font-sans, "Geist", system-ui, sans-serif);
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cut-02 {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+  }
+
+  .cut-02__topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 22px;
+    border-bottom: 1px solid var(--ink-3, #1c1e22);
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-6, #7b7a75);
+  }
+  .cut-02__topbar strong {
+    color: var(--ink-9, #e8e6e1);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+  }
+  .cut-02__topbar .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border: 1px solid var(--alarm, #c54a3a);
+    border-radius: 999px;
+    color: var(--alarm, #c54a3a);
+    font-size: 10px;
+  }
+  .cut-02__topbar .pill::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--alarm, #c54a3a);
+    box-shadow: 0 0 8px var(--alarm, #c54a3a);
+  }
+
+  .cut-02__panes {
+    display: grid;
+    grid-template-columns: minmax(280px, 22%) minmax(420px, 1fr) minmax(320px, 28%);
+    gap: 0;
+    min-height: 0;
+  }
+
+  .pane {
+    padding: 22px 24px;
+    border-right: 1px solid var(--ink-3, #1c1e22);
+    overflow: auto;
+  }
+  .pane:last-child { border-right: none; }
+
+  .pane__title {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-6, #7b7a75);
+    margin: 0 0 14px;
+  }
+
+  /* ── stream pane (left) ── */
+  .stream-item {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--ink-3, #1c1e22);
+    cursor: default;
+  }
+  .stream-item__when {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px;
+    color: var(--ink-5, #5a5854);
+    letter-spacing: 0.06em;
+  }
+  .stream-item__from {
+    font-size: 12px;
+    color: var(--ink-7, #aaa79f);
+    margin-top: 2px;
+  }
+  .stream-item__subject {
+    font-size: 13px;
+    color: var(--ink-9, #e8e6e1);
+    margin-top: 3px;
+    line-height: 1.35;
+  }
+  .stream-item--flagged {
+    position: relative;
+    padding-left: 12px;
+  }
+  .stream-item--flagged::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 14px;
+    width: 3px;
+    height: calc(100% - 22px);
+    background: var(--alarm, #c54a3a);
+  }
+  .stream-item--flagged .stream-item__subject {
+    color: var(--alarm, #c54a3a);
+  }
+
+  /* ── contradiction pane (center) ── */
+  .contradiction {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .contradiction__eyebrow {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--alarm, #c54a3a);
+    margin-bottom: 10px;
+  }
+  .contradiction__claim {
+    font-family: var(--font-serif, "Newsreader", "Perfectly Nineties", serif);
+    font-size: 26px;
+    line-height: 1.25;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-9, #e8e6e1);
+    margin: 0 0 22px;
+  }
+  .contradiction__claim em {
+    font-style: normal;
+    color: var(--alarm, #c54a3a);
+  }
+
+  .records {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 22px;
+  }
+  .record {
+    border: 1px solid var(--ink-3, #1c1e22);
+    border-radius: 6px;
+    padding: 14px 16px;
+    background: var(--ink-2, #111317);
+  }
+  .record--decided { border-color: var(--alarm, #c54a3a); }
+  .record--pending { border-color: var(--watch, #b88a3a); }
+
+  .record__label {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-6, #7b7a75);
+    margin-bottom: 6px;
+  }
+  .record__id {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 11px;
+    color: var(--ink-9, #e8e6e1);
+    word-break: break-all;
+    line-height: 1.35;
+  }
+  .record__meta {
+    font-size: 11px;
+    color: var(--ink-7, #aaa79f);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .record__state {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .record--decided .record__state { color: var(--alarm, #c54a3a); }
+  .record--pending .record__state { color: var(--watch, #b88a3a); }
+
+  .next-moves {
+    border-top: 1px solid var(--ink-3, #1c1e22);
+    padding-top: 18px;
+  }
+  .next-moves__title {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-6, #7b7a75);
+    margin-bottom: 10px;
+  }
+  .move {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: var(--ink-8, #c8c5be);
+    line-height: 1.5;
+  }
+  .move__bullet {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    color: var(--signal, #5b8a6f);
+    font-size: 11px;
+  }
+  .move--soft .move__bullet { color: var(--ink-5, #5a5854); }
+
+  /* ── audit pane (right) ── */
+  .audit-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--ink-3, #1c1e22);
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .audit-row:last-child { border-bottom: none; }
+  .audit-row__check {
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 11px;
+    color: var(--signal, #5b8a6f);
+  }
+  .audit-row__check--watch { color: var(--watch, #b88a3a); }
+  .audit-row__key {
+    color: var(--ink-9, #e8e6e1);
+  }
+  .audit-row__val {
+    color: var(--ink-6, #7b7a75);
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 11px;
+    word-break: break-all;
+  }
+
+  .provenance {
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 1px solid var(--ink-3, #1c1e22);
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px;
+    color: var(--ink-5, #5a5854);
+    line-height: 1.65;
+  }
+  .provenance strong {
+    color: var(--ink-7, #aaa79f);
+    font-weight: 500;
+  }
+
+  .cut-02__footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 22px;
+    border-top: 1px solid var(--ink-3, #1c1e22);
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-5, #5a5854);
+  }
+
+  /* Token fallback definitions for the dialectic chrome palette.
+     Canon defines these; this block is defensive for standalone preview.
+     Per canon discipline, only --alarm / --watch / --signal are referenced. */
+  :root {
+    --ink-1: var(--ink-1, #0a0b0d);
+    --ink-2: var(--ink-2, #111317);
+    --ink-3: var(--ink-3, #1c1e22);
+    --ink-5: var(--ink-5, #5a5854);
+    --ink-6: var(--ink-6, #7b7a75);
+    --ink-7: var(--ink-7, #aaa79f);
+    --ink-8: var(--ink-8, #c8c5be);
+    --ink-9: var(--ink-9, #e8e6e1);
+    --alarm: var(--alarm, #c54a3a);
+    --watch: var(--watch, #b88a3a);
+    --signal: var(--signal, #5b8a6f);
+  }
+</style>
+</head>
+<body data-product="personal" data-cut="02">
+
+<div class="cut-02">
+
+  <!-- ─── topbar ─── -->
+  <div class="cut-02__topbar">
+    <div><strong>Liminal</strong> &nbsp;·&nbsp; forensic agent &nbsp;·&nbsp; diligence loop</div>
+    <div><span class="pill">contradiction caught</span></div>
+  </div>
+
+  <!-- ─── three-pane stage ─── -->
+  <div class="cut-02__panes">
+
+    <!-- LEFT · incoming stream -->
+    <section class="pane pane--stream" aria-label="Incoming stream">
+      <h3 class="pane__title">Incoming · last 14 days</h3>
+
+      <div class="stream-item">
+        <div class="stream-item__when">Apr 26 · 09:01</div>
+        <div class="stream-item__from">[venue] · noreply</div>
+        <div class="stream-item__subject">[ACTION REQUIRED] video request</div>
+      </div>
+
+      <div class="stream-item">
+        <div class="stream-item__when">May 01 · 16:19</div>
+        <div class="stream-item__from">[venue] · noreply &nbsp;→&nbsp; catch-all inbox</div>
+        <div class="stream-item__subject">We got your video submission</div>
+      </div>
+
+      <div class="stream-item">
+        <div class="stream-item__when">May 06 · 18:44</div>
+        <div class="stream-item__from">[venue] · noreply &nbsp;→&nbsp; founder workspace</div>
+        <div class="stream-item__subject">We've received your application · ID f952b90c…</div>
+      </div>
+
+      <div class="stream-item stream-item--flagged">
+        <div class="stream-item__when">May 08 · 08:34</div>
+        <div class="stream-item__from">[venue] · noreply &nbsp;→&nbsp; catch-all inbox</div>
+        <div class="stream-item__subject">Thank you for applying · won't be moving forward · footer ID 922054a3…</div>
+      </div>
+
+      <div class="stream-item">
+        <div class="stream-item__when">May 08 · 09:12</div>
+        <div class="stream-item__from">dashboard.[venue]/login &nbsp;·&nbsp; founder workspace login</div>
+        <div class="stream-item__subject">Status: SUBMITTED → <strong>PENDING</strong> → decision (inactive)</div>
+      </div>
+    </section>
+
+    <!-- CENTER · contradiction -->
+    <section class="pane pane--contradiction" aria-label="Named contradiction">
+      <div class="contradiction">
+
+        <div class="contradiction__eyebrow">Contradiction · 2026-05-08 · agent-named</div>
+
+        <h2 class="contradiction__claim">
+          The decision email is bound to <em>a different record</em>
+          than the application that's still in review.
+        </h2>
+
+        <div class="records">
+          <div class="record record--decided">
+            <div class="record__label">Record A · video flow</div>
+            <div class="record__id">922054a3-2002-4ca4-a877-982758b757c5</div>
+            <div class="record__meta">
+              recipient: catch-all@gmail<br>
+              substrate: video only · no application form
+            </div>
+            <div class="record__state">decision rendered → reject</div>
+          </div>
+
+          <div class="record record--pending">
+            <div class="record__label">Record B · application</div>
+            <div class="record__id">f952b90c-5099-4e3b-af17-555306085b7f</div>
+            <div class="record__meta">
+              recipient: founder@workspace<br>
+              substrate: full form + deck + traction
+            </div>
+            <div class="record__state">pending · dashboard live</div>
+          </div>
+        </div>
+
+        <div class="next-moves">
+          <div class="next-moves__title">Next moves · agent-proposed · founder-approved</div>
+          <div class="move">
+            <span class="move__bullet">→</span>
+            <span>Draft clarification email to the venue's program team — quote both record IDs, both recipient emails, both substrate states. Do not assert procedural error. Ask the question.</span>
+          </div>
+          <div class="move">
+            <span class="move__bullet">→</span>
+            <span>Hold posture: don't internalize Record A's rejection as a closed decision until Record B's status is confirmed.</span>
+          </div>
+          <div class="move move--soft">
+            <span class="move__bullet">∘</span>
+            <span>If no response by Mon, send artifact-bundle follow-up with four primary-source PDFs attached.</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- RIGHT · forensic audit trail -->
+    <aside class="pane pane--audit" aria-label="Forensic audit trail">
+      <h3 class="pane__title">Audit trail · primary sources</h3>
+
+      <div class="audit-row">
+        <span class="audit-row__check">✓</span>
+        <span>
+          <div class="audit-row__key">DKIM · SPF · DMARC</div>
+          <div class="audit-row__val">all four [venue] emails pass · noreply@sr-team origin verified</div>
+        </span>
+      </div>
+
+      <div class="audit-row">
+        <span class="audit-row__check">✓</span>
+        <span>
+          <div class="audit-row__key">CRM contact IDs · X-HS-Cid</div>
+          <div class="audit-row__val">3 distinct values across 4 emails → 3 distinct conversation tracks</div>
+        </span>
+      </div>
+
+      <div class="audit-row">
+        <span class="audit-row__check">✓</span>
+        <span>
+          <div class="audit-row__key">Workflow Feedback-IDs</div>
+          <div class="audit-row__val">3 distinct send-templates → 3 separate workflow triggers, not one record</div>
+        </span>
+      </div>
+
+      <div class="audit-row">
+        <span class="audit-row__check audit-row__check--watch">!</span>
+        <span>
+          <div class="audit-row__key">Stated review window</div>
+          <div class="audit-row__val">May 1 receipt promised "within two weeks" · decision arrived day 7 of 14</div>
+        </span>
+      </div>
+
+      <div class="audit-row">
+        <span class="audit-row__check audit-row__check--watch">!</span>
+        <span>
+          <div class="audit-row__key">Decision-email body scan</div>
+          <div class="audit-row__val">references "video interview" only · no mention of form prose, deck, or traction toggles</div>
+        </span>
+      </div>
+
+      <div class="audit-row">
+        <span class="audit-row__check">✓</span>
+        <span>
+          <div class="audit-row__key">Inbox topology canon</div>
+          <div class="audit-row__val">catch-all vs founder split documented 8 days before this event · not retroactive</div>
+        </span>
+      </div>
+
+      <div class="provenance">
+        <strong>Captured</strong> · 2026-05-08 · forensic agent v0.3<br>
+        <strong>Substrate</strong> · 4 .eml files · 5 PDFs · 1 dashboard screenshot<br>
+        <strong>Authority</strong> · founder<br>
+        <strong>Visibility</strong> · private · audit-grade
+      </div>
+    </aside>
+
+  </div>
+
+  <!-- ─── footer ─── -->
+  <div class="cut-02__footer">
+    <div>cut 02 · forensic agent · liminal-agents SPEC §13</div>
+    <div>v0.3 · refining</div>
+  </div>
+
+</div>
+
+</body>
+</html>
