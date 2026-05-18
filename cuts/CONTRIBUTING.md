@@ -20,7 +20,7 @@ lib/cut-shell.css                             ← cascade bridge · prototype-vo
             │      so cut-shell works standalone too
             ▼
 cuts/01-slate-tray.html                       ← cut · imports tokens + shell
-cuts/02-alt-ui.html                           ← cut · same imports
+cuts/02-forensic-agent.html                   ← cut · same imports
 cuts/03-calibration.html                      ← cut · same imports
             │
             ▼

@@ -32,7 +32,7 @@ This is a **single-file prototype catalog** — public, click-able embodiments o
 | `cuts/01-slate-tray.html` | **Canonical front door** (per `FRONT_DOOR_DECISION_2026-05-12.md`) — slate-tray-vault workspace, brand-first hero |
 | `cuts/01-slate-tray-speedrun.html` | Same workspace, Speedrun-register hero — for direct partner sends |
 | `cuts/00-hero-demo.html` | Hero / single-scenario doc-shape (Tuesday Speedrun call) |
-| `cuts/02-alt-ui.html` | Doc-shape register (CASE FILE → DILIGENCE → SYNTHESIS → JUDGMENT) |
+| `cuts/02-forensic-agent.html` | Forensic agent · contradicting-notification diligence loop (v0.3) |
 | `cuts/03-calibration.html` | 12wk × 4-register vault heatmap (the moat made visible) |
 | `cuts/04-07-onboarding-*.html` | First-touch onboarding variants (default + argument + compare + radical) |
 | `cuts/08-liminal-custody.html` | Natsec-register custody view (DoD/IC audience) |
