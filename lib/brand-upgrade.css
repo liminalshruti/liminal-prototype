@@ -225,7 +225,7 @@ em, strong,
   border: 1px solid rgba(255,255,255,0.07) !important;
   border-radius: 8px !important;
   box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset !important;
-  padding: 48px 44px 40px !important;
+  padding: 36px 40px 28px !important;
   max-width: 640px !important;
 }
 .entry-wedge {
@@ -236,6 +236,7 @@ em, strong,
   letter-spacing: var(--tracking-snug) !important;
   color: var(--text) !important;
   font-style: normal !important;
+  margin: 0 auto 8px !important;
 }
 .entry-card .entry-brand {
   font-family: "PerfectlyNineties", Georgia, serif !important;
@@ -252,8 +253,11 @@ em, strong,
   letter-spacing: var(--tracking-widest) !important;
   text-transform: uppercase !important;
   color: rgba(242,240,236,0.3) !important;
-  margin-top: 32px !important;
-  margin-bottom: 16px !important;
+  margin-top: 18px !important;
+  margin-bottom: 14px !important;
+}
+.entry-doors {
+  margin-bottom: 12px !important;
 }
 .entry-door {
   background: #141418 !important;
@@ -298,7 +302,7 @@ em, strong,
   letter-spacing: var(--tracking-wide) !important;
   color: rgba(242,240,236,0.2) !important;
   text-transform: uppercase !important;
-  margin-top: 24px !important;
+  margin-top: 8px !important;
 }
 
 /* ══════════════════════════════════════════════════════
