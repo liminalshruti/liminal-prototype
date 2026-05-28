@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cut 09 · OSINT Custody · Liminal</title>
+
+<!--
+  Cut 09 · OSINT Custody · the custody loop, driven by the real kernel
+  ──────────────────────────────────────────────────────────────────────
+  ICP        · intelligence analyst / watch officer · operator
+  Surface    · business · custody (G3) operator-grade
+  Spec ref   · founder-brain/liminal-ip/03-architecture/substrate-proposals-2026-05-28/
+               NORTH_STAR_CUSTODY_OSINT_2026-05-28.md · INSIGHTS_HYPOTHESIS_ENGINE ·
+               DISCORD_FIT_DATAFLOW (DARPA-PS-26-27 / SN-26-60) · liminal-natsec guard.ts
+  Status     · live (kernel-wired)
+  ──────────────────────────────────────────────────────────────────────
+
+  CONTRACT WITH THE STUDIO ARCHITECTURE
+
+  · Tokens come from design-system/tokens/design-tokens.css · DO NOT redefine.
+  · Shared shell comes from lib/cut-shell.css · adopted for chrome; this cut adds
+    a documented divergent watchfloor layout below (custody is a bespoke surface).
+  · This cut is WIRED TO THE REAL KERNEL. The verdicts, posteriors, refusals and
+    re-ranking shown are computed live by lib/osint-kernel.bundle.js — the browser
+    build of ~/liminal/liminal-test/src/browser.ts (the same modules `bun run
+    skeleton` exercises). Regenerate with `npm run build:kernel`. Nothing here is
+    hard-coded narrative: INGEST → READ → GUARD → REVIEW → VAULT runs in-page.
+  · Scenario = Strait of Hormuz dark-gap / identity-churn (CASE_1 → sign R-001 →
+    CASE_2 re-rank), the fixtures in liminal-test/src/fixtures/hormuz.ts.
+  · DISCORD register = same kernel run, relabelled for the DARPA DISCORD decision/
+    diversity/trust/audit layer (substrate stress-case, not a GTM pivot).
+  · This cut owns its DOM bubble · works standalone or inside the catalog iframe.
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<!-- canon · DO NOT REDEFINE TOKENS -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<!-- shared desktop-app shell · chrome + register accents -->
+<link rel="stylesheet" href="../lib/cut-shell.css">
+<!-- brand type hierarchy -->
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
+
+<style>
+  /* ════════════════════════════════════════════════════════════════
+     Cut 09 layout · custody watchfloor · per-cut layout ONLY.
+     Colour comes from canon tokens (--clarity/--alarm/--amber-orn/
+     --connection/--wholeness + surfaces). No token redefinition.
+     ════════════════════════════════════════════════════════════════ */
+  [data-cut="09"] {
+    --c-read:    var(--clarity-500, #8E66FB);   /* deliberation   */
+    --c-refuse:  var(--alarm-500,   #E5484D);   /* refusal/guard  */
+    --c-weak:    var(--amber-orn-500,#F5A524);  /* weakened       */
+    --c-ok:      var(--connection-500,#3EE878); /* supported/seal */
+    --c-verdict: var(--wholeness-500,#E90095);  /* disposition    */
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body[data-cut="09"] {
+    margin: 0;
+    background:
+      radial-gradient(1100px 540px at 78% -8%, rgba(142,102,251,0.07), transparent 60%),
+      var(--bg, #0A0A0B);
+    color: var(--text, #F4F2EE);
+    font-family: var(--sans);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+  }
+
+  .stage { width: min(1180px, 100%); }
+  .frame {
+    background: var(--frame-bg, #0E0E11);
+    border: 1px solid var(--frame-border, #1F1F23);
+    border-radius: var(--radius-5, 14px);
+    box-shadow: var(--shadow-card-lifted);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── titlebar / chyron ── */
+  .titlebar {
+    display: flex; align-items: center; gap: 14px;
+    padding: 11px 16px;
+    background: var(--frame-bg-2, #0C0C0F);
+    border-bottom: 1px solid var(--frame-border, #1F1F23);
+  }
+  .lights { display: flex; gap: 7px; }
+  .lights i { width: 11px; height: 11px; border-radius: 50%; display: block; opacity: .85; }
+  .lights i:nth-child(1){ background:#ED6A5E; } .lights i:nth-child(2){ background:#F4BE4F; } .lights i:nth-child(3){ background:#61C554; }
+  .chyron {
+    font-family: var(--mono); font-size: 11px; letter-spacing: .12em;
+    color: var(--text-mid); text-transform: uppercase; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis;
+  }
+  .chyron b { color: var(--c-read); font-weight: 500; }
+  .vault-pill {
+    margin-left: auto; font-family: var(--mono); font-size: 10px; letter-spacing: .1em;
+    color: var(--text-dim); border: 1px solid var(--frame-border); border-radius: 999px;
+    padding: 4px 10px; white-space: nowrap;
+  }
+  .vault-pill.sealed { color: var(--c-ok); border-color: color-mix(in srgb, var(--c-ok) 40%, transparent); }
+
+  /* ── register row + transport ── */
+  .reg-row {
+    display: flex; align-items: center; gap: 6px;
+    padding: 9px 14px;
+    background: var(--frame-bg, #0E0E11);
+    border-bottom: 1px solid var(--frame-border, #1F1F23);
+  }
+  .reg-tab {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-dim); background: transparent; border: 1px solid transparent;
+    padding: 6px 12px; border-radius: var(--radius-3); cursor: pointer; transition: all .15s;
+  }
+  .reg-tab:hover { color: var(--text-mid); }
+  .reg-tab[aria-selected="true"] {
+    color: var(--c-read); border-color: color-mix(in srgb, var(--c-read) 36%, transparent);
+    background: color-mix(in srgb, var(--c-read) 8%, transparent);
+  }
+  .transport { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+  .t-btn {
+    font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--text-mid); background: var(--frame-bg-3, #15161A);
+    border: 1px solid var(--frame-border); border-radius: var(--radius-3);
+    padding: 6px 13px; cursor: pointer; transition: all .15s;
+  }
+  .t-btn:hover:not(:disabled) { color: var(--text); border-color: var(--card-border-2); }
+  .t-btn.primary { color: var(--c-read); border-color: color-mix(in srgb, var(--c-read) 40%, transparent); }
+  .t-btn:disabled { opacity: .38; cursor: default; }
+  .beat-tag { font-family: var(--mono); font-size: 10px; color: var(--text-faint); letter-spacing: .08em; }
+
+  /* ── three-pane body ── */
+  .cwrap {
+    display: grid;
+    grid-template-columns: 232px 1fr 250px;
+    min-height: 560px;
+  }
+  .rail { padding: 14px; overflow-y: auto; }
+  .rail-left  { border-right: 1px solid var(--frame-border); background: var(--frame-bg-2, #0C0C0F); }
+  .rail-right { border-left: 1px solid var(--frame-border); background: var(--frame-bg-2, #0C0C0F); }
+  .center { padding: 16px 20px 18px; overflow-y: auto; max-height: 660px; }
+
+  .rail-h {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--text-faint); margin: 0 0 10px;
+  }
+  .rail-right .rail-h { margin-top: 22px; }
+  .rail-right .rail-h:first-child { margin-top: 0; }
+
+  /* ── ingested observations ── */
+  .obs {
+    border: 1px solid var(--frame-border); border-radius: var(--radius-3);
+    padding: 8px 9px; margin-bottom: 7px; background: var(--frame-bg, #0E0E11);
+    opacity: 0; transform: translateX(-6px); transition: opacity .3s, transform .3s;
+  }
+  .obs.in { opacity: 1; transform: none; }
+  .obs-top { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+  .obs-src { font-family: var(--mono); font-size: 9px; letter-spacing: .08em; color: var(--c-read); }
+  .obs-mod {
+    font-family: var(--mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--text-faint); border: 1px solid var(--frame-border); border-radius: 999px; padding: 1px 6px; margin-left: auto;
+  }
+  .obs-sum { font-size: 11px; color: var(--text-mid); line-height: 1.4; }
+  .obs[data-type="INTEGRITY_FLAG"] { border-color: color-mix(in srgb, var(--c-weak) 40%, transparent); }
+  .obs[data-type="INTEGRITY_FLAG"] .obs-src { color: var(--c-weak); }
+
+  /* ── center header ── */
+  .classification {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--text-dim); text-align: center; padding: 5px;
+    border: 1px dashed var(--frame-border); border-radius: var(--radius-2);
+    margin-bottom: 14px;
+  }
+  .case-eyebrow { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--c-read); }
+  .case-title { font-family: var(--serif, "Newsreader"); font-size: 25px; font-weight: 500; line-height: 1.15; margin: 5px 0 3px; letter-spacing: -.01em; }
+  .case-sub { font-size: 12.5px; color: var(--text-dim); line-height: 1.5; max-width: 56ch; }
+
+  /* ── metric band ── */
+  .metric-band { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--frame-border); border: 1px solid var(--frame-border); border-radius: var(--radius-3); margin: 16px 0; overflow: hidden; }
+  .metric { background: var(--frame-bg); padding: 11px 13px; }
+  .metric-k { font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); }
+  .metric-v { font-family: var(--serif, "Newsreader"); font-size: 19px; margin-top: 3px; color: var(--text); }
+  .metric-v.contested { color: var(--c-weak); }
+  .metric-v.clear { color: var(--c-ok); }
+
+  /* ── section labels ── */
+  .sec-h { font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); margin: 20px 0 9px; display: flex; align-items: baseline; gap: 8px; }
+  .sec-h .hint { color: var(--text-mute); letter-spacing: .04em; text-transform: none; font-size: 10px; }
+
+  /* ── specialist reads ── */
+  .reads { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .read {
+    border: 1px solid var(--frame-border); border-left-width: 3px; border-radius: var(--radius-3);
+    padding: 9px 11px; background: var(--frame-bg);
+    opacity: 0; transform: translateY(6px); transition: opacity .32s, transform .32s, border-color .32s;
+  }
+  .read.in { opacity: 1; transform: none; }
+  .read[data-v="supported"] { border-left-color: var(--c-ok); }
+  .read[data-v="weakened"]  { border-left-color: var(--c-weak); }
+  .read[data-v="refused"]   { border-left-color: var(--c-refuse); }
+  .read[data-v="contradicted"] { border-left-color: var(--c-refuse); }
+  .read.forced { background: color-mix(in srgb, var(--c-refuse) 7%, var(--frame-bg)); border-color: color-mix(in srgb, var(--c-refuse) 30%, var(--frame-border)); }
+  .read-top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+  .read-name { font-size: 12.5px; font-weight: 500; color: var(--text); }
+  .read-verdict { margin-left: auto; font-family: var(--mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; }
+  .read-verdict[data-v="supported"] { color: var(--c-ok); background: color-mix(in srgb, var(--c-ok) 12%, transparent); }
+  .read-verdict[data-v="weakened"]  { color: var(--c-weak); background: color-mix(in srgb, var(--c-weak) 13%, transparent); }
+  .read-verdict[data-v="refused"], .read-verdict[data-v="contradicted"] { color: var(--c-refuse); background: color-mix(in srgb, var(--c-refuse) 13%, transparent); }
+  .read-sum { font-size: 11px; color: var(--text-mid); line-height: 1.45; }
+  .read-layers { margin-top: 6px; display: flex; flex-wrap: wrap; gap: 4px; }
+  .layer { font-family: var(--mono); font-size: 8.5px; letter-spacing: .06em; color: var(--c-refuse); border: 1px solid color-mix(in srgb, var(--c-refuse) 35%, transparent); border-radius: 999px; padding: 1px 6px; }
+  .layer.guard-note { color: var(--text-faint); border-color: var(--frame-border); }
+
+  /* ── hypothesis board ── */
+  .hyp { margin-bottom: 8px; opacity: 0; transition: opacity .3s; }
+  .hyp.in { opacity: 1; }
+  .hyp-top { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px; }
+  .hyp-label { color: var(--text-mid); }
+  .hyp-pct { font-family: var(--mono); color: var(--text); }
+  .hyp-bar { height: 5px; border-radius: 999px; background: var(--frame-bg-3, #15161A); overflow: hidden; }
+  .hyp-fill { height: 100%; width: 0; background: var(--c-read); border-radius: 999px; transition: width .6s cubic-bezier(.2,.7,.2,1); }
+  .hyp:first-child .hyp-fill { background: var(--c-verdict); }
+
+  /* ── actions ── */
+  .actions { display: flex; flex-direction: column; gap: 6px; }
+  .act { display: flex; align-items: center; gap: 10px; border: 1px solid var(--frame-border); border-radius: var(--radius-3); padding: 9px 11px; background: var(--frame-bg); transition: all .3s; }
+  .act-rank { font-family: var(--mono); font-size: 11px; color: var(--text-faint); width: 14px; }
+  .act-label { font-size: 12.5px; color: var(--text); }
+  .act-note { margin-left: auto; font-family: var(--mono); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--c-refuse); border: 1px solid color-mix(in srgb, var(--c-refuse) 35%, transparent); border-radius: 999px; padding: 2px 7px; }
+  .act.blocked .act-label { color: var(--text-dim); text-decoration: line-through; text-decoration-color: color-mix(in srgb, var(--c-refuse) 60%, transparent); }
+  .act.top { border-color: color-mix(in srgb, var(--c-read) 36%, transparent); background: color-mix(in srgb, var(--c-read) 7%, var(--frame-bg)); }
+  .act.flash { animation: flash .9s ease; }
+  @keyframes flash { 0%,100%{ background: var(--frame-bg);} 35%{ background: color-mix(in srgb, var(--c-verdict) 16%, var(--frame-bg)); } }
+
+  /* ── brief / review-rule ── */
+  .brief { margin-top: 20px; border: 1px solid var(--frame-border); border-radius: var(--radius-4); padding: 14px; background: var(--frame-bg-2, #0C0C0F); }
+  .brief-h { font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 9px; }
+  .rule {
+    font-family: var(--mono); font-size: 12px; line-height: 1.5; color: var(--text-mid);
+    background: var(--bg); border: 1px solid var(--frame-border); border-radius: var(--radius-3);
+    padding: 10px 12px; opacity: .45; transition: opacity .3s, border-color .3s;
+  }
+  .rule.active { opacity: 1; border-color: color-mix(in srgb, var(--c-verdict) 36%, transparent); }
+  .rule .kw { color: var(--c-verdict); }
+  .rule-meta { font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint); margin-top: 8px; }
+  .rule-meta b { color: var(--c-ok); font-weight: 500; }
+
+  /* ── disposition artifact ── */
+  .dispo { margin-top: 16px; border: 1px solid color-mix(in srgb, var(--c-ok) 32%, var(--frame-border)); border-radius: var(--radius-4); padding: 14px 16px; background: color-mix(in srgb, var(--c-ok) 5%, var(--frame-bg-2)); display: none; }
+  .dispo.in { display: block; animation: rise .5s ease; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .dispo-h { font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--c-ok); margin-bottom: 8px; }
+  .dispo-row { font-size: 12px; color: var(--text-mid); line-height: 1.7; }
+  .dispo-row b { color: var(--text); font-weight: 500; }
+
+  /* ── right rail: ontology + audit ── */
+  .spine-stat { display: flex; gap: 10px; margin-bottom: 10px; }
+  .spine-stat div { flex: 1; border: 1px solid var(--frame-border); border-radius: var(--radius-3); padding: 8px; text-align: center; }
+  .spine-n { font-family: var(--serif, "Newsreader"); font-size: 20px; color: var(--c-read); }
+  .spine-k { font-family: var(--mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint); margin-top: 2px; }
+  .applies { font-family: var(--mono); font-size: 9.5px; color: var(--text-dim); line-height: 1.6; }
+  .applies b { color: var(--c-verdict); }
+  .audit { list-style: none; margin: 0; padding: 0; }
+  .audit li { font-family: var(--mono); font-size: 9.5px; color: var(--text-dim); padding: 4px 0; border-bottom: 1px solid var(--frame-border); display: flex; gap: 7px; }
+  .audit li:last-child { border-bottom: 0; }
+  .audit .a-case { color: var(--c-read); width: 22px; }
+  .audit .a-kind { color: var(--text-mid); }
+  .prov { margin-top: 12px; font-family: var(--mono); font-size: 9px; letter-spacing: .04em; line-height: 1.6; color: var(--text-faint); border-top: 1px dashed var(--frame-border); padding-top: 10px; }
+  .prov b { color: var(--text-dim); }
+
+  /* live infra-run artifact (real Kafka + Algorand testnet) */
+  .infra { margin-top: 12px; border-top: 1px dashed var(--frame-border); padding-top: 10px; display: none; }
+  .infra.on { display: block; }
+  .infra-h { font-family: var(--mono); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 7px; }
+  .infra-row { font-family: var(--mono); font-size: 9.5px; line-height: 1.7; color: var(--text-dim); display: flex; gap: 6px; align-items: baseline; }
+  .infra-row .k { color: var(--text-faint); width: 58px; flex: none; }
+  .infra-ok { color: var(--c-ok); }
+  .infra-warn { color: var(--c-weak); }
+  .infra a { color: var(--c-read); text-decoration: none; word-break: break-all; }
+  .infra a:hover { text-decoration: underline; }
+
+  /* ── footer ── */
+  .frame-foot {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    padding: 9px 16px; background: var(--frame-bg-2, #0C0C0F);
+    border-top: 1px solid var(--frame-border);
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; color: var(--text-faint);
+  }
+  .frame-foot b { color: var(--text-dim); font-weight: 500; }
+  .frame-foot .spacer { margin-left: auto; }
+
+  .muted { color: var(--text-faint); }
+  .empty { color: var(--text-faint); font-size: 12px; font-style: italic; padding: 30px 0; text-align: center; }
+
+  @media (max-width: 940px) {
+    .cwrap { grid-template-columns: 1fr; }
+    .rail-left, .rail-right { border: 0; border-top: 1px solid var(--frame-border); }
+    .reads { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .obs, .read, .hyp, .hyp-fill, .dispo { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body data-cut="09" data-product="business">
+
+<div class="stage">
+  <div class="frame">
+
+    <header class="titlebar">
+      <span class="lights"><i></i><i></i><i></i></span>
+      <span class="chyron" id="chyron"></span>
+      <span class="vault-pill" id="vaultPill">VAULT · 0 SEALED</span>
+    </header>
+
+    <nav class="reg-row">
+      <button class="reg-tab" id="tabCustody" aria-selected="true" type="button">Custody · OSINT</button>
+      <button class="reg-tab" id="tabDiscord" aria-selected="false" type="button">DISCORD · tactics</button>
+      <div class="transport">
+        <span class="beat-tag" id="beatTag">idle</span>
+        <button class="t-btn" id="btnStep" type="button">Step</button>
+        <button class="t-btn primary" id="btnRun" type="button">▶ Run loop</button>
+        <button class="t-btn" id="btnReset" type="button" disabled>Reset</button>
+      </div>
+    </nav>
+
+    <div class="cwrap">
+      <!-- left: ingested observations -->
+      <aside class="rail rail-left">
+        <p class="rail-h" id="obsHead">Ingest · observations</p>
+        <div id="obsList"></div>
+      </aside>
+
+      <!-- center: the case -->
+      <section class="center">
+        <div class="classification" id="classification">UNCLASSIFIED · OSINT · public-domain sources</div>
+        <div class="case-eyebrow" id="caseEyebrow">CASE C1 · awaiting deliberation</div>
+        <h1 class="case-title" id="caseTitle"></h1>
+        <p class="case-sub" id="caseSub"></p>
+
+        <div class="metric-band">
+          <div class="metric"><div class="metric-k" id="m1k">Signal integrity</div><div class="metric-v" id="m1v">—</div></div>
+          <div class="metric"><div class="metric-k" id="m2k">Lead hypothesis</div><div class="metric-v" id="m2v">—</div></div>
+          <div class="metric"><div class="metric-k" id="m3k">Doctrine</div><div class="metric-v" id="m3v">—</div></div>
+        </div>
+
+        <div class="sec-h" id="readsHead">Bounded specialist reads <span class="hint" id="readsHint">stateless · each sees only this bundle (I2)</span></div>
+        <div class="reads" id="reads"><div class="empty">Run the loop — the kernel fans out to six bounded specialists.</div></div>
+
+        <div class="sec-h" id="hypHead">Competing hypotheses</div>
+        <div id="hyps"><div class="empty muted">—</div></div>
+
+        <div class="sec-h" id="actHead">Recommended next move <span class="hint" id="actHint">ranked</span></div>
+        <div class="actions" id="actions"><div class="empty muted">—</div></div>
+
+        <div class="brief">
+          <div class="brief-h" id="briefH">Operator review · durable doctrine</div>
+          <div class="rule" id="rule"><span class="kw">WHEN</span> identity_churn <span class="kw">AND</span> single_source_confirmation <span class="kw">THEN</span> block_escalation</div>
+          <div class="rule-meta" id="ruleMeta">unsigned</div>
+        </div>
+
+        <div class="dispo" id="dispo">
+          <div class="dispo-h" id="dispoH">Case sealed · signed to vault</div>
+          <div class="dispo-row" id="dispoBody"></div>
+        </div>
+      </section>
+
+      <!-- right: ontology + audit -->
+      <aside class="rail rail-right">
+        <p class="rail-h">graph-spine · ontology</p>
+        <div class="spine-stat">
+          <div><div class="spine-n" id="spineNodes">0</div><div class="spine-k">nodes</div></div>
+          <div><div class="spine-n" id="spineEdges">0</div><div class="spine-k">edges</div></div>
+        </div>
+        <div class="applies" id="applies">projection of the correction log · never an input to a specialist (I2)</div>
+
+        <p class="rail-h">Correction stream · audit</p>
+        <ul class="audit" id="audit"><li class="muted">append-only · I1</li></ul>
+
+        <div class="prov" id="prov"></div>
+        <div class="infra" id="infra"></div>
+      </aside>
+    </div>
+
+    <footer class="frame-foot">
+      <span id="footRead">READ —</span>
+      <span id="footEvents"><b>0</b> events</span>
+      <span class="spacer"></span>
+      <span id="footEngine">kernel · liminal-test (in-memory)</span>
+    </footer>
+
+  </div>
+</div>
+
+<script type="module">
+  import {
+    createCustodySession, CASE_1_BUNDLE, CASE_2_BUNDLE
+  } from "../lib/osint-kernel.bundle.js";
+
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const facts = { identityChurn: true, singleSource: true };
+
+  const SPECIALIST_LABEL = {
+    kinematics: "Kinematics", identity: "Identity", signalIntegrity: "Signal Integrity",
+    intent: "Intent", collection: "Collection", visual: "Visual"
+  };
+  const VERDICT_LABEL = { supported: "supported", weakened: "weakened", refused: "refused", contradicted: "contradicted" };
+
+  // ── register copy · same kernel run, two framings ──
+  const REG = {
+    custody: {
+      chyron: 'LIMINAL · <b>CUSTODY</b> · CASE alara_01 · 5TH FLEET · 0200Z · WATCH-1',
+      classification: "UNCLASSIFIED · OSINT · public-domain sources",
+      c1Title: "Identity churn across a dark gap",
+      c1Sub: "An AIS track goes dark in the Strait of Hormuz; a second identity surfaces inside the Kalman-predicted ellipse. Six bounded specialists read the bundle — the structural guard decides what may be claimed.",
+      c2Title: "A second dark-gap case arrives",
+      c2Sub: "Structurally similar identity churn. The doctrine the operator just signed re-ranks the recommendation before any human looks.",
+      readsHead: "Bounded specialist reads", readsHint: "stateless · each sees only this bundle (I2)",
+      hypHead: "Competing hypotheses", actHead: "Recommended next move",
+      briefH: "Operator review · durable doctrine",
+      m1k: "Signal integrity", m2k: "Lead hypothesis", m3k: "Doctrine",
+      dispoH: "Case sealed · signed to vault",
+      prov: "<b>Provenance:</b> every read carries cited-observation IDs; the case is a projection of the append-only correction stream."
+    },
+    discord: {
+      chyron: 'LIMINAL · <b>DISCORD LAYER</b> · DARPA-PS-26-27 / SN-26-60 · TACTICS WATCH',
+      classification: "PROPOSAL · DARPA DISCORD (Ender’s Foundry) · substrate stress-case · not a GTM pivot",
+      c1Title: "Diversify the sim prime’s candidate tactics",
+      c1Sub: "P1 ingest → P2 bounded diversification + red-team. The same stateless guard that refuses an unsupported intent claim is what makes the tactics portfolio poison-resistant: agents read only the current world-state + candidate set, never the ontology.",
+      c2Title: "A second engagement — commander doctrine applies",
+      c2Sub: "P5 adapt: the commander’s prior correction, captured as durable judgment, re-ranks the course-of-action portfolio for the next engagement.",
+      readsHead: "Diversification + red-team agents", readsHint: "P2 · stateless · poison-resistant (I2 fence)",
+      hypHead: "Candidate tactics (diverse)", actHead: "Recommended course of action",
+      briefH: "Commander correction · captured as durable judgment",
+      m1k: "Source integrity", m2k: "Lead tactic", m3k: "Doctrine",
+      dispoH: "COA committed · provenance anchored",
+      prov: "<b>Provenance:</b> signed disposition + signal provenance batched to an Algorand Merkle root per epoch — third-party-verifiable, tamper-evident audit (DISCORD trust/audit req)."
+    }
+  };
+
+  let reg = "custody";
+  let session = null;
+  let beat = 0;            // 0 idle → 1 deliberate C1 → 2 sign R-001 → 3 case C2 re-rank → 4 seal
+  let timers = [];
+  let lastC1 = null;
+
+  const $ = (id) => document.getElementById(id);
+  const clearTimers = () => { timers.forEach(clearTimeout); timers = []; };
+  const after = (ms, fn) => { const t = setTimeout(fn, reduce ? 0 : ms); timers.push(t); };
+
+  function applyRegisterChrome() {
+    const r = REG[reg];
+    $("chyron").innerHTML = r.chyron;
+    $("classification").textContent = r.classification;
+    $("readsHead").firstChild.textContent = r.readsHead + " ";
+    $("readsHint").textContent = r.readsHint;
+    $("hypHead").textContent = r.hypHead;
+    $("actHead").firstChild.textContent = r.actHead + " ";
+    $("briefH").textContent = r.briefH;
+    $("m1k").textContent = r.m1k; $("m2k").textContent = r.m2k; $("m3k").textContent = r.m3k;
+    $("dispoH").textContent = r.dispoH;
+    $("prov").innerHTML = r.prov;
+    $("tabCustody").setAttribute("aria-selected", String(reg === "custody"));
+    $("tabDiscord").setAttribute("aria-selected", String(reg === "discord"));
+  }
+
+  function renderObservations(bundle, caseId) {
+    $("obsHead").textContent = (reg === "discord" ? "P1 ingest · signals" : "Ingest · observations") + " · " + caseId;
+    const host = $("obsList");
+    host.innerHTML = "";
+    bundle.forEach((o, i) => {
+      const el = document.createElement("div");
+      el.className = "obs";
+      el.dataset.type = o.type;
+      el.innerHTML = `<div class="obs-top"><span class="obs-src">${o.source}</span><span class="obs-mod">${o.modality}</span></div><div class="obs-sum">${o.summary ?? o.id}</div>`;
+      host.appendChild(el);
+      after(80 * i + 40, () => el.classList.add("in"));
+    });
+  }
+
+  function renderReads(reads) {
+    const host = $("reads");
+    host.innerHTML = "";
+    reads.forEach((r, i) => {
+      const el = document.createElement("div");
+      el.className = "read" + (r.guard.forced_refused ? " forced" : "");
+      el.dataset.v = r.verdict;
+      const layers = r.guard.applied_layers.length
+        ? `<div class="read-layers">${r.guard.applied_layers.map(l => `<span class="layer">guard · ${l}</span>`).join("")}</div>`
+        : (r.verdict === "refused" ? `<div class="read-layers"><span class="layer guard-note">self-refused · insufficient evidence</span></div>` : "");
+      el.innerHTML = `
+        <div class="read-top">
+          <span class="read-name">${SPECIALIST_LABEL[r.name] ?? r.name}</span>
+          <span class="read-verdict" data-v="${r.verdict}">${VERDICT_LABEL[r.verdict]}</span>
+        </div>
+        <div class="read-sum">${r.summary}</div>${layers}`;
+      host.appendChild(el);
+      after(90 * i + 60, () => el.classList.add("in"));
+    });
+  }
+
+  function renderHypotheses(hyps) {
+    const host = $("hyps");
+    host.innerHTML = "";
+    hyps.forEach((h, i) => {
+      const el = document.createElement("div");
+      el.className = "hyp";
+      el.innerHTML = `<div class="hyp-top"><span class="hyp-label">${h.label}</span><span class="hyp-pct">${Math.round(h.posterior * 100)}%</span></div><div class="hyp-bar"><div class="hyp-fill"></div></div>`;
+      host.appendChild(el);
+      after(70 * i, () => { el.classList.add("in"); el.querySelector(".hyp-fill").style.width = (h.posterior * 100) + "%"; });
+    });
+  }
+
+  function renderActions(actions, flashTop) {
+    const host = $("actions");
+    host.innerHTML = "";
+    actions.forEach((a, i) => {
+      const el = document.createElement("div");
+      el.className = "act" + (a.note ? " blocked" : "") + (i === 0 && !a.note ? " top" : "") + (flashTop && i === 0 ? " flash" : "");
+      el.innerHTML = `<span class="act-rank">${a.rank}</span><span class="act-label">${a.label}</span>${a.note ? `<span class="act-note">${a.note}</span>` : ""}`;
+      host.appendChild(el);
+    });
+  }
+
+  function renderMetrics(c, doctrine) {
+    const integ = c.signalIntegrity;
+    $("m1v").textContent = integ;
+    $("m1v").className = "metric-v " + integ;
+    const lead = c.hypotheses[0];
+    $("m2v").textContent = lead ? Math.round(lead.posterior * 100) + "%" : "—";
+    $("m3v").textContent = doctrine;
+  }
+
+  function renderProjections() {
+    const p = session.projections();
+    $("spineNodes").textContent = p.ontology.nodes.length;
+    $("spineEdges").textContent = p.ontology.edges.length;
+    const applies = p.ontology.edges.filter(e => e.type === "APPLIES_TO");
+    const rules = p.ontology.nodes.filter(n => n.type === "reviewRule");
+    $("applies").innerHTML = rules.length
+      ? `<b>${rules.map(r => r.id ?? "R").join(", ") || "R-001"}</b> · APPLIES_TO ${applies.length} case${applies.length === 1 ? "" : "s"} (durable doctrine edge)`
+      : "projection of the correction log · never an input to a specialist (I2)";
+    const aud = $("audit");
+    aud.innerHTML = "";
+    p.audit.forEach(a => {
+      const li = document.createElement("li");
+      li.innerHTML = `<span class="a-case">${a.caseId ?? "·"}</span><span class="a-kind">${a.kind}</span>`;
+      aud.appendChild(li);
+    });
+    $("footEvents").innerHTML = `<b>${p.events.length}</b> events`;
+    $("vaultPill").textContent = `VAULT · ${p.vault.length} SEALED`;
+    $("vaultPill").classList.toggle("sealed", p.vault.length > 0);
+    return p;
+  }
+
+  function setBeatTag(t) { $("beatTag").textContent = t; }
+
+  // ── the loop, one beat at a time, driven by the real kernel ──
+  function doBeat() {
+    const r = REG[reg];
+    if (beat === 0) {                       // ingest C1
+      session = createCustodySession();
+      $("caseEyebrow").textContent = "CASE C1 · Strait of Hormuz";
+      $("caseTitle").textContent = r.c1Title;
+      $("caseSub").textContent = r.c1Sub;
+      $("footRead").textContent = "READ C1-" + Math.random().toString(36).slice(2, 7);
+      renderObservations(CASE_1_BUNDLE, "C1");
+      $("reads").innerHTML = `<div class="empty">${reg === "discord" ? "P2 diversification fanning out…" : "Specialists reading…"}</div>`;
+      setBeatTag("1/4 · deliberate C1");
+      beat = 1; return;
+    }
+    if (beat === 1) {                       // deliberate + guard C1
+      const res = session.ingest("C1", CASE_1_BUNDLE, facts);
+      lastC1 = res.case;
+      renderReads(res.reads);
+      renderHypotheses(res.case.hypotheses);
+      renderActions(res.case.actions, false);
+      renderMetrics(res.case, "none yet");
+      renderProjections();
+      setBeatTag("2/4 · operator signs R-001");
+      beat = 2; return;
+    }
+    if (beat === 2) {                       // sign durable doctrine
+      session.commit("C1", lastC1);
+      session.signRule("R-001", "WHEN identity_churn AND single_source_confirmation THEN block_escalation");
+      $("rule").classList.add("active");
+      $("ruleMeta").innerHTML = "R-001 · <b>ACTIVE</b> · signed to correction stream";
+      renderProjections();
+      setBeatTag("3/4 · case C2 arrives");
+      beat = 3; return;
+    }
+    if (beat === 3) {                       // ingest C2 with doctrine → re-rank
+      $("caseEyebrow").textContent = "CASE C2 · doctrine applies";
+      $("caseTitle").textContent = r.c2Title;
+      $("caseSub").textContent = r.c2Sub;
+      $("footRead").textContent = "READ C2-" + Math.random().toString(36).slice(2, 7);
+      renderObservations(CASE_2_BUNDLE, "C2");
+      const res = session.ingestWithDoctrine("C2", CASE_2_BUNDLE, facts);
+      renderReads(res.reads);
+      renderHypotheses(res.case.hypotheses);
+      after(reduce ? 0 : 700, () => renderActions(res.case.actions, true));
+      renderMetrics(res.case, res.applied.length ? res.applied.join(", ") : "none");
+      session.commit("C2", res.case);
+      renderProjections();
+      setBeatTag("4/4 · seal");
+      beat = 4; return;
+    }
+    if (beat === 4) {                       // seal / disposition artifact
+      const p = renderProjections();
+      const last = p.vault[p.vault.length - 1];
+      $("dispoBody").innerHTML =
+        `<b>${p.vault.length} cases</b> sealed · doctrine <b>R-001</b> active<br>` +
+        `latest: case <b>${last.caseId}</b> · disposition <b>${last.disposition}</b> · ${p.ontology.nodes.length} ontology nodes` +
+        (reg === "discord" ? `<br><span class="muted">commander correction captured as durable judgment</span>` : "");
+      $("dispo").classList.add("in");
+      setBeatTag("complete");
+      $("btnStep").disabled = true; $("btnRun").disabled = true; $("btnReset").disabled = false;
+      beat = 5; return;
+    }
+  }
+
+  function run() {
+    if (beat >= 5) return;
+    $("btnRun").disabled = true; $("btnStep").disabled = true; $("btnReset").disabled = false;
+    const tick = () => {
+      doBeat();
+      if (beat < 5) after(beat === 4 ? 0 : 1500, tick);
+    };
+    tick();
+  }
+
+  function reset() {
+    clearTimers();
+    beat = 0; lastC1 = null; session = null;
+    $("obsList").innerHTML = "";
+    $("reads").innerHTML = `<div class="empty">Run the loop — the kernel fans out to six bounded specialists.</div>`;
+    $("hyps").innerHTML = `<div class="empty muted">—</div>`;
+    $("actions").innerHTML = `<div class="empty muted">—</div>`;
+    $("caseEyebrow").textContent = "CASE C1 · awaiting deliberation";
+    $("caseTitle").textContent = REG[reg].c1Title;
+    $("caseSub").textContent = REG[reg].c1Sub;
+    $("m1v").textContent = "—"; $("m1v").className = "metric-v";
+    $("m2v").textContent = "—"; $("m3v").textContent = "—";
+    $("rule").classList.remove("active"); $("ruleMeta").textContent = "unsigned";
+    $("dispo").classList.remove("in");
+    $("spineNodes").textContent = "0"; $("spineEdges").textContent = "0";
+    $("applies").innerHTML = "projection of the correction log · never an input to a specialist (I2)";
+    $("audit").innerHTML = `<li class="muted">append-only · I1</li>`;
+    $("footEvents").innerHTML = `<b>0</b> events`; $("footRead").textContent = "READ —";
+    $("vaultPill").textContent = "VAULT · 0 SEALED"; $("vaultPill").classList.remove("sealed");
+    setBeatTag("idle");
+    $("btnRun").disabled = false; $("btnStep").disabled = false; $("btnReset").disabled = true;
+  }
+
+  function switchRegister(next) {
+    if (next === reg) return;
+    reg = next;
+    applyRegisterChrome();
+    reset();
+  }
+
+  $("btnRun").addEventListener("click", run);
+  $("btnStep").addEventListener("click", () => { if (beat < 5) doBeat(); if (beat >= 5) { $("btnStep").disabled = true; $("btnRun").disabled = true; $("btnReset").disabled = false; } else { $("btnReset").disabled = false; } });
+  $("btnReset").addEventListener("click", reset);
+  $("tabCustody").addEventListener("click", () => switchRegister("custody"));
+  $("tabDiscord").addEventListener("click", () => switchRegister("discord"));
+
+  // ── live infra provenance · if a real `bun run infra` produced lib/osint-run.json,
+  //    show the actual Kafka offsets + Algorand testnet txid. Static-safe: absent → hidden. ──
+  (async function loadInfra() {
+    try {
+      const res = await fetch("../lib/osint-run.json", { cache: "no-store" });
+      if (!res.ok) return;
+      const a = await res.json();
+      const k = a.kafka || {}, alg = a.algorand || {};
+      const rows = [];
+      rows.push(`<div class="infra-row"><span class="k">kafka</span><span>${k.topic ?? "—"}</span></div>`);
+      rows.push(`<div class="infra-row"><span class="k">stream</span><span>produced ${k.produced ?? 0} · consumed ${k.consumed ?? 0} · <span class="${k.round_trip ? "infra-ok" : "infra-warn"}">${k.round_trip ? "round-trip ✓" : "pending"}</span></span></div>`);
+      if (alg.txid) {
+        rows.push(`<div class="infra-row"><span class="k">algorand</span><span>${alg.network} · <span class="${alg.verified ? "infra-ok" : ""}">${alg.verified ? "verified ✓" : "posted"}</span></span></div>`);
+        rows.push(`<div class="infra-row"><span class="k">root</span><span>${(alg.root || "").slice(0, 24)}…</span></div>`);
+        rows.push(`<div class="infra-row"><span class="k">txid</span><a href="${alg.explorer}" target="_blank" rel="noopener">${alg.txid}</a></div>`);
+        $("footEngine").textContent = "kernel · liminal-test · Kafka + Algorand testnet (live)";
+      } else {
+        rows.push(`<div class="infra-row"><span class="k">algorand</span><span class="infra-warn">testnet account unfunded — anchor pending</span></div>`);
+        $("footEngine").textContent = "kernel · liminal-test · Kafka live · Algorand pending fund";
+      }
+      const host = $("infra");
+      host.innerHTML = `<div class="infra-h">Live infra run · ${a.generated_at ? a.generated_at.slice(0, 16).replace("T", " ") + "Z" : ""}</div>` + rows.join("");
+      host.classList.add("on");
+    } catch { /* no artifact · static demo only */ }
+  })();
+
+  // init
+  applyRegisterChrome();
+  reset();
+</script>
+
+</body>
+</html>
