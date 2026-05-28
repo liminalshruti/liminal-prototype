@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-28T20:31:40.839Z",
+  "generated_at": "2026-05-28T20:57:30.736Z",
   "kafka": {
     "broker": "redpanda (kafka api)",
     "topic": "liminal.correction-stream",
@@ -9,13 +9,19 @@
   },
   "algorand": {
     "network": "localnet",
-    "account": "PILCXCULLHUSLIKSAGVYGFTRJVUW3QVPL5P2YFHIT7UWG2H62QKS44MGDU",
-    "root": "9c0ee97e63c20402b390c47d0d1d8f5bc5db7494179b80ab2e1118510286f24c",
+    "account": "C6VHYJEEYTBXZAEHX2RI4VI7652J3SQFNRLOL2QHVAHONR2OESAQQIZ6FQ",
+    "root": "47b3afc97463ce67070a53141f96296e57147543870a76cdc045b4246cd745d9",
     "leaf_count": 9,
-    "txid": "LS7ZKFCUD4BB2VYZKRRJKXPZT7OSEMA2LBO26IO5RXIJEHO4MVBA",
-    "confirmed_round": 2,
-    "explorer": "https://lora.algokit.io/localnet/transaction/LS7ZKFCUD4BB2VYZKRRJKXPZT7OSEMA2LBO26IO5RXIJEHO4MVBA",
+    "txid": "PKDGQKBXYU5XFGKOY3HA5VXA54BU2ZHAFVF2PL7BGZOOJPGWXPRQ",
+    "confirmed_round": 3,
+    "explorer": "https://lora.algokit.io/localnet/transaction/PKDGQKBXYU5XFGKOY3HA5VXA54BU2ZHAFVF2PL7BGZOOJPGWXPRQ",
     "verified": true
+  },
+  "ontology": {
+    "store": "neo4j",
+    "url": "bolt://localhost:7687",
+    "nodes": 15,
+    "edges": 14
   },
   "events": 9,
   "vault": [
