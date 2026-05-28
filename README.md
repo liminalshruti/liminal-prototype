@@ -135,12 +135,19 @@ run in a static page. To produce real provenance the cut then displays:
 ```bash
 cd ../liminal-test
 docker compose up -d            # Redpanda (Kafka API broker)
-bun run infra                   # custody loop → Kafka topic (round-trip) → Algorand testnet anchor
+
+# Recommended — fully local, no funding step (real Algorand node in Docker):
+algokit localnet start          # one-time: starts local algod/kmd/indexer
+bun run infra:local             # custody loop → Kafka round-trip → Algorand LOCALNET anchor (verified)
+
+# Or against public testnet (needs a funded account — fund the address it prints):
+bun run infra
 ```
 
-`bun run infra` writes `lib/osint-run.json` here; cut 09 reads it and shows the real Kafka
-offsets and the Algorand testnet txid (with explorer link). The Algorand step needs a funded
-testnet account — fund the address it prints (dispenser) or set `LIMINAL_ALGO_MNEMONIC`.
+Either writes `lib/osint-run.json` here; cut 09 reads it and shows the real Kafka offsets and
+the Algorand txid (with explorer link). LocalNet pulls a pre-funded account from KMD — no
+dispenser, no secrets. Testnet uses algonode + a generated account (fund it, or set
+`LIMINAL_ALGO_MNEMONIC`). Switch networks with `LIMINAL_ALGO_NETWORK=localnet|testnet`.
 
 ## License
 
