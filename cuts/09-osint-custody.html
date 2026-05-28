@@ -680,10 +680,11 @@
       const res = await fetch("../lib/osint-run.json", { cache: "no-store" });
       if (!res.ok) return;
       const a = await res.json();
-      const k = a.kafka || {}, alg = a.algorand || {};
+      const k = a.kafka || {}, alg = a.algorand || {}, ont = a.ontology || {};
       const rows = [];
       rows.push(`<div class="infra-row"><span class="k">kafka</span><span>${k.topic ?? "—"}</span></div>`);
       rows.push(`<div class="infra-row"><span class="k">stream</span><span>produced ${k.produced ?? 0} · consumed ${k.consumed ?? 0} · <span class="${k.round_trip ? "infra-ok" : "infra-warn"}">${k.round_trip ? "round-trip ✓" : "pending"}</span></span></div>`);
+      if (ont.store) rows.push(`<div class="infra-row"><span class="k">ontology</span><span>${ont.store} · ${ont.nodes ?? 0} nodes / ${ont.edges ?? 0} edges</span></div>`);
       if (alg.txid) {
         rows.push(`<div class="infra-row"><span class="k">algorand</span><span>${alg.network} · <span class="${alg.verified ? "infra-ok" : ""}">${alg.verified ? "verified ✓" : "posted"}</span></span></div>`);
         rows.push(`<div class="infra-row"><span class="k">root</span><span>${(alg.root || "").slice(0, 24)}…</span></div>`);
