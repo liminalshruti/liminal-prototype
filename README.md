@@ -36,6 +36,10 @@ This is a **single-file prototype catalog** — public, click-able embodiments o
 | `cuts/03-calibration.html` | 12wk × 4-register vault heatmap (the moat made visible) |
 | `cuts/04-07-onboarding-*.html` | First-touch onboarding variants (default + argument + compare + radical) |
 | `cuts/08-liminal-custody.html` | Natsec-register custody view (DoD/IC audience) |
+| `cuts/09-osint-custody.html` | **OSINT Custody — wired to the real kernel.** Runs INGEST→READ→GUARD→REVIEW→VAULT live in-browser via `lib/osint-kernel.bundle.js`. Custody/DISCORD register toggle. Shows live Kafka + Algorand-testnet provenance from `lib/osint-run.json` when present. |
+| `lib/osint-kernel.bundle.js` | Browser build of the `liminal-test` custody kernel (generated · `npm run build:kernel`). Real deliberation + 7-layer structural guard + review-rule re-rank, no backend. |
+| `molehunt/index.html` | Counterintelligence analyst console (self-contained, high-assurance) |
+| `team-drift/index.html` | Team coherence telemetry (governance-as-pipe) |
 | `design-system/tokens/design-tokens.css` | **The canonical token file** — every product surface imports this |
 | `lib/cut-shell.css` | Frame chrome + slate/tray + audit ribbon + classification + boot animations |
 | `lib/brand-upgrade.css` | Brand fonts (PerfectlyNineties + NinetiesHeadliner) + type hierarchy |
@@ -112,6 +116,31 @@ npm run dev
 ```
 
 Open <http://localhost:5173>. Live-reloads on any `.html` / `.css` / `.js` change.
+
+## OSINT Custody — the real kernel
+
+`cuts/09-osint-custody.html` is wired to the actual custody kernel from the sibling
+`liminal-test` repo, not a scripted mock. The browser bundle runs the full loop
+(six bounded specialists → 7-layer structural guard → competing hypotheses → review-rule
+re-rank → vault/audit) client-side.
+
+```bash
+# regenerate the browser bundle from the kernel (maintainer step; output is committed)
+npm run build:kernel            # → lib/osint-kernel.bundle.js  (needs ../liminal-test + bun)
+```
+
+**Live infra (Kafka + Algorand testnet).** The infra tier runs in `liminal-test` — it cannot
+run in a static page. To produce real provenance the cut then displays:
+
+```bash
+cd ../liminal-test
+docker compose up -d            # Redpanda (Kafka API broker)
+bun run infra                   # custody loop → Kafka topic (round-trip) → Algorand testnet anchor
+```
+
+`bun run infra` writes `lib/osint-run.json` here; cut 09 reads it and shows the real Kafka
+offsets and the Algorand testnet txid (with explorer link). The Algorand step needs a funded
+testnet account — fund the address it prints (dispenser) or set `LIMINAL_ALGO_MNEMONIC`.
 
 ## License
 

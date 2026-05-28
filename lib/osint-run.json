@@ -1,0 +1,39 @@
+{
+  "generated_at": "2026-05-28T20:04:25.373Z",
+  "kafka": {
+    "broker": "redpanda (kafka api)",
+    "topic": "liminal.correction-stream",
+    "produced": 9,
+    "consumed": 9,
+    "round_trip": true
+  },
+  "algorand": {
+    "network": "testnet",
+    "account": "CBVIZ6XMVNWHY6WYBZG6SVIFBUU6OJWU7PI2KN7G7DCKNG2WRIBI7B2KDI",
+    "funded": false,
+    "note": "unfunded — anchor skipped"
+  },
+  "events": 9,
+  "vault": [
+    {
+      "caseId": "C1",
+      "disposition": "request-eo-sar"
+    },
+    {
+      "caseId": "C2",
+      "disposition": "monitor"
+    }
+  ],
+  "case_summary": {
+    "c1_intent": {
+      "verdict": "refused",
+      "layers": [
+        "intent_indicator"
+      ]
+    },
+    "c2_doctrine_applied": [
+      "R-001"
+    ],
+    "c2_escalate_note": "blocked by R-001"
+  }
+}

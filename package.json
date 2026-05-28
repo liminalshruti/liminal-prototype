@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "node server.mjs",
-    "start": "node server.mjs"
+    "start": "node server.mjs",
+    "build:kernel": "bun build ../liminal-test/src/browser.ts --target=browser --format=esm --outfile=lib/osint-kernel.bundle.js"
   },
   "license": "MIT"
 }
