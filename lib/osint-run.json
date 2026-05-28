@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-28T20:04:25.373Z",
+  "generated_at": "2026-05-28T20:31:40.839Z",
   "kafka": {
     "broker": "redpanda (kafka api)",
     "topic": "liminal.correction-stream",
@@ -8,10 +8,14 @@
     "round_trip": true
   },
   "algorand": {
-    "network": "testnet",
-    "account": "CBVIZ6XMVNWHY6WYBZG6SVIFBUU6OJWU7PI2KN7G7DCKNG2WRIBI7B2KDI",
-    "funded": false,
-    "note": "unfunded — anchor skipped"
+    "network": "localnet",
+    "account": "PILCXCULLHUSLIKSAGVYGFTRJVUW3QVPL5P2YFHIT7UWG2H62QKS44MGDU",
+    "root": "9c0ee97e63c20402b390c47d0d1d8f5bc5db7494179b80ab2e1118510286f24c",
+    "leaf_count": 9,
+    "txid": "LS7ZKFCUD4BB2VYZKRRJKXPZT7OSEMA2LBO26IO5RXIJEHO4MVBA",
+    "confirmed_round": 2,
+    "explorer": "https://lora.algokit.io/localnet/transaction/LS7ZKFCUD4BB2VYZKRRJKXPZT7OSEMA2LBO26IO5RXIJEHO4MVBA",
+    "verified": true
   },
   "events": 9,
   "vault": [

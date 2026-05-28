@@ -688,7 +688,7 @@
         rows.push(`<div class="infra-row"><span class="k">algorand</span><span>${alg.network} · <span class="${alg.verified ? "infra-ok" : ""}">${alg.verified ? "verified ✓" : "posted"}</span></span></div>`);
         rows.push(`<div class="infra-row"><span class="k">root</span><span>${(alg.root || "").slice(0, 24)}…</span></div>`);
         rows.push(`<div class="infra-row"><span class="k">txid</span><a href="${alg.explorer}" target="_blank" rel="noopener">${alg.txid}</a></div>`);
-        $("footEngine").textContent = "kernel · liminal-test · Kafka + Algorand testnet (live)";
+        $("footEngine").textContent = `kernel · liminal-test · Kafka + Algorand ${alg.network} (live)`;
       } else {
         rows.push(`<div class="infra-row"><span class="k">algorand</span><span class="infra-warn">testnet account unfunded — anchor pending</span></div>`);
         $("footEngine").textContent = "kernel · liminal-test · Kafka live · Algorand pending fund";
