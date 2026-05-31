@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liminal - 3D Ontology Agent Travel Mock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: "Nineties Headliner";
+    src: url("fonts/nineties-headliner.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --bg: #08090a;
+    --panel: rgba(14, 16, 19, 0.86);
+    --panel-solid: #101217;
+    --rule: rgba(225, 232, 238, 0.12);
+    --rule-strong: rgba(225, 232, 238, 0.22);
+    --text: #eef1f0;
+    --text-2: #b8c0bd;
+    --text-3: #7f8988;
+    --cyan: #55d7ff;
+    --green: #5ae08a;
+    --magenta: #f05bb7;
+    --amber: #f6b957;
+    --red: #ef6a5d;
+    --blue: #78a6ff;
+    --violet: #a98bff;
+    --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: "Geist", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --display: "Nineties Headliner", Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+  }
+
+  button {
+    border: 1px solid var(--rule);
+    background: rgba(255, 255, 255, 0.045);
+    color: var(--text);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  button:hover,
+  button:focus-visible {
+    border-color: rgba(85, 215, 255, 0.48);
+    background: rgba(85, 215, 255, 0.08);
+    outline: none;
+  }
+
+  .app {
+    position: relative;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 46px 1fr;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      #08090a;
+    background-size: 48px 48px, 48px 48px, auto;
+  }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 300px 1fr 380px;
+    align-items: center;
+    gap: 18px;
+    border-bottom: 1px solid var(--rule);
+    background: rgba(8, 9, 10, 0.92);
+    padding: 0 16px;
+    z-index: 6;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .brand strong {
+    font-family: var(--display);
+    font-size: 21px;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+
+  .brand span,
+  .crumbs,
+  .status-line,
+  .mini-label,
+  .legend,
+  .axis-label,
+  .type-chip,
+  .path-step__meta,
+  .event-log {
+    font-family: var(--mono);
+  }
+
+  .brand span {
+    color: var(--text-3);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .crumbs {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .crumbs b {
+    color: var(--cyan);
+    font-weight: 500;
+  }
+
+  .status-line {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    color: var(--text-3);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .status-line span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 12px rgba(90, 224, 138, 0.8);
+  }
+
+  .workspace {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(260px, 320px) 1fr minmax(300px, 360px);
+    min-height: 0;
+  }
+
+  .viewport {
+    position: relative;
+    overflow: hidden;
+    min-width: 0;
+    border-left: 1px solid var(--rule);
+    border-right: 1px solid var(--rule);
+  }
+
+  #graph {
+    position: absolute;
+    inset: 0;
+  }
+
+  .shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, rgba(8, 9, 10, 0.56) 0%, transparent 12%, transparent 88%, rgba(8, 9, 10, 0.55) 100%),
+      linear-gradient(0deg, rgba(8, 9, 10, 0.72) 0%, transparent 24%, transparent 72%, rgba(8, 9, 10, 0.4) 100%);
+  }
+
+  .axis {
+    position: absolute;
+    inset: 18px 22px;
+    pointer-events: none;
+  }
+
+  .axis-label {
+    position: absolute;
+    color: rgba(238, 241, 240, 0.46);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 10px #000;
+  }
+
+  .axis-label.x1 { left: 4px; bottom: 18px; }
+  .axis-label.x2 { right: 4px; bottom: 18px; text-align: right; }
+  .axis-label.y1 { left: 4px; top: 44%; transform: rotate(-90deg); transform-origin: left center; }
+  .axis-label.z1 { right: 4px; top: 74px; text-align: right; }
+
+  .hud {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    right: 18px;
+    display: grid;
+    grid-template-columns: minmax(280px, 430px) 1fr;
+    gap: 14px;
+    align-items: end;
+    pointer-events: none;
+  }
+
+  .readout,
+  .legend {
+    pointer-events: auto;
+    background: rgba(8, 9, 10, 0.7);
+    border: 1px solid var(--rule);
+    backdrop-filter: blur(14px);
+    border-radius: 6px;
+  }
+
+  .readout {
+    padding: 14px;
+  }
+
+  .readout h2 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .readout p {
+    margin: 0;
+    color: var(--text-2);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .legend {
+    justify-self: end;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    padding: 10px 12px;
+    max-width: 560px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-3);
+  }
+
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .swatch {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .side {
+    min-width: 0;
+    overflow: auto;
+    background: var(--panel);
+    backdrop-filter: blur(18px);
+  }
+
+  .side.left {
+    border-right: 1px solid var(--rule);
+  }
+
+  .side.right {
+    border-left: 1px solid var(--rule);
+  }
+
+  .side-inner {
+    padding: 18px 16px 20px;
+  }
+
+  .mini-label {
+    margin: 0 0 10px;
+    color: var(--text-3);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .control-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+
+  .control-row button {
+    height: 34px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .field {
+    display: grid;
+    gap: 7px;
+    margin-bottom: 14px;
+  }
+
+  .field label {
+    color: var(--text-3);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  select,
+  input[type="range"] {
+    width: 100%;
+  }
+
+  select {
+    height: 34px;
+    background: rgba(255, 255, 255, 0.055);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    color: var(--text);
+    padding: 0 10px;
+  }
+
+  input[type="range"] {
+    accent-color: var(--cyan);
+  }
+
+  .agent-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .agent-card {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.032);
+    cursor: pointer;
+  }
+
+  .agent-card.is-active {
+    border-color: var(--agent-color);
+    background: color-mix(in srgb, var(--agent-color) 14%, rgba(255, 255, 255, 0.035));
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--agent-color) 22%, transparent);
+  }
+
+  .agent-card__top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .agent-card strong {
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .type-chip {
+    color: var(--agent-color);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .agent-card p {
+    margin: 0;
+    color: var(--text-2);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .path-list {
+    display: grid;
+    gap: 8px;
+    margin: 14px 0 18px;
+  }
+
+  .path-step {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    gap: 8px;
+    align-items: start;
+    padding: 9px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.025);
+  }
+
+  .path-step.is-current {
+    border-color: rgba(85, 215, 255, 0.55);
+    background: rgba(85, 215, 255, 0.07);
+  }
+
+  .path-step__index {
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-2);
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+
+  .path-step.is-current .path-step__index {
+    color: #061015;
+    background: var(--cyan);
+  }
+
+  .path-step strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .path-step__meta {
+    color: var(--text-3);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .node-panel {
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    margin-top: 16px;
+  }
+
+  .node-title {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 500;
+  }
+
+  .node-body {
+    margin: 0 0 12px;
+    color: var(--text-2);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .kv {
+    display: grid;
+    gap: 7px;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-3);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .kv div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+  }
+
+  .kv b {
+    color: var(--text-2);
+    font-weight: 500;
+    text-align: right;
+  }
+
+  .event-log {
+    display: grid;
+    gap: 8px;
+    margin-top: 14px;
+    color: var(--text-2);
+    font-size: 10px;
+    line-height: 1.45;
+  }
+
+  .event-log div {
+    border-left: 2px solid rgba(85, 215, 255, 0.34);
+    padding-left: 10px;
+  }
+
+  .fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
+    place-items: center;
+    padding: 24px;
+    text-align: center;
+    z-index: 8;
+    background: var(--bg);
+  }
+
+  .fallback.is-visible {
+    display: grid;
+  }
+
+  .fallback h1 {
+    margin: 0 0 8px;
+    font-size: 18px;
+  }
+
+  .fallback p {
+    margin: 0;
+    max-width: 520px;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 980px) {
+    body {
+      overflow: auto;
+    }
+
+    .app {
+      min-height: 100vh;
+      height: auto;
+      grid-template-rows: auto auto;
+    }
+
+    .topbar {
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: 8px;
+      padding: 12px 14px;
+    }
+
+    .crumbs {
+      text-align: left;
+    }
+
+    .status-line {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .workspace {
+      grid-template-columns: 1fr;
+    }
+
+    .viewport {
+      height: 560px;
+      border: 1px solid var(--rule);
+    }
+
+    .side {
+      max-height: none;
+    }
+
+    .hud {
+      grid-template-columns: 1fr;
+    }
+
+    .legend {
+      justify-self: start;
+    }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <strong>Liminal</strong>
+      <span>ontology travel</span>
+    </div>
+    <div class="crumbs">fake custody graph <b>/</b> four agents <b>/</b> path provenance</div>
+    <div class="status-line">
+      <span><i class="dot"></i>rendering live</span>
+      <span>mock data</span>
+      <span id="clock">t+00.0s</span>
+    </div>
+  </header>
+
+  <section class="workspace">
+    <aside class="side left">
+      <div class="side-inner">
+        <p class="mini-label">Controls</p>
+        <div class="control-row">
+          <button id="playPause" type="button">Pause</button>
+          <button id="resetView" type="button">Reset View</button>
+        </div>
+
+        <div class="field">
+          <label for="agentSelect">Focus Agent</label>
+          <select id="agentSelect"></select>
+        </div>
+
+        <div class="field">
+          <label for="speed">Traversal Speed</label>
+          <input id="speed" type="range" min="0.35" max="2.8" value="1" step="0.05">
+        </div>
+
+        <p class="mini-label">Agents</p>
+        <div class="agent-list" id="agentList"></div>
+
+        <div class="node-panel">
+          <p class="mini-label">Live Trace</p>
+          <div class="path-list" id="pathList"></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="viewport" aria-label="3D ontology graph mock">
+      <div id="graph"></div>
+      <div class="shade"></div>
+      <div class="axis">
+        <div class="axis-label x1">raw signal / evidence</div>
+        <div class="axis-label x2">decision / action</div>
+        <div class="axis-label y1">agent responsibility</div>
+        <div class="axis-label z1">confidence rises toward camera</div>
+      </div>
+      <div class="hud">
+        <div class="readout">
+          <h2 id="readoutTitle">Analyst is reading the graph.</h2>
+          <p id="readoutBody">The token follows only edges it can cite. Colored particles show the exact path being traversed, not a generated summary.</p>
+        </div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="fallback" id="fallback">
+        <div>
+          <h1>3D library did not load.</h1>
+          <p>This mock uses CDN scripts for Three.js and 3d-force-graph. Start the local server with network access, then reload this page.</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side right">
+      <div class="side-inner">
+        <p class="mini-label">Selected Node</p>
+        <h2 class="node-title" id="nodeTitle">Select a node</h2>
+        <p class="node-body" id="nodeBody">Click any ontology node to inspect what type of object it is, which layer it sits in, and how an agent can cite it.</p>
+        <div class="kv">
+          <div><span>Type</span><b id="nodeType">-</b></div>
+          <div><span>Layer</span><b id="nodeLayer">-</b></div>
+          <div><span>Confidence</span><b id="nodeConfidence">-</b></div>
+          <div><span>Incoming</span><b id="nodeIncoming">-</b></div>
+          <div><span>Outgoing</span><b id="nodeOutgoing">-</b></div>
+        </div>
+
+        <div class="node-panel">
+          <p class="mini-label">What This Shows</p>
+          <div class="event-log" id="eventLog">
+            <div>Ontology nodes are typed: observation, evidence, anomaly, hypothesis, claim, rule, and action.</div>
+            <div>Agents do not float free. Each step is a move across a real edge with an edge type and confidence.</div>
+            <div>The 3D axes separate raw signals, belief formation, review memory, and action options.</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
+<script src="https://unpkg.com/3d-force-graph@1.79.0/dist/3d-force-graph.min.js"></script>
+<script src="https://unpkg.com/three-spritetext@1.10.0/dist/three-spritetext.min.js"></script>
+<script>
+(() => {
+  const fallback = document.getElementById("fallback");
+  if (!window.ForceGraph3D || !window.SpriteText || !window.THREE) {
+    fallback.classList.add("is-visible");
+    return;
+  }
+
+  const nodeTypes = {
+    case: { label: "CASE", color: "#93a3b3" },
+    observation: { label: "OBS", color: "#d18b3c" },
+    evidence: { label: "EV", color: "#f6b957" },
+    sourceIntegrityCheck: { label: "SIC", color: "#ef6a5d" },
+    anomaly: { label: "ANOM", color: "#b6bec8" },
+    hypothesis: { label: "HYP", color: "#78a6ff" },
+    claim: { label: "CLAIM", color: "#55d7ff" },
+    reviewRule: { label: "RULE", color: "#a98bff" },
+    actionOption: { label: "ACT", color: "#5ae08a" }
+  };
+
+  const edgeColors = {
+    OBSERVED_AS: "#8794a3",
+    DERIVED_FROM: "#9aa4ad",
+    SUPPORTS: "#5ae08a",
+    WEAKENS: "#f6b957",
+    CONTRADICTS: "#ef6a5d",
+    TRIGGERS: "#55d7ff",
+    RECOMMENDS: "#5ae08a",
+    REVIEWED_BY: "#a98bff",
+    APPLIES_TO: "#a98bff"
+  };
+
+  const graphData = {
+    nodes: [
+      { id: "case:orbit-01", name: "Case: founder hire decision", type: "case", layer: "case root", confidence: 0.82, fx: 0, fy: -12, fz: 0, body: "The working case that all agent reads are grounded against." },
+      { id: "obs:meeting-note", name: "Meeting note: deadline tomorrow", type: "observation", layer: "raw signal", confidence: 0.94, fx: -120, fy: -28, fz: -76, body: "A user-authored note states that the hire decision is expected tomorrow morning." },
+      { id: "obs:comp-memo", name: "Comp memo: offer exceeds band", type: "observation", layer: "raw signal", confidence: 0.88, fx: -128, fy: 30, fz: -42, body: "A compensation note says the candidate's expected package is above the planned band." },
+      { id: "ev:pipeline-scarcity", name: "Evidence: two lost candidates", type: "evidence", layer: "evidence", confidence: 0.86, fx: -78, fy: 52, fz: -34, body: "The last two candidates were lost late in process, increasing closure pressure." },
+      { id: "sic:calendar-gap", name: "Source check: deadline provenance", type: "sourceIntegrityCheck", layer: "source integrity", confidence: 0.64, fx: -72, fy: -62, fz: -28, body: "The deadline exists in notes but has weak external provenance." },
+      { id: "anom:scarcity-pressure", name: "Anomaly: scarcity pressure", type: "anomaly", layer: "pattern", confidence: 0.73, fx: -34, fy: 42, fz: -8, body: "Pipeline scarcity is making unrelated factors feel entangled." },
+      { id: "anom:deadline-uncertain", name: "Anomaly: deadline source unclear", type: "anomaly", layer: "pattern", confidence: 0.68, fx: -28, fy: -44, fz: 8, body: "The system cannot confirm whether the deadline is market-imposed or self-imposed." },
+      { id: "hyp:decouple", name: "Hypothesis: decouple constraints", type: "hypothesis", layer: "belief formation", confidence: 0.77, fx: 28, fy: 54, fz: 30, body: "Budget, work-style fit, and deadline pressure should be evaluated independently." },
+      { id: "hyp:deadline-real", name: "Hypothesis: verify deadline first", type: "hypothesis", layer: "belief formation", confidence: 0.71, fx: 28, fy: -48, fz: 42, body: "The decision should not proceed until the deadline is classified." },
+      { id: "claim:frame-contaminated", name: "Claim: frame is contaminated", type: "claim", layer: "claim", confidence: 0.74, fx: 80, fy: 26, fz: 62, body: "The current decision frame mixes scarcity, budget stretch, and culture fit as if they are independent." },
+      { id: "claim:intent-refused", name: "Claim: intent read refused", type: "claim", layer: "claim", confidence: 0.58, fx: 74, fy: -40, fz: 66, body: "The agent refuses to infer the candidate's intent because the evidence chain is too thin." },
+      { id: "rr:separate-deadline", name: "Review rule: classify deadline source", type: "reviewRule", layer: "review memory", confidence: 0.91, fx: 126, fy: -8, fz: 28, body: "Before recommending closure, separate external deadline from internal desire for resolution." },
+      { id: "act:ask-two-questions", name: "Action: ask two counterfactuals", type: "actionOption", layer: "action", confidence: 0.83, fx: 142, fy: 48, fz: 8, body: "Ask whether the hire works with budget fixed, then with work-style concerns fixed." },
+      { id: "act:extend-48h", name: "Action: extend by 48 hours", type: "actionOption", layer: "action", confidence: 0.69, fx: 154, fy: -42, fz: -12, body: "Delay only if the deadline is internal or negotiable." }
+    ],
+    links: [
+      { source: "obs:meeting-note", target: "case:orbit-01", type: "OBSERVED_AS", confidence: 0.94 },
+      { source: "obs:comp-memo", target: "case:orbit-01", type: "OBSERVED_AS", confidence: 0.88 },
+      { source: "obs:meeting-note", target: "sic:calendar-gap", type: "REVIEWED_BY", confidence: 0.64 },
+      { source: "sic:calendar-gap", target: "anom:deadline-uncertain", type: "DERIVED_FROM", confidence: 0.68 },
+      { source: "ev:pipeline-scarcity", target: "anom:scarcity-pressure", type: "DERIVED_FROM", confidence: 0.73 },
+      { source: "obs:comp-memo", target: "anom:scarcity-pressure", type: "SUPPORTS", confidence: 0.72 },
+      { source: "anom:scarcity-pressure", target: "hyp:decouple", type: "DERIVED_FROM", confidence: 0.77 },
+      { source: "anom:deadline-uncertain", target: "hyp:deadline-real", type: "DERIVED_FROM", confidence: 0.71 },
+      { source: "hyp:decouple", target: "claim:frame-contaminated", type: "SUPPORTS", confidence: 0.74 },
+      { source: "hyp:deadline-real", target: "claim:intent-refused", type: "SUPPORTS", confidence: 0.58 },
+      { source: "claim:intent-refused", target: "claim:frame-contaminated", type: "WEAKENS", confidence: 0.51 },
+      { source: "claim:intent-refused", target: "rr:separate-deadline", type: "TRIGGERS", confidence: 0.86 },
+      { source: "claim:frame-contaminated", target: "act:ask-two-questions", type: "TRIGGERS", confidence: 0.83 },
+      { source: "rr:separate-deadline", target: "act:extend-48h", type: "RECOMMENDS", confidence: 0.69 },
+      { source: "rr:separate-deadline", target: "case:orbit-01", type: "APPLIES_TO", confidence: 0.91 },
+      { source: "sic:calendar-gap", target: "claim:frame-contaminated", type: "CONTRADICTS", confidence: 0.48 }
+    ]
+  };
+
+  const agents = [
+    {
+      id: "analyst",
+      name: "Analyst",
+      role: "Pattern builder",
+      color: "#55d7ff",
+      summary: "Travels from raw signal into anomaly, hypothesis, and action.",
+      path: ["obs:comp-memo", "ev:pipeline-scarcity", "anom:scarcity-pressure", "hyp:decouple", "claim:frame-contaminated", "act:ask-two-questions"],
+      rationale: [
+        "Starts with compensation pressure because it is cited, not inferred.",
+        "Adds pipeline scarcity to explain why the pressure may be overweighted.",
+        "Names the scarcity-pressure pattern.",
+        "Forms a decoupling hypothesis.",
+        "Promotes the hypothesis into a claim about the decision frame.",
+        "Recommends two counterfactual questions."
+      ]
+    },
+    {
+      id: "auditor",
+      name: "Auditor",
+      role: "Evidence guard",
+      color: "#f6b957",
+      summary: "Tests whether the deadline has enough provenance to drive action.",
+      path: ["obs:meeting-note", "sic:calendar-gap", "anom:deadline-uncertain", "hyp:deadline-real", "claim:intent-refused", "rr:separate-deadline", "act:extend-48h"],
+      rationale: [
+        "Starts at the note that created urgency.",
+        "Checks whether the deadline came from an external source.",
+        "Marks the deadline source as uncertain.",
+        "Asks for verification before decision pressure is accepted.",
+        "Refuses to infer intent from a weak evidence chain.",
+        "Writes a review rule for future cases.",
+        "Allows a delay only if the deadline is not external."
+      ]
+    },
+    {
+      id: "contrarian",
+      name: "Contrarian",
+      role: "Contradiction scout",
+      color: "#ef6a5d",
+      summary: "Searches for the weak edge that prevents overconfident advice.",
+      path: ["claim:frame-contaminated", "sic:calendar-gap", "claim:intent-refused", "rr:separate-deadline"],
+      rationale: [
+        "Starts from the strongest claim.",
+        "Backtracks to the weakest source check.",
+        "Surfaces a refusal claim instead of a recommendation.",
+        "Pins the refusal into review memory."
+      ]
+    },
+    {
+      id: "memory",
+      name: "Memory",
+      role: "Rule applier",
+      color: "#a98bff",
+      summary: "Carries previous review memory back into the active case.",
+      path: ["rr:separate-deadline", "case:orbit-01", "act:extend-48h"],
+      rationale: [
+        "Starts from saved review memory.",
+        "Applies the rule to the current case.",
+        "Changes the available action set."
+      ]
+    }
+  ];
+
+  const nodesById = new Map(graphData.nodes.map((node) => [node.id, node]));
+  const linkKey = (source, target) => `${source}->${target}`;
+  const activeSegments = new Map();
+  for (const agent of agents) {
+    for (let i = 0; i < agent.path.length - 1; i++) {
+      const key = linkKey(agent.path[i], agent.path[i + 1]);
+      const reverseKey = linkKey(agent.path[i + 1], agent.path[i]);
+      const existing = activeSegments.get(key) || activeSegments.get(reverseKey) || [];
+      existing.push(agent.id);
+      activeSegments.set(key, existing);
+    }
+  }
+
+  for (const link of graphData.links) {
+    const source = typeof link.source === "string" ? link.source : link.source.id;
+    const target = typeof link.target === "string" ? link.target : link.target.id;
+    link.activeAgents = activeSegments.get(linkKey(source, target)) || activeSegments.get(linkKey(target, source)) || [];
+  }
+
+  const el = document.getElementById("graph");
+  const Graph = ForceGraph3D()(el)
+    .backgroundColor("rgba(0,0,0,0)")
+    .graphData(graphData)
+    .enableNodeDrag(false)
+    .showNavInfo(false)
+    .nodeColor((node) => nodeTypes[node.type]?.color || "#93a3b3")
+    .nodeVal((node) => node.type === "case" ? 6 : node.type === "claim" ? 5 : 3)
+    .nodeLabel((node) => `${node.name}<br>${node.type}<br>confidence ${Math.round(node.confidence * 100)}%`)
+    .linkColor((link) => edgeColors[link.type] || "#8794a3")
+    .linkOpacity((link) => link.activeAgents.length ? 0.72 : 0.26)
+    .linkWidth((link) => link.activeAgents.length ? 2.4 : 0.9)
+    .linkDirectionalArrowLength((link) => link.activeAgents.length ? 4.2 : 2.2)
+    .linkDirectionalArrowRelPos(0.64)
+    .linkDirectionalParticles((link) => link.activeAgents.length ? 2 : 0)
+    .linkDirectionalParticleSpeed((link) => 0.006 + link.confidence * 0.006)
+    .linkDirectionalParticleWidth((link) => link.activeAgents.length ? 3.2 : 0)
+    .linkDirectionalParticleColor((link) => {
+      const agent = agents.find((candidate) => candidate.id === link.activeAgents[0]);
+      return agent?.color || edgeColors[link.type] || "#ffffff";
+    })
+    .nodeThreeObject((node) => makeNodeObject(node))
+    .onNodeClick((node) => {
+      selectNode(node.id);
+      Graph.cameraPosition(
+        { x: node.x + 44, y: node.y + 34, z: node.z + 92 },
+        node,
+        820
+      );
+    });
+
+  Graph.d3Force("charge").strength(-80);
+  Graph.d3Force("link").distance(42);
+  Graph.cameraPosition({ x: 34, y: 20, z: 430 }, { x: 38, y: -4, z: 8 }, 0);
+
+  const ambient = new THREE.AmbientLight(0xffffff, 1.55);
+  Graph.scene().add(ambient);
+
+  const agentMeshes = new Map();
+  const ringMeshes = new Map();
+  for (const agent of agents) {
+    const token = makeAgentToken(agent);
+    const ring = makeAgentRing(agent);
+    agentMeshes.set(agent.id, token);
+    ringMeshes.set(agent.id, ring);
+    Graph.scene().add(token);
+    Graph.scene().add(ring);
+  }
+
+  const state = {
+    playing: true,
+    startedAt: performance.now(),
+    pausedAt: 0,
+    pauseOffset: 0,
+    speed: 1,
+    focusAgent: "analyst",
+    selectedNode: null
+  };
+
+  const playPause = document.getElementById("playPause");
+  const resetView = document.getElementById("resetView");
+  const speed = document.getElementById("speed");
+  const agentSelect = document.getElementById("agentSelect");
+  const agentList = document.getElementById("agentList");
+  const pathList = document.getElementById("pathList");
+  const readoutTitle = document.getElementById("readoutTitle");
+  const readoutBody = document.getElementById("readoutBody");
+  const clock = document.getElementById("clock");
+
+  function makeNodeObject(node) {
+    const group = new THREE.Group();
+    const color = nodeTypes[node.type]?.color || "#93a3b3";
+    const radius = node.type === "case" ? 6.8 : node.type === "claim" ? 5.6 : 4.4;
+
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(radius, 24, 16),
+      new THREE.MeshLambertMaterial({
+        color,
+        transparent: true,
+        opacity: node.type === "case" ? 0.98 : 0.86
+      })
+    );
+    group.add(sphere);
+
+    const wire = new THREE.Mesh(
+      new THREE.SphereGeometry(radius + 0.55, 16, 10),
+      new THREE.MeshBasicMaterial({
+        color,
+        transparent: true,
+        opacity: 0.16,
+        wireframe: true
+      })
+    );
+    group.add(wire);
+
+    const label = new SpriteText(nodeTypes[node.type]?.label || node.type.toUpperCase());
+    label.color = "#06090d";
+    label.textHeight = node.type === "case" ? 4.2 : 3.2;
+    label.fontWeight = 700;
+    label.position.set(0, -1, radius + 0.25);
+    group.add(label);
+
+    const title = new SpriteText(node.name);
+    title.color = "rgba(238,241,240,0.88)";
+    title.textHeight = 3.2;
+    title.fontFace = "Geist Mono, monospace";
+    title.position.set(0, radius + 6, 0);
+    title.backgroundColor = "rgba(8,9,10,0.45)";
+    title.padding = 2.2;
+    group.add(title);
+
+    return group;
+  }
+
+  function makeAgentToken(agent) {
+    const group = new THREE.Group();
+    const core = new THREE.Mesh(
+      new THREE.SphereGeometry(4.6, 24, 16),
+      new THREE.MeshBasicMaterial({ color: agent.color })
+    );
+    const halo = new THREE.Mesh(
+      new THREE.SphereGeometry(7.8, 24, 16),
+      new THREE.MeshBasicMaterial({
+        color: agent.color,
+        transparent: true,
+        opacity: 0.16,
+        wireframe: true
+      })
+    );
+    const label = new SpriteText(agent.name);
+    label.color = agent.color;
+    label.textHeight = 3.4;
+    label.fontFace = "Geist Mono, monospace";
+    label.position.set(0, 11, 0);
+    group.add(core);
+    group.add(halo);
+    group.add(label);
+    return group;
+  }
+
+  function makeAgentRing(agent) {
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(8.2, 0.35, 12, 42),
+      new THREE.MeshBasicMaterial({
+        color: agent.color,
+        transparent: true,
+        opacity: 0.58
+      })
+    );
+    ring.rotation.x = Math.PI / 2;
+    return ring;
+  }
+
+  function nodePosition(id) {
+    const node = nodesById.get(id);
+    return new THREE.Vector3(
+      Number.isFinite(node.x) ? node.x : node.fx,
+      Number.isFinite(node.y) ? node.y : node.fy,
+      Number.isFinite(node.z) ? node.z : node.fz
+    );
+  }
+
+  function interpolatePath(agent, t) {
+    const segments = agent.path.length - 1;
+    const scaled = (t % 1) * segments;
+    const index = Math.min(Math.floor(scaled), segments - 1);
+    const local = scaled - index;
+    const from = nodePosition(agent.path[index]);
+    const to = nodePosition(agent.path[index + 1]);
+    const lift = Math.sin(local * Math.PI) * 14;
+    const pos = from.lerp(to, local);
+    pos.y += 8 + lift;
+    return { pos, index, local };
+  }
+
+  function renderAgents(now) {
+    const elapsed = Math.max(0, now - state.startedAt - state.pauseOffset);
+    const cycleMs = 14500 / state.speed;
+    const t = (elapsed % cycleMs) / cycleMs;
+    clock.textContent = `t+${(elapsed / 1000).toFixed(1)}s`;
+
+    for (const [agentId, token] of agentMeshes.entries()) {
+      const agent = agents.find((candidate) => candidate.id === agentId);
+      const offset = agents.findIndex((candidate) => candidate.id === agentId) * 0.13;
+      const traversal = interpolatePath(agent, t + offset);
+      token.position.copy(traversal.pos);
+      token.visible = state.focusAgent === "all" || state.focusAgent === agent.id;
+      token.scale.setScalar(state.focusAgent === agent.id ? 1.22 : 0.82);
+
+      const ring = ringMeshes.get(agentId);
+      ring.position.copy(traversal.pos);
+      ring.rotation.z += 0.012 + traversal.local * 0.006;
+      ring.visible = token.visible;
+      ring.material.opacity = state.focusAgent === agent.id ? 0.7 : 0.36;
+
+      if (agent.id === state.focusAgent || (state.focusAgent === "all" && agent.id === "analyst")) {
+        updateTrace(agent, traversal.index);
+      }
+    }
+  }
+
+  function tick(now) {
+    if (state.playing) {
+      renderAgents(now);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function buildAgentControls() {
+    agentSelect.innerHTML = '<option value="all">All agents</option>' + agents
+      .map((agent) => `<option value="${agent.id}">${agent.name}</option>`)
+      .join("");
+    agentSelect.value = state.focusAgent;
+
+    agentList.innerHTML = agents.map((agent) => `
+      <article class="agent-card${state.focusAgent === agent.id ? " is-active" : ""}" data-agent="${agent.id}" style="--agent-color: ${agent.color}">
+        <div class="agent-card__top">
+          <strong>${agent.name}</strong>
+          <span class="type-chip">${agent.role}</span>
+        </div>
+        <p>${agent.summary}</p>
+      </article>
+    `).join("");
+
+    for (const card of agentList.querySelectorAll(".agent-card")) {
+      card.addEventListener("click", () => setFocusAgent(card.dataset.agent));
+    }
+  }
+
+  function setFocusAgent(agentId) {
+    state.focusAgent = agentId;
+    agentSelect.value = agentId;
+    buildAgentControls();
+    const agent = agents.find((candidate) => candidate.id === agentId) || agents[0];
+    focusPath(agent);
+    updateTrace(agent, 0);
+  }
+
+  function focusPath(agent) {
+    const positions = agent.path.map((id) => nodePosition(id));
+    const center = positions.reduce((acc, pos) => acc.add(pos), new THREE.Vector3()).multiplyScalar(1 / positions.length);
+    Graph.cameraPosition(
+      { x: center.x + 70, y: center.y + 44, z: center.z + 170 },
+      center,
+      900
+    );
+  }
+
+  function updateTrace(agent, index) {
+    readoutTitle.textContent = `${agent.name}: ${nodesById.get(agent.path[index])?.name || "moving"}`;
+    readoutBody.textContent = agent.rationale[index] || agent.summary;
+    pathList.innerHTML = agent.path.map((nodeId, idx) => {
+      const node = nodesById.get(nodeId);
+      return `
+        <div class="path-step${idx === index ? " is-current" : ""}">
+          <span class="path-step__index">${idx + 1}</span>
+          <div>
+            <strong>${node.name}</strong>
+            <span class="path-step__meta">${nodeTypes[node.type]?.label || node.type} / ${Math.round(node.confidence * 100)}% confidence</span>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function selectNode(nodeId) {
+    const node = nodesById.get(nodeId);
+    state.selectedNode = nodeId;
+    document.getElementById("nodeTitle").textContent = node.name;
+    document.getElementById("nodeBody").textContent = node.body;
+    document.getElementById("nodeType").textContent = node.type;
+    document.getElementById("nodeLayer").textContent = node.layer;
+    document.getElementById("nodeConfidence").textContent = `${Math.round(node.confidence * 100)}%`;
+    document.getElementById("nodeIncoming").textContent = graphData.links.filter((link) => {
+      const target = typeof link.target === "string" ? link.target : link.target.id;
+      return target === nodeId;
+    }).length;
+    document.getElementById("nodeOutgoing").textContent = graphData.links.filter((link) => {
+      const source = typeof link.source === "string" ? link.source : link.source.id;
+      return source === nodeId;
+    }).length;
+  }
+
+  function buildLegend() {
+    const items = Object.entries(nodeTypes).map(([type, config]) => {
+      return `<span><i class="swatch" style="background:${config.color}"></i>${type}</span>`;
+    });
+    document.getElementById("legend").innerHTML = items.join("");
+  }
+
+  playPause.addEventListener("click", () => {
+    state.playing = !state.playing;
+    playPause.textContent = state.playing ? "Pause" : "Play";
+    if (!state.playing) {
+      state.pausedAt = performance.now();
+    } else {
+      state.pauseOffset += performance.now() - state.pausedAt;
+    }
+  });
+
+  resetView.addEventListener("click", () => {
+    Graph.cameraPosition({ x: 34, y: 20, z: 430 }, { x: 38, y: -4, z: 8 }, 900);
+  });
+
+  speed.addEventListener("input", () => {
+    state.speed = Number(speed.value);
+  });
+
+  agentSelect.addEventListener("change", () => setFocusAgent(agentSelect.value));
+
+  window.addEventListener("resize", () => {
+    Graph.width(el.clientWidth);
+    Graph.height(el.clientHeight);
+  });
+
+  buildLegend();
+  buildAgentControls();
+  updateTrace(agents[0], 0);
+  selectNode("case:orbit-01");
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>

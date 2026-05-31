@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liminal - Real 3D Ontology Graphs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: "Nineties Headliner";
+    src: url("fonts/nineties-headliner.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --bg: #070809;
+    --panel: rgba(14, 16, 20, 0.9);
+    --line: rgba(234, 240, 238, 0.14);
+    --line-strong: rgba(234, 240, 238, 0.26);
+    --text: #eef2ef;
+    --muted: #b2bbb8;
+    --dim: #77827f;
+    --cyan: #5bd7ff;
+    --green: #5ee08a;
+    --amber: #f7bf63;
+    --red: #f07366;
+    --violet: #a78cff;
+    --pink: #f06bb9;
+    --blue: #7ca6ff;
+    --sans: "Geist", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "Geist Mono", ui-monospace, Menlo, Consolas, monospace;
+    --display: "Nineties Headliner", Georgia, serif;
+    --accent: var(--cyan);
+  }
+
+  * { box-sizing: border-box; }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .app {
+    height: 100vh;
+    min-height: 720px;
+    display: grid;
+    grid-template-rows: 46px 1fr;
+    background:
+      linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.017) 1px, transparent 1px),
+      radial-gradient(circle at 30% 18%, rgba(91,215,255,0.06), transparent 28%),
+      radial-gradient(circle at 78% 72%, rgba(94,224,138,0.045), transparent 31%),
+      var(--bg);
+    background-size: 52px 52px, 52px 52px, auto, auto, auto;
+  }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 340px 1fr 330px;
+    align-items: center;
+    gap: 16px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(7, 8, 9, 0.94);
+    z-index: 10;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .brand strong {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 400;
+  }
+
+  .brand span,
+  .top-meta,
+  .top-status,
+  .eyebrow,
+  .variant-source,
+  .number,
+  .agent-row,
+  .metric,
+  .legend,
+  .score,
+  .control-note {
+    font-family: var(--mono);
+  }
+
+  .brand span,
+  .top-meta,
+  .top-status {
+    color: var(--dim);
+    font-size: 10px;
+  }
+
+  .top-meta { text-align: center; }
+
+  .top-status {
+    justify-self: end;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 14px rgba(94, 224, 138, 0.8);
+    margin-right: 6px;
+  }
+
+  .workspace {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 320px minmax(520px, 1fr) 360px;
+  }
+
+  .rail,
+  .detail {
+    min-width: 0;
+    overflow: auto;
+    background: var(--panel);
+    backdrop-filter: blur(16px);
+  }
+
+  .rail { border-right: 1px solid var(--line); }
+  .detail { border-left: 1px solid var(--line); }
+
+  .inner { padding: 18px 16px 20px; }
+
+  .eyebrow {
+    margin: 0 0 10px;
+    color: var(--dim);
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+
+  .variant-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .variant {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 9px;
+    text-align: left;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.032);
+    padding: 10px;
+  }
+
+  .variant:hover,
+  .variant:focus-visible {
+    outline: none;
+    border-color: rgba(91, 215, 255, 0.5);
+    background: rgba(91, 215, 255, 0.07);
+  }
+
+  .variant.is-active {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 14%, rgba(255,255,255,0.035));
+  }
+
+  .number {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #061015;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .variant strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .variant span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .variant-source {
+    margin-top: 8px;
+    color: var(--dim);
+    font-size: 10px;
+  }
+
+  .agent-key {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .agent-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+    padding: 7px 0;
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  .agent-row i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 7px;
+    background: var(--agent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--agent) 60%, transparent);
+  }
+
+  .stage {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background: rgba(4, 5, 6, 0.48);
+  }
+
+  #webgl {
+    position: absolute;
+    inset: 0;
+  }
+
+  .stage-head {
+    position: absolute;
+    z-index: 4;
+    top: 18px;
+    left: 18px;
+    right: 18px;
+    display: grid;
+    grid-template-columns: minmax(320px, 650px) auto;
+    gap: 18px;
+    pointer-events: none;
+  }
+
+  .stage-head h1 {
+    margin: 0 0 8px;
+    font-size: clamp(23px, 3vw, 36px);
+    line-height: 1.04;
+    font-weight: 500;
+  }
+
+  .stage-head p {
+    margin: 0;
+    max-width: 640px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .metrics {
+    justify-self: end;
+    min-width: 286px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .metric {
+    padding: 10px 9px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(8, 9, 10, 0.72);
+    color: var(--dim);
+    font-size: 10px;
+    backdrop-filter: blur(12px);
+  }
+
+  .metric b {
+    display: block;
+    margin-top: 4px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  .legend {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    max-width: 720px;
+    padding: 9px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(8, 9, 10, 0.76);
+    color: var(--dim);
+    font-size: 10px;
+    backdrop-filter: blur(12px);
+  }
+
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend i {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--legend-color);
+  }
+
+  .control-note {
+    position: absolute;
+    right: 18px;
+    bottom: 18px;
+    z-index: 5;
+    padding: 9px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(8, 9, 10, 0.76);
+    color: var(--dim);
+    font-size: 10px;
+    backdrop-filter: blur(12px);
+  }
+
+  .detail h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .detail p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .block {
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .block:first-of-type { border-top: 0; }
+
+  .block h3 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .block ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+
+  .block li {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+    padding-left: 12px;
+    border-left: 2px solid var(--accent);
+  }
+
+  .score-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .score {
+    display: grid;
+    grid-template-columns: 94px 1fr 34px;
+    gap: 8px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .bar {
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.09);
+    overflow: hidden;
+  }
+
+  .bar span {
+    display: block;
+    height: 100%;
+    width: var(--score);
+    background: var(--accent);
+  }
+
+  .fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
+    z-index: 20;
+    place-items: center;
+    padding: 24px;
+    background: var(--bg);
+    text-align: center;
+  }
+
+  .fallback.is-visible { display: grid; }
+
+  .fallback p {
+    max-width: 560px;
+    margin: 8px auto 0;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 1120px) {
+    body { overflow: auto; }
+    .app {
+      height: auto;
+      grid-template-rows: auto auto;
+    }
+    .topbar {
+      grid-template-columns: 1fr;
+      padding: 12px 14px;
+      align-items: start;
+    }
+    .top-meta { text-align: left; }
+    .top-status { justify-self: start; }
+    .workspace { grid-template-columns: 1fr; }
+    .stage {
+      height: 760px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .stage-head {
+      grid-template-columns: 1fr;
+    }
+    .metrics {
+      justify-self: start;
+    }
+    .control-note { display: none; }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <strong>Liminal</strong>
+      <span>real 3D ontology graphs</span>
+    </div>
+    <div class="top-meta">actual WebGL scenes: orbit, zoom, pan, depth, 3D tubes, animated agent probes</div>
+    <div class="top-status"><span><i class="live-dot"></i>Three.js scene</span><span>5 true 3D variants</span></div>
+  </header>
+
+  <section class="workspace">
+    <aside class="rail">
+      <div class="inner">
+        <p class="eyebrow">3D versions</p>
+        <div class="variant-list" id="variantList"></div>
+
+        <div class="agent-key">
+          <p class="eyebrow">Agent probes</p>
+          <div class="agent-row" style="--agent: var(--cyan)"><span><i></i>Analyst</span><span>pattern path</span></div>
+          <div class="agent-row" style="--agent: var(--amber)"><span><i></i>Auditor</span><span>evidence guard</span></div>
+          <div class="agent-row" style="--agent: var(--red)"><span><i></i>Contrarian</span><span>weak edge</span></div>
+          <div class="agent-row" style="--agent: var(--violet)"><span><i></i>Memory</span><span>rule replay</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div id="webgl"></div>
+      <div class="stage-head">
+        <div>
+          <h1 id="title"></h1>
+          <p id="description"></p>
+        </div>
+        <div class="metrics">
+          <div class="metric">depth<b id="depth"></b></div>
+          <div class="metric">operator fit<b id="operator"></b></div>
+          <div class="metric">build cost<b id="cost"></b></div>
+        </div>
+      </div>
+      <div class="legend" id="legend"></div>
+      <div class="control-note">drag orbit / scroll zoom / right-drag pan</div>
+      <div class="fallback" id="fallback">
+        <div>
+          <h2>WebGL did not initialize.</h2>
+          <p>This page uses real Three.js WebGL. Use a browser with WebGL enabled and network access for the Three.js module import.</p>
+        </div>
+      </div>
+    </section>
+
+    <aside class="detail">
+      <div class="inner">
+        <p class="eyebrow">Evaluation</p>
+        <h2 id="detailTitle"></h2>
+        <p id="summary"></p>
+        <div class="block">
+          <h3>Best for</h3>
+          <ul id="bestFor"></ul>
+        </div>
+        <div class="block">
+          <h3>Tradeoffs</h3>
+          <ul id="tradeoffs"></ul>
+        </div>
+        <div class="block">
+          <h3>Implementation path</h3>
+          <ul id="implementation"></ul>
+        </div>
+        <div class="block">
+          <h3>Scores</h3>
+          <div class="score-list" id="scores"></div>
+        </div>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.149.0/build/three.module.js"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "https://unpkg.com/three@0.149.0/examples/jsm/controls/OrbitControls.js";
+
+const fallback = document.getElementById("fallback");
+const host = document.getElementById("webgl");
+
+const palette = {
+  observation: "#d18b3c",
+  evidence: "#f7bf63",
+  source: "#f07366",
+  anomaly: "#c3c9ce",
+  hypothesis: "#7ca6ff",
+  claim: "#5bd7ff",
+  rule: "#a78cff",
+  action: "#5ee08a",
+  analyst: "#5bd7ff",
+  auditor: "#f7bf63",
+  contrarian: "#f07366",
+  memory: "#a78cff"
+};
+
+const nodeData = [
+  { id: "case", label: "active case", type: "claim", confidence: 0.82 },
+  { id: "obsComp", label: "comp memo", type: "observation", confidence: 0.88 },
+  { id: "obsDeadline", label: "deadline note", type: "observation", confidence: 0.94 },
+  { id: "evidenceLost", label: "lost candidates", type: "evidence", confidence: 0.86 },
+  { id: "sourceWeak", label: "source weak", type: "source", confidence: 0.48 },
+  { id: "scarcity", label: "scarcity pressure", type: "anomaly", confidence: 0.73 },
+  { id: "deadlineUnclear", label: "deadline unclear", type: "anomaly", confidence: 0.68 },
+  { id: "decouple", label: "decouple", type: "hypothesis", confidence: 0.77 },
+  { id: "verify", label: "verify deadline", type: "hypothesis", confidence: 0.71 },
+  { id: "frameClaim", label: "frame claim", type: "claim", confidence: 0.74 },
+  { id: "refusal", label: "refusal claim", type: "claim", confidence: 0.58 },
+  { id: "rule", label: "deadline rule", type: "rule", confidence: 0.91 },
+  { id: "ask", label: "ask questions", type: "action", confidence: 0.83 },
+  { id: "extend", label: "extend 48h", type: "action", confidence: 0.69 }
+];
+
+const paths = [
+  { name: "Analyst", color: palette.analyst, ids: ["obsComp", "evidenceLost", "scarcity", "decouple", "frameClaim", "ask"] },
+  { name: "Auditor", color: palette.auditor, ids: ["obsDeadline", "sourceWeak", "deadlineUnclear", "verify", "refusal", "rule", "extend"] },
+  { name: "Contrarian", color: palette.contrarian, ids: ["frameClaim", "sourceWeak", "refusal", "rule"] },
+  { name: "Memory", color: palette.memory, ids: ["rule", "case", "extend"] }
+];
+
+const variants = [
+  {
+    id: "arena",
+    name: "Arena3D Layers",
+    short: "Parallel ontology planes with true 3D depth.",
+    accent: palette.cyan,
+    description: "This is the most ontology-native 3D view: each semantic type lives on a real horizontal plane, and agent probes climb between planes along cited edges.",
+    bestFor: ["Explaining provenance and ontology discipline.", "Showing when an agent crosses from evidence into belief.", "Separating raw signal, pattern, claim, rule, and action."],
+    tradeoffs: ["Large ontologies need filtering by case and agent.", "Requires good plane labels and camera presets.", "Less organic than force layouts."],
+    implementation: ["Three.js or React Three Fiber scene with pinned y-levels by node.type.", "TubeGeometry for agent paths and edge links.", "Click nodes to open exact provenance records."],
+    scores: { depth: 94, operator: 84, cost: 68 }
+  },
+  {
+    id: "force",
+    name: "Hierarchical Force Cloud",
+    short: "A 3D force graph constrained by ontology depth.",
+    accent: palette.green,
+    description: "A true 3D force-style cloud, but with semantic constraints so the graph does not become arbitrary space art. Claims and actions float forward; raw signals sit behind.",
+    bestFor: ["Exploratory analysis.", "Finding unexpected cross-links.", "Scaling from a small trace to a larger case graph."],
+    tradeoffs: ["Harder to explain on first glance.", "Needs clustering and search for large graphs.", "The layout can shift unless pinned or cached."],
+    implementation: ["Use 3d-force-graph or Reagraph for product implementation.", "Add node pinning and DAG/semantic constraints.", "Animate agent probes as particles on selected paths."],
+    scores: { depth: 86, operator: 76, cost: 74 }
+  },
+  {
+    id: "orbit",
+    name: "OntoTrek Orbit Shells",
+    short: "Case-centered rings with semantic shells in depth.",
+    accent: palette.violet,
+    description: "Inspired by ontology hierarchy viewers: the active case is the center, node types are orbital shells, and agent probes visibly cross from raw material toward action.",
+    bestFor: ["Memorable executive demos.", "Comparing shallow vs deep traversal.", "Seeing which semantic shell each agent overuses."],
+    tradeoffs: ["Directionality needs arrows or animated probes.", "Dense graphs need aggregation.", "Best for one active case at a time."],
+    implementation: ["Map node.type to spherical shell radius.", "Map confidence to vertical offset.", "Use orbit camera presets for top, side, and oblique views."],
+    scores: { depth: 90, operator: 78, cost: 62 }
+  },
+  {
+    id: "helix",
+    name: "Temporal Helix Graph",
+    short: "Time as a 3D spiral, ontology as vertical/depth bands.",
+    accent: palette.amber,
+    description: "The traversal becomes a real 3D replay object. Time wraps around a helix while ontology type and confidence change vertical and radial position.",
+    bestFor: ["Debugging what agents knew when.", "Showing review memory changing a later action.", "Replay controls and audit demos."],
+    tradeoffs: ["Less useful as a static map.", "Dense cross-links are secondary.", "Needs a timeline scrubber to become production-grade."],
+    implementation: ["Drive helix coordinates from event timestamps.", "Store each agent trace as ordered steps.", "Sync camera, right panel, and selected node to replay time."],
+    scores: { depth: 88, operator: 82, cost: 70 }
+  },
+  {
+    id: "terrain",
+    name: "Confidence Terrain",
+    short: "Graph nodes sit on a real 3D risk/confidence surface.",
+    accent: palette.pink,
+    description: "A true 3D terrain where low-confidence source checks are valleys and high-confidence claims/actions are ridges. Agent paths become routes through risk.",
+    bestFor: ["Showing weak evidence quickly.", "Analyst risk triage.", "Explaining why an agent refused or delayed action."],
+    tradeoffs: ["More metaphorical than an ontology diagram.", "Requires reliable confidence/risk scores.", "Needs linked details for exact edge semantics."],
+    implementation: ["Generate a mesh heightfield from node confidence and risk.", "Pin nodes on the surface and draw path tubes over it.", "Use brushing to isolate low-confidence valleys."],
+    scores: { depth: 92, operator: 72, cost: 50 }
+  }
+];
+
+const typeOrder = {
+  observation: 0,
+  evidence: 1,
+  source: 1,
+  anomaly: 2,
+  hypothesis: 3,
+  claim: 4,
+  rule: 5,
+  action: 6
+};
+
+const typeLabels = {
+  observation: "raw signal",
+  evidence: "evidence",
+  source: "source check",
+  anomaly: "pattern",
+  hypothesis: "hypothesis",
+  claim: "claim",
+  rule: "review rule",
+  action: "action"
+};
+
+let scene;
+let camera;
+let renderer;
+let controls;
+let root = new THREE.Group();
+let active = "arena";
+let clock = new THREE.Clock();
+let agentAnimations = [];
+let pickable = [];
+let selectedNode = null;
+
+try {
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color("#070809");
+  scene.fog = new THREE.Fog("#070809", 240, 680);
+
+  camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1400);
+  camera.position.set(145, 120, 235);
+
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  host.appendChild(renderer.domElement);
+
+  controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.07;
+  controls.target.set(0, 18, 0);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+  const keyLight = new THREE.DirectionalLight(0xffffff, 1.35);
+  keyLight.position.set(130, 180, 120);
+  scene.add(keyLight);
+  const coolLight = new THREE.PointLight(0x5bd7ff, 1.4, 420);
+  coolLight.position.set(-120, 90, 120);
+  scene.add(coolLight);
+  const warmLight = new THREE.PointLight(0xf7bf63, 0.8, 360);
+  warmLight.position.set(120, -20, -120);
+  scene.add(warmLight);
+
+  scene.add(root);
+  resize();
+  window.addEventListener("resize", resize);
+  renderer.domElement.addEventListener("pointerdown", onPointerDown);
+  renderAll();
+  animate();
+} catch (error) {
+  console.error(error);
+  fallback.classList.add("is-visible");
+}
+
+function resize() {
+  const rect = host.getBoundingClientRect();
+  renderer.setSize(Math.max(1, rect.width), Math.max(1, rect.height));
+  camera.aspect = Math.max(1, rect.width) / Math.max(1, rect.height);
+  camera.updateProjectionMatrix();
+}
+
+function variantById(id) {
+  return variants.find((variant) => variant.id === id) || variants[0];
+}
+
+function colorFor(type) {
+  return palette[type] || "#b9c1c0";
+}
+
+function renderAll() {
+  renderVariantList();
+  renderLegend();
+  renderDetails(variantById(active));
+  buildScene();
+}
+
+function renderVariantList() {
+  const hostList = document.getElementById("variantList");
+  hostList.innerHTML = variants.map((variant, i) => `
+    <button class="variant${variant.id === active ? " is-active" : ""}" data-id="${variant.id}" style="--accent:${variant.accent}">
+      <span class="number">${i + 1}</span>
+      <span>
+        <strong>${variant.name}</strong>
+        <span>${variant.short}</span>
+        <span class="variant-source">real WebGL geometry</span>
+      </span>
+    </button>
+  `).join("");
+
+  for (const button of hostList.querySelectorAll("button")) {
+    button.addEventListener("click", () => {
+      active = button.dataset.id;
+      renderAll();
+    });
+  }
+}
+
+function renderLegend() {
+  const items = [
+    ["observation", palette.observation],
+    ["evidence", palette.evidence],
+    ["source check", palette.source],
+    ["anomaly", palette.anomaly],
+    ["hypothesis", palette.hypothesis],
+    ["claim", palette.claim],
+    ["review rule", palette.rule],
+    ["action", palette.action]
+  ];
+  document.getElementById("legend").innerHTML = items
+    .map(([label, color]) => `<span><i style="--legend-color:${color}"></i>${label}</span>`)
+    .join("");
+}
+
+function renderDetails(variant) {
+  document.documentElement.style.setProperty("--accent", variant.accent);
+  document.getElementById("title").textContent = variant.name;
+  document.getElementById("description").textContent = variant.description;
+  document.getElementById("detailTitle").textContent = variant.name;
+  document.getElementById("summary").textContent = variant.short;
+  document.getElementById("depth").textContent = variant.scores.depth;
+  document.getElementById("operator").textContent = variant.scores.operator;
+  document.getElementById("cost").textContent = variant.scores.cost;
+  document.getElementById("bestFor").innerHTML = variant.bestFor.map((item) => `<li>${item}</li>`).join("");
+  document.getElementById("tradeoffs").innerHTML = variant.tradeoffs.map((item) => `<li>${item}</li>`).join("");
+  document.getElementById("implementation").innerHTML = variant.implementation.map((item) => `<li>${item}</li>`).join("");
+  document.getElementById("scores").innerHTML = [
+    ["Depth", variant.scores.depth],
+    ["Operator", variant.scores.operator],
+    ["Build cost", variant.scores.cost]
+  ].map(([label, score]) => `
+    <div class="score">
+      <span>${label}</span>
+      <span class="bar" style="--score:${score}%"><span></span></span>
+      <b>${score}</b>
+    </div>
+  `).join("");
+}
+
+function buildScene() {
+  root.clear();
+  root = new THREE.Group();
+  scene.add(root);
+  agentAnimations = [];
+  pickable = [];
+  selectedNode = null;
+
+  addStarfield(root);
+  const layout = getLayout(active);
+  addVariantScaffold(root, active, layout);
+  addGraphLinks(root, layout);
+  addAgentPaths(root, layout);
+  addNodes(root, layout);
+
+  const cameraByVariant = {
+    arena: { pos: [245, 184, 370], target: [8, 44, 0] },
+    force: { pos: [260, 188, 382], target: [8, 22, 0] },
+    orbit: { pos: [250, 210, 382], target: [0, 24, 0] },
+    helix: { pos: [250, 196, 390], target: [12, 24, 0] },
+    terrain: { pos: [240, 184, 370], target: [10, 12, 0] }
+  }[active];
+
+  camera.position.set(...cameraByVariant.pos);
+  controls.target.set(...cameraByVariant.target);
+  controls.update();
+}
+
+function getLayout(id) {
+  if (id === "force") return forceLayout();
+  if (id === "orbit") return orbitLayout();
+  if (id === "helix") return helixLayout();
+  if (id === "terrain") return terrainLayout();
+  return arenaLayout();
+}
+
+function arenaLayout() {
+  const stageX = {
+    observation: -130,
+    evidence: -84,
+    source: -76,
+    anomaly: -32,
+    hypothesis: 34,
+    claim: 88,
+    rule: 112,
+    action: 148
+  };
+  const yByType = {
+    observation: -42,
+    evidence: -12,
+    source: -12,
+    anomaly: 18,
+    hypothesis: 48,
+    claim: 78,
+    rule: 108,
+    action: 138
+  };
+  const offsets = {
+    case: [68, 72, 6],
+    obsComp: [-8, 0, -44],
+    obsDeadline: [2, 0, 44],
+    evidenceLost: [2, 0, -36],
+    sourceWeak: [2, 0, 36],
+    scarcity: [0, 0, -28],
+    deadlineUnclear: [6, 0, 30],
+    decouple: [-2, 0, -26],
+    verify: [0, 0, 28],
+    frameClaim: [-4, 0, -24],
+    refusal: [2, 0, 30],
+    rule: [4, 0, 40],
+    ask: [0, 0, -30],
+    extend: [2, 0, 32]
+  };
+  return mapPositions((node) => {
+    const off = offsets[node.id] || [0, 0, 0];
+    return new THREE.Vector3(stageX[node.type] + off[0], yByType[node.type] + off[1], off[2]);
+  });
+}
+
+function forceLayout() {
+  const points = {
+    case: [0, 10, 0],
+    obsComp: [-125, -38, -76],
+    obsDeadline: [-126, -32, 74],
+    evidenceLost: [-84, 18, -62],
+    sourceWeak: [-76, -12, 52],
+    scarcity: [-30, 48, -34],
+    deadlineUnclear: [-24, 22, 46],
+    decouple: [34, 66, -36],
+    verify: [38, 52, 48],
+    frameClaim: [88, 72, -26],
+    refusal: [84, 44, 44],
+    rule: [116, 20, 20],
+    ask: [148, 36, -66],
+    extend: [156, 0, 58]
+  };
+  return mapPositions((node) => new THREE.Vector3(...points[node.id]));
+}
+
+function orbitLayout() {
+  const idsByRing = {
+    156: ["obsComp", "obsDeadline"],
+    120: ["evidenceLost", "sourceWeak"],
+    86: ["scarcity", "deadlineUnclear"],
+    58: ["decouple", "verify", "frameClaim", "refusal"],
+    28: ["case", "rule"],
+    178: ["ask", "extend"]
+  };
+  const positions = {};
+  Object.entries(idsByRing).forEach(([radiusText, ids], ringIndex) => {
+    const radius = Number(radiusText);
+    ids.forEach((id, i) => {
+      const node = nodeData.find((candidate) => candidate.id === id);
+      const angle = (i / ids.length) * Math.PI * 2 + ringIndex * 0.7;
+      const y = (node.confidence - 0.65) * 120 + (ringIndex % 2) * 8;
+      positions[id] = new THREE.Vector3(Math.cos(angle) * radius, y, Math.sin(angle) * radius * 0.74);
+    });
+  });
+  return mapPositions((node) => positions[node.id] || new THREE.Vector3());
+}
+
+function helixLayout() {
+  const order = ["obsComp", "obsDeadline", "evidenceLost", "sourceWeak", "scarcity", "deadlineUnclear", "decouple", "verify", "frameClaim", "refusal", "rule", "case", "ask", "extend"];
+  const positions = {};
+  order.forEach((id, i) => {
+    const node = nodeData.find((candidate) => candidate.id === id);
+    const angle = i * 0.82;
+    const radius = 56 + typeOrder[node.type] * 9;
+    const x = (i - (order.length - 1) / 2) * 22;
+    const y = -40 + i * 13 + typeOrder[node.type] * 3;
+    const z = Math.sin(angle) * radius;
+    positions[id] = new THREE.Vector3(x, y, z);
+  });
+  return mapPositions((node) => positions[node.id] || new THREE.Vector3());
+}
+
+function terrainLayout() {
+  const points = {
+    case: [0, 38, 0],
+    obsComp: [-128, -16, -72],
+    obsDeadline: [-128, -26, 72],
+    evidenceLost: [-76, 12, -56],
+    sourceWeak: [-70, -42, 56],
+    scarcity: [-22, 30, -30],
+    deadlineUnclear: [-18, -12, 42],
+    decouple: [38, 44, -34],
+    verify: [34, 22, 46],
+    frameClaim: [88, 56, -28],
+    refusal: [86, 4, 42],
+    rule: [112, 46, 12],
+    ask: [148, 66, -60],
+    extend: [150, 24, 58]
+  };
+  return mapPositions((node) => new THREE.Vector3(...points[node.id]));
+}
+
+function mapPositions(fn) {
+  const byId = {};
+  for (const node of nodeData) {
+    byId[node.id] = {
+      ...node,
+      position: fn(node)
+    };
+  }
+  return byId;
+}
+
+function addVariantScaffold(group, id, layout) {
+  if (id === "arena") addArenaPlanes(group);
+  else if (id === "orbit") addOrbitShells(group);
+  else if (id === "helix") addHelixGuide(group);
+  else if (id === "terrain") addTerrain(group);
+  else addForceAxes(group);
+}
+
+function addArenaPlanes(group) {
+  const levels = [
+    ["raw signal", -42, "#d18b3c"],
+    ["evidence", -12, "#f7bf63"],
+    ["pattern", 18, "#c3c9ce"],
+    ["hypothesis", 48, "#7ca6ff"],
+    ["claim", 78, "#5bd7ff"],
+    ["review rule", 108, "#a78cff"],
+    ["action", 138, "#5ee08a"]
+  ];
+  for (const [label, y, color] of levels) {
+    const material = new THREE.MeshBasicMaterial({
+      color,
+      transparent: true,
+      opacity: 0.045,
+      side: THREE.DoubleSide,
+      depthWrite: false
+    });
+    const plane = new THREE.Mesh(new THREE.PlaneGeometry(330, 120, 1, 1), material);
+    plane.rotation.x = -Math.PI / 2;
+    plane.position.set(10, y, 0);
+    group.add(plane);
+
+    const edge = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.PlaneGeometry(330, 120)),
+      new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.18 })
+    );
+    edge.rotation.x = -Math.PI / 2;
+    edge.position.copy(plane.position);
+    group.add(edge);
+    group.add(makeLabel(label, color, 18, new THREE.Vector3(-170, y + 3, -58)));
+  }
+}
+
+function addForceAxes(group) {
+  const grid = new THREE.GridHelper(330, 14, 0x24313a, 0x11181d);
+  grid.position.y = -58;
+  group.add(grid);
+  group.add(makeLabel("semantic x / claim distance", "#77827f", 16, new THREE.Vector3(76, -54, -170)));
+  group.add(makeLabel("confidence y", "#77827f", 16, new THREE.Vector3(-160, 84, -120)));
+  group.add(makeLabel("relation z", "#77827f", 16, new THREE.Vector3(-170, -20, 96)));
+}
+
+function addOrbitShells(group) {
+  [28, 58, 86, 120, 156, 178].forEach((radius, i) => {
+    const color = ["#a78cff", "#5bd7ff", "#c3c9ce", "#f7bf63", "#d18b3c", "#5ee08a"][i];
+    const ring = new THREE.Mesh(
+      new THREE.TorusGeometry(radius, 0.32, 8, 160),
+      new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.26 })
+    );
+    ring.rotation.x = Math.PI / 2;
+    ring.scale.z = 0.74;
+    group.add(ring);
+  });
+  group.add(makeLabel("outer shells: raw / action", "#77827f", 16, new THREE.Vector3(-164, -52, -118)));
+  group.add(makeLabel("inner shells: case / claim", "#77827f", 16, new THREE.Vector3(52, 72, 0)));
+}
+
+function addHelixGuide(group) {
+  const points = [];
+  for (let i = 0; i < 160; i++) {
+    const t = i / 159;
+    const angle = t * Math.PI * 8.4;
+    const radius = 82;
+    points.push(new THREE.Vector3((t - 0.5) * 310, -48 + t * 176, Math.sin(angle) * radius));
+  }
+  const curve = new THREE.CatmullRomCurve3(points);
+  group.add(makeTube(curve, "#26333d", 0.55, 0.55));
+  group.add(makeLabel("time wraps around semantic depth", "#77827f", 16, new THREE.Vector3(-148, 112, -90)));
+}
+
+function addTerrain(group) {
+  const size = 340;
+  const segments = 42;
+  const geometry = new THREE.PlaneGeometry(size, size, segments, segments);
+  geometry.rotateX(-Math.PI / 2);
+  const pos = geometry.attributes.position;
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i);
+    const z = pos.getZ(i);
+    const h =
+      Math.sin(x * 0.035) * 8 +
+      Math.cos(z * 0.03) * 7 +
+      Math.exp(-((x - 95) ** 2 + (z + 55) ** 2) / 4200) * 26 -
+      Math.exp(-((x + 74) ** 2 + (z - 56) ** 2) / 2800) * 22;
+    pos.setY(i, h - 44);
+  }
+  geometry.computeVertexNormals();
+  const mesh = new THREE.Mesh(
+    geometry,
+    new THREE.MeshStandardMaterial({
+      color: "#253139",
+      metalness: 0.1,
+      roughness: 0.86,
+      transparent: true,
+      opacity: 0.72,
+      side: THREE.DoubleSide
+    })
+  );
+  group.add(mesh);
+  const wire = new THREE.Mesh(
+    geometry,
+    new THREE.MeshBasicMaterial({
+      color: "#5bd7ff",
+      wireframe: true,
+      transparent: true,
+      opacity: 0.07
+    })
+  );
+  group.add(wire);
+  group.add(makeLabel("height = confidence, valleys = source risk", "#77827f", 16, new THREE.Vector3(-152, 82, -122)));
+}
+
+function addStarfield(group) {
+  const geometry = new THREE.BufferGeometry();
+  const vertices = [];
+  for (let i = 0; i < 180; i++) {
+    vertices.push((Math.random() - 0.5) * 560, Math.random() * 260 - 70, (Math.random() - 0.5) * 420);
+  }
+  geometry.setAttribute("position", new THREE.Float32BufferAttribute(vertices, 3));
+  const stars = new THREE.Points(
+    geometry,
+    new THREE.PointsMaterial({ color: "#9fb4bd", size: 0.75, transparent: true, opacity: 0.32 })
+  );
+  group.add(stars);
+}
+
+function addGraphLinks(group, layout) {
+  const seen = new Set();
+  for (const path of paths) {
+    for (let i = 0; i < path.ids.length - 1; i++) {
+      const a = path.ids[i];
+      const b = path.ids[i + 1];
+      const key = `${a}->${b}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const curve = curveBetween(layout[a].position, layout[b].position, 0.12);
+      group.add(makeTube(curve, "#dfe8e6", 0.42, 0.32));
+      group.add(makeArrow(layout[a].position, layout[b].position, "#dfe8e6", 0.42));
+    }
+  }
+}
+
+function addAgentPaths(group, layout) {
+  paths.forEach((path, pathIndex) => {
+    const points = path.ids.map((id, i) => {
+      const p = layout[id].position.clone();
+      p.y += 7 + pathIndex * 2.4;
+      p.z += (pathIndex - 1.5) * 2.4;
+      return p;
+    });
+    const curve = new THREE.CatmullRomCurve3(points);
+    group.add(makeTube(curve, path.color, 0.9, 0.74));
+    const token = new THREE.Mesh(
+      new THREE.SphereGeometry(4.2, 24, 16),
+      new THREE.MeshBasicMaterial({ color: path.color })
+    );
+    const halo = new THREE.Mesh(
+      new THREE.SphereGeometry(7.4, 24, 16),
+      new THREE.MeshBasicMaterial({ color: path.color, wireframe: true, transparent: true, opacity: 0.35 })
+    );
+    const tokenGroup = new THREE.Group();
+    tokenGroup.add(token);
+    tokenGroup.add(halo);
+    tokenGroup.add(makeLabel(path.name, path.color, 12, new THREE.Vector3(0, 12, 0)));
+    group.add(tokenGroup);
+    agentAnimations.push({ group: tokenGroup, curve, offset: pathIndex * 0.19 });
+  });
+}
+
+function addNodes(group, layout) {
+  for (const node of nodeData) {
+    const p = layout[node.id].position;
+    const color = colorFor(node.type);
+    const radius = node.id === "case" ? 8 : node.type === "claim" ? 6.3 : 5.2;
+    const sphere = new THREE.Mesh(
+      new THREE.SphereGeometry(radius, 28, 18),
+      new THREE.MeshStandardMaterial({
+        color,
+        emissive: new THREE.Color(color).multiplyScalar(0.15),
+        roughness: 0.46,
+        metalness: 0.08
+      })
+    );
+    sphere.position.copy(p);
+    sphere.userData.node = node;
+    group.add(sphere);
+    pickable.push(sphere);
+
+    const shell = new THREE.Mesh(
+      new THREE.SphereGeometry(radius + 1.3, 18, 12),
+      new THREE.MeshBasicMaterial({ color, wireframe: true, transparent: true, opacity: 0.22 })
+    );
+    shell.position.copy(p);
+    group.add(shell);
+
+    const label = makeLabel(`${node.label} / ${shortType(node.type)}`, color, 12, p.clone().add(new THREE.Vector3(radius + 7, 4, 0)));
+    group.add(label);
+  }
+}
+
+function shortType(type) {
+  return {
+    observation: "OBS",
+    evidence: "EV",
+    source: "SIC",
+    anomaly: "ANOM",
+    hypothesis: "HYP",
+    claim: "CLAIM",
+    rule: "RULE",
+    action: "ACT"
+  }[type] || type.toUpperCase();
+}
+
+function curveBetween(a, b, lift = 0.2) {
+  const mid = a.clone().lerp(b, 0.5);
+  mid.y += a.distanceTo(b) * lift;
+  return new THREE.CatmullRomCurve3([a.clone(), mid, b.clone()]);
+}
+
+function makeTube(curve, color, radius = 1, opacity = 0.8) {
+  return new THREE.Mesh(
+    new THREE.TubeGeometry(curve, 42, radius, 8, false),
+    new THREE.MeshBasicMaterial({ color, transparent: true, opacity })
+  );
+}
+
+function makeArrow(a, b, color, opacity) {
+  const dir = b.clone().sub(a).normalize();
+  const mid = a.clone().lerp(b, 0.72);
+  const cone = new THREE.Mesh(
+    new THREE.ConeGeometry(3.2, 8, 16),
+    new THREE.MeshBasicMaterial({ color, transparent: true, opacity })
+  );
+  cone.position.copy(mid);
+  cone.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir);
+  return cone;
+}
+
+function makeLabel(text, color, size, position) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = 512;
+  canvas.height = 96;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.font = "500 24px Geist Mono, monospace";
+  ctx.fillStyle = "rgba(7,8,9,0.72)";
+  const width = Math.min(500, ctx.measureText(text).width + 24);
+  ctx.fillRect(0, 20, width, 38);
+  ctx.fillStyle = color;
+  ctx.fillText(text, 12, 47);
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.minFilter = THREE.LinearFilter;
+  const sprite = new THREE.Sprite(new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false }));
+  sprite.scale.set(size * 3.25, size * 0.68, 1);
+  sprite.position.copy(position);
+  return sprite;
+}
+
+function onPointerDown(event) {
+  const rect = renderer.domElement.getBoundingClientRect();
+  const pointer = new THREE.Vector2(
+    ((event.clientX - rect.left) / rect.width) * 2 - 1,
+    -((event.clientY - rect.top) / rect.height) * 2 + 1
+  );
+  const raycaster = new THREE.Raycaster();
+  raycaster.setFromCamera(pointer, camera);
+  const hit = raycaster.intersectObjects(pickable, false)[0];
+  if (!hit) return;
+  selectedNode = hit.object.userData.node;
+  const node = selectedNode;
+  document.getElementById("summary").textContent = `${node.label}: ${typeLabels[node.type] || node.type}, confidence ${Math.round(node.confidence * 100)}%.`;
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  const elapsed = clock.getElapsedTime();
+  for (const item of agentAnimations) {
+    const t = (elapsed * 0.055 + item.offset) % 1;
+    item.group.position.copy(item.curve.getPoint(t));
+    item.group.rotation.y += 0.02;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+}
+</script>
+</body>
+</html>
