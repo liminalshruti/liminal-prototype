@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liminal - More 3D Ontology Graph Mocks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: "Nineties Headliner";
+    src: url("fonts/nineties-headliner.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --bg: #070809;
+    --panel: rgba(14, 16, 20, 0.9);
+    --line: rgba(234, 240, 238, 0.13);
+    --line-strong: rgba(234, 240, 238, 0.24);
+    --text: #eef2ef;
+    --muted: #b2bbb8;
+    --dim: #77827f;
+    --cyan: #5bd7ff;
+    --green: #5ee08a;
+    --amber: #f7bf63;
+    --red: #f07366;
+    --violet: #a78cff;
+    --pink: #f06bb9;
+    --blue: #7ca6ff;
+    --sans: "Geist", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "Geist Mono", ui-monospace, Menlo, Consolas, monospace;
+    --display: "Nineties Headliner", Georgia, serif;
+    --accent: var(--cyan);
+  }
+
+  * { box-sizing: border-box; }
+
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .app {
+    height: 100vh;
+    min-height: 720px;
+    display: grid;
+    grid-template-rows: 46px 1fr;
+    background:
+      linear-gradient(rgba(255,255,255,0.022) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.017) 1px, transparent 1px),
+      radial-gradient(circle at 32% 18%, rgba(91,215,255,0.06), transparent 28%),
+      radial-gradient(circle at 76% 72%, rgba(94,224,138,0.045), transparent 31%),
+      var(--bg);
+    background-size: 52px 52px, 52px 52px, auto, auto, auto;
+  }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 340px 1fr 330px;
+    align-items: center;
+    gap: 16px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(7, 8, 9, 0.94);
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+  }
+
+  .brand strong {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 400;
+  }
+
+  .brand span,
+  .top-meta,
+  .top-status,
+  .eyebrow,
+  .variant-source,
+  .number,
+  .agent-row,
+  .metric,
+  .legend,
+  .axis,
+  .micro,
+  .score {
+    font-family: var(--mono);
+  }
+
+  .brand span,
+  .top-meta,
+  .top-status {
+    color: var(--dim);
+    font-size: 10px;
+  }
+
+  .top-meta {
+    text-align: center;
+  }
+
+  .top-status {
+    justify-self: end;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .live-dot {
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 14px rgba(94, 224, 138, 0.8);
+    margin-right: 6px;
+  }
+
+  .workspace {
+    display: grid;
+    grid-template-columns: 320px minmax(520px, 1fr) 360px;
+    min-height: 0;
+  }
+
+  .rail,
+  .detail {
+    min-width: 0;
+    overflow: auto;
+    background: var(--panel);
+    backdrop-filter: blur(16px);
+  }
+
+  .rail {
+    border-right: 1px solid var(--line);
+  }
+
+  .detail {
+    border-left: 1px solid var(--line);
+  }
+
+  .inner {
+    padding: 18px 16px 20px;
+  }
+
+  .eyebrow {
+    margin: 0 0 10px;
+    color: var(--dim);
+    font-size: 10px;
+    letter-spacing: 0;
+  }
+
+  .variant-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .variant {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 9px;
+    text-align: left;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(255,255,255,0.032);
+    padding: 10px;
+  }
+
+  .variant:hover,
+  .variant:focus-visible {
+    outline: none;
+    border-color: rgba(91, 215, 255, 0.5);
+    background: rgba(91, 215, 255, 0.07);
+  }
+
+  .variant.is-active {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 14%, rgba(255,255,255,0.035));
+  }
+
+  .number {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #061015;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .variant strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .variant span {
+    display: block;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .variant-source {
+    margin-top: 8px;
+    color: var(--dim);
+    font-size: 10px;
+  }
+
+  .agent-key {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .agent-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+    padding: 7px 0;
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  .agent-row i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 7px;
+    background: var(--agent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--agent) 60%, transparent);
+  }
+
+  .stage {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background: rgba(4, 5, 6, 0.48);
+  }
+
+  .stage-head {
+    position: absolute;
+    z-index: 4;
+    top: 18px;
+    left: 18px;
+    right: 18px;
+    display: grid;
+    grid-template-columns: minmax(320px, 640px) auto;
+    gap: 18px;
+    pointer-events: none;
+  }
+
+  .stage-head h1 {
+    margin: 0 0 8px;
+    font-size: clamp(23px, 3vw, 36px);
+    line-height: 1.04;
+    font-weight: 500;
+  }
+
+  .stage-head p {
+    margin: 0;
+    max-width: 620px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .metrics {
+    justify-self: end;
+    min-width: 286px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+
+  .metric {
+    padding: 10px 9px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(8, 9, 10, 0.72);
+    color: var(--dim);
+    font-size: 10px;
+    backdrop-filter: blur(12px);
+  }
+
+  .metric b {
+    display: block;
+    margin-top: 4px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  .visual {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 112px 26px 42px;
+  }
+
+  .mock-svg {
+    width: min(100%, 980px);
+    height: min(100%, 680px);
+    max-height: calc(100vh - 172px);
+    overflow: visible;
+  }
+
+  .mock-svg text {
+    font-family: var(--mono);
+    fill: rgba(238, 242, 239, 0.72);
+    font-size: 10px;
+  }
+
+  .label {
+    paint-order: stroke;
+    stroke: rgba(4, 5, 6, 0.96);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+  }
+
+  .node {
+    filter: drop-shadow(0 0 9px rgba(255,255,255,0.08));
+  }
+
+  .edge {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3.5;
+    opacity: 0.78;
+  }
+
+  .edge-thin {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    opacity: 0.54;
+  }
+
+  .moving {
+    stroke-dasharray: 10 12;
+    animation: dash 3.7s linear infinite;
+  }
+
+  @keyframes dash {
+    to { stroke-dashoffset: -80; }
+  }
+
+  .plane {
+    fill: rgba(255,255,255,0.035);
+    stroke: rgba(255,255,255,0.13);
+  }
+
+  .grid-line {
+    stroke: rgba(255,255,255,0.075);
+    stroke-width: 1;
+  }
+
+  .axis {
+    fill: rgba(238, 242, 239, 0.42);
+    font-size: 10px;
+  }
+
+  .micro {
+    fill: var(--dim);
+    font-size: 9px;
+  }
+
+  .token {
+    filter: drop-shadow(0 0 11px currentColor);
+  }
+
+  .legend {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    z-index: 5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    max-width: 720px;
+    padding: 9px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(8, 9, 10, 0.76);
+    color: var(--dim);
+    font-size: 10px;
+    backdrop-filter: blur(12px);
+  }
+
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend i {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--legend-color);
+  }
+
+  .detail h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .detail p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .block {
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .block:first-of-type {
+    border-top: 0;
+  }
+
+  .block h3 {
+    margin: 0 0 8px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .block ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+  }
+
+  .block li {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+    padding-left: 12px;
+    border-left: 2px solid var(--accent);
+  }
+
+  .score-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .score {
+    display: grid;
+    grid-template-columns: 94px 1fr 34px;
+    gap: 8px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .bar {
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.09);
+    overflow: hidden;
+  }
+
+  .bar span {
+    display: block;
+    height: 100%;
+    width: var(--score);
+    background: var(--accent);
+  }
+
+  @media (max-width: 1120px) {
+    body { overflow: auto; }
+    .app {
+      height: auto;
+      grid-template-rows: auto auto;
+    }
+    .topbar {
+      grid-template-columns: 1fr;
+      padding: 12px 14px;
+      align-items: start;
+    }
+    .top-meta { text-align: left; }
+    .top-status { justify-self: start; }
+    .workspace { grid-template-columns: 1fr; }
+    .stage {
+      height: 760px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .stage-head {
+      grid-template-columns: 1fr;
+    }
+    .metrics {
+      justify-self: start;
+    }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <strong>Liminal</strong>
+      <span>more 3D graph mocks</span>
+    </div>
+    <div class="top-meta">five additional spatial metaphors for agent travel through an ontology</div>
+    <div class="top-status"><span><i class="live-dot"></i>mock data</span><span>variants 6-10</span></div>
+  </header>
+
+  <section class="workspace">
+    <aside class="rail">
+      <div class="inner">
+        <p class="eyebrow">New versions</p>
+        <div class="variant-list" id="variantList"></div>
+
+        <div class="agent-key">
+          <p class="eyebrow">Agent paths</p>
+          <div class="agent-row" style="--agent: var(--cyan)"><span><i></i>Analyst</span><span>pattern path</span></div>
+          <div class="agent-row" style="--agent: var(--amber)"><span><i></i>Auditor</span><span>evidence guard</span></div>
+          <div class="agent-row" style="--agent: var(--red)"><span><i></i>Contrarian</span><span>weak edge</span></div>
+          <div class="agent-row" style="--agent: var(--violet)"><span><i></i>Memory</span><span>rule replay</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div class="stage-head">
+        <div>
+          <h1 id="title"></h1>
+          <p id="description"></p>
+        </div>
+        <div class="metrics">
+          <div class="metric">novelty<b id="novelty"></b></div>
+          <div class="metric">operator fit<b id="operator"></b></div>
+          <div class="metric">build cost<b id="cost"></b></div>
+        </div>
+      </div>
+      <div class="visual" id="visual"></div>
+      <div class="legend" id="legend"></div>
+    </section>
+
+    <aside class="detail">
+      <div class="inner">
+        <p class="eyebrow">Evaluation</p>
+        <h2 id="detailTitle"></h2>
+        <p id="summary"></p>
+        <div class="block">
+          <h3>Best for</h3>
+          <ul id="bestFor"></ul>
+        </div>
+        <div class="block">
+          <h3>Tradeoffs</h3>
+          <ul id="tradeoffs"></ul>
+        </div>
+        <div class="block">
+          <h3>Implementation path</h3>
+          <ul id="implementation"></ul>
+        </div>
+        <div class="block">
+          <h3>Scores</h3>
+          <div class="score-list" id="scores"></div>
+        </div>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<script>
+(() => {
+  const c = {
+    obs: "#d18b3c",
+    ev: "#f7bf63",
+    src: "#f07366",
+    anom: "#c3c9ce",
+    hyp: "#7ca6ff",
+    claim: "#5bd7ff",
+    rule: "#a78cff",
+    act: "#5ee08a",
+    analyst: "#5bd7ff",
+    auditor: "#f7bf63",
+    contrarian: "#f07366",
+    memory: "#a78cff"
+  };
+
+  const variants = [
+    {
+      id: "orbit",
+      name: "Ontology Orbit",
+      short: "Case at center, semantic types as orbital shells.",
+      accent: c.cyan,
+      source: "Orbital graph / radial ontology shells",
+      description: "The case is the gravitational center. Semantic layers become orbital shells, and agents move as probes that cross shells only when an edge justifies the move.",
+      bestFor: [
+        "Showing which ontology layers an agent visits most.",
+        "A memorable demo view with clear center-of-gravity.",
+        "Comparing shallow vs deep traversal paths."
+      ],
+      tradeoffs: [
+        "Edge direction can be harder to read than on rails.",
+        "Dense graphs need clustering before they enter the orbit view.",
+        "Looks best with one active case at a time."
+      ],
+      implementation: [
+        "Use Three.js rings or SVG ellipses for the prototype.",
+        "Map node.type to ring radius and confidence to height.",
+        "Animate agents as sprites following spline paths between shells."
+      ],
+      scores: { novelty: 90, operator: 78, cost: 64 }
+    },
+    {
+      id: "stair",
+      name: "Provenance Staircase",
+      short: "A climbable audit chain from signal to action.",
+      accent: c.green,
+      source: "Audit trail, provenance chain, step graph",
+      description: "Each ontology transition is a physical step. Agents climb from observation to evidence, pattern, claim, review rule, and action; weak steps become visibly unstable.",
+      bestFor: [
+        "Explaining provenance to customers and judges.",
+        "Making refusal feel structural rather than decorative.",
+        "Teaching how action is only allowed after traceable support."
+      ],
+      tradeoffs: [
+        "Less good for arbitrary graph topology.",
+        "Optimized for linear traces, not many-to-many evidence bundles.",
+        "Can feel too procedural for exploratory analysis."
+      ],
+      implementation: [
+        "Use pinned coordinates and draw extruded stair blocks in Three.js.",
+        "Use edge confidence to control step opacity or warning state.",
+        "Add replay controls for each agent trace step."
+      ],
+      scores: { novelty: 78, operator: 86, cost: 74 }
+    },
+    {
+      id: "loom",
+      name: "Hyperedge Loom",
+      short: "Evidence threads weave into claims and actions.",
+      accent: c.violet,
+      source: "Hypergraph bundles, Sankey ribbons, provenance fabric",
+      description: "Rather than showing only node-to-node links, this treats claims as woven bundles. Agents travel along threads and can inspect which evidence strands bind into a claim.",
+      bestFor: [
+        "Showing many evidence items supporting one claim.",
+        "Visualizing contradiction as a thread that crosses the weave.",
+        "Explaining how multiple agents cite the same evidence differently."
+      ],
+      tradeoffs: [
+        "Harder to implement with generic graph libraries.",
+        "Requires custom geometry for bundled ribbons.",
+        "Can get visually busy without filtering."
+      ],
+      implementation: [
+        "Prototype with SVG ribbons, then move to Three.js tube geometry.",
+        "Represent hyperedges as bundle objects with member node ids.",
+        "Use hover/click to peel a bundle into exact supporting edges."
+      ],
+      scores: { novelty: 94, operator: 72, cost: 42 }
+    },
+    {
+      id: "canyon",
+      name: "Decision Canyon",
+      short: "A terrain graph where risk and confidence shape the ground.",
+      accent: c.amber,
+      source: "Topographic risk map, graph terrain",
+      description: "The graph becomes a landscape. Low-confidence source checks are valleys, high-confidence claims are ridges, and agents choose routes through terrain toward action.",
+      bestFor: [
+        "Making weak evidence and risk visually obvious.",
+        "Showing why one path is harder or more costly than another.",
+        "Executive storytelling when evidence quality matters."
+      ],
+      tradeoffs: [
+        "Requires careful axis labeling to avoid looking decorative.",
+        "Not ideal for precise ontology class inspection.",
+        "Needs quantitative risk/confidence values for every node."
+      ],
+      implementation: [
+        "Use a generated height field from node confidence and risk.",
+        "Draw graph edges as roads over terrain.",
+        "Use filters for risk threshold, agent, and action distance."
+      ],
+      scores: { novelty: 88, operator: 70, cost: 50 }
+    },
+    {
+      id: "radar",
+      name: "Risk Radar Dome",
+      short: "A hemispheric graph for watchfloor scanning.",
+      accent: c.pink,
+      source: "Radar scope, threat dome, watchfloor scan",
+      description: "Nodes sit inside a dome by evidence strength and semantic distance. Agent sweeps reveal active traversal, contested claims, and recommended actions.",
+      bestFor: [
+        "Watchfloor or command-center feel.",
+        "Seeing contested regions at a glance.",
+        "Scanning active cases rather than reading one trace deeply."
+      ],
+      tradeoffs: [
+        "More atmospheric than exact.",
+        "Needs linked side panels for detailed provenance.",
+        "Could be mistaken for threat visualization unless copy is precise."
+      ],
+      implementation: [
+        "Build with Three.js polar coordinates and translucent dome geometry.",
+        "Animate sweep planes for active agents.",
+        "Clicking a sector opens the exact path and cited edge list."
+      ],
+      scores: { novelty: 92, operator: 80, cost: 58 }
+    }
+  ];
+
+  const legend = [
+    ["observation", c.obs],
+    ["evidence", c.ev],
+    ["source check", c.src],
+    ["anomaly", c.anom],
+    ["hypothesis", c.hyp],
+    ["claim", c.claim],
+    ["review rule", c.rule],
+    ["action", c.act]
+  ];
+
+  let active = "orbit";
+
+  function dot(x, y, label, color, type, r = 12) {
+    return `
+      <g class="node">
+        <circle cx="${x}" cy="${y}" r="${r}" fill="${color}" opacity="0.92"></circle>
+        <circle cx="${x}" cy="${y}" r="${r + 6}" fill="none" stroke="${color}" opacity="0.22"></circle>
+        <text class="label" x="${x + r + 7}" y="${y + 4}">${label}</text>
+        <text class="label micro" x="${x + r + 7}" y="${y + 17}">${type}</text>
+      </g>
+    `;
+  }
+
+  function token(path, color, delay) {
+    return `
+      <circle r="7" fill="${color}" class="token" style="color:${color}">
+        <animateMotion dur="9s" begin="${delay}s" repeatCount="indefinite" rotate="auto">
+          <mpath href="#${path}"></mpath>
+        </animateMotion>
+      </circle>
+    `;
+  }
+
+  function orbitSvg() {
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" aria-label="Ontology orbit mock">
+        <ellipse cx="450" cy="314" rx="110" ry="58" fill="none" stroke="rgba(255,255,255,0.11)"></ellipse>
+        <ellipse cx="450" cy="314" rx="190" ry="104" fill="none" stroke="rgba(255,255,255,0.10)"></ellipse>
+        <ellipse cx="450" cy="314" rx="276" ry="154" fill="none" stroke="rgba(255,255,255,0.09)"></ellipse>
+        <ellipse cx="450" cy="314" rx="356" ry="202" fill="none" stroke="rgba(255,255,255,0.08)"></ellipse>
+        <path id="orbitAnalyst" class="edge moving" d="M162 362 C250 210 346 210 450 314 S620 300 716 198" stroke="${c.analyst}"></path>
+        <path id="orbitAuditor" class="edge moving" d="M196 430 C274 448 338 410 404 378 S520 360 670 418" stroke="${c.auditor}"></path>
+        <path id="orbitContrarian" class="edge-thin moving" d="M584 266 C512 360 424 398 352 408" stroke="${c.contrarian}"></path>
+        <path id="orbitMemory" class="edge-thin moving" d="M546 450 C512 362 570 298 696 250" stroke="${c.memory}"></path>
+        ${dot(450,314,"active case","#e8eeee","CASE",17)}
+        ${dot(162,362,"comp memo",c.obs,"OBS")}
+        ${dot(196,430,"deadline note",c.obs,"OBS")}
+        ${dot(284,264,"lost candidates",c.ev,"EV")}
+        ${dot(352,408,"source weak",c.src,"SIC")}
+        ${dot(420,232,"scarcity",c.anom,"ANOM")}
+        ${dot(404,378,"deadline unclear",c.anom,"ANOM")}
+        ${dot(584,266,"frame claim",c.claim,"CLAIM")}
+        ${dot(546,450,"deadline rule",c.rule,"RULE")}
+        ${dot(716,198,"ask questions",c.act,"ACT")}
+        ${dot(670,418,"extend 48h",c.act,"ACT")}
+        ${token("orbitAnalyst", c.analyst, 0)}
+        ${token("orbitAuditor", c.auditor, 1.2)}
+        ${token("orbitContrarian", c.contrarian, 2.5)}
+        ${token("orbitMemory", c.memory, 3.1)}
+        <text class="axis" x="110" y="108">outer shells: raw and weak evidence</text>
+        <text class="axis" x="594" y="538">inner shells: case, claim, action</text>
+      </svg>
+    `;
+  }
+
+  function stairSvg() {
+    const steps = [
+      [130,456, "observation", c.obs],
+      [244,408, "evidence", c.ev],
+      [358,360, "anomaly", c.anom],
+      [472,312, "hypothesis", c.hyp],
+      [586,264, "claim", c.claim],
+      [700,216, "action", c.act]
+    ];
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" aria-label="Provenance staircase mock">
+        ${steps.map(([x,y,label,color], i) => `
+          <polygon points="${x},${y} ${x + 118},${y - 36} ${x + 194},${y} ${x + 76},${y + 38}" fill="${color}" opacity="0.09" stroke="${color}" stroke-opacity="0.32"></polygon>
+          <line x1="${x + 76}" y1="${y + 38}" x2="${x + 76}" y2="${y + 72}" class="grid-line"></line>
+          <text class="axis" x="${x + 16}" y="${y + 8}">${label}</text>
+        `).join("")}
+        <path id="stairAnalyst" class="edge moving" d="M164 454 L274 406 L392 356 L512 306 L622 260 L728 216" stroke="${c.analyst}"></path>
+        <path id="stairAuditor" class="edge moving" d="M148 510 L300 462 L406 414 L534 358 L648 310" stroke="${c.auditor}"></path>
+        <path id="stairMemory" class="edge-thin moving" d="M586 332 L650 286 L728 216" stroke="${c.memory}"></path>
+        ${dot(164,454,"comp memo",c.obs,"OBS")}
+        ${dot(274,406,"lost candidates",c.ev,"EV")}
+        ${dot(392,356,"scarcity",c.anom,"ANOM")}
+        ${dot(512,306,"decouple",c.hyp,"HYP")}
+        ${dot(622,260,"frame claim",c.claim,"CLAIM")}
+        ${dot(728,216,"ask questions",c.act,"ACT")}
+        ${dot(148,510,"deadline",c.obs,"OBS")}
+        ${dot(300,462,"source weak",c.src,"SIC")}
+        ${dot(406,414,"uncertain",c.anom,"ANOM")}
+        ${dot(534,358,"refusal",c.claim,"CLAIM")}
+        ${dot(586,332,"review rule",c.rule,"RULE")}
+        ${token("stairAnalyst", c.analyst, 0)}
+        ${token("stairAuditor", c.auditor, 1.4)}
+        ${token("stairMemory", c.memory, 2.6)}
+        <text class="axis" x="120" y="118">each step is a valid ontology transition</text>
+        <text class="axis" x="616" y="508">weak evidence becomes a visible unstable step</text>
+      </svg>
+    `;
+  }
+
+  function loomSvg() {
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" aria-label="Hyperedge loom mock">
+        <path d="M176 212 C312 216 372 260 494 278 S630 264 740 216" fill="none" stroke="${c.analyst}" stroke-width="20" opacity="0.12"></path>
+        <path d="M160 432 C294 408 344 368 488 358 S618 392 736 442" fill="none" stroke="${c.auditor}" stroke-width="20" opacity="0.12"></path>
+        <path d="M188 270 C320 324 378 324 500 318 S654 338 754 308" fill="none" stroke="${c.memory}" stroke-width="16" opacity="0.11"></path>
+        <path id="loomAnalyst" class="edge moving" d="M176 212 C312 216 372 260 494 278 S630 264 740 216" stroke="${c.analyst}"></path>
+        <path id="loomAuditor" class="edge moving" d="M160 432 C294 408 344 368 488 358 S618 392 736 442" stroke="${c.auditor}"></path>
+        <path id="loomContrarian" class="edge moving" d="M184 498 C310 418 370 354 500 318 S628 282 754 308" stroke="${c.contrarian}"></path>
+        <path id="loomMemory" class="edge-thin moving" d="M188 270 C320 324 378 324 500 318 S654 338 754 308" stroke="${c.memory}"></path>
+        <rect x="450" y="240" width="112" height="128" rx="6" fill="rgba(91,215,255,0.06)" stroke="rgba(91,215,255,0.25)"></rect>
+        <text class="axis" x="468" y="232">claim bundle</text>
+        ${dot(176,212,"comp memo",c.obs,"OBS")}
+        ${dot(160,432,"deadline",c.obs,"OBS")}
+        ${dot(188,270,"lost candidates",c.ev,"EV")}
+        ${dot(184,498,"source weak",c.src,"SIC")}
+        ${dot(494,278,"frame claim",c.claim,"CLAIM",14)}
+        ${dot(488,358,"refusal",c.claim,"CLAIM",14)}
+        ${dot(500,318,"deadline rule",c.rule,"RULE",13)}
+        ${dot(740,216,"ask questions",c.act,"ACT")}
+        ${dot(736,442,"extend 48h",c.act,"ACT")}
+        ${dot(754,308,"case memory",c.rule,"RULE")}
+        ${token("loomAnalyst", c.analyst, 0)}
+        ${token("loomAuditor", c.auditor, 1.3)}
+        ${token("loomContrarian", c.contrarian, 2.4)}
+        ${token("loomMemory", c.memory, 3)}
+        <text class="axis" x="130" y="126">threads reveal which evidence strands make the claim</text>
+        <text class="axis" x="606" y="526">contradictions cross the weave</text>
+      </svg>
+    `;
+  }
+
+  function canyonSvg() {
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" aria-label="Decision canyon mock">
+        <polygon points="120,492 264,330 428,420 560,260 784,352 642,528" fill="rgba(247,191,99,0.06)" stroke="rgba(247,191,99,0.2)"></polygon>
+        <polygon points="204,510 342,382 470,448 614,324 740,374 612,544" fill="rgba(240,115,102,0.08)" stroke="rgba(240,115,102,0.22)"></polygon>
+        <polygon points="274,236 424,182 570,222 694,154 794,206 640,284 474,260" fill="rgba(94,224,138,0.06)" stroke="rgba(94,224,138,0.2)"></polygon>
+        <line x1="120" y1="492" x2="274" y2="236" class="grid-line"></line>
+        <line x1="428" y1="420" x2="570" y2="222" class="grid-line"></line>
+        <line x1="642" y1="528" x2="794" y2="206" class="grid-line"></line>
+        <path id="canyonAnalyst" class="edge moving" d="M168 442 C256 362 330 300 438 286 S594 260 738 194" stroke="${c.analyst}"></path>
+        <path id="canyonAuditor" class="edge moving" d="M192 494 C282 486 362 458 448 440 S580 376 710 392" stroke="${c.auditor}"></path>
+        <path id="canyonContrarian" class="edge-thin moving" d="M540 286 C466 368 388 430 300 454" stroke="${c.contrarian}"></path>
+        ${dot(168,442,"comp memo",c.obs,"OBS")}
+        ${dot(286,354,"lost candidates",c.ev,"EV")}
+        ${dot(438,286,"scarcity ridge",c.anom,"ANOM")}
+        ${dot(540,286,"frame claim",c.claim,"CLAIM")}
+        ${dot(738,194,"ask questions",c.act,"ACT")}
+        ${dot(192,494,"deadline note",c.obs,"OBS")}
+        ${dot(300,454,"source valley",c.src,"SIC")}
+        ${dot(448,440,"uncertain",c.anom,"ANOM")}
+        ${dot(604,370,"refused",c.claim,"CLAIM")}
+        ${dot(710,392,"extend",c.act,"ACT")}
+        ${token("canyonAnalyst", c.analyst, 0)}
+        ${token("canyonAuditor", c.auditor, 1.4)}
+        ${token("canyonContrarian", c.contrarian, 2.7)}
+        <text class="axis" x="112" y="118">height = confidence, valley = risk</text>
+        <text class="axis" x="594" y="540">agent route exposes evidence terrain</text>
+      </svg>
+    `;
+  }
+
+  function radarSvg() {
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" aria-label="Risk radar dome mock">
+        <defs>
+          <radialGradient id="dome" cx="50%" cy="50%">
+            <stop offset="0" stop-color="#5bd7ff" stop-opacity="0.08"></stop>
+            <stop offset="1" stop-color="#5bd7ff" stop-opacity="0"></stop>
+          </radialGradient>
+        </defs>
+        <ellipse cx="450" cy="336" rx="332" ry="202" fill="url(#dome)" stroke="rgba(91,215,255,0.18)"></ellipse>
+        <ellipse cx="450" cy="336" rx="240" ry="146" fill="none" stroke="rgba(255,255,255,0.08)"></ellipse>
+        <ellipse cx="450" cy="336" rx="148" ry="90" fill="none" stroke="rgba(255,255,255,0.08)"></ellipse>
+        <line x1="118" y1="336" x2="782" y2="336" class="grid-line"></line>
+        <line x1="450" y1="134" x2="450" y2="538" class="grid-line"></line>
+        <path d="M450 336 L742 196" stroke="${c.pink}" stroke-width="26" opacity="0.08">
+          <animateTransform attributeName="transform" type="rotate" from="0 450 336" to="360 450 336" dur="12s" repeatCount="indefinite"></animateTransform>
+        </path>
+        <path id="radarAnalyst" class="edge moving" d="M210 380 C304 268 420 260 540 300 S654 250 734 206" stroke="${c.analyst}"></path>
+        <path id="radarAuditor" class="edge moving" d="M236 442 C328 420 392 392 462 408 S590 428 700 396" stroke="${c.auditor}"></path>
+        <path id="radarMemory" class="edge-thin moving" d="M560 430 C590 360 646 302 734 206" stroke="${c.memory}"></path>
+        ${dot(450,336,"active case","#e8eeee","CASE",16)}
+        ${dot(210,380,"comp memo",c.obs,"OBS")}
+        ${dot(236,442,"deadline",c.obs,"OBS")}
+        ${dot(332,304,"lost candidates",c.ev,"EV")}
+        ${dot(358,416,"source weak",c.src,"SIC")}
+        ${dot(462,408,"uncertain",c.anom,"ANOM")}
+        ${dot(540,300,"frame claim",c.claim,"CLAIM")}
+        ${dot(560,430,"review rule",c.rule,"RULE")}
+        ${dot(734,206,"ask questions",c.act,"ACT")}
+        ${dot(700,396,"extend",c.act,"ACT")}
+        ${token("radarAnalyst", c.analyst, 0)}
+        ${token("radarAuditor", c.auditor, 1.2)}
+        ${token("radarMemory", c.memory, 2.4)}
+        <text class="axis" x="120" y="118">radial distance = semantic distance from active case</text>
+        <text class="axis" x="600" y="538">scan highlights contested traversal regions</text>
+      </svg>
+    `;
+  }
+
+  function svgFor(id) {
+    if (id === "stair") return stairSvg();
+    if (id === "loom") return loomSvg();
+    if (id === "canyon") return canyonSvg();
+    if (id === "radar") return radarSvg();
+    return orbitSvg();
+  }
+
+  function current() {
+    return variants.find((variant) => variant.id === active) || variants[0];
+  }
+
+  function renderList() {
+    const host = document.getElementById("variantList");
+    host.innerHTML = variants.map((variant, i) => `
+      <button class="variant${variant.id === active ? " is-active" : ""}" data-id="${variant.id}" style="--accent:${variant.accent}">
+        <span class="number">${i + 6}</span>
+        <span>
+          <strong>${variant.name}</strong>
+          <span>${variant.short}</span>
+          <span class="variant-source">${variant.source}</span>
+        </span>
+      </button>
+    `).join("");
+    for (const button of host.querySelectorAll("button")) {
+      button.addEventListener("click", () => {
+        active = button.dataset.id;
+        render();
+      });
+    }
+  }
+
+  function renderLegend() {
+    document.getElementById("legend").innerHTML = legend
+      .map(([label, color]) => `<span><i style="--legend-color:${color}"></i>${label}</span>`)
+      .join("");
+  }
+
+  function renderDetails(variant) {
+    document.documentElement.style.setProperty("--accent", variant.accent);
+    document.getElementById("title").textContent = variant.name;
+    document.getElementById("description").textContent = variant.description;
+    document.getElementById("detailTitle").textContent = variant.name;
+    document.getElementById("summary").textContent = variant.short;
+    document.getElementById("novelty").textContent = variant.scores.novelty;
+    document.getElementById("operator").textContent = variant.scores.operator;
+    document.getElementById("cost").textContent = variant.scores.cost;
+    document.getElementById("bestFor").innerHTML = variant.bestFor.map((item) => `<li>${item}</li>`).join("");
+    document.getElementById("tradeoffs").innerHTML = variant.tradeoffs.map((item) => `<li>${item}</li>`).join("");
+    document.getElementById("implementation").innerHTML = variant.implementation.map((item) => `<li>${item}</li>`).join("");
+    document.getElementById("scores").innerHTML = [
+      ["Novelty", variant.scores.novelty],
+      ["Operator", variant.scores.operator],
+      ["Build cost", variant.scores.cost]
+    ].map(([label, score]) => `
+      <div class="score">
+        <span>${label}</span>
+        <span class="bar" style="--score:${score}%"><span></span></span>
+        <b>${score}</b>
+      </div>
+    `).join("");
+  }
+
+  function render() {
+    const variant = current();
+    renderList();
+    renderDetails(variant);
+    renderLegend();
+    document.getElementById("visual").innerHTML = svgFor(variant.id);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liminal - Ontology Agent Travel Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  @font-face {
+    font-family: "Nineties Headliner";
+    src: url("fonts/nineties-headliner.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  :root {
+    --bg: #08090a;
+    --surface: #101215;
+    --surface-2: #15181d;
+    --line: rgba(232, 238, 235, 0.13);
+    --line-2: rgba(232, 238, 235, 0.24);
+    --text: #eef2ef;
+    --muted: #aeb8b4;
+    --dim: #75807c;
+    --cyan: #5bd7ff;
+    --green: #5ee08a;
+    --amber: #f7bf63;
+    --pink: #f06bb9;
+    --red: #f07366;
+    --violet: #a78cff;
+    --blue: #7ca6ff;
+    --sans: "Geist", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "Geist Mono", ui-monospace, Menlo, Consolas, monospace;
+    --display: "Nineties Headliner", Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  .app {
+    height: 100vh;
+    min-height: 720px;
+    display: grid;
+    grid-template-rows: 46px 1fr;
+    background:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px),
+      radial-gradient(circle at 24% 20%, rgba(91,215,255,0.06), transparent 30%),
+      radial-gradient(circle at 76% 78%, rgba(240,107,185,0.05), transparent 32%),
+      var(--bg);
+    background-size: 52px 52px, 52px 52px, auto, auto, auto;
+  }
+
+  .topbar {
+    display: grid;
+    grid-template-columns: 330px 1fr 360px;
+    align-items: center;
+    gap: 18px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(8, 9, 10, 0.94);
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .brand strong {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 400;
+  }
+
+  .brand span,
+  .top-meta,
+  .eyebrow,
+  .mode-index,
+  .version-source,
+  .agent-row,
+  .metric,
+  .axis,
+  .legend {
+    font-family: var(--mono);
+  }
+
+  .brand span,
+  .top-meta {
+    color: var(--dim);
+    font-size: 11px;
+  }
+
+  .top-meta {
+    text-align: center;
+  }
+
+  .top-status {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    color: var(--dim);
+    font-family: var(--mono);
+    font-size: 10px;
+  }
+
+  .live {
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 14px rgba(94, 224, 138, 0.8);
+    margin-right: 6px;
+  }
+
+  .workspace {
+    display: grid;
+    grid-template-columns: 320px minmax(520px, 1fr) 360px;
+    min-height: 0;
+  }
+
+  .rail,
+  .details {
+    min-width: 0;
+    overflow: auto;
+    background: rgba(14, 16, 19, 0.9);
+    backdrop-filter: blur(16px);
+  }
+
+  .rail {
+    border-right: 1px solid var(--line);
+  }
+
+  .details {
+    border-left: 1px solid var(--line);
+  }
+
+  .inner {
+    padding: 18px 16px 20px;
+  }
+
+  .eyebrow {
+    margin: 0 0 10px;
+    color: var(--dim);
+    font-size: 10px;
+  }
+
+  .version-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .version-button {
+    width: 100%;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 8px;
+    text-align: left;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.032);
+  }
+
+  .version-button:hover,
+  .version-button:focus-visible {
+    outline: none;
+    border-color: rgba(91, 215, 255, 0.52);
+    background: rgba(91, 215, 255, 0.07);
+  }
+
+  .version-button.is-active {
+    border-color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 14%, rgba(255, 255, 255, 0.035));
+  }
+
+  .mode-index {
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    color: #061015;
+    background: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .version-button strong {
+    display: block;
+    margin: 0 0 4px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .version-button span {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .version-source {
+    color: var(--dim);
+    font-size: 10px;
+    margin-top: 8px;
+  }
+
+  .agent-key {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  .agent-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+    padding: 7px 0;
+    color: var(--muted);
+    font-size: 10px;
+  }
+
+  .agent-row i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 7px;
+    background: var(--agent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--agent) 60%, transparent);
+  }
+
+  .stage {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    background: rgba(4, 5, 6, 0.48);
+  }
+
+  .stage-head {
+    position: absolute;
+    z-index: 3;
+    top: 18px;
+    left: 18px;
+    right: 18px;
+    display: grid;
+    grid-template-columns: minmax(300px, 640px) auto;
+    gap: 18px;
+    align-items: start;
+    pointer-events: none;
+  }
+
+  .stage-title {
+    max-width: 640px;
+  }
+
+  .stage-title h1 {
+    margin: 0 0 8px;
+    font-size: clamp(22px, 3vw, 36px);
+    line-height: 1.04;
+    font-weight: 500;
+  }
+
+  .stage-title p {
+    margin: 0;
+    color: var(--muted);
+    max-width: 580px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .metrics {
+    justify-self: end;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(78px, 1fr));
+    gap: 8px;
+    min-width: 286px;
+  }
+
+  .metric {
+    padding: 10px 9px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(8, 9, 10, 0.72);
+    backdrop-filter: blur(12px);
+    color: var(--dim);
+    font-size: 10px;
+  }
+
+  .metric b {
+    display: block;
+    margin-top: 4px;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  .visual-wrap {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 112px 26px 40px;
+  }
+
+  .mock-svg {
+    width: min(100%, 980px);
+    height: min(100%, 680px);
+    max-height: calc(100vh - 170px);
+    overflow: visible;
+  }
+
+  .mock-svg text {
+    font-family: var(--mono);
+    fill: rgba(238, 242, 239, 0.72);
+    font-size: 10px;
+  }
+
+  .node-label {
+    paint-order: stroke;
+    stroke: rgba(4, 5, 6, 0.95);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+  }
+
+  .node {
+    cursor: pointer;
+    filter: drop-shadow(0 0 9px rgba(255,255,255,0.08));
+  }
+
+  .trail {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 4;
+    opacity: 0.78;
+  }
+
+  .thin-trail {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+    opacity: 0.54;
+  }
+
+  .pulse {
+    filter: drop-shadow(0 0 10px currentColor);
+  }
+
+  .details h2 {
+    margin: 0 0 8px;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .details p {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .detail-block {
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .detail-block:first-of-type {
+    border-top: none;
+  }
+
+  .detail-block h3 {
+    margin: 0 0 8px;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .detail-block ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+  }
+
+  .detail-block li {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+    padding-left: 12px;
+    border-left: 2px solid var(--accent);
+  }
+
+  .score-row {
+    display: grid;
+    gap: 8px;
+  }
+
+  .score {
+    display: grid;
+    grid-template-columns: 94px 1fr 34px;
+    gap: 8px;
+    align-items: center;
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  .bar {
+    height: 5px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.09);
+    overflow: hidden;
+  }
+
+  .bar span {
+    display: block;
+    height: 100%;
+    width: var(--score);
+    background: var(--accent);
+  }
+
+  .legend {
+    position: absolute;
+    left: 18px;
+    bottom: 18px;
+    z-index: 4;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    max-width: 680px;
+    padding: 9px 10px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: rgba(8, 9, 10, 0.76);
+    color: var(--dim);
+    font-size: 10px;
+    backdrop-filter: blur(12px);
+  }
+
+  .legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend i {
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    border-radius: 50%;
+    background: var(--legend-color);
+  }
+
+  .axis {
+    fill: rgba(238, 242, 239, 0.42);
+    font-size: 10px;
+  }
+
+  .plane {
+    fill: rgba(255, 255, 255, 0.035);
+    stroke: rgba(255, 255, 255, 0.13);
+    stroke-width: 1;
+  }
+
+  .plane-label {
+    fill: rgba(238,242,239,0.48);
+    font-size: 11px;
+  }
+
+  .ghost {
+    opacity: 0.22;
+  }
+
+  @keyframes dash {
+    to { stroke-dashoffset: -80; }
+  }
+
+  .moving {
+    stroke-dasharray: 10 12;
+    animation: dash 3.6s linear infinite;
+  }
+
+  @media (max-width: 1120px) {
+    body { overflow: auto; }
+    .app {
+      height: auto;
+      min-height: 100vh;
+      grid-template-rows: auto auto;
+    }
+    .topbar {
+      grid-template-columns: 1fr;
+      align-items: start;
+      padding: 12px 14px;
+    }
+    .top-meta { text-align: left; }
+    .top-status { justify-content: flex-start; }
+    .workspace {
+      grid-template-columns: 1fr;
+    }
+    .stage {
+      height: 760px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .stage-head {
+      grid-template-columns: 1fr;
+    }
+    .metrics {
+      justify-self: start;
+    }
+  }
+</style>
+</head>
+<body>
+<main class="app">
+  <header class="topbar">
+    <div class="brand">
+      <strong>Liminal</strong>
+      <span>ontology traversal options</span>
+    </div>
+    <div class="top-meta">same fake custody graph, five 3D visual metaphors for agent travel</div>
+    <div class="top-status">
+      <span><i class="live"></i>evaluation gallery</span>
+      <span id="variant-count">5 variants</span>
+    </div>
+  </header>
+
+  <section class="workspace">
+    <aside class="rail">
+      <div class="inner">
+        <p class="eyebrow">Versions</p>
+        <div class="version-list" id="versionList"></div>
+
+        <div class="agent-key">
+          <p class="eyebrow">Agent paths</p>
+          <div class="agent-row" style="--agent: var(--cyan)"><span><i></i>Analyst</span><span>pattern path</span></div>
+          <div class="agent-row" style="--agent: var(--amber)"><span><i></i>Auditor</span><span>evidence guard</span></div>
+          <div class="agent-row" style="--agent: var(--red)"><span><i></i>Contrarian</span><span>weak edge</span></div>
+          <div class="agent-row" style="--agent: var(--violet)"><span><i></i>Memory</span><span>rule replay</span></div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stage">
+      <div class="stage-head">
+        <div class="stage-title">
+          <h1 id="modeTitle"></h1>
+          <p id="modeDescription"></p>
+        </div>
+        <div class="metrics">
+          <div class="metric">readability<b id="readabilityScore"></b></div>
+          <div class="metric">motion clarity<b id="motionScore"></b></div>
+          <div class="metric">scale fit<b id="scaleScore"></b></div>
+        </div>
+      </div>
+      <div class="visual-wrap" id="visualWrap"></div>
+      <div class="legend" id="legend"></div>
+    </section>
+
+    <aside class="details">
+      <div class="inner">
+        <p class="eyebrow">Evaluation</p>
+        <h2 id="detailTitle"></h2>
+        <p id="detailSummary"></p>
+
+        <div class="detail-block">
+          <h3>Best for</h3>
+          <ul id="bestFor"></ul>
+        </div>
+
+        <div class="detail-block">
+          <h3>Tradeoffs</h3>
+          <ul id="tradeoffs"></ul>
+        </div>
+
+        <div class="detail-block">
+          <h3>Implementation path</h3>
+          <ul id="implementation"></ul>
+        </div>
+
+        <div class="detail-block">
+          <h3>Scores</h3>
+          <div class="score-row" id="scores"></div>
+        </div>
+      </div>
+    </aside>
+  </section>
+</main>
+
+<script>
+(() => {
+  const colors = {
+    observation: "#d18b3c",
+    evidence: "#f7bf63",
+    source: "#f07366",
+    anomaly: "#c3c9ce",
+    hypothesis: "#7ca6ff",
+    claim: "#5bd7ff",
+    rule: "#a78cff",
+    action: "#5ee08a",
+    analyst: "#5bd7ff",
+    auditor: "#f7bf63",
+    contrarian: "#f07366",
+    memory: "#a78cff"
+  };
+
+  const versions = [
+    {
+      id: "planes",
+      name: "Semantic Planes",
+      short: "Ontology layers as stacked transparent planes.",
+      accent: colors.cyan,
+      source: "Tarsier-style RDF semantic planes",
+      description: "Nodes sit on semantic planes: observation, evidence, anomaly, hypothesis, claim, rule, and action. Agent travel is easy to explain because each move visibly crosses a typed boundary.",
+      bestFor: [
+        "Explaining how agents climb from raw signal to decision support.",
+        "Showing that refusal and review rules live on different semantic layers.",
+        "Demoing ontology discipline to non-technical stakeholders."
+      ],
+      tradeoffs: [
+        "Less organic than a force graph.",
+        "Can become tall and sparse if the ontology has many node types.",
+        "Needs strong camera presets to prevent planes from hiding each other."
+      ],
+      implementation: [
+        "Use Three.js or React Three Fiber with pinned node coordinates by node.type.",
+        "Compute agent path as ordered graph traversal steps and draw tubes between planes.",
+        "Add filters for agent, edge type, confidence, and case."
+      ],
+      scores: { readability: 92, motion: 82, scale: 68 }
+    },
+    {
+      id: "rails",
+      name: "Agent Rails",
+      short: "Each agent gets a route line through shared ontology stops.",
+      accent: colors.amber,
+      source: "Transit maps, Neo4j/Bloom style path investigation",
+      description: "The ontology is a station network. Agents travel on colored rails, and shared stops show where agents agree, conflict, or reuse the same evidence.",
+      bestFor: [
+        "Comparing multiple agents at once.",
+        "Spotting convergence, divergence, and handoffs.",
+        "Operator review of why one agent reached a different action."
+      ],
+      tradeoffs: [
+        "More abstract than an ontology map.",
+        "Path order is very clear, but graph topology is simplified.",
+        "Works best after pathfinding has already selected the relevant subgraph."
+      ],
+      implementation: [
+        "Use SVG or Canvas for the first product version.",
+        "Generate routes from agent trace arrays, then bundle shared segments.",
+        "Add click-to-expand stops for provenance and cited edges."
+      ],
+      scores: { readability: 88, motion: 94, scale: 80 }
+    },
+    {
+      id: "helix",
+      name: "Temporal Helix",
+      short: "Traversal shown as time plus semantic depth.",
+      accent: colors.green,
+      source: "Linked-view time replay and event progression",
+      description: "Agent movement is organized around time. Each loop represents a case beat, while height/depth show the semantic stage of the object being read.",
+      bestFor: [
+        "Debugging order of operations.",
+        "Replay of what the agent knew at each step.",
+        "Showing when review memory changed a later recommendation."
+      ],
+      tradeoffs: [
+        "Can imply time is more important than ontology structure.",
+        "Harder to show dense cross-links.",
+        "Needs scrubbing controls and snapshots to be truly useful."
+      ],
+      implementation: [
+        "Use Three.js curves or SVG path projection for the first prototype.",
+        "Bind the replay clock to event timestamps and agent call events.",
+        "Pair with a linked evidence panel for exact citations."
+      ],
+      scores: { readability: 78, motion: 90, scale: 72 }
+    },
+    {
+      id: "cube",
+      name: "Evidence Cube",
+      short: "A 3D scatter plot with confidence, time, and action distance.",
+      accent: colors.pink,
+      source: "Analyst scatter plots, linked brushing, graph analytics",
+      description: "Every node is plotted by confidence, recency, and distance from action. Agent trails become inspectable vectors across evidence quality.",
+      bestFor: [
+        "Seeing risk and evidence strength quickly.",
+        "Comparing confident claims against weak source checks.",
+        "Quantitative analyst workflows where axes matter."
+      ],
+      tradeoffs: [
+        "Less intuitive for storytelling.",
+        "Requires well-defined metrics on every node.",
+        "Graph edges can become secondary unless explicitly drawn."
+      ],
+      implementation: [
+        "Use Three.js points or deck.gl style scatter rendering.",
+        "Compute axes from confidence, timestamp, and graph distance to action.",
+        "Support brushing so selecting cube regions updates the trace panel."
+      ],
+      scores: { readability: 74, motion: 76, scale: 88 }
+    },
+    {
+      id: "constellation",
+      name: "Constellation Map",
+      short: "Clusters by ontology class with agent probes orbiting.",
+      accent: colors.violet,
+      source: "WebVOWL-style class maps and force graph clusters",
+      description: "Ontology classes become stable regions. Agents appear as probes moving between clusters, making class-level behavior visible before individual node details.",
+      bestFor: [
+        "High-level architecture and investor demos.",
+        "Showing which ontology regions agents overuse or ignore.",
+        "Scaling to many nodes through clustering and progressive reveal."
+      ],
+      tradeoffs: [
+        "Individual provenance can be hidden until drilldown.",
+        "Can look decorative if labels and metrics are weak.",
+        "Needs clear cluster semantics to avoid becoming generic network art."
+      ],
+      implementation: [
+        "Use 3d-force-graph or Reagraph with cluster constraints.",
+        "Aggregate nodes by class, case, source family, or archetype role.",
+        "Drill down from cluster to path to exact edge provenance."
+      ],
+      scores: { readability: 82, motion: 84, scale: 90 }
+    }
+  ];
+
+  const legendItems = [
+    ["observation", colors.observation],
+    ["evidence", colors.evidence],
+    ["source check", colors.source],
+    ["anomaly", colors.anomaly],
+    ["hypothesis", colors.hypothesis],
+    ["claim", colors.claim],
+    ["review rule", colors.rule],
+    ["action", colors.action]
+  ];
+
+  let activeId = "planes";
+
+  function versionById(id) {
+    return versions.find((version) => version.id === id) || versions[0];
+  }
+
+  function renderVersionList() {
+    const host = document.getElementById("versionList");
+    host.innerHTML = versions.map((version, index) => `
+      <button class="version-button${version.id === activeId ? " is-active" : ""}" data-id="${version.id}" style="--accent:${version.accent}">
+        <span class="mode-index">${index + 1}</span>
+        <span>
+          <strong>${version.name}</strong>
+          <span>${version.short}</span>
+          <span class="version-source">${version.source}</span>
+        </span>
+      </button>
+    `).join("");
+    for (const button of host.querySelectorAll("button")) {
+      button.addEventListener("click", () => {
+        activeId = button.dataset.id;
+        render();
+      });
+    }
+  }
+
+  function renderLegend() {
+    document.getElementById("legend").innerHTML = legendItems
+      .map(([label, color]) => `<span><i style="--legend-color:${color}"></i>${label}</span>`)
+      .join("");
+  }
+
+  function renderDetails(version) {
+    document.documentElement.style.setProperty("--accent", version.accent);
+    document.getElementById("modeTitle").textContent = version.name;
+    document.getElementById("modeDescription").textContent = version.description;
+    document.getElementById("detailTitle").textContent = version.name;
+    document.getElementById("detailSummary").textContent = version.short;
+    document.getElementById("readabilityScore").textContent = version.scores.readability;
+    document.getElementById("motionScore").textContent = version.scores.motion;
+    document.getElementById("scaleScore").textContent = version.scores.scale;
+    document.getElementById("bestFor").innerHTML = version.bestFor.map((item) => `<li>${item}</li>`).join("");
+    document.getElementById("tradeoffs").innerHTML = version.tradeoffs.map((item) => `<li>${item}</li>`).join("");
+    document.getElementById("implementation").innerHTML = version.implementation.map((item) => `<li>${item}</li>`).join("");
+    document.getElementById("scores").innerHTML = [
+      ["Readability", version.scores.readability],
+      ["Motion", version.scores.motion],
+      ["Scale", version.scores.scale]
+    ].map(([label, score]) => `
+      <div class="score">
+        <span>${label}</span>
+        <span class="bar" style="--score:${score}%"><span></span></span>
+        <b>${score}</b>
+      </div>
+    `).join("");
+  }
+
+  function node(x, y, label, color, type) {
+    return `
+      <g class="node">
+        <circle cx="${x}" cy="${y}" r="12" fill="${color}" opacity="0.92"></circle>
+        <circle cx="${x}" cy="${y}" r="18" fill="none" stroke="${color}" opacity="0.22"></circle>
+        <text class="node-label" x="${x + 17}" y="${y + 4}">${label}</text>
+        <text class="node-label ghost" x="${x + 17}" y="${y + 17}">${type}</text>
+      </g>
+    `;
+  }
+
+  function token(pathId, color, delay) {
+    return `
+      <circle r="7" fill="${color}" class="pulse" style="color:${color}">
+        <animateMotion dur="9s" begin="${delay}s" repeatCount="indefinite" rotate="auto">
+          <mpath href="#${pathId}"></mpath>
+        </animateMotion>
+      </circle>
+    `;
+  }
+
+  function planesSvg() {
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" role="img" aria-label="Semantic planes mock">
+        <defs>
+          <linearGradient id="planeGlow" x1="0" x2="1">
+            <stop offset="0" stop-color="#5bd7ff" stop-opacity="0.07"></stop>
+            <stop offset="1" stop-color="#a78cff" stop-opacity="0.03"></stop>
+          </linearGradient>
+        </defs>
+        ${[0,1,2,3,4].map((i) => {
+          const y = 430 - i * 78;
+          const label = ["raw signal", "evidence", "pattern", "belief", "action"][i];
+          return `<polygon class="plane" points="120,${y} 690,${y - 56} 790,${y - 8} 220,${y + 48}" fill="url(#planeGlow)"></polygon>
+            <text class="plane-label" x="128" y="${y - 8}">${label}</text>`;
+        }).join("")}
+        <path id="planesAnalyst" class="trail moving" d="M190 396 L292 350 L410 282 L536 214 L682 146" stroke="${colors.analyst}"></path>
+        <path id="planesAuditor" class="trail moving" d="M204 450 L322 360 L460 292 L598 220 L718 184" stroke="${colors.auditor}"></path>
+        <path id="planesMemory" class="thin-trail moving" d="M612 226 L550 312 L704 358" stroke="${colors.memory}"></path>
+        ${node(190,396,"comp memo",colors.observation,"OBS")}
+        ${node(204,450,"deadline note",colors.observation,"OBS")}
+        ${node(292,350,"lost candidates",colors.evidence,"EV")}
+        ${node(322,360,"source check",colors.source,"SIC")}
+        ${node(410,282,"scarcity pressure",colors.anomaly,"ANOM")}
+        ${node(460,292,"deadline unclear",colors.anomaly,"ANOM")}
+        ${node(536,214,"decouple constraints",colors.hypothesis,"HYP")}
+        ${node(598,220,"verify deadline",colors.hypothesis,"HYP")}
+        ${node(612,226,"deadline rule",colors.rule,"RULE")}
+        ${node(682,146,"ask two questions",colors.action,"ACT")}
+        ${node(718,184,"extend 48h",colors.action,"ACT")}
+        ${token("planesAnalyst", colors.analyst, 0)}
+        ${token("planesAuditor", colors.auditor, 1.4)}
+        ${token("planesMemory", colors.memory, 2.2)}
+        <text class="axis" x="118" y="540">semantic depth rises by plane</text>
+        <text class="axis" x="610" y="540">action options at top-right</text>
+      </svg>
+    `;
+  }
+
+  function railsSvg() {
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" role="img" aria-label="Agent rails mock">
+        <path d="M96 520 L790 430 L810 104" fill="none" stroke="rgba(255,255,255,0.09)" stroke-width="1"></path>
+        <path d="M120 500 L812 410" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="1"></path>
+        <path id="railAnalyst" class="trail moving" d="M130 405 C230 344 300 350 380 298 S540 250 680 190" stroke="${colors.analyst}"></path>
+        <path id="railAuditor" class="trail moving" d="M140 470 C250 446 326 392 430 332 S588 300 730 250" stroke="${colors.auditor}"></path>
+        <path id="railContrarian" class="trail moving" d="M560 260 C498 316 430 340 384 356 S432 410 544 390" stroke="${colors.contrarian}"></path>
+        <path id="railMemory" class="trail moving" d="M545 392 C642 396 690 342 740 296 S774 262 794 232" stroke="${colors.memory}"></path>
+        ${node(130,405,"comp memo",colors.observation,"OBS")}
+        ${node(240,348,"lost candidates",colors.evidence,"EV")}
+        ${node(380,298,"scarcity",colors.anomaly,"ANOM")}
+        ${node(520,238,"frame claim",colors.claim,"CLAIM")}
+        ${node(680,190,"ask questions",colors.action,"ACT")}
+        ${node(140,470,"deadline note",colors.observation,"OBS")}
+        ${node(300,405,"source check",colors.source,"SIC")}
+        ${node(430,332,"deadline unclear",colors.anomaly,"ANOM")}
+        ${node(586,292,"intent refused",colors.claim,"CLAIM")}
+        ${node(730,250,"extend 48h",colors.action,"ACT")}
+        ${node(545,392,"deadline rule",colors.rule,"RULE")}
+        ${token("railAnalyst", colors.analyst, 0)}
+        ${token("railAuditor", colors.auditor, 1.2)}
+        ${token("railContrarian", colors.contrarian, 2.4)}
+        ${token("railMemory", colors.memory, 3.1)}
+        <text class="axis" x="112" y="116">route lines make agent disagreement readable</text>
+        <text class="axis" x="112" y="548">shared stops mean shared evidence or shared claim targets</text>
+      </svg>
+    `;
+  }
+
+  function helixSvg() {
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" role="img" aria-label="Temporal helix mock">
+        ${[0,1,2,3,4,5].map((i) => {
+          const x = 150 + i * 118;
+          return `<ellipse cx="${x}" cy="310" rx="32" ry="155" fill="none" stroke="rgba(255,255,255,0.08)"></ellipse>
+            <line x1="${x}" y1="140" x2="${x}" y2="480" stroke="rgba(255,255,255,0.05)"></line>
+            <text class="axis" x="${x - 18}" y="505">t+${i}</text>`;
+        }).join("")}
+        <path id="helixAnalyst" class="trail moving" d="M150 390 C210 170 260 450 326 260 S442 176 504 326 S620 460 742 190" stroke="${colors.analyst}"></path>
+        <path id="helixAuditor" class="trail moving" d="M150 440 C222 306 278 388 350 346 S482 486 562 286 S650 230 760 270" stroke="${colors.auditor}"></path>
+        <path id="helixMemory" class="thin-trail moving" d="M562 286 C616 210 704 314 760 270" stroke="${colors.memory}"></path>
+        ${node(150,390,"comp memo",colors.observation,"OBS")}
+        ${node(260,450,"lost candidates",colors.evidence,"EV")}
+        ${node(326,260,"scarcity",colors.anomaly,"ANOM")}
+        ${node(504,326,"frame claim",colors.claim,"CLAIM")}
+        ${node(742,190,"ask questions",colors.action,"ACT")}
+        ${node(150,440,"deadline",colors.observation,"OBS")}
+        ${node(350,346,"source weak",colors.source,"SIC")}
+        ${node(482,486,"uncertain",colors.anomaly,"ANOM")}
+        ${node(562,286,"refusal",colors.claim,"CLAIM")}
+        ${node(760,270,"extend",colors.action,"ACT")}
+        ${token("helixAnalyst", colors.analyst, 0)}
+        ${token("helixAuditor", colors.auditor, 1.4)}
+        ${token("helixMemory", colors.memory, 2.6)}
+        <text class="axis" x="130" y="105">time moves left to right</text>
+        <text class="axis" x="626" y="104">vertical position shows semantic elevation</text>
+      </svg>
+    `;
+  }
+
+  function cubeSvg() {
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" role="img" aria-label="Evidence cube mock">
+        <polygon points="180,450 620,450 746,320 306,320" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.18)"></polygon>
+        <polygon points="180,450 180,180 306,50 306,320" fill="rgba(91,215,255,0.035)" stroke="rgba(255,255,255,0.12)"></polygon>
+        <polygon points="620,450 620,180 746,50 746,320" fill="rgba(240,107,185,0.035)" stroke="rgba(255,255,255,0.12)"></polygon>
+        <polygon points="180,180 620,180 746,50 306,50" fill="rgba(94,224,138,0.035)" stroke="rgba(255,255,255,0.12)"></polygon>
+        <line x1="180" y1="450" x2="180" y2="180" stroke="rgba(255,255,255,0.2)"></line>
+        <line x1="620" y1="450" x2="620" y2="180" stroke="rgba(255,255,255,0.2)"></line>
+        <line x1="306" y1="320" x2="306" y2="50" stroke="rgba(255,255,255,0.2)"></line>
+        <line x1="746" y1="320" x2="746" y2="50" stroke="rgba(255,255,255,0.2)"></line>
+        <path id="cubeAnalyst" class="trail moving" d="M242 392 L330 330 L430 274 L548 226 L650 194" stroke="${colors.analyst}"></path>
+        <path id="cubeAuditor" class="trail moving" d="M270 420 L410 366 L494 384 L560 302 L644 340" stroke="${colors.auditor}"></path>
+        <path id="cubeContrarian" class="thin-trail moving" d="M548 226 L410 366 L560 302" stroke="${colors.contrarian}"></path>
+        ${node(242,392,"comp memo",colors.observation,"OBS")}
+        ${node(330,330,"lost candidates",colors.evidence,"EV")}
+        ${node(430,274,"scarcity",colors.anomaly,"ANOM")}
+        ${node(548,226,"frame claim",colors.claim,"CLAIM")}
+        ${node(650,194,"ask",colors.action,"ACT")}
+        ${node(270,420,"deadline",colors.observation,"OBS")}
+        ${node(410,366,"source weak",colors.source,"SIC")}
+        ${node(494,384,"uncertain",colors.anomaly,"ANOM")}
+        ${node(560,302,"refused",colors.claim,"CLAIM")}
+        ${node(644,340,"extend",colors.action,"ACT")}
+        ${token("cubeAnalyst", colors.analyst, 0)}
+        ${token("cubeAuditor", colors.auditor, 1.5)}
+        ${token("cubeContrarian", colors.contrarian, 2.8)}
+        <text class="axis" x="160" y="474">recency</text>
+        <text class="axis" x="668" y="468">distance to action</text>
+        <text class="axis" x="116" y="176">confidence</text>
+      </svg>
+    `;
+  }
+
+  function constellationSvg() {
+    return `
+      <svg class="mock-svg" viewBox="0 0 900 620" role="img" aria-label="Constellation cluster mock">
+        ${[
+          [210,360,118,"Signal",colors.observation],
+          [410,232,124,"Pattern",colors.anomaly],
+          [620,324,132,"Belief",colors.claim],
+          [510,474,96,"Review",colors.rule],
+          [740,206,104,"Action",colors.action]
+        ].map(([x,y,r,label,color]) => `
+          <circle cx="${x}" cy="${y}" r="${r}" fill="${color}" opacity="0.045" stroke="${color}" stroke-opacity="0.22"></circle>
+          <text class="plane-label" x="${x - 28}" y="${y - r - 10}">${label}</text>
+        `).join("")}
+        <path id="constAnalyst" class="trail moving" d="M172 378 C260 252 346 224 420 252 S542 278 620 306 S708 268 760 216" stroke="${colors.analyst}"></path>
+        <path id="constAuditor" class="trail moving" d="M216 432 C300 410 350 342 416 350 S526 464 590 382 S676 322 730 248" stroke="${colors.auditor}"></path>
+        <path id="constMemory" class="thin-trail moving" d="M512 474 C556 414 604 370 662 340 S716 260 760 216" stroke="${colors.memory}"></path>
+        ${node(172,378,"comp memo",colors.observation,"OBS")}
+        ${node(216,432,"deadline",colors.observation,"OBS")}
+        ${node(286,326,"lost candidates",colors.evidence,"EV")}
+        ${node(416,350,"deadline unclear",colors.anomaly,"ANOM")}
+        ${node(420,252,"scarcity",colors.anomaly,"ANOM")}
+        ${node(590,382,"refusal",colors.claim,"CLAIM")}
+        ${node(620,306,"frame claim",colors.claim,"CLAIM")}
+        ${node(512,474,"deadline rule",colors.rule,"RULE")}
+        ${node(730,248,"extend",colors.action,"ACT")}
+        ${node(760,216,"ask questions",colors.action,"ACT")}
+        ${token("constAnalyst", colors.analyst, 0)}
+        ${token("constAuditor", colors.auditor, 1.4)}
+        ${token("constMemory", colors.memory, 2.6)}
+        <text class="axis" x="126" y="118">cluster first, drill into nodes second</text>
+        <text class="axis" x="584" y="540">good for seeing overused ontology regions</text>
+      </svg>
+    `;
+  }
+
+  function visualFor(id) {
+    if (id === "rails") return railsSvg();
+    if (id === "helix") return helixSvg();
+    if (id === "cube") return cubeSvg();
+    if (id === "constellation") return constellationSvg();
+    return planesSvg();
+  }
+
+  function render() {
+    const version = versionById(activeId);
+    renderVersionList();
+    renderDetails(version);
+    renderLegend();
+    document.getElementById("visualWrap").innerHTML = visualFor(version.id);
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
