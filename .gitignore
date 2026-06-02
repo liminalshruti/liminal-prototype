@@ -4,3 +4,9 @@ node_modules
 .env
 .env.local
 .vercel
+
+# audit / verification scratch (not canon)
+.playwright-mcp/
+audit-*.png
+zip-*.png
+refactor-*.png

@@ -95,6 +95,8 @@ Overturn if:
 
 - **2026-05-12 evening** — ACCEPTED. After PR #6 merge brought cut 01-canon to anointment parity with cut 01-speedrun, the question was no longer "which to build" but "which to curate as canonical."
 
+- **2026-06-02 — SUPERSEDED (cut-consolidation refactor).** This decision *retained* `00-hero-demo` (editorial/brand register) and `01-slate-tray-speedrun` (a16z direct-send) as distinct live surfaces. The 2026-06-02 refactor — applying a journey-hierarchy lens (one primary journey per surface; collapse renders of the same journey step) — **overrides that retention.** Both `00-hero-demo` and `01-slate-tray-speedrun`, plus `index-agenthansa-frozen` (a frozen frame of the same workspace engine, never anointed), were moved to `cuts/_archive/`. Rationale: all three are renders of the **same Capture→Read→Decide journey step** that `01-slate-tray` owns; keeping them as separate catalog entries is the "surfaces competing" anti-pattern. The speedrun **hero framing** is preserved as a register toggle inside `01-slate-tray` (default state remains brand-first, pixel-identical to pre-refactor; speedrun is opt-in), so the a16z direct-send register is not lost — it moves from a separate file to a state inside the canonical door. Files remain in `_archive/` (reachable, reversible), not deleted. Decision made by founder, 2026-06-02, consciously superseding the 2026-05-12 retention. The Revisit criteria above (00-hero-demo / speedrun as fallback front doors) still apply — those artifacts live in `_archive/` if a revisit is triggered.
+
 ## Action items (not blocking; work to sequence after this decision)
 
 1. Curator pass on `index.html` to surface cut 01-canon prominently
