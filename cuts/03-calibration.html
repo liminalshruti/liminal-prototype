@@ -537,7 +537,7 @@
       <div class="cal-header">
         <div class="cal-eyebrow">Your OS over time</div>
         <h1 class="cal-title">12 weeks · four registers</h1>
-        <p class="cal-helper">The vault record. Each cell shows corrections that week for that register. Click a cell or agent name to see the pattern.</p>
+        <p class="cal-helper">The vault record — shown here as a seeded illustrative baseline with any real corrections merged on top. Each cell shows corrections that week for that register. Click a cell or agent name to see the pattern.</p>
       </div>
 
       <div class="cal-grid-wrapper">
@@ -1009,12 +1009,17 @@
       `;
       header.appendChild(pill);
     }
+    /* Honest disclosure (kept unmissable on purpose): the grid is a seeded
+       illustrative baseline with any real vault corrections merged on top.
+       A viewer must never mistake the seeded density for accumulated real
+       record — so the seed-only state is stated plainly, not dimmed away. */
     if (mockData.realCount > 0) {
-      pill.textContent = `live · ${mockData.realCount} real correction${mockData.realCount === 1 ? "" : "s"} from vault · ${mockData.realCount + " merged onto seeded baseline"}`;
+      const n = mockData.realCount;
+      pill.textContent = `${n} real correction${n === 1 ? "" : "s"} from your vault · merged onto a seeded illustrative baseline`;
       pill.style.opacity = "1";
     } else {
-      pill.textContent = "seed only · commit a correction in the slate to see it here";
-      pill.style.opacity = "0.6";
+      pill.textContent = "illustrative baseline · seeded sample, not real record · commit a correction in the slate to see real data merge in";
+      pill.style.opacity = "1";
     }
   }
 

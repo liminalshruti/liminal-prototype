@@ -1,20 +1,20 @@
 /*
- * design-tokens.css · Liminal canon · single source of truth
+ * design-tokens.css · Liminal canon · SYNCED CONSUMER COPY
  * ════════════════════════════════════════════════════════════
  *
- * HOW TO CONSUME THIS FILE
- * ────────────────────────
- * This is the only token file you need to import. Every product surface
- * (this prototype, the marketing site, the Tauri desktop client, future
- * mobile, etc.) imports this file — and ONLY this file — to receive the
- * canonical Liminal color · type · spacing · motion system.
+ * UPSTREAM CANON
+ * ──────────────
+ * The canonical token source is `liminal-creative/tokens/design-tokens.css`
+ * (self-declared canonical upstream, 2026-05-13 superset merge). THIS file
+ * is a synced consumer copy that the prototype links so the cuts render
+ * standalone. It must mirror the upstream canon exactly; do not edit token
+ * values here independently — change them upstream, then re-sync.
  *
- *   <link rel="stylesheet" href="design-tokens.css">  ← that's it
+ *   <link rel="stylesheet" href="design-tokens.css">  ← cuts link this copy
  *
  * Each consuming surface adds its own *typography overrides* and *layout*,
- * but never redefines the tokens here. This is the contract: change a
- * value in this file → every surface that imports it picks up the change
- * on next page load. No local copies. No per-surface forks.
+ * but never redefines the token VALUES. Contract: change a value upstream →
+ * re-sync every consumer copy → surfaces pick it up on next load.
  *
  * AUTHOR / EDITS
  * ──────────────
@@ -22,6 +22,7 @@
  * Generated : 2026-04-07 (12-wheel canon lock)
  * Last edit : 2026-04-28 (generative base · 120 hue stops + 42 UI bindings)
  *           : 2026-04-28 (surface layer · --frame-bg-3 + shadow tokens + scrim layer)
+ *           : 2026-06-11 (re-synced from liminal-creative canon · --text-faint a11y value + --paper-* aliases)
  * Reference : liminal-creative/color-lab/src/lib/palettes/liminal-12-wheel.ts
  *
  * STRUCTURE
@@ -812,8 +813,24 @@
   --text:         #F4F2EE;
   --text-mid:     #C9C5BD;
   --text-dim:     #8A8780;
-  --text-faint:   #5A5852;
+  --text-faint:   #6B6862;   /* a11y pass 1 · bumped #5A5852 → #6B6862 for WCAG AA body-text contrast (synced from liminal-creative canon) */
   --text-mute:    #3A3833;
+
+  /* ─── paper aliases · printable artifact card on a dark shell ─
+   * Use these when an on-screen surface should read as paper:
+   * a packet, a Trust Packet, an audit artifact. Bind components
+   * to --paper-* so an eventual light-theme retune flips one set.
+   * Synced from liminal-creative canon 2026-06-11 (was missing here).
+   */
+  --paper-bg:        var(--cream-100);   /* card surface           */
+  --paper-bg-soft:   var(--cream-50);    /* highlight band, header */
+  --paper-bg-deep:   var(--cream-200);   /* nested fill            */
+  --paper-line:      var(--cream-300);   /* divider on cream       */
+  --paper-line-soft: var(--cream-400);   /* secondary divider      */
+  --paper-faint:     var(--cream-600);   /* dim text on cream      */
+  --paper-mid:       var(--cream-700);   /* body text on cream     */
+  --paper-strong:    var(--cream-800);   /* heading text on cream  */
+  --paper-fg:        var(--cream-900);   /* maximum contrast       */
 
   /* ─── 5 · type families ─────────────────────────────────── */
   --display: "Nineties Headliner", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;

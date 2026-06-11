@@ -105,11 +105,13 @@
        so prototype renders correctly even when canon's value is absent
        OR the var-self-ref invalidation hits.
        Canon target values: --text #F4F2EE · --text-mid #C9C5BD ·
-       --text-dim #8A8780 · --text-faint #5A5852 · these match. */
+       --text-dim #8A8780 · --text-faint #6B6862 (a11y pass 1 · WCAG AA).
+       THESE MUST TRACK CANON — re-sync on every canon ink change, else this
+       fallback silently shadows the linked token (it loads after it). */
     --text:       #F4F2EE;
     --text-mid:   #C9C5BD;
     --text-dim:   #8A8780;
-    --text-faint: #5A5852;
+    --text-faint: #6B6862;   /* synced 2026-06-11 · was #5A5852 (pre-a11y) */
 
     --display: "Newsreader", Georgia, serif;
     --serif:   "Newsreader", Georgia, serif;
