@@ -1,5 +1,19 @@
 # Cut Quality Audit — 2026-06-01
 
+> **Resolution log — 2026-06-11 (branch consolidation).** Founder decisions on
+> the gated findings:
+> - **F1 (menu links wrong front door) — RESOLVED by the consolidation merge.**
+>   The speedrun cut is now archived; `index.html` links `cuts/01-slate-tray.html`
+>   labeled "canonical front door," matching `FRONT_DOOR_DECISION_2026-05-12.md`.
+>   The contradiction no longer exists. No action needed.
+> - **F3 (index off-canon type) — FIXED.** Founder call: drift. `index.html` now
+>   uses the LOCKED brand stack (NinetiesHeadliner + PerfectlyNineties; mono kept
+>   Geist Mono per the 2026-05-14 lock). Render-verified, fonts load. Evidence:
+>   `audit-f3-menu-brandtype-after.png`. (See NEXT_STAGES resolution log for S3.)
+> - **F5 (Maya/Maia near-homograph) — DEFERRED (founder call, low priority).** The
+>   surviving "Maya" contact refs live mostly in `cuts/_archive/` now; revisit only
+>   if a Maya-referencing surface returns to the live catalog. Not a blind replace.
+
 Method: served this repo on `localhost:5273` (clean instance; an unrelated stale
 server was already on 5173), drove each prototype in Playwright at 1440×900,
 captured pixels, checked browser console per page, and HEAD-verified every local

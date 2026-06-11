@@ -7,11 +7,44 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+<!-- F3 — Geist Mono only (the locked mono). Newsreader + Geist dropped: display
+     + sans now use the local brand stack (Nineties Headliner / Perfectly Nineties). -->
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="design-system/tokens/design-tokens.css">
 
 <style>
+  /* F3 — menu adopts the LOCKED brand stack (Nineties Headliner + Perfectly
+     Nineties), matching the cuts. Display + sans only; --mono stays Geist Mono
+     per the 2026-05-14 brand lock (brand-upgrade.css predates the lock and uses
+     Cougar — not canon). @font-face paths are root-relative (this is an inline
+     stylesheet, so url() resolves against index.html at repo root → fonts/). */
+  @font-face {
+    font-family: 'NinetiesHeadliner';
+    src: url('fonts/nineties-headliner.otf') format('opentype');
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'PerfectlyNineties';
+    src: url('fonts/perfectly-nineties-light.otf') format('opentype');
+    font-weight: 300; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'PerfectlyNineties';
+    src: url('fonts/perfectly-nineties-regular.otf') format('opentype');
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'PerfectlyNineties';
+    src: url('fonts/PerfectlyNineties-Semibold.otf') format('opentype');
+    font-weight: 600; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: 'PerfectlyNineties';
+    src: url('fonts/perfectly-nineties-bold.otf') format('opentype');
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+
   :root {
     --bg:           #0A0A0B;
     --frame-bg:     #0E0E11;
@@ -22,8 +55,8 @@
     --accent:       var(--clarity, #8E66FB);
     --accent-bg:    var(--clarity-bg, rgba(142,102,251,0.06));
     --card-border:  #2A2A30;
-    --display:      "Newsreader", Georgia, serif;
-    --sans:         "Geist", -apple-system, system-ui, sans-serif;
+    --display:      "NinetiesHeadliner", Georgia, serif;
+    --sans:         "PerfectlyNineties", Georgia, serif;
     --mono:         "Geist Mono", "SF Mono", monospace;
   }
 

@@ -6,6 +6,33 @@ the current branch from merging.
 
 ---
 
+## Resolution log — 2026-06-11 (branch consolidation + founder decisions)
+
+`refactor/combine-cuts` merged to `main` (clean, only `index.html` overlapped;
+auto-resolved). Founder decisions taken on the gated items:
+
+- **S3 / F3 (menu off-canon type) — DONE.** Founder call: *drift, fix.* `index.html`
+  now adopts the LOCKED brand stack — `--display` → NinetiesHeadliner, `--sans` →
+  PerfectlyNineties (local `@font-face`, root-relative `fonts/`). `--mono` kept as
+  **Geist Mono** per the 2026-05-14 lock (brand-upgrade.css predates the lock and
+  uses Cougar — not adopted). Newsreader + Geist dropped from the Google Fonts
+  link; Geist Mono retained. Render-verified: all three families load, wordmark
+  computes PerfectlyNineties. Evidence: `audit-f3-menu-brandtype-after.png`.
+- **S4 (12 vs 13 agents) — DECIDED: twelve is canon.** The 13-agent desktop roster
+  is treated as drift to reconcile later, not adopted. Brand hard-stop (twelve)
+  stands; no CLAUDE.md rewrite. All new work stays register-named, never
+  count-named (as already mandated). The dedicated Agents register/refusal cut
+  stays blocked until/unless 13 is ever formally adopted.
+- **S6 (speedrun byline) — DONE.** `cuts/01-slate-tray.html` `.is-speedrun
+  .entry-brand` switched from eyeballed `13px`/`#8A8780` to the archived
+  original's relative idiom (`font-size: 0.85em; opacity: 0.72`).
+
+Still open / deferred per original spec: S1 (Patterns cut — next up), S2
+(split-view), S5 (in-place nav swap), S7 (vanilla onboarding). F5 (Maya/Maia)
+deferred — see audit doc.
+
+---
+
 ## S1 · Patterns cut (the self-read mirror) — Tier-2
 **Why:** the journey map's Record-over-time branch. "Form to inner life," literal.
 **Scope:** new single-file cut `cuts/10-patterns.html`, fresh on canon (`pat-*`
