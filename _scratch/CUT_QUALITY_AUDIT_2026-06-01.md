@@ -6,10 +6,22 @@
 >   The speedrun cut is now archived; `index.html` links `cuts/01-slate-tray.html`
 >   labeled "canonical front door," matching `FRONT_DOOR_DECISION_2026-05-12.md`.
 >   The contradiction no longer exists. No action needed.
-> - **F3 (index off-canon type) — FIXED.** Founder call: drift. `index.html` now
->   uses the LOCKED brand stack (NinetiesHeadliner + PerfectlyNineties; mono kept
->   Geist Mono per the 2026-05-14 lock). Render-verified, fonts load. Evidence:
->   `audit-f3-menu-brandtype-after.png`. (See NEXT_STAGES resolution log for S3.)
+> - **F3 (index off-canon type) — FIXED + LIVE-VERIFIED.** Founder call: drift.
+>   `index.html` now uses the LOCKED brand stack (NinetiesHeadliner +
+>   PerfectlyNineties; mono kept Geist Mono per the 2026-05-14 lock). Verified on
+>   **live GitHub Pages** (not just localhost — this repo's #15 was a
+>   local-works-Pages-doesn't symlink bug): `document.fonts.check()` returns true
+>   for all three families at `liminalshruti.github.io/liminal-prototype/`,
+>   wordmark computes PerfectlyNineties, font filename casing matches the
+>   case-sensitive Pages host. Evidence: `audit-f3-menu-brandtype-after.png`.
+>   (See NEXT_STAGES resolution log for S3.)
+> - **NEW — `09-` slot collision (introduced by the merge, surfaced for founder).**
+>   The consolidation left **two** cuts sharing the `09` prefix: `09-osint-custody.html`
+>   (hackathon) and `09-today.html` (refactor), both linked in the menu. Not a merge
+>   defect (distinct filenames, both render), but the numbering is no longer unique.
+>   Founder call: rename one (e.g. `10-today.html`) if the index should stay
+>   sequentially numbered, or leave if the prefix is just a loose grouping. Left
+>   untouched pending decision.
 > - **F5 (Maya/Maia near-homograph) — DEFERRED (founder call, low priority).** The
 >   surviving "Maya" contact refs live mostly in `cuts/_archive/` now; revisit only
 >   if a Maya-referencing surface returns to the live catalog. Not a blind replace.
