@@ -33,6 +33,7 @@
 <!-- shared shell · register accents + frame chrome + slate/tray + brief + dispo
      + audit ribbon + classification + marginalia + boot animations -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/surface-nav.css">
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
@@ -407,6 +408,67 @@
   .frame > .frame-receipt {
     transition: opacity 320ms ease;
   }
+
+  /* ── Hero register toggle (2026-06-02 consolidation) ──────────────
+     Folds the archived 01-slate-tray-speedrun framing in as an opt-in
+     state. DEFAULT (no .is-speedrun) is untouched: the entry-card stays
+     block-flow, brand-first, pixel-identical to pre-refactor. The
+     speedrun state flips the hero stack (wedge leads, brand demotes to
+     byline) the way the archived variant did — scoped to #entry-overlay
+     so nothing leaks to other cuts or the shared cut-shell rules. */
+  #entry-overlay .entry-register {
+    display: inline-flex;
+    gap: 2px;
+    margin: 0 auto 22px;
+    padding: 2px;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    font-family: var(--mono);
+  }
+  #entry-overlay .entry-register button {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    color: #8A8780;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 160ms ease, color 160ms ease;
+  }
+  #entry-overlay .entry-register button[aria-pressed="true"] {
+    background: var(--p-accent, #8E66FB);
+    color: #fff;
+  }
+
+  /* speedrun state — flip the stack via local flex (default stays block-flow) */
+  #entry-overlay .entry-card.is-speedrun {
+    display: flex;
+    flex-direction: column;
+  }
+  #entry-overlay .entry-card.is-speedrun .entry-register { order: 0; }
+  #entry-overlay .entry-card.is-speedrun .entry-wedge {
+    order: 1;
+    font-style: normal;
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+  #entry-overlay .entry-card.is-speedrun .entry-brand {
+    order: 2;
+    text-transform: none;
+    letter-spacing: 0.01em;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 13px;
+    color: #8A8780;
+    margin-bottom: 24px;
+  }
+  #entry-overlay .entry-card.is-speedrun .entry-prompt   { order: 3; }
+  #entry-overlay .entry-card.is-speedrun .entry-doors    { order: 4; }
+  #entry-overlay .entry-card.is-speedrun .entry-skip     { order: 5; }
 </style>
 
 </head>
@@ -417,6 +479,10 @@
   <div class="entry-card">
     <div class="entry-brand">Liminal · gives form to inner life.</div>
     <h1 class="entry-wedge">A founder OS where AI agents disagree, deliberate, and prompt you. The corrections are the moat.</h1>
+    <div class="entry-register" role="group" aria-label="Hero register">
+      <button type="button" data-register="brand" aria-pressed="true">Brand-first</button>
+      <button type="button" data-register="speedrun" aria-pressed="false">Speedrun</button>
+    </div>
     <p class="entry-prompt">Try one</p>
     <div class="entry-doors">
       <button class="entry-door" data-product="personal" data-context="self_baseline_check" type="button">
@@ -1058,5 +1124,26 @@
   else boot();
 })();
 </script>
+
+<script>
+  /* Hero register toggle (2026-06-02 consolidation).
+     Flips the entry-card hero stack between brand-first (default) and the
+     speedrun framing folded in from the archived 01-slate-tray-speedrun.
+     Scoped to the entry overlay; touches only the .is-speedrun class. */
+  (function () {
+    const card = document.querySelector('#entry-overlay .entry-card');
+    const group = document.querySelector('#entry-overlay .entry-register');
+    if (!card || !group) return;
+    group.addEventListener('click', function (e) {
+      const btn = e.target.closest('button[data-register]');
+      if (!btn) return;
+      const speedrun = btn.dataset.register === 'speedrun';
+      card.classList.toggle('is-speedrun', speedrun);
+      group.querySelectorAll('button').forEach(b =>
+        b.setAttribute('aria-pressed', String(b.dataset.register === btn.dataset.register)));
+    });
+  })();
+</script>
+<script src="../lib/surface-nav.js"></script>
 </body>
 </html>

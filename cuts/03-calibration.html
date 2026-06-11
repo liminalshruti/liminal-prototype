@@ -42,6 +42,7 @@
 
 <!-- shared desktop-app shell · import, then override with per-cut styles -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/surface-nav.css">
 
 <style>
   /* v0.8.5 P3 — initial paint suppression (F5 from cut01 polish pass).
@@ -270,16 +271,29 @@
     border: 1px dashed var(--border-soft);
   }
 
+  /* Intensity encoding · F9 contrast fix (2026-06-02)
+     ────────────────────────────────────────────────────────────────
+     Was: mixed --cell-bg (an already-faint *-bg wash at ~6% alpha)
+     with --paper, so filled cells landed ~1.5–4.5% above the near-black
+     background and the grid read empty at rest. Now: composite the FULL
+     register accent (--cell-accent → --judgment/--diligence/etc.) with
+     --paper at deliberate ratios so each filled cell clears the
+     background and intensity is legible without interaction. Per-register
+     hue is preserved; no canon token is redefined (rule #1) — we only
+     change how this cut composites the hue it already binds. */
   .cal-cell.light {
-    background: color-mix(in oklch, var(--cell-bg) 25%, var(--paper) 75%);
+    background: color-mix(in oklch, var(--cell-accent) 14%, var(--paper) 86%);
+    border-color: color-mix(in oklch, var(--cell-accent) 22%, var(--border-soft));
   }
 
   .cal-cell.medium {
-    background: color-mix(in oklch, var(--cell-bg) 50%, var(--paper) 50%);
+    background: color-mix(in oklch, var(--cell-accent) 28%, var(--paper) 72%);
+    border-color: color-mix(in oklch, var(--cell-accent) 38%, var(--border-soft));
   }
 
   .cal-cell.saturated {
-    background: color-mix(in oklch, var(--cell-bg) 75%, var(--paper) 25%);
+    background: color-mix(in oklch, var(--cell-accent) 46%, var(--paper) 54%);
+    border-color: color-mix(in oklch, var(--cell-accent) 60%, var(--border-soft));
   }
 
   .cal-cell-count {
@@ -1050,5 +1064,6 @@
 })();
 </script>
 
+<script src="../lib/surface-nav.js"></script>
 </body>
 </html>

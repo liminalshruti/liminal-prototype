@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cut 09 · Today · re-entry · Liminal</title>
+
+<!--
+  Cut 09 · Today — the re-entry surface · closes the backbone loop
+  ────────────────────────────────────────────────────────────────
+  Liminal's backbone journey is Capture → Read → Decide → Record → Re-enter.
+  Cuts 00/01 own Capture/Read/Decide; embed-vault + cut 03 own Record.
+  Re-enter was the one missing segment — this cut renders it.
+
+  The daemon re-reads held compositions overnight and brings them back:
+  one needs a decision today, one outcome is due to close, your pattern
+  has a note. The "close the loop" outcome buttons are the only REAL
+  interaction — answering one seals the read to the vault and ticks
+  calibration. Everything else is scripted fixtures.
+
+  CANON CONTRACT (per cuts/CONTRIBUTING.md rule #1):
+  consumes design-tokens.css + cut-shell.css; adds tdy-* per-cut aliases
+  that var() into canon — never redefines canon tokens. Register-named,
+  never count-named (the 12-vs-13 agent question is parked, not decided).
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- canon · single source of truth -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<!-- cascade bridge · frame chrome + prototype vocabulary -->
+<link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/surface-nav.css">
+
+<style>
+  /* Initial-paint suppression (canon pattern from cut 01/03 polish pass).
+     body opacity 0 → 1 once .ready fires after first render. */
+  body { opacity: 0; transition: opacity 240ms ease-out; }
+  body.ready { opacity: 1; }
+
+  /* Today view · re-entry surface
+     ────────────────────────────────────────────────────────────────
+     PER-CUT TOKEN MAP · binds today-vocabulary aliases into canon.
+     Cuts cannot redefine canon tokens (CONTRIBUTING rule #1); we add
+     aliases that var() into existing canon (--frame-bg, --card-border,
+     --clarity, --judgment, --connection, etc.). Canon change → this
+     view picks it up on next load. */
+  :root {
+    --paper:        var(--frame-bg,    #0E0E11);
+    --paper-lift:   var(--frame-bg-2,  #0C0C0F);
+    --paper-soft:   var(--frame-bg-3,  #15161A);
+    --border:       var(--card-border, #232327);
+    --border-soft:  var(--frame-border,#1F1F23);
+    --text-soft:    var(--text-dim,    #7A7A82);
+    --easing:       var(--ease-out,    cubic-bezier(0.4, 0, 0.2, 1));
+
+    /* register inks · bind to canon hue scales (register-named, not count-named) */
+    --ink-clarity:  var(--clarity-500,    #8E66FB);
+    --ink-judgment: var(--judgment,       #8E66FB);
+    --ink-good:     var(--connection-500, #3EE878);
+    --ink-warn:     var(--wholeness-500,  #E90095);
+    --ink-amber:    var(--agency-500,     #FFD24A);
+  }
+
+  /* The shell gives us .stage / .frame / .titlebar. Lay the surface
+     out as a vertical column under the titlebar. */
+  .stage { display: flex; flex-direction: column; }
+  .frame { display: flex; flex-direction: column; height: 100vh; }
+  .titlebar { flex-shrink: 0; }
+
+  /* crumb in the titlebar */
+  .tdy-crumb {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--text-soft);
+  }
+  .tdy-crumb b { color: var(--text); font-weight: 500; }
+  .tdy-vault-pill {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    border: 1px solid var(--border-soft);
+    border-radius: 999px;
+    padding: 3px 10px;
+  }
+  .tdy-vault-pill .glyph { color: var(--ink-clarity); }
+  .tdy-vault-pill .add  { color: var(--ink-good); }
+
+  /* main scroll container */
+  .tdy {
+    flex: 1;
+    overflow-y: auto;
+    background: var(--paper);
+    padding: 2.4rem 3rem 3rem;
+  }
+
+  /* header */
+  .tdy-head { max-width: 1080px; margin: 0 auto 2rem; }
+  .tdy-eyebrow {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-clarity);
+    margin-bottom: 0.9rem;
+  }
+  .tdy-title {
+    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-weight: 500;
+    font-size: 2.6rem;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 0.7rem;
+  }
+  .tdy-lede {
+    font-family: var(--sans, "Geist", system-ui, sans-serif);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-mid);
+    max-width: 720px;
+  }
+
+  /* two-column body: left = needs a decision, right = close the loop + state */
+  .tdy-cols {
+    max-width: 1080px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  .tdy-col { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .tdy-section-label {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.85rem;
+  }
+  .tdy-section-label .meta { color: var(--text-faint, #4A4A52); }
+
+  /* ── the held read that needs a decision (left hero card) ── */
+  .tdy-decision {
+    background: var(--paper-lift);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.6rem 1.7rem;
+    position: relative;
+  }
+  .tdy-tags { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+  .tdy-tag {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    color: var(--text-soft);
+  }
+  .tdy-tag.lane { color: var(--ink-clarity); border-color: rgba(142,102,251,0.3); }
+  .tdy-tag.almost { color: var(--ink-amber); border-color: rgba(255,210,74,0.3); }
+
+  .tdy-verdict {
+    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-weight: 500;
+    font-style: italic;
+    font-size: 1.7rem;
+    color: var(--ink-warn);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.7rem;
+  }
+  .tdy-decision-body {
+    font-family: var(--sans, "Geist", system-ui, sans-serif);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--text-mid);
+    margin-bottom: 1.1rem;
+  }
+  .tdy-decision-body b { color: var(--text); font-weight: 500; }
+
+  .tdy-receipt {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+    color: var(--text-faint, #4A4A52);
+    margin-bottom: 1.2rem;
+  }
+  .tdy-receipt span { color: var(--text-soft); }
+
+  .tdy-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .tdy-btn {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 9px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 140ms var(--easing);
+  }
+  .tdy-btn:hover { background: var(--paper-soft); color: var(--text); }
+  .tdy-btn.primary {
+    background: var(--ink-clarity);
+    border-color: var(--ink-clarity);
+    color: #fff;
+  }
+  .tdy-btn.primary:hover { filter: brightness(1.08); background: var(--ink-clarity); }
+
+  /* ── re-surfaced overnight (secondary held reads) ── */
+  .tdy-resurfaced { display: flex; flex-direction: column; gap: 0.7rem; }
+  .tdy-rcard {
+    background: var(--paper-lift);
+    border: 1px solid var(--border-soft);
+    border-radius: 7px;
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: border-color 140ms var(--easing);
+  }
+  .tdy-rcard:hover { border-color: var(--border); }
+  .tdy-rcard-top { display: flex; align-items: center; gap: 0.55rem; }
+  .tdy-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-good); flex-shrink: 0; }
+  .tdy-rcard-name {
+    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-weight: 500;
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+  .tdy-rcard-age {
+    margin-left: auto;
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint, #4A4A52);
+  }
+  .tdy-rcard-body {
+    font-family: var(--sans, "Geist", system-ui, sans-serif);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--text-soft);
+  }
+
+  /* ── close the loop (right column hero) ── */
+  .tdy-loop {
+    background: var(--paper-lift);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.6rem 1.7rem;
+  }
+  .tdy-loop-q {
+    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-weight: 500;
+    font-size: 1.3rem;
+    line-height: 1.25;
+    color: var(--text);
+    letter-spacing: -0.01em;
+    margin-bottom: 0.7rem;
+  }
+  .tdy-loop-sub {
+    font-family: var(--sans, "Geist", system-ui, sans-serif);
+    font-size: 0.85rem;
+    line-height: 1.55;
+    color: var(--text-soft);
+    margin-bottom: 1.3rem;
+  }
+  .tdy-loop-sub em { color: var(--text-mid); font-style: italic; }
+
+  .tdy-outcomes { display: flex; flex-direction: column; gap: 0.5rem; }
+  .tdy-outcome {
+    font-family: var(--sans, "Geist", system-ui, sans-serif);
+    font-size: 0.9rem;
+    text-align: left;
+    padding: 0.85rem 1.1rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--paper);
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 150ms var(--easing);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .tdy-outcome .gloss { color: var(--text-faint, #4A4A52); font-size: 0.8rem; }
+  .tdy-outcome:hover { border-color: var(--ink-clarity); background: var(--paper-soft); color: var(--text); }
+  .tdy-outcome.good:hover  { border-color: var(--ink-good); }
+  .tdy-outcome.warn:hover  { border-color: var(--ink-warn); }
+  .tdy-outcome:disabled { opacity: 0.4; cursor: default; }
+
+  /* sealed state (after an outcome is chosen) */
+  .tdy-sealed {
+    display: none;
+    flex-direction: column;
+    gap: 0.6rem;
+    animation: tdy-rise 360ms var(--easing) both;
+  }
+  .tdy-loop.is-sealed .tdy-outcomes,
+  .tdy-loop.is-sealed .tdy-loop-sub { display: none; }
+  .tdy-loop.is-sealed .tdy-sealed { display: flex; }
+  @keyframes tdy-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+  .tdy-sealed-line {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 10.5px;
+    letter-spacing: 0.05em;
+    color: var(--text-soft);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .tdy-sealed-line .ok { color: var(--ink-good); }
+  .tdy-sealed-verdict {
+    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+  .tdy-sealed-hash {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 9.5px;
+    letter-spacing: 0.08em;
+    color: var(--text-faint, #4A4A52);
+  }
+
+  /* calibration ticker */
+  .tdy-cal {
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+  .tdy-cal-num {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 1.4rem;
+    color: var(--ink-clarity);
+    transition: color 300ms var(--easing);
+  }
+  .tdy-cal-num.bump { animation: tdy-bump 500ms var(--easing); }
+  @keyframes tdy-bump { 0% { color: var(--ink-good); transform: scale(1.18); } 100% { transform: scale(1); } }
+  .tdy-cal-label {
+    font-family: var(--sans, "Geist", system-ui, sans-serif);
+    font-size: 0.8rem;
+    color: var(--text-soft);
+  }
+
+  /* ── your state ── */
+  .tdy-state {
+    background: var(--paper-lift);
+    border: 1px solid var(--border-soft);
+    border-radius: 8px;
+    padding: 1.4rem 1.6rem;
+  }
+  .tdy-state-eyebrow {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-amber);
+    margin-bottom: 0.7rem;
+  }
+  .tdy-state-body {
+    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--text-mid);
+  }
+  .tdy-state-body em { font-style: italic; color: var(--ink-clarity); }
+
+  /* ── tray capture (loop entry, ties back to cut 01) ── */
+  .tdy-tray {
+    max-width: 1080px;
+    margin: 1.5rem auto 0;
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 1.4rem;
+    text-align: center;
+  }
+  .tdy-tray-glyph { color: var(--ink-clarity); font-size: 1.1rem; margin-bottom: 0.5rem; }
+  .tdy-tray-text {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    line-height: 1.7;
+  }
+
+  .tdy-foot {
+    max-width: 1080px;
+    margin: 2.4rem auto 0;
+    padding-top: 1.3rem;
+    border-top: 1px solid var(--border-soft);
+    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--text-soft);
+  }
+</style>
+</head>
+<body data-product="personal">
+
+<!-- desktop-app shell frame stays from cut-shell -->
+<div class="stage">
+  <div class="frame">
+
+    <!-- titlebar from cut-shell -->
+    <header class="titlebar">
+      <div class="lights">
+        <span class="light red"></span>
+        <span class="light yellow"></span>
+        <span class="light green"></span>
+      </div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="app-label">Liminal</span>
+        <span class="tdy-crumb">&nbsp;/&nbsp; <b>Today</b></span>
+        <span class="spacer"></span>
+        <span class="tdy-vault-pill"><span class="glyph">◇</span> vault <b>324</b> <span class="add">+3 this week</span></span>
+      </div>
+    </header>
+
+    <!-- Today view content -->
+    <main class="tdy">
+
+      <div class="tdy-head">
+        <div class="tdy-eyebrow">Today · re-entry · the loop comes back</div>
+        <h1 class="tdy-title">Three things came back overnight.</h1>
+        <p class="tdy-lede">The daemon re-read your held compositions while you slept. One needs a decision today. One outcome is due to close. Your pattern has a note.</p>
+      </div>
+
+      <div class="tdy-cols">
+
+        <!-- LEFT: needs a decision + re-surfaced -->
+        <div class="tdy-col">
+          <div>
+            <div class="tdy-section-label"><span>Needs a decision</span><span class="meta">held 2 days · re-read 04:12</span></div>
+            <div class="tdy-decision">
+              <div class="tdy-tags">
+                <span class="tdy-tag lane">Founding round</span>
+                <span class="tdy-tag almost">Almost ready</span>
+              </div>
+              <div class="tdy-verdict">NOT READY · 4 fixes</div>
+              <p class="tdy-decision-body">The <b>Judgment</b> register refused to ship. Three corrections plus one defer stand between you and a yes — the head-of-eng call is the blocker the agents converged on.</p>
+              <div class="tdy-receipt"><span>read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
+              <div class="tdy-actions">
+                <button class="tdy-btn primary">Open the read →</button>
+                <button class="tdy-btn">Sign &amp; hand off</button>
+                <button class="tdy-btn">Defer 2d</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="tdy-section-label"><span>Re-surfaced overnight</span><span class="meta">2 held reads · no decision due</span></div>
+            <div class="tdy-resurfaced">
+              <div class="tdy-rcard">
+                <div class="tdy-rcard-top">
+                  <span class="tdy-dot"></span>
+                  <span class="tdy-rcard-name">Eng hire · candidate B</span>
+                  <span class="tdy-rcard-age">held 6d</span>
+                </div>
+                <p class="tdy-rcard-body">Sent a technical write-up unprompted. Synthesis flips its read: the Judgment register placed this third — pattern, just one counter-example.</p>
+              </div>
+              <div class="tdy-rcard">
+                <div class="tdy-rcard-top">
+                  <span class="tdy-dot"></span>
+                  <span class="tdy-rcard-name">Design system · v2 migration</span>
+                  <span class="tdy-rcard-age">held 9d</span>
+                </div>
+                <p class="tdy-rcard-body">Strategist surfaced a third option overnight — ship v1, run v2 in parallel two weeks. Maia's review supports it.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: close the loop + state -->
+        <div class="tdy-col">
+          <div>
+            <div class="tdy-section-label"><span>Close the loop</span><span class="meta">outcome due · 27 days ago</span></div>
+            <div class="tdy-loop" id="tdy-loop">
+              <div class="tdy-loop-q">You held the seed round to chase a cleaner close.</div>
+              <p class="tdy-loop-sub">How did that land? <em>Your answer is what makes the vault's calibration real.</em></p>
+
+              <div class="tdy-outcomes" id="tdy-outcomes">
+                <button class="tdy-outcome good" data-outcome="Resolved well — right call" data-disp="resolved-well">Resolved well <span class="gloss">— right call</span></button>
+                <button class="tdy-outcome" data-outcome="Mixed — would adjust" data-disp="mixed">Mixed <span class="gloss">— would adjust</span></button>
+                <button class="tdy-outcome warn" data-outcome="Regret it — wrong call" data-disp="regret">Regret it <span class="gloss">— wrong call</span></button>
+                <button class="tdy-outcome" data-outcome="Still open" data-disp="open">Still open</button>
+              </div>
+
+              <div class="tdy-sealed" id="tdy-sealed">
+                <div class="tdy-sealed-line"><span class="ok">●</span> outcome recorded · sealed to vault</div>
+                <div class="tdy-sealed-verdict" id="tdy-sealed-verdict">Resolved well — right call</div>
+                <div class="tdy-sealed-hash" id="tdy-sealed-hash">seal 9f4c · 7e21 · 0d8a · b3f0 · device-local</div>
+              </div>
+
+              <div class="tdy-cal">
+                <span class="tdy-cal-num" id="tdy-cal-num">7 of 9</span>
+                <span class="tdy-cal-label">decisions calibrated · last 12 weeks</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="tdy-state">
+              <div class="tdy-state-eyebrow">◍ Mirror · a quiet note</div>
+              <p class="tdy-state-body">You tend to decide funding calls when depleted. Last two nights averaged 5h. The agents are reading you rested today — <em>maybe let them.</em></p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- tray: the loop's entry point, ties back to cut 01 -->
+      <div class="tdy-tray">
+        <div class="tdy-tray-glyph">◇</div>
+        <div class="tdy-tray-text">Drag any window, doc, or transcript here to start a new read · captured to vault</div>
+      </div>
+
+      <div class="tdy-foot">Re-entry is how the loop closes. What you held comes back, you say how it landed, the record gets truer.</div>
+
+    </main>
+
+  </div>
+</div>
+
+<script>
+  // ── Close-the-loop interaction (the one real interaction) ──
+  // Choosing an outcome seals the held read into the vault and ticks
+  // calibration. Scripted: there is no daemon backend; this is the
+  // demoable beat that shows the loop closing.
+  (function () {
+    const loop      = document.getElementById('tdy-loop');
+    const outcomes  = document.getElementById('tdy-outcomes');
+    const verdictEl = document.getElementById('tdy-sealed-verdict');
+    const calNum    = document.getElementById('tdy-cal-num');
+
+    // small deterministic hash-ish stamp per outcome so the seal looks live
+    const SEALS = {
+      'resolved-well': '9f4c · 7e21 · 0d8a · b3f0',
+      'mixed':         'a1d8 · 3b07 · ee52 · 6c19',
+      'regret':        '4e90 · c2aa · 71f3 · 08bd',
+      'open':          '0c3f · 5512 · 9a8e · d7b1',
+    };
+
+    outcomes.addEventListener('click', function (e) {
+      const btn = e.target.closest('.tdy-outcome');
+      if (!btn || loop.classList.contains('is-sealed')) return;
+
+      const verdict = btn.getAttribute('data-outcome');
+      const disp    = btn.getAttribute('data-disp');
+
+      verdictEl.textContent = verdict;
+      document.getElementById('tdy-sealed-hash').textContent =
+        'seal ' + (SEALS[disp] || SEALS['resolved-well']) + ' · device-local';
+
+      loop.classList.add('is-sealed');
+
+      // "Still open" doesn't advance calibration — it stays held.
+      if (disp !== 'open') {
+        calNum.textContent = '8 of 10';
+        calNum.classList.add('bump');
+        setTimeout(() => calNum.classList.remove('bump'), 520);
+      } else {
+        calNum.textContent = '7 of 9';
+      }
+    });
+
+    // reveal once first paint settles (canon initial-paint suppression)
+    requestAnimationFrame(() => document.body.classList.add('ready'));
+  })();
+</script>
+
+<script src="../lib/surface-nav.js"></script>
+</body>
+</html>
