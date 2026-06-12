@@ -286,6 +286,7 @@
   .infra-warn { color: var(--c-weak); }
   .infra a { color: var(--c-read); text-decoration: none; word-break: break-all; }
   .infra a:hover { text-decoration: underline; }
+  .txid-static { color: var(--text-dim); word-break: break-all; opacity: .85; }
 
   /* ── footer ── */
   .frame-foot {
@@ -686,16 +687,20 @@
       rows.push(`<div class="infra-row"><span class="k">stream</span><span>produced ${k.produced ?? 0} · consumed ${k.consumed ?? 0} · <span class="${k.round_trip ? "infra-ok" : "infra-warn"}">${k.round_trip ? "round-trip ✓" : "pending"}</span></span></div>`);
       if (ont.store) rows.push(`<div class="infra-row"><span class="k">ontology</span><span>${ont.store} · ${ont.nodes ?? 0} nodes / ${ont.edges ?? 0} edges</span></div>`);
       if (alg.txid) {
-        rows.push(`<div class="infra-row"><span class="k">algorand</span><span>${alg.network} · <span class="${alg.verified ? "infra-ok" : ""}">${alg.verified ? "verified ✓" : "posted"}</span></span></div>`);
+        // localnet anchors are real but only resolve against the runner's own node —
+        // not publicly verifiable, so we don't render an explorer link or a "verified" badge for them.
+        const publicChain = alg.network && alg.network !== "localnet";
+        const anchorState = publicChain ? (alg.verified ? "verified ✓" : "posted") : "anchored (localnet · not publicly verifiable)";
+        rows.push(`<div class="infra-row"><span class="k">algorand</span><span>${alg.network} · <span class="${publicChain && alg.verified ? "infra-ok" : "infra-warn"}">${anchorState}</span></span></div>`);
         rows.push(`<div class="infra-row"><span class="k">root</span><span>${(alg.root || "").slice(0, 24)}…</span></div>`);
-        rows.push(`<div class="infra-row"><span class="k">txid</span><a href="${alg.explorer}" target="_blank" rel="noopener">${alg.txid}</a></div>`);
-        $("footEngine").textContent = `kernel · liminal-test · Kafka + Algorand ${alg.network} (live)`;
+        rows.push(`<div class="infra-row"><span class="k">txid</span>${publicChain ? `<a href="${alg.explorer}" target="_blank" rel="noopener">${alg.txid}</a>` : `<span class="txid-static">${alg.txid}</span>`}</div>`);
+        $("footEngine").textContent = `kernel runs live · Kafka + Algorand ${alg.network} provenance is a recorded snapshot`;
       } else {
         rows.push(`<div class="infra-row"><span class="k">algorand</span><span class="infra-warn">testnet account unfunded — anchor pending</span></div>`);
         $("footEngine").textContent = "kernel · liminal-test · Kafka live · Algorand pending fund";
       }
       const host = $("infra");
-      host.innerHTML = `<div class="infra-h">Live infra run · ${a.generated_at ? a.generated_at.slice(0, 16).replace("T", " ") + "Z" : ""}</div>` + rows.join("");
+      host.innerHTML = `<div class="infra-h">Recorded infra run · snapshot ${a.generated_at ? a.generated_at.slice(0, 10) : ""}${alg.network ? " · " + alg.network : ""}</div>` + rows.join("");
       host.classList.add("on");
     } catch { /* no artifact · static demo only */ }
   })();

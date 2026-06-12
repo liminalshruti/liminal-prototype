@@ -127,11 +127,14 @@
   --card-border:  #202026;
   --card-border-2:#28282e;
 
-  /* Ink scale — warm cream axis */
-  --text:       #F2F0EC;
-  --text-mid:   #C4C0B8;
-  --text-dim:   #847F79;
-  --text-faint: #504C47;
+  /* Ink scale — reconciled to canon (liminal-creative/tokens/design-tokens.css) 2026-06-11.
+     Was a warmer-but-off-canon axis (#F2F0EC/#C4C0B8/#847F79/#504C47) that shadowed the
+     canonical tokens because this file loads last. --text-faint now carries the WCAG-AA
+     a11y value #6B6862 (was #504C47, darker/lower-contrast). Keep in lockstep with canon. */
+  --text:       #F4F2EE;
+  --text-mid:   #C9C5BD;
+  --text-dim:   #8A8780;
+  --text-faint: #6B6862;
 
   /* ── 12-wheel register colors ─────────────────────
      4 agent registers only. No orange/yellow/coral/teal.

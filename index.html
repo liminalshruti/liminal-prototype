@@ -51,7 +51,7 @@
     --frame-border: #1F1F24;
     --text:         #E8E8EA;
     --text-mid:     #B0B0B6;
-    --text-faint:   #4A4A52;
+    --text-faint:   #6B6862; /* canon WCAG-AA a11y value — inline block loads after design-tokens.css and wins the cascade, so it must carry the canon value (2026-06-11) */
     --accent:       var(--clarity, #8E66FB);
     --accent-bg:    var(--clarity-bg, rgba(142,102,251,0.06));
     --card-border:  #2A2A30;
@@ -239,7 +239,7 @@
     <span class="demo-arrow">→</span>
   </a>
 
-  <a class="demo-card" href="cuts/09-today.html" role="listitem">
+  <a class="demo-card" href="cuts/10-today.html" role="listitem">
     <span class="demo-tag">Re-entry · the loop closes</span>
     <span class="demo-title">Today — what came back overnight</span>
     <p class="demo-desc">The daemon re-reads your held compositions while you sleep. One needs a decision, one outcome is due to close. You say how it landed — and that answer is what makes the vault's calibration real. The loop, made a place.</p>
