@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en" data-product="business" data-density="analyst" data-relationship="operator" data-surface="today">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cut 11 · Govern — the Agency Loop · Liminal</title>
+<!--
+  Cut 11 · Govern. The canonical govern cut — combines the shell, the reconciled Agency Loop, and all the
+  HCI fixes (iterations archived at cuts/_archive/*-iter.html). Correction is the PRIMARY interaction; the
+  loop RETURNS (Today/Re-enter); the record REFLECTS BACK (Mirror). Plus: bidirectional evidence, Tray→Slate
+  direct manipulation, refusal-as-credibility, focus reflow, ⌘K + keyboard, earned expressiveness, warmth,
+  the OKR allocation bar + agent-fit cost-swap (folded from the iterations).
+  Real design system: design-tokens.css + Perfectly Nineties / Nineties Headliner + Geist.
+  Spec: founder-brain/ops/build-day/HCI_AUDIT.md + RECONCILED_SYSTEM.md.
+  ── Try it: ⌘K (palette) · 1 Today · 2 Read · 3 Mirror · on Read: click a fix's cite (evidence) ·
+     "Amend" any read/fix (correction) · drag tray signals to harden · C correct · S sign.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<style>
+@font-face{font-family:"Nineties Headliner";src:url("../fonts/nineties-headliner.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../fonts/PerfectlyNineties-Semibold.otf") format("opentype");font-weight:600;font-display:swap}
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 480px at 8% -6%,var(--diligence-50),transparent 60%),radial-gradient(760px 480px at 106% 4%,var(--depth-50),transparent 55%);
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px}
+.mono{font-family:var(--mono)}.serif{font-family:var(--serif,"Perfectly Nineties",Georgia,serif)}
+.shell{width:min(1180px,97vw);height:min(760px,95vh);display:grid;grid-template-rows:auto 1fr auto;border:1px solid var(--card-border);border-radius:10px;overflow:hidden;background:var(--frame-bg);box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative}
+
+/* TOP RIBBON */
+.rb-top{display:flex;align-items:center;gap:16px;padding:10px 14px;background:var(--frame-bg-3);border-bottom:1px solid var(--frame-border);font:11px/1 var(--mono);color:var(--text-mid)}
+.traffic{display:flex;gap:7px}.traffic i{width:11px;height:11px;border-radius:50%;display:block}
+.traffic .r{background:#ff5f57}.traffic .y{background:#febc2e}.traffic .g{background:#28c840}
+.brand{display:flex;align-items:center;gap:8px;white-space:nowrap}.brand .dia{color:var(--diligence);font:15px/1 var(--display)}.brand .bc{color:var(--text-faint)}.brand b{color:var(--text);font-weight:500}
+.tabs{display:flex;gap:2px;margin:0 auto}
+.tab{font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid transparent;border-radius:4px;padding:6px 11px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:7px}
+.tab:hover{color:var(--text);background:var(--hover)}.tab.on{color:var(--text);background:var(--hover);border-color:var(--card-border)}
+.tab .k{font-size:8px;color:var(--text-mute);border:1px solid var(--card-border);border-radius:2px;padding:0 4px}
+.tab .badge{background:var(--watch);color:var(--bg);border-radius:8px;font-size:8px;padding:1px 5px;letter-spacing:0}
+.cmdk{font:9px/1 var(--mono);letter-spacing:.1em;color:var(--text-faint);border:1px solid var(--card-border);border-radius:4px;padding:6px 9px;cursor:pointer;display:flex;gap:6px;align-items:center}
+.cmdk:hover{color:var(--text-mid);border-color:var(--text-faint)}
+.rel{display:flex;align-items:center;gap:5px}.rel .lbl{color:var(--text-faint);font-size:8px;letter-spacing:.14em;text-transform:uppercase}
+.rel button{font:8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid var(--card-border);border-radius:3px;padding:5px 7px;cursor:pointer;transition:.15s}
+.rel button:hover{color:var(--text)}.rel button.on{color:var(--bg);background:var(--diligence);border-color:var(--diligence)}
+
+/* MIDDLE */
+.mid{display:grid;grid-template-columns:212px 1fr 232px;min-height:0;position:relative;transition:grid-template-columns .25s var(--ease)}
+/* reflow: on Today/Mirror the rails recede (focus the center) */
+body[data-surface="today"] .mid,body[data-surface="mirror"] .mid{grid-template-columns:0px 1fr 0px}
+body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-surface="mirror"] .rail-l,body[data-surface="mirror"] .rail-r{opacity:0;pointer-events:none}
+.rail-l,.rail-r{transition:opacity .2s var(--ease)}
+
+/* LEFT RAIL · SIGNALS (Tray→Slate) */
+.rail-l{background:var(--frame-bg-2);border-right:1px solid var(--frame-border);padding:13px 0;overflow-y:auto}
+.rl-h{display:flex;align-items:center;gap:7px;padding:0 15px 8px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
+.rl-h .live{display:inline-flex;align-items:center;gap:5px;color:var(--signal);margin-left:auto}.rl-h .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--signal);animation:pl 1.1s var(--ease) infinite}
+.rl-sub{padding:0 15px 9px;font:8px/1.4 var(--mono);letter-spacing:.08em;color:var(--text-mute);border-bottom:1px solid var(--frame-border);margin-bottom:8px}
+.rl-grp{padding:6px 15px 3px;font:8px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--text-mute)}
+.sig{margin:3px 9px;padding:7px 9px;border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg);cursor:pointer;transition:background .25s,border-color .25s,opacity .2s}
+.sig .src{font:8px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
+.sig .nm{margin-top:3px;font:10.5px/1.3 var(--mono);color:var(--text-mid)}
+.sig .act{float:right;font:8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.sig.tray{border-style:dashed;opacity:.7}.sig.tray .act{color:var(--watch)}
+.sig.slate{border-color:var(--card-border-2)}
+.sig.cited{background:var(--diligence-bg);border-color:var(--diligence)}.sig.cited .src{color:var(--diligence)}.sig.cited .nm{color:var(--text)}.sig.cited .act{color:var(--diligence)}
+.sig .rows{margin-top:6px;font:9px/1.5 var(--mono);color:var(--text-faint);display:none;border-top:1px dashed var(--card-border);padding-top:5px}
+.sig.open .rows{display:block}
+
+/* CENTER */
+.work{padding:0;overflow-y:auto;position:relative}
+.pad{padding:20px 26px}
+
+/* ── READ surface ── */
+.invoke{display:flex;align-items:baseline;gap:10px;font:10px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);border-bottom:1px solid var(--card-border);padding-bottom:12px}
+.invoke b{color:var(--diligence);letter-spacing:.12em;text-transform:uppercase}
+.reg{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.03);position:relative}
+.reg .rh{display:flex;align-items:baseline;gap:10px}
+.reg .rname{font:10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase}
+.reg .rt{font:9px/1 var(--mono);color:var(--text-mute);margin-left:auto}
+.reg .amend{font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius:3px;padding:3px 7px;cursor:pointer;opacity:0;transition:.15s}
+.reg:hover .amend{opacity:1}.reg .amend:hover{color:var(--diligence);border-color:var(--diligence)}
+.reg .rbody{margin-top:9px;font:14px/1.55 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid)}
+.reg .rbody .hl{color:var(--text)}
+.reg.diligence .rname{color:var(--diligence)}.reg.synthesis .rname{color:var(--depth)}.reg.judgment .rname{color:var(--judgment)}.reg.outreach .rname{color:var(--connection)}
+.reg.corrected{background:linear-gradient(90deg,var(--diligence-bg),transparent 60%)}
+.reg .cmark{display:none;font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--diligence);margin-left:8px}
+.reg.corrected .cmark{display:inline}
+.cite{font:9px/1 var(--mono);letter-spacing:.04em;color:var(--depth);border:1px solid var(--depth-edge);border-radius:3px;padding:2px 6px;margin-left:4px;cursor:pointer;transition:.15s;white-space:nowrap}
+.cite:hover{background:var(--depth-bg)}
+/* refusal — legible, trust-building */
+.refusal{display:flex;gap:9px;align-items:flex-start;margin:10px 0 0;padding:8px 12px;border-left:2px solid var(--judgment);background:var(--judgment-bg);border-radius:0 4px 4px 0}
+.refusal .ico{color:var(--judgment);font:600 12px/1.3 var(--mono)}
+.refusal .tx{font:11px/1.45 var(--mono);color:var(--text-mid)}.refusal .tx b{color:var(--judgment);font-weight:500}
+
+.verdict{display:inline-flex;align-items:center;gap:9px;margin-top:4px;font:11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--alarm);border:1px solid var(--alarm-edge);background:var(--alarm-bg);padding:7px 12px;border-radius:4px}
+.fixes{margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.fix{border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg-2);overflow:hidden}
+.fix-main{display:grid;grid-template-columns:18px 1fr auto auto;align-items:start;gap:10px;padding:9px 12px}
+.fix .n{font:10px/1.4 var(--mono);color:var(--watch);font-variant-numeric:tabular-nums}
+.fix .tx{font:12.5px/1.45 var(--sans);color:var(--text-mid)}.fix .tx b{color:var(--text);font-weight:500}.fix .tx s{color:var(--text-faint);text-decoration-color:var(--alarm);text-decoration-thickness:2px}
+.fix .amt{font:11px/1.3 var(--mono);color:var(--connection);font-variant-numeric:tabular-nums;white-space:nowrap}
+.fix .amend{font:8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius:3px;padding:3px 6px;cursor:pointer;transition:.15s;white-space:nowrap}
+.fix .amend:hover{color:var(--diligence);border-color:var(--diligence)}
+.fix.correction{border-left:2px solid var(--judgment);background:var(--judgment-bg)}.fix.correction .n{color:var(--judgment);font-weight:600}
+.fix.dropped{opacity:.6}
+.fix-evidence{display:none;padding:0 12px 10px 40px;font:9.5px/1.6 var(--mono);color:var(--text-faint);border-top:1px dashed var(--card-border)}
+.fix.open .fix-evidence{display:block}
+.fix-edit{display:none;padding:10px 12px 12px 40px;gap:8px;border-top:1px dashed var(--card-border);background:var(--frame-bg-3)}
+.fix.editing .fix-edit{display:flex;flex-direction:column}
+.fix-edit textarea{width:100%;background:var(--frame-bg);border:1px solid var(--card-border);border-radius:4px;color:var(--text);font:12px/1.5 var(--sans);padding:8px 10px;resize:vertical;min-height:48px}
+.fix-edit .er{display:flex;gap:8px;align-items:center}
+.fix-edit .save{font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius:3px;padding:7px 12px;cursor:pointer}
+.fix-edit .cancel{font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);background:transparent;border:1px solid var(--card-border);border-radius:3px;padding:7px 12px;cursor:pointer}
+.fix-edit .hint{margin-left:auto;font:8px/1.4 var(--mono);color:var(--text-mute);letter-spacing:.06em}
+
+/* disposition — Correct → Sign */
+.dispo{display:flex;align-items:center;gap:10px;margin-top:18px;padding-top:14px;border-top:1px dashed var(--card-border-2)}
+.dispo .lbl{font:9px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint);margin-right:auto}
+.dispo .lbl .sub{display:block;margin-top:4px;color:var(--text-mute);font-size:8px;letter-spacing:.06em;text-transform:none}
+.db{font:10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;border-radius:3px;border:1px solid var(--card-border);background:var(--hover);color:var(--text-mid);cursor:pointer;transition:.15s}
+.db:hover{color:var(--text);border-color:var(--text-faint)}
+.db.sign{color:#fff;background:var(--judgment);border-color:var(--judgment)}.db.sign:hover{box-shadow:0 0 22px var(--judgment-glow);transform:translateY(-1px)}
+.db.sign .pre{opacity:.7;font-size:8px}
+.artifact{margin-top:16px;position:relative;background:var(--cream-100);color:var(--cream-800);border-radius:3px;overflow:hidden;box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 22px 46px rgba(0,0,0,.55),0 0 0 5px rgba(0,0,0,.3);animation:arr .56s cubic-bezier(.32,.72,.16,1) both}
+.artifact::before{content:"";position:absolute;top:0;bottom:0;left:0;width:5px;background:var(--judgment);box-shadow:0 0 16px var(--judgment-glow)}
+.ab{display:flex;align-items:center;gap:12px;padding:12px 20px 9px 26px;border-bottom:1px dashed rgba(60,40,10,.22)}
+.ab .stamp{font:9px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--judgment);border:1px solid var(--judgment);border-radius:2px;padding:4px 9px;transform:rotate(-1.5deg)}
+.ab .wh{margin-left:auto;font:9px/1 var(--mono);letter-spacing:.1em;color:var(--cream-700)}
+.abody{padding:14px 26px 18px}.adec{margin:0;font:500 17px/1.35 var(--display);color:var(--cream-800)}
+.arat{margin:9px 0 0;font-size:12px;line-height:1.55;color:var(--cream-700);max-width:60ch}
+.arat .corr{color:#1466C0}
+.apol{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px}
+.pc{font:9px/1 var(--mono);letter-spacing:.06em;padding:5px 8px;border-radius:2px;border:1px solid rgba(60,40,10,.2);color:var(--cream-700)}
+.pc.al{border-color:rgba(31,186,103,.5);color:#1FBA67}.pc.dn{border-color:rgba(191,24,60,.45);color:#BF183C}
+.arec{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:11px;border-top:1px solid rgba(60,40,10,.18);font:9px/1.3 var(--mono)}
+.arec .hl{color:var(--cream-700);letter-spacing:.1em;text-transform:uppercase}.arec .hs{color:var(--cream-800);flex:1;word-break:break-all}
+.arec .ok{display:inline-flex;align-items:center;gap:6px;color:#1FBA67;letter-spacing:.1em;text-transform:uppercase}.arec .ok::before{content:"";width:7px;height:7px;border-radius:50%;background:#1FBA67;box-shadow:0 0 8px rgba(31,186,103,.6)}
+
+/* ── TODAY surface (warm, serif, earned-expressiveness) ── */
+.today{max-width:600px;margin:0 auto;padding:40px 30px}
+.today .greet{font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
+.today h1{margin:10px 0 6px;font:400 30px/1.15 var(--display);color:var(--text)}
+.today .lede{margin:0 0 26px;font:16px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim)}
+.tcard{display:block;width:100%;text-align:left;border:1px solid var(--card-border);border-radius:8px;background:var(--frame-bg-2);padding:16px 18px;margin-bottom:12px;cursor:pointer;transition:.15s;color:inherit}
+.tcard:hover{border-color:var(--text-faint);background:var(--frame-bg-3)}
+.tcard .tk{display:flex;align-items:center;gap:8px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.tcard .tk .meta{margin-left:auto;color:var(--text-mute);letter-spacing:.08em}
+.tcard.decide .tk{color:var(--watch)}.tcard.outcome .tk{color:var(--connection)}.tcard.mirror .tk{color:var(--diligence)}
+.tcard h3{margin:8px 0 4px;font:500 17px/1.2 var(--display);color:var(--text)}
+.tcard p{margin:0;font:13.5px/1.5 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim)}
+.tcard .verdict-mini{margin-top:8px;display:inline-block;font:9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--alarm);border:1px solid var(--alarm-edge);background:var(--alarm-bg);padding:4px 8px;border-radius:3px}
+
+/* ── MIRROR surface (longitudinal calibration) ── */
+.mirror{max-width:640px;margin:0 auto;padding:36px 30px}
+.mirror .greet{font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
+.mirror h1{margin:10px 0 6px;font:400 28px/1.15 var(--display);color:var(--text)}
+.mirror .lede{margin:0 0 26px;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim);max-width:58ch}
+.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.mstat{border:1px solid var(--card-border);border-radius:7px;padding:14px;background:var(--frame-bg-2)}
+.mstat .v{font:600 24px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
+.mstat .l{margin-top:6px;font:9px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.mbars{border:1px solid var(--card-border);border-radius:7px;padding:16px 18px;background:var(--frame-bg-2);margin-bottom:20px}
+.mbars h3{margin:0 0 14px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-mid)}
+.mbar{display:grid;grid-template-columns:120px 1fr 40px;align-items:center;gap:12px;margin-bottom:9px;font:10px/1 var(--mono)}
+.mbar .lb{color:var(--text-dim)}.mbar .track{height:8px;background:var(--frame-bg-3);border-radius:4px;overflow:hidden}
+.mbar .fill{height:100%;border-radius:4px}
+.mbar .pct{color:var(--text-faint);text-align:right;font-variant-numeric:tabular-nums}
+.mnote{border-left:2px solid var(--diligence);padding:4px 0 4px 16px;margin-top:8px}
+.mnote .k{font:8px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--diligence)}
+.mnote p{margin:8px 0 0;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid);font-style:italic}
+
+/* folded from cut 11/12 · OKR allocation bar (in the Synthesis read) */
+.allocbar{margin-top:11px;height:26px;border-radius:4px;overflow:hidden;display:flex;border:1px solid var(--card-border);position:relative;max-width:400px}
+.allocbar .p{background:var(--diligence);display:flex;align-items:center;padding-left:10px;font:9px/1 var(--mono);color:#fff;letter-spacing:.08em}
+.allocbar .s{background:var(--depth);display:flex;align-items:center;padding-left:10px;font:9px/1 var(--mono);color:#fff;letter-spacing:.08em;position:relative}
+.allocbar .ghost{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--alarm);box-shadow:0 0 0 1px var(--alarm)}
+.allocbar .ghost::after{content:"actual 24%";position:absolute;top:-15px;left:-25px;font:8px/1 var(--mono);color:var(--alarm);white-space:nowrap}
+/* folded from cut 11/12 · agent-fit cost-swap (in the Outreach read) */
+.swap{display:grid;grid-template-columns:1fr 24px 1fr;align-items:stretch;margin-top:11px;max-width:440px}
+.swap .side{padding:11px 13px;border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg-2)}
+.swap .side.cur{border-color:var(--alarm-edge)}.swap .side.sug{border-color:var(--connection);background:linear-gradient(180deg,var(--connection-bg),transparent)}
+.swap .ro{font:8px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
+.swap .ag{margin:6px 0 0;font:13px/1.2 var(--sans);color:var(--text);font-weight:500}
+.swap .co{margin-top:3px;font:9px/1.2 var(--mono);color:var(--text-dim)}
+.swap .bd{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font:8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}.swap .bd::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.swap .cur .bd{color:var(--alarm)}.swap .sug .bd{color:var(--connection)}
+.swap .arrow{display:flex;align-items:center;justify-content:center;color:var(--depth);font:15px/1 var(--mono)}
+/* staggered "the read builds" reveal (from cut 12) */
+.reg{opacity:0;transform:translateY(5px);animation:rin .5s var(--ease) forwards}
+@keyframes rin{to{opacity:1;transform:none}}
+
+/* RIGHT RAIL · AGENCY */
+.rail-r{background:var(--frame-bg-2);border-left:1px solid var(--frame-border);padding:13px 0;overflow-y:auto}
+.rr-h{display:flex;justify-content:space-between;padding:0 15px 10px;border-bottom:1px solid var(--frame-border);margin-bottom:10px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
+.regblk{padding:7px 15px 9px}
+.regblk .rl{display:flex;align-items:center;gap:8px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}.regblk .rl .d{width:7px;height:7px;border-radius:50%}
+.regblk.diligence .rl{color:var(--diligence)}.regblk.diligence .d{background:var(--diligence)}
+.regblk.synthesis .rl{color:var(--depth)}.regblk.synthesis .d{background:var(--depth)}
+.regblk.judgment .rl{color:var(--judgment)}.regblk.judgment .d{background:var(--judgment)}
+.regblk.outreach .rl{color:var(--connection)}.regblk.outreach .d{background:var(--connection)}
+.spec{display:flex;align-items:center;justify-content:space-between;padding:4px 0 4px 15px;font:9.5px/1.3 var(--mono);color:var(--text-dim)}
+.spec .st{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.spec.done .st{color:var(--connection)}.spec.flag .st{color:var(--alarm)}.spec.flag{color:var(--text)}.spec.refuse .st{color:var(--judgment)}
+
+/* BOTTOM RIBBON · the chain (corrections land live) */
+.rb-bot{display:flex;align-items:center;gap:12px;padding:9px 14px;background:var(--frame-bg-3);border-top:1px solid var(--frame-border);font:9px/1 var(--mono);color:var(--text-faint);letter-spacing:.05em;overflow-x:auto}
+.rb-bot .lab{color:var(--diligence);letter-spacing:.16em;text-transform:uppercase;flex-shrink:0}
+.ev{display:flex;gap:6px;align-items:baseline;flex-shrink:0}.ev .t{color:var(--text-mute)}.ev .e{color:var(--text-mid)}
+.ev.ref .e{color:var(--judgment)}.ev.corr .e{color:var(--diligence)}.ev.fresh{animation:fr 1.6s var(--ease)}
+
+/* ⌘K palette */
+.palette{position:absolute;inset:0;z-index:50;display:none;align-items:flex-start;justify-content:center;padding-top:14vh;background:rgba(0,0,0,.55);backdrop-filter:blur(3px)}
+.palette.open{display:flex}
+.pal-box{width:min(520px,92%);background:var(--frame-bg);border:1px solid var(--card-border);border-radius:10px;box-shadow:0 40px 90px rgba(0,0,0,.7);overflow:hidden}
+.pal-box input{width:100%;background:transparent;border:0;outline:0;padding:15px 18px;color:var(--text);font:14px/1 var(--mono);border-bottom:1px solid var(--frame-border)}
+.pal-box input::placeholder{color:var(--text-faint)}
+.pal-row{display:flex;align-items:center;gap:12px;padding:11px 16px;cursor:pointer;font:11px/1 var(--mono);color:var(--text-mid)}
+.pal-row:hover,.pal-row.sel{background:var(--hover);color:var(--text)}
+.pal-row .pk{margin-left:auto;font-size:9px;color:var(--text-mute);border:1px solid var(--card-border);border-radius:2px;padding:1px 5px}
+
+/* toast (correction feedback) */
+.toast{position:absolute;bottom:48px;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;background:var(--frame-bg);border:1px solid var(--diligence);border-radius:6px;padding:9px 14px;font:10px/1.3 var(--mono);color:var(--text);box-shadow:0 12px 30px rgba(0,0,0,.5);z-index:40;transition:opacity .2s,transform .2s;letter-spacing:.04em;display:flex;gap:8px;align-items:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .d{color:var(--diligence)}
+
+/* relationship states */
+body[data-relationship="oversight"] .reg .rbody,body[data-relationship="oversight"] .fixes,body[data-relationship="oversight"] .sig .nm{filter:blur(4px);opacity:.5;pointer-events:none}
+body[data-relationship="public"][data-surface] .mid{filter:grayscale(.6)}
+body[data-relationship="public"] .work>*{display:none}
+body[data-relationship="public"] .work::after{content:"⊘ refused surface — outside the consent boundary. This read belongs to the operator and the agent fleet. Escalation: request the audit chain.";display:flex;align-items:center;justify-content:center;text-align:center;height:100%;font:12px/1.7 var(--mono);color:var(--text-dim);max-width:46ch;margin:0 auto;padding:30px}
+
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}@keyframes fr{0%{background:var(--diligence-bg);padding:2px 6px;border-radius:3px}100%{background:transparent;padding:0}}@keyframes arr{0%{transform:translateY(16px) rotate(-.3deg);opacity:0}100%{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="rb-top">
+    <div class="traffic"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+    <div class="brand"><span class="dia">◇</span><span class="bc">Liminal</span><span class="bc">/</span><b>Govern</b></div>
+    <div class="tabs">
+      <button class="tab" data-go="today"><span class="k">1</span>Today<span class="badge" id="duebadge">1</span></button>
+      <button class="tab" data-go="read"><span class="k">2</span>Read</button>
+      <button class="tab" data-go="mirror"><span class="k">3</span>Mirror</button>
+    </div>
+    <div class="cmdk" id="cmdk-btn"><span>⌘K</span></div>
+    <div class="rel"><span class="lbl">rel</span>
+      <button data-rel="operator" class="on">operator</button>
+      <button data-rel="oversight">oversight</button>
+      <button data-rel="public">public</button>
+    </div>
+  </div>
+
+  <div class="mid">
+    <aside class="rail-l" id="signals"></aside>
+    <section class="work" id="work"></section>
+    <aside class="rail-r" id="agency"></aside>
+  </div>
+
+  <div class="rb-bot" id="chain"></div>
+
+  <div class="palette" id="palette"><div class="pal-box">
+    <input id="pal-input" placeholder="Jump or act…  (Today · Read · Mirror · Correct · Sign)" autocomplete="off">
+    <div id="pal-list"></div>
+  </div></div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const body=document.body;
+
+// ── state ──────────────────────────────────────────────────────────────────
+const SIGNALS=[
+  {id:'usage',src:'Claude usage',nm:'usage-events · $4,500 Opus',state:'slate',rows:'E01–E21 · by category · 7 engineers'},
+  {id:'okr',src:'OKR baseline',nm:'60% product / 40% security',state:'slate',rows:'O1 product 0.6 · O2 security 0.4'},
+  {id:'pr',src:'GitHub',nm:'pr-evidence · PR-103',state:'slate',rows:'PR-103 Priya · workstream=product · →E14'},
+  {id:'registry',src:'Registry',nm:'agent-registry · CalendarOps',state:'slate',rows:'CalendarOps · verified · ~10% Opus'},
+  {id:'tickets',src:'Security',nm:'security-tickets',state:'tray',rows:'12 open · P0×2'},
+  {id:'model',src:'Access',nm:'model-access-list',state:'tray',rows:'cohort=7 · Opus 4.8 approved'},
+];
+let FIXES=[
+  {id:'f1',n:'01',html:'<b>Security hardening under-allocated.</b> 24% vs the 40% target — reallocate Opus spend toward the security workstream.',amt:'',cite:'okr',ev:'okr-baseline O2=0.40 · actual security spend 1080/4500 = 0.24',cls:''},
+  {id:'f2',n:'02',html:'<b>Calendar &amp; admin on a frontier model.</b> Route to the registry-verified CalendarOps agent.',amt:'+$284/mo',cite:'registry',ev:'E12 $90 + E13 $90 + E15 $75 + E16 $60 → route · CalendarOps ~10%',cls:''},
+  {id:'fc',n:'✗',html:'<b>Self-correction.</b> A naïve pass flagged <s>E14 calendar-sync · $162</s> as routable — but <b>PR-103</b> proves it is product engineering, not admin. Claim dropped. <span style="color:var(--text-faint)">$446 → $284 realizable.</span>',amt:'',cite:'pr',ev:'PR-103 Priya “calendar-sync feature: Google Calendar API + UI” · workstream=product · linked E14',cls:'correction dropped'},
+];
+let corrections=0, signed=false;
+const CHAIN=[
+  ['14:31','5 signals captured',''],['14:32','/govern · 4 registers read',''],
+  ['14:32','exec-comms · refused (out of lane, pre-verdict)','ref'],['14:32','verdict · not ready · 2 fixes','' ],['14:32','E14 self-corrected · PR-103','ref'],
+];
+
+// ── renderers ──────────────────────────────────────────────────────────────
+function renderSignals(){
+  const tray=SIGNALS.filter(s=>s.state==='tray'), slate=SIGNALS.filter(s=>s.state!=='tray');
+  $('#signals').innerHTML=`<div class="rl-h">Signals<span class="live">live</span></div>
+    <div class="rl-sub">you control what hardens · drag tray → slate</div>
+    <div class="rl-grp">Slate · being read</div>
+    ${slate.map(sigHTML).join('')}
+    ${tray.length?`<div class="rl-grp">Tray · diffuse</div>${tray.map(sigHTML).join('')}`:''}`;
+}
+const sigHTML=s=>`<div class="sig ${s.state}" data-sig="${s.id}">
+  <span class="act">${s.state==='tray'?'harden ↑':'evidence'}</span>
+  <div class="src">${s.src}</div><div class="nm">${s.nm}</div>
+  <div class="rows">${s.rows}</div></div>`;
+
+function renderAgency(){
+  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · registers</span><span>opus</span></div>
+  <div class="regblk diligence"><div class="rl"><span class="d"></span>Diligence</div>
+    <div class="spec done"><span>Spend analyst</span><span class="st">passed</span></div>
+    <div class="spec done"><span>Productivity-ev.</span><span class="st">passed</span></div>
+    <div class="spec done"><span>Security-ev.</span><span class="st">passed</span></div></div>
+  <div class="regblk synthesis"><div class="rl"><span class="d"></span>Synthesis</div>
+    <div class="spec flag"><span>OKR-alignment</span><span class="st">flag</span></div></div>
+  <div class="regblk judgment"><div class="rl"><span class="d"></span>Judgment</div>
+    <div class="spec flag"><span>Misuse/policy</span><span class="st">flag</span></div>
+    <div class="spec done"><span>Adversarial rev.</span><span class="st">dropped 1</span></div></div>
+  <div class="regblk outreach"><div class="rl"><span class="d"></span>Outreach</div>
+    <div class="spec done"><span>Marketplace</span><span class="st">CalendarOps</span></div>
+    <div class="spec refuse"><span>Exec-comms</span><span class="st">refuse · early</span></div></div>`;
+}
+function renderChain(){
+  $('#chain').innerHTML=`<span class="lab">chain</span>`+CHAIN.map((e,i)=>
+    `<span class="ev ${e[2]} ${i===CHAIN.length-1&&e[3]==='new'?'fresh':''}"><span class="t">${e[0]}</span><span class="e">${e[1]}</span></span>`).join('');
+  $('#chain').scrollLeft=99999;
+}
+function fixHTML(f){return `<div class="fix ${f.cls}" data-fix="${f.id}">
+  <div class="fix-main"><span class="n">${f.n}</span><span class="tx">${f.html}</span>
+    <span class="amt">${f.amt}</span><span class="amend" data-amend="${f.id}">Amend</span></div>
+  <div class="fix-evidence">↳ evidence · ${f.ev} <span class="cite" data-cite="${f.cite}">${f.cite}</span></div>
+  <div class="fix-edit"><textarea>${f.html.replace(/<[^>]+>/g,'')}</textarea>
+    <div class="er"><button class="save" data-savefix="${f.id}">Save correction</button><button class="cancel">Cancel</button>
+    <span class="hint">your correction appends to the chain — never overwrites. signing seals YOUR judgment.</span></div></div></div>`;}
+
+function renderRead(){
+  $('#work').innerHTML=`<div class="pad">
+    <div class="invoke"><b>/govern invoked</b><span>reading the agent fleet · 2026-06 · 14:32:08</span></div>
+    <div class="reg diligence" data-reg="diligence" style="animation-delay:.05s"><div class="rh"><span class="rname">Diligence</span><span class="cmark">· corrected</span><span class="rt">+0.4s</span><span class="amend" data-amendreg="diligence">Amend read</span></div>
+      <div class="rbody"><span class="hl">$4,500</span> of Opus 4.8 spend across 7 engineers <span class="cite" data-cite="usage">usage-events</span>. Product 56% · security 24% · calendar/admin + summarization 11% · unclassified 9%.</div></div>
+    <div class="reg synthesis" data-reg="synthesis" style="animation-delay:.22s"><div class="rh"><span class="rname">Synthesis</span><span class="cmark">· corrected</span><span class="rt">+4.6s</span><span class="amend" data-amendreg="synthesis">Amend read</span></div>
+      <div class="rbody">Against the frame — <span class="hl">60% product / 40% security</span> <span class="cite" data-cite="okr">okr-baseline</span> — product is on target but <span class="hl">security is under-allocated</span>, and frontier spend leaks to work a cheaper verified agent can do.
+        <div class="allocbar"><div class="p" style="width:60%">product 60%</div><div class="s" style="width:40%">security 40%<span class="ghost"></span></div></div></div></div>
+    <div class="reg judgment" data-reg="judgment" style="animation-delay:.39s"><div class="rh"><span class="rname">Judgment</span><span class="rt">+6.1s</span></div>
+      <div class="rbody"><span class="verdict">⚠ Not ready · 2 fixes · 1 correction</span>
+        <div class="refusal"><span class="ico">⊘</span><span class="tx"><b>Exec-comms refused — not its lane.</b> It will not draft outreach until Judgment clears the verdict. The refusal is the boundary working, and it is logged.</span></div>
+        <div class="fixes">${FIXES.map(fixHTML).join('')}</div></div></div>
+    <div class="reg outreach" data-reg="outreach" style="animation-delay:.56s"><div class="rh"><span class="rname">Outreach</span><span class="cmark">· corrected</span><span class="rt">+7.0s</span><span class="amend" data-amendreg="outreach">Amend read</span></div>
+      <div class="rbody">Drafted — route calendar work to a registry-verified agent <span class="cite" data-cite="registry">agent-registry</span>. Ready to ratify.
+        <div class="swap"><div class="side cur"><span class="ro">current</span><div class="ag">Claude Opus 4.8</div><div class="co">calendar mgmt · high tier</div><span class="bd">out of approved scope</span></div>
+          <div class="arrow">→</div>
+          <div class="side sug"><span class="ro">suggested</span><div class="ag">CalendarOps Agent</div><div class="co">~10% of Opus · scoped: calendar</div><span class="bd">registry-verified</span></div></div></div></div>
+    <div class="dispo"><span class="lbl">Disposition<span class="sub" id="corrcount">${corrections} corrections · the read is the model's until you change it</span></span>
+      <button class="db" data-act="defer">Defer 30d</button>
+      <button class="db sign" data-act="sign"><span class="pre">${corrections?'correct →':''}</span> Sign &amp; hand off</button></div>
+    <div id="artwrap"></div></div>`;
+  if(signed) mintArtifact();
+}
+function renderToday(){
+  body.dataset.surface='today';
+  $('#work').innerHTML=`<div class="today">
+    <div class="greet">Friday · 8:42am · vault 324 reads</div>
+    <h1>Three things came back overnight.</h1>
+    <p class="lede">The daemon re-read your held decisions while you slept. One needs a decision today. One outcome is closing. Your pattern has a note.</p>
+    <button class="tcard decide" data-go="read"><div class="tk">Needs a decision<span class="meta">held 2 days · re-read 04:12</span></div>
+      <h3>Opus 4.8 spend vs the Q2 OKRs</h3><p>The agents read this period's fleet spend. Security is under-allocated and a frontier model is doing calendar work.</p><span class="verdict-mini">⚠ not ready · 2 fixes</span></button>
+    <button class="tcard outcome"><div class="tk">Outcome closing<span class="meta">ratified 12 weeks ago</span></div>
+      <h3>“Cursor seats — downsize to 12”</h3><p>Resolved well — spend held flat, no complaints. The call calibrated; your judgment on tool-spend is trending accurate.</p></button>
+    <button class="tcard mirror" data-go="mirror"><div class="tk">◍ Mirror · a quiet note</div>
+      <h3>You correct Synthesis most</h3><p>Across 12 weeks, your corrections cluster on framing, not facts. The agents read the numbers right; you reshape what they mean. That is the doctrine forming.</p></button>
+  </div>`;
+}
+function renderMirror(){
+  body.dataset.surface='mirror';
+  $('#work').innerHTML=`<div class="mirror">
+    <div class="greet">Mirror · decisions calibrated · last 12 weeks</div>
+    <h1>How your judgment is changing</h1>
+    <p class="lede">Not what you decided — how you decide. The correction stream is first-party data about your judgment itself; this is it, reflected back.</p>
+    <div class="mstats">
+      <div class="mstat"><div class="v">47</div><div class="l">decisions ratified</div></div>
+      <div class="mstat"><div class="v">128</div><div class="l">corrections made</div></div>
+      <div class="mstat"><div class="v">2.7×</div><div class="l">corrections per read ↑</div></div>
+    </div>
+    <div class="mbars"><h3>Where your corrections land (by register)</h3>
+      <div class="mbar"><span class="lb">Synthesis · framing</span><div class="track"><div class="fill" style="width:54%;background:var(--depth)"></div></div><span class="pct">54%</span></div>
+      <div class="mbar"><span class="lb">Judgment · verdict</span><div class="track"><div class="fill" style="width:23%;background:var(--judgment)"></div></div><span class="pct">23%</span></div>
+      <div class="mbar"><span class="lb">Outreach · the move</span><div class="track"><div class="fill" style="width:15%;background:var(--connection)"></div></div><span class="pct">15%</span></div>
+      <div class="mbar"><span class="lb">Diligence · facts</span><div class="track"><div class="fill" style="width:8%;background:var(--diligence)"></div></div><span class="pct">8%</span></div>
+    </div>
+    <div class="mnote"><span class="k">the quiet note</span>
+      <p>“Better models read the facts more accurately — and you correct the framing more, not less. The loop is doing what it should: the agents got sharper, and so did your disagreements.”</p></div>
+  </div>`;
+}
+
+// ── interactions ───────────────────────────────────────────────────────────
+function go(s){
+  $$('.tab').forEach(t=>t.classList.toggle('on',t.dataset.go===s));
+  if(s==='read'){body.dataset.surface='read'; renderRead(); renderSignals(); renderAgency();}
+  else if(s==='today'){renderToday();}
+  else if(s==='mirror'){renderMirror();}
+}
+function toast(msg){const t=$('#toast');t.innerHTML=`<span class="d">✎</span>${msg}`;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
+function logChain(text,cls){CHAIN.push([new Date&&'14:'+(33+corrections),text,cls,'new']);renderChain();}
+function recordCorrection(where){
+  corrections++; logChain('correction · '+where+' · operator','corr');
+  const cc=$('#corrcount'); if(cc) cc.textContent=corrections+' correction'+(corrections>1?'s':'')+' · this is YOUR read now';
+  const pre=$('.db.sign .pre'); if(pre) pre.textContent='correct →';
+  toast('Correction recorded · appended to the chain (entry '+(5+corrections)+')');
+}
+function mintArtifact(){
+  signed=true;
+  const corrLine = corrections? `<span class="corr">Operator made ${corrections} correction${corrections>1?'s':''} to the read before sealing — this reflects the corrected judgment.</span> ` : '';
+  $('#artwrap').innerHTML=`<div class="artifact"><div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
+    <div class="abody"><p class="adec">Opus 4.8 cannot be used for calendar management or routine admin work.</p>
+    <p class="arat">${corrLine}Calendar/admin usage does not map to the approved OKRs, and a registry-verified lower-cost agent (CalendarOps, ~10% of Opus) covers it. E14 is product engineering (PR-103) and is NOT reclassified.</p>
+    <div class="apol"><span class="pc al">allow · product_dev</span><span class="pc al">allow · security_hardening</span><span class="pc dn">deny · calendar_management</span><span class="pc dn">deny · routine_admin</span><span class="pc dn">deny · generic_summarization</span></div>
+    <div class="arec"><span class="hl">anchored</span><span class="hs">sha256: 7d4b…a284 · local-first chain · entry ${6+corrections}/${6+corrections}</span><span class="ok">chain verified</span></div></div></div>`;
+  const sb=$('.db.sign'); if(sb) sb.style.display='none';
+  logChain('ratified · policy anchored · chain verified','corr');
+  const m=$$('.tab'); // loop returns: nudge Today badge
+  $('#duebadge').style.display='none';
+  toast('Sealed & handed off · reversible by correction (append-only) · see it return in Today');
+  $('#artwrap').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// event delegation
+document.addEventListener('click',e=>{
+  const go_=e.target.closest('[data-go]'); if(go_){go(go_.dataset.go);return;}
+  const cite=e.target.closest('[data-cite]'); if(cite){highlightSignal(cite.dataset.cite);
+    const fx=e.target.closest('.fix'); if(fx)fx.classList.toggle('open'); return;}
+  const sig=e.target.closest('[data-sig]'); if(sig){const s=SIGNALS.find(x=>x.id===sig.dataset.sig);
+    if(s.state==='tray'){s.state='slate'; renderSignals(); toast('Hardened '+s.src+' onto the slate · the agents now read it'); logChain('slate · hardened '+s.id,'corr');}
+    else{sig.classList.toggle('open');} return;}
+  const ar=e.target.closest('[data-amendreg]'); if(ar){openRegEdit(ar.dataset.amendreg);return;}
+  const af=e.target.closest('[data-amend]'); if(af){const fx=$(`.fix[data-fix="${af.dataset.amend}"]`);fx.classList.add('editing');fx.querySelector('textarea').focus();return;}
+  const sf=e.target.closest('[data-savefix]'); if(sf){const fx=$(`.fix[data-fix="${sf.dataset.savefix}"]`);
+    const val=fx.querySelector('textarea').value; const f=FIXES.find(x=>x.id===sf.dataset.savefix);
+    f.html='<b>'+val.split('.')[0]+'.</b>'+val.slice(val.indexOf('.')+1); fx.classList.remove('editing');
+    fx.querySelector('.tx').innerHTML=f.html; recordCorrection('fix '+f.n); return;}
+  if(e.target.closest('.cancel')){e.target.closest('.fix').classList.remove('editing');return;}
+  const act=e.target.closest('[data-act]'); if(act){if(act.dataset.act==='sign')mintArtifact(); else toast('Deferred 30 days · returns in Today'); return;}
+  if(e.target.closest('#cmdk-btn')){togglePalette(true);return;}
+  if(e.target.id==='palette'){togglePalette(false);return;}
+  const pr=e.target.closest('.pal-row'); if(pr){pr.dataset.act?doPalAct(pr.dataset.act):go(pr.dataset.goto);togglePalette(false);return;}
+  const rel=e.target.closest('[data-rel]'); if(rel){body.dataset.relationship=rel.dataset.rel;$$('.rel button').forEach(x=>x.classList.toggle('on',x===rel));return;}
+});
+function openRegEdit(reg){ // amend a whole register read → marks corrected, logs
+  const r=$(`.reg[data-reg="${reg}"]`); r.classList.add('corrected'); recordCorrection(reg+' read'); }
+function highlightSignal(id){ $$('.sig').forEach(s=>s.classList.remove('cited'));
+  const el=$(`.sig[data-sig="${id}"]`); if(el){el.classList.add('cited'); el.classList.add('open'); el.scrollIntoView({block:'nearest'});} }
+
+// ⌘K palette + keyboard
+const PAL=[{goto:'today',label:'Go · Today (re-entry)',k:'1'},{goto:'read',label:'Go · Read (the loop)',k:'2'},{goto:'mirror',label:'Go · Mirror (calibration)',k:'3'},{act:'correct',label:'Correct the read · amend Synthesis',k:'C'},{act:'sign',label:'Sign & hand off',k:'S'}];
+function renderPal(q=''){const list=PAL.filter(p=>p.label.toLowerCase().includes(q.toLowerCase()));
+  $('#pal-list').innerHTML=list.map((p,i)=>`<div class="pal-row ${i===0?'sel':''}" ${p.goto?`data-goto="${p.goto}"`:`data-act="${p.act}"`}>${p.label}<span class="pk">${p.k}</span></div>`).join('');}
+function togglePalette(open){const p=$('#palette');p.classList.toggle('open',open);if(open){$('#pal-input').value='';renderPal();$('#pal-input').focus();}}
+function doPalAct(a){ if(a==='correct'){go('read');setTimeout(()=>openRegEdit('synthesis'),50);} else if(a==='sign'){go('read');setTimeout(mintArtifact,50);} }
+$('#pal-input').addEventListener('input',e=>renderPal(e.target.value));
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();togglePalette(!$('#palette').classList.contains('open'));return;}
+  if($('#palette').classList.contains('open')){if(e.key==='Escape')togglePalette(false);
+    if(e.key==='Enter'){const sel=$('.pal-row.sel')||$('.pal-row');if(sel){sel.dataset.goto?go(sel.dataset.goto):doPalAct(sel.dataset.act);togglePalette(false);}}return;}
+  if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')return;
+  if(e.key==='1')go('today'); if(e.key==='2')go('read'); if(e.key==='3')go('mirror');
+  if(e.key.toLowerCase()==='c'&&body.dataset.surface==='read')openRegEdit('synthesis');
+  if(e.key.toLowerCase()==='s'&&body.dataset.surface==='read'&&!signed)mintArtifact();
+});
+
+// boot — land on Today (the loop returns; earned-expressiveness: calm first)
+renderChain(); go('today');
+</script>
+</body>
+</html>

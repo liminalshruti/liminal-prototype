@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en" data-product="business" data-density="analyst" data-relationship="operator">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Liminal Govern · desktop shell (real design system)</title>
+<!-- Cut 11 · govern cockpit shell. Loads the GENUINE design system: design-tokens.css (canonical
+     12-wheel + functional bindings) + the real Perfectly Nineties / Nineties Headliner + Geist fonts.
+     Interactive: navigate beats, agency/provenance reflow, relationship-reactive frame. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<style>
+/* real brand display/serif faces — @font-face families named to MATCH design-tokens.css --display/--serif */
+@font-face{font-family:"Nineties Headliner";src:url("../fonts/nineties-headliner.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../fonts/PerfectlyNineties-Semibold.otf") format("opentype");font-weight:600;font-display:swap}
+/* tokens (colors · surfaces · space · radius · type vars --sans/--mono/--display) come from design-tokens.css — no excerpt here */
+*{box-sizing:border-box}html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 480px at 8% -6%,rgba(142,102,251,.06),transparent 60%),radial-gradient(760px 480px at 106% 4%,rgba(25,126,235,.05),transparent 55%);
+  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;opacity:.03;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.mono{font-family:var(--mono)}
+
+/* ── shell frame ── */
+.shell{width:min(1120px,96vw);height:min(720px,92vh);display:grid;grid-template-rows:auto 1fr auto;
+  border:1px solid var(--card-border);border-radius:10px;overflow:hidden;background:var(--frame-bg);
+  box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative}
+
+/* TOP RIBBON · governance frame */
+.rb-top{display:flex;align-items:center;gap:16px;padding:10px 14px;background:var(--frame-bg-3);border-bottom:1px solid var(--frame-border);font:11px/1 var(--mono);color:var(--text-mid)}
+.traffic{display:flex;gap:7px}.traffic i{width:11px;height:11px;border-radius:50%;display:block}
+.traffic .r{background:#ff5f57}.traffic .y{background:#febc2e}.traffic .g{background:#28c840}
+.frame-id{display:flex;gap:14px;flex-wrap:wrap;align-items:baseline;letter-spacing:.03em}
+.frame-id .ax{color:var(--text-faint)}.frame-id b{color:var(--text);font-weight:500}
+.rel{margin-left:auto;display:flex;align-items:center;gap:6px}
+.rel .lbl{color:var(--text-faint);font-size:9px;letter-spacing:.16em;text-transform:uppercase}
+.rel button{font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid var(--card-border);border-radius:3px;padding:5px 8px;cursor:pointer;transition:.15s}
+.rel button:hover{color:var(--text);border-color:var(--text-faint)}
+.rel button.on{color:var(--bg);background:var(--diligence);border-color:var(--diligence)}
+
+/* MIDDLE */
+.mid{display:grid;grid-template-columns:auto 1fr auto;min-height:0;position:relative}
+/* LEFT RAIL */
+.rail-l{width:60px;background:var(--rail-bg);border-right:1px solid var(--frame-border);padding:12px 0;display:flex;flex-direction:column;gap:1px;transition:width .18s var(--ease);overflow:hidden}
+.rail-l:hover{width:188px}
+.rl-brand{display:flex;align-items:center;gap:10px;padding:0 0 11px 19px;border-bottom:1px solid var(--frame-border);margin-bottom:8px;white-space:nowrap}
+.rl-brand .g{color:var(--diligence);font:17px/1 var(--display);flex-shrink:0}
+.rl-brand .n{font:14px/1 var(--display);color:var(--text);opacity:0;transition:.16s}.rail-l:hover .rl-brand .n{opacity:1}
+.beat{display:flex;align-items:center;gap:13px;padding:8px 0 8px 19px;cursor:pointer;border-left:2px solid transparent;color:var(--text-dim);white-space:nowrap;transition:color .14s,background .14s,border-color .14s}
+.beat:hover{color:var(--text);background:var(--hover)}
+.beat.cur{color:var(--text);border-left-color:var(--diligence);background:var(--hover)}
+.beat .dot{width:6px;height:6px;border-radius:50%;background:var(--text-mute);flex-shrink:0;margin-left:2px;transition:.15s}
+.beat.done .dot{background:var(--connection)}.beat.cur .dot{background:var(--signal);box-shadow:0 0 8px var(--signal)}
+.beat .lb{font:11px/1 var(--mono);letter-spacing:.03em;opacity:0;transition:.16s}.rail-l:hover .beat .lb{opacity:1}
+.rl-sp{flex:1}
+.rl-hint{padding:8px 0 0 19px;font:9px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-mute);white-space:nowrap;opacity:0;transition:.16s}.rail-l:hover .rl-hint{opacity:1}
+.rl-hint kbd{color:var(--text-dim);border:1px solid var(--card-border);border-radius:3px;padding:1px 5px}
+
+/* CENTER · the work */
+.work{padding:24px 28px;overflow-y:auto;display:flex;flex-direction:column;gap:16px;
+  background:radial-gradient(440px 220px at 50% 0,rgba(255,255,255,.012),transparent 70%)}
+.eyebrow{font:10px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint)}
+.work h2{margin:2px 0 0;font:400 23px/1.15 var(--display);color:var(--text)}
+.work .lede{margin:0;color:var(--text-dim);font-size:13px;max-width:60ch}
+.card{background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:7px;overflow:hidden}
+.card-h{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--card-border);background:var(--frame-bg-3);font:10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-mid)}
+.card-h .meta{margin-left:auto;color:var(--text-faint);letter-spacing:.1em}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* deliberation log */
+.dlog .row{display:grid;grid-template-columns:16px 1fr auto;align-items:center;gap:12px;padding:8px 14px;opacity:0;transform:translateY(4px);animation:rin .4s var(--ease) forwards}
+.dlog .row+.row{border-top:1px solid rgba(255,255,255,.025)}
+.dlog .d{width:7px;height:7px;border-radius:50%;justify-self:center;background:var(--text-mute)}
+.dlog .nm{font:11px/1.3 var(--mono);color:var(--text-mid);letter-spacing:.03em}
+.dlog .vd{font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;border-radius:3px;border:1px solid transparent;white-space:nowrap}
+.done .d{background:var(--connection);box-shadow:0 0 8px var(--connection-bg)}.done .vd{color:var(--connection);border-color:rgba(49,230,130,.3);background:var(--connection-bg)}
+.flag .d{background:var(--alarm);box-shadow:0 0 10px rgba(237,33,79,.5);animation:pl 1.6s var(--ease) infinite}.flag .nm{color:var(--text)}.flag .vd{color:var(--alarm);border-color:var(--alarm-edge);background:var(--alarm-bg)}
+.run .d{background:var(--signal);animation:pl 1s var(--ease) infinite}.run .vd{color:var(--signal);border-color:rgba(112,243,47,.4);background:var(--signal-bg)}
+.refuse .d{background:var(--judgment)}.refuse .vd{color:var(--judgment);border-color:rgba(233,0,149,.4);background:var(--judgment-bg)}
+.blk .d{background:var(--watch)}.blk .vd{color:var(--watch);border-color:rgba(253,194,55,.4);background:var(--watch-bg)}
+.dlog-f{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--card-border);background:var(--frame-bg-3);font:9px/1 var(--mono);letter-spacing:.12em;color:var(--text-faint)}
+.tick{display:inline-flex;align-items:center;gap:6px;color:var(--signal)}.tick::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--signal);animation:pl 1s var(--ease) infinite}
+
+/* finding */
+.finding{padding:20px}
+.fhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.amt{font:600 32px/1 var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.amt .u{font-size:13px;color:var(--text-dim);font-weight:400;margin-left:4px}
+.tag{font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--connection);border:1px solid rgba(49,230,130,.3);background:var(--connection-bg);padding:4px 9px;border-radius:3px}
+.recon{margin-top:14px;border-top:1px dashed var(--card-border-2);padding-top:12px;display:flex;flex-direction:column;gap:8px}
+.rr{display:grid;grid-template-columns:1fr auto;gap:12px;font:11px/1.4 var(--mono)}
+.rr .l{color:var(--text-mid)}.rr .c{color:var(--text-faint);font-size:9px;letter-spacing:.08em}.rr .v{color:var(--text);font-variant-numeric:tabular-nums}
+.rr.drop .l,.rr.drop .v{color:var(--text-faint);text-decoration:line-through;text-decoration-color:var(--alarm);text-decoration-thickness:2px}
+.dreason{display:flex;gap:8px;padding:8px 11px;border-left:2px solid var(--alarm);background:var(--alarm-bg);border-radius:0 3px 3px 0;animation:sin .5s var(--ease) .2s both}
+.dreason .x{color:var(--alarm);font:600 13px/1.3 var(--mono)}.dreason .t{font-size:11.5px;color:var(--text-mid);line-height:1.45}.dreason .t b{color:var(--text);font-weight:500}
+.rtot{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:12px;margin-top:8px;padding-top:12px;border-top:1px solid var(--card-border)}
+.rtot .l{font:10px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-mid)}
+.rtot .v{font:600 21px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--connection)}
+.rtot .was{font-size:12px;color:var(--text-faint);text-decoration:line-through;margin-right:8px}
+
+/* agent fit swap */
+.swap{display:grid;grid-template-columns:1fr 26px 1fr;align-items:stretch;padding:16px}
+.side{padding:13px 15px;border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg-3)}
+.side.cur{border-color:var(--alarm-edge)}.side.sug{border-color:var(--connection);background:linear-gradient(180deg,var(--connection-bg),transparent)}
+.side .ro{font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
+.side .ag{margin:8px 0 0;font:15px/1.2 var(--sans);color:var(--text);font-weight:500}
+.side .co{margin-top:4px;font:11px/1 var(--mono);color:var(--text-dim)}
+.side .bd{display:inline-flex;align-items:center;gap:5px;margin-top:12px;font:9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.side .bd::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.side.cur .bd{color:var(--alarm)}.side.sug .bd{color:var(--connection)}
+.arr{display:flex;align-items:center;justify-content:center;color:var(--depth);font:18px/1 var(--mono)}
+
+/* ratify artifact */
+.cta{display:flex;justify-content:flex-end}
+.btn-r{font:11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--judgment);border:1px solid var(--judgment);border-radius:3px;padding:11px 20px;cursor:pointer;box-shadow:0 0 0 0 var(--judgment-glow);transition:box-shadow .2s var(--ease),transform .2s var(--ease)}
+.btn-r:hover{box-shadow:0 0 24px var(--judgment-glow);transform:translateY(-1px)}
+.artifact{position:relative;background:var(--cream-100);color:var(--cream-800);border-radius:3px;overflow:hidden;box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 22px 46px rgba(0,0,0,.55),0 0 0 5px rgba(0,0,0,.3);animation:arr .56s cubic-bezier(.32,.72,.16,1) both}
+.artifact::before{content:"";position:absolute;top:0;bottom:0;left:0;width:5px;background:var(--judgment);box-shadow:0 0 16px var(--judgment-glow)}
+.artifact::after{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;background-image:radial-gradient(circle at 16% 28%,rgba(120,90,40,.05),transparent 22%),radial-gradient(circle at 80% 70%,rgba(120,90,40,.04),transparent 22%)}
+.ab{display:flex;align-items:center;gap:12px;padding:12px 20px 9px 26px;border-bottom:1px dashed rgba(60,40,10,.22);position:relative;z-index:1}
+.ab .stamp{font:9px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--judgment);border:1px solid var(--judgment);border-radius:2px;padding:4px 9px;transform:rotate(-1.5deg)}
+.ab .wh{margin-left:auto;font:9px/1 var(--mono);letter-spacing:.1em;color:var(--cream-700)}
+.abody{padding:14px 26px 18px;position:relative;z-index:1}
+.adec{margin:0;font:500 17px/1.35 var(--display);color:var(--cream-800)}
+.arat{margin:10px 0 0;font-size:12px;line-height:1.55;color:var(--cream-700);max-width:60ch}
+.apol{margin-top:13px;display:flex;flex-wrap:wrap;gap:7px}
+.pc{font:9px/1 var(--mono);letter-spacing:.06em;padding:5px 8px;border-radius:2px;border:1px solid rgba(60,40,10,.2);color:var(--cream-700)}
+.pc.al{border-color:rgba(31,186,103,.5);color:#1FBA67}.pc.dn{border-color:rgba(191,24,60,.45);color:#BF183C}
+.arec{display:flex;align-items:center;gap:12px;margin-top:16px;padding-top:11px;border-top:1px solid rgba(60,40,10,.18);font:9px/1.3 var(--mono)}
+.arec .hl{color:var(--cream-700);letter-spacing:.1em;text-transform:uppercase}.arec .hs{color:var(--cream-800);flex:1;word-break:break-all}
+.arec .ok{display:inline-flex;align-items:center;gap:6px;color:#1FBA67;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}.arec .ok::before{content:"";width:7px;height:7px;border-radius:50%;background:#1FBA67;box-shadow:0 0 8px rgba(31,186,103,.6)}
+
+/* generic surfaces (setup / baseline / tray / brief) */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.tile{border:1px solid var(--card-border);border-radius:5px;padding:12px;background:var(--frame-bg-2)}
+.tile .tt{font:11px/1.3 var(--mono);color:var(--text);letter-spacing:.02em}.tile .ts{margin-top:5px;font:9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint)}
+.tile.scan .ts{color:var(--signal)}.tile.ing .ts{color:var(--connection)}
+.alloc-bar{height:30px;border-radius:4px;overflow:hidden;display:flex;border:1px solid var(--card-border);position:relative}
+.alloc-bar .p{background:var(--diligence);display:flex;align-items:center;padding-left:12px;font:10px/1 var(--mono);color:#fff;letter-spacing:.1em}
+.alloc-bar .s{background:var(--depth);display:flex;align-items:center;padding-left:12px;font:10px/1 var(--mono);color:#fff;letter-spacing:.1em;position:relative}
+.alloc-bar .ghost{position:absolute;top:-1px;bottom:-1px;width:1px;background:var(--alarm);box-shadow:0 0 0 1px var(--alarm)}
+.alloc-bar .ghost::after{content:"actual 24%";position:absolute;top:-16px;left:-28px;font:8px/1 var(--mono);color:var(--alarm);white-space:nowrap}
+
+/* RIGHT RAIL · agency console */
+.rail-r{width:206px;background:var(--frame-bg-2);border-left:1px solid var(--frame-border);padding:13px 0;overflow:hidden;transition:width .2s var(--ease)}
+.rr-h{display:flex;justify-content:space-between;padding:0 15px 10px;border-bottom:1px solid var(--frame-border);margin-bottom:10px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
+.ag{display:grid;grid-template-columns:7px 1fr auto;align-items:center;gap:9px;padding:5px 15px;font:10px/1.2 var(--mono)}
+.ag .d{width:7px;height:7px;border-radius:50%;background:var(--text-mute)}
+.ag .nm{color:var(--text-mid)}.ag .st{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.ag.done .d{background:var(--connection)}.ag.done .st{color:var(--connection)}
+.ag.flag .d{background:var(--alarm);box-shadow:0 0 7px var(--alarm)}.ag.flag .st{color:var(--alarm)}.ag.flag .nm{color:var(--text)}
+.ag.run .d{background:var(--signal);animation:pl 1s var(--ease) infinite}.ag.run .st{color:var(--signal)}
+.ag.refuse .d{background:var(--judgment)}.ag.refuse .st{color:var(--judgment)}
+
+/* BOTTOM RIBBON · provenance chain */
+.rb-bot{display:flex;align-items:center;gap:13px;padding:9px 14px;background:var(--frame-bg-3);border-top:1px solid var(--frame-border);font:9px/1 var(--mono);color:var(--text-faint);letter-spacing:.05em;overflow-x:auto}
+.rb-bot .lab{color:var(--diligence);letter-spacing:.16em;text-transform:uppercase;flex-shrink:0}
+.ev{display:flex;gap:6px;align-items:baseline;flex-shrink:0}.ev .t{color:var(--text-mute)}.ev .e{color:var(--text-mid)}
+.ev.ref .e{color:var(--judgment)}.ev.fresh{animation:fr 1.6s var(--ease)}
+
+/* relationship states */
+body[data-relationship="oversight"] .rail-r .ag .nm,body[data-relationship="oversight"] .work .finding,body[data-relationship="oversight"] .work .swap{filter:blur(4px);opacity:.5;pointer-events:none}
+body[data-relationship="oversight"] .work::before{content:"oversight view · process-review · read-content withheld · audit chain only";display:block;font:10px/1.5 var(--mono);letter-spacing:.08em;color:var(--watch);border:1px solid var(--watch);background:var(--watch-bg);border-radius:5px;padding:10px 14px;text-transform:uppercase}
+body[data-relationship="public"] .mid{filter:grayscale(.6)}
+body[data-relationship="public"] .work>*{display:none}
+body[data-relationship="public"] .work::before{content:"⊘ refused surface — outside the consent boundary. This decision belongs to the operator and the agent fleet. Escalation: request audit-chain disclosure.";display:flex;align-items:center;text-align:center;justify-content:center;height:100%;font:12px/1.7 var(--mono);letter-spacing:.04em;color:var(--text-dim);max-width:46ch;margin:0 auto;padding:30px}
+
+@keyframes rin{to{opacity:1;transform:none}}@keyframes pl{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes sin{from{opacity:.4}to{opacity:1}}@keyframes arr{0%{transform:translateY(16px) rotate(-.3deg);opacity:0}100%{transform:none;opacity:1}}
+@keyframes fr{0%{background:var(--diligence-bg);padding:2px 6px;border-radius:3px}100%{background:transparent;padding:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- TOP RIBBON -->
+  <div class="rb-top">
+    <div class="traffic"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+    <div class="frame-id">
+      <span><span class="ax">product</span> <b>business</b></span>
+      <span><span class="ax">period</span> <b>2026-06</b></span>
+      <span><span class="ax">model</span> <b>Opus 4.8</b></span>
+      <span><span class="ax">cohort</span> <b>7 eng</b></span>
+    </div>
+    <div class="rel">
+      <span class="lbl">relationship · subject = agents</span>
+      <button data-rel="operator" class="on">operator</button>
+      <button data-rel="oversight">oversight</button>
+      <button data-rel="public">public</button>
+    </div>
+  </div>
+
+  <!-- MIDDLE -->
+  <div class="mid">
+    <aside class="rail-l">
+      <div class="rl-brand"><span class="g">◇</span><span class="n">Liminal Govern</span></div>
+      <div class="beat done" data-go="setup"><span class="dot"></span><span class="lb">Setup</span></div>
+      <div class="beat done" data-go="okr"><span class="dot"></span><span class="lb">OKR baseline</span></div>
+      <div class="beat done" data-go="tray"><span class="dot"></span><span class="lb">Tray → Slate</span></div>
+      <div class="beat cur" data-go="delib"><span class="dot"></span><span class="lb">Deliberation</span></div>
+      <div class="beat" data-go="finding"><span class="dot"></span><span class="lb">Findings</span></div>
+      <div class="beat" data-go="agentfit"><span class="dot"></span><span class="lb">Agent fit</span></div>
+      <div class="beat" data-go="ratify"><span class="dot"></span><span class="lb">Ratify</span></div>
+      <div class="beat" data-go="brief"><span class="dot"></span><span class="lb">Brief</span></div>
+      <div class="rl-sp"></div>
+      <div class="rl-hint"><kbd>⌘K</kbd> jump</div>
+    </aside>
+
+    <section class="work" id="work"></section>
+
+    <aside class="rail-r" id="agency"></aside>
+  </div>
+
+  <!-- BOTTOM RIBBON -->
+  <div class="rb-bot" id="chain"></div>
+</div>
+
+<script>
+const REL = ()=>document.body.dataset.relationship;
+const AGENTS = [
+  ['Spend analyst','done','passed'],['OKR-alignment','done','passed'],['Productivity','done','passed'],
+  ['Security-ev.','flag','flag'],['Misuse/policy','flag','flag'],['Marketplace','done','passed'],
+  ['Provenance','run','anchor'],['Exec-comms','refuse','refuse'],
+];
+// per-surface: does agency RAIL (live) or collapse to a ribbon summary? does provenance grow?
+const SURFACES = {
+  setup:{eyebrow:'beat 1 · setup',title:'Onboarding swarm detects your context',agency:'summary',body:()=>`
+    <p class="lede">The plugin installs the desktop app; the swarm scans for governable streams. You choose what hardens.</p>
+    <div class="tiles">
+      <div class="tile ing"><div class="tt">Claude usage logs</div><div class="ts">ingested</div></div>
+      <div class="tile ing"><div class="tt">GitHub PRs</div><div class="ts">ingested</div></div>
+      <div class="tile scan"><div class="tt">Security tickets</div><div class="ts">scanning…</div></div>
+      <div class="tile scan"><div class="tt">Agent registry</div><div class="ts">scanning…</div></div>
+      <div class="tile"><div class="tt">Model-access list</div><div class="ts">found</div></div>
+    </div>`},
+  okr:{eyebrow:'beat 2 · baseline',title:'AI spend governance baseline',agency:'summary',body:()=>`
+    <p class="lede">Objectives, allocations, the approved model and cohort — the frame everything is measured against.</p>
+    <div style="margin-top:18px"><div class="alloc-bar"><div class="p" style="width:60%">product 60%</div><div class="s" style="width:40%">security 40%<span class="ghost"></span></div></div></div>
+    <p class="lede" style="margin-top:22px">Approved model <b style="color:var(--text)">Opus 4.8</b> · cohort 7 · budget period 2026-06. Security is the target the deliberation will test actual spend against.</p>`},
+  tray:{eyebrow:'beat 3 · harden',title:'Tray → Slate · you control what hardens',agency:'summary',body:()=>`
+    <p class="lede">Diffuse context on the left; the hardened working set on the right. Crossing the boundary is the governance act — not surveillance, selection.</p>
+    <div class="tiles" style="margin-top:6px">
+      <div class="tile"><div class="tt">usage-events.csv</div><div class="ts">slated</div></div>
+      <div class="tile"><div class="tt">okr-baseline.json</div><div class="ts">slated</div></div>
+      <div class="tile"><div class="tt">pr-evidence.csv</div><div class="ts">slated</div></div>
+      <div class="tile"><div class="tt">agent-registry</div><div class="ts">slated</div></div>
+      <div class="tile"><div class="tt">security-tickets</div><div class="ts">slated</div></div>
+    </div>`},
+  delib:{eyebrow:'beat 4 · deliberation',title:'Eight bounded agents read the spend',agency:'rail',body:()=>`
+    <p class="lede">model: opus · each agent stays in its lane and refuses out of it. Watch the agency console resolve, right.</p>
+    <div class="card dlog">
+      <div class="card-h">Deliberation <span class="meta">8 bounded agents · live</span></div>
+      ${AGENTS.map((a,i)=>`<div class="row ${a[1]}" style="animation-delay:${.05+i*.08}s"><span class="d"></span><span class="nm">${a[0]}</span><span class="vd">${a[2]==='flag'?'flagged':a[2]==='anchor'?'anchoring…':a[2]==='refuse'?'refuse · out of lane':a[2]}</span></div>`).join('')}
+      <div class="dlog-f"><span class="tick">live</span><span>· adversarial reviewer running · 1 claim contested</span></div>
+    </div>`},
+  finding:{eyebrow:'beat 5 · finding',title:'The model caught its own error',agency:'rail',body:()=>`
+    <p class="lede">Opus spend on calendar &amp; admin can route to a verified agent — but one claim did not survive review.</p>
+    <div class="card"><div class="card-h">Finding · misuse / agent-fit <span class="meta">cites usage-events · pr-evidence</span></div>
+      <div class="finding">
+        <div class="fhead"><span class="amt">$284<span class="u">/mo realizable</span></span><span class="tag">verified</span></div>
+        <div class="recon">
+          <div class="rr"><span class="l">Calendar → CalendarOps <span class="c">E12, E13</span></span><span class="v">$162</span></div>
+          <div class="rr"><span class="l">Summarization → DigestBot <span class="c">E15, E16</span></span><span class="v">$122</span></div>
+          <div class="rr drop"><span class="l">Calendar-sync → CalendarOps <span class="c">E14</span></span><span class="v">$162</span></div>
+          <div class="dreason"><span class="x">✗</span><span class="t"><b>Refuted.</b> PR-103 (Priya, “calendar-sync feature: Google Calendar API + UI”) proves E14 is product engineering, not admin. The $162 claim is dropped.</span></div>
+          <div class="rtot"><span class="l">Total recommended</span><span class="v"><span class="was">$446</span>$284</span></div>
+        </div>
+      </div></div>`},
+  agentfit:{eyebrow:'beat 6 · agent fit',title:'Route to a registry-verified agent',agency:'rail',body:()=>`
+    <p class="lede">A verifiable internal agent registry — current vs suggested, with on-chain provenance.</p>
+    <div class="card"><div class="card-h">Agent fit <span class="meta">Algorand-verified registry</span></div>
+      <div class="swap">
+        <div class="side cur"><span class="ro">current</span><p class="ag">Claude Opus 4.8</p><span class="co">calendar mgmt · high tier</span><span class="bd">out of approved scope</span></div>
+        <div class="arr">→</div>
+        <div class="side sug"><span class="ro">suggested</span><p class="ag">CalendarOps Agent</p><span class="co">~10% of Opus · scoped: calendar</span><span class="bd">registry-verified</span></div>
+      </div></div>`},
+  ratify:{eyebrow:'beat 7 · ratify',title:'One policy proves the product',agency:'summary',prov:'rail',body:()=>`
+    <p class="lede">Spend governance + routing + the registry + provenance + non-surveillance — in a single signed, anchored object.</p>
+    <div class="cta"><button class="btn-r" onclick="document.getElementById('art').style.display='block';this.style.display='none'">Ratify decision ▸</button></div>
+    <div id="art" style="display:none"><div class="artifact">
+      <div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
+      <div class="abody">
+        <p class="adec">Opus 4.8 cannot be used for calendar management or routine admin work.</p>
+        <p class="arat">Calendar/admin usage does not map to the approved OKRs, and a registry-verified lower-cost agent (CalendarOps, ~10% of Opus cost) covers it. The calendar-sync work in E14 is product engineering (PR-103) and is explicitly NOT reclassified.</p>
+        <div class="apol"><span class="pc al">allow · product_dev</span><span class="pc al">allow · security_hardening</span><span class="pc al">allow · architecture_review</span><span class="pc dn">deny · calendar_management</span><span class="pc dn">deny · routine_admin</span><span class="pc dn">deny · generic_summarization</span></div>
+        <div class="arec"><span class="hl">anchored</span><span class="hs">sha256: 7d4b…a284 · local-first chain · entry 6/6</span><span class="ok">chain verified</span></div>
+      </div></div></div>`},
+  brief:{eyebrow:'beat 8 · brief',title:'AI Spend Brief — exec-ready',agency:'summary',body:()=>`
+    <p class="lede">The decision trail as proof: spend by OKR, the routing change, the savings, the ratified policy.</p>
+    <div class="tiles" style="margin-top:6px">
+      <div class="tile"><div class="tt tnum">$4,500</div><div class="ts">opus spend · period</div></div>
+      <div class="tile"><div class="tt tnum">$284/mo</div><div class="ts">verified savings</div></div>
+      <div class="tile"><div class="tt tnum">24% → 40%</div><div class="ts">security realloc</div></div>
+      <div class="tile"><div class="tt">1 policy</div><div class="ts">ratified · anchored</div></div>
+      <div class="tile"><div class="tt tnum">6/6</div><div class="ts">chain verified</div></div>
+    </div>`},
+};
+// provenance chain grows as you advance the flow
+const CHAIN = [
+  ['12:01','setup · 5 streams ingested',0], ['12:02','baseline · 60/40 set',0],
+  ['12:04','slate hardened · 5 tiles',0], ['12:05','deliberation · 8 agents',0],
+  ['12:05','exec-comms · refused out of lane',1], ['12:05','finding · $284 verified',0],
+  ['12:05','E14 refuted · PR-103',1], ['12:06','ratified · anchored 6/6',0],
+];
+const ORDER = ['setup','okr','tray','delib','finding','agentfit','ratify','brief'];
+
+function renderAgency(mode){
+  const el = document.getElementById('agency');
+  if(mode==='rail'){
+    el.style.width='206px';
+    el.innerHTML = `<div class="rr-h"><span>agency</span><span>opus · 8</span></div>`+
+      AGENTS.map(a=>`<div class="ag ${a[1]}"><span class="d"></span><span class="nm">${a[0]}</span><span class="st">${a[2]}</span></div>`).join('');
+  } else { // collapsed to a ribbon summary tucked in the rail
+    el.style.width='206px';
+    const flagged=AGENTS.filter(a=>a[1]==='flag').length, ref=AGENTS.filter(a=>a[1]==='refuse').length;
+    el.innerHTML = `<div class="rr-h"><span>agency · idle</span></div>
+      <div style="padding:10px 15px;font:10px/1.7 var(--mono);color:var(--text-faint);letter-spacing:.08em">
+      <div style="color:var(--text-mid)">8 bounded agents</div>
+      <div>· ${flagged} flagged</div><div style="color:var(--judgment)">· ${ref} refused out of lane</div>
+      <div style="margin-top:8px;color:var(--text-mute)">— promotes to live console on the deliberation surface —</div></div>`;
+  }
+}
+function renderChain(uptoIdx){
+  const el=document.getElementById('chain');
+  el.innerHTML = `<span class="lab">chain</span>` + CHAIN.slice(0, Math.min(CHAIN.length, 2+uptoIdx*1)).map((e,i)=>
+    `<span class="ev ${e[2]?'ref':''} ${i===(1+uptoIdx)?'fresh':''}"><span class="t">${e[0]}</span><span class="e">${e[1]}</span></span>`).join('');
+}
+function go(key){
+  const s = SURFACES[key]; if(!s) return;
+  document.querySelectorAll('.beat').forEach(b=>b.classList.toggle('cur', b.dataset.go===key));
+  const w = document.getElementById('work');
+  w.innerHTML = `<span class="eyebrow">${s.eyebrow}</span><h2>${s.title}</h2>${s.body()}`;
+  renderAgency(s.agency);
+  renderChain(ORDER.indexOf(key));
+}
+document.querySelectorAll('.beat').forEach(b=>b.addEventListener('click',()=>go(b.dataset.go)));
+document.querySelectorAll('.rel button').forEach(btn=>btn.addEventListener('click',()=>{
+  document.body.dataset.relationship = btn.dataset.rel;
+  document.querySelectorAll('.rel button').forEach(x=>x.classList.toggle('on',x===btn));
+}));
+go('delib'); // open on the hero surface
+</script>
+</body>
+</html>

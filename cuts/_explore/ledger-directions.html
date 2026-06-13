@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" data-product="business" data-density="analyst">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Explore · the decision ledger — 3 visual directions · Liminal</title>
+<!--
+  Exploration · how to VISUALLY represent the provenance chain as a DECISION LEDGER (#3).
+  Not a blockchain explorer — a ledger of judgment: decisions are the hero, the hash/anchor is the quiet
+  proof underneath. Three directions, same data, side by side. Real design system: design-tokens.css + fonts.
+  Data = the spend decision's real trail: finding $284 → E14 self-correction → ratified policy → operator
+  correction → Algorand anchor. Orthogonal to #2 (the graph): this is TIME + PROOF, the graph is SPACE.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<style>
+@font-face{font-family:"Nineties Headliner";src:url("../../fonts/nineties-headliner.otf") format("opentype");font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../../fonts/PerfectlyNineties-Semibold.otf") format("opentype");font-weight:600;font-display:swap}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 480px at 8% -6%,var(--diligence-50),transparent 60%);padding:34px clamp(16px,4vw,48px)}
+.mono{font-family:var(--mono)}
+.head{max-width:1180px;margin:0 auto 26px}
+.head .k{font:10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
+.head h1{margin:.3em 0;font:400 28px/1.1 var(--display)}.head h1 em{font-style:italic;color:var(--judgment)}
+.head p{margin:.3em 0 0;color:var(--text-dim);font-size:13.5px;max-width:78ch}
+.grid{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+@media(max-width:1000px){.grid{grid-template-columns:1fr}}
+.col{border:1px solid var(--card-border);border-radius:10px;background:var(--frame-bg);overflow:hidden;display:flex;flex-direction:column}
+.col-h{padding:13px 15px;border-bottom:1px solid var(--card-border);background:var(--frame-bg-2)}
+.col-h .n{font:9px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--diligence)}
+.col-h h2{margin:7px 0 4px;font:500 17px/1.1 var(--display);color:var(--text)}
+.col-h p{margin:0;font:11px/1.45 var(--mono);color:var(--text-faint);letter-spacing:.02em}
+.col-b{padding:18px 16px;flex:1}
+.verdict-pill{display:inline-flex;align-items:center;gap:6px;font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:3px}
+.kind-find{color:var(--connection);border:1px solid rgba(49,230,130,.35);background:var(--connection-bg)}
+.kind-corr{color:var(--diligence);border:1px solid var(--diligence-edge);background:var(--diligence-bg)}
+.kind-dec{color:var(--judgment);border:1px solid var(--judgment-edge);background:var(--judgment-bg)}
+.kind-anchor{color:var(--depth);border:1px solid var(--depth-edge);background:var(--depth-bg)}
+.hash{font:8.5px/1 var(--mono);color:var(--text-mute);letter-spacing:.02em}
+.foot{max-width:1180px;margin:22px auto 0;border-top:1px solid var(--card-border);padding-top:16px;font:12.5px/1.6 var(--sans);color:var(--text-dim)}
+.foot b{color:var(--text)}.foot .rec{color:var(--connection)}
+
+/* ───────── DIRECTION A · THE SPINE (vertical hash-linked column) ───────── */
+.spine{position:relative;padding-left:22px}
+.spine::before{content:"";position:absolute;left:6px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--depth),var(--diligence),var(--judgment))}
+.snode{position:relative;margin-bottom:16px}
+.snode::before{content:"";position:absolute;left:-22px;top:4px;width:11px;height:11px;border-radius:50%;background:var(--frame-bg);border:2px solid var(--depth)}
+.snode.corr::before{border-color:var(--diligence);left:-16px;width:8px;height:8px}
+.snode.dec::before{border-color:var(--judgment);box-shadow:0 0 9px var(--judgment-glow)}
+.snode.corr{margin-left:14px}
+.snode .row{display:flex;align-items:center;gap:8px;margin-bottom:5px}.snode .t{font:8px/1 var(--mono);color:var(--text-mute);margin-left:auto}
+.snode .body{font:12.5px/1.4 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid)}
+.snode .meta{margin-top:5px;display:flex;align-items:center;gap:8px}
+.snode .link{font:8px/1 var(--mono);color:var(--text-faint)}
+
+/* ───────── DIRECTION B · THE SEALED STACK (signed pages) ───────── */
+.stack{display:flex;flex-direction:column;gap:11px}
+.page{position:relative;background:var(--cream-100);color:var(--cream-800);border-radius:3px;padding:11px 13px 11px 17px;box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 10px 22px rgba(0,0,0,.4),0 0 0 3px rgba(0,0,0,.25)}
+.page::before{content:"";position:absolute;top:0;bottom:0;left:0;width:4px;border-radius:3px 0 0 3px}
+.page.find::before{background:var(--connection)}.page.corr::before{background:var(--diligence)}.page.dec::before{background:var(--judgment);box-shadow:0 0 12px var(--judgment-glow)}.page.anchor::before{background:var(--depth)}
+.page .ph{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.page .seal{margin-left:auto;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:9px/1 var(--mono);color:#fff}
+.page.dec .seal{background:var(--judgment)}.page.find .seal{background:#1FBA67}.page.corr .seal{background:var(--diligence)}.page.anchor .seal{background:var(--depth)}
+.page .pb{font:12.5px/1.4 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--cream-800)}
+.page .pf{margin-top:7px;padding-top:6px;border-top:1px solid rgba(60,40,10,.18);display:flex;align-items:center;gap:8px;font:8px/1 var(--mono);color:var(--cream-700)}
+.page.corr{margin-left:18px;transform:scale(.97)}
+.page .lk{position:absolute;left:8px;bottom:-10px;font:8px/1 var(--mono);color:var(--text-mute);z-index:1}
+
+/* ───────── DIRECTION C · THE ANCHOR STRAND (local-first + on-chain lanes) ───────── */
+.strand{position:relative}
+.lanes{display:grid;grid-template-columns:1fr 1fr;gap:0;font:8px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);padding-bottom:10px;border-bottom:1px solid var(--card-border);margin-bottom:14px}
+.lanes .local{color:var(--diligence)}.lanes .chain{color:var(--depth);text-align:right}
+.knot{display:grid;grid-template-columns:1fr 22px 1fr;align-items:center;margin-bottom:14px;position:relative}
+.knot .b{padding:9px 11px;border:1px solid var(--card-border);border-radius:6px;background:var(--frame-bg-2)}
+.knot .b .bt{font:11.5px/1.35 var(--serif,Georgia,serif);color:var(--text-mid)}
+.knot .b .bh{margin-top:5px;font:8px/1 var(--mono);color:var(--text-mute)}
+.knot .conn{display:flex;align-items:center;justify-content:center;color:var(--depth)}
+.knot .anchor-r{padding:8px 10px;border:1px dashed var(--depth-edge);border-radius:6px;background:var(--depth-bg);font:8.5px/1.4 var(--mono);color:var(--depth)}
+.knot .anchor-r.none{border-color:var(--card-border);color:var(--text-mute);background:transparent}
+.knot::after{content:"";position:absolute;left:50%;bottom:-14px;width:2px;height:14px;background:var(--card-border-2);transform:translateX(-50%)}
+.knot:last-child::after{display:none}
+.verify{margin-top:6px;display:inline-flex;align-items:center;gap:7px;font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#1FBA67}.verify::before{content:"";width:8px;height:8px;border-radius:50%;background:#1FBA67;box-shadow:0 0 8px rgba(31,186,103,.6)}
+</style>
+</head>
+<body>
+<div class="head">
+  <span class="k">explore · #3 · the decision ledger</span>
+  <h1>The chain as a <em>ledger of judgment</em> — three visual directions</h1>
+  <p>Same trail, three renderings: the spend decision's real lineage (finding $284 → E14 self-correction → ratified policy → operator correction → Algorand anchor). Decisions are the hero; the hash and the anchor are the quiet proof. This is TIME + PROOF — orthogonal to the knowledge-graph (#2), which is SPACE.</p>
+</div>
+
+<div class="grid">
+
+  <!-- A · THE SPINE -->
+  <div class="col">
+    <div class="col-h"><div class="n">Direction A</div><h2>The Spine</h2><p>vertical · hash-linked · corrections indent as amendments</p></div>
+    <div class="col-b"><div class="spine">
+      <div class="snode"><div class="row"><span class="verdict-pill kind-find">finding</span><span class="t">14:32:04</span></div><div class="body">Realizable savings $284/mo — calendar + summarization routing.</div><div class="meta"><span class="hash">a1f2…9c</span></div></div>
+      <div class="snode corr"><div class="row"><span class="verdict-pill kind-corr">self-correction</span><span class="t">14:32:05</span></div><div class="body">E14 dropped — PR-103 proves product, not admin. $446 → $284.</div><div class="meta"><span class="hash">b3e8…d1</span><span class="link">← a1f2…9c</span></div></div>
+      <div class="snode dec"><div class="row"><span class="verdict-pill kind-dec">ratified</span><span class="t">14:33:11</span></div><div class="body">Opus 4.8 ≠ calendar management — use CalendarOps.</div><div class="meta"><span class="hash">7d4b…a284</span><span class="link">← b3e8…d1</span></div></div>
+      <div class="snode corr"><div class="row"><span class="verdict-pill kind-corr">operator correction</span><span class="t">14:34:02</span></div><div class="body">Reworded the rationale — “explicitly not reclassified.”</div><div class="meta"><span class="hash">c9a0…7f</span><span class="link">← 7d4b…a284</span></div></div>
+      <div class="snode"><div class="row"><span class="verdict-pill kind-anchor">anchored</span><span class="t">14:36:00</span></div><div class="body">Sealed to Algorand TestNet · entry 6/6.</div><div class="meta"><span class="hash mono">txn LIM…X402</span></div></div>
+    </div></div>
+  </div>
+
+  <!-- B · THE SEALED STACK -->
+  <div class="col">
+    <div class="col-h"><div class="n">Direction B</div><h2>The Sealed Stack</h2><p>signed pages · the disposition-artifact, stacked · most on-brand</p></div>
+    <div class="col-b"><div class="stack">
+      <div class="page find"><div class="ph"><span class="verdict-pill kind-find">finding</span><span class="seal">✓</span></div><div class="pb">Realizable savings $284/mo.</div><div class="pf"><span>sha a1f2…9c</span></div><span class="lk">│</span></div>
+      <div class="page corr"><div class="ph"><span class="verdict-pill kind-corr">self-correction</span><span class="seal">✎</span></div><div class="pb">E14 dropped · PR-103.</div><div class="pf"><span>sha b3e8…d1 ← a1f2…9c</span></div><span class="lk">│</span></div>
+      <div class="page dec"><div class="ph"><span class="verdict-pill kind-dec">ratified</span><span class="seal">◇</span></div><div class="pb">Opus 4.8 ≠ calendar management.</div><div class="pf"><span>sha 7d4b…a284 ← b3e8…d1</span></div><span class="lk">│</span></div>
+      <div class="page corr"><div class="ph"><span class="verdict-pill kind-corr">operator correction</span><span class="seal">✎</span></div><div class="pb">Rationale reworded.</div><div class="pf"><span>sha c9a0…7f ← 7d4b…a284</span></div><span class="lk">│</span></div>
+      <div class="page anchor"><div class="ph"><span class="verdict-pill kind-anchor">anchored</span><span class="seal">⛓</span></div><div class="pb">Sealed to Algorand · 6/6.</div><div class="pf"><span>txn LIM…X402 · verified</span></div></div>
+    </div></div>
+  </div>
+
+  <!-- C · THE ANCHOR STRAND -->
+  <div class="col">
+    <div class="col-h"><div class="n">Direction C</div><h2>The Anchor Strand</h2><p>two lanes · local-first ↔ on-chain · shows the anchor bridge</p></div>
+    <div class="col-b"><div class="strand">
+      <div class="lanes"><span class="local">local-first vault</span><span class="chain">algorand</span></div>
+      <div class="knot"><div class="b"><div class="bt">finding · $284</div><div class="bh">a1f2…9c</div></div><div class="conn">·</div><div class="anchor-r none">not anchored<br>(working)</div></div>
+      <div class="knot"><div class="b"><div class="bt">E14 self-corrected</div><div class="bh">b3e8…d1 ← a1f2…9c</div></div><div class="conn">·</div><div class="anchor-r none">—</div></div>
+      <div class="knot"><div class="b" style="border-color:var(--judgment-edge)"><div class="bt">ratified policy</div><div class="bh">7d4b…a284</div></div><div class="conn">→</div><div class="anchor-r">anchored<br>txn LIM…X402</div></div>
+      <div class="knot"><div class="b"><div class="bt">operator correction</div><div class="bh">c9a0…7f ← 7d4b…a284</div></div><div class="conn">→</div><div class="anchor-r">re-anchored<br>txn LIM…Y556</div></div>
+      <div class="verify">chain verified · 6/6 · prev-hash links intact</div>
+    </div></div>
+  </div>
+
+</div>
+
+<div class="foot">
+  <b>Read:</b> all three share the discipline — decision-as-content, hash-as-quiet-proof, corrections as new
+  linked entries (never mutations). <b>Direction A (Spine)</b> is the clearest diligence read (top-to-bottom,
+  amendments indent). <b>Direction B (Sealed Stack)</b> is the most on-brand and tangible — it lifts the
+  existing disposition-artifact into a stack, “blockchain” as signed pages, not hash-soup; best for the demo
+  and the “receipts not memory” moment. <b>Direction C (Anchor Strand)</b> best tells the local-first ↔
+  Algorand story (the x402/trustless-registry beat) but is the most infra-forward.
+  <span class="rec">Recommendation: ship B (Sealed Stack) as the default ledger, with A’s indent-for-corrections
+  behavior, and reveal C’s anchor lane on demand (the “prove it on-chain” affordance).</span> It fits the
+  Record movement — the chain ribbon promotes into this ledger when you open a decision’s trail.
+</div>
+</body>
+</html>
