@@ -71,6 +71,11 @@
   body { font-variant-numeric: tabular-nums; }
   h1, h2, h3 { text-wrap: balance; }
   p { text-wrap: pretty; }
+  /* magnetic-hover + press physics (canon-filtered: motion-only, --ease-spring, transform-only) */
+  button { transition: transform .22s var(--ease-spring, ease), color .15s, background .15s, border-color .15s; }
+  button:hover { transform: translateY(-1.5px); }
+  button:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  @media (prefers-reduced-motion: reduce) { button { transition: color .15s, background .15s; } button:hover, button:active { transform: none; } }
 </style>
 
 <link rel="stylesheet" href="../lib/surface-nav.css">

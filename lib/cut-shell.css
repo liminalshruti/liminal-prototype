@@ -169,6 +169,23 @@
   }
   button { cursor: pointer; }
 
+  /* magnetic-hover + press physics (ui-skills soft-skill, canon-filtered: motion-only,
+     --ease-spring, transform-only, restrained). Press-give universal; hover-lift 1.5px.
+     SPECIFICITY: cuts name buttons by class (.product-tab, .dispo-btn, .db…) each with its
+     own `transition`, which beats a bare `button{}` rule. `button[class]` = (0,1,1) outranks
+     a single class (0,1,0), so it wins WITHOUT a brittle 40-class union or !important. The
+     `transition` here re-declares the props each class animates + ADDS transform; classed
+     buttons keep their color/bg timing via their own rule, gain the transform channel here.
+     Traffic-light chrome is <div>/<i>, not <button> — unaffected. */
+  button { transition: transform .22s var(--ease-spring, ease), color .15s, background .15s, border-color .15s; }
+  button[class] { transition: transform .22s var(--ease-spring, ease), color .15s, background .15s, border-color .15s, opacity .15s; }
+  button:hover, button[class]:hover { transform: translateY(-1.5px); }
+  button:active, button[class]:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  @media (prefers-reduced-motion: reduce) {
+    button, button[class] { transition: color .15s, background .15s; }
+    button:hover, button[class]:hover, button:active, button[class]:active { transform: none; }
+  }
+
   /* typographic polish (ui-skills baseline, stack-agnostic): even heading wrap,
      orphan-free body. Degrades gracefully where unsupported. */
   h1, h2, h3 { text-wrap: balance; }

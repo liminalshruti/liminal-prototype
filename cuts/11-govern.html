@@ -40,6 +40,10 @@
 *{box-sizing:border-box}html,body{margin:0;height:100%}
 /* ui-skills polish: even heading wrap / orphan-free body (numerals already tabular per-element) */
 h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
+/* magnetic-hover + press physics (canon-filtered: motion-only, --ease-spring, transform-only) */
+button{transition:transform .22s var(--ease-spring,ease),color .15s,background .15s,border-color .15s}
+button:hover{transform:translateY(-1.5px)}button:active{transform:translateY(0) scale(.97);transition-duration:.08s}
+@media (prefers-reduced-motion:reduce){button{transition:color .15s,background .15s}button:hover,button:active{transform:none}}
 body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;
   background-image:radial-gradient(900px 480px at 8% -6%,var(--diligence-50),transparent 60%),radial-gradient(760px 480px at 106% 4%,var(--depth-50),transparent 55%);
   display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px}
