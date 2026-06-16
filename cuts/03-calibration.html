@@ -146,6 +146,12 @@
     color: var(--text-soft);
     line-height: 1.5;
   }
+  .seam {
+    font: italic 0.82rem/1.55 var(--serif, Newsreader, Georgia, serif);
+    color: var(--text-faint, #6B6862); margin: 14px 0 4px; padding-left: 13px;
+    border-left: 2px solid var(--diligence, #6E56CF); max-width: 620px;
+  }
+  .seam b { display: block; font-style: normal; color: var(--text); font-weight: 600; font-size: 0.95rem; line-height: 1.4; margin-top: 6px; letter-spacing: -0.01em; }
 
   /* Grid container · grid takes full row · drill panel sits below it
      (was side-by-side, but at desktop viewports the drill below reads
@@ -541,6 +547,7 @@
         <div class="cal-eyebrow">Your OS over time</div>
         <h1 class="cal-title">12 weeks · four registers</h1>
         <p class="cal-helper">The vault record — shown here as a seeded illustrative baseline with any real corrections merged on top. Each cell shows corrections that week for that register. Click a cell or agent name to see the pattern.</p>
+        <div class="seam">Every correction here is first-party data about how you judge — accumulated, not extracted. A judge-model can be cloned; twelve weeks of your corrections cannot. <b>This grid is the moat made visible: the record is what compounds, and it's yours.</b></div>
       </div>
 
       <div class="cal-grid-wrapper">
