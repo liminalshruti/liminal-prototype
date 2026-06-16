@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liminal · Substrate Console · survey + jump</title>
+
+<!--
+  Substrate Console · internal · NOT shipped to Pages
+  ──────────────────────────────────────────────────────────────────────
+  ONE job: keep the prototype coherent as a single system while it's being
+  worked on. The thesis is single-canon → many cuts without fragmenting;
+  the standing risk under active iteration (esp. two sessions on main) is
+  SILENT DRIFT — a cut falls out of register and nobody notices because we
+  only ever look at one cut at a time. This console is where you stand to
+  ask "is the system still one system?" and then go fix what isn't.
+
+  Two functions of that one job:
+    • JUMP  — a complete directory of every surface, so nothing's forgotten.
+    • SURVEY — every live cut side-by-side (click-to-load), so incoherence
+              is visible by eye after a canon / cut-shell / token change.
+  The seam between them — see something off → click into it — is the point.
+
+  Working-tree awareness: the header fetches /__state (a read-only git
+  endpoint in server.mjs) and flags which surfaces are dirty, so parallel
+  sessions on main can see each other's in-flight work. Degrades silently
+  to no-git if served statically.
+
+  HONESTY: the survey is a HUMAN COHERENCE SCAN, not pixel regression.
+  A real baseline-diff regression differ + structural coherence checks are
+  scoped separately (see _scratch/SUBSTRATE_CONSOLE_SCOPE) — not built here.
+
+  Open: /cuts/_console.html · inventory verified vs disk 2026-06-16.
+  When a surface lands, add it to SURFACES below so the console stays whole.
+-->
+
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; min-height: 100vh;
+    background: var(--bg, #0A0A0B);
+    color: var(--text, #E8E8EA);
+    font-family: var(--sans, "Geist", system-ui, sans-serif);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { padding: 24px 24px 80px; }
+
+  /* ── masthead ── */
+  .mast { margin-bottom: 8px; display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+  .mast-title {
+    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-size: 22px; font-style: italic; font-weight: 500;
+    color: var(--text, #E8E8EA); letter-spacing: -0.012em;
+  }
+  .mast-sub {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 10px; color: var(--text-faint, #6B6862);
+    letter-spacing: 0.16em; text-transform: uppercase;
+  }
+  .mast-purpose {
+    max-width: 720px; margin: 6px 0 18px;
+    font-family: var(--serif, "Newsreader", Georgia, serif);
+    font-size: 13px; font-style: italic; line-height: 1.5;
+    color: var(--text-mid, #B0B0B6);
+  }
+
+  /* ── working-tree banner (fed by /__state) ── */
+  .tree {
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    padding: 10px 14px; margin-bottom: 28px;
+    border: 1px solid var(--frame-border, #1F1F23);
+    border-radius: 6px; background: var(--frame-bg, #0E0E11);
+    font-family: var(--mono, "Geist Mono", monospace); font-size: 10.5px;
+    letter-spacing: 0.04em; color: var(--text-mid, #B0B0B6);
+  }
+  .tree .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-faint, #6B6862); flex: none; }
+  .tree.dirty .dot { background: var(--watch, #E0A82E); }
+  .tree.clean .dot { background: var(--clarity-400, #8E66FB); }
+  .tree b { color: var(--text, #E8E8EA); font-weight: 500; }
+  .tree .files { color: var(--watch, #E0A82E); }
+  .tree .hint { margin-left: auto; color: var(--text-faint, #6B6862); font-style: normal; }
+
+  /* coherence banner — rule #5 duplicate-coordinate findings */
+  .coherence {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 11px 14px; margin-bottom: 28px;
+    border: 1px solid var(--frame-border, #1F1F23); border-radius: 6px;
+    background: var(--frame-bg, #0E0E11);
+    font-family: var(--mono, "Geist Mono", monospace); font-size: 10.5px;
+    letter-spacing: 0.04em; color: var(--text-mid, #B0B0B6); line-height: 1.5;
+  }
+  .coherence .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; margin-top: 4px; }
+  .coherence.ok .dot   { background: var(--clarity-400, #8E66FB); }
+  .coherence.flag .dot { background: var(--watch, #E0A82E); }
+  .coherence .co-head { color: var(--text, #E8E8EA); font-weight: 500; margin-bottom: 6px; }
+  .coherence .co-row { margin: 3px 0; }
+  .coherence .co-coord { color: var(--watch, #E0A82E); }
+  .coherence .co-tag {
+    font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-faint, #6B6862); border: 1px solid var(--frame-border, #1F1F23);
+    border-radius: 2px; padding: 1px 5px; margin-left: 4px;
+  }
+  .coherence a.co-jump { color: var(--clarity-400, #8E66FB); text-decoration: none; }
+  .coherence a.co-jump:hover { text-decoration: underline; }
+  .coherence .co-note { color: var(--text-faint, #6B6862); margin-top: 8px; font-size: 10px; line-height: 1.5; }
+  .coherence .mono { font-family: var(--mono, monospace); color: var(--text-mid, #B0B0B6); }
+
+  /* ── section heads ── */
+  .sec-head {
+    display: flex; align-items: baseline; gap: 12px;
+    padding-bottom: 8px; margin: 36px 0 14px;
+    border-bottom: 1px solid var(--frame-border, #1F1F23);
+  }
+  .sec-name {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--clarity-500, #8E66FB);
+  }
+  .sec-desc {
+    font-family: var(--serif, "Newsreader", Georgia, serif);
+    font-size: 12px; font-style: italic; color: var(--text-faint, #6B6862);
+  }
+  .ctrl { margin-left: auto; }
+  .ctrl button {
+    background: transparent; border: 1px solid var(--card-border, #232327);
+    color: var(--text-mid, #B0B0B6); padding: 5px 10px; border-radius: 3px;
+    cursor: pointer; font-family: var(--mono, monospace); font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase; margin-left: 8px;
+  }
+  .ctrl button:hover { color: var(--text, #E8E8EA); border-color: var(--clarity-400, #8E66FB); }
+  .ctrl button.active { color: var(--bg, #0A0A0B); background: var(--clarity-400, #8E66FB); border-color: var(--clarity-400, #8E66FB); }
+
+  /* taxonomy coordinate chip on directory links */
+  .link .coord {
+    font-family: var(--mono, monospace); font-size: 8.5px; letter-spacing: 0.06em;
+    color: var(--clarity-400, #8E66FB); margin-top: 3px; align-self: flex-start;
+    border: 1px solid var(--frame-border, #1F1F23); border-radius: 2px; padding: 1px 5px;
+  }
+
+  /* ── JUMP · directory ── */
+  .grp { margin-bottom: 22px; }
+  .grp-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .grp-name {
+    font-family: var(--mono, monospace); font-size: 9.5px;
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-mid, #B0B0B6);
+  }
+  .grp-desc { font-family: var(--serif, serif); font-size: 11.5px; font-style: italic; color: var(--text-faint, #6B6862); }
+
+  .links {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 1px;
+    background: var(--frame-border, #1F1F23);
+    border: 1px solid var(--frame-border, #1F1F23); border-radius: 6px; overflow: hidden;
+  }
+  a.link {
+    display: flex; flex-direction: column; gap: 3px; padding: 11px 13px;
+    background: var(--frame-bg, #0E0E11); text-decoration: none; transition: background 140ms; position: relative;
+  }
+  a.link:hover { background: var(--clarity-bg, rgba(142,102,251,0.06)); }
+  .link-path { font-family: var(--mono, monospace); font-size: 11px; color: var(--text, #E8E8EA); letter-spacing: -0.01em; }
+  .link-note { font-family: var(--sans, system-ui); font-size: 11px; color: var(--text-mid, #B0B0B6); line-height: 1.4; }
+  .link.frozen .link-path { color: var(--text-mid, #B0B0B6); }
+  .link .survey-jump {
+    font-family: var(--mono, monospace); font-size: 8.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--clarity-400, #8E66FB); opacity: 0; transition: opacity 140ms; align-self: flex-start; margin-top: 2px;
+  }
+  a.link:hover .survey-jump { opacity: 1; }
+  .badge {
+    font-family: var(--mono, monospace); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 1px 5px; border-radius: 2px; align-self: flex-start; margin-top: 2px;
+  }
+  .badge.live    { color: var(--clarity-400, #8E66FB); border: 1px solid currentColor; }
+  .badge.retired { color: var(--text-faint, #6B6862); border: 1px solid currentColor; }
+  .badge.wip     { color: var(--watch, #E0A82E); border: 1px solid currentColor; }
+  /* dirty flag injected by /__state */
+  .link[data-dirty="1"]::after {
+    content: "● modified"; position: absolute; top: 9px; right: 11px;
+    font-family: var(--mono, monospace); font-size: 8px; letter-spacing: 0.1em;
+    color: var(--watch, #E0A82E);
+  }
+
+  /* ── SURVEY · click-to-load frames ── */
+  .survey { display: grid; grid-template-columns: repeat(2, minmax(620px, 1fr)); gap: 22px; }
+  .cell {
+    background: var(--frame-bg, #0E0E11); border: 1px solid var(--frame-border, #1F1F23);
+    border-radius: 6px; overflow: hidden; display: flex; flex-direction: column; scroll-margin-top: 24px;
+  }
+  .cell.flash { border-color: var(--clarity-400, #8E66FB); }
+  .cell-head { padding: 11px 14px 10px; border-bottom: 1px solid var(--frame-border, #1F1F23); display: flex; align-items: baseline; gap: 12px; }
+  .cell-num { font-family: var(--mono, monospace); font-size: 9.5px; color: var(--clarity-500, #8E66FB); letter-spacing: 0.18em; }
+  .cell-name { font-family: var(--display, serif); font-size: 14px; font-weight: 500; color: var(--text, #E8E8EA); letter-spacing: -0.005em; }
+  .cell-meta { font-family: var(--mono, monospace); font-size: 8.5px; color: var(--text-faint, #6B6862); letter-spacing: 0.14em; text-transform: uppercase; margin-left: auto; }
+  .frame-slot { height: 700px; background: var(--frame-bg, #0E0E11); display: flex; align-items: center; justify-content: center; }
+  .frame-slot iframe { width: 100%; height: 100%; border: 0; display: block; }
+  .frame-slot button.load {
+    background: transparent; border: 1px solid var(--card-border, #232327); color: var(--text-mid, #B0B0B6);
+    padding: 9px 16px; border-radius: 4px; cursor: pointer; font-family: var(--mono, monospace);
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .frame-slot button.load:hover { color: var(--text, #E8E8EA); border-color: var(--clarity-400, #8E66FB); }
+  .cell-note {
+    padding: 9px 14px; font-family: var(--serif, serif); font-size: 11.5px; font-style: italic;
+    color: var(--text-mid, #B0B0B6); background: var(--frame-bg-2, #0C0C0F);
+    border-top: 1px solid var(--frame-border, #1F1F23); line-height: 1.45;
+  }
+</style>
+</head>
+<body>
+
+<div class="mast">
+  <span class="mast-title">Substrate Console</span>
+  <span class="mast-sub">internal · survey + jump · not shipped</span>
+</div>
+<p class="mast-purpose">One canon, many cuts. This is where you check the system is still <em>one</em> system while it's being worked on — survey every surface for drift, then jump straight into whatever's fallen out of register. The survey is a human coherence scan, not pixel regression. <strong>Front door (decided 2026-06-16):</strong> cut-01-forward — lead with the founder loop, cut 00 behind it as the "same loop, every subject" infra proof. Flip <em>Group by → altitude</em> to see the ladder.</p>
+
+<div class="tree clean" id="tree">
+  <span class="dot"></span>
+  <span id="tree-text">reading working tree…</span>
+  <span class="hint">live · /__state · refreshes on focus</span>
+</div>
+
+<div class="coherence" id="coherence"></div>
+
+<!-- ════════════════ JUMP · directory ════════════════ -->
+<div class="sec-head">
+  <span class="sec-name">Jump</span>
+  <span class="sec-desc">every surface in the repo — nothing forgotten</span>
+  <span class="ctrl">
+    Group by
+    <button id="grp-nav" class="active" onclick="setGroupMode('nav')">nav-type</button>
+    <button id="grp-alt" onclick="setGroupMode('altitude')">altitude</button>
+  </span>
+</div>
+
+<div id="directory"></div>
+
+<!-- ════════════════ SURVEY · coherence scan ════════════════ -->
+<div class="sec-head">
+  <span class="sec-name">Survey</span>
+  <span class="sec-desc">live cuts side-by-side at 1280-class width — scan for drift by eye</span>
+  <span class="ctrl">
+    <button onclick="loadAllFrames()">Load all</button>
+    <button onclick="reloadFrames()">Reload loaded</button>
+  </span>
+</div>
+
+<div class="survey" id="survey"></div>
+
+<script>
+// ── single source of truth: every surface, grouped ──────────────────────
+// Add a row here when a surface lands. `survey:true` = appears in the Survey grid.
+//
+// TAXONOMY (2026-06-16): live cuts + consoles carry their coordinate per
+// cuts/TAXONOMY.md v2 — alt (altitude L1-L4) · framing (wedge/infra) · stage
+// (loop-stage). The "Group by" toggle re-groups the directory by Altitude (the
+// canonical strategic ladder) instead of the nav-type `grp`. ONE taxonomy, two
+// views. The `grp` key remains the navigation grouping (find-a-file); altitude is
+// the product grouping (see-the-strategy). Don't grow a third vocabulary.
+const SURFACES = [
+  { grp: 'Live cuts', desc: 'current audience surfaces · slot-numbered', items: [
+    { num:'00', file:'00-agency.html', name:'Agency master', meta:'subject-as-parameter', badge:'live', survey:true,
+      alt:'L1–L4', framing:'infra', stage:'full-loop',
+      jump:'One shell, one loop; subject switches (pattern · notification · custody · OSINT · spend).',
+      check:'register reskin + evidence-pane swap hold across subjects; orbital coverage viz renders; Tray→Slate works.' },
+    { num:'01', file:'01-slate-tray.html', src:'01-slate-tray.html?reset', name:'Three-surface slate', meta:'canonical front door', badge:'live', survey:true,
+      alt:'L1-founder', framing:'wedge', stage:'Capture→Read→Decide',
+      jump:'Canonical front door — slate-tray-vault workspace; brand/speedrun hero toggle.',
+      check:'three-doors overlay on first session (?reset); slate · tray · agency rail · audit ribbon all visible.' },
+    { num:'02', file:'02-forensic-agent.html', name:'Forensic Agent', meta:'diligence loop · v0.3', badge:'live', survey:true,
+      alt:'L1-founder', framing:'wedge', stage:'Read',
+      jump:'Contradicting-notification diligence loop.',
+      check:'three-pane shape holds; audit column no overflow; contradiction claim wraps cleanly.' },
+    { num:'03', file:'03-calibration.html', name:'Calibration view', meta:'12wk × 4-register', badge:'live', survey:true,
+      alt:'L1→L2', framing:'infra', stage:'Record',
+      jump:'12wk × 4-register vault heatmap — the moat-visibility cut.',
+      check:'each register row shows its color; cells encode count; drill panel responds to clicks.' },
+    { num:'04', file:'04-onboarding.html', name:'Onboarding · first touch', meta:'JSX in cuts/onboarding/', badge:'live', survey:true,
+      alt:'L1-founder', framing:'wedge', stage:'pre-loop',
+      jump:'First-touch onboarding. Consolidates archived cuts 05/06/07.',
+      check:'step progression holds; the correction/delta moment reads clearly.' },
+    { num:'08', file:'08-liminal-custody.html', name:'Liminal Custody · NatSec', meta:'DoD/IC register', badge:'live', survey:true,
+      alt:'L3-high-stakes', framing:'infra', stage:'full-loop',
+      jump:'NatSec-register custody view (DoD/IC audience).',
+      check:'classification banner + custody chrome render; register doesn’t bleed into other palettes.' },
+    { num:'09', file:'09-osint-custody.html', name:'OSINT Custody · live kernel', meta:'recomputes in-browser', badge:'live', survey:true,
+      alt:'L3-high-stakes', framing:'infra', stage:'full-loop',
+      jump:'Wired to the real kernel; loop recomputed live in-browser.',
+      check:'INGEST→READ→GUARD→REVIEW→VAULT runs; provenance snapshot renders; DISCORD toggle works. (Heavy — loads on click.)' },
+    { num:'10', file:'10-today.html', name:'Today · re-entry', meta:'the loop closes', badge:'live', survey:true,
+      alt:'L1-founder', framing:'wedge', stage:'Re-enter',
+      jump:'Held compositions re-read overnight; the loop closes.',
+      check:'re-entry cards render; the “how it landed” correction prompt is reachable.' },
+    { num:'11', file:'11-govern.html', name:'Govern · the Agency Loop', meta:'correction-primary · ⌘K', badge:'live', survey:true,
+      alt:'L1→L2', framing:'wedge→infra', stage:'full-loop',
+      jump:'Correction-as-primary; Today re-entry; Mirror reflect-back; ⌘K palette.',
+      check:'⌘K opens; OKR allocation bar renders; Amend marks a read corrected; Mirror reflects the stream.' },
+  ]},
+  { grp: 'Scaffold + exploration', desc: 'authoring tools and in-flight directions', items: [
+    { file:'_template.html', name:'_template', badge:'', jump:'Starting shape for a new cut.' },
+    { file:'_console.html', name:'_console (this console)', badge:'', jump:'This page — the Substrate Console.' },
+    { file:'_explore/ledger-directions.html', name:'ledger-directions', badge:'wip',
+      jump:'Provenance chain as a decision ledger — Spine / Sealed Stack / Anchor Strand.' },
+  ]},
+  { grp: 'Standalone consoles', desc: 'self-contained surfaces with their own shell', items: [
+    { file:'../molehunt/index.html', repo:'molehunt/index.html', name:'molehunt', badge:'live',
+      alt:'L3-high-stakes', framing:'infra', stage:'full-loop',
+      jump:'Counterintelligence analyst console — high-assurance, print-to-dossier.' },
+    { file:'../team-drift/index.html', repo:'team-drift/index.html', name:'team-drift', badge:'live',
+      alt:'L2-team', framing:'infra', stage:'Record/correct',
+      jump:'Team coherence telemetry — governance-as-a-pipe.' },
+  ]},
+  { grp: 'Embeds', desc: 'embeddable composition demos', items: [
+    { file:'../embed-slate-tray-demo.html', repo:'embed-slate-tray-demo.html', name:'embed-slate-tray-demo', badge:'', jump:'Slate & Tray — live composition surface.' },
+    { file:'../embed-vault-demo.html', repo:'embed-vault-demo.html', name:'embed-vault-demo', badge:'', jump:'Vault + Agents — four-register read.' },
+    { file:'../embed-agent-hack.html', repo:'embed-agent-hack.html', name:'embed-agent-hack', badge:'', jump:'Agent hackathon composition cut.' },
+  ]},
+  { grp: 'Specimens + design system', desc: 'token browser, type ramps, surface specimens', items: [
+    { file:'../index.html', repo:'index.html', name:'index (public catalog)', badge:'', jump:'The public curated front door (root).' },
+    { file:'../design-system.html', repo:'design-system.html', name:'design-system', badge:'', jump:'Token browser, type ramp, motion specimens.' },
+    { file:'../design-system/atlas/state-atlas.html', repo:'design-system/atlas/state-atlas.html', name:'state-atlas', badge:'', jump:'Component-state matrix (v0.1).' },
+    { file:'../liminal-desktop-specimen.html', repo:'liminal-desktop-specimen.html', name:'liminal-desktop-specimen', badge:'', jump:'Desktop app specimen (2026-05-12).' },
+    { file:'../nineties-headliner-specimen.html', repo:'nineties-headliner-specimen.html', name:'nineties-headliner-specimen', badge:'', jump:'NinetiesHeadliner type — visual inspection.' },
+    { file:'../ontology-agent-travel-3d.html', repo:'ontology-agent-travel-3d.html', name:'ontology-agent-travel-3d', badge:'', jump:'3D ontology agent-travel mock (root).' },
+  ]},
+  { grp: 'Archive · retired cuts', desc: 'consolidated or superseded — kept for genealogy', frozen:true, items: [
+    { file:'_archive/00-hero-demo.html', name:'00-hero-demo', badge:'retired', jump:'Speedrun-pipeline hero → folded into cut 01.' },
+    { file:'_archive/01-slate-tray-speedrun.html', name:'01-slate-tray-speedrun', badge:'retired', jump:'Speedrun-register slate → now a toggle inside cut 01.' },
+    { file:'_archive/05-onboarding-argument.html', name:'05-onboarding-argument', badge:'retired', jump:'“the redline IS the onboarding” → folded into cut 04.' },
+    { file:'_archive/06-onboarding-compare.html', name:'06-onboarding-compare', badge:'retired', jump:'7-step vs 3-step → folded into cut 04.' },
+    { file:'_archive/07-onboarding-radical.html', name:'07-onboarding-radical', badge:'retired', jump:'3 steps, “the delta IS the onboarding” → folded into cut 04.' },
+    { file:'_archive/11-govern-cockpit-iter.html', name:'11-govern-cockpit-iter', badge:'retired', jump:'Govern desktop-shell iteration → folded into cut 11.' },
+    { file:'_archive/12-agency-govern-iter.html', name:'12-agency-govern-iter', badge:'retired', jump:'Agency · Govern reconciled-loop iteration → folded into cut 11.' },
+    { file:'_archive/index-agenthansa-frozen.html', name:'index-agenthansa-frozen', badge:'retired', jump:'Frozen “Agenthansa” Speedrun-pipeline hero.' },
+  ]},
+  { grp: 'Archive · root-experiments', desc: 'frozen index versions + the ontology-agent-travel 3D series', frozen:true, items: [
+    { file:'_archive/root-experiments/index-v036-frozen.html', name:'index-v036-frozen', badge:'retired', jump:'Frozen index · v0.3.7.' },
+    { file:'_archive/root-experiments/index-v04-frozen.html', name:'index-v04-frozen', badge:'retired', jump:'Frozen index · v0.4 (Agents · Space).' },
+    { file:'_archive/root-experiments/ontology-agent-travel-options.html', name:'ontology-agent-travel-options', badge:'retired', jump:'Ontology agent-travel — options exploration.' },
+    { file:'_archive/root-experiments/ontology-agent-travel-real-3d.html', name:'ontology-agent-travel-real-3d', badge:'retired', jump:'Ontology agent-travel — real 3D graphs.' },
+    { file:'_archive/root-experiments/ontology-agent-travel-more-3d.html', name:'ontology-agent-travel-more-3d', badge:'retired', jump:'Ontology agent-travel — more 3D mocks.' },
+  ]},
+  { grp: 'Frozen baselines', desc: 'pre-pivot reference snapshots (root _baseline/)', frozen:true, items: [
+    { file:'../_baseline/index-v02-frozen.html', repo:'_baseline/index-v02-frozen.html', name:'index-v02-frozen', badge:'retired', jump:'Frozen index · v0.2 (Liminal Agents · Space).' },
+    { file:'../_baseline/space-v1.html', repo:'_baseline/space-v1.html', name:'space-v1', badge:'retired', jump:'Space v1 baseline.' },
+  ]},
+];
+
+// repo-relative path for a surface (for matching against /__state dirty list).
+// Console lives in cuts/, so a bare file is cuts/<file>; `repo` overrides for ../ paths.
+function repoPath(it) { return it.repo || (it.file.startsWith('../') ? it.file.replace(/^\.\.\//,'') : 'cuts/' + it.file); }
+
+// ── DRIFT · duplicate-coordinate detector (CONTRIBUTING rule #5) ─────────────
+// Two surfaces sharing (Loop-stage × Altitude × Surface) are duplicate projections
+// — merge or supersede, don't keep N files. surface defaults to 'desktop' (the only
+// one stamped today). Pure computation over the coordinates already in SURFACES[];
+// no source fetch, no backend. cut 00 (alt L1–L4) is the parametric shell and is
+// EXPECTED to be unique — it's the convergence target, not a duplicate.
+function detectDuplicateCoordinates() {
+  const coorded = SURFACES.flatMap(g => g.items).filter(it => it.stage && it.alt);
+  const buckets = new Map();
+  for (const it of coorded) {
+    const key = `${it.stage} × ${it.alt} × ${it.surface || 'desktop'}`;
+    if (!buckets.has(key)) buckets.set(key, []);
+    buckets.get(key).push(it.name);
+  }
+  // a "cluster" = a coordinate shared by 2+ surfaces (rule #5 violation candidate)
+  return [...buckets.entries()]
+    .filter(([, names]) => names.length > 1)
+    .map(([coord, names]) => ({ coord, names }));
+}
+// render the Coherence banner from the detector's findings
+function renderCoherence() {
+  const el = document.getElementById('coherence');
+  const clusters = detectDuplicateCoordinates();
+  const byName = new Map(SURFACES.flatMap(g => g.items).map(it => [it.name, it]));
+  // clickable cut name — jumps to survey cell if surveyable, else links to the file
+  const nameLink = (nm) => {
+    const it = byName.get(nm);
+    if (it && it.survey) return `<a href="#cell-${it.num}" data-cellnum="${it.num}" class="co-jump">${nm}</a>`;
+    if (it) return `<a href="${it.file}" class="co-jump">${nm}</a>`;
+    return nm;
+  };
+  if (!clusters.length) {
+    el.className = 'coherence ok';
+    el.innerHTML = `<span class="dot"></span><span>✓ no duplicate coordinates — every surface holds a distinct <span class="mono">(stage × altitude × surface)</span> (rule #5)</span>`;
+    return;
+  }
+  el.className = 'coherence flag';
+  const lines = clusters.map(c =>
+    `<div class="co-row"><span class="co-coord">⊘ ${c.coord}</span> — ${c.names.map(nameLink).join(' · ')} <span class="co-tag">merge candidates · rule #5</span></div>`
+  ).join('');
+  el.innerHTML = `<span class="dot"></span><div class="co-body">`+
+    `<div class="co-head">${clusters.length} duplicate-coordinate cluster${clusters.length>1?'s':''} — same loop × altitude × surface, kept as separate files</div>`+
+    lines +
+    `<div class="co-note">Per <span class="mono">TAXONOMY.md</span> these are the same loop at one altitude — parameter-of-one-surface candidates, not separate products. cut 00 (L1–L4 shell) is the convergence target; it's correctly unique.</div></div>`;
+  // wire the survey-jump links
+  el.querySelectorAll('a.co-jump[data-cellnum]').forEach(a =>
+    a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
+}
+renderCoherence();
+
+// ── JUMP · render directory (two grouping modes) ─────────────────────────
+const dir = document.getElementById('directory');
+let groupMode = 'nav';   // 'nav' (find-a-file) | 'altitude' (see-the-strategy)
+
+// build one link <a> for an item
+function buildLink(it, frozen) {
+  const a = document.createElement('a');
+  a.className = 'link' + (frozen ? ' frozen' : '');
+  a.href = it.file;
+  a.dataset.repo = repoPath(it);
+  const badge = it.badge ? `<span class="badge ${it.badge}">${it.badge}</span>` : '';
+  const jump = it.survey ? `<span class="survey-jump">↧ survey ${it.num}</span>` : '';
+  // coordinate chips for surfaces that carry a taxonomy coordinate
+  const coord = it.alt ? `<span class="coord">${it.alt} · ${it.framing} · ${it.stage}</span>` : '';
+  a.innerHTML = `<span class="link-path">${it.name}</span><span class="link-note">${it.jump||''}</span>${coord}${badge}${jump}`;
+  if (it.survey) a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(it.num); });
+  return a;
+}
+
+function renderGroup(name, desc, items, frozen) {
+  const grp = document.createElement('div'); grp.className = 'grp';
+  grp.innerHTML = `<div class="grp-head"><span class="grp-name">${name}</span><span class="grp-desc">${desc}</span></div>`;
+  const links = document.createElement('div'); links.className = 'links';
+  for (const it of items) links.appendChild(buildLink(it, frozen));
+  grp.appendChild(links); return grp;
+}
+
+// altitude order + descriptions (the canonical ladder — TAXONOMY.md v2)
+const ALT_ORDER = [
+  ['L1-founder',     'L1 · Founder-OS — the wedge / front door'],
+  ['L1→L2',          'L1→L2 · founder rising to the team layer'],
+  ['L2-team',        'L2 · Team / operator — expansion'],
+  ['L3-high-stakes', 'L3 · High-stakes — depth proof ("it travels")'],
+  ['L1–L4',          'L1–L4 · the parametric shell (cut 00 — spans the ladder)'],
+];
+
+function renderDirectory() {
+  dir.replaceChildren();
+  if (groupMode === 'nav') {
+    for (const g of SURFACES) dir.appendChild(renderGroup(g.grp, g.desc, g.items, g.frozen));
+  } else {
+    // altitude view: only surfaces carrying a coordinate; grouped by the ladder
+    const coorded = SURFACES.flatMap(g => g.items).filter(it => it.alt);
+    for (const [key, label] of ALT_ORDER) {
+      const items = coorded.filter(it => it.alt === key);
+      if (items.length) dir.appendChild(renderGroup(label, `${items.length} surface${items.length>1?'s':''}`, items, false));
+    }
+    // surfaces with no coordinate yet (scaffold/embeds/specimens/archive)
+    const uncoorded = SURFACES.flatMap(g => g.items).filter(it => !it.alt);
+    dir.appendChild(renderGroup('— not yet placed', 'scaffold · embeds · specimens · archive (no product coordinate)', uncoorded, true));
+  }
+}
+renderDirectory();
+
+function setGroupMode(mode) {
+  groupMode = mode;
+  document.getElementById('grp-nav').classList.toggle('active', mode === 'nav');
+  document.getElementById('grp-alt').classList.toggle('active', mode === 'altitude');
+  renderDirectory();
+  refreshState();   // re-apply dirty flags to the freshly-rendered links
+}
+
+// ── SURVEY · render cells (click-to-load) ────────────────────────────────
+const survey = document.getElementById('survey');
+const surveyItems = SURFACES.flatMap(g => g.items).filter(it => it.survey);
+for (const it of surveyItems) {
+  const cell = document.createElement('div'); cell.className = 'cell'; cell.id = 'cell-' + it.num;
+  cell.dataset.src = it.src || it.file;
+  cell.innerHTML =
+    `<div class="cell-head"><span class="cell-num">${it.num}</span><span class="cell-name">${it.name}</span><span class="cell-meta">${it.meta||''}</span></div>` +
+    `<div class="frame-slot"><button class="load" onclick="loadFrame('${it.num}')">load ${it.num}</button></div>` +
+    `<div class="cell-note">${it.check||''}</div>`;
+  survey.appendChild(cell);
+}
+
+function loadFrame(num) {
+  const cell = document.getElementById('cell-' + num); if (!cell) return;
+  const slot = cell.querySelector('.frame-slot');
+  if (slot.querySelector('iframe')) return;
+  const f = document.createElement('iframe'); f.src = cell.dataset.src; f.title = 'Cut ' + num; f.loading = 'eager';
+  slot.replaceChildren(f);
+}
+function loadAllFrames() { surveyItems.forEach(it => loadFrame(it.num)); }
+function reloadFrames() { document.querySelectorAll('.frame-slot iframe').forEach(f => f.src = f.src); }
+
+// see→jump seam: from a directory link, scroll to the cell and load it
+function scrollToCell(num) {
+  const cell = document.getElementById('cell-' + num); if (!cell) return;
+  loadFrame(num);
+  cell.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  cell.classList.add('flash'); setTimeout(() => cell.classList.remove('flash'), 1400);
+}
+
+// ── working-tree banner · /__state (parallel-session awareness) ──────────
+async function refreshState() {
+  const tree = document.getElementById('tree');
+  const text = document.getElementById('tree-text');
+  try {
+    const s = await fetch('/__state', { cache: 'no-store' }).then(r => r.json());
+    // clear prior dirty flags
+    document.querySelectorAll('.link[data-dirty]').forEach(a => a.removeAttribute('data-dirty'));
+    if (!s.git) { tree.className = 'tree'; text.textContent = 'served statically · no git state'; return; }
+    const dirtyPaths = new Set((s.dirty||[]).map(d => d.path));
+    // flag matching directory links
+    document.querySelectorAll('.link').forEach(a => { if (dirtyPaths.has(a.dataset.repo)) a.dataset.dirty = '1'; });
+    const drift = (s.ahead ? `↑${s.ahead} ` : '') + (s.behind ? `↓${s.behind}` : '');
+    if (dirtyPaths.size === 0) {
+      tree.className = 'tree clean';
+      text.innerHTML = `<b>${s.branch}</b> · clean ${drift ? '· ' + drift : '· in sync with origin'}`;
+    } else {
+      tree.className = 'tree dirty';
+      const list = [...dirtyPaths].map(p => `<span class="files">${p}</span>`).join('  ');
+      text.innerHTML = `<b>${s.branch}</b> · ${dirtyPaths.size} modified ${drift?'· '+drift:''} — ${list} <span style="color:var(--text-faint)">(may be a parallel session — read, don’t fight)</span>`;
+    }
+  } catch (e) {
+    tree.className = 'tree'; text.textContent = 'served statically · no git state';
+  }
+}
+refreshState();
+window.addEventListener('focus', refreshState);
+</script>
+
+</body>
+</html>

@@ -4,6 +4,20 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cut 11 · Govern — the Agency Loop · Liminal</title>
 <!--
+  Cut 11 · Govern — the Agency Loop
+  ──────────────────────────────────────────────────────────────────────
+  Loop-stage · full-loop    (on the agent fleet)
+  Altitude   · L1→L2        (founder OS rising to the team/operator layer)
+  Surface    · desktop
+  Framing    · wedge→infra  (AI-spend — positioning's exact pricing-seam example)
+  Maturity   · live
+  Spec ref   · founder-brain/ops/build-day/HCI_AUDIT.md + RECONCILED_SYSTEM.md
+               (NOTE: specs not in repo — orphaned refs)
+  Coordinate per TAXONOMY.md v2 · THE seam cut. Lead with the spend cockpit → priced
+  as a feature; lead with the verified-decision layer → priced as infrastructure.
+  The only wedge→infra cut; its framing is the demo-strategy decision in miniature.
+  ──────────────────────────────────────────────────────────────────────
+
   Cut 11 · Govern. The canonical govern cut — combines the shell, the reconciled Agency Loop, and all the
   HCI fixes (iterations archived at cuts/_archive/*-iter.html). Correction is the PRIMARY interaction; the
   loop RETURNS (Today/Re-enter); the record REFLECTS BACK (Mirror). Plus: bidirectional evidence, Tray→Slate
@@ -75,6 +89,8 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 /* ── READ surface ── */
 .invoke{display:flex;align-items:baseline;gap:10px;font:10px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);border-bottom:1px solid var(--card-border);padding-bottom:12px}
 .invoke b{color:var(--diligence);letter-spacing:.12em;text-transform:uppercase}
+.seam{font:italic 13px/1.55 var(--serif,Newsreader,Georgia,serif);color:var(--text-faint);margin:14px 0 20px;padding-left:13px;border-left:2px solid var(--diligence)}
+.seam b{display:block;font-style:normal;color:var(--text);font-weight:600;font-size:15px;line-height:1.4;margin-top:6px;letter-spacing:-0.01em}
 .reg{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.03);position:relative}
 .reg .rh{display:flex;align-items:baseline;gap:10px}
 .reg .rname{font:10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase}
@@ -337,6 +353,7 @@ function fixHTML(f){return `<div class="fix ${f.cls}" data-fix="${f.id}">
 function renderRead(){
   $('#work').innerHTML=`<div class="pad">
     <div class="invoke"><b>/govern invoked</b><span>reading the agent fleet · 2026-06 · 14:32:08</span></div>
+    <div class="seam">Spend is the wedge — the one read a CFO pays for today. But the loop below — read · judge · refuse · correct · sign — is the same loop on any subject. <b>You're not watching a spend tool. You're watching the judgment layer, pointed at a budget first.</b></div>
     <div class="reg diligence" data-reg="diligence" style="animation-delay:.05s"><div class="rh"><span class="rname">Diligence</span><span class="cmark">· corrected</span><span class="rt">+0.4s</span><span class="amend" data-amendreg="diligence">Amend read</span></div>
       <div class="rbody"><span class="hl">$4,500</span> of Opus 4.8 spend across 7 engineers <span class="cite" data-cite="usage">usage-events</span>. Product 56% · security 24% · calendar/admin + summarization 11% · unclassified 9%.</div></div>
     <div class="reg synthesis" data-reg="synthesis" style="animation-delay:.22s"><div class="rh"><span class="rname">Synthesis</span><span class="cmark">· corrected</span><span class="rt">+4.6s</span><span class="amend" data-amendreg="synthesis">Amend read</span></div>
@@ -376,7 +393,7 @@ function renderMirror(){
   $('#work').innerHTML=`<div class="mirror">
     <div class="greet">Mirror · decisions calibrated · last 12 weeks</div>
     <h1>How your judgment is changing</h1>
-    <p class="lede">Not what you decided — how you decide. The correction stream is first-party data about your judgment itself; this is it, reflected back.</p>
+    <p class="lede">Not what you decided — how you decide. The correction stream is first-party data about your judgment itself; this is it, reflected back. <em>This</em> is the layer that compounds — the spend cockpit was just where you entered it.</p>
     <div class="mstats">
       <div class="mstat"><div class="v">47</div><div class="l">decisions ratified</div></div>
       <div class="mstat"><div class="v">128</div><div class="l">corrections made</div></div>
