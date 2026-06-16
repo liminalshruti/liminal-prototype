@@ -222,6 +222,7 @@
 
 <div class="coherence" id="coherence"></div>
 <div class="coherence" id="kernel-coherence"></div>
+<div class="coherence" id="stamp-coherence"></div>
 
 <!-- ════════════════ JUMP · directory ════════════════ -->
 <div class="sec-head">
@@ -390,6 +391,28 @@ async function detectKernelSharing() {
   }));
   return results;
 }
+
+// ── DRIFT · stamp-parse validator (keeps the contract block honest) ──────────
+// Every surface carrying a coordinate (alt set in SURFACES) should declare all
+// five fields in its source contract block. Catches a cut that got hand-edited
+// and lost its stamp, or a new cut added without one. Cheapest check; the floor
+// the other two stand on (a missing stamp means the coordinate checks can't see it).
+const STAMP_FIELDS = ['Loop-stage', 'Altitude', 'Surface', 'Framing', 'Maturity'];
+async function detectStampDrift() {
+  const stamped = SURFACES.flatMap(g => g.items).filter(it => it.alt);
+  const results = await Promise.all(stamped.map(async it => {
+    try {
+      const src = await fetch(it.file, { cache: 'no-store' }).then(r => r.text());
+      // accept either separator: aligned "Field · value" (cuts) or prose "Field: value" (consoles)
+      const missing = STAMP_FIELDS.filter(f => !new RegExp(f + '\\s*[·:]').test(src));
+      return { name: it.name, file: it.file, num: it.num, survey: it.survey, missing };
+    } catch (_) {
+      return { name: it.name, file: it.file, num: it.num, survey: it.survey, missing: null }; // unreadable
+    }
+  }));
+  return results;
+}
+
 // render the Coherence banner from the detector's findings
 function renderCoherence() {
   const el = document.getElementById('coherence');
@@ -448,8 +471,36 @@ async function renderKernelCoherence() {
     a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
 }
 
+// render the stamp-parse banner (async — fetches each stamped cut's source)
+async function renderStampCoherence() {
+  const el = document.getElementById('stamp-coherence');
+  el.className = 'coherence';
+  el.innerHTML = `<span class="dot"></span><span>validating contract-block stamps…</span>`;
+  const rows = await detectStampDrift();
+  const link = (r) => r.survey
+    ? `<a href="#cell-${r.num}" data-cellnum="${r.num}" class="co-jump">${r.name}</a>`
+    : `<a href="${r.file}" class="co-jump">${r.name}</a>`;
+  const broken = rows.filter(r => r.missing === null || (r.missing && r.missing.length));
+  if (!broken.length) {
+    el.className = 'coherence ok';
+    el.innerHTML = `<span class="dot"></span><span>✓ all ${rows.length} stamped surfaces carry a complete coordinate <span class="mono">(${STAMP_FIELDS.length} fields)</span> — contract blocks intact</span>`;
+  } else {
+    el.className = 'coherence flag';
+    const lines = broken.map(r =>
+      `<div class="co-row"><span class="co-coord">⊘ ${link(r)}</span> — ${r.missing === null ? 'unreadable' : 'missing: ' + r.missing.join(', ')}</div>`
+    ).join('');
+    el.innerHTML = `<span class="dot"></span><div class="co-body">`+
+      `<div class="co-head">${broken.length} surface${broken.length>1?'s':''} with an incomplete coordinate stamp</div>`+
+      lines +
+      `<div class="co-note">Per <span class="mono">CONTRIBUTING.md</span> rule #3, every cut declares all five coordinate fields. A missing stamp is invisible to the other two checks — fix the contract block.</div></div>`;
+  }
+  el.querySelectorAll('a.co-jump[data-cellnum]').forEach(a =>
+    a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
+}
+
 renderCoherence();
 renderKernelCoherence();
+renderStampCoherence();
 
 // ── JUMP · render directory (two grouping modes) ─────────────────────────
 const dir = document.getElementById('directory');
