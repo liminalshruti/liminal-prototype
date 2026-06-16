@@ -310,6 +310,55 @@ judge drift + correction path (Value-Q#3), verified sample size for defensible `
 a statistician's CI call), cohort definition + avoiding it becoming its own surveillance vector
 (Value-Q#5). These belong to Phase 3 (T3 replay + capability lens), not the Phase-1 wedge.
 
+### Concrete promotion plan (sandbox → production `lib/`, verified file-by-file 2026-06-16)
+
+Promotion is **port `.js`→`.ts` + colocate tests**, NOT copy: production `lib/` is 100% TypeScript
+with colocated `*.test.ts`; sandbox is `.js` with `sandbox/test/*.test.js` (sandbox is tsconfig- and
+npm-excluded). The engine logic is done and overwhelmingly **pure** — the work is typing + test port +
+the crypto swap, not building.
+
+**Phase 1 = internal tier, cost lens, NO chain. What moves into `lib/insight/` + `lib/x402/`:**
+
+| Sandbox file | → prod | Purity | Port notes |
+|---|---|---|---|
+| `insight/engine.js` | `lib/insight/engine.ts` | PURE | detect()→insight_record[]; no deps. Clean. |
+| `insight/value-quote.js` | `…/value-quote.ts` | PURE | the "hard part" — DONE. `value_quote = base×(purpose_weight/1.5)×durability` + confidence model. imports pricing+ledger only. |
+| `insight/ledger.js` | `…/ledger.ts` | PURE + `node:crypto` | **swap `createHash`→ substrate `sha256Hex`** (same fix as the seal bug this session). |
+| `insight/{prices,pricing,bucket}.js` | `…/*.ts` | PURE | prices/pricing pure; bucket has a live-LLM path (keep mock default). |
+| `insight/detectors/{abandoned,model-oversized,thrash,index}.js` | `…/detectors/*.ts` | PURE | 3 detectors (spec said 1). Clean. |
+| `insight/summarizer.js` | `…/summarizer.ts` | mixed | mock fallback is pure; live path = `@anthropic-ai/sdk` via `llm.js`. `process.env.LIMINAL_SUMMARIZER_MODEL`. |
+| `insight/llm.js` | `…/llm.ts` | env+net | lazy `@anthropic-ai/sdk`; reads `ANTHROPIC_API_KEY`/`AUTH_TOKEN`. Keep lazy so deterministic path needs no key. |
+| `insight/report.js`, `fixtures.js` | `…/*.ts` | pure/assemble | report assembles cost-lens feed + capability view; fixtures = seed data. |
+| `insight/ingest/{claude-code,codex,session-events,index}.js` | `…/ingest/*.ts` | **node:fs/os/path** | reads `~/.claude/projects/**` + `~/.codex/sessions/**`. Node-only by nature (it's a file ingester) — fine for a desktop/CLI consumer, NOT browser. |
+| `insight/anchor.js` | `…/anchor.ts` | chain (Phase 2) | **promote the privacy guard (`contentLeaked`, `ANCHOR_ALLOWLIST`) now; stub/defer `anchorSession`** (its only chain dep). |
+| `x402/lane-guard.js` | `lib/x402/lane-guard.ts` | PURE | required (lane attribution). |
+| `x402/reputation.js` | `lib/x402/reputation.ts` | PURE core | `scoreFromStats`/`canonicalJson`/`buildReputationEntry` pure; **defer `anchorReputationEntry`** (chain). swap `createHash`→`sha256Hex`. |
+
+**Stays in sandbox for Phase 1 (provable/payment tier — Phase 2/3):** `x402/{algorand,algokit,
+priced-read,facilitator,challenge,agent-pricing}.js`. These carry the only heavy deps (`algosdk`,
+`@algorandfoundation/algokit-utils`) and all the chain/file/env coupling. **Phase 1 adds NO new
+production dependency** — the dep surface only grows when the provable tier lands.
+
+**The friction list (every node-only API to resolve during the port):**
+1. `node:crypto` `createHash` in `ledger.js` + `reputation.js` → swap to substrate `sha256Hex` (proven this session). The ONLY browser-blocker, and it's a known one-line swap each.
+2. `node:fs`/`node:os`/`node:path` in `ingest/*` → legitimate (it's a usage-file reader). Acceptable for the desktop/CLI consumer; do NOT import ingest into any browser bundle.
+3. `@anthropic-ai/sdk` in `llm.js` (lazy) → deterministic path never loads it; live summarizer/bucket need a key. Keep the lazy import.
+4. `process.env` reads (summarizer model, ingest roots, ANTHROPIC keys) → standard; surface as config.
+
+**Work inventory (the honest cost):**
+- ~13 source files `.js`→`.ts` (add signatures; strict mode will surface loose typing — the real time-sink).
+- 18 `sandbox/test/*.test.js` → colocated `lib/**/*.test.ts` (rewrite imports `.js`→`.ts`, move beside source). 21 tests currently pass — they're the safety net for the port.
+- `lib/insight/index.ts` + `lib/x402/index.ts` barrels; add `"./insight"` + `"./x402"` to `package.json` exports + root `lib/index.ts` (the `./gate` pattern).
+- Swap 2 `createHash` sites → `sha256Hex`. Stub 2 chain calls (`anchorSession`, `anchorReputationEntry`).
+- **Zero new production deps for Phase 1.**
+
+**Suggested branch + sequence (TDD, the tests already exist as the spec):** `feat/insight-promote-phase1`
+→ port pure core first (engine, value-quote, ledger, pricing, detectors) + their tests, green →
+port ingest (node-only, desktop-scoped) + report + fixtures → port the x402 minimal pair (lane-guard,
+reputation pure) → barrels + exports + typecheck green. The privacy-guard test (`contentLeaked`) ports
+FIRST as the structural invariant. **This is `liminal-agents-v1` (the repo I'm building in) — buildable
+on a branch; coordinate the eventual merge with Sean per the spine rule, same as `feat/gate-promote`.**
+
 ## 7 · Open PRs (checked 2026-06-16)
 
 - **`liminal-prototype`: none open.** The taxonomy-v2 / console / fork work is **uncommitted in the
