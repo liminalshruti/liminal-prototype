@@ -1,20 +1,20 @@
 /*
- * design-tokens.css · Liminal canon · SYNCED CONSUMER COPY
+ * design-tokens.css · Liminal canon · single source of truth
  * ════════════════════════════════════════════════════════════
  *
- * UPSTREAM CANON
- * ──────────────
- * The canonical token source is `liminal-creative/tokens/design-tokens.css`
- * (self-declared canonical upstream, 2026-05-13 superset merge). THIS file
- * is a synced consumer copy that the prototype links so the cuts render
- * standalone. It must mirror the upstream canon exactly; do not edit token
- * values here independently — change them upstream, then re-sync.
+ * HOW TO CONSUME THIS FILE
+ * ────────────────────────
+ * This is the only token file you need to import. Every product surface
+ * (this prototype, the marketing site, the Tauri desktop client, future
+ * mobile, etc.) imports this file — and ONLY this file — to receive the
+ * canonical Liminal color · type · spacing · motion system.
  *
- *   <link rel="stylesheet" href="design-tokens.css">  ← cuts link this copy
+ *   <link rel="stylesheet" href="design-tokens.css">  ← that's it
  *
  * Each consuming surface adds its own *typography overrides* and *layout*,
- * but never redefines the token VALUES. Contract: change a value upstream →
- * re-sync every consumer copy → surfaces pick it up on next load.
+ * but never redefines the tokens here. This is the contract: change a
+ * value in this file → every surface that imports it picks up the change
+ * on next page load. No local copies. No per-surface forks.
  *
  * AUTHOR / EDITS
  * ──────────────
@@ -22,8 +22,23 @@
  * Generated : 2026-04-07 (12-wheel canon lock)
  * Last edit : 2026-04-28 (generative base · 120 hue stops + 42 UI bindings)
  *           : 2026-04-28 (surface layer · --frame-bg-3 + shadow tokens + scrim layer)
- *           : 2026-06-11 (re-synced from liminal-creative canon · --text-faint a11y value + --paper-* aliases)
+ *           : 2026-05-12 (a11y pass 1 · --text-faint bumped #5A5852 → #6B6862 for WCAG AA body-text contrast)
+ *           : 2026-05-13 (canonical upstream · superset merge of all 16 prior copies; paper aliases backported)
+ * Version   : 2026-06-11 — canonical upstream at liminal-creative/tokens/design-tokens.css
+ *           : 2026-06-11 (§18 PRODUCT SEMANTICS · desktop tray-loop layer canonized — agent
+ *             identity colors + overlays + reveal palette + fw/z/shadow/motion/radius additions;
+ *             additive only, zero existing values changed. Source: liminal-desktop
+ *             SPEC_TOKEN_CODEGEN.md · panda.config.ts is now GENERATED from this file.)
+ *           : 2026-06-11 (§19 APP SCALE · desktop app spacing/type/leading/tracking register
+ *             canonized verbatim per founder call — second scale, honestly labeled --*-app-*;
+ *             additive only. Desktop's token drift ledger drops to zero pins.)
  * Reference : liminal-creative/color-lab/src/lib/palettes/liminal-12-wheel.ts
+ *
+ * CONSUMER CONTRACT (locked 2026-05-13)
+ * ─────────────────────────────────────
+ * Rule: no surface edits its local copy; all changes flow from this upstream.
+ * See liminal-creative/tokens/README.md for the consumer list and migration
+ * strategy per surface (symlink vs build-copy vs frozen-snapshot).
  *
  * STRUCTURE
  * ─────────
@@ -408,6 +423,23 @@
   --cream:      var(--cream-100);
   --cream-deep: var(--cream-200);
   --ink:        #0F0F10;
+
+  /* ─── paper aliases · printable artifact card on a dark shell ─
+   * Use these when an on-screen surface should read as paper:
+   * a packet, a Trust Packet, an audit artifact. Bind components
+   * to --paper-* so an eventual light-theme retune flips one set.
+   * Backported from liminal-agents-v1 2026-04-28 (P2 token convergence).
+   * Folded into the canonical upstream 2026-05-13 (Step 8 superset merge).
+   */
+  --paper-bg:        var(--cream-100);   /* card surface           */
+  --paper-bg-soft:   var(--cream-50);    /* highlight band, header */
+  --paper-bg-deep:   var(--cream-200);   /* nested fill            */
+  --paper-line:      var(--cream-300);   /* divider on cream       */
+  --paper-line-soft: var(--cream-400);   /* secondary divider      */
+  --paper-faint:     var(--cream-600);   /* dim text on cream      */
+  --paper-mid:       var(--cream-700);   /* body text on cream     */
+  --paper-strong:    var(--cream-800);   /* heading text on cream  */
+  --paper-fg:        var(--cream-900);   /* maximum contrast       */
 
   /* ─── REGISTER ALIASES · the 12-register vocabulary ─────────── */
   /*
@@ -813,24 +845,12 @@
   --text:         #F4F2EE;
   --text-mid:     #C9C5BD;
   --text-dim:     #8A8780;
-  --text-faint:   #6B6862;   /* a11y pass 1 · bumped #5A5852 → #6B6862 for WCAG AA body-text contrast (synced from liminal-creative canon) */
+  /* --text-faint bumped 2026-05-12 a11y pass 1 from #5A5852 → #6B6862 to
+     reach WCAG AA body-text contrast (4.5:1 on --bg #0A0A0B). The 17b
+     refusal_kind=values chrome uses this token; the founder's most-common
+     refusal type was previously rendering at 3.0:1 (large-text only). */
+  --text-faint:   #6B6862;
   --text-mute:    #3A3833;
-
-  /* ─── paper aliases · printable artifact card on a dark shell ─
-   * Use these when an on-screen surface should read as paper:
-   * a packet, a Trust Packet, an audit artifact. Bind components
-   * to --paper-* so an eventual light-theme retune flips one set.
-   * Synced from liminal-creative canon 2026-06-11 (was missing here).
-   */
-  --paper-bg:        var(--cream-100);   /* card surface           */
-  --paper-bg-soft:   var(--cream-50);    /* highlight band, header */
-  --paper-bg-deep:   var(--cream-200);   /* nested fill            */
-  --paper-line:      var(--cream-300);   /* divider on cream       */
-  --paper-line-soft: var(--cream-400);   /* secondary divider      */
-  --paper-faint:     var(--cream-600);   /* dim text on cream      */
-  --paper-mid:       var(--cream-700);   /* body text on cream     */
-  --paper-strong:    var(--cream-800);   /* heading text on cream  */
-  --paper-fg:        var(--cream-900);   /* maximum contrast       */
 
   /* ─── 5 · type families ─────────────────────────────────── */
   --display: "Nineties Headliner", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
@@ -1034,6 +1054,157 @@
   --ui-capability-forbidden-bg:  var(--ui-state-error-bg);
   --ui-capability-review-bg:     var(--watch-100);
   --ui-capability-joint-bg:      var(--liminal-100);
+
+  /* ════════════════════════════════════════════════════════════
+     18 · PRODUCT SEMANTICS · desktop tray-loop layer
+     ════════════════════════════════════════════════════════════
+     Agent-identity + app-chrome vocabulary canonized from the
+     liminal-desktop Panda theme (2026-06-11 token-codegen pass,
+     SPEC_TOKEN_CODEGEN.md). Values lifted verbatim from the
+     shipping desktop surface — additive only, no existing var
+     changed. Desktop's panda.config.ts is GENERATED from this
+     file; these vars are its canonical source.
+
+       coherence   · Analyst · system computation · calm steel blue
+       correction  · Auditor · user-corrected state · amber
+       emergence   · moat metric · violet
+       resolved    · committed/signed state · sage
+  */
+  --coherence:        #7AA9FF;
+  --coherence-soft:   rgba(122, 169, 255, 0.4);
+  --coherence-bg:     rgba(122, 169, 255, 0.06);
+  --coherence-edge:   rgba(122, 169, 255, 0.22);
+  --coherence-glow:   rgba(122, 169, 255, 0.18);
+  --coherence-ring:   rgba(122, 169, 255, 0.5);   /* focus ring · keyboard a11y */
+
+  --correction:       #E0996B;
+  --correction-soft:  rgba(224, 153, 107, 0.4);
+  --correction-bg:    rgba(224, 153, 107, 0.06);
+  --correction-edge:  rgba(224, 153, 107, 0.22);
+  --correction-glow:  rgba(224, 153, 107, 0.18);
+
+  --emergence:        #C084FC;
+  --emergence-soft:   rgba(192, 132, 252, 0.4);
+  --emergence-bg:     rgba(192, 132, 252, 0.08);
+  --emergence-edge:   rgba(192, 132, 252, 0.30);
+  --emergence-glow:   rgba(192, 132, 252, 0.20);
+
+  --resolved:         #6EC3A8;
+  --resolved-soft:    rgba(110, 195, 168, 0.4);
+  --resolved-bg:      rgba(110, 195, 168, 0.06);
+  --resolved-edge:    rgba(110, 195, 168, 0.22);
+
+  --gold:             #C9AD5E;   /* warm accent · selected/signed emphasis */
+
+  /* interaction overlays · white-alpha states on dark chrome */
+  --hover-strong:     rgba(255, 255, 255, 0.08);
+  --pressed:          rgba(255, 255, 255, 0.02);
+
+  /* gated-reveal palette · earned expressiveness (Phase 2+ unlocks)
+     OKLCH for perceptual uniformity. Named --reveal-* (NOT --signal-*,
+     which is the lime ornament register alias · axis 2). */
+  --reveal-violet:    oklch(0.55 0.20 300);
+  --reveal-teal:      oklch(0.70 0.15 195);
+  --reveal-cyan:      oklch(0.75 0.12 210);
+  --reveal-rose:      oklch(0.65 0.18 15);
+  --reveal-magenta:   oklch(0.60 0.22 340);
+
+  /* type weights · full axis (canon had no weight section pre-18) */
+  --fw-thin:        100;
+  --fw-extralight:  200;
+  --fw-light:       300;
+  --fw-regular:     400;
+  --fw-medium:      500;
+  --fw-semibold:    600;
+  --fw-bold:        700;
+  --fw-extrabold:   800;
+  --fw-black:       900;
+
+  /* elevation · z-scale (explicit stacking vocabulary) */
+  --z-base:     0;
+  --z-raised:   10;
+  --z-dropdown: 100;
+  --z-sticky:   200;
+  --z-tooltip:  300;
+  --z-overlay:  500;
+  --z-modal:    1000;
+  --z-toast:    2000;
+
+  /* app shadows · window-level + semantic glows */
+  --shadow-window:       0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  --shadow-window-soft:  0 16px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+  --shadow-glow-coherence:        0 0 16px rgba(122, 169, 255, 0.12);
+  --shadow-glow-emergence:        0 0 24px rgba(192, 132, 252, 0.08);
+  --shadow-glow-emergence-strong: 0 0 28px rgba(192, 132, 252, 0.16);
+  --shadow-drop-hover:   inset 0 0 24px rgba(122, 169, 255, 0.08);
+  --shadow-focus-ring:   0 0 0 2px rgba(122, 169, 255, 0.5);
+
+  /* motion additions · directional easings + choreography durations */
+  --ease-in:     cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:    cubic-bezier(0, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* gentle overshoot · sign-packet moment */
+  --tx-instant:     0s;
+  --tx-choreograph: 0.60s;   /* staggered page-load choreography */
+  --tx-pulse:       1.40s;   /* loading skeleton · agent-exploring pulse */
+
+  /* shape additions · named radii outside the numeric scale */
+  --radius-none: 0;
+  --radius-pill: 9999px;
+
+  /* ════════════════════════════════════════════════════════════
+     19 · APP SCALE · desktop application register
+     ════════════════════════════════════════════════════════════
+     The desktop app's spacing/type/leading/tracking scale, canonized
+     verbatim (2026-06-11 founder call: "canonize desktop's scales").
+     This register evolved separately from the editorial scale in
+     §§6–9 — both are canon, honestly labeled. Editorial surfaces
+     (cuts, site, packets) use --space-* / --fs-* / --lh-* / --ls-*;
+     the desktop app uses --*-app-*. Collapsing the two into one
+     scale is a deliberate redesign decision, not assumed.
+
+     Values lifted verbatim from the shipping liminal-desktop Panda
+     theme — additive only. Source: liminal-desktop/SPEC_TOKEN_CODEGEN.md.
+  */
+  /* spacing · 4px base with half-steps, diverges from --space-* at 5+ */
+  --space-app-0:    0;
+  --space-app-0-5:  2px;     /* hairline offset */
+  --space-app-1-5:  6px;     /* small inline gap */
+  --space-app-5:    24px;    /* card padding, section gap  (editorial --space-5: 22px) */
+  --space-app-6:    32px;    /* page padding               (editorial --space-6: 28px) */
+  --space-app-7:    48px;    /* major section gap          (editorial --space-7: 36px) */
+  --space-app-8:    64px;    /* hero margin                (editorial --space-8: 48px) */
+  --space-app-9:    96px;    /* page-hero padding          (editorial --space-9: 64px) */
+  --space-app-10:   128px;   /* top-of-page hero spacing   (editorial scale tops at 96px) */
+
+  /* type sizes · app + hero registers absent from the editorial scale */
+  --fs-app-lg:      16px;    /* elevated body, wedge subtitle */
+  --fs-app-h2:      18px;    /* section header */
+  --fs-app-h1:      24px;    /* page header (Vault, Composition) */
+  --fs-app-display: 32px;    /* vault aggregate, slate-empty brand sentence */
+  --fs-hero:        76.8px;  /* 4.8rem · max hero per brand-upgrade.css */
+  --fs-hero-lg:     96px;    /* 6rem · landing-page H1 register */
+  --fs-hero-max:    144px;   /* 9rem · wordmark / deck-slide-cover */
+
+  /* leading · app register */
+  --lh-app-tight:   1.1;
+  --lh-app-snug:    1.25;
+  --lh-app-normal:  1.5;
+  --lh-app-loose:   1.7;
+
+  /* tracking · app register (editorial set in §8 is mono-flavored) */
+  --ls-app-tight:   -0.04em;  /* hero display */
+  --ls-app-snug:    -0.03em;  /* subhead display */
+  --ls-app-neutral: -0.02em;  /* body display */
+  --ls-app-normal:  -0.01em;  /* editorial italic */
+  --ls-app-body:    0;        /* standard sans body */
+  --ls-app-loose:   0.02em;   /* mid-meta */
+  --ls-app-wide:    0.06em;   /* mono operator data */
+  --ls-app-wider:   0.14em;   /* mono uppercase labels */
+  --ls-app-widest:  0.2em;    /* mono uppercase eyebrows */
+
+  /* shape · app register steps absent from the numeric scale */
+  --radius-app-lg:  8px;     /* window frame, loop-diagram */
+  --radius-app-xl:  12px;
 }
 
 /* ════════════════════════════════════════════════════════════
