@@ -221,6 +221,7 @@
 </div>
 
 <div class="coherence" id="coherence"></div>
+<div class="coherence" id="kernel-coherence"></div>
 
 <!-- ════════════════ JUMP · directory ════════════════ -->
 <div class="sec-head">
@@ -369,6 +370,26 @@ function detectDuplicateCoordinates() {
     .filter(([, names]) => names.length > 1)
     .map(([coord, names]) => ({ coord, names }));
 }
+
+// ── DRIFT · kernel-sharing detector (product-behavior coherence) ─────────────
+// The deepest drift the taxonomy named: the capture→read→decide→record loop is
+// re-implemented across the full-loop cuts instead of running one shared kernel.
+// This is the one check that INSPECTS the cuts (fetches source), not just their
+// stamps. A full-loop cut that imports lib/osint-kernel.bundle.js runs the real
+// shared loop; one that doesn't re-implements it inline = behavior-drift risk.
+async function detectKernelSharing() {
+  const fullLoop = SURFACES.flatMap(g => g.items).filter(it => it.stage === 'full-loop');
+  const results = await Promise.all(fullLoop.map(async it => {
+    try {
+      const src = await fetch(it.file, { cache: 'no-store' }).then(r => r.text());
+      const shares = /osint-kernel(\.bundle)?\.js/.test(src);
+      return { name: it.name, file: it.file, num: it.num, survey: it.survey, shares };
+    } catch (_) {
+      return { name: it.name, file: it.file, num: it.num, survey: it.survey, shares: null }; // unreadable
+    }
+  }));
+  return results;
+}
 // render the Coherence banner from the detector's findings
 function renderCoherence() {
   const el = document.getElementById('coherence');
@@ -398,7 +419,37 @@ function renderCoherence() {
   el.querySelectorAll('a.co-jump[data-cellnum]').forEach(a =>
     a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
 }
+
+// render the kernel-sharing banner (async — fetches each full-loop cut's source)
+async function renderKernelCoherence() {
+  const el = document.getElementById('kernel-coherence');
+  el.className = 'coherence';
+  el.innerHTML = `<span class="dot"></span><span>inspecting full-loop cuts for shared-kernel use…</span>`;
+  const rows = await detectKernelSharing();
+  const link = (r) => r.survey
+    ? `<a href="#cell-${r.num}" data-cellnum="${r.num}" class="co-jump">${r.name}</a>`
+    : `<a href="${r.file}" class="co-jump">${r.name}</a>`;
+  const shared = rows.filter(r => r.shares === true);
+  const inline = rows.filter(r => r.shares === false);
+  const unread = rows.filter(r => r.shares === null);
+  if (!inline.length) {
+    el.className = 'coherence ok';
+    el.innerHTML = `<span class="dot"></span><span>✓ all ${rows.length} full-loop cuts run the shared kernel — no inline re-implementation</span>`;
+  } else {
+    el.className = 'coherence flag';
+    el.innerHTML = `<span class="dot"></span><div class="co-body">`+
+      `<div class="co-head">${inline.length} of ${rows.length} full-loop cuts re-implement the loop inline — product-behavior drift risk</div>`+
+      `<div class="co-row"><span class="co-coord">⛓ shares kernel</span> — ${shared.map(link).join(' · ') || '—'}</div>`+
+      `<div class="co-row"><span class="co-coord">⊘ inline loop</span> — ${inline.map(link).join(' · ')} <span class="co-tag">behavior may drift · rule #5 depth</span></div>`+
+      (unread.length ? `<div class="co-row"><span class="co-coord">? unreadable</span> — ${unread.map(link).join(' · ')}</div>` : '')+
+      `<div class="co-note">The capture→read→decide→record loop should run ONE kernel (cut 09's <span class="mono">osint-kernel.bundle.js</span>). Cuts that re-implement it can drift apart silently — the cascade catches a drifted token, nothing catches a drifted loop. Convergence target: point cut 00's SUBJECTS switch at the shared kernel.</div></div>`;
+  }
+  el.querySelectorAll('a.co-jump[data-cellnum]').forEach(a =>
+    a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
+}
+
 renderCoherence();
+renderKernelCoherence();
 
 // ── JUMP · render directory (two grouping modes) ─────────────────────────
 const dir = document.getElementById('directory');
