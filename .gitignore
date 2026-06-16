@@ -10,3 +10,6 @@ node_modules
 audit-*.png
 zip-*.png
 refactor-*.png
+_visual-review-*.png
+token-codegen-*.png
+_scratch/
