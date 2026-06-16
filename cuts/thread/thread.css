@@ -453,7 +453,134 @@
 .extract-summary .real { color: var(--connection); }
 .extract-file { font-family:"Geist Mono",monospace; font-size:11px; color: var(--cerulean); }
 
+/* ──────────────────────────────────────────────────────────────────────────
+   15 · recall · ask the thread · query → ranked receipted hits
+   ────────────────────────────────────────────────────────────────────────── */
+.recall-box {
+  display:flex; align-items:center; gap: var(--space-3);
+  border:1px solid var(--card-border-2); border-radius: var(--radius-3);
+  background: rgba(255,255,255,0.02); padding: 4px 4px 4px var(--space-4);
+}
+.recall-box:focus-within { border-color: var(--cerulean); }
+.recall-box .q-glyph { color: var(--cerulean); font-size: 15px; }
+.recall-input {
+  flex:1; appearance:none; border:0; background:transparent; outline:none;
+  font-family:"Geist",sans-serif; font-size: 15px; color: var(--text); padding: 10px 0;
+}
+.recall-input::placeholder { color: var(--text-faint); }
+.recall-go { font-family:"Geist Mono",monospace; font-size:11px; color: var(--bg); background: var(--cerulean); border:0; border-radius: var(--radius-2); padding: 9px 14px; cursor:pointer; }
+.recall-sugs { display:flex; gap: var(--space-2); flex-wrap:wrap; }
+.recall-sug { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-dim); border:1px solid var(--card-border); border-radius:999px; padding: 5px 11px; cursor:pointer; background:transparent; }
+.recall-sug:hover { color: var(--text); border-color: var(--card-border-2); }
+.recall-meta { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-faint); }
+.hit { display:flex; flex-direction:column; gap:6px; padding: var(--space-4) 0; border-bottom:1px solid rgba(255,255,255,0.05); }
+.hit-top { display:flex; align-items:baseline; gap: var(--space-3); }
+.hit-kind { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color: var(--cerulean); border:1px solid var(--cerulean-bg); background: var(--cerulean-bg); border-radius:999px; padding:2px 7px; }
+.hit-subject { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-dim); }
+.hit-score { margin-left:auto; font-family:"Geist Mono",monospace; font-size:10px; color: var(--text-faint); }
+.hit-title { font-size: 15px; color: var(--text); line-height:1.4; }
+.hit-snippet { font-family:"Newsreader",serif; font-size: 13.5px; font-style:italic; color: var(--text-dim); line-height:1.5; }
+.hit mark, .hit-title mark { background: rgba(254,240,89,0.16); color: var(--text); padding:0 2px; border-radius:2px; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   16 · receipted update · the document you send · closed/new/moved/stalled
+   ────────────────────────────────────────────────────────────────────────── */
+.update-doc {
+  border:1px solid var(--card-border); border-radius: var(--radius-4);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.004));
+  box-shadow: var(--shadow-card, 0 14px 30px rgba(0,0,0,0.4)); overflow:hidden;
+}
+.update-head { display:flex; align-items:baseline; gap: var(--space-3); padding: var(--space-5); border-bottom:1px solid var(--card-border); background: rgba(255,255,255,0.012); }
+.update-title { font-family:"Newsreader",serif; font-size: 21px; color: var(--text); }
+.update-period { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-dim); }
+.update-copy { margin-left:auto; }
+.update-sec { padding: var(--space-4) var(--space-5); border-bottom:1px solid rgba(255,255,255,0.05); }
+.update-sec-label { display:flex; align-items:center; gap: 8px; font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; margin-bottom: var(--space-3); }
+.update-sec[data-k="closed"] .update-sec-label { color: var(--connection); }
+.update-sec[data-k="new"]    .update-sec-label { color: var(--cerulean); }
+.update-sec[data-k="moved"]  .update-sec-label { color: var(--amber-orn); }
+.update-sec[data-k="stalled"] .update-sec-label { color: var(--stability); }
+.update-line { display:flex; flex-direction:column; gap:5px; padding: 7px 0; }
+.update-line-text { font-size: 14px; color: var(--text); line-height:1.45; }
+.update-line-text::before { content:"— "; color: var(--text-faint); }
+.update-brackets { padding: var(--space-4) var(--space-5); background: var(--amber-orn-bg); border-top:1px solid var(--amber-orn-edge); }
+.update-brackets-head { font-family:"Geist Mono",monospace; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color: var(--amber-orn); margin-bottom: 8px; }
+.update-bracket { font-size: 13px; color: var(--text-mid); line-height:1.5; padding: 4px 0; }
+.update-bracket b { color: var(--amber-orn); font-family:"Geist Mono",monospace; font-weight:500; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   17 · connect / first-run · zero ceremony · sources → backfill → first artifact
+   ────────────────────────────────────────────────────────────────────────── */
+.steps { display:flex; gap: var(--space-2); margin-bottom: var(--space-2); }
+.step-dot { flex:1; height:3px; border-radius:999px; background: var(--card-border-2); transition: background .3s ease; }
+.step-dot.on { background: var(--cerulean); }
+.sources { display:grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); }
+.source {
+  display:flex; align-items:center; gap: var(--space-3); cursor:pointer;
+  border:1px solid var(--card-border); border-radius: var(--radius-3);
+  background: rgba(255,255,255,0.012); padding: var(--space-3) var(--space-4); transition: all .15s ease;
+}
+.source:hover { border-color: var(--card-border-2); }
+.source.on { border-color: var(--connection); background: var(--connection-bg); }
+.source-check { width:18px; height:18px; border-radius:5px; border:1.5px solid var(--card-border-2); display:flex; align-items:center; justify-content:center; font-size:11px; color: var(--bg); }
+.source.on .source-check { background: var(--connection); border-color: var(--connection); }
+.source-name { font-size: 14px; color: var(--text); }
+.source-sub { font-family:"Geist Mono",monospace; font-size:10.5px; color: var(--text-dim); margin-left:auto; }
+.backfill { display:flex; flex-direction:column; gap: var(--space-3); }
+.backfill-src { display:flex; align-items:center; gap: var(--space-3); font-family:"Geist Mono",monospace; font-size:12px; color: var(--text-dim); }
+.backfill-src .pct { margin-left:auto; color: var(--connection); }
+.backfill-bar { flex:1; max-width: 220px; height:5px; border-radius:999px; background: var(--card-border-2); overflow:hidden; }
+.backfill-bar i { display:block; height:100%; background: var(--connection); width:0; transition: width .6s var(--ease, ease); }
+.balls { display:flex; flex-direction:column; align-items:center; gap: var(--space-4); padding: var(--space-6) 0; text-align:center; }
+.balls-q { font-family:"Newsreader",serif; font-size: 22px; color: var(--text); }
+.balls-input { width: 90px; text-align:center; font-family:"Geist Mono",monospace; font-size: 28px; color: var(--cerulean); background:transparent; border:0; border-bottom:2px solid var(--card-border-2); outline:none; }
+.balls-reveal { font-size: 14px; color: var(--text-mid); }
+.balls-reveal b { color: var(--text); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   18 · event log · append-only · receipted · hash-linked · metrics-as-queries
+   ────────────────────────────────────────────────────────────────────────── */
+.ev-metrics { display:grid; gap: var(--space-3); grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); }
+.ev-metric { border:1px solid var(--card-border); border-radius: var(--radius-3); background: rgba(255,255,255,0.012); padding: var(--space-4); }
+.ev-metric-val { font-family:"Newsreader",serif; font-size: 28px; color: var(--text); }
+.ev-metric-val.good { color: var(--connection); }
+.ev-metric-label { font-family:"Geist Mono",monospace; font-size:10.5px; color: var(--text-dim); margin-top: 2px; }
+.ev-metric-q { font-family:"Geist Mono",monospace; font-size:9.5px; color: var(--text-faint); margin-top: 6px; }
+.evlog { display:flex; flex-direction:column; }
+.ev { display:grid; grid-template-columns: auto 1fr auto; gap: var(--space-3) var(--space-4); align-items:baseline; padding: var(--space-3) 0; border-bottom:1px solid rgba(255,255,255,0.045); }
+.ev-seq { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-faint); }
+.ev-main { display:flex; flex-direction:column; gap:3px; min-width:0; }
+.ev-type { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:0.04em; }
+.ev[data-t^="loop.confirmed"] .ev-type, .ev[data-t^="context"] .ev-type { color: var(--connection); }
+.ev[data-t^="loop.dismissed"] .ev-type { color: var(--text-dim); }
+.ev[data-t^="loop.edited"] .ev-type { color: var(--amber-orn); }
+.ev[data-t^="told"] .ev-type { color: var(--stability); }
+.ev-subject { font-size: 13.5px; color: var(--text); }
+.ev-note { font-size: 12px; color: var(--text-dim); font-style:italic; }
+.ev-side { text-align:right; }
+.ev-when { font-family:"Geist Mono",monospace; font-size:10.5px; color: var(--text-dim); display:block; }
+.ev-hash { font-family:"Geist Mono",monospace; font-size:10px; color: var(--text-faint); }
+.ev-hash .link { color: var(--cerulean); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   19 · team thread · chief-of-staff · cross-person loops (who owes whom)
+   ────────────────────────────────────────────────────────────────────────── */
+.team-members { display:flex; gap: var(--space-3); flex-wrap:wrap; }
+.team-member { display:flex; flex-direction:column; gap:2px; border:1px solid var(--card-border); border-radius: var(--radius-3); padding: 10px 15px; background: rgba(255,255,255,0.012); }
+.team-member-name { font-size:14px; color: var(--text); font-weight:500; }
+.team-member-role { font-family:"Geist Mono",monospace; font-size:10.5px; color: var(--text-dim); }
+.team-loop { display:grid; grid-template-columns: auto 1fr auto; gap: var(--space-3) var(--space-4); align-items:center; padding: var(--space-3) var(--space-4); border:1px solid var(--card-border); border-left-width:3px; border-radius: var(--radius-2); margin-top: var(--space-2); background: rgba(255,255,255,0.012); }
+.team-loop[data-kind="owe"] { border-left-color: var(--stability); }
+.team-loop[data-kind="waiting"] { border-left-color: var(--amber-orn); }
+.team-loop[data-kind="owed"] { border-left-color: var(--amber-orn); }
+.team-flow { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-mid); white-space:nowrap; }
+.team-flow .arrow { color: var(--text-faint); }
+.team-loop-title { font-size: 13.5px; color: var(--text); }
+.team-loop-age { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-dim); white-space:nowrap; }
+.team-loop[data-kind="owe"] .team-loop-age { color: var(--stability); }
+.team-group-head { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color: var(--text-dim); margin: var(--space-5) 0 var(--space-2); }
+
 @media (prefers-reduced-motion: reduce) {
-  .loop, .th-btn, .receipt-bar .caret, .loop.is-dismissing, .prec-bar-fill { transition: none !important; }
+  .loop, .th-btn, .receipt-bar .caret, .loop.is-dismissing, .prec-bar-fill, .backfill-bar i, .step-dot { transition: none !important; }
   .th-scan-dots::after { animation: none; content: "· · ·"; }
 }
