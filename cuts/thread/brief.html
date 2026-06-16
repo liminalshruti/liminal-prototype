@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Brief · Liminal</title>
+
+<!--
+  cuts/thread/brief.html · The thread · the morning brief · the daily-return surface
+  ──────────────────────────────────────────────────────────────────────
+  Frame      · diffuse-context wedge (NEW) · "Liminal catches what you're about to drop"
+  Spec ref   · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12.md §2 "Then, daily" — the
+               morning brief: what changed / what you owe / what's at risk · ≤1 screen · receipts
+  Status     · sketch · staged · not the front door · PROPOSED frame
+  Tokens canon · shell chrome from cut-shell · surface vocab from thread.css · data from seed.js
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1080px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--connection); }
+  /* receipts in the brief are compact — bar only by default */
+  .brief-line .receipt { background: transparent; border-color: var(--card-border); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>brief</b></span>
+        <span class="spacer"></span>
+        <span class="ol-pill" id="hdr">Thursday · local-first</span>
+      </div>
+    </header>
+
+    <main class="th">
+
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · this morning</div>
+        <h1 class="th-title">What changed, what you owe, <em>what's at risk</em>.</h1>
+        <p class="th-lede">One screen, every morning. Liminal re-read your surfaces overnight and laid out
+          the day: what moved, what you're on the hook for, and what's about to bite. Every line has a
+          receipt — open it to see exactly where it came from.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
+
+      <section class="th-brief" id="brief"></section>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>the morning brief · ≤1 screen · receipts on every line</span><span class="sep">|</span>
+        <a href="./open-loops.html">open loops →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { DISCLOSURE, brief } from "./seed.js";
+  document.getElementById("disc").textContent = DISCLOSURE;
+
+  const BANDS = [
+    { key: "changed", label: "What changed", note: "overnight", items: brief.changed },
+    { key: "owe",     label: "What you owe", note: "today",     items: brief.owe },
+    { key: "risk",    label: "What's at risk", note: "this week", items: brief.risk },
+  ];
+
+  function receiptHTML(rc) {
+    return `
+      <div class="receipt">
+        <button class="receipt-bar" data-receipt>
+          <span class="src-glyph">${rc.glyph}</span>
+          <span class="src-name">${rc.name}</span>
+          <span class="src-meta">· ${rc.meta}</span>
+          <span class="caret">›</span>
+        </button>
+        <div class="receipt-body">
+          <div class="receipt-quote">${rc.quote}</div>
+          <div class="receipt-trace">${rc.trace}</div>
+        </div>
+      </div>`;
+  }
+
+  function lineHTML(it) {
+    return `
+      <div class="brief-line">
+        <div class="brief-line-title">${it.title}${it.meta ? ` <span style="color:var(--text-faint);font-family:'Geist Mono',monospace;font-size:11px;">· ${it.meta}</span>` : ""}</div>
+        ${receiptHTML(it.receipt)}
+      </div>`;
+  }
+
+  document.getElementById("brief").innerHTML = BANDS.map(b => `
+    <div class="brief-band" data-band="${b.key}">
+      <div class="brief-band-head"><span class="pip"></span>${b.label}
+        <span class="brief-band-count">${b.note} · ${b.items.length}</span>
+      </div>
+      ${b.items.map(lineHTML).join("")}
+    </div>`).join("");
+
+  document.getElementById("brief").addEventListener("click", (e) => {
+    const bar = e.target.closest("[data-receipt]");
+    if (bar) bar.closest(".receipt").classList.toggle("is-open");
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Atlas · Liminal</title>
+
+<!--
+  cuts/thread/atlas.html · The thread · component atlas for the diffuse-context frame
+  ──────────────────────────────────────────────────────────────────────
+  The design-system reference, re-skinned to the NEW frame. The prototype is the canonical
+  design-system surface (REPOS.md). This page is the consumer gallery for the diffuse-context
+  vocabulary — open-loop row · receipt chip · brief band · prep card · thread timeline — each
+  built ONLY from canon tokens (design-system/tokens/design-tokens.css), composed in thread.css.
+  Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12.md (PROPOSED) · lockstep-canon contract.
+  Vocabulary · allowed terms only.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1080px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--clarity); }
+
+  .atlas { display: flex; flex-direction: column; gap: var(--space-7); }
+  .sec { display: flex; flex-direction: column; gap: var(--space-4); }
+  .sec-head { display:flex; align-items:baseline; gap: var(--space-3); border-bottom:1px solid var(--card-border); padding-bottom: var(--space-2); }
+  .sec-n { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-faint); }
+  .sec-t { font-family:"Newsreader",serif; font-size:19px; color:var(--text); }
+  .sec-tok { margin-left:auto; font-family:"Geist Mono",monospace; font-size:10.5px; color:var(--text-dim); }
+  .sec-tok b { color: var(--cerulean); }
+  .demo { display:flex; flex-direction:column; gap: var(--space-3); }
+
+  /* color-map swatches */
+  .swatches { display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: var(--space-3); }
+  .sw { border:1px solid var(--card-border); border-radius: var(--radius-3); overflow:hidden; }
+  .sw-chip { height: 54px; display:flex; align-items:flex-end; padding: 8px 10px; }
+  .sw-meta { padding: 9px 11px; font-family:"Geist Mono",monospace; font-size:11px; }
+  .sw-meta .role { color: var(--text); }
+  .sw-meta .tok { color: var(--text-dim); }
+  .sw[data-r="owe"]  .sw-chip { background: var(--stability-bg);  border-bottom:3px solid var(--stability); }
+  .sw[data-r="owed"] .sw-chip { background: var(--amber-orn-bg);  border-bottom:3px solid var(--amber-orn); }
+  .sw[data-r="chg"]  .sw-chip { background: var(--connection-bg); border-bottom:3px solid var(--connection); }
+  .sw[data-r="rcpt"] .sw-chip { background: var(--cerulean-bg);   border-bottom:3px solid var(--cerulean); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>atlas</b></span>
+        <span class="spacer"></span>
+        <span class="ol-pill">design system · consumer copy</span>
+      </div>
+    </header>
+
+    <main class="th">
+
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · component atlas</div>
+        <h1 class="th-title">The parts the thread is built from.</h1>
+        <p class="th-lede">Every surface in the thread is assembled from a handful of pieces, and every
+          piece is built from the canonical token set — change a hue upstream and it lands here on the next
+          load. This is the consumer gallery for the new frame: the loop row, the receipt, the brief band,
+          the prep card, the timeline.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> Examples below are seeded for display. Tokens are canonical · sourced from <b style="color:var(--text-mid)">design-system/tokens/design-tokens.css</b>.</span>
+
+      <div class="atlas">
+
+        <!-- 1 · color map -->
+        <section class="sec">
+          <div class="sec-head"><span class="sec-n">01</span><span class="sec-t">Semantic color map</span><span class="sec-tok">consumes <b>--stability · --amber-orn · --connection · --cerulean</b></span></div>
+          <div class="swatches">
+            <div class="sw" data-r="owe"><div class="sw-chip"></div><div class="sw-meta"><div class="role">what you owe · overdue</div><div class="tok">--stability</div></div></div>
+            <div class="sw" data-r="owed"><div class="sw-chip"></div><div class="sw-meta"><div class="role">owed to you · waiting</div><div class="tok">--amber-orn</div></div></div>
+            <div class="sw" data-r="chg"><div class="sw-chip"></div><div class="sw-meta"><div class="role">what changed · closed</div><div class="tok">--connection</div></div></div>
+            <div class="sw" data-r="rcpt"><div class="sw-chip"></div><div class="sw-meta"><div class="role">receipt · checkable</div><div class="tok">--cerulean</div></div></div>
+          </div>
+        </section>
+
+        <!-- 2 · receipt chip -->
+        <section class="sec">
+          <div class="sec-head"><span class="sec-n">02</span><span class="sec-t">The receipt chip</span><span class="sec-tok">the signature component · every line is checkable</span></div>
+          <div class="demo" id="d-receipt"></div>
+        </section>
+
+        <!-- 3 · loop rows -->
+        <section class="sec">
+          <div class="sec-head"><span class="sec-n">03</span><span class="sec-t">Open-loop rows</span><span class="sec-tok">accent left-border = kind</span></div>
+          <div class="demo" id="d-loops"></div>
+        </section>
+
+        <!-- 4 · brief band -->
+        <section class="sec">
+          <div class="sec-head"><span class="sec-n">04</span><span class="sec-t">Brief band</span><span class="sec-tok">changed · owe · at-risk</span></div>
+          <div class="th-brief" id="d-brief" style="grid-template-columns:repeat(3,1fr);"></div>
+        </section>
+
+        <!-- 5 · timeline entry -->
+        <section class="sec">
+          <div class="sec-head"><span class="sec-n">05</span><span class="sec-t">Thread timeline</span><span class="sec-tok">commit · decide · change · open</span></div>
+          <div class="thread" id="d-thread" style="padding-left:var(--space-5);"></div>
+        </section>
+
+        <!-- 6 · controls -->
+        <section class="sec">
+          <div class="sec-head"><span class="sec-n">06</span><span class="sec-t">Entry &amp; controls</span><span class="sec-tok">connect strip · buttons · disclosure</span></div>
+          <div class="demo">
+            <div class="th-connect">
+              <div class="th-connect-copy"><b>Connect Gmail + Calendar</b> — read-only, on your machine.</div>
+              <button class="th-btn">Find my open loops</button>
+              <span class="th-connect-meta">no data leaves this device</span>
+            </div>
+            <div style="display:flex;gap:var(--space-3);align-items:center;flex-wrap:wrap;">
+              <button class="th-btn">Primary</button>
+              <button class="th-btn ghost">Ghost</button>
+              <span class="th-disclosure"><span class="glyph">●</span> seeded-vs-real disclosure</span>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="th-foot">
+        <span>Liminal · the thread · atlas</span><span class="sep">|</span>
+        <span>lockstep-canon · tokens consumed, never forked</span><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { openLoops, brief, threads } from "./seed.js";
+
+  const receiptHTML = (rc, open) => `
+    <div class="receipt${open ? " is-open" : ""}">
+      <button class="receipt-bar" data-receipt>
+        <span class="src-glyph">${rc.glyph}</span><span class="src-name">${rc.name}</span>
+        <span class="src-meta">· ${rc.meta}</span><span class="caret">›</span>
+      </button>
+      <div class="receipt-body">
+        <div class="receipt-quote">${rc.quote}</div>
+        <div class="receipt-trace">${rc.trace}</div>
+      </div>
+    </div>`;
+
+  // 2 · receipt (one open, one closed)
+  document.getElementById("d-receipt").innerHTML =
+    receiptHTML(openLoops[0].receipt, true) + receiptHTML(openLoops[2].receipt, false);
+
+  // 3 · loop rows, one of each kind
+  const KIND_LABEL = { owe:"you owe", owed:"owed to you", waiting:"waiting on them", changed:"what changed" };
+  const sample = ["owe","waiting","changed","owed"].map(k => openLoops.find(l => l.kind === k)).filter(Boolean);
+  document.getElementById("d-loops").innerHTML = sample.map((loop,i) => `
+    <article class="loop" data-kind="${loop.kind}">
+      <div class="loop-rank">${String(i+1).padStart(2,"0")}</div>
+      <div class="loop-main">
+        <span class="loop-kindtag">${KIND_LABEL[loop.kind]}</span>
+        <div class="loop-title">${loop.title}</div>
+        <div class="loop-sub">${loop.sub}</div>
+      </div>
+      <div class="loop-side"><span class="loop-age">${loop.age}</span><button class="loop-dismiss">dismiss</button></div>
+    </article>`).join("");
+
+  // 4 · one brief band of each
+  const bands = [["changed","What changed",brief.changed],["owe","What you owe",brief.owe],["risk","What's at risk",brief.risk]];
+  document.getElementById("d-brief").innerHTML = bands.map(([k,label,items]) => `
+    <div class="brief-band" data-band="${k}">
+      <div class="brief-band-head"><span class="pip"></span>${label}<span class="brief-band-count">${items.length}</span></div>
+      ${items.slice(0,2).map(it => `<div class="brief-line"><div class="brief-line-title">${it.title}</div></div>`).join("")}
+    </div>`).join("");
+
+  // 5 · timeline entries
+  document.getElementById("d-thread").innerHTML = threads.ana.entries.map(e => `
+    <div class="tl" data-kind="${e.kind}">
+      <div class="tl-kind">${e.tag}${e.kind==="open"?` <span class="tl-openflag">open loop</span>`:""}</div>
+      <div class="tl-when">${e.when}</div>
+      <p class="tl-what">${e.what}</p>
+    </div>`).join("");
+
+  // receipts toggle
+  document.body.addEventListener("click", (e) => {
+    const bar = e.target.closest("[data-receipt]");
+    if (bar) bar.closest(".receipt").classList.toggle("is-open");
+  });
+</script>
+
+</body>
+</html>

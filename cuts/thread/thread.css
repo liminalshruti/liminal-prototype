@@ -1,0 +1,334 @@
+/*
+ * thread.css · Liminal "the thread" · new-frame (diffuse-context) component vocabulary
+ * ════════════════════════════════════════════════════════════════════════════════════
+ *
+ * SCOPE
+ * ─────
+ * Shared surface CSS for the cuts/thread/* series — the public, click-able embodiment
+ * of the diffuse-context wedge defined in
+ *   founder-brain/strategy/LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12.md  (PROPOSED).
+ *
+ * The product, in buyer language: "Liminal catches what you're about to drop." It reads the
+ * surfaces your context lives in (email · calendar · meeting notes · AI sessions) and keeps a
+ * receipted ledger of what you owe, what's owed to you, what changed, and what needs you next.
+ *
+ * VOCABULARY DISCIPLINE (binding · §"Banned terms / Allowed terms" of the plan)
+ *   ALLOWED:  the thread · open loops · receipts · what you owe / what's owed to you ·
+ *             what changed · brief · catch / drop / slip · ledger (sparingly) · local-first.
+ *   BANNED (do NOT introduce on any surface here): judgment infrastructure · bounded agents ·
+ *             refusal · correction stream · twelve agents / registers · packet · vault-is-the-moat ·
+ *             decisions as assets · emergence · coherence · ontology · any Liminal noun the
+ *             reader must learn.
+ *
+ * CONTRACT WITH THE STUDIO ARCHITECTURE
+ *   · Tokens come from design-system/tokens/design-tokens.css — consumed, never redefined.
+ *   · Window chrome (.stage/.frame/.titlebar/.lights) is reused from lib/cut-shell.css.
+ *   · This file owns ONLY the diffuse-context surface vocabulary (loops, receipts, brief,
+ *     prep card, thread timeline). Layout is per-cut; these are the shared parts.
+ *
+ * SEMANTIC COLOR MAP (consumed from canon · no new hues)
+ *   what you owe / overdue / at-risk  → --stability  (the warm red)
+ *   owed to you / waiting on them     → --amber-orn  (amber)
+ *   what changed / caught / closed    → --connection (green)
+ *   receipts / checkable-to-source    → --cerulean   (blue)
+ */
+
+/* ──────────────────────────────────────────────────────────────────────────
+   0 · base · the thread surface sits on the canon page bg
+   ────────────────────────────────────────────────────────────────────────── */
+.th {
+  --owe:    var(--stability);
+  --owe-bg: var(--stability-bg);
+  --owe-edge: var(--stability-edge);
+  --owed:   var(--amber-orn);
+  --owed-bg: var(--amber-orn-bg);
+  --owed-edge: var(--amber-orn-edge);
+  --chg:    var(--connection);
+  --chg-bg: var(--connection-bg);
+  --chg-edge: var(--connection-edge);
+  --rcpt:   var(--cerulean);
+  --rcpt-bg: var(--cerulean-bg);
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  min-width: 0;
+  padding: var(--space-7) var(--space-8) var(--space-8);
+  gap: var(--space-6);
+  font-family: "Geist", system-ui, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(120% 80% at 12% -8%, rgba(25,126,235,0.05), transparent 60%),
+    radial-gradient(90% 70% at 100% 0%, rgba(254,240,89,0.03), transparent 55%);
+}
+.th *, .th *::before, .th *::after { box-sizing: border-box; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   1 · header · eyebrow + headline + lede (Newsreader for the editorial beat)
+   ────────────────────────────────────────────────────────────────────────── */
+.th-head { display: flex; flex-direction: column; gap: var(--space-2); max-width: 64ch; }
+.th-eyebrow {
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--text-dim);
+  display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap;
+}
+.th-eyebrow .dot { color: var(--rcpt); }
+.th-title {
+  font-family: "Newsreader", Georgia, serif;
+  font-weight: 500; font-size: clamp(26px, 3.4vw, 38px); line-height: 1.08;
+  letter-spacing: -0.01em; color: var(--text); margin: 0;
+}
+.th-title em { font-style: italic; color: var(--text-mid); }
+.th-lede { font-size: 15px; line-height: 1.58; color: var(--text-mid); margin: 0; max-width: 60ch; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   2 · disclosure · render-truthful · seeded-vs-real is never ambiguous
+   ────────────────────────────────────────────────────────────────────────── */
+.th-disclosure {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  align-self: flex-start;
+  font-family: "Geist Mono", ui-monospace, monospace;
+  font-size: 10.5px; letter-spacing: 0.04em;
+  color: var(--text-dim);
+  padding: 5px 10px; border-radius: 999px;
+  border: 1px dashed var(--card-border-2);
+  background: rgba(255,255,255,0.012);
+}
+.th-disclosure .glyph { color: var(--amber-orn); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   3 · the loop list · one row per open loop, accent = what kind of loop
+   ────────────────────────────────────────────────────────────────────────── */
+.th-loops { display: flex; flex-direction: column; gap: var(--space-3); }
+.th-loops-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3);
+  padding-bottom: var(--space-2);
+}
+.th-loops-count { font-family: "Geist Mono", monospace; font-size: 12px; color: var(--text-mid); letter-spacing: 0.04em; }
+.th-loops-count b { color: var(--text); font-weight: 600; }
+.th-loops-precision { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--text-dim); }
+.th-loops-precision b { color: var(--chg); }
+
+.loop {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: start;
+  gap: var(--space-3) var(--space-4);
+  padding: var(--space-4) var(--space-5) var(--space-4) calc(var(--space-5) + 3px);
+  border: 1px solid var(--card-border);
+  border-left-width: 3px;
+  border-left-color: var(--card-border-2);
+  border-radius: var(--radius-3);
+  background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.006));
+  transition: border-color .18s var(--ease, ease), transform .18s var(--ease, ease), opacity .3s ease;
+}
+.loop:hover { border-color: var(--card-border-2); transform: translateX(1px); }
+.loop[data-kind="owe"]     { border-left-color: var(--owe); }
+.loop[data-kind="owed"]    { border-left-color: var(--owed); }
+.loop[data-kind="waiting"] { border-left-color: var(--owed); }
+.loop[data-kind="changed"] { border-left-color: var(--chg); }
+.loop.is-dismissing { opacity: 0; transform: translateX(14px); }
+
+.loop-rank {
+  font-family: "Geist Mono", monospace; font-size: 12px; color: var(--text-faint);
+  width: 1.5em; text-align: right; padding-top: 2px;
+}
+.loop-main { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.loop-kindtag {
+  display: inline-flex; align-items: center; gap: 6px; align-self: flex-start;
+  font-family: "Geist Mono", monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 2px 7px; border-radius: 999px; border: 1px solid transparent;
+}
+.loop[data-kind="owe"]     .loop-kindtag { color: var(--owe);  background: var(--owe-bg);  border-color: var(--owe-edge); }
+.loop[data-kind="owed"]    .loop-kindtag,
+.loop[data-kind="waiting"] .loop-kindtag { color: var(--owed); background: var(--owed-bg); border-color: var(--owed-edge); }
+.loop[data-kind="changed"] .loop-kindtag { color: var(--chg);  background: var(--chg-bg);  border-color: var(--chg-edge); }
+.loop-title { font-size: 15px; line-height: 1.4; color: var(--text); font-weight: 450; }
+.loop-title b { font-weight: 600; }
+.loop-sub { font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+
+.loop-side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.loop-age { font-family: "Geist Mono", monospace; font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+.loop[data-kind="owe"] .loop-age { color: var(--owe); }
+.loop-dismiss {
+  appearance: none; border: 1px solid var(--card-border); background: transparent;
+  color: var(--text-dim); font-family: "Geist Mono", monospace; font-size: 10.5px;
+  padding: 4px 9px; border-radius: var(--radius-2); cursor: pointer;
+  transition: all .15s ease;
+}
+.loop-dismiss:hover { color: var(--text); border-color: var(--card-border-2); background: rgba(255,255,255,0.03); }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   4 · the receipt chip · the signature component · every line is checkable
+   ────────────────────────────────────────────────────────────────────────── */
+.receipt {
+  grid-column: 2 / -1;
+  display: flex; flex-direction: column; gap: 0;
+  margin-top: 2px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-2);
+  background: rgba(25,126,235,0.04);
+  overflow: hidden;
+}
+.receipt-bar {
+  display: flex; align-items: center; gap: var(--space-2);
+  width: 100%; text-align: left;
+  appearance: none; border: 0; background: transparent; cursor: pointer;
+  padding: 7px 11px;
+  font-family: "Geist Mono", ui-monospace, monospace; font-size: 11px; color: var(--rcpt);
+  letter-spacing: 0.02em;
+}
+.receipt-bar:hover { background: rgba(25,126,235,0.06); }
+.receipt-bar .src-glyph { font-size: 12px; opacity: 0.9; }
+.receipt-bar .src-name { color: var(--text-mid); }
+.receipt-bar .src-meta { color: var(--text-dim); }
+.receipt-bar .caret { margin-left: auto; transition: transform .18s ease; color: var(--text-dim); }
+.receipt.is-open .receipt-bar .caret { transform: rotate(90deg); }
+.receipt-body {
+  display: none;
+  padding: 0 12px 11px 30px;
+  border-top: 1px solid var(--card-border);
+  background: rgba(0,0,0,0.18);
+}
+.receipt.is-open .receipt-body { display: block; }
+.receipt-quote {
+  font-family: "Newsreader", Georgia, serif; font-style: italic;
+  font-size: 13.5px; line-height: 1.6; color: var(--text-mid);
+  padding-top: 10px; border-left: 2px solid var(--rcpt-bg); padding-left: 12px;
+}
+.receipt-quote mark { background: rgba(254,240,89,0.16); color: var(--text); padding: 0 2px; border-radius: 2px; }
+.receipt-trace { margin-top: 8px; font-family: "Geist Mono", monospace; font-size: 10px; color: var(--text-faint); letter-spacing: 0.03em; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   5 · the brief · three bands · ≤1 screen · what changed / owe / at-risk
+   ────────────────────────────────────────────────────────────────────────── */
+.th-brief { display: grid; gap: var(--space-5); }
+@media (min-width: 940px) { .th-brief { grid-template-columns: repeat(3, 1fr); } }
+.brief-band { display: flex; flex-direction: column; gap: var(--space-3); min-width: 0; }
+.brief-band-head {
+  display: flex; align-items: center; gap: var(--space-2);
+  font-family: "Geist Mono", monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-mid); padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--card-border);
+}
+.brief-band-head .pip { width: 7px; height: 7px; border-radius: 999px; }
+.brief-band[data-band="changed"] .pip { background: var(--chg); box-shadow: 0 0 8px var(--chg-bg); }
+.brief-band[data-band="owe"]     .pip { background: var(--owe); box-shadow: 0 0 8px var(--owe-bg); }
+.brief-band[data-band="risk"]    .pip { background: var(--owed); box-shadow: 0 0 8px var(--owed-bg); }
+.brief-band-count { margin-left: auto; color: var(--text-faint); }
+.brief-line {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: var(--space-3) 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.brief-line:last-child { border-bottom: 0; }
+.brief-line-title { font-size: 14px; line-height: 1.45; color: var(--text); }
+.brief-line-title b { font-weight: 600; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   6 · the prep card · one card before a meeting · last touches / open / bring
+   ────────────────────────────────────────────────────────────────────────── */
+.prep { display: grid; gap: var(--space-5); }
+@media (min-width: 980px) { .prep { grid-template-columns: 280px 1fr; align-items: start; } }
+.prep-agenda { display: flex; flex-direction: column; gap: var(--space-2); }
+.prep-agenda-head { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-dim); margin-bottom: 4px; }
+.prep-event {
+  display: flex; flex-direction: column; gap: 3px; text-align: left;
+  appearance: none; border: 1px solid var(--card-border); border-radius: var(--radius-2);
+  background: rgba(255,255,255,0.01); cursor: pointer; padding: 11px 13px;
+  transition: all .15s ease;
+}
+.prep-event:hover { border-color: var(--card-border-2); background: rgba(255,255,255,0.03); }
+.prep-event.is-active { border-color: var(--rcpt); background: var(--rcpt-bg); }
+.prep-event-time { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-dim); }
+.prep-event.is-active .prep-event-time { color: var(--rcpt); }
+.prep-event-who { font-size: 14px; color: var(--text); font-weight: 450; }
+
+.prep-card {
+  border: 1px solid var(--card-border); border-radius: var(--radius-4);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+  box-shadow: var(--shadow-card, 0 14px 30px rgba(0,0,0,0.4));
+  overflow: hidden;
+}
+.prep-card-head {
+  display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap;
+  padding: var(--space-5); border-bottom: 1px solid var(--card-border);
+  background: rgba(255,255,255,0.012);
+}
+.prep-card-who { font-family:"Newsreader",serif; font-size: 22px; color: var(--text); }
+.prep-card-role { font-size: 13px; color: var(--text-dim); }
+.prep-card-when { margin-left: auto; font-family:"Geist Mono",monospace; font-size: 11px; color: var(--rcpt); }
+.prep-sec { padding: var(--space-4) var(--space-5); border-bottom: 1px solid rgba(255,255,255,0.05); }
+.prep-sec:last-child { border-bottom: 0; }
+.prep-sec-label { font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--text-faint); margin-bottom: var(--space-3); }
+.prep-touch { display: flex; gap: var(--space-3); padding: 7px 0; }
+.prep-touch-when { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-dim); white-space: nowrap; min-width: 64px; }
+.prep-touch-what { font-size: 13.5px; line-height: 1.5; color: var(--text-mid); }
+.prep-open, .prep-bring { display: flex; gap: 10px; padding: 6px 0; font-size: 13.5px; line-height: 1.5; color: var(--text); }
+.prep-open .mk  { color: var(--owed); font-family:"Geist Mono",monospace; }
+.prep-bring .mk { color: var(--chg);  font-family:"Geist Mono",monospace; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   7 · the thread timeline · one subject · receipted history → the open loop
+   ────────────────────────────────────────────────────────────────────────── */
+.thread { display: flex; flex-direction: column; gap: 0; position: relative; padding-left: var(--space-5); }
+.thread::before { content:""; position:absolute; left: 7px; top: 6px; bottom: 18px; width: 2px; background: linear-gradient(180deg, var(--card-border-2), var(--card-border) 80%, transparent); }
+.tl { position: relative; padding: 0 0 var(--space-5) var(--space-5); }
+.tl::before { content:""; position:absolute; left: 1px; top: 4px; width: 13px; height: 13px; border-radius: 999px; background: var(--frame-bg); border: 2px solid var(--card-border-2); }
+.tl[data-kind="commit"]::before  { border-color: var(--owe); }
+.tl[data-kind="decide"]::before  { border-color: var(--rcpt); }
+.tl[data-kind="change"]::before  { border-color: var(--chg); }
+.tl[data-kind="open"]::before    { border-color: var(--owed); background: var(--owed); box-shadow: 0 0 0 4px var(--owed-bg); }
+.tl-when { font-family:"Geist Mono",monospace; font-size: 11px; color: var(--text-dim); letter-spacing: 0.03em; }
+.tl-what { font-size: 14.5px; line-height: 1.5; color: var(--text); margin: 4px 0 0; }
+.tl-what b { font-weight: 600; }
+.tl-kind { font-family:"Geist Mono",monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); }
+.tl[data-kind="open"] .tl-what { color: var(--text); }
+.tl-openflag { display:inline-block; margin-left: 8px; font-family:"Geist Mono",monospace; font-size:10px; letter-spacing:0.08em; color: var(--owed); background: var(--owed-bg); border:1px solid var(--owed-edge); border-radius: 999px; padding: 1px 7px; text-transform: uppercase; }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   8 · connect strip · the zero-ceremony entry · "connect Gmail → 5 minutes"
+   ────────────────────────────────────────────────────────────────────────── */
+.th-connect {
+  display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--card-border); border-radius: var(--radius-3);
+  background: linear-gradient(180deg, rgba(25,126,235,0.05), rgba(255,255,255,0.004));
+}
+.th-connect-copy { font-size: 13.5px; color: var(--text-mid); line-height: 1.5; }
+.th-connect-copy b { color: var(--text); font-weight: 600; }
+.th-btn {
+  appearance:none; cursor:pointer; font-family:"Geist",sans-serif; font-size: 13px; font-weight: 500;
+  padding: 9px 16px; border-radius: var(--radius-2); border: 1px solid var(--rcpt);
+  color: var(--bg); background: var(--rcpt); transition: all .15s ease; white-space: nowrap;
+}
+.th-btn:hover { filter: brightness(1.08); }
+.th-btn.ghost { background: transparent; color: var(--text-mid); border-color: var(--card-border-2); }
+.th-btn.ghost:hover { color: var(--text); border-color: var(--text-dim); }
+.th-btn[disabled] { opacity: 0.5; cursor: progress; }
+.th-connect-meta { margin-left: auto; font-family:"Geist Mono",monospace; font-size: 11px; color: var(--text-faint); }
+
+/* connect scanning state */
+.th-scan { display:flex; align-items:center; gap: 10px; font-family:"Geist Mono",monospace; font-size: 12px; color: var(--text-dim); }
+.th-scan .src { color: var(--text-mid); }
+.th-scan-dots::after { content:"·"; animation: thdots 1.2s steps(4,end) infinite; }
+@keyframes thdots { 0%{content:"·";} 33%{content:"· ·";} 66%{content:"· · ·";} 100%{content:"· · · ·";} }
+
+/* ──────────────────────────────────────────────────────────────────────────
+   9 · footer note · provenance of the frame, plainly
+   ────────────────────────────────────────────────────────────────────────── */
+.th-foot {
+  margin-top: auto; padding-top: var(--space-5); border-top: 1px solid var(--card-border);
+  font-family:"Geist Mono",monospace; font-size: 10.5px; color: var(--text-faint); line-height: 1.7;
+  display:flex; gap: var(--space-4); flex-wrap: wrap; align-items:center;
+}
+.th-foot a { color: var(--text-dim); text-decoration: none; border-bottom: 1px dotted var(--card-border-2); }
+.th-foot a:hover { color: var(--rcpt); }
+.th-foot .sep { color: var(--card-border-2); }
+
+@media (prefers-reduced-motion: reduce) {
+  .loop, .th-btn, .receipt-bar .caret, .loop.is-dismissing { transition: none !important; }
+  .th-scan-dots::after { animation: none; content: "· · ·"; }
+}

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Liminal</title>
+
+<!--
+  cuts/thread/index.html · The thread · landing for the diffuse-context (NEW frame) cut series
+  ──────────────────────────────────────────────────────────────────────
+  "Liminal catches what you're about to drop." Reads the surfaces your context lives in
+  (email · calendar · meeting notes · AI sessions) and keeps a receipted ledger of what you owe,
+  what's owed to you, what changed, and what needs you next.
+
+  Spec ref · founder-brain/strategy/LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12.md · STATUS: PROPOSED
+  Staged · this is NOT the prototype front door (that stays cuts/01-slate-tray.html per
+  FRONT_DOOR_DECISION_2026-05-12.md) until the diffuse-context plan is ratified.
+  Vocabulary · allowed terms only.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1080px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--cerulean); }
+
+  .hero-line {
+    font-family:"Newsreader",serif; font-size: clamp(30px, 4.4vw, 52px); line-height:1.05;
+    letter-spacing:-0.015em; color: var(--text); margin: 0; max-width: 18ch;
+  }
+  .hero-line em { font-style: italic; color: var(--cerulean); }
+  .problem {
+    font-size: 15px; line-height: 1.62; color: var(--text-mid); max-width: 66ch;
+    border-left: 2px solid var(--card-border-2); padding-left: var(--space-4);
+  }
+  .problem b { color: var(--text); font-weight: 500; }
+
+  .cutgrid { display:grid; gap: var(--space-4); grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); }
+  .cutcard {
+    display:flex; flex-direction:column; gap:9px; text-decoration:none;
+    border:1px solid var(--card-border); border-radius: var(--radius-4);
+    background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.004));
+    padding: var(--space-5); transition: all .16s var(--ease, ease);
+  }
+  .cutcard:hover { border-color: var(--cerulean); transform: translateY(-2px); }
+  .cutcard-n { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-faint); letter-spacing:0.08em; }
+  .cutcard-t { font-family:"Newsreader",serif; font-size: 21px; color: var(--text); }
+  .cutcard-d { font-size: 13.5px; line-height: 1.55; color: var(--text-dim); }
+  .cutcard-go { margin-top: 4px; font-family:"Geist Mono",monospace; font-size:11px; color: var(--cerulean); }
+
+  .badge-row { display:flex; gap: var(--space-3); flex-wrap:wrap; align-items:center; }
+  .badge { font-family:"Geist Mono",monospace; font-size:10.5px; letter-spacing:0.06em; padding:4px 10px; border-radius:999px; border:1px solid var(--card-border-2); color: var(--text-dim); }
+  .badge.live { color: var(--connection); border-color: var(--connection-edge); background: var(--connection-bg); }
+  .badge.proposed { color: var(--amber-orn); border-color: var(--amber-orn-edge); background: var(--amber-orn-bg); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; <b>the thread</b></span>
+        <span class="spacer"></span>
+        <span class="ol-pill">local-first</span>
+      </div>
+    </header>
+
+    <main class="th" style="gap:var(--space-7);">
+
+      <div class="th-head" style="gap:var(--space-4);">
+        <div class="th-eyebrow"><span class="dot">◇</span> Liminal · the thread</div>
+        <h1 class="hero-line">Liminal catches what you're about to <em>drop</em>.</h1>
+        <p class="problem">You run your company across email, Slack, meetings, docs, notes, AI sessions and a
+          calendar. The context that matters — <b>what you promised, what was decided, what changed, what you're
+          waiting on</b> — is scattered across all of them and lives in none of them. Liminal reads those surfaces
+          and keeps one receipted ledger: <b>what you owe, what's owed to you, what changed, and what needs you next</b> —
+          every line checkable to its source. Your data stays on your machine.</p>
+        <div class="badge-row">
+          <span class="badge">connect Gmail → open loops in ~5 min</span>
+          <span class="badge">$40/mo · card on file</span>
+          <span class="badge proposed">new frame · proposed</span>
+        </div>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> Every cut runs on illustrative seeded data — a fictional founder's week. No accounts connected.</span>
+
+      <div class="cutgrid">
+        <a class="cutcard" href="./open-loops.html">
+          <span class="cutcard-n">01 · the first artifact</span>
+          <span class="cutcard-t">Open loops</span>
+          <span class="cutcard-d">Connect Gmail + Calendar → the ranked list of what you're about to drop, each line with a receipt to the exact message. Dismiss a wrong one; it learns your line.</span>
+          <span class="cutcard-go">open the cut →</span>
+        </a>
+        <a class="cutcard" href="./brief.html">
+          <span class="cutcard-n">02 · daily return</span>
+          <span class="cutcard-t">The morning brief</span>
+          <span class="cutcard-d">One screen, every morning: what changed overnight, what you owe today, what's at risk this week. Receipts on every line.</span>
+          <span class="cutcard-go">open the cut →</span>
+        </a>
+        <a class="cutcard" href="./prep-card.html">
+          <span class="cutcard-n">03 · before the call</span>
+          <span class="cutcard-t">Prep card</span>
+          <span class="cutcard-d">Pick your next meeting → one card: last three touches, what's open between you, what you said you'd bring.</span>
+          <span class="cutcard-go">open the cut →</span>
+        </a>
+        <a class="cutcard" href="./thread.html">
+          <span class="cutcard-n">04 · what do we know</span>
+          <span class="cutcard-t">The thread</span>
+          <span class="cutcard-d">Pick a person or deal → the whole receipted history, ending on the one move that's open and yours.</span>
+          <span class="cutcard-go">open the cut →</span>
+        </a>
+        <a class="cutcard" href="./atlas.html">
+          <span class="cutcard-n">05 · design system</span>
+          <span class="cutcard-t">Component atlas</span>
+          <span class="cutcard-d">The parts the thread is built from — loop row, receipt chip, brief band, prep card, timeline — each composed from canonical tokens only.</span>
+          <span class="cutcard-go">open the cut →</span>
+        </a>
+      </div>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>diffuse-context frame · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 (proposed)</span><span class="sep">|</span>
+        <span>front door stays cut 01 until ratified</span><span class="sep">|</span>
+        <a href="../../index.html">↩ prototype catalog</a>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+</body>
+</html>
