@@ -241,7 +241,7 @@
   }
 
   .cal-cell:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--shadow-micro, 0 2px 8px rgba(0, 0, 0, 0.06)); /* canon token w/ fallback; --shadow-micro pending Amendment 5 (DESIGN_SYSTEM_RECONCILIATION_PLAN §4 fix5) */
     border-color: var(--border);
   }
 
