@@ -89,8 +89,8 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 /* ── READ surface ── */
 .invoke{display:flex;align-items:baseline;gap:10px;font:10px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);border-bottom:1px solid var(--card-border);padding-bottom:12px}
 .invoke b{color:var(--diligence);letter-spacing:.12em;text-transform:uppercase}
-.seam{font:italic 13px/1.55 var(--serif,Newsreader,Georgia,serif);color:var(--text-faint);margin:14px 0 20px;padding-left:13px;border-left:2px solid var(--diligence)}
-.seam b{display:block;font-style:normal;color:var(--text);font-weight:600;font-size:15px;line-height:1.4;margin-top:6px;letter-spacing:-0.01em}
+.seam{--seam-mb:20px;font:italic var(--seam-size,13px)/1.55 var(--serif,Newsreader,Georgia,serif);color:var(--text-faint);margin:14px 0 var(--seam-mb,18px);padding-left:13px;border-left:2px solid var(--seam-rule,var(--diligence));max-width:var(--seam-max,none)}
+.seam b{display:block;font-style:normal;color:var(--text);font-weight:600;font-size:var(--seam-b-size,15px);line-height:1.4;margin-top:6px;letter-spacing:-0.01em}
 .reg{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.03);position:relative}
 .reg .rh{display:flex;align-items:baseline;gap:10px}
 .reg .rname{font:10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase}
