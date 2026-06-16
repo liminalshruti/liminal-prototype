@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · One story · Liminal</title>
+
+<!--
+  cuts/thread/convergence.html · The thread · one story · prototype ↔ desktop
+  ──────────────────────────────────────────────────────────────────────
+  Maps each public "thread" cut to its shipping desktop surface (the operational-picture
+  workstream), so the demo and the product tell ONE story — and names the old-frame public
+  cuts that now speak the banned vocabulary and need migrating.
+  Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 §banned-vocab ·
+             liminal-desktop OPERATIONAL_PICTURE_V0_PR_PATH.md + UI_CONTRACT.md ·
+             FRONT_DOOR_DECISION_2026-05-12 · REPOS.md lockstep contract.
+  Frame · diffuse-context (NEW) · Status · doc/sketch · staged · PROPOSED
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1040px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--connection); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span><span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>one story</b></span>
+        <span class="spacer"></span><span class="ol-pill">prototype ↔ desktop</span>
+      </div>
+    </header>
+
+    <main class="th">
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · one story</div>
+        <h1 class="th-title">The demo and the product, <em>finally the same thing</em>.</h1>
+        <p class="th-lede">Each public cut in this series has a shipping counterpart in the desktop app's
+          operational-picture work — same data model, same receipts, same loop. This is the map: the public
+          surface people click, beside the surface that actually runs. One vocabulary, one story.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> Convergence map — sourced from the desktop operational-picture specs (OPERATIONAL_PICTURE_V0_PR_PATH · UI_CONTRACT) and the proposed diffuse-context plan.</span>
+
+      <section class="conv" id="conv"></section>
+
+      <div class="conv-retire" id="retire"></div>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>public shopfront ↔ shipping desktop · one vocabulary</span><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  const MAP = [
+    { proto:"open-loops / your data", protoSub:"cuts/thread/open-loops · extract", desk:"Operational Picture", deskSub:"commitments · obligations · claims projection" },
+    { proto:"the morning brief", protoSub:"cuts/thread/brief", desk:"Receipted Update", deskSub:"closed / new / moved / stalled · daily" },
+    { proto:"insights", protoSub:"cuts/thread/insights", desk:"Insight feed", deskSub:"5 typed insights · evidence chains" },
+    { proto:"the thread (a subject)", protoSub:"cuts/thread/thread", desk:"Counterparty Packet", deskSub:"per-person receipted timeline" },
+    { proto:"told-them", protoSub:"cuts/thread/told-them", desk:"Told-Them Register", deskSub:"say-with-care contradiction detection" },
+    { proto:"precision", protoSub:"cuts/thread/precision", desk:"corrections + event-log metrics", deskSub:"dismiss/confirm → query over the log" },
+    { proto:"(recall — next)", protoSub:"not yet built", desk:"Recall bar", deskSub:"FTS5 + embedding-hybrid · contract-frozen" },
+  ];
+
+  const RETIRE = [
+    { cut:"01-slate-tray", why:"tray + twelve agents + vault — front-door vocabulary the plan bans; reframe to open-loops." },
+    { cut:"00-agency", why:"the 12-agent / 4-register rail — banned nouns; off the product surface." },
+    { cut:"02-forensic-agent", why:"forensic / diligence-loop register — superseded by the receipted-ledger frame." },
+    { cut:"08 · 09 custody", why:"judgment / refusal register — keep as the separate NatSec funnel, not the founder story." },
+    { cut:"embed-vault · embed-agent", why:"\"vault\" / \"agents\" embeds — replace with open-loops / receipt embeds." },
+  ];
+
+  document.getElementById("conv").innerHTML = `
+    <div class="conv-head-row">
+      <span class="conv-col-label">Public cut · this prototype</span><span></span>
+      <span class="conv-col-label r">Shipping surface · liminal-desktop</span>
+    </div>
+    ${MAP.map(m => `
+      <div class="conv-row">
+        <div class="conv-cell proto"><span class="conv-cell-name">${m.proto}</span><span class="conv-cell-sub">${m.protoSub}</span></div>
+        <div class="conv-link">→</div>
+        <div class="conv-cell desk"><span class="conv-cell-name">${m.desk}</span><span class="conv-cell-sub">${m.deskSub}</span></div>
+      </div>`).join("")}`;
+
+  document.getElementById("retire").innerHTML = `
+    <div class="conv-retire-head">⤷ old-frame cuts to migrate (speak the banned vocabulary — staged, not deleted)</div>
+    <div class="conv-retire-list">
+      ${RETIRE.map(r => `<div class="conv-retire-item"><span class="cut">${r.cut}</span><span class="why">${r.why}</span></div>`).join("")}
+    </div>`;
+</script>
+</body>
+</html>

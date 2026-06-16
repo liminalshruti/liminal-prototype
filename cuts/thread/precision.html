@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Precision · Liminal</title>
+
+<!--
+  cuts/thread/precision.html · The thread · the learning curve · "learns your line"
+  ──────────────────────────────────────────────────────────────────────
+  Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 §"Then, daily" + demo step 5
+             ("precision number on the tin weekly") + §6 kill criteria (dismiss-rate falling).
+  Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
+  Tokens canon · shell from cut-shell · vocab from thread.css · data from seed-intel.js
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1040px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--connection); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span><span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>precision</b></span>
+        <span class="spacer"></span><span class="ol-pill" id="hdr">on the tin · local-first</span>
+      </div>
+    </header>
+
+    <main class="th">
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · learns your line</div>
+        <h1 class="th-title">Every dismiss makes the next list <em>sharper</em>.</h1>
+        <p class="th-lede">When you dismiss a wrong loop, Liminal records why and stops surfacing that shape.
+          The number that matters is the noise rate — how much of what it shows you, you throw away — and it
+          should fall every week. It's printed on the tin, not buried in a settings page.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
+
+      <section class="prec">
+        <div class="prec-chart">
+          <div class="prec-chart-head">
+            <span class="prec-chart-title">Noise rate · dismissed ÷ surfaced</span>
+            <span class="prec-now" id="now"></span>
+          </div>
+          <div class="prec-bars" id="bars"></div>
+        </div>
+        <div class="prec-log">
+          <div class="prec-log-head">What it learned from you</div>
+          <div id="log"></div>
+        </div>
+      </section>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>the noise rate is on the tin, weekly</span><span class="sep">|</span>
+        <a href="./open-loops.html">open loops →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { precision, INTEL_DISCLOSURE } from "./seed-intel.js";
+  document.getElementById("disc").textContent = INTEL_DISCLOSURE;
+
+  const weeks = precision.weeks;
+  const latest = weeks[weeks.length - 1];
+  const first = weeks[0];
+  document.getElementById("now").innerHTML =
+    `${Math.round(latest.rate*100)}% <small>noise · down from ${Math.round(first.rate*100)}%</small>`;
+  document.getElementById("hdr").innerHTML = `<b>${Math.round(latest.rate*100)}%</b> noise · local-first`;
+
+  const maxRate = Math.max(...weeks.map(w => w.rate));
+  document.getElementById("bars").innerHTML = weeks.map(w => {
+    const h = Math.round((w.rate / maxRate) * 100);
+    return `
+      <div class="prec-bar">
+        <span class="prec-bar-val">${Math.round(w.rate*100)}%</span>
+        <div class="prec-bar-fill" style="height:${h}%"></div>
+        <span class="prec-bar-label">${w.week}</span>
+      </div>`;
+  }).join("");
+
+  document.getElementById("log").innerHTML = precision.log.map(l => `
+    <div class="prec-log-row">
+      <span class="prec-log-when">${l.when}</span>
+      <span class="prec-log-what">${l.what}</span>
+      <span class="prec-log-learned">${l.learned}</span>
+    </div>`).join("");
+</script>
+</body>
+</html>

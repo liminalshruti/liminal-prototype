@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Your data · Liminal</title>
+
+<!--
+  cuts/thread/extract.html · The thread · REAL local extraction · "on your data"
+  ──────────────────────────────────────────────────────────────────────
+  Drop an .mbox/.eml mail export, an .ics calendar, or plain text → open loops are
+  computed in your browser by extract.js (no backend). Same render-truthful precedent
+  as cut 09 (real OSINT kernel, client-side).
+  Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 §2 "first artifact, first
+             session, on their data" · v1 inputs Gmail/Calendar/Granola/Claude logs.
+  Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1000px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--connection); }
+  #results { display:none; flex-direction:column; gap:var(--space-3); }
+  #results.on { display:flex; }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span><span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>your data</b></span>
+        <span class="spacer"></span><span class="ol-pill" id="hdr">parsed in your browser · local-first</span>
+      </div>
+    </header>
+
+    <main class="th">
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · on your data</div>
+        <h1 class="th-title">Drop a real export — see <em>your</em> open loops.</h1>
+        <p class="th-lede">This one isn't seeded. Drop an <b style="color:var(--text-mid)">.mbox</b> /
+          <b style="color:var(--text-mid)">.eml</b> mail export, an <b style="color:var(--text-mid)">.ics</b>
+          calendar, or any text — and the loops below are computed from those exact bytes, in this browser,
+          with no upload. Every receipt points back to the line it matched.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> Real parse — nothing is uploaded; extraction runs locally via <b style="color:var(--text-mid)">extract.js</b>. Heuristic (pattern-matched), not an LLM.</span>
+
+      <div class="drop" id="drop">
+        <span class="drop-glyph">⬇</span>
+        <span class="drop-title">Drop a file here</span>
+        <span class="drop-sub">.mbox · .eml · .ics · .txt · .md — or load a sample to see a real parse run:</span>
+        <div class="drop-samples">
+          <button class="drop-sample" data-sample="founder-sent.mbox">load sample · founder-sent.mbox</button>
+          <button class="drop-sample" data-sample="week.ics">load sample · week.ics</button>
+        </div>
+      </div>
+
+      <section class="th-loops" id="results">
+        <div class="th-loops-head">
+          <span class="th-loops-count extract-summary" id="summary"></span>
+          <span class="th-loops-precision"><a href="#" id="reset" style="color:var(--text-dim);text-decoration:none;border-bottom:1px dotted var(--card-border-2);">drop another →</a></span>
+        </div>
+        <div id="list" style="display:flex;flex-direction:column;gap:var(--space-3);"></div>
+      </section>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>your data, parsed where it lives</span><span class="sep">|</span>
+        <a href="./open-loops.html">the seeded version →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { extractFromText } from "./extract.js";
+
+  const dropEl = document.getElementById("drop");
+  const resultsEl = document.getElementById("results");
+  const listEl = document.getElementById("list");
+  const summaryEl = document.getElementById("summary");
+
+  const KIND_LABEL = { owe:"you owe", owed:"owed to you", waiting:"waiting on them", changed:"what changed" };
+
+  function loopHTML(loop, i) {
+    return `
+      <article class="loop" data-kind="${loop.kind}">
+        <div class="loop-rank">${String(i + 1).padStart(2, "0")}</div>
+        <div class="loop-main">
+          <span class="loop-kindtag">${KIND_LABEL[loop.kind] || loop.kind}</span>
+          <div class="loop-title">${loop.title}</div>
+          <div class="loop-sub">${loop.sub}</div>
+          <div class="receipt">
+            <button class="receipt-bar" data-receipt>
+              <span class="src-glyph">${loop.receipt.glyph}</span><span class="src-name">${loop.receipt.name}</span>
+              <span class="src-meta">· ${loop.receipt.meta}</span><span class="caret">›</span>
+            </button>
+            <div class="receipt-body"><div class="receipt-quote">${loop.receipt.quote}</div><div class="receipt-trace">${loop.receipt.trace}</div></div>
+          </div>
+        </div>
+        <div class="loop-side"><span class="loop-age">${loop.age}</span></div>
+      </article>`;
+  }
+
+  function render(text, filename) {
+    const { fmt, loops, stats } = extractFromText(text, filename);
+    listEl.innerHTML = loops.length
+      ? loops.map(loopHTML).join("")
+      : `<div class="loop" style="border-left-color:var(--card-border-2)"><div class="loop-rank">—</div><div class="loop-main"><div class="loop-title">No open loops found in this file.</div><div class="loop-sub">Try an .mbox/.eml with sentences like “I'll send… by Friday” or a question awaiting a reply.</div></div><div></div></div>`;
+    summaryEl.innerHTML =
+      `<span class="extract-file">${filename}</span> · parsed <b>${stats.units}</b> ${stats.kind} (${fmt}) · ` +
+      `<span class="real">found ${loops.length} open loop${loops.length === 1 ? "" : "s"}</span> · computed in your browser`;
+    resultsEl.classList.add("on");
+    dropEl.style.display = "none";
+  }
+
+  // drag + drop
+  ["dragenter","dragover"].forEach(ev => dropEl.addEventListener(ev, e => { e.preventDefault(); dropEl.classList.add("is-over"); }));
+  ["dragleave","drop"].forEach(ev => dropEl.addEventListener(ev, e => { e.preventDefault(); dropEl.classList.remove("is-over"); }));
+  dropEl.addEventListener("drop", e => {
+    const file = e.dataTransfer?.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => render(String(reader.result || ""), file.name);
+    reader.readAsText(file);
+  });
+
+  // samples
+  dropEl.querySelectorAll("[data-sample]").forEach(btn => {
+    btn.addEventListener("click", async () => {
+      const name = btn.dataset.sample;
+      const res = await fetch(`./samples/${name}`);
+      render(await res.text(), name);
+    });
+  });
+
+  // receipts toggle + reset
+  listEl.addEventListener("click", e => {
+    const bar = e.target.closest("[data-receipt]");
+    if (bar) bar.closest(".receipt").classList.toggle("is-open");
+  });
+  document.getElementById("reset").addEventListener("click", e => {
+    e.preventDefault();
+    resultsEl.classList.remove("on");
+    dropEl.style.display = "flex";
+  });
+</script>
+</body>
+</html>
