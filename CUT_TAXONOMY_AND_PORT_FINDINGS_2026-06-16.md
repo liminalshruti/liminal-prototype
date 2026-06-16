@@ -196,6 +196,24 @@ two framings — the same "one substrate, many projections" shape as the cut tax
 
 ### Build-scope (both specs read in full, 2026-06-16)
 
+> **⚠ CORRECTION 2026-06-16 (agents-v1 builder session, verified against the actual `sandbox/` tree):**
+> The scope below — and the "PROPOSAL · design-to-review · owner TBD · ~30% net-new" framing in the
+> tables above — is **WRONG**, written from the specs' *docs* without checking the code. Direct
+> verification in `liminal-agents-v1`:
+> - **The engines are already BUILT and TESTED in the sandbox**, not proposals. `sandbox/lib/insight/`
+>   has `engine.js`, `value-quote.js`, `summarizer.js`, `ledger.js`, `anchor.js`, `ingest/{claude-code,codex,session-events}.js`,
+>   and **three** detectors (`abandoned`, `model-oversized`, `thrash`) — the spec described only "detector #1."
+> - **18 `insight-*` test files; 21 tests pass** across engine + value-quote + detectors + privacy (run 2026-06-16).
+> - **Pre-build Step 0 RESOLVED:** there is **NO production `lib/x402/`** — the x402 primitives exist
+>   ONLY at `sandbox/lib/x402/` (8 files, 650 LOC). So the "~70% already exists" is true *in the sandbox*, not in production.
+>
+> **The real Phase 1 is therefore PROMOTION, not construction:** lift a working, tested
+> `sandbox/lib/insight/` + `sandbox/lib/x402/` into production-grade `lib/` — re-vendor deps
+> (`algosdk`, `@algorandfoundation/algokit-utils`), swap sandbox `node:crypto` for the browser-safe
+> `sha256Hex` (same fix as the seal bug this session), port the 18 tests to `node:test`, harden the
+> contracts. Much smaller and lower-risk than "build the wedge"; the unknowns are promotion-quality
+> (deps, crypto, schema-versioning), not "can we build value_quote." See the revised checklist below.
+
 **One engine, two files.** Insight = ledger + detector framework + surfaces; Value-Quote = the
 `value_quote` + confidence machinery the detectors depend on. **Value-Quote is the hard-dependency**
 — Insight's open-Q#1 *is* the Value-Quote engine; no trustworthy detector ships without it. Both
@@ -247,14 +265,16 @@ These are NOT invented — they are the decisions the two specs flag in their ow
 plus the load-bearing verification. All are `liminal-agents-v1` work → **Sean-coordinate before code.**
 Ordered so a blocker is found before effort is spent downstream of it.
 
-**0 · Verify the `lib/x402/*` primitives exist and match the build-map.** The "~70% already exists" is
-the *spec's own self-assessment*, validated here only against its build-map table — NOT the actual
-implementation. Confirm each named primitive is real with the claimed contract: `priced-read.js` (call
-settlement + receipt), `algorand.js` (+ `anchorNote` hash anchor), `reputation.js` (`scoreFromStats`,
-`canonicalJson`, `buildReputationEntry`/`anchorReputationEntry`), `lane-guard.js` (lane as label), and
-v1 `Packet` + `computePacketHash`. If any is missing or differs, the ~70/30 split and the phasing shift.
-**⚠ The specs cite `sandbox/lib/x402/*`; production is `lib/x402/*` — confirm which tree is the source**
-(may be a sandbox prototype, not the production primitive). This is the gating unknown for everything else.
+**0 · ✅ RESOLVED 2026-06-16 (verified in the repo, not the docs).** The x402 primitives exist
+**only at `sandbox/lib/x402/`** (8 files, 650 LOC) — **there is NO production `lib/x402/`.** AND the
+whole insight engine is already built+tested in `sandbox/lib/insight/` (engine, value-quote,
+summarizer, ledger, anchor, 3 detectors, ingest) with **18 test files / 21 passing.** So Phase 1 is
+**promotion** (sandbox → production `lib/`), not construction. The remaining real unknowns, re-cast as
+promotion concerns: (a) **deps** — `sandbox/lib/x402` pulls `algosdk` + `@algorandfoundation/algokit-utils`;
+confirm these belong in production or are anchor-only/optional; (b) **crypto** — sandbox uses
+`node:crypto`; swap to the browser-safe `sha256Hex` (the exact seal bug fixed this session) if any of
+it runs in the webview; (c) **schema-versioning** (step 3 below) for the canonical-hash inputs;
+(d) **test port** — sandbox tests → `node:test` in production. Promotion-quality, not feasibility.
 
 **1 · Decide the session boundary** (Insight open-Q#2). What delimits a session — time gap, git branch,
 task handle? It gates summary quality, `thrash` detection (#2), and the whole `session_record` grain.
