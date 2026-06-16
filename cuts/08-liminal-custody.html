@@ -34,6 +34,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../design-system/components/framing.css">
 <link rel="stylesheet" href="../lib/cut-shell.css">
 <link rel="stylesheet" href="../lib/surface-nav.css">
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
@@ -506,22 +507,9 @@
     margin-bottom: 6px;
   }
 
-  /* L3 depth-proof framing — operator register (mono, austere), not a pull-quote.
-     States WHY this defense console exists in a founder-OS product's catalog. */
-  .thesis-line {
-    --thesis-rule: var(--expression);
-    font-family: var(--mono);
-    font-size: 10.5px;
-    line-height: 1.6;
-    letter-spacing: 0.02em;
-    color: var(--text-faint);
-    margin: 12px 0 4px;
-    padding: 9px 12px;
-    border-left: 2px solid var(--thesis-rule, var(--diligence));
-    background: rgba(255,255,255,0.015);
-    max-width: 660px;
-  }
-  .thesis-line b { color: var(--text); font-weight: 500; }
+  /* L3 depth-proof framing — .thesis-line rule from design-system/components/framing.css
+     (canon, operator register). Only the per-cut accent override stays here. */
+  .thesis-line { --thesis-rule: var(--expression); }
 
   .center-title {
     font-size: 32px;

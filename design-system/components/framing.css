@@ -1,0 +1,71 @@
+/* Liminal canon · framing primitives
+ * ─────────────────────────────────────────────────────────────────────────
+ * Two composition patterns for a "framing block" — a quiet setup line + a bold
+ * payload, set off by a register-colored left rule. Promoted to canon 2026-06-16
+ * from liminal-prototype (cuts 00/03/08/09/11), where they carried the
+ * wedge→infra / depth-proof thesis on each cut. Documented in DESIGN_SYSTEM.md
+ * § Patterns. Consumes canon tokens only — never hardcode; no fallback hexes
+ * (canon vars are always present where this is loaded).
+ *
+ *   .seam        — serif register (founder-facing, L1–L2): warmth + editorial.
+ *   .thesis-line — mono register (operator/high-stakes, L3): austere + precise.
+ *
+ * Same job, two voices. Vary per-surface via the custom props below; do NOT fork.
+ */
+
+/* ── .seam · serif framing block (founder register) ──────────────────────── */
+.seam {
+  font: italic var(--seam-size, 13px)/1.55 var(--serif);
+  color: var(--fg-4);
+  margin: 14px 0 var(--seam-mb, 18px);
+  padding-left: 13px;
+  border-left: 2px solid var(--seam-rule, var(--diligence));
+  max-width: var(--seam-max, none);
+}
+.seam b {
+  display: block;
+  font-style: normal;
+  color: var(--fg-1);
+  font-weight: 600;
+  font-size: var(--seam-b-size, 15px);
+  line-height: 1.4;
+  margin-top: 6px;
+  letter-spacing: -0.01em;
+}
+
+/* ── .thesis-line · mono framing block (operator register) ───────────────── */
+.thesis-line {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: var(--fg-4);
+  margin: 12px 0 4px;
+  padding: 9px 12px;
+  border-left: 2px solid var(--thesis-rule, var(--diligence));
+  background: rgba(255, 255, 255, 0.015);
+  max-width: 660px;
+}
+.thesis-line b {
+  color: var(--fg-1);
+  font-weight: 500;
+}
+
+/* ── .eyebrow-rule · section label + trailing hairline (G-004) ────────────── */
+/* The recurring "eyebrow text, then a thin rule to the edge" header. Apply to an
+ * element carrying the eyebrow label; the rule fills remaining width. */
+.eyebrow-rule {
+  font: var(--type-eyebrow);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-4);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.eyebrow-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--frame-border);
+}

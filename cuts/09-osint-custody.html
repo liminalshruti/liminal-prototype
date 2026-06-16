@@ -45,6 +45,7 @@
 
 <!-- canon · DO NOT REDEFINE TOKENS -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../design-system/components/framing.css">
 <!-- shared desktop-app shell · chrome + register accents -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
 <!-- brand type hierarchy -->
@@ -178,12 +179,7 @@
   .obs[data-type="INTEGRITY_FLAG"] .obs-src { color: var(--c-weak); }
 
   /* ── center header ── */
-  .thesis-line {
-    font-family: var(--mono); font-size: 10.5px; line-height: 1.6; letter-spacing: .02em;
-    color: var(--text-faint); margin: 12px 0 4px; padding: 9px 12px;
-    border-left: 2px solid var(--thesis-rule, var(--diligence)); background: rgba(255,255,255,.015); max-width: 660px;
-  }
-  .thesis-line b { color: var(--text); font-weight: 500; }
+  /* .thesis-line — provided by design-system/components/framing.css (synced from canon); default --diligence border */
   .classification {
     font-family: var(--mono); font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase;
     color: var(--text-dim); text-align: center; padding: 5px;

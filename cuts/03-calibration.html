@@ -42,6 +42,7 @@
 
 <!-- canon · DO NOT REDEFINE TOKENS -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../design-system/components/framing.css">
 
 <!-- shared desktop-app shell · import, then override with per-cut styles -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
@@ -146,13 +147,8 @@
     color: var(--text-soft);
     line-height: 1.5;
   }
-  .seam {
-    --seam-size: 0.82rem; --seam-b-size: 0.95rem; --seam-mb: 4px; --seam-max: 620px;
-    font: italic var(--seam-size, 13px)/1.55 var(--serif, Newsreader, Georgia, serif);
-    color: var(--text-faint); margin: 14px 0 var(--seam-mb, 18px); padding-left: 13px;
-    border-left: 2px solid var(--seam-rule, var(--diligence)); max-width: var(--seam-max, none);
-  }
-  .seam b { display: block; font-style: normal; color: var(--text); font-weight: 600; font-size: var(--seam-b-size, 15px); line-height: 1.4; margin-top: 6px; letter-spacing: -0.01em; }
+  /* .seam rule from design-system/components/framing.css (canon); only the dense-view overrides stay */
+  .seam { --seam-size: 0.82rem; --seam-b-size: 0.95rem; --seam-mb: 4px; --seam-max: 620px; }
 
   /* Grid container · grid takes full row · drill panel sits below it
      (was side-by-side, but at desktop viewports the drill below reads
