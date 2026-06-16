@@ -516,6 +516,11 @@
     line-height: 1.4;
     pointer-events: none;
   }
+  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) — in-cut, wins source-order */
+  .cal-drill-close { transition: transform .22s var(--ease-spring, ease), background .15s, color .15s, border-color .15s; }
+  .cal-drill-close:hover { transform: translateY(-1.5px); }
+  .cal-drill-close:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  @media (prefers-reduced-motion: reduce){ .cal-drill-close{transition:background .15s,color .15s} .cal-drill-close:hover{transform:none} }
 </style>
 </head>
 <body data-product="personal">

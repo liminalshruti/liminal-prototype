@@ -170,20 +170,30 @@
   button { cursor: pointer; }
 
   /* magnetic-hover + press physics (ui-skills soft-skill, canon-filtered: motion-only,
-     --ease-spring, transform-only, restrained). Press-give universal; hover-lift 1.5px.
-     SPECIFICITY: cuts name buttons by class (.product-tab, .dispo-btn, .db…) each with its
-     own `transition`, which beats a bare `button{}` rule. `button[class]` = (0,1,1) outranks
-     a single class (0,1,0), so it wins WITHOUT a brittle 40-class union or !important. The
-     `transition` here re-declares the props each class animates + ADDS transform; classed
-     buttons keep their color/bg timing via their own rule, gain the transform channel here.
-     Traffic-light chrome is <div>/<i>, not <button> — unaffected. */
+     --ease-spring, transform-only, restrained). Press-give + hover-lift 1.5px.
+
+     A bare button{} / button[class] rule loses to the cuts' deeper descendant rules
+     (e.g. `.brief-disposition .dispo-btn`). Rather than an !important arms race, the
+     HIGH-VALUE controls opt IN via a shared `.btn-motion` marker. The doubled-class
+     selector (.btn-motion.btn-motion = 0,2,0) wins over single-descendant rules without
+     touching the control's own class/colors. Apply `.btn-motion` to primary interactive
+     controls (sign/decide/amend/tab/etc.). Marker is canon-clean: motion-only, no shape.
+
+     The plain button{} below still gives unclassed buttons a baseline. */
   button { transition: transform .22s var(--ease-spring, ease), color .15s, background .15s, border-color .15s; }
-  button[class] { transition: transform .22s var(--ease-spring, ease), color .15s, background .15s, border-color .15s, opacity .15s; }
-  button:hover, button[class]:hover { transform: translateY(-1.5px); }
-  button:active, button[class]:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  button:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+
+  /* `.btn-motion` marker for controls that opt in (and for the per-cut motion blocks,
+     which live in each cut's own <style> so they win on source order — cut-shell loads
+     BEFORE the cut's inline styles, so a shared rule here loses same-specificity ties to
+     a cut's own descendant rules). cut-shell provides the marker + unclassed baseline;
+     each cut wires its specific controls. See per-cut <style> + scope doc §9. */
+  .btn-motion.btn-motion { transition: transform .22s var(--ease-spring, ease), color .15s, background .15s, border-color .15s, opacity .15s; }
+  .btn-motion.btn-motion:hover { transform: translateY(-1.5px); }
+  .btn-motion.btn-motion:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
   @media (prefers-reduced-motion: reduce) {
-    button, button[class] { transition: color .15s, background .15s; }
-    button:hover, button[class]:hover, button:active, button[class]:active { transform: none; }
+    button, .btn-motion.btn-motion { transition: color .15s, background .15s; }
+    button:active, .btn-motion.btn-motion:hover, .btn-motion.btn-motion:active { transform: none; }
   }
 
   /* typographic polish (ui-skills baseline, stack-agnostic): even heading wrap,

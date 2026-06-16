@@ -1531,6 +1531,11 @@
   .frame-receipt .fr-glyph { color: var(--accent, var(--p-accent)); }
   .frame-receipt .fr-strong { color: var(--text-mid, rgba(255,255,255,0.7)); }
   .frame-receipt .fr-right { margin-left: auto; opacity: 0.72; }
+  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) — in-cut, wins source-order */
+  .case-button { transition: transform .22s var(--ease-spring, ease), background .15s, color .15s, border-color .15s; }
+  .case-button:hover { transform: translateY(-1.5px); }
+  .case-button:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  @media (prefers-reduced-motion: reduce){ .case-button{transition:background .15s,color .15s} .case-button:hover{transform:none} }
 </style>
 </head>
 <body data-product="business">

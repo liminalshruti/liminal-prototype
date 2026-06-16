@@ -316,6 +316,11 @@
   @media (prefers-reduced-motion: reduce) {
     .obs, .read, .hyp, .hyp-fill, .dispo { transition: none !important; animation: none !important; }
   }
+  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) — in-cut, wins source-order */
+  .reg-tab, .t-btn { transition: transform .22s var(--ease-spring, ease), background .15s, color .15s, border-color .15s; }
+  .reg-tab:hover, .t-btn:hover { transform: translateY(-1.5px); }
+  .reg-tab:active, .t-btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  @media (prefers-reduced-motion: reduce){ .reg-tab, .t-btn{transition:background .15s,color .15s} .reg-tab:hover, .t-btn:hover{transform:none} }
 </style>
 </head>
 <body data-cut="09" data-product="business">

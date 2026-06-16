@@ -480,6 +480,12 @@
   #entry-overlay .entry-card.is-speedrun .entry-prompt   { order: 3; }
   #entry-overlay .entry-card.is-speedrun .entry-doors    { order: 4; }
   #entry-overlay .entry-card.is-speedrun .entry-skip     { order: 5; }
+  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) — in-cut, matched to each
+     control's own selector specificity so it wins (dispo-btn's real rule is .brief-disposition .dispo-btn, 0,2,0). */
+  .product-tab, .brief-disposition .dispo-btn, .dispo-btn { transition: transform .22s var(--ease-spring, ease), background 180ms, color 180ms, border-color 180ms; }
+  .product-tab:hover, .brief-disposition .dispo-btn:hover, .dispo-btn:hover { transform: translateY(-1.5px); }
+  .product-tab:active, .brief-disposition .dispo-btn:active, .dispo-btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  @media (prefers-reduced-motion: reduce){ .product-tab,.brief-disposition .dispo-btn,.dispo-btn{transition:background 180ms,color 180ms} .product-tab:hover,.dispo-btn:hover,.product-tab:active,.dispo-btn:active{transform:none} }
 </style>
 
 </head>

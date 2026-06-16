@@ -422,6 +422,11 @@
     font-size: 0.9rem;
     color: var(--text-soft);
   }
+  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) — in-cut, wins source-order */
+  .tdy-btn { transition: transform .22s var(--ease-spring, ease), background .15s, color .15s, border-color .15s; }
+  .tdy-btn:hover { transform: translateY(-1.5px); }
+  .tdy-btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  @media (prefers-reduced-motion: reduce){ .tdy-btn{transition:background .15s,color .15s} .tdy-btn:hover{transform:none} }
 </style>
 </head>
 <body data-product="personal">
