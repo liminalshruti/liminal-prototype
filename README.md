@@ -42,7 +42,7 @@ This is a **single-file prototype catalog** — public, click-able embodiments o
 | `lib/osint-kernel.bundle.js` | Browser build of the `liminal-test` custody kernel. Real deliberation + 7-layer structural guard + review-rule re-rank, no backend. **Frozen artifact** — `liminal-test` source is no longer in the workspace, so `npm run build:kernel` can't currently regenerate it (see "OSINT Custody" §below). |
 | `molehunt/index.html` | Counterintelligence analyst console (self-contained, high-assurance) |
 | `team-drift/index.html` | Team coherence telemetry (governance-as-pipe) |
-| `design-system/tokens/design-tokens.css` | The token file the cuts link — a **synced consumer copy** of the upstream canon at `liminal-creative/tokens/design-tokens.css` (see "lockstep-canon contract" §below). Mirror it; don't edit values here independently. |
+| `design-system/tokens/design-tokens.css` | The token file the cuts link — a **synced consumer copy** of the upstream canon at `liminal-creative/tokens/design-tokens.css` (see "lockstep-canon contract" §below). Don't edit values here; run `npm run tokens:sync` to pull from canon, `npm run tokens:check` to verify (CI guard). |
 | `lib/cut-shell.css` | Frame chrome + slate/tray + audit ribbon + classification + boot animations. (Also carries a `:root` ink-token fallback block that must track canon — re-sync on any ink-token change, else it shadows the linked tokens.) |
 | `lib/brand-upgrade.css` | Brand fonts (PerfectlyNineties + NinetiesHeadliner) + type hierarchy |
 | `design-system.html` + `design-system/` | Design tokens browser, type ramp, motion specimens |
@@ -102,7 +102,7 @@ Honest line between what runs today and what is built-but-not-yet-wired or roadm
 | --- | --- |
 | Bounded agents · refusal-as-output | **Shipping** — runs live in the cuts; the custody kernel (cut 09) recomputes the full loop in-browser each run. |
 | Packet contract · canonical hashing | **Shipping** — implemented and tested in the `agents-v1` substrate (golden-test pinned); consumed by `liminal-desktop` for hashing. |
-| Canonical token lockstep | **Shipping** — single token vocabulary; desktop's linked CSS verified in exact sync with canon (2026-06-11). Panda mirror re-synced; codegen-from-canon is the roadmapped hardening. |
+| Canonical token lockstep | **Shipping** — single token vocabulary. Desktop's linked CSS in exact sync (2026-06-11, Panda codegen). This prototype re-synced to canon 2026-06-16 (was 171 vars behind) + now has `tokens:sync`/`tokens:check` scripts so drift is caught, not silent. Symlink ruled out (cross-repo symlink dangles on Pages deploy); flat-copy + sync-discipline is the mechanism. |
 | Vault encryption-at-rest · packet signing | **Designed, not yet wired** — implemented in the `agents-v1` library (SQLCipher v4 + keyguard); the shipping Tauri vault currently opens plaintext SQLite. Wiring is near-term. |
 | On-chain provenance (cut 09) | **Recorded snapshot** — a real custody run was anchored once (localnet, 2026-05-28); a publicly-verifiable testnet anchor is roadmapped. |
 | Real model agents (desktop) | **Partial** — agent pipeline exists; desktop falls back to heuristic reads when no model client is wired. |

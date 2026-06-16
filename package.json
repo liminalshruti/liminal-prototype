@@ -7,7 +7,9 @@
   "scripts": {
     "dev": "node server.mjs",
     "start": "node server.mjs",
-    "build:kernel": "bun build ../liminal-test/src/browser.ts --target=browser --format=esm --outfile=lib/osint-kernel.bundle.js"
+    "build:kernel": "bun build ../liminal-test/src/browser.ts --target=browser --format=esm --outfile=lib/osint-kernel.bundle.js",
+    "tokens:sync": "node scripts/tokens/sync-upstream.mjs",
+    "tokens:check": "node scripts/tokens/sync-upstream.mjs --check"
   },
   "license": "MIT"
 }
