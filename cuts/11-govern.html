@@ -38,6 +38,8 @@
 @font-face{font-family:"Perfectly Nineties";src:url("../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
 @font-face{font-family:"Perfectly Nineties";src:url("../fonts/PerfectlyNineties-Semibold.otf") format("opentype");font-weight:600;font-display:swap}
 *{box-sizing:border-box}html,body{margin:0;height:100%}
+/* ui-skills polish: even heading wrap / orphan-free body (numerals already tabular per-element) */
+h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
 body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;
   background-image:radial-gradient(900px 480px at 8% -6%,var(--diligence-50),transparent 60%),radial-gradient(760px 480px at 106% 4%,var(--depth-50),transparent 55%);
   display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px}

@@ -34,8 +34,12 @@
 @font-face{font-family:"Perfectly Nineties";src:url("../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
 @font-face{font-family:"Perfectly Nineties";src:url("../fonts/PerfectlyNineties-Semibold.otf") format("opentype");font-weight:600;font-display:swap}
 *{box-sizing:border-box}html,body{margin:0;height:100%}
+/* ui-skills polish: even heading wrap / orphan-free body */
+h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
 body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:16px;
   background-image:radial-gradient(900px 480px at 8% -6%,var(--diligence-50),transparent 60%),radial-gradient(760px 480px at 106% 4%,var(--depth-50),transparent 55%)}
+/* tabular figures — AFTER the body font shorthand (which would otherwise reset font-variant-numeric) */
+body{font-variant-numeric:tabular-nums}
 .mono{font-family:var(--mono)}
 .shell{width:min(1200px,98vw);height:min(770px,95vh);display:grid;grid-template-rows:auto 1fr auto;border:1px solid var(--card-border);border-radius:10px;overflow:hidden;background:var(--frame-bg);box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative}
 

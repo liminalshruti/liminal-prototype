@@ -163,8 +163,16 @@
     padding: 32px 20px;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
+    /* tabular figures: data-dense cuts ($spend, OKR %, counts, posteriors)
+       shouldn't jitter as digits change. Per-element overrides still win. */
+    font-variant-numeric: tabular-nums;
   }
   button { cursor: pointer; }
+
+  /* typographic polish (ui-skills baseline, stack-agnostic): even heading wrap,
+     orphan-free body. Degrades gracefully where unsupported. */
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
 
   .stage {
     width: 100%; max-width: 1640px;
