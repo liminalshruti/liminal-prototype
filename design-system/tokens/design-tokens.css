@@ -47,6 +47,7 @@
  *      ├── per-hue scales (--{hue}-50 through -900)
  *      ├── Liminal aliases (-faint, -bg, -tint, -soft, -edge, -glow, -strong)
  *      ├── pigment-aware extras (-glow-soft, -glow-strong, -wash, -wash-deep)
+ *      ├── pigment physics · ink-on-dark-stone (-wash resting · -stain soaked · -dry aged) — per factor; see DESIGN_SYSTEM.md
  *      ├── register aliases (12 register-words → 12 hue scales)
  *      ├── semantic states (good/amber/red migrated to wheel registers)
  *      ├── functional UI bindings (--ui-action-* / --ui-state-* / etc.)
@@ -173,6 +174,9 @@
   --stability-soft:   var(--stability-300);
   --stability-edge:   var(--stability-400);
   --stability-glow:   rgba(237,33,79,0.18);
+  --stability-wash:   var(--stability-100);   /* pigment · resting ink */
+  --stability-stain:  var(--stability-800);   /* pigment · soaked-in */
+  --stability-dry:    #B76E72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --stability-strong: var(--stability-600);
 
   /* ─── factor 2 · Vitality · 60° · sacral · OPAQUE · BRAND ACCENT · Cadmium Orange ─── */
@@ -193,6 +197,9 @@
   --vitality-soft:   var(--vitality-300);
   --vitality-edge:   var(--vitality-400);
   --vitality-glow:   rgba(255,149,73,0.18);
+  --vitality-wash:   var(--vitality-100);   /* pigment · resting ink */
+  --vitality-stain:  var(--vitality-800);   /* pigment · soaked-in */
+  --vitality-dry:    #C49A72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --vitality-strong: var(--vitality-600);
 
   /* ─── factor 3 · Agency · 120° · solar plexus · OPAQUE · Cadmium Lemon ─── */
@@ -213,6 +220,9 @@
   --agency-soft:   var(--agency-300);
   --agency-edge:   var(--agency-400);
   --agency-glow:   rgba(254,240,89,0.18);
+  --agency-wash:   var(--agency-100);   /* pigment · resting ink */
+  --agency-stain:  var(--agency-800);   /* pigment · soaked-in */
+  --agency-dry:    #BDB777;   /* pigment · aged / faded — desaturated literal, derived (House had no agency-dry); saturation-axis exception */
   --agency-strong: var(--agency-600);
 
   /* ─── factor 4 · Connection · 180° · heart · LUMINOUS · Emerald Green ─── */
@@ -235,6 +245,9 @@
   --connection-glow:        rgba(49,230,130,0.20);
   --connection-glow-soft:   rgba(49,230,130,0.10);
   --connection-glow-strong: rgba(49,230,130,0.36);
+  --connection-wash:   var(--connection-100);   /* pigment · resting ink */
+  --connection-stain:  var(--connection-800);   /* pigment · soaked-in */
+  --connection-dry:    #72BA8F;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --connection-strong: var(--connection-600);
 
   /* ─── factor 5 · Expression · 210° · throat · TRANSLUCENT · Prussian Teal ─── */
@@ -257,6 +270,8 @@
   --expression-glow:        rgba(30,150,146,0.16);
   --expression-wash:        rgba(30,150,146,0.08);
   --expression-wash-deep:   rgba(30,150,146,0.20);
+  --expression-stain:  var(--expression-800);   /* pigment · soaked-in */
+  --expression-dry:    #6A9E9D;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --expression-strong: var(--expression-600);
 
   /* ─── factor 6 · Clarity · 270° · third eye · LUMINOUS · BRAND PRIMARY · Ultramarine Violet ─── */
@@ -279,6 +294,9 @@
   --clarity-glow:        rgba(142,102,251,0.20);
   --clarity-glow-soft:   rgba(142,102,251,0.10);
   --clarity-glow-strong: rgba(142,102,251,0.45);
+  --clarity-wash:   var(--clarity-100);   /* pigment · resting ink */
+  --clarity-stain:  var(--clarity-800);   /* pigment · soaked-in */
+  --clarity-dry:    #9485BF;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --clarity-mid:    var(--clarity-300);
   --clarity-strong: var(--clarity-glow-strong);
 
@@ -302,6 +320,9 @@
   --wholeness-glow:        rgba(233,0,149,0.20);
   --wholeness-glow-soft:   rgba(233,0,149,0.10);
   --wholeness-glow-strong: rgba(233,0,149,0.40);
+  --wholeness-wash:   var(--wholeness-100);   /* pigment · resting ink */
+  --wholeness-stain:  var(--wholeness-800);   /* pigment · soaked-in */
+  --wholeness-dry:    #B66E8A;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --wholeness-strong: var(--wholeness-glow-strong);
   --wholeness-due:    rgba(233,0,149,0.16);
 
