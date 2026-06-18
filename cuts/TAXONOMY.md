@@ -72,7 +72,9 @@ L1  FOUNDER-OS          diffuse founder context → next move          [the wedg
 L2  TEAM / OPERATOR     messy org context → coordinated judgment      [expansion]
 L3  HIGH-STAKES         evidence · audit · constraints → judgment      [depth proof · "it travels"]
                         at the lever
-L4  CATEGORY            trusted context infrastructure for humans      [the long game]
+L4  CATEGORY            the control plane for companies at agentic scale —  [the long game]
+                        trusted context infrastructure for humans making
+                        consequential decisions with AI
                         making consequential decisions with AI
 ```
 

@@ -226,16 +226,16 @@ const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],bod
 
 /* ── the subject definitions: same loop, different subject (skin + signals + evidence + verdict) ── */
 const SUBJECTS={
-  spend:{label:'AI spend',product:'business · subject = agent fleet',
+  spend:{label:'AI spend',product:'company · subject = a team’s agent fleet',
     registers:['Diligence','Synthesis','Judgment','Outreach'],
-    cover:['reads the spend facts','frames vs the OKRs','the verdict + refusals','the move, drafted'],
-    refuse:['won’t set policy','won’t price','won’t draft outreach','won’t judge'],
-    slate:[['Claude usage','usage-events · $4,500 Opus','E01–E21 · by category'],['OKR baseline','60% product / 40% security','O1 0.6 · O2 0.4'],['GitHub','pr-evidence · PR-103','PR-103 · product · →E14'],['Registry','agent-registry · CalendarOps','verified · ~10% Opus']],
-    tray:[['Security','security-tickets','12 open · P0×2'],['Access','model-access-list','cohort 7 · Opus']],
-    sk:'subject · the agent fleet, this period',title:'Is the Opus 4.8 spend tracking the OKRs?',
-    reads:['<span class="hl">$4,500</span> of Opus spend across 7 engineers <span class="cite" data-c="0">usage-events</span>. Product 56% · security 24% · calendar/admin 11%.','Against <span class="hl">60/40</span> <span class="cite" data-c="1">okr-baseline</span> — security under-allocated, frontier spend leaking to cheap work.','VERDICT','Route calendar to <span class="hl">CalendarOps</span> <span class="cite" data-c="3">agent-registry</span> — verified, ~10% of Opus.'],
-    verdict:'⚠ Not ready · 2 fixes · 1 correction',
-    refusalLine:'<b>Exec-comms refused — not its lane.</b> It won’t draft until Judgment clears. The boundary working, logged.',
+    cover:['reads the fleet’s spend','frames vs the OKRs','the verdict + refusals','the escalation, drafted'],
+    refuse:['won’t read their work','won’t price','won’t draft outreach','won’t judge'],
+    slate:[['Fleet usage','usage-events · $12,400 Opus','7 agents · 4 teams · by OKR'],['OKR baseline','60% product / 40% security','O1 0.6 · O2 0.4'],['Pen-test team','agent setup · black-box','no output · 2nd team auditing'],['Registry','agent-registry · CalendarOps','verified · ~10% Opus']],
+    tray:[['Security','P0 backlog · stalled','triage owner unclear'],['Org','escalation path','IC → lead → CISO']],
+    sk:'subject · a team’s agent fleet, this period',title:'Is the pen-test team’s fleet tracking the OKRs?',
+    reads:['<span class="hl">$12,400</span> of Opus across 7 agents in 4 teams <span class="cite" data-c="0">usage-events</span>. One team — pen-test — is a <span class="hl">black box</span>: spend high, output unverifiable.','Against <span class="hl">60/40</span> <span class="cite" data-c="1">okr-baseline</span> — security under-allocated, and the black-box team’s setup can’t be audited without reading their work. <span class="hl">It’s not a people problem — it’s a system one.</span>','VERDICT','Observe + tune the team’s agent setup <span class="cite" data-c="2">setup</span> — without reading their logs. Draft the escalation with the audit chain attached.'],
+    verdict:'⚠ Not ready · 2 fixes · escalation drafted',
+    refusalLine:'<b>Diligence refused to read the team’s work — setup only.</b> It audits how the fleet is configured, never the contents. Observability without snooping — the boundary that lets you govern a team you can’t surveil.',
     evidence:'spend'},
   custody:{label:'Custody',product:'defense · subject = a contested location',
     registers:['Custody','Trial','Verdict','Review'],
@@ -288,9 +288,9 @@ const CHAIN=[['14:31','signals captured',''],['14:32','registers read',''],['14:
 
 /* ── evidence panes (the preserved charts, one per subject) ── */
 function evidencePane(kind){
-  if(kind==='spend')return `<div class="ev-h">Evidence · spend vs OKR<span class="tag">recomputed</span></div><div class="ev-body">
+  if(kind==='spend')return `<div class="ev-h">Evidence · fleet spend vs OKR<span class="tag">$12,400 · 4 teams</span></div><div class="ev-body">
     <div class="allocbar"><div class="p" style="width:60%">product 60%</div><div class="s" style="width:40%">security 40%<span class="ghost"></span></div></div>
-    <div class="swap"><div class="side cur"><span class="ro">current</span><div class="ag">Opus 4.8</div><div class="co">calendar · high tier</div><span class="bd">out of scope</span></div><div class="arrow">→</div><div class="side sug"><span class="ro">suggested</span><div class="ag">CalendarOps</div><div class="co">~10% · scoped</div><span class="bd">verified</span></div></div></div>`;
+    <div class="swap"><div class="side cur"><span class="ro">black-box team</span><div class="ag">pen-test fleet</div><div class="co">setup unauditable · output unverified</div><span class="bd">observe + tune</span></div><div class="arrow">→</div><div class="side sug"><span class="ro">calendar leak</span><div class="ag">CalendarOps</div><div class="co">~10% · scoped · verified</div><span class="bd">route</span></div></div></div>`;
   if(kind==='custody')return `<div class="ev-h">Evidence · the contested location<span class="tag">IMINT + pattern</span></div><div class="ev-body">
     <svg class="map" viewBox="0 0 440 200"><path d="M0,150 Q80,120 140,140 T260,120 Q320,110 360,135 L440,120 L440,200 L0,200 Z" fill="#0e1a26" stroke="var(--card-border-2)"/><path d="M150,0 Q180,60 160,110 Q150,140 175,200" fill="none" stroke="var(--card-border-2)" stroke-dasharray="3 4"/><text x="186" y="40" class="glyph" fill="var(--text-faint)" font-size="8" font-family="var(--mono)">STRAIT</text>
       <g class="mk alarm" transform="translate(210,108)"><circle class="ring" r="3"/><circle class="core" r="3"/></g>
@@ -367,7 +367,7 @@ function renderRead(){const S=SUBJECTS[CUR];
     return `<div class="reg r${i}" data-reg="${i}" style="animation-delay:${.1+i*.16}s"><div class="rh"><span class="rname">${nm}</span><span class="cmark">· corrected</span><span class="rt">+${(0.4+i*1.5).toFixed(1)}s</span><span class="amend" data-amend="${i}">Amend read</span></div>
       <div class="rbody">${S.reads[i]}</div></div>`;}).join('');
   $('#work').innerHTML=`<div class="invoke"><b>/agency invoked</b><span>reading · ${S.product}</span></div>
-    <div class="seam">Switch the subject above — spend, custody, OSINT, a notice, your own week — and the four registers reskin, but the loop never changes: read · judge · refuse · correct · sign. <b>That invariance is the product. Not five tools — one substrate, pointed at whatever's in front of you.</b></div>
+    <div class="seam">Switch the subject above — a team’s AI spend, custody, OSINT, a notice, your own week — and the four registers reskin, but the loop never changes: read · judge · refuse · correct · sign. <b>Spend is the door — the one read a CISO pays for today. But the loop below is the same on any subject. You’re not watching a spend tool. You’re watching the control plane for companies at agentic scale, pointed at a budget first.</b></div>
     <div class="subj-head"><span class="sk">${S.sk}</span><h2>${S.title}</h2></div>
     <div class="evidence">${evidencePane(S.evidence)}</div>
     ${regHTML}
@@ -386,7 +386,9 @@ function go(k){CUR=k;corrections=0;signed=false;
 function toast(m){const t=$('#toast');t.innerHTML='<span class="d">◇</span>'+m;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2400);}
 function recordCorrection(w){corrections++;CHAIN.push(['14:3'+(3+corrections),'correction · '+w,'corr','new']);renderChain();const cc=$('#cc');if(cc)cc.textContent=corrections+' correction'+(corrections>1?'s':'')+' · this is YOUR read now';const sb=$('.db.sign');if(sb&&!signed)sb.textContent='Correct → Sign & hand off';toast('Correction recorded · appended to the chain (never overwrites)');}
 function sign(){if(signed)return;signed=true;CHAIN.push(['14:36','sealed · anchored · chain verified','corr','new']);renderChain();
-  $('#artwrap').innerHTML=`<div style="margin-top:14px;border-left:3px solid var(--judgment);background:var(--judgment-bg);border-radius:0 6px 6px 0;padding:13px 16px"><div style="font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--judgment)">sealed${corrections?' · with '+corrections+' correction'+(corrections>1?'s':''):''}</div><div style="margin-top:8px;font:13px/1.5 var(--serif,Georgia,serif);color:var(--text)">${SUBJECTS[CUR].verdict.replace(/^[^ ]+ /,'')} — handed off, anchored to the chain. Reversible by correction (append-only).</div></div>`;
+  // spend = the company altitude: the seal escalates UP the org with the audit chain attached (the Jam/interview unlock)
+  const escalation = CUR==='spend' ? `<div style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--card-border);font:9px/1.5 var(--mono);color:var(--text-faint)"><span style="letter-spacing:.14em;text-transform:uppercase;color:var(--depth)">escalates up the org</span><br>IC (you) → team lead → <span style="color:var(--text-mid)">CISO</span> — each amends or ratifies on the same chain. Full context travels; nothing re-litigated. <span style="color:var(--text-mid)">Metric handed up: errors caught + drift corrected — not features shipped.</span></div>` : '';
+  $('#artwrap').innerHTML=`<div style="margin-top:14px;border-left:3px solid var(--judgment);background:var(--judgment-bg);border-radius:0 6px 6px 0;padding:13px 16px"><div style="font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--judgment)">sealed${corrections?' · with '+corrections+' correction'+(corrections>1?'s':''):''}</div><div style="margin-top:8px;font:13px/1.5 var(--serif,Georgia,serif);color:var(--text)">${SUBJECTS[CUR].verdict.replace(/^[^ ]+ /,'')} — handed off, anchored to the chain. Reversible by correction (append-only).</div>${escalation}</div>`;
   const sb=$('.db.sign');if(sb)sb.style.display='none';toast('Sealed & handed off · the loop will return it in Today');}
 
 document.addEventListener('click',e=>{
