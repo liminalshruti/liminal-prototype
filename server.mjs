@@ -58,13 +58,22 @@ function broadcastReload() {
   }
 }
 
-// Watch root for changes (recursive). Skip .git, node_modules, _baseline (large), server itself.
-const SKIP_DIRS = new Set(['.git', 'node_modules']);
+// Watch root for changes (recursive). Reload only on real SOURCE edits — never on
+// scratch/tooling churn (Playwright console logs, screenshots, _scratch) which
+// otherwise cause an infinite reload loop: a browser interaction writes a log →
+// watcher reloads → the reload writes a log → … (the week-long flicker bug).
+const SKIP_DIRS = new Set(['.git', 'node_modules', '.playwright-mcp', '_scratch', '_baseline']);
+// Only these extensions are real source worth reloading for.
+const WATCH_EXT = new Set(['.html', '.css', '.js', '.mjs', '.json', '.svg', '.otf', '.woff', '.woff2']);
 const watcher = fs.watch(ROOT, { recursive: true }, (eventType, filename) => {
   if (!filename) return;
-  if (SKIP_DIRS.has(filename.split(path.sep)[0])) return;
-  if (filename === 'server.mjs') return; // ignore self
-  if (/(^|\/)\.[^/]+$/.test(filename)) return; // dotfiles
+  const segs = filename.split(path.sep);
+  if (segs.some((s) => SKIP_DIRS.has(s))) return;          // any scratch/tooling dir at any depth
+  if (filename === 'server.mjs') return;                   // ignore self
+  if (segs.some((s) => s.startsWith('.'))) return;         // any dotfile/dotdir at any depth
+  const base = segs[segs.length - 1];
+  if (base.startsWith('_') && base.endsWith('.png')) return; // session screenshot scratch (_*.png)
+  if (!WATCH_EXT.has(path.extname(base).toLowerCase())) return; // non-source (logs, images, md…)
   console.log(`[liminal dev] changed: ${filename} → reload`);
   broadcastReload();
 });
