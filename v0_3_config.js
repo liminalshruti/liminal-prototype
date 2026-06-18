@@ -214,24 +214,12 @@ export const SLATE_TRAY_PHASES = {
 // ─── Consent classes (LOCKED v0.3.8 · Team + Business surfaces) ──────────
 // Per Decision 12. Refusal-on-consent is structural · same primitive as
 // refusal-on-classification but enforced at a different contract layer.
-// Team: interpersonal consent classes (per-subject, set at onboarding).
-// Business: institutional clearance ladder (per-role + per-classification).
-// Personal: not applicable · operator = subject = same person.
-export const CONSENT_CLASSES = {
-  // Interpersonal · Team surface
-  "pattern-baseline-only":     { label: "Pattern only", scope: "agent reads pattern over time, never message content", level: 1 },
-  "meeting-summaries-only":    { label: "Summaries only", scope: "agent reads Granola summaries the subject was on, not 1:1s", level: 1 },
-  "calendar-attendance-only":  { label: "Calendar only", scope: "agent sees attendance pattern, no meeting content", level: 1 },
-  "shared-on-request":         { label: "Shared on request", scope: "subject can request the chain of reads on them at any time", level: 2 },
-  "full-coherence-read":       { label: "Full coherence", scope: "agent reads all observable patterns and content shared with operator", level: 3 },
-  "mutual-cofounder":          { label: "Mutual · cofounder", scope: "both operators read each other symmetrically · joint-correction class", level: 4 },
-  // Institutional · Business surface (classification ladder)
-  "unclass":                   { label: "Unclassified", scope: "no classification · OSINT, public-domain", level: 0 },
-  "for-official-use":          { label: "For Official Use Only", scope: "FOUO · institutional only", level: 1 },
-  "secret":                    { label: "Secret", scope: "secret-cleared operators only", level: 2 },
-  "top-secret":                { label: "Top Secret", scope: "TS-cleared operators only", level: 3 },
-  "ts-sci":                    { label: "TS / SCI", scope: "TS/SCI compartment · need-to-know", level: 4 },
-};
+// CONSENT_CLASSES carved out to config/consent.js (2026-06-18, first
+// scenario/config split). Re-exported here so frozen archive files that
+// import it from v0_3_config.js keep working unchanged. Live consumers
+// (state.js, boot.js, slate.js) import it directly from config/consent.js.
+// See docs/architecture/V0_3_CONFIG_SCENARIO_SPLIT_MAP.md.
+export { CONSENT_CLASSES } from "./config/consent.js";
 
 // ─── Subjects · the people the operator can read on Team surface (v0.6) ──
 // Each subject is a person on the team with a per-subject consent class.
