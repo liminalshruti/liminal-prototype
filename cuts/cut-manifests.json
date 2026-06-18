@@ -1,0 +1,250 @@
+{
+  "$schema_note": "Per-cut proof and portability manifests. Evidence-only: every field is sourced from this repo (cuts/TAXONOMY.md, README.md, the cut files, lib/ grep). Unknowns are marked 'not found in repo' — nothing is invented. 'monolithic: true' means the cut does NOT load the lib/ stack (verified by grep for lib/boot.js|slate.js|state.js, 2026-06-18). Only cut 01 is modular.",
+  "generated": "2026-06-18",
+  "branch": "foundry/proof-to-port-architecture",
+  "sources": [
+    "cuts/TAXONOMY.md (coordinate table + maturity + convergence verdict)",
+    "README.md (per-cut descriptions + status disclosures)",
+    "grep: which cuts load lib/boot.js (modular vs monolithic)"
+  ],
+  "field_definitions": {
+    "coordinate": "From TAXONOMY.md: (loop-stage × altitude × surface × framing × maturity). Verbatim where TAXONOMY states it.",
+    "role": "TAXONOMY 'convergence verdict' — what the cut is in the product model.",
+    "primitiveMadeVisible": "The reusable primitive/pattern the cut demonstrates, where the repo names one.",
+    "loopTested": "Which stage(s) of Capture→Read→Decide→Record→Re-enter the cut exercises, per TAXONOMY loop-stage.",
+    "subjectDomain": "The subject the loop is pointed at (spend/custody/osint/etc.).",
+    "stateReality": "hi-fi | mock | aspirational | frozen-artifact — from README status disclosures + TAXONOMY maturity. 'not found in repo' if undisclosed.",
+    "proof": "What the cut actually demonstrates as evidence, per README/TAXONOMY. 'not found in repo' if the repo makes no proof claim.",
+    "choreography": "Interaction/motion sequence. 'not found in repo' unless the repo documents it.",
+    "portability": "What (if anything) is portable from this cut, per the audit. 'not found in repo' if unassessed.",
+    "monolithic": "true = does NOT load lib/ (self-contained single file). Verified by grep 2026-06-18.",
+    "orphanedSpecRefs": "Spec files the cut cites that are NOT present in this repo (likely in founder-brain or lost).",
+    "openQuestions": "Unresolved items the repo itself flags or that this manifest surfaces."
+  },
+  "orphanedSpecRefsGlobal": {
+    "note": "These spec files are referenced by cut files / lib comments / README but NOT FOUND IN REPO (verified 2026-06-18). They may live in founder-brain (gated) or be lost.",
+    "files": [
+      "CUT_CONSOLIDATION_MAP.md",
+      "HCI_AUDIT.md",
+      "RECONCILED_SYSTEM.md",
+      "SCENARIO_SPEC.md",
+      "UI_GAP_SPEC.md"
+    ]
+  },
+  "cuts": [
+    {
+      "id": "00-agency",
+      "name": "Agency — the subject is a parameter",
+      "path": "cuts/00-agency.html",
+      "coordinate": "full-loop × L1–L4 (subject-switch) × desktop × infra × refining",
+      "role": "The shell. Literally SUBJECTS={spend,custody,osint,notice,pattern}; the other cuts are panes of this. The convergence target made flesh.",
+      "primitiveMadeVisible": "subject-as-parameter (one render loop, swappable subject + evidence pane)",
+      "loopTested": "full-loop",
+      "subjectDomain": "parametric (spend | custody | osint | notice | pattern)",
+      "stateReality": "refining; README notes 'full parametric cut-00 collapse (half-built)' per LIMINAL_END_TO_END — partial",
+      "proof": "Demonstrates one shell reskinning four registers per subject; per TAXONOMY cuts 02/03/08/09/molehunt are enumerated as its SUBJECTS",
+      "choreography": "orbital agent-coverage viz with refusal arrows (per README); detailed sequence not found in repo",
+      "portability": "not found in repo (not assessed in extraction audit at file level)",
+      "monolithic": true,
+      "orphanedSpecRefs": ["CUT_CONSOLIDATION_MAP.md"],
+      "openQuestions": [
+        "CUT_CONSOLIDATION_MAP.md is cited as its spec but NOT FOUND IN REPO",
+        "Whether to actually merge 00/08/09/11 into one parametric surface is deferred (TAXONOMY: larger product-build decision on the desktop spine)"
+      ]
+    },
+    {
+      "id": "01-slate-tray",
+      "name": "Slate tray — the wedge / canonical front door",
+      "path": "cuts/01-slate-tray.html",
+      "coordinate": "Capture→Read→Decide × L1-founder × desktop × wedge × live",
+      "role": "Canonical front door — the L1 reference render. The ONLY modular cut (consumes lib/boot.js).",
+      "primitiveMadeVisible": "the full tray→slate→agency→correction→vault loop, modularized",
+      "loopTested": "Capture, Read, Decide",
+      "subjectDomain": "founder context (personal / team / business)",
+      "stateReality": "hi-fi / live (TAXONOMY maturity: live; README: demo-ready)",
+      "proof": "The bounded-refusal loop running with real Tray→Slate composition; per FRONT_DOOR_DECISION_2026-05-12 this is the designated front door",
+      "choreography": "magnetic-hover + press physics on high-value controls (per recent commits); tile settle animation on landing",
+      "portability": "Highest — its lib/ stack (state.js, vault-store.js, undo.js, keyboard.js) holds the audit's top extraction candidates",
+      "monolithic": false,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Speedrun-register hero is a toggle inside this cut (consolidated from former separate files) — verify no dead toggle paths"
+      ]
+    },
+    {
+      "id": "02-forensic-agent",
+      "name": "Forensic agent — contradicting-notification diligence loop",
+      "path": "cuts/02-forensic-agent.html",
+      "coordinate": "Read (contradiction) × L1-founder × desktop × wedge × refining",
+      "role": "A Read-stage detail of L1 → cut-00 evidence pane candidate",
+      "primitiveMadeVisible": "contradiction-surfacing read (the disagreement IS the signal)",
+      "loopTested": "Read",
+      "subjectDomain": "notice / contradiction",
+      "stateReality": "refining (TAXONOMY maturity); README does not give a hi-fi/mock disclosure — partial",
+      "proof": "not found in repo (no explicit proof claim beyond the Read-stage demo)",
+      "choreography": "not found in repo",
+      "portability": "not found in repo (candidate to fold into cut-00 evidence pane, not a standalone extraction)",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Identified in TAXONOMY as a cut-00 subject-pane candidate, not a standalone surface"
+      ]
+    },
+    {
+      "id": "03-calibration",
+      "name": "Calibration — 12wk × 4-register vault heatmap",
+      "path": "cuts/03-calibration.html",
+      "coordinate": "Record (over time) × L1→L2 × desktop × infra × refining",
+      "role": "Record view; the 'pattern' subject of cut 00 (the moat made visible)",
+      "primitiveMadeVisible": "correction-density heatmap (the vault record as a visible moat)",
+      "loopTested": "Record",
+      "subjectDomain": "pattern (correction history over time)",
+      "stateReality": "mock — README: 'renders a seeded illustrative baseline with any real corrections merged on top' (in-UI disclosure)",
+      "proof": "Illustrative; explicitly NOT a weak-vs-strong-model comparison (README: 'the architectural bet, not yet a demonstrated result')",
+      "choreography": "not found in repo",
+      "portability": "not found in repo",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Seeded baseline vs real corrections — the proof is illustrative, not measured"
+      ]
+    },
+    {
+      "id": "04-onboarding",
+      "name": "Onboarding — first-touch",
+      "path": "cuts/04-onboarding.html",
+      "coordinate": "pre-loop (first-run) × L1-founder × desktop × wedge × live",
+      "role": "First-touch; orthogonal (entry, not a loop subject). Consolidates three earlier explorations now in cuts/_archive/.",
+      "primitiveMadeVisible": "first-run onboarding (the redline / delta as the onboarding)",
+      "loopTested": "pre-loop (none — entry)",
+      "subjectDomain": "n/a (entry)",
+      "stateReality": "live (TAXONOMY maturity); JSX/CSS in cuts/onboarding/",
+      "proof": "not found in repo (no proof claim — it is an entry surface)",
+      "choreography": "not found in repo (sequence in cuts/onboarding/ not audited here)",
+      "portability": "not found in repo",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Access tier noted as pilot v0.1 in TAXONOMY — a viewing-context note, not a coordinate field"
+      ]
+    },
+    {
+      "id": "08-liminal-custody",
+      "name": "Liminal Custody — NatSec/defense surface",
+      "path": "cuts/08-liminal-custody.html",
+      "coordinate": "full-loop (defense) × L3-high-stakes × desktop × infra × sketch",
+      "role": "A subject of cut 00 (custody); proof-of-travel (the substrate generalizes beyond founders)",
+      "primitiveMadeVisible": "the loop under maximum operational constraint (overload, ambiguity, accountability)",
+      "loopTested": "full-loop",
+      "subjectDomain": "custody (defense / IC)",
+      "stateReality": "sketch (TAXONOMY maturity); README frames it as architecture under constraint — not wired to a live kernel",
+      "proof": "Claim per README/index: 'Built at NatSec May 2–3. Top 16 of 102 in 48 hours.' (event claim, sourced to README; not a code-level proof in this repo)",
+      "choreography": "not found in repo",
+      "portability": "not found in repo (a cut-00 subject pane, not a standalone extraction)",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Largest single cut file (~104KB) — monolithic; flagged in audit §7 as overly large",
+        "Proof is an event/competition claim, not in-repo demonstrated"
+      ]
+    },
+    {
+      "id": "09-osint-custody",
+      "name": "OSINT Custody — the loop wired to the real kernel",
+      "path": "cuts/09-osint-custody.html",
+      "coordinate": "full-loop (live kernel) × L3-high-stakes × desktop × infra × live",
+      "role": "A subject of cut 00 (osint); the real-kernel proof",
+      "primitiveMadeVisible": "INGEST→READ→GUARD→REVIEW→VAULT computed live in-browser",
+      "loopTested": "full-loop (live)",
+      "subjectDomain": "osint (Strait-of-Hormuz dark-gap scenario)",
+      "stateReality": "live loop + frozen-artifact provenance — README: kernel runs live via lib/osint-kernel.bundle.js; on-chain provenance is a localnet snapshot (2026-05-28), NOT publicly verifiable",
+      "proof": "Real loop recomputed each run (in-browser kernel); provenance snapshot is recorded localnet, softened in copy per LIM-1135",
+      "choreography": "DARPA DISCORD register toggle (per README); detailed sequence not found in repo",
+      "portability": "osint-kernel.bundle.js is a FROZEN ARTIFACT — source (../liminal-test) not in workspace; build:kernel cannot regenerate it. Treat as opaque (audit §4, REPO_ATLAS §3).",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Kernel source not in workspace — bundle is opaque and unregenerable here",
+        "On-chain provenance is localnet, not publicly verifiable"
+      ]
+    },
+    {
+      "id": "10-today",
+      "name": "Today — re-entry, the loop closes",
+      "path": "cuts/10-today.html",
+      "coordinate": "Re-enter × L1-founder × desktop × wedge × live",
+      "role": "The Re-enter stage; closes the loop. TAXONOMY notes it 'already thinks in coordinates.'",
+      "primitiveMadeVisible": "overnight re-read of held compositions (the loop made a place)",
+      "loopTested": "Re-enter",
+      "subjectDomain": "founder held-decisions (re-entry)",
+      "stateReality": "live (TAXONOMY maturity); README: demo-ready",
+      "proof": "Demonstrates the Re-enter stage closing the loop; 'you say how it landed' is what makes calibration real (README framing, not a measured result)",
+      "choreography": "not found in repo",
+      "portability": "not found in repo",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Renamed from 09-today on 2026-06-11 to resolve a slot collision — verify no stale 09-today references remain"
+      ]
+    },
+    {
+      "id": "11-govern",
+      "name": "Govern — correction is the interaction (the agency loop)",
+      "path": "cuts/11-govern.html",
+      "coordinate": "full-loop (agent fleet) × L1→L2 × desktop × wedge→infra × live",
+      "role": "The seam cut — the wedge→infra pricing seam in miniature; the loop turned on the agent fleet itself.",
+      "primitiveMadeVisible": "correction-as-primary-interaction; provenance click-through (finding → cited rows + SHA-256 receipt); ⌘K palette; OKR allocation bar",
+      "loopTested": "full-loop",
+      "subjectDomain": "spend (AI-spend / agent fleet governance)",
+      "stateReality": "live (TAXONOMY maturity); recently rebuilt to v3 to demonstrate provenance (per LIMINAL_END_TO_END §4)",
+      "proof": "Click a finding → its cited rows + SHA-256 receipt; reconciliation ($486→−$162→$324); chain-integrity badge (per LIMINAL_END_TO_END §4)",
+      "choreography": "⌘K to drive it; correction as primary move; loop returns each morning (Today) + Mirror reflect-back",
+      "portability": "⌘K palette is reimplemented here AND in surface-nav.js (audit §7 duplication finding) — a consolidation candidate, not a clean extraction",
+      "monolithic": true,
+      "orphanedSpecRefs": ["HCI_AUDIT.md", "RECONCILED_SYSTEM.md"],
+      "openQuestions": [
+        "Cites HCI_AUDIT.md + RECONCILED_SYSTEM.md as specs — both NOT FOUND IN REPO",
+        "Grew +722 lines in a recent merge — audit §7 flags product logic accreting inside a demo file",
+        "⌘K palette duplicated with surface-nav.js"
+      ]
+    },
+    {
+      "id": "molehunt",
+      "name": "Molehunt — counterintelligence analyst console",
+      "path": "molehunt/index.html",
+      "coordinate": "full-loop (CI) × L3-high-stakes × desktop × infra × live",
+      "role": "A subject of cut 00 — proof-of-travel (counterintelligence)",
+      "primitiveMadeVisible": "tier-sorted subject queue + statutory gate + append-only chain-of-custody",
+      "loopTested": "full-loop",
+      "subjectDomain": "counterintelligence (CI dossier)",
+      "stateReality": "live (TAXONOMY maturity)",
+      "proof": "not found in repo (no explicit proof claim beyond the console demo)",
+      "choreography": "print-to-dossier; severity-by-weight (per README/index card)",
+      "portability": "not found in repo",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Orphaned from the cuts/ catalog directory (lives at repo root molehunt/, own index.html) — REPO_ATLAS §1 flags as ARCHIVE? (promote to a cut or archive)"
+      ]
+    },
+    {
+      "id": "team-drift",
+      "name": "Team Drift — coherence as a pipe",
+      "path": "team-drift/index.html",
+      "coordinate": "Record/correct (team) × L2-team × desktop × infra × live",
+      "role": "The L2 (team) render — the same correction-stream substrate turned on the team",
+      "primitiveMadeVisible": "governance as a pipe, not a flag (drift signal → calibrate → commit to governance log)",
+      "loopTested": "Record, correct",
+      "subjectDomain": "team coherence / drift",
+      "stateReality": "live (TAXONOMY maturity)",
+      "proof": "not found in repo (no explicit proof claim beyond the telemetry demo)",
+      "choreography": "not found in repo",
+      "portability": "not found in repo",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Orphaned from the cuts/ catalog directory (lives at repo root team-drift/, own index.html) — REPO_ATLAS §1 flags as ARCHIVE? (promote to a cut or archive)"
+      ]
+    }
+  ]
+}
