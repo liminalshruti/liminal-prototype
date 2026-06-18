@@ -63,20 +63,42 @@ contained, explicit change.
 
 ---
 
-## Open decisions (must be answered before execution — not decided here)
+## Open decisions
 
-1. **Which copy is authoritative?** `liminal-agents/lib/correction-tags.js` is *named* as
-   the source, but the prototype has the richer set (labels). Options:
-   - (a) Promote the prototype's superset (tags + descriptions + labels) to canon, and
-     have `liminal-agents` consume it too.
-   - (b) Keep `liminal-agents` as canon for tags+descriptions; treat `LABELS` as a
-     presentation concern owned by consumers, not canon.
-   - This is a cross-repo ownership call — **gated to you**, not decided in this plan.
-2. **Where does the single source physically live?** Candidates: a shared package
-   (`@liminal/correction-tags`), or canon-in-`liminal-agents` consumed by sync (mirroring
-   the token-sync pattern). Depends on #1.
-3. **Does `LABELS` belong in canon at all?** Labels are display strings; tags +
-   descriptions are the schema. A defensible split: schema travels, labels stay local.
+### #1 — Authoritative copy — **DECIDED 2026-06-18**
+
+> **`liminal-agents` remains the schema authority for correction-tags.** The prototype is
+> **not** the permanent authority and must not claim to be.
+>
+> The prototype's `CORRECTION_TAG_LABELS` are **not disposable local UI copy** — they are
+> treated as **proposed canon presentation metadata** ("canon-candidate"). For *this
+> repo's* extraction, `LABELS` are **preserved** in `lib/correction-tags.js` so behavior
+> and UI copy do not regress, and are marked in-comment as
+> **"canon-candidate / pending upstream reconciliation."**
+>
+> Reconciliation direction: upstream the `LABELS` to `liminal-agents`, **or** define a
+> shared correction-taxonomy package — see TODO below. Until then, the prototype holds
+> `LABELS` as a candidate, not as canon.
+
+Superseded options (recorded for history): (a) promote prototype superset to canon —
+*rejected, prototype is not the authority*; (b) treat `LABELS` as throwaway local copy —
+*rejected, they are canon-candidate, not disposable*.
+
+### #2 — Where the single source physically lives — **open**
+Candidates: a shared package (`@liminal/correction-tags`), or canon-in-`liminal-agents`
+consumed by sync (mirroring the token-sync pattern). Tied to the reconciliation TODO.
+
+### #3 — Does `LABELS` belong in canon — **resolved by #1**
+Yes, as a **candidate**: schema (tags + descriptions) is canon in `liminal-agents`; labels
+are canon-candidate pending upstream reconciliation. Not "schema travels, labels stay
+local" — labels are proposed *for* canon, just not yet ratified there.
+
+### TODO (cross-repo, tracked) — `LABELS` reconciliation
+- [ ] Upstream `CORRECTION_TAG_LABELS` to `liminal-agents/lib/correction-tags.js`, **or**
+      define a shared `correction-taxonomy` package that both repos consume.
+- [ ] Until done, `lib/correction-tags.js` (when carved out) keeps `LABELS` marked
+      "canon-candidate / pending upstream reconciliation."
+- [ ] Mirrored in `docs/architecture/PORTABILITY_BACKLOG.md` (Tier 1, correction-tags row).
 
 ---
 
@@ -87,7 +109,11 @@ every step.
 
 **Step A — carve out, in-repo, no behavior change.**
 Create `lib/correction-tags.js` containing the four symbols (verbatim from
-`vault-store.js`). Have `vault-store.js` re-export them so its public API is unchanged:
+`vault-store.js`) — **including `CORRECTION_TAG_LABELS`, preserved so behavior and UI copy
+do not regress** (per Decision #1). `LABELS` carries an in-file comment marking it
+**"canon-candidate / pending upstream reconciliation — schema authority is
+`liminal-agents`; this repo is not the permanent authority."** Have `vault-store.js`
+re-export all four so its public API is unchanged:
 `export { CORRECTION_TAGS, ... } from "./correction-tags.js"`. Net effect: zero consumer
 changes, zero behavior change — purely a file split. *(Edits `vault-store.js` — a runtime
 file — so gated behind token/gated-doc-clean + your go-ahead.)*
