@@ -10,7 +10,7 @@ import http from 'node:http';
 import fs from 'node:fs';
 import path from 'node:path';
 import url from 'node:url';
-import { execFile } from 'node:child_process';
+import { workingTreeState } from './lib/server/working-tree-state.mjs';
 
 const ROOT = path.dirname(url.fileURLToPath(import.meta.url));
 const PORT = process.env.PORT ? Number(process.env.PORT) : 5173;
@@ -79,44 +79,9 @@ const watcher = fs.watch(ROOT, { recursive: true }, (eventType, filename) => {
 });
 process.on('SIGINT', () => { watcher.close(); process.exit(0); });
 
-// Working-tree state for the Substrate Console (/__state).
-// Read-only git introspection — surfaces what the console needs to be
-// parallel-session-aware: which files are dirty (so two sessions on main
-// can see each other's in-flight work) and whether local is ahead/behind
-// origin. Never mutates anything; on any failure returns a degraded shape
-// so the console renders without git rather than erroring.
-function git(args) {
-  return new Promise((resolve) => {
-    execFile('git', args, { cwd: ROOT, timeout: 4000 }, (err, stdout) => {
-      resolve(err ? null : stdout.trimEnd());
-    });
-  });
-}
-
-async function workingTreeState() {
-  const [statusRaw, branchRaw] = await Promise.all([
-    git(['status', '--porcelain=v1']),
-    git(['status', '-sb']),
-  ]);
-
-  if (statusRaw === null) {
-    return { git: false, reason: 'not a git repo or git unavailable', dirty: [], branch: null, ahead: 0, behind: 0 };
-  }
-
-  // Porcelain v1: "XY path" per line. We only need the path + whether it's dirty.
-  const dirty = statusRaw
-    .split('\n')
-    .filter(Boolean)
-    .map((line) => ({ code: line.slice(0, 2).trim(), path: line.slice(3) }));
-
-  // First line of -sb is e.g. "## main...origin/main [ahead 1, behind 2]"
-  const head = (branchRaw || '').split('\n')[0] || '';
-  const branch = (head.match(/^## ([^.\s]+)/) || [])[1] || null;
-  const ahead = Number((head.match(/ahead (\d+)/) || [])[1] || 0);
-  const behind = Number((head.match(/behind (\d+)/) || [])[1] || 0);
-
-  return { git: true, branch, ahead, behind, dirty };
-}
+// Working-tree state for the Substrate Console (/__state) is provided by
+// lib/server/working-tree-state.mjs — read-only git introspection, extracted
+// 2026-06-18. Called below with ROOT as the repo root.
 
 // Resolve a request path to a file under ROOT, defaulting to index.html.
 function resolveFile(reqPath) {
@@ -143,7 +108,7 @@ function resolveFile(reqPath) {
 const server = http.createServer((req, res) => {
   // Working-tree state for the Substrate Console (read-only git introspection)
   if (req.url === '/__state') {
-    workingTreeState().then((state) => {
+    workingTreeState(ROOT).then((state) => {
       res.writeHead(200, { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' });
       res.end(JSON.stringify(state));
     });
