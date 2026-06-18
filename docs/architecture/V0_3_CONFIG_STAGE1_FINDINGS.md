@@ -3,6 +3,15 @@
 *Branch: `cleanup/v0_3_config-dead-exports-2026-06-18` · 2026-06-18 · Planning/findings only.*
 *Supersedes the cleanup assumptions in `V0_3_CONFIG_QUARANTINE_PLAN.md` after re-verification against current `main` (post scenario-split).*
 
+> **⚠️ CORRECTED 2026-06-18 by `ARCHIVE_IMPORT_EXECUTION_CHECK.md`.** This doc's central
+> claim — that the frozen archives import Group C from `v0_3_config.js`, so Group C must
+> stay inline — is **FALSE**. The archives import from `"./v0_3_config.js"`, a path
+> relative to `cuts/_archive/root-experiments/`, which **404s** (no file there;
+> `v0_3_config.js` is at repo root). The archive imports are dead. **Group C is therefore
+> as deletable as Group D** (no working consumer anywhere). Read
+> `ARCHIVE_IMPORT_EXECUTION_CHECK.md` for the HTTP evidence; treat the "leave Group C
+> inline" verdict below as superseded.
+
 > This note records what Stage 1 cleanup discovered on first contact and revises the
 > plan accordingly. No deletions performed in the commit that adds this note.
 
