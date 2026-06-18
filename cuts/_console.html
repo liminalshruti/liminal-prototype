@@ -223,6 +223,7 @@
 <div class="coherence" id="coherence"></div>
 <div class="coherence" id="kernel-coherence"></div>
 <div class="coherence" id="stamp-coherence"></div>
+<div class="coherence" id="design-coherence"></div>
 
 <!-- ════════════════ JUMP · directory ════════════════ -->
 <div class="sec-head">
@@ -498,9 +499,89 @@ async function renderStampCoherence() {
     a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
 }
 
+// ── DRIFT · design-system adoption (Phase 1, 2026-06-17) ──────────────────────
+// The deepest structural drift the audits named: cuts FORK the design system
+// instead of sharing it. Only 1 of 9 cuts imports the shared shell; the rest
+// hand-roll chrome (own .rb-top/.rail-l/.work), drift rail widths, and reinvent
+// patterns. This check fetches each LIVE cut's source and flags three signals:
+//   1. import   — does NOT <link> lib/cut-shell.css (off the shared system)
+//   2. vocab    — defines fork chrome class-names inline (.shell/.rb-top/.rail-l/.work)
+//   3. rail     — grid-template-columns is not the canonical 280px 1fr 320px
+// Rail-width allowlist: surfaces with an intentionally bespoke layout (custody
+// watchfloor, calibration matrix) are EXPECTED to diverge — not flagged.
+const RAIL_CANON = /grid-template-columns:\s*280px\s+1fr\s+320px/;
+// Allowlist = surfaces whose layout is INTENTIONALLY bespoke, not drift:
+//   03 calibration (12wk × register matrix) · 08 + 09 custody watchfloors
+//   (5th-Fleet case-detail panel needs a wide right rail) · 10 today (vertical
+//   re-entry flow) · 04 onboarding (React SPA). Phase 2 confirmed these are
+//   correct-as-is — systematization is "codify the exception", not "force to canon".
+const RAIL_ALLOWLIST = new Set(['03-calibration.html','08-liminal-custody.html','09-osint-custody.html','10-today.html','04-onboarding.html']);
+async function detectDesignDrift() {
+  // live cuts only (the audience surfaces); skip scaffold/archive/embeds
+  const live = SURFACES.find(g => g.grp === 'Live cuts')?.items || [];
+  return Promise.all(live.map(async it => {
+    try {
+      const src = await fetch(it.file, { cache: 'no-store' }).then(r => r.text());
+      const importsShell = /lib\/cut-shell\.css/.test(src);
+      const importsBrand = /lib\/brand-upgrade\.css/.test(src);
+      // Two vocab tiers (refined Phase 2): re-implementing the SHELL CHROME inline is a
+      // real fork — always flagged. Local CONTENT-GRID class names (.rail-l/.work) are
+      // fine on a cut that imports the shared shell (chrome converged); they only signal
+      // a fork on a cut that's OFF the system. The original concern was forking-chrome,
+      // and that's what we flag. (Renaming working content classes for cosmetics = churn.)
+      const definesSelector = (c) => new RegExp('\\' + c + '\\s*[,{]').test(src);
+      const chromeFork = ['.shell','.rb-top','.rb-bot'].filter(definesSelector);
+      const contentVocab = ['.rail-l','.rail-r','.work'].filter(definesSelector);
+      // content vocab only counts as drift if the cut isn't on the shared system
+      const forkVocab = importsShell ? chromeFork : [...chromeFork, ...contentVocab];
+      const railHit = (src.match(/grid-template-columns:[^;]+/g) || [])
+        .some(g => /\d+px\s+1fr\s+\d+px/.test(g));     // any fixed 3-col rail grid
+      const railCanon = RAIL_CANON.test(src);
+      const railDrift = railHit && !railCanon && !RAIL_ALLOWLIST.has(it.file);
+      return { name: it.name, file: it.file, num: it.num, survey: it.survey,
+               importsShell, importsBrand, forkVocab, railDrift };
+    } catch (_) {
+      return { name: it.name, file: it.file, num: it.num, survey: it.survey, unreadable: true };
+    }
+  }));
+}
+
+async function renderDesignDrift() {
+  const el = document.getElementById('design-coherence');
+  el.className = 'coherence';
+  el.innerHTML = `<span class="dot"></span><span>checking design-system adoption…</span>`;
+  const rows = await detectDesignDrift();
+  const link = (r) => r.survey
+    ? `<a href="#cell-${r.num}" data-cellnum="${r.num}" class="co-jump">${r.name}</a>`
+    : `<a href="${r.file}" class="co-jump">${r.name}</a>`;
+  // a cut is "drifted" if it doesn't import the shell, forks vocab, or drifts rails
+  const drifted = rows.filter(r => r.unreadable || !r.importsShell || r.forkVocab.length || r.railDrift);
+  if (!drifted.length) {
+    el.className = 'coherence ok';
+    el.innerHTML = `<span class="dot"></span><span>✓ all ${rows.length} live cuts are on the shared design system — import <span class="mono">cut-shell.css</span>, canonical vocabulary, canonical rails</span>`;
+  } else {
+    el.className = 'coherence flag';
+    const lines = drifted.map(r => {
+      if (r.unreadable) return `<div class="co-row"><span class="co-coord">? ${link(r)}</span> — unreadable</div>`;
+      const flags = [];
+      if (!r.importsShell) flags.push('<span class="co-coord">⊘ no cut-shell import</span>');
+      if (r.forkVocab.length) flags.push(`<span class="co-coord">⊘ fork vocab</span> <span class="mono">${r.forkVocab.join(' ')}</span>`);
+      if (r.railDrift) flags.push('<span class="co-coord">⊘ non-canon rails</span>');
+      return `<div class="co-row">${link(r)} — ${flags.join(' · ')}</div>`;
+    }).join('');
+    el.innerHTML = `<span class="dot"></span><div class="co-body">`+
+      `<div class="co-head">${drifted.length} of ${rows.length} live cuts off the shared design system — convergence debt</div>`+
+      lines +
+      `<div class="co-note">Per <span class="mono">design-system/DESIGN_SYSTEM_SYSTEMATIZATION_2026-06-17.md</span>: cuts should import <span class="mono">lib/cut-shell.css</span> + <span class="mono">brand-upgrade.css</span>, use canonical chrome vocabulary, and canonical rails (280·1fr·320). Rail-width allowlist exempts intentionally-bespoke surfaces (custody, calibration, today, onboarding). Phase 1 added a converged chrome block to adopt; Phase 2 retrofits cuts onto it.</div></div>`;
+  }
+  el.querySelectorAll('a.co-jump[data-cellnum]').forEach(a =>
+    a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
+}
+
 renderCoherence();
 renderKernelCoherence();
 renderStampCoherence();
+renderDesignDrift();
 
 // ── JUMP · render directory (two grouping modes) ─────────────────────────
 const dir = document.getElementById('directory');

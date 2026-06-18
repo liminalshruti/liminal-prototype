@@ -33,6 +33,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
 <link rel="stylesheet" href="../design-system/components/framing.css">
+<!-- Phase 2 (2026-06-17): adopt the shared design system. Imported BEFORE the inline
+     <style> so cut 11's inline chrome still wins (zero visual change); the shared
+     converged chrome/artifact blocks are now wired and ready for the dedupe sub-pass. -->
+<link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
 <style>
 @font-face{font-family:"Nineties Headliner";src:url("../fonts/nineties-headliner.otf") format("opentype");font-weight:400;font-display:swap}
 @font-face{font-family:"Perfectly Nineties";src:url("../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
@@ -48,13 +53,9 @@ body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-fo
   background-image:radial-gradient(900px 480px at 8% -6%,var(--diligence-50),transparent 60%),radial-gradient(760px 480px at 106% 4%,var(--depth-50),transparent 55%);
   display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px}
 .mono{font-family:var(--mono)}.serif{font-family:var(--serif,"Perfectly Nineties",Georgia,serif)}
-.shell{width:min(1180px,97vw);height:min(760px,95vh);display:grid;grid-template-rows:auto 1fr auto;border:1px solid var(--card-border);border-radius:10px;overflow:hidden;background:var(--frame-bg);box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative}
-
-/* TOP RIBBON */
-.rb-top{display:flex;align-items:center;gap:16px;padding:10px 14px;background:var(--frame-bg-3);border-bottom:1px solid var(--frame-border);font:11px/1 var(--mono);color:var(--text-mid)}
-.traffic{display:flex;gap:7px}.traffic i{width:11px;height:11px;border-radius:50%;display:block}
-.traffic .r{background:#ff5f57}.traffic .y{background:#febc2e}.traffic .g{background:#28c840}
-.brand{display:flex;align-items:center;gap:8px;white-space:nowrap}.brand .dia{color:var(--diligence);font:15px/1 var(--display)}.brand .bc{color:var(--text-faint)}.brand b{color:var(--text);font-weight:500}
+/* CHROME · .shell/.rb-top/.traffic/.brand now inherited from the converged block
+   in lib/cut-shell.css (Phase 2 dedupe, 2026-06-17). Removed from here so cut 11
+   consumes the one shared tokenized source of truth. */
 .tabs{display:flex;gap:2px;margin:0 auto}
 .tab{font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid transparent;border-radius:4px;padding:6px 11px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:7px}
 .tab:hover{color:var(--text);background:var(--hover)}.tab.on{color:var(--text);background:var(--hover);border-color:var(--card-border)}
@@ -67,7 +68,9 @@ body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-fo
 .rel button:hover{color:var(--text)}.rel button.on{color:var(--bg);background:var(--diligence);border-color:var(--diligence)}
 
 /* MIDDLE */
-.mid{display:grid;grid-template-columns:212px 1fr 232px;min-height:0;position:relative;transition:grid-template-columns .25s var(--ease)}
+/* Phase 2: rails widened 212/232 → canonical 280/320 (matches cut 01 · the shared
+   3-pane proportion). More room for the agency rail + signals without reshaping content. */
+.mid{display:grid;grid-template-columns:280px 1fr 320px;min-height:0;position:relative;transition:grid-template-columns .25s var(--ease)}
 /* reflow: on Today/Mirror the rails recede (focus the center) */
 body[data-surface="today"] .mid,body[data-surface="mirror"] .mid{grid-template-columns:0px 1fr 0px}
 body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-surface="mirror"] .rail-l,body[data-surface="mirror"] .rail-r{opacity:0;pointer-events:none}
@@ -137,28 +140,12 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .fix-edit .cancel{font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);background:transparent;border:1px solid var(--card-border);border-radius:3px;padding:7px 12px;cursor:pointer}
 .fix-edit .hint{margin-left:auto;font:8px/1.4 var(--mono);color:var(--text-mute);letter-spacing:.06em}
 
-/* disposition — Correct → Sign */
-.dispo{display:flex;align-items:center;gap:10px;margin-top:18px;padding-top:14px;border-top:1px dashed var(--card-border-2)}
-.dispo .lbl{font:9px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint);margin-right:auto}
-.dispo .lbl .sub{display:block;margin-top:4px;color:var(--text-mute);font-size:8px;letter-spacing:.06em;text-transform:none}
-.db{font:10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:9px 14px;border-radius:3px;border:1px solid var(--card-border);background:var(--hover);color:var(--text-mid);cursor:pointer;transition:.15s}
-.db:hover{color:var(--text);border-color:var(--text-faint)}
-.db.sign{color:#fff;background:var(--judgment);border-color:var(--judgment)}.db.sign:hover{box-shadow:0 0 22px var(--judgment-glow);transform:translateY(-1px)}
-.db.sign .pre{opacity:.7;font-size:8px}
-.artifact{margin-top:16px;position:relative;background:var(--cream-100);color:var(--cream-800);border-radius:3px;overflow:hidden;box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 22px 46px rgba(0,0,0,.55),0 0 0 5px rgba(0,0,0,.3);animation:arr .56s cubic-bezier(.32,.72,.16,1) both}
-.artifact::before{content:"";position:absolute;top:0;bottom:0;left:0;width:5px;background:var(--judgment);box-shadow:0 0 16px var(--judgment-glow)}
-.ab{display:flex;align-items:center;gap:12px;padding:12px 20px 9px 26px;border-bottom:1px dashed rgba(60,40,10,.22)}
-.ab .stamp{font:9px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--judgment);border:1px solid var(--judgment);border-radius:2px;padding:4px 9px;transform:rotate(-1.5deg)}
-.ab .wh{margin-left:auto;font:9px/1 var(--mono);letter-spacing:.1em;color:var(--cream-700)}
-.abody{padding:14px 26px 18px}.adec{margin:0;font:500 17px/1.35 var(--display);color:var(--cream-800)}
-.arat{margin:9px 0 0;font-size:12px;line-height:1.55;color:var(--cream-700);max-width:60ch}
-.arat .corr{color:#1466C0}
-.apol{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px}
-.pc{font:9px/1 var(--mono);letter-spacing:.06em;padding:5px 8px;border-radius:2px;border:1px solid rgba(60,40,10,.2);color:var(--cream-700)}
-.pc.al{border-color:rgba(31,186,103,.5);color:#1FBA67}.pc.dn{border-color:rgba(191,24,60,.45);color:#BF183C}
-.arec{display:flex;align-items:center;gap:12px;margin-top:14px;padding-top:11px;border-top:1px solid rgba(60,40,10,.18);font:9px/1.3 var(--mono)}
-.arec .hl{color:var(--cream-700);letter-spacing:.1em;text-transform:uppercase}.arec .hs{color:var(--cream-800);flex:1;word-break:break-all}
-.arec .ok{display:inline-flex;align-items:center;gap:6px;color:#1FBA67;letter-spacing:.1em;text-transform:uppercase}.arec .ok::before{content:"";width:7px;height:7px;border-radius:50%;background:#1FBA67;box-shadow:0 0 8px rgba(31,186,103,.6)}
+/* disposition + ratified artifact — now inherited from the converged block in
+   lib/cut-shell.css (Phase 2 dedupe). cut 11's .dispo/.db/.artifact/.ab/.apol/.pc/.arec
+   are the shared tokenized versions (3 allow chips, --good/--alarm, artifact-arrive).
+   Kept below: .arat .corr — the correction-count line, cut-11-unique content the
+   shared block doesn't carry. (color is a hardcoded hex → flagged for tokenize.) */
+.arat .corr{color:var(--coherence, #7AA9FF)}
 
 /* ── TODAY surface (warm, serif, earned-expressiveness) ── */
 .today{max-width:600px;margin:0 auto;padding:40px 30px}
@@ -226,9 +213,8 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .spec .st{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
 .spec.done .st{color:var(--connection)}.spec.flag .st{color:var(--alarm)}.spec.flag{color:var(--text)}.spec.refuse .st{color:var(--judgment)}
 
-/* BOTTOM RIBBON · the chain (corrections land live) */
-.rb-bot{display:flex;align-items:center;gap:12px;padding:9px 14px;background:var(--frame-bg-3);border-top:1px solid var(--frame-border);font:9px/1 var(--mono);color:var(--text-faint);letter-spacing:.05em;overflow-x:auto}
-.rb-bot .lab{color:var(--diligence);letter-spacing:.16em;text-transform:uppercase;flex-shrink:0}
+/* BOTTOM RIBBON · the chain — .rb-bot/.lab inherited from converged block (Phase 2 dedupe).
+   .ev* below is cut-11-unique chain-event styling, kept. */
 .ev{display:flex;gap:6px;align-items:baseline;flex-shrink:0}.ev .t{color:var(--text-mute)}.ev .e{color:var(--text-mid)}
 .ev.ref .e{color:var(--judgment)}.ev.corr .e{color:var(--diligence)}.ev.fresh{animation:fr 1.6s var(--ease)}
 
