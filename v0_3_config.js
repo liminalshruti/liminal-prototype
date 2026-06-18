@@ -40,8 +40,11 @@
  *   spec section that governs it.
  */
 
-export const SPEC_VERSION = "v0.3.11";
-export const PROTOTYPE_VERSION = "v0.9.1-cut03-live-data";
+/* version pins carved out to config/versions.js (Step 8A, 2026-06-18).
+   Re-exported here so frozen archive files that import them from
+   v0_3_config.js keep working unchanged. See
+   docs/architecture/V0_3_CONFIG_DEPENDENCY_MAP.md. */
+export { SPEC_VERSION, PROTOTYPE_VERSION } from "./config/versions.js";
 // Bump on every commit. Examples:
 //   v0.3.2-two-product-spine        · two-product fork is the spine
 //   v0.3.3-disagreement-as-signal   · refusal-theatre out · disagreement-as-signal flow in
