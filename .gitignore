@@ -13,3 +13,13 @@ refactor-*.png
 _visual-review-*.png
 token-codegen-*.png
 _scratch/
+# session verification scratch (screenshots + throwaway compare pages)
+_anim-*.png
+_brand-*.png
+_compare-*.png
+_compare-*.html
+_console-*.png
+_cut12-*.png
+_inspect-*.png
+_p2-*.png
+_p4-*.png
