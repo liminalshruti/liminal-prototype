@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liminal · Compare · A/B harness</title>
+
+<!--
+  Cut Compare · internal scaffold tool · NOT shipped to Pages
+  ──────────────────────────────────────────────────────────────────────
+  Loop-stage · n/a (scaffold — carries no product loop)
+  Altitude   · n/a (tooling, like _console / _template)
+  Surface    · desktop
+  Framing    · n/a
+  Maturity   · live
+  Spec ref   · ~/.claude/plans/design-this-like-a-cheeky-feather.md (PM spec)
+  ──────────────────────────────────────────────────────────────────────
+  ONE job: mount any two surfaces side by side and read the DELTA between them —
+  so the question the final cut-shell design depends on, "do these two surfaces
+  render the same chrome?", is answered by looking, not by eyeballing two tabs.
+
+  This is the Substrate Console's survey done as a focused 2-up diff. It shares
+  the console's single source of truth (./surfaces.js) — it does NOT re-declare
+  cut metadata. Fix a coordinate in surfaces.js → console AND compare both update.
+
+  THE SPINE IS A LENS REGISTRY. "mount A, mount B, diff the coordinates" is the
+  durable mechanism; what you compare THROUGH is a swappable lens. v1 ships the
+  shell lens (split / overlay / synced-width). Later lenses (drift, loop, frame/
+  copy, density) are new LENSES entries reading the same two mounted surfaces —
+  not rewrites. The named next one is the DRIFT LENS (parse a cut's inline :root
+  overrides, show which canon tokens it shadows) per docs/architecture/REPO_ATLAS.md §4.
+
+  HONESTY: this is a HUMAN A/B reader, not an automated pixel-diff differ.
+-->
+
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../lib/cut-shell.css">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%; height: 100vh; overflow: hidden;
+    background: var(--bg, #0A0A0B);
+    color: var(--text, #E8E8EA);
+    font-family: var(--sans, "Geist", system-ui, sans-serif);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { display: flex; flex-direction: column; }
+
+  /* ── control bar ── */
+  .bar {
+    flex: 0 0 auto;
+    display: flex; align-items: stretch; gap: 1px;
+    background: var(--frame-border, #1F1F23);
+    border-bottom: 1px solid var(--frame-border, #1F1F23);
+  }
+  .bar-cell {
+    background: var(--frame-bg, #0E0E11);
+    padding: 10px 16px;
+    display: flex; flex-direction: column; gap: 6px;
+    justify-content: center;
+  }
+  .bar-cell.grow { flex: 1 1 0; min-width: 0; }
+  .bar-cell.mid  { flex: 0 0 auto; align-items: center; }
+
+  .mast-title {
+    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-size: 16px; font-style: italic; font-weight: 500;
+    color: var(--text); letter-spacing: -0.012em; white-space: nowrap;
+  }
+  .lbl {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--text-faint, #6B6862);
+  }
+  .lbl.side-a { color: var(--diligence, #8E66FB); }
+  .lbl.side-b { color: var(--judgment, #E90095); }
+
+  select {
+    width: 100%;
+    background: var(--frame-bg-3, #15161A);
+    color: var(--text);
+    border: 1px solid var(--card-border, #232327);
+    border-radius: var(--radius-3, 4px);
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 12px; padding: 7px 9px; cursor: pointer;
+  }
+  select:focus { outline: none; border-color: var(--clarity, #8E66FB); }
+
+  /* swap + mode controls */
+  .ctrls { display: flex; gap: 6px; align-items: center; }
+  button {
+    background: var(--frame-bg-3, #15161A);
+    color: var(--text-mid, #C9C5BD);
+    border: 1px solid var(--card-border, #232327);
+    border-radius: var(--radius-3, 4px);
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 7px 11px; cursor: pointer;
+    transition: color var(--tx-fast, .15s), border-color var(--tx-fast, .15s), background var(--tx-fast, .15s);
+  }
+  button:hover { color: var(--text); border-color: var(--card-border-2, #2A2A2F); }
+  button.active {
+    color: var(--clarity, #8E66FB);
+    border-color: var(--clarity, #8E66FB);
+    background: var(--clarity-bg, rgba(142,102,251,0.08));
+  }
+  .swap { font-size: 14px; padding: 7px 10px; }
+
+  input[type=range] { accent-color: var(--clarity, #8E66FB); cursor: pointer; }
+
+  /* ── taxonomy-diff strip ── */
+  .diff {
+    flex: 0 0 auto;
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    padding: 7px 16px;
+    background: var(--frame-bg-2, #0C0C0F);
+    border-bottom: 1px solid var(--frame-border, #1F1F23);
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 10px;
+  }
+  .diff-axis { color: var(--text-faint, #6B6862); letter-spacing: 0.12em; text-transform: uppercase; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 8px; border-radius: var(--radius-2, 3px);
+    border: 1px solid var(--card-border, #232327);
+    color: var(--text-mid, #C9C5BD);
+  }
+  .chip .k { color: var(--text-faint, #6B6862); }
+  .chip.differ {
+    border-color: var(--watch, #FDC237);
+    color: var(--text);
+    background: var(--watch-bg, rgba(253,194,55,0.08));
+  }
+  .chip.differ .k { color: var(--watch, #FDC237); }
+  .diff-note { margin-left: auto; color: var(--text-faint, #6B6862); }
+
+  /* ── stage (the two iframe slots) ── */
+  .stage { flex: 1 1 0; min-height: 0; position: relative; }
+
+  /* split mode */
+  .stage.split { display: flex; gap: 1px; background: var(--frame-border, #1F1F23); }
+  .stage.split .pane { flex: 1 1 0; min-width: 0; }
+
+  /* overlay mode — panes stacked, B on top with variable opacity */
+  .stage.overlay .pane { position: absolute; inset: 0; }
+  .stage.overlay .pane.b { /* opacity set inline via JS */ }
+
+  /* synced mode — both panes centered at a fixed width */
+  .stage.synced { display: flex; gap: 1px; background: var(--frame-border, #1F1F23); justify-content: center; overflow: auto; }
+  .stage.synced .pane { flex: 0 0 auto; }
+
+  .pane { background: var(--bg, #0A0A0B); position: relative; height: 100%; }
+  .pane-tag {
+    position: absolute; top: 8px; left: 8px; z-index: 5;
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+    padding: 3px 7px; border-radius: var(--radius-2, 3px);
+    background: var(--scrim-modal, rgba(0,0,0,0.55)); pointer-events: none;
+  }
+  .pane.a .pane-tag { color: var(--diligence, #8E66FB); }
+  .pane.b .pane-tag { color: var(--judgment, #E90095); }
+  iframe { width: 100%; height: 100%; border: 0; background: var(--bg, #0A0A0B); display: block; }
+
+  .placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-faint, #6B6862);
+    font-family: var(--mono, "Geist Mono", monospace); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase; text-align: center;
+  }
+  .load-btn { /* reuses button styling */ }
+
+  /* synced-width control (only relevant in synced mode) */
+  .synced-ctrl { display: none; align-items: center; gap: 8px; }
+  body[data-mode="synced"] .synced-ctrl { display: flex; }
+  .overlay-ctrl { display: none; align-items: center; gap: 8px; }
+  body[data-mode="overlay"] .overlay-ctrl { display: flex; }
+  .vw-readout { color: var(--text-mid); font-family: var(--mono); font-size: 10px; min-width: 52px; }
+</style>
+</head>
+<body data-mode="split">
+
+<div class="bar">
+  <div class="bar-cell mid"><span class="mast-title">Compare</span></div>
+
+  <div class="bar-cell grow">
+    <span class="lbl side-a">A · diligence</span>
+    <select id="pick-a"></select>
+  </div>
+
+  <div class="bar-cell mid">
+    <button class="swap" id="swap" title="Swap A ↔ B">⇄</button>
+  </div>
+
+  <div class="bar-cell grow">
+    <span class="lbl side-b">B · judgment</span>
+    <select id="pick-b"></select>
+  </div>
+
+  <div class="bar-cell mid">
+    <span class="lbl">Lens · shell</span>
+    <div class="ctrls">
+      <button data-mode="split" class="active">Split</button>
+      <button data-mode="overlay">Overlay</button>
+      <button data-mode="synced">Synced W</button>
+    </div>
+  </div>
+
+  <div class="bar-cell mid">
+    <div class="overlay-ctrl">
+      <span class="lbl">B opacity</span>
+      <input type="range" id="opacity" min="0" max="100" value="50">
+    </div>
+    <div class="synced-ctrl">
+      <span class="lbl">Width</span>
+      <input type="range" id="vw" min="360" max="1680" step="20" value="1280">
+      <span class="vw-readout" id="vw-readout">1280px</span>
+    </div>
+  </div>
+</div>
+
+<div class="diff" id="diff"></div>
+
+<div class="stage split" id="stage">
+  <div class="pane a" id="pane-a"><span class="pane-tag">A</span></div>
+  <div class="pane b" id="pane-b"><span class="pane-tag">B</span></div>
+</div>
+
+<script type="module">
+import { SURFACES, repoPath } from './surfaces.js';
+
+// ── flat surface list (skip pure-section headers; keep anything with a file) ──
+const ALL = SURFACES.flatMap(g => g.items.map(it => ({ ...it, grp: g.grp, frozen: !!g.frozen })));
+const byFile = new Map(ALL.map(it => [it.file, it]));
+
+// ── populate a picker, grouped via <optgroup> mirroring SURFACES groups ──
+function fillPicker(sel) {
+  for (const g of SURFACES) {
+    const og = document.createElement('optgroup'); og.label = g.grp;
+    for (const it of g.items) {
+      const o = document.createElement('option');
+      o.value = it.file;
+      const coord = [it.alt, it.framing, it.stage].filter(Boolean).join(' · ');
+      const num = it.num ? it.num + ' · ' : '';
+      o.textContent = coord ? `${num}${it.name}  —  ${coord}` : `${num}${it.name}`;
+      og.appendChild(o);
+    }
+    sel.appendChild(og);
+  }
+}
+const pickA = document.getElementById('pick-a');
+const pickB = document.getElementById('pick-b');
+fillPicker(pickA); fillPicker(pickB);
+
+// ── taxonomy-diff strip · render A's + B's coordinate, highlight differing fields ──
+const AXES = [
+  { key: 'alt',     label: 'Altitude' },
+  { key: 'framing', label: 'Framing'  },
+  { key: 'stage',   label: 'Loop-stage' },
+  { key: 'grp',     label: 'Group' },
+];
+function renderDiff(a, b) {
+  const diff = document.getElementById('diff');
+  diff.innerHTML = '';
+  if (!a || !b) { diff.innerHTML = '<span class="diff-note">pick A and B to see the coordinate delta</span>'; return; }
+  let differCount = 0;
+  for (const ax of AXES) {
+    const va = a[ax.key] || '—', vb = b[ax.key] || '—';
+    const differs = va !== vb;
+    if (differs) differCount++;
+    const wrap = document.createElement('span');
+    wrap.className = 'chip' + (differs ? ' differ' : '');
+    wrap.innerHTML = `<span class="k">${ax.label}</span> ${va} ${differs ? '→' : '='} ${vb}`;
+    if (ax.key === 'grp' && va === vb) continue; // group only interesting when it differs
+    diff.appendChild(wrap);
+  }
+  const note = document.createElement('span');
+  note.className = 'diff-note';
+  note.textContent = differCount
+    ? `${differCount} ${differCount > 1 ? 'axes' : 'axis'} differ — that's what you're comparing along`
+    : 'same coordinate — pure shell/version comparison';
+  diff.appendChild(note);
+}
+
+// ── mount a real cut file into a pane (click-to-load idiom from _console) ──
+function mountPane(paneId, it) {
+  const pane = document.getElementById(paneId);
+  const side = paneId.endsWith('a') ? 'A' : 'B';
+  pane.querySelectorAll('iframe, .placeholder').forEach(n => n.remove());
+  if (!it) return;
+  // src: console uses ?reset for cut 01; honor an explicit src override, else the file.
+  const src = it.src || it.file;
+  const ph = document.createElement('div');
+  ph.className = 'placeholder';
+  const btn = document.createElement('button');
+  btn.textContent = `load ${side} · ${it.name}`;
+  btn.onclick = () => {
+    ph.remove();
+    const f = document.createElement('iframe');
+    f.src = src; f.title = `${side} · ${it.name}`; f.loading = 'eager';
+    pane.appendChild(f);
+  };
+  ph.appendChild(btn);
+  pane.appendChild(ph);
+}
+
+// ── lens registry · the extensibility spine ──────────────────────────────────
+// A lens = { id, label, apply(stageEl) }. v1 ships ONE family (the shell lens)
+// expressed as three modes. A future lens (e.g. 'drift') is a NEW entry that
+// reads the same two mounted surfaces — not a rewrite of mount/diff/picker.
+const SHELL_MODES = new Set(['split', 'overlay', 'synced']);
+function applyMode(mode) {
+  const stage = document.getElementById('stage');
+  stage.className = 'stage ' + mode;
+  document.body.dataset.mode = mode;
+  document.querySelectorAll('.ctrls button').forEach(b =>
+    b.classList.toggle('active', b.dataset.mode === mode));
+  if (mode === 'overlay') applyOpacity();
+  if (mode === 'synced') applyWidth();
+  else { document.getElementById('pane-a').style.width = ''; document.getElementById('pane-b').style.width = ''; }
+}
+function applyOpacity() {
+  const v = document.getElementById('opacity').value / 100;
+  document.getElementById('pane-b').style.opacity = v;
+}
+function applyWidth() {
+  const w = document.getElementById('vw').value + 'px';
+  document.getElementById('vw-readout').textContent = w;
+  for (const id of ['pane-a', 'pane-b']) document.getElementById(id).style.width = w;
+}
+
+// ── state · URL hash (#a=..&b=..&mode=..) so a comparison is bookmarkable ──
+function readHash() {
+  const h = new URLSearchParams(location.hash.slice(1));
+  return { a: h.get('a'), b: h.get('b'), mode: h.get('mode') || 'split' };
+}
+function writeHash() {
+  const h = new URLSearchParams();
+  if (pickA.value) h.set('a', pickA.value);
+  if (pickB.value) h.set('b', pickB.value);
+  h.set('mode', document.body.dataset.mode);
+  history.replaceState(null, '', '#' + h.toString());
+}
+
+function sync() {
+  const a = byFile.get(pickA.value), b = byFile.get(pickB.value);
+  renderDiff(a, b);
+  writeHash();
+}
+
+// pickers re-mount + re-diff
+pickA.addEventListener('change', () => { mountPane('pane-a', byFile.get(pickA.value)); sync(); });
+pickB.addEventListener('change', () => { mountPane('pane-b', byFile.get(pickB.value)); sync(); });
+
+document.getElementById('swap').addEventListener('click', () => {
+  const av = pickA.value; pickA.value = pickB.value; pickB.value = av;
+  mountPane('pane-a', byFile.get(pickA.value));
+  mountPane('pane-b', byFile.get(pickB.value));
+  sync();
+});
+
+document.querySelectorAll('.ctrls button').forEach(b =>
+  b.addEventListener('click', () => { applyMode(b.dataset.mode); writeHash(); }));
+document.getElementById('opacity').addEventListener('input', applyOpacity);
+document.getElementById('vw').addEventListener('input', applyWidth);
+
+// ── boot from hash (defaults: A=cut 01 reference render, B=cut 11 seam cut) ──
+(function boot() {
+  const s = readHash();
+  pickA.value = byFile.has(s.a) ? s.a : '01-slate-tray.html';
+  pickB.value = byFile.has(s.b) ? s.b : '11-govern.html';
+  mountPane('pane-a', byFile.get(pickA.value));
+  mountPane('pane-b', byFile.get(pickB.value));
+  applyMode(SHELL_MODES.has(s.mode) ? s.mode : 'split');
+  sync();
+})();
+</script>
+</body>
+</html>
