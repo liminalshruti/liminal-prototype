@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Team · Liminal</title>
+
+<!--
+  cuts/thread/team.html · The thread · the chief-of-staff view · cross-person loops
+  ──────────────────────────────────────────────────────────────────────
+  Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 §wedge — secondary ICP
+             (chiefs of staff / fractional execs who hold the thread for someone else) + the
+             $100/mo "chief of staff that never sleeps" tier when the ledger covers a team.
+  Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
+  Tokens canon · shell from cut-shell · vocab from thread.css · data from seed-ops.js
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1000px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--amber-orn); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span><span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>team</b></span>
+        <span class="spacer"></span><span class="ol-pill">chief-of-staff view</span>
+      </div>
+    </header>
+
+    <main class="th">
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · across the team</div>
+        <h1 class="th-title">Who owes what — <em>to whom</em>.</h1>
+        <p class="th-lede">When the thread covers a whole team, the open loops gain a direction: not just what's
+          open, but who's holding it and who's blocked waiting. The part of a chief of staff that never sleeps —
+          $40/mo for the founder, more when it's holding the thread for everyone.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
+
+      <div class="team-members" id="members"></div>
+
+      <div class="team-group-head" id="needs-head">Needs you</div>
+      <div id="needs"></div>
+      <div class="team-group-head">Held across the team</div>
+      <div id="rest"></div>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>the thread, for a team</span><span class="sep">|</span>
+        <a href="./open-loops.html">your own loops →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { team, OPS_DISCLOSURE } from "./seed-ops.js";
+  document.getElementById("disc").textContent = OPS_DISCLOSURE;
+
+  document.getElementById("members").innerHTML = team.members.map(m => `
+    <div class="team-member"><span class="team-member-name">${m.name}</span><span class="team-member-role">${m.role}</span></div>`).join("");
+
+  const receiptHTML = (rc) => `
+    <div class="receipt" style="grid-column:1/-1;margin-top:8px;">
+      <button class="receipt-bar" data-receipt>
+        <span class="src-glyph">${rc.glyph}</span><span class="src-name">${rc.name}</span>
+        <span class="src-meta">· ${rc.meta}</span><span class="caret">›</span>
+      </button>
+      <div class="receipt-body"><div class="receipt-quote">${rc.quote}</div><div class="receipt-trace">${rc.trace}</div></div>
+    </div>`;
+
+  const loopHTML = (l) => `
+    <div class="team-loop" data-kind="${l.kind}">
+      <span class="team-flow">${l.from} <span class="arrow">→</span> ${l.to}</span>
+      <span class="team-loop-title">${l.title}</span>
+      <span class="team-loop-age">${l.age}</span>
+      ${receiptHTML(l.receipt)}
+    </div>`;
+
+  // "Needs you" = anything where Sam owes, or someone owes/is-owed-by Sam directly
+  const needsYou = team.loops.filter(l => l.from === "Sam" || l.to === "Sam");
+  const rest = team.loops.filter(l => l.from !== "Sam" && l.to !== "Sam");
+
+  document.getElementById("needs").innerHTML = needsYou.map(loopHTML).join("");
+  document.getElementById("rest").innerHTML = rest.length ? rest.map(loopHTML).join("")
+    : `<div class="team-loop" style="border-left-color:var(--card-border-2)"><span class="team-flow">—</span><span class="team-loop-title">Everything else is moving without you.</span><span></span></div>`;
+
+  document.body.addEventListener("click", (e) => {
+    const bar = e.target.closest("[data-receipt]"); if (bar) bar.closest(".receipt").classList.toggle("is-open");
+  });
+</script>
+</body>
+</html>

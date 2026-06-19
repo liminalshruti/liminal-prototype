@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · A subject · Liminal</title>
+
+<!--
+  cuts/thread/thread.html · The thread · one subject's receipted history → the open loop
+  ──────────────────────────────────────────────────────────────────────
+  Frame      · diffuse-context wedge (NEW)
+  Spec ref   · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12.md §2 "assemble what I know about
+               this person/topic" — what do we know about X, what changed, what should I do next
+  Status     · sketch · staged · PROPOSED frame
+  Tokens canon · shell chrome from cut-shell · surface vocab from thread.css · data from seed.js
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1000px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--amber-orn); }
+  .subjects { display:flex; gap: var(--space-3); flex-wrap: wrap; }
+  .subject {
+    appearance:none; cursor:pointer; text-align:left;
+    display:flex; flex-direction:column; gap:3px;
+    border:1px solid var(--card-border); border-radius: var(--radius-3);
+    background: rgba(255,255,255,0.01); padding: 11px 15px; min-width: 200px;
+    transition: all .15s ease;
+  }
+  .subject:hover { border-color: var(--card-border-2); background: rgba(255,255,255,0.03); }
+  .subject.is-active { border-color: var(--amber-orn); background: var(--amber-orn-bg); }
+  .subject-who { font-size: 14px; color: var(--text); font-weight: 500; }
+  .subject-label { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-dim); }
+  .subject-state { font-family:"Geist Mono",monospace; font-size:10.5px; color: var(--amber-orn); margin-top:2px; }
+  .thread-wrap { border:1px solid var(--card-border); border-radius: var(--radius-4); padding: var(--space-6) var(--space-6) var(--space-5); background: linear-gradient(180deg, rgba(255,255,255,0.014), rgba(255,255,255,0.004)); }
+  .thread-wrap-head { display:flex; align-items:baseline; gap: var(--space-3); margin-bottom: var(--space-5); flex-wrap:wrap; }
+  .thread-wrap-who { font-family:"Newsreader",serif; font-size: 22px; color: var(--text); }
+  .thread-wrap-label { font-family:"Geist Mono",monospace; font-size:11px; color: var(--text-dim); }
+  .thread-next { margin-left:auto; font-family:"Geist Mono",monospace; font-size:11px; color:var(--amber-orn); border:1px solid var(--amber-orn-edge); background:var(--amber-orn-bg); border-radius:999px; padding:3px 10px; }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>a subject</b></span>
+        <span class="spacer"></span>
+        <span class="ol-pill">receipted · local-first</span>
+      </div>
+    </header>
+
+    <main class="th">
+
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · what do we know about…</div>
+        <h1 class="th-title">The whole history — <em>and the one thing that's open</em>.</h1>
+        <p class="th-lede">Pick a person or deal. Liminal pulls the thread across email, calendar and
+          meeting notes into one receipted timeline — what was committed, what got decided, what changed —
+          and lands on the open loop: the next move that's actually yours.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
+
+      <div class="subjects" id="subjects"></div>
+      <div id="thread"></div>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>answer with the record, not memory</span><span class="sep">|</span>
+        <a href="./prep-card.html">prep a meeting →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { DISCLOSURE, threads, subjects } from "./seed.js";
+  document.getElementById("disc").textContent = DISCLOSURE;
+
+  const subjectsEl = document.getElementById("subjects");
+  const threadEl = document.getElementById("thread");
+  let active = subjects[0].key;
+
+  subjectsEl.innerHTML = subjects.map(s => `
+    <button class="subject" data-key="${s.key}">
+      <span class="subject-who">${s.who}</span>
+      <span class="subject-label">${s.label}</span>
+      <span class="subject-state">${s.state}</span>
+    </button>`).join("");
+
+  function receiptHTML(rc) {
+    return `
+      <div class="receipt">
+        <button class="receipt-bar" data-receipt>
+          <span class="src-glyph">${rc.glyph}</span><span class="src-name">${rc.name}</span>
+          <span class="src-meta">· ${rc.meta}</span><span class="caret">›</span>
+        </button>
+        <div class="receipt-body">
+          <div class="receipt-quote">${rc.quote}</div>
+          <div class="receipt-trace">${rc.trace}</div>
+        </div>
+      </div>`;
+  }
+
+  function entryHTML(e) {
+    return `
+      <div class="tl" data-kind="${e.kind}">
+        <div class="tl-kind">${e.tag}${e.kind === "open" ? ` <span class="tl-openflag">open loop</span>` : ""}</div>
+        <div class="tl-when">${e.when}</div>
+        <p class="tl-what">${e.what}</p>
+        ${receiptHTML(e.receipt)}
+      </div>`;
+  }
+
+  function render() {
+    const t = threads[active];
+    const openEntry = t.entries.find(e => e.kind === "open");
+    threadEl.innerHTML = `
+      <div class="thread-wrap">
+        <div class="thread-wrap-head">
+          <span class="thread-wrap-who">${t.subject}</span>
+          <span class="thread-wrap-label">${t.label}</span>
+          ${openEntry ? `<span class="thread-next">next: ${openEntry.tag}</span>` : ""}
+        </div>
+        <div class="thread">${t.entries.map(entryHTML).join("")}</div>
+      </div>`;
+    subjectsEl.querySelectorAll(".subject").forEach(b =>
+      b.classList.toggle("is-active", b.dataset.key === active));
+  }
+
+  subjectsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-key]");
+    if (btn) { active = btn.dataset.key; render(); }
+  });
+  threadEl.addEventListener("click", (e) => {
+    const bar = e.target.closest("[data-receipt]");
+    if (bar) bar.closest(".receipt").classList.toggle("is-open");
+  });
+
+  render();
+</script>
+
+</body>
+</html>

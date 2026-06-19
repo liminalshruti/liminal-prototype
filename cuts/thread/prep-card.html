@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Prep card · Liminal</title>
+
+<!--
+  cuts/thread/prep-card.html · The thread · pre-meeting prep · the "30 minutes before the call" card
+  ──────────────────────────────────────────────────────────────────────
+  Frame      · diffuse-context wedge (NEW)
+  Spec ref   · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12.md §2 "Before each calendar event:
+               a one-card prep brief — last 3 touches, open items between you, what you said you'd bring"
+  Status     · sketch · staged · PROPOSED frame
+  Tokens canon · shell chrome from cut-shell · surface vocab from thread.css · data from seed.js
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1040px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--cerulean); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>prep</b></span>
+        <span class="spacer"></span>
+        <span class="ol-pill">today · 3 meetings · local-first</span>
+      </div>
+    </header>
+
+    <main class="th">
+
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · before the call</div>
+        <h1 class="th-title">Walk in already knowing <em>where you left it</em>.</h1>
+        <p class="th-lede">Pick your next meeting. Liminal assembles one card from the thread —
+          your last three touches with this person, what's open between you, and what you said you'd
+          bring — so you're not reconstructing it from scrolling. Pick an event:</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
+
+      <section class="prep">
+        <div class="prep-agenda">
+          <div class="prep-agenda-head">Today</div>
+          <div id="agenda" style="display:flex;flex-direction:column;gap:var(--space-2);"></div>
+        </div>
+        <div id="card"></div>
+      </section>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>one card before every meeting</span><span class="sep">|</span>
+        <a href="./thread.html">the full thread →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { DISCLOSURE, events } from "./seed.js";
+  document.getElementById("disc").textContent = DISCLOSURE;
+
+  const agendaEl = document.getElementById("agenda");
+  const cardEl = document.getElementById("card");
+  let active = events[0].id;
+
+  agendaEl.innerHTML = events.map(ev => `
+    <button class="prep-event" data-ev="${ev.id}">
+      <span class="prep-event-time">${ev.time}</span>
+      <span class="prep-event-who">${ev.who}</span>
+    </button>`).join("");
+
+  function cardHTML(ev) {
+    return `
+      <div class="prep-card">
+        <div class="prep-card-head">
+          <span class="prep-card-who">${ev.who}</span>
+          <span class="prep-card-role">${ev.role}</span>
+          <span class="prep-card-when">${ev.time}</span>
+        </div>
+        <div class="prep-sec">
+          <div class="prep-sec-label">Last 3 touches</div>
+          ${ev.touches.map(t => `
+            <div class="prep-touch"><span class="prep-touch-when">${t.when}</span><span class="prep-touch-what">${t.what}</span></div>`).join("")}
+        </div>
+        <div class="prep-sec">
+          <div class="prep-sec-label">Open between you</div>
+          ${ev.open.map(o => `
+            <div class="prep-open"><span class="mk">${o.mk}</span><span>${o.what}</span></div>`).join("")}
+        </div>
+        <div class="prep-sec">
+          <div class="prep-sec-label">What to bring</div>
+          ${ev.bring.map(b => `
+            <div class="prep-bring"><span class="mk">▸</span><span>${b.what}</span></div>`).join("")}
+        </div>
+      </div>`;
+  }
+
+  function render() {
+    const ev = events.find(e => e.id === active);
+    cardEl.innerHTML = cardHTML(ev);
+    agendaEl.querySelectorAll(".prep-event").forEach(b =>
+      b.classList.toggle("is-active", b.dataset.ev === active));
+  }
+
+  agendaEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-ev]");
+    if (btn) { active = btn.dataset.ev; render(); }
+  });
+
+  render();
+</script>
+
+</body>
+</html>

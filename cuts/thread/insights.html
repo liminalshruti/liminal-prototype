@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Insights · Liminal</title>
+
+<!--
+  cuts/thread/insights.html · The thread · proactive insight feed · what needs you
+  ──────────────────────────────────────────────────────────────────────
+  Spec ref · liminal-desktop UI_CONTRACT.md §insight-feed — 5 frozen types:
+             stuck_loop · assumption_drift · clock_proximity · cross_source_correlation · allocation_drift
+  Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
+  Tokens canon · shell from cut-shell · vocab from thread.css · data from seed-intel.js
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1000px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--clarity); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span><span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>insights</b></span>
+        <span class="spacer"></span><span class="ol-pill" id="hdr">read overnight · local-first</span>
+      </div>
+    </header>
+
+    <main class="th">
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · what needs you</div>
+        <h1 class="th-title">Not just the list — <em>what's moving underneath it</em>.</h1>
+        <p class="th-lede">The brief tells you what's open. This tells you what's changing shape: a loop that's
+          gone quiet, a plan that's drifted from the calendar, a clock about to fire, three threads waiting on
+          the same thing. Each read shows its confidence and the lines it's built from.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
+
+      <section class="insights" id="insights"></section>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>what's stuck · what's drifting · what's about to fire</span><span class="sep">|</span>
+        <a href="./brief.html">the brief →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { insights, INTEL_DISCLOSURE } from "./seed-intel.js";
+  document.getElementById("disc").textContent = INTEL_DISCLOSURE;
+  document.getElementById("hdr").innerHTML = `<b>${insights.length}</b> reads · local-first`;
+
+  const receiptHTML = (rc) => `
+    <div class="receipt">
+      <button class="receipt-bar" data-receipt>
+        <span class="src-glyph">${rc.glyph}</span><span class="src-name">${rc.name}</span>
+        <span class="src-meta">· ${rc.meta}</span><span class="caret">›</span>
+      </button>
+      <div class="receipt-body"><div class="receipt-quote">${rc.quote}</div><div class="receipt-trace">${rc.trace}</div></div>
+    </div>`;
+
+  document.getElementById("insights").innerHTML = insights.map(ins => `
+    <article class="insight" data-type="${ins.type}">
+      <div class="insight-head">
+        <span class="insight-type">${ins.label}</span>
+        <span class="insight-subject">${ins.subject}</span>
+        <span class="insight-conf">confidence <span class="bar"><i style="width:${Math.round(ins.confidence*100)}%"></i></span> ${Math.round(ins.confidence*100)}%</span>
+      </div>
+      <p class="insight-narr">${ins.narrative}</p>
+      <div class="insight-ev">
+        <span class="insight-ev-label">built from</span>
+        ${ins.evidence.map(receiptHTML).join("")}
+      </div>
+    </article>`).join("");
+
+  document.getElementById("insights").addEventListener("click", (e) => {
+    const bar = e.target.closest("[data-receipt]");
+    if (bar) bar.closest(".receipt").classList.toggle("is-open");
+  });
+</script>
+</body>
+</html>

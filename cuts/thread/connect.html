@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Connect · Liminal</title>
+
+<!--
+  cuts/thread/connect.html · The thread · first-run · zero ceremony · 5-minute first artifact
+  ──────────────────────────────────────────────────────────────────────
+  Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 §"Demo script (8 min, their data)"
+             + §"zero ceremony". Connect → back-fill → "how many balls?" → first Open Loops.
+  Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
+  (Distinct from the old-frame cuts/04-onboarding.html — this is the new-frame connect flow.)
+  Tokens canon · shell from cut-shell · vocab from thread.css · data from seed.js
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 880px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--cerulean); }
+  .panel { border:1px solid var(--card-border); border-radius: var(--radius-4); background: linear-gradient(180deg, rgba(255,255,255,0.018), rgba(255,255,255,0.004)); padding: var(--space-6); display:flex; flex-direction:column; gap: var(--space-5); }
+  .panel-title { font-family:"Newsreader",serif; font-size: 20px; color: var(--text); }
+  .panel-sub { font-size: 13.5px; color: var(--text-dim); line-height:1.5; }
+  .panel-foot { display:flex; align-items:center; gap: var(--space-3); }
+  .panel-foot .grow { flex:1; }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span><span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>connect</b></span>
+        <span class="spacer"></span><span class="ol-pill">first run · ~5 min · local-first</span>
+      </div>
+    </header>
+
+    <main class="th">
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · first run</div>
+        <h1 class="th-title">No setup. No tagging. <em>An artifact in five minutes</em>.</h1>
+        <p class="th-lede">Connect the surfaces your context already lives in — read-only, on your machine —
+          and the first thing you see is your own open loops. No onboarding homework, no taxonomy to learn.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
+
+      <div class="steps" id="steps">
+        <span class="step-dot on"></span><span class="step-dot"></span><span class="step-dot"></span><span class="step-dot"></span>
+      </div>
+
+      <div class="panel" id="panel"></div>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>value in the first session, or it failed</span><span class="sep">|</span>
+        <a href="./open-loops.html">skip to open loops →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { DISCLOSURE, openLoops } from "./seed.js";
+  document.getElementById("disc").textContent = DISCLOSURE;
+
+  const panel = document.getElementById("panel");
+  const dots = [...document.querySelectorAll("#steps .step-dot")];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let step = 0, ballGuess = null;
+
+  const SOURCES = [
+    { id:"gmail", name:"Gmail", sub:"read-only", on:true },
+    { id:"gcal", name:"Google Calendar", sub:"read-only", on:true },
+    { id:"granola", name:"Granola", sub:"meeting notes", on:true },
+    { id:"claude", name:"Claude session logs", sub:"local files", on:true },
+  ];
+
+  function setStep(n) { step = n; dots.forEach((d,i) => d.classList.toggle("on", i <= n)); render(); }
+
+  function render() {
+    if (step === 0) {
+      panel.innerHTML = `
+        <div class="panel-title">Connect your surfaces</div>
+        <div class="panel-sub">Pick what to read. Everything stays on this device — no upload, no server copy.</div>
+        <div class="sources">${SOURCES.map(s => `
+          <div class="source ${s.on ? "on" : ""}" data-id="${s.id}">
+            <span class="source-check">${s.on ? "✓" : ""}</span>
+            <span class="source-name">${s.name}</span><span class="source-sub">${s.sub}</span>
+          </div>`).join("")}</div>
+        <div class="panel-foot"><span class="source-sub grow" id="cnt"></span>
+          <button class="th-btn" id="next">Connect &amp; read →</button></div>`;
+      const updateCount = () => {
+        const n = SOURCES.filter(s => s.on).length;
+        document.getElementById("cnt").textContent = `${n} source${n === 1 ? "" : "s"} · read-only · nothing leaves this device`;
+        document.getElementById("next").disabled = n === 0;
+      };
+      updateCount();
+      panel.querySelectorAll(".source").forEach(el => el.addEventListener("click", () => {
+        const s = SOURCES.find(x => x.id === el.dataset.id); s.on = !s.on;
+        el.classList.toggle("on", s.on); el.querySelector(".source-check").textContent = s.on ? "✓" : "";
+        updateCount();
+      }));
+      document.getElementById("next").addEventListener("click", () => setStep(1));
+    }
+    else if (step === 1) {
+      const on = SOURCES.filter(s => s.on);
+      panel.innerHTML = `
+        <div class="panel-title">Reading the last 90 days…</div>
+        <div class="panel-sub">No upload — this runs on your machine. It takes a minute.</div>
+        <div class="backfill">${on.map(s => `
+          <div class="backfill-src"><span>${s.name}</span><div class="backfill-bar"><i data-id="${s.id}"></i></div><span class="pct" data-pct="${s.id}">0%</span></div>`).join("")}</div>`;
+      // animate
+      requestAnimationFrame(() => on.forEach((s,i) => {
+        const bar = panel.querySelector(`i[data-id="${s.id}"]`);
+        const pct = panel.querySelector(`[data-pct="${s.id}"]`);
+        setTimeout(() => { bar.style.width = "100%"; }, reduce ? 0 : 120 + i*180);
+        if (!reduce) { let p=0; const t=setInterval(()=>{p=Math.min(100,p+7); pct.textContent=p+"%"; if(p>=100)clearInterval(t);}, 70+i*10); }
+        else pct.textContent = "100%";
+      }));
+      setTimeout(() => setStep(2), reduce ? 0 : 1500);
+    }
+    else if (step === 2) {
+      panel.innerHTML = `
+        <div class="balls">
+          <div class="balls-q">Before you see it — how many balls do you think you're juggling right now?</div>
+          <input class="balls-input" id="ball" type="number" min="0" max="99" placeholder="?" />
+          <button class="th-btn" id="next">Show me →</button>
+        </div>`;
+      const inp = document.getElementById("ball"); inp.focus();
+      const go = () => { ballGuess = parseInt(inp.value || "0", 10); setStep(3); };
+      document.getElementById("next").addEventListener("click", go);
+      inp.addEventListener("keydown", e => { if (e.key === "Enter") go(); });
+    }
+    else {
+      const found = openLoops.length;
+      const owe = openLoops.filter(l => l.kind === "owe").length;
+      const surprise = ballGuess != null && found > ballGuess
+        ? `You guessed <b>${ballGuess}</b>. The thread found <b>${found}</b> — ${found - ballGuess} you couldn't see.`
+        : `The thread found <b>${found}</b> open loops in your week.`;
+      panel.innerHTML = `
+        <div class="panel-title">Your open loops</div>
+        <div class="balls-reveal">${surprise} ${owe} are things you owe. Every line links to the exact message.</div>
+        <div style="display:flex;flex-direction:column;gap:var(--space-3);">${openLoops.slice(0,4).map((l,i) => `
+          <article class="loop" data-kind="${l.kind}">
+            <div class="loop-rank">${String(i+1).padStart(2,"0")}</div>
+            <div class="loop-main">
+              <span class="loop-kindtag">${({owe:"you owe",owed:"owed to you",waiting:"waiting on them",changed:"what changed"})[l.kind]}</span>
+              <div class="loop-title">${l.title}</div>
+            </div>
+            <div class="loop-side"><span class="loop-age">${l.age}</span></div>
+          </article>`).join("")}</div>
+        <div class="panel-foot"><a class="th-btn" href="./open-loops.html">open the full list →</a>
+          <span class="source-sub grow" style="text-align:right">first artifact · &lt; 5 minutes</span></div>`;
+    }
+  }
+
+  render();
+</script>
+</body>
+</html>

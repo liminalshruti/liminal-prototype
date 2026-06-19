@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · The record · Liminal</title>
+
+<!--
+  cuts/thread/eventlog.html · The thread · the record · append-only · metrics-as-queries
+  ──────────────────────────────────────────────────────────────────────
+  Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 §6 ("metrics as queries over an
+             append-only event log; corrections as a byproduct"). Desktop: events.db.
+  Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
+  Tokens canon · shell from cut-shell · vocab from thread.css · data from seed-ops.js
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1000px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--connection); }
+  .log-head { font-family:"Geist Mono",monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color: var(--text-dim); margin: var(--space-5) 0 var(--space-2); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span><span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>the record</b></span>
+        <span class="spacer"></span><span class="ol-pill" id="hdr">append-only · local-first</span>
+      </div>
+    </header>
+
+    <main class="th">
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · the record underneath</div>
+        <h1 class="th-title">Nothing is overwritten — <em>it's all appended</em>.</h1>
+        <p class="th-lede">Every confirm, dismiss, edit, and ingest is one append-only, hash-linked event.
+          The metrics aren't a separate dashboard — they're just queries over this log. Your corrections
+          are the data, captured as a byproduct of the work you were already doing.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
+
+      <div class="ev-metrics" id="metrics"></div>
+
+      <div class="log-head">The log · newest first · each event links to the one before it</div>
+      <div class="evlog" id="log"></div>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>local-first · the record is yours</span><span class="sep">|</span>
+        <a href="./precision.html">the precision curve →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { eventLog, OPS_DISCLOSURE } from "./seed-ops.js";
+  document.getElementById("disc").textContent = OPS_DISCLOSURE;
+
+  // metrics = queries over the log (computed live, not stored)
+  const total = eventLog.length;
+  const confirms = eventLog.filter(e => e.type === "loop.confirmed").length;
+  const dismisses = eventLog.filter(e => e.type === "loop.dismissed").length;
+  const decided = confirms + dismisses;
+  const noise = decided ? Math.round((dismisses / decided) * 100) : 0;
+  const ingests = eventLog.filter(e => e.type === "context.ingested").length;
+
+  document.getElementById("hdr").innerHTML = `<b>${total}</b> events · local-first`;
+
+  const METRICS = [
+    { val: total, label: "events appended", q: "count(*)", good:false },
+    { val: confirms, label: "loops confirmed", q: "count(type=loop.confirmed)", good:false },
+    { val: dismisses, label: "loops dismissed", q: "count(type=loop.dismissed)", good:false },
+    { val: noise + "%", label: "noise rate", q: "dismissed ÷ (confirmed+dismissed)", good:true },
+  ];
+  document.getElementById("metrics").innerHTML = METRICS.map(m => `
+    <div class="ev-metric">
+      <div class="ev-metric-val ${m.good ? "good" : ""}">${m.val}</div>
+      <div class="ev-metric-label">${m.label}</div>
+      <div class="ev-metric-q">${m.q}</div>
+    </div>`).join("");
+
+  document.getElementById("log").innerHTML = eventLog.map(e => `
+    <div class="ev" data-t="${e.type}">
+      <span class="ev-seq">#${e.seq}</span>
+      <div class="ev-main">
+        <span class="ev-type">${e.type}</span>
+        <span class="ev-subject">${e.subject}</span>
+        ${e.note ? `<span class="ev-note">${e.note}</span>` : ""}
+      </div>
+      <div class="ev-side">
+        <span class="ev-when">${e.when}</span>
+        <span class="ev-hash"><span class="link">${e.hash}</span>${e.prev ? ` ← ${e.prev}` : ""}</span>
+      </div>
+    </div>`).join("");
+</script>
+</body>
+</html>

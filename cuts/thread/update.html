@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The thread · Receipted update · Liminal</title>
+
+<!--
+  cuts/thread/update.html · The thread · the Receipted Update · the doc you send
+  ──────────────────────────────────────────────────────────────────────
+  Spec ref · liminal-desktop OPERATIONAL_PICTURE_V0_PR_PATH.md §Receipted Update —
+             closed/new/moved/stalled + bracketed unsupported-claim questions + source boundaries.
+             Plan §2: the weekly job "write the investor/team update — what actually changed?"
+  Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
+  Tokens canon · shell from cut-shell · vocab from thread.css · data from seed-ops.js
+  Vocabulary · allowed terms only
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="./thread.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 920px; margin: 0 auto; }
+  .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
+  .ol-pill b { color: var(--connection); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+    <header class="titlebar">
+      <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
+      <div class="title-row">
+        <span class="diamond">◇</span><span class="app-label">Liminal</span>
+        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>receipted update</b></span>
+        <span class="spacer"></span><span class="ol-pill">drafted from the record</span>
+      </div>
+    </header>
+
+    <main class="th">
+      <div class="th-head">
+        <div class="th-eyebrow"><span class="dot">◇</span> The thread · what actually changed</div>
+        <h1 class="th-title">The weekly update, <em>drafted from the record</em>.</h1>
+        <p class="th-lede">The hardest ten minutes of the week — the investor or team update — written from what
+          actually moved. Closed, new, moved, stalled, every line receipted. Anything the record can't back
+          comes back as a bracketed question, not a confident sentence you'll regret.</p>
+      </div>
+
+      <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
+
+      <div class="update-doc">
+        <div class="update-head">
+          <span class="update-title">What changed</span>
+          <span class="update-period" id="period"></span>
+          <span class="update-copy"><button class="th-btn ghost" id="copy">copy as text</button></span>
+        </div>
+        <div id="sections"></div>
+        <div class="update-brackets" id="brackets"></div>
+      </div>
+
+      <div class="th-foot">
+        <span>Liminal · the thread</span><span class="sep">|</span>
+        <span>say only what the record backs</span><span class="sep">|</span>
+        <a href="./brief.html">the brief →</a><span class="sep">|</span>
+        <a href="./index.html">all thread cuts →</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script type="module">
+  import { weekUpdate, OPS_DISCLOSURE } from "./seed-ops.js";
+  document.getElementById("disc").textContent = OPS_DISCLOSURE;
+  document.getElementById("period").textContent = weekUpdate.period;
+
+  const strip = (s) => s.replace(/<[^>]+>/g, "");
+
+  const receiptHTML = (rc) => `
+    <div class="receipt">
+      <button class="receipt-bar" data-receipt>
+        <span class="src-glyph">${rc.glyph}</span><span class="src-name">${rc.name}</span>
+        <span class="src-meta">· ${rc.meta}</span><span class="caret">›</span>
+      </button>
+      <div class="receipt-body"><div class="receipt-quote">${rc.quote}</div><div class="receipt-trace">${rc.trace}</div></div>
+    </div>`;
+
+  document.getElementById("sections").innerHTML = weekUpdate.sections.map(sec => `
+    <div class="update-sec" data-k="${sec.key}">
+      <div class="update-sec-label">${sec.label} · ${sec.items.length}</div>
+      ${sec.items.map(it => `
+        <div class="update-line">
+          <div class="update-line-text">${it.text}</div>
+          ${receiptHTML(it.receipt)}
+        </div>`).join("")}
+    </div>`).join("");
+
+  document.getElementById("brackets").innerHTML = `
+    <div class="update-brackets-head">⚠ before you send — the record can't cleanly back these</div>
+    ${weekUpdate.unsupported.map(u => `
+      <div class="update-bracket"><b>[ ${u.bracket} ]</b> — ${u.note}</div>`).join("")}`;
+
+  // receipts toggle
+  document.getElementById("sections").addEventListener("click", (e) => {
+    const bar = e.target.closest("[data-receipt]"); if (bar) bar.closest(".receipt").classList.toggle("is-open");
+  });
+
+  // copy as plain text (receipted)
+  document.getElementById("copy").addEventListener("click", async () => {
+    let txt = `What changed — ${weekUpdate.period}\n\n`;
+    for (const sec of weekUpdate.sections) {
+      txt += `${sec.label.toUpperCase()}\n`;
+      for (const it of sec.items) txt += `  - ${strip(it.text)}  [${it.receipt.name} · ${it.receipt.meta}]\n`;
+      txt += `\n`;
+    }
+    txt += `BEFORE SENDING — reconcile:\n`;
+    for (const u of weekUpdate.unsupported) txt += `  [ ${u.bracket} ] ${u.note}\n`;
+    try { await navigator.clipboard.writeText(txt); } catch (e) {}
+    const b = document.getElementById("copy"); b.textContent = "copied ✓";
+    setTimeout(() => (b.textContent = "copy as text"), 1400);
+  });
+</script>
+</body>
+</html>
