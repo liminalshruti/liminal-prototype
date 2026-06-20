@@ -113,11 +113,18 @@
     --text-dim:   #8A8780;
     --text-faint: #6B6862;   /* synced 2026-06-11 · was #5A5852 (pre-a11y) */
 
-    --display: "Newsreader", Georgia, serif;
-    --serif:   "Newsreader", Georgia, serif;
-    --sans:    "Geist", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-    --mono:    "Geist Mono", "SF Mono", ui-monospace, Menlo, monospace;
-    --hand:    "Caveat", cursive;
+    /* type families · bridge to canon (same pattern as the register hues
+       above): canon wins when design-tokens.css is imported, the fallback
+       only fires when cut-shell.css is loaded standalone. Fallbacks now name
+       the canon families — NOT Newsreader, which was an off-canon fork that
+       silently shadowed canon and only rendered correctly because brand-
+       upgrade.css re-overrode it later. Removing the fork drops the load-
+       order dependency and the 2026-05-14 type-lock violation. */
+    --display: var(--display, "Nineties Headliner", "Perfectly Nineties", "Iowan Old Style", Georgia, serif);
+    --serif:   var(--serif,   "Perfectly Nineties", "Iowan Old Style", Georgia, serif);
+    --sans:    var(--sans,    "Geist", system-ui, -apple-system, BlinkMacSystemFont, sans-serif);
+    --mono:    var(--mono,    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
+    --hand:    var(--hand,    "Caveat", "Patrick Hand", cursive);
   }
 
   /* ────────────────────────────────────────────────────────────────────
@@ -2473,7 +2480,7 @@
     margin-bottom: 6px;
   }
   .tp-title {
-    font-family: "Newsreader", Georgia, serif;
+    font-family: var(--serif, "Perfectly Nineties", Georgia, serif);
     font-size: 18px;
     font-weight: 500;
     color: #F4F2EE;
@@ -2540,7 +2547,7 @@
     letter-spacing: -0.005em;
   }
   .tp-tag-desc {
-    font-family: "Newsreader", Georgia, serif;
+    font-family: var(--serif, "Perfectly Nineties", Georgia, serif);
     font-size: 11.5px;
     color: #C9C5BD;
     font-style: italic;
@@ -2565,7 +2572,7 @@
     border-radius: 3px;
     padding: 7px 9px;
     color: #F4F2EE;
-    font-family: "Newsreader", Georgia, serif;
+    font-family: var(--serif, "Perfectly Nineties", Georgia, serif);
     font-size: 12.5px;
     line-height: 1.4;
     resize: vertical;
