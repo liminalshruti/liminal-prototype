@@ -320,6 +320,14 @@
     .cwrap { grid-template-columns: 1fr; }
     .rail-left, .rail-right { border: 0; border-top: 1px solid var(--frame-border); }
     .reads { grid-template-columns: 1fr; }
+    /* 2026-06-19 · this cut authors a correct restack, but it imports
+       brand-upgrade.css which hides .rail-right with `display:none!important`
+       below 1023px — defeating the stack above and dropping the graph-spine /
+       ontology + correction-stream rails (this cut's forensic IP). Override on
+       equal !important terms so the right rail flows inline like the cut intends.
+       (Same brand-upgrade trap fixed in cut 01.) */
+    .rail-right { display: block !important; }
+    .center { max-height: none; }   /* desktop caps height for the 3-pane; let it grow when stacked */
   }
   @media (prefers-reduced-motion: reduce) {
     .obs, .read, .hyp, .hyp-fill, .dispo { transition: none !important; animation: none !important; }
@@ -329,6 +337,32 @@
   .reg-tab:hover, .t-btn:hover { transform: translateY(-1.5px); }
   .reg-tab:active, .t-btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
   @media (prefers-reduced-motion: reduce){ .reg-tab, .t-btn{transition:background .15s,color .15s} .reg-tab:hover, .t-btn:hover{transform:none} }
+
+  /* ─── 2026-06-19 · a11y parity with cut 01 ───────────────────────────────
+     Contrast: the small forensic labels render in --text-faint (#6B6862 =
+     3.5:1), below the 4.5:1 body-text bar these 9.5–12px labels need. Repoint
+     to --text-dim (#8A8780 = 5.45:1). Same per-surface override used in cut 01;
+     canon token value untouched (the contract forbids forking it). */
+  .rail-h, .beat-tag, .muted, .empty, .frame-foot {
+    color: var(--text-dim);
+  }
+  .frame-foot b { color: var(--text-mid); }   /* keep the in-foot emphasis a tier brighter */
+
+  /* Touch targets · the transport + register tabs were 27px tall. 44px floor
+     under coarse pointer only, so desktop density is untouched. */
+  @media (pointer: coarse) {
+    .t-btn, .reg-tab { min-height: 44px; padding-block: 11px; display: inline-flex; align-items: center; }
+  }
+
+  /* Brand focus ring · this cut (like cut 01) defines no :focus-visible, so
+     keyboard users got the browser-default blue ring. Register-aware via
+     --c-read (the cut's read accent), at 2px offset for the dark frame. */
+  .reg-tab:focus-visible,
+  .t-btn:focus-visible {
+    outline: 2px solid var(--c-read, #8E66FB);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
 </style>
 </head>
 <body data-cut="09" data-product="business">
