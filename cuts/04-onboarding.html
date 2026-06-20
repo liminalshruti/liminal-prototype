@@ -13,117 +13,672 @@
   Surface    · desktop
   Framing    · wedge
   Maturity   · live
-  Access     · invite-only pilot v0.1         (access tier — a per-cut note, NOT a coordinate field)
-  Spec ref   · App onboarding-handoff.zip Apr 30 (Claude Design bundle)
-               + docs/distribution-and-onboarding-v0.1.md
+  Access     · invite-only pilot v0.1
+  Spec ref   · App onboarding-handoff.zip Apr 30 + docs/distribution-and-onboarding-v0.1.md
   Coordinate per TAXONOMY.md v2 · first-touch; orthogonal (entry, not a loop subject).
-  Imported from the Apr 30 Claude Design handoff.
   ──────────────────────────────────────────────────────────────────────
 
-  CONTRACT WITH THE STUDIO ARCHITECTURE
+  2026-06-19 · CANON REBUILD (was: React 18 + Babel-in-browser + DesignCanvas contact-sheet
+  with a Newsreader font override). Now: vanilla, on-canon, and a PLAYABLE sequential flow
+  (S01→S07, ←/→ + ⌘↵), so an investor sees the product, not a design tool. Content + per-cut
+  CSS (onboarding/onboarding.css) preserved verbatim; only the delivery shell changed.
 
-  · Tokens come from design-system/tokens/design-tokens.css · DO NOT redefine.
-  · Per-cut layout comes from onboarding/onboarding.css (sibling).
-  · React 18 + Babel UMD runtime is CDN-only (no build step). The cut-shell
-    contract permits any runtime import the cut needs; React is what the
-    Claude Design bundle was authored in. Keeping that fidelity rather than
-    porting to vanilla loses no functional capability.
-  · 7 screens render inside a DesignCanvas: S01 Pilot key · S02 Vault ·
-    S03 Identity key · S04 Daemon · S05 Connect a source · S06 The three
-    reads · S07 Day 1.
-  · This cut owns its own DOM bubble · works standalone or inside catalog iframe.
-  · No vibe-coded slop · every screen is grounded in the v0.1 pilot spec.
+  · Tokens from design-system/tokens/design-tokens.css · DO NOT redefine.
+  · Brand faces from lib/brand-upgrade.css (Nineties Headliner + Perfectly Nineties) ·
+    same loader cuts 01/02/08/11 use. NO Newsreader, NO local --display/--serif override.
+  · Per-cut layout from onboarding/onboarding.css.
+  · No build step · no framework · the cut owns its own DOM bubble.
   ──────────────────────────────────────────────────────────────────────
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- mono + handwriting only · display/serif come from the canon @font-face below -->
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- canon · 12-wheel tokens · single source of truth -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
-
-<!-- per-cut layout from Apr 30 Claude Design bundle -->
-<link rel="stylesheet" href="onboarding/onboarding.css?v=3">
+<!-- canon faces · loads NinetiesHeadliner + PerfectlyNineties @font-face, sets --display/--serif -->
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
+<!-- per-cut layout (unchanged · already canon-clean, no token redefines) -->
+<link rel="stylesheet" href="onboarding/onboarding.css?v=4">
 
 <style>
-  /* design-canvas needs to host dark frames; canvas chrome itself is light */
+  /* ─── cut-04 · sequential-flow shell (replaces the React DesignCanvas) ───
+     onboarding.css already styles .stage/.frame/.stage-area/.steprail; this
+     block only adds the player chrome (one screen at a time + nav) and the
+     entrance polish. No token redefinition. */
   body { padding: 0 !important; }
-  /* tokens file uses Newsreader-equivalent (Perfectly Nineties) which we don't have;
-     remap display + serif to Newsreader (the cut's actual deployed face). */
-  :root {
-    --display: "Newsreader", Georgia, serif;
-    --serif:   "Newsreader", Georgia, serif;
-  }
-  /* artboard backdrop matches dark canvas */
-  [data-dc-artboard] { background: var(--bg) !important; }
 
-  /* v0.8.5 F5 — initial paint suppression (mirroring cut01-cut03 polish). */
-  body {
-    opacity: 0;
-    transition: opacity 240ms ease-out;
-  }
-  body.ready {
-    opacity: 1;
-  }
+  /* initial-paint suppression · mirrors cuts 01–03 */
+  body { opacity: 0; transition: opacity 240ms var(--ease, ease-out); }
+  body.ready { opacity: 1; }
 
-  /* ui-skills polish: tabular figures + even heading wrap / orphan-free body */
+  /* tabular figures + even heading wrap / orphan-free body */
   body { font-variant-numeric: tabular-nums; }
   h1, h2, h3 { text-wrap: balance; }
   p { text-wrap: pretty; }
-  /* magnetic-hover + press physics (canon-filtered: motion-only, --ease-spring, transform-only) */
-  button { transition: transform .22s var(--ease-spring, ease), color .15s, background .15s, border-color .15s; }
-  button:hover { transform: translateY(-1.5px); }
-  button:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
-  @media (prefers-reduced-motion: reduce) { button { transition: color .15s, background .15s; } button:hover, button:active { transform: none; } }
+
+  /* the flow viewport · one screen visible at a time */
+  .flow { position: relative; }
+  .screen { display: none; }
+  .screen.is-active { display: block; }
+  /* per-screen entrance · a quiet rise, not a uniform fade reflex */
+  .screen.is-active .stage-area > * {
+    animation: screen-rise 520ms var(--ease-out-quint, cubic-bezier(.22,1,.36,1)) both;
+  }
+  .screen.is-active .stage-area > *:nth-child(1) { animation-delay: 0ms; }
+  .screen.is-active .stage-area > *:nth-child(2) { animation-delay: 45ms; }
+  .screen.is-active .stage-area > *:nth-child(3) { animation-delay: 90ms; }
+  .screen.is-active .stage-area > *:nth-child(4) { animation-delay: 135ms; }
+  .screen.is-active .stage-area > *:nth-child(n+5) { animation-delay: 170ms; }
+  @keyframes screen-rise {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* magnetic-hover + press physics (canon: transform-only, --ease-spring) */
+  .btn { transition: transform .22s var(--ease-spring, ease), color .15s, background .15s, border-color .15s; }
+  .btn:hover { transform: translateY(-1.5px); }
+  .btn:active { transform: translateY(0) scale(.98); transition-duration: .08s; }
+
+  /* progress bar under the product-row · shows "where am I in the 7" */
+  .flow-progress { height: 2px; background: var(--frame-bg-3, rgba(255,255,255,.03)); position: relative; overflow: hidden; }
+  .flow-progress .fill {
+    position: absolute; inset: 0 auto 0 0; width: 14.28%;
+    background: var(--clarity); box-shadow: 0 0 12px var(--clarity-glow-soft, transparent);
+    transition: width 420ms var(--ease-out-quint, cubic-bezier(.22,1,.36,1));
+  }
+
+  /* steprail items are now real buttons (jump-to-step) · keep them looking identical */
+  .sr-item { width: 100%; text-align: left; background: transparent; border: 0; cursor: pointer; font: inherit; }
+  .sr-item:not(.now):hover .nm { color: var(--text-mid); }
+  .sr-item:focus-visible { outline: 2px solid var(--ui-focus-ring, var(--clarity)); outline-offset: 2px; border-radius: var(--radius-1, 3px); }
+
+  /* anchor / time picks become real selectable controls */
+  .anchor-card { cursor: pointer; transition: border-color .18s var(--ease, ease), background .18s var(--ease, ease); }
+  .anchor-card:not(.sel):hover { border-color: var(--text-faint); }
+
+  /* responsive · the canvas was desktop-only; the flow degrades gracefully */
+  @media (max-width: 980px) {
+    .main { grid-template-columns: 1fr; }
+    .steprail { display: none; }              /* the progress bar + step-pill carry position */
+    .split { grid-template-columns: 1fr; gap: var(--space-6); }
+    .pane-r { padding-left: 0; border-left: 0; border-top: 1px solid var(--frame-border); padding-top: var(--space-6); }
+    .anchors, .agents { grid-template-columns: 1fr; }
+    .stage-area { padding: 40px 28px 32px; }
+    .display { font-size: clamp(32px, 7vw, 56px); }
+  }
+  @media (max-width: 560px) {
+    .stage-area { padding: 28px 18px 24px; }
+    .tray-evo { grid-template-columns: repeat(3, 1fr); }
+    .tray-evo .cell:nth-child(n+4) { border-top: 1px dashed var(--card-border); }
+    .row { flex-wrap: wrap; gap: var(--space-4); }
+  }
+
+  /* reduced motion · no rise, no press travel, instant screen swap */
+  @media (prefers-reduced-motion: reduce) {
+    body { transition: none; }
+    .screen.is-active .stage-area > * { animation: none; }
+    .btn { transition: color .15s, background .15s; }
+    .btn:hover, .btn:active { transform: none; }
+    .flow-progress .fill { transition: none; }
+    .seal, .stage-eyebrow .dot { box-shadow: none; }
+  }
 </style>
 
 <link rel="stylesheet" href="../lib/surface-nav.css">
 </head>
 <body data-product="personal">
 
-<div id="root"></div>
+<div class="stage">
+  <div class="frame">
 
-<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+    <!-- ── titlebar ── -->
+    <header class="titlebar">
+      <div class="lights">
+        <span class="light r"></span>
+        <span class="light y"></span>
+        <span class="light g"></span>
+      </div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="brand">Liminal · Onboarding</span>
+        <span class="crumb-sep">·</span>
+        <span class="crumb" id="crumb">pilot · v0.1</span>
+      </div>
+      <div class="step-pill"><span class="acc" id="pill-num">01</span> · <span id="pill-nm">Pilot key</span></div>
+    </header>
 
-<script type="text/babel" src="onboarding/design-canvas.jsx"></script>
-<script type="text/babel" src="onboarding/parts.jsx"></script>
-<script type="text/babel" src="onboarding/screens.jsx"></script>
+    <!-- ── product/surface row · always personal during onboarding ── -->
+    <nav class="product-row">
+      <button class="product-tab is-active" data-product="personal">
+        <span class="pt-glyph"></span>personal<span class="pt-shape">self-read</span>
+      </button>
+      <button class="product-tab is-locked" disabled>
+        <span class="pt-glyph"></span>team<span class="pt-shape">peer-read</span>
+      </button>
+      <button class="product-tab is-locked" disabled>
+        <span class="pt-glyph"></span>business<span class="pt-shape">institutional-read</span>
+      </button>
+      <div class="surface-meta"><span class="sm-banner">first-run · day 0</span></div>
+    </nav>
 
-<script type="text/babel">
-  const { DesignCanvas, DCSection, DCArtboard } = window;
-  const S = window.Screens;
+    <!-- ── progress · where am I in the 7 ── -->
+    <div class="flow-progress" role="progressbar" aria-label="Onboarding progress" aria-valuemin="1" aria-valuemax="7" aria-valuenow="1">
+      <div class="fill" id="progress-fill"></div>
+    </div>
 
-  const W = 1240; // matches frame max-width (stage)
-  const H = 880;  // tall enough for content
+    <!-- ── main · stage + steprail ── -->
+    <div class="main">
+      <div class="flow" id="flow">
 
-  function App() {
-    return (
-      <DesignCanvas title="Liminal · Onboarding · v0.1 pilot first run" subtitle="Personal surface · invite-only pilot · vault, daemon, three reads">
+        <!-- ════ 01 · Pilot key ════ -->
+        <section class="screen is-active" data-step="1" aria-label="Step 1 of 7 · Pilot key">
+          <div class="stage-area">
+            <div class="stage-eyebrow"><span class="dot"></span>Begin · day 0</div>
+            <h1 class="display">A workspace for the<br><em>correction stream.</em></h1>
 
-        <DCSection id="setup" title="Pilot · vault · key">
-          <DCArtboard id="s01" label="01 · Pilot key" width={W} height={H}><S.S01_Welcome /></DCArtboard>
-          <DCArtboard id="s02" label="02 · Vault" width={W} height={H}><S.S02_Verify /></DCArtboard>
-          <DCArtboard id="s03" label="03 · Identity key" width={W} height={H}><S.S03_Passphrase /></DCArtboard>
-        </DCSection>
+            <div class="split">
+              <div>
+                <p class="lede">
+                  Liminal records the gap between what you said and what
+                  actually happened: corrections, surprises, agent reads
+                  you disagreed with. Over weeks, the stream becomes a
+                  record sharper than memory. Local-first; nothing leaves
+                  this machine without your signature.
+                </p>
 
-        <DCSection id="runtime" title="Daemon · sources · instrument · day 1">
-          <DCArtboard id="s04" label="04 · Daemon" width={W} height={H}><S.S04_Keys /></DCArtboard>
-          <DCArtboard id="s05" label="05 · Connect a source" width={W} height={H}><S.S05_Anchor /></DCArtboard>
-          <DCArtboard id="s06" label="06 · The three reads" width={W} height={H}><S.S06_Primer /></DCArtboard>
-          <DCArtboard id="s07" label="07 · Day 1" width={W} height={H}><S.S07_Day1 /></DCArtboard>
-        </DCSection>
+                <div style="max-width:380px">
+                  <label class="fld" for="pilot-key">Pilot key</label>
+                  <input class="input mono" id="pilot-key" value="LMNL-PILOT-7F2E-9C1A-B6D4">
+                  <div class="meter-label" style="margin-top:6px">
+                    Issued to <span style="color:var(--clarity)">Shruti</span> · 6-week pilot · expires 2026-06-08
+                  </div>
+                </div>
 
-      </DesignCanvas>
-    );
+                <div class="footnote">
+                  <span class="lock"></span>
+                  v0.1 is an invite-only pilot · 3 design partners · no public signup
+                </div>
+              </div>
+
+              <!-- clarify (P2): lead with WHAT IT IS; demote the negations -->
+              <div class="pane-r">
+                <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px">What it is</div>
+                <div style="font-family:var(--serif);font-size:15px;line-height:1.55;color:var(--text)">
+                  A signed event log of your reads, your corrections, and
+                  three bounded agents that disagree with each other in
+                  writing.
+                </div>
+                <div style="height:1px;border-top:1px solid var(--card-border);margin:22px 0 16px"></div>
+                <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);margin-bottom:14px">And what it is not</div>
+                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;font-size:13.5px;line-height:1.5;color:var(--text-dim)">
+                  <li>— not a journal app</li>
+                  <li>— not a coach</li>
+                  <li>— not a productivity tool</li>
+                  <li>— not a wellness product</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="row">
+              <button class="btn btn-primary" data-go="next">Continue <span class="kbd">↵</span></button>
+              <button class="btn btn-ghost" data-go="next">I don't have a key</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════ 02 · Vault (passphrase) ════ -->
+        <section class="screen" data-step="2" aria-label="Step 2 of 7 · Vault" hidden>
+          <div class="stage-area">
+            <div class="stage-eyebrow"><span class="dot"></span>Vault</div>
+
+            <div class="split">
+              <div>
+                <h1 class="display">One file. <em>This machine.</em></h1>
+                <p class="lede">
+                  Every read, correction, and agent response is appended to
+                  a single SQLite file on this disk. The passphrase encrypts
+                  it at rest. We cannot recover it for you — that is the
+                  point. If you forget it, the record is gone for good.
+                </p>
+
+                <label class="fld" for="pp">Passphrase</label>
+                <input class="input mono" id="pp" type="password" value="••••••••••••••••••">
+                <div class="meter">
+                  <span class="on"></span><span class="on"></span><span class="on"></span>
+                  <span class="on"></span><span></span><span></span>
+                </div>
+                <div class="meter-label">Strong · 4 of 6</div>
+
+                <div style="height:18px"></div>
+                <label class="fld" for="pp2">Confirm</label>
+                <input class="input mono" id="pp2" type="password" value="••••••••••••••••••">
+
+                <div class="footnote">
+                  <span class="lock"></span>
+                  Passphrase stored in macOS keychain · vault.db on local disk only
+                </div>
+              </div>
+
+              <div class="pane-r">
+                <div class="vault">
+                  <div class="hdr"><span>~/Library/Application Support/Liminal</span><span>local</span></div>
+                  <div class="vault-block">
+                    <div class="row-l hl"><span class="ico">▸</span><span class="nm">vault.db</span><span class="sz">pending</span></div>
+                    <div class="row-l"><span class="ico">·</span><span class="nm">events/</span><span class="sz">empty</span></div>
+                    <div class="row-l"><span class="ico">·</span><span class="nm">attachments/</span><span class="sz">empty</span></div>
+                    <div class="row-l"><span class="ico">·</span><span class="nm">keys/</span><span class="sz">empty</span></div>
+                    <div class="row-l"><span class="ico">·</span><span class="nm">config.toml</span><span class="sz">2 KB</span></div>
+                    <div class="row-l"><span class="ico">·</span><span class="nm">daemon.log</span><span class="sz">empty</span></div>
+                  </div>
+                </div>
+                <p style="margin-top:14px;font-family:var(--sans);font-size:12.5px;line-height:1.55;color:var(--text-dim)">
+                  On <span class="kbd">⌘↵</span>, Liminal creates
+                  <span style="color:var(--clarity)"> vault.db</span> and writes
+                  event #1 (<span class="mono" style="color:var(--text)">vault.created</span>).
+                  Every subsequent event references the previous by hash.
+                </p>
+              </div>
+            </div>
+
+            <div class="row">
+              <button class="btn btn-primary" data-go="next">Create vault <span class="kbd">⌘↵</span></button>
+              <button class="btn btn-ghost" data-go="prev">What if I forget?</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════ 03 · Identity key ════ -->
+        <section class="screen" data-step="3" aria-label="Step 3 of 7 · Identity key" hidden>
+          <div class="stage-area">
+            <div class="stage-eyebrow"><span class="dot"></span>Identity key</div>
+            <h1 class="display">Sign every event<br>with <em>your key.</em></h1>
+            <p class="lede">
+              Liminal generated an Ed25519 keypair on this device. Every
+              event the daemon writes (a captured signal, a correction,
+              an agent read) is signed with the private key. Years from
+              now, the record can prove it has not been tampered with.
+            </p>
+
+            <div class="fingerprint">
+              <span class="lbl">Fingerprint</span>
+              <span class="hex">ed25519 · 4f7c 8b2e 91a3 d6f0 · 22e8 1c4b 7a9d e305</span>
+            </div>
+
+            <div style="max-width:460px;margin-top:8px">
+              <label class="fld" for="dev">Name this device</label>
+              <input class="input" id="dev" value="Mac Studio · home">
+            </div>
+
+            <div class="footnote">
+              <span class="lock"></span>
+              Private key in <span style="color:var(--clarity);margin-left:4px">com.liminal.vault</span> · public key written to vault.db
+            </div>
+
+            <div class="row">
+              <button class="btn btn-primary" data-go="next">Save key <span class="kbd">⌘↵</span></button>
+              <button class="btn btn-ghost" data-go="next">Show recovery phrase</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════ 04 · Daemon ════ -->
+        <section class="screen" data-step="4" aria-label="Step 4 of 7 · Daemon" hidden>
+          <div class="stage-area">
+            <div class="stage-eyebrow"><span class="dot"></span>Daemon</div>
+            <h1 class="display">The daemon runs<br><em>quietly.</em></h1>
+            <p class="lede">
+              A background process polls the sources you connect, writes
+              signal events to <span class="mono" style="color:var(--text)">vault.db</span>,
+              and stays out of your way. There are no notifications and
+              no scheduled prompts. You read the stream when you want it,
+              via the global shortcut.
+            </p>
+
+            <div class="vault" style="padding:14px 16px">
+              <div class="hdr"><span>Polling cadence</span><span>can change later</span></div>
+              <div class="row-l">
+                <span class="ico">·</span>
+                <span class="nm">How often the daemon checks connected sources</span>
+                <span class="sz">5 min · <span style="color:var(--clarity)">10 min</span> · 30 min · hourly</span>
+              </div>
+              <div class="row-l">
+                <span class="ico">·</span>
+                <span class="nm">Pause polling when on battery below 20%</span>
+                <span class="sz" style="color:var(--clarity)">on</span>
+              </div>
+            </div>
+
+            <div style="height:16px"></div>
+
+            <div class="vault" style="padding:14px 16px">
+              <div class="hdr"><span>Global shortcut</span><span>configurable</span></div>
+              <div class="row-l">
+                <span class="ico">⌘</span>
+                <span class="nm">Open the read pane from any app</span>
+                <span class="sz"><span class="kbd">⌘</span> <span class="kbd">⇧</span> <span class="kbd">L</span></span>
+              </div>
+              <div class="row-l">
+                <span class="ico">⌘</span>
+                <span class="nm">Quick-capture a correction inline</span>
+                <span class="sz"><span class="kbd">⌘</span> <span class="kbd">⇧</span> <span class="kbd">'</span></span>
+              </div>
+            </div>
+
+            <div class="footnote" style="margin-top:18px">
+              <span class="lock"></span>
+              Daemon binary: <span class="mono" style="color:var(--text)">liminald</span> · launchd agent · logs to daemon.log
+            </div>
+
+            <div class="row">
+              <button class="btn btn-primary" data-go="next">Continue <span class="kbd">↵</span></button>
+              <button class="btn btn-ghost" data-go="next">Skip — set this later</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════ 05 · Connect a source ════ -->
+        <section class="screen" data-step="5" aria-label="Step 5 of 7 · Connect a source" hidden>
+          <div class="stage-area">
+            <div class="stage-eyebrow"><span class="dot"></span>Sources</div>
+            <h1 class="display">Connect at least <em>one source.</em></h1>
+            <p class="lede">
+              The daemon reads from sources you authorize. Everything stays
+              local; Liminal never proxies your data through a server. Pick
+              one to start, and add or remove sources any time.
+            </p>
+
+            <div class="anchors" role="radiogroup" aria-label="Signal sources">
+              <button class="anchor-card sel" role="radio" aria-checked="true" type="button">
+                <div class="hd"><span class="name">macOS Calendar</span><span class="when">read-only</span></div>
+                <div style="padding:14px 0 2px;font-size:13px;line-height:1.5;color:var(--text-dim)">
+                  Events, durations, attendees (names hashed). No event bodies. <span style="color:var(--clarity)">Selected.</span>
+                </div>
+              </button>
+              <button class="anchor-card" role="radio" aria-checked="false" type="button">
+                <div class="hd"><span class="name">Screen activity</span><span class="when">app-level only</span></div>
+                <div style="padding:14px 0 2px;font-size:13px;line-height:1.5;color:var(--text-dim)">
+                  Frontmost app + idle windows. No keystrokes, no screenshots, no window titles.
+                </div>
+              </button>
+              <button class="anchor-card" role="radio" aria-checked="false" type="button">
+                <div class="hd"><span class="name">Manual capture</span><span class="when">always on</span></div>
+                <div style="padding:14px 0 2px;font-size:13px;line-height:1.5;color:var(--text-dim)">
+                  <span class="kbd">⌘⇧'</span> from any app to write a correction into the stream by hand.
+                </div>
+              </button>
+            </div>
+
+            <div class="footnote" style="margin-top:22px">
+              <span class="lock"></span>
+              Each source is a separate macOS permission grant · revocable in System Settings
+            </div>
+
+            <div class="row">
+              <button class="btn btn-primary" data-go="next">Authorize Calendar <span class="kbd">⌘↵</span></button>
+              <button class="btn btn-ghost" data-go="next">Skip — manual capture only</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════ 06 · The three reads ════ -->
+        <section class="screen" data-step="6" aria-label="Step 6 of 7 · The three reads" hidden>
+          <div class="stage-area">
+            <div class="stage-eyebrow"><span class="dot"></span>The instrument</div>
+
+            <div style="max-width:760px">
+              <h1 class="display">Three agents.<br><em>One refuses each thing.</em></h1>
+              <p class="lede">
+                Most assistants try to help with everything. These three
+                don't. Each has a lane, and explicitly refuses what isn't
+                in it, redirecting you by name to whichever agent does
+                handle that. The disagreement is the feature. The refusal
+                is the routing.
+              </p>
+            </div>
+
+            <div style="height:8px"></div>
+
+            <div class="agents">
+              <div class="agent">
+                <div class="a-hd"><span class="a-name">Analyst</span><span class="a-lane">diligence</span></div>
+                <div class="a-reads"><span class="a-tag reads">reads</span><span class="a-text">the question — what's known, the landscape, the move</span></div>
+                <div class="a-reads"><span class="a-tag refuses">refuses</span><span class="a-text">drafting outreach, ship / no-ship calls</span></div>
+                <div class="a-redirect">→ SDR or Auditor</div>
+              </div>
+              <div class="agent">
+                <div class="a-hd"><span class="a-name">SDR</span><span class="a-lane">outreach</span></div>
+                <div class="a-reads"><span class="a-tag reads">reads</span><span class="a-text">the next move — the message, the ask that ends in a meeting</span></div>
+                <div class="a-reads"><span class="a-tag refuses">refuses</span><span class="a-text">research, analysis, judging readiness</span></div>
+                <div class="a-redirect">→ Analyst or Auditor</div>
+              </div>
+              <div class="agent">
+                <div class="a-hd"><span class="a-name">Auditor</span><span class="a-lane">judgment</span></div>
+                <div class="a-reads"><span class="a-tag reads">reads</span><span class="a-text">readiness — what's missing, ship or not ready</span></div>
+                <div class="a-reads"><span class="a-tag refuses">refuses</span><span class="a-text">producing the work itself</span></div>
+                <div class="a-redirect">→ Analyst or SDR</div>
+              </div>
+            </div>
+
+            <div class="footnote" style="margin-top:22px">
+              <span class="lock"></span>
+              Reads are written to vault.db as signed events · ⌘⇧L from any app to invoke
+            </div>
+
+            <div class="row">
+              <button class="btn btn-primary" data-go="next">Try one read now <span class="kbd">↵</span></button>
+              <button class="btn btn-ghost" data-go="next">Tomorrow morning</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- ════ 07 · Day 1 ════ -->
+        <section class="screen" data-step="7" aria-label="Step 7 of 7 · Day 1" hidden>
+          <div class="stage-area">
+            <div class="stage-eyebrow"><span class="dot"></span>Day 1</div>
+            <h1 class="display">The vault is <em>empty.</em><br>That is correct.</h1>
+            <p class="lede">
+              The daemon is running. Calendar is connected. The three
+              agents are loaded. What remains is the practice: corrections,
+              captures, reads, and the vault filling out as it goes. Your
+              tray icon is a sigil-in-progress.
+            </p>
+
+            <div class="welcome-mark">
+              <div class="seal"></div>
+              <div>
+                <div class="nm">Mac Studio · home</div>
+                <div class="desc">vault.db · 1 event · ed25519 4f7c · daemon: live</div>
+              </div>
+            </div>
+
+            <div style="height:16px"></div>
+
+            <div class="vault">
+              <div class="hdr"><span>Your tray icon, over time</span><span>earned expressiveness</span></div>
+              <div class="tray-evo" id="tray-evo">
+                <div class="cell now"><span class="tray-slot" data-stage="0"></span><div class="day">Day 1 · today</div></div>
+                <div class="cell"><span class="tray-slot" data-stage="1"></span><div class="day">Day 7</div></div>
+                <div class="cell"><span class="tray-slot" data-stage="2"></span><div class="day">Day 14</div></div>
+                <div class="cell"><span class="tray-slot" data-stage="3"></span><div class="day">Day 30</div></div>
+                <div class="cell"><span class="tray-slot" data-stage="4"></span><div class="day">Day 60</div></div>
+              </div>
+              <!-- felt, not just shown (P2 animate): a single sigil that fills Day 1→60 on a loop -->
+              <div style="display:flex;align-items:center;gap:14px;margin-top:16px;padding-top:14px;border-top:1px dashed var(--card-border)">
+                <span class="tray-slot tray-grow" id="tray-grow" data-stage="0" aria-hidden="true"></span>
+                <div style="font-family:var(--mono);font-size:var(--fs-mono-xs);color:var(--text-faint);letter-spacing:var(--ls-mono);text-transform:uppercase">
+                  no two vaults' sigils end up identical
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <button class="btn btn-primary" data-go="restart">Take the first read <span class="kbd">⌘⇧L</span></button>
+              <button class="btn btn-ghost" data-go="restart">Quit to tray</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- ── steprail · now a real jump-to-step nav ── -->
+      <aside class="steprail">
+        <div class="sr-title">Onboarding</div>
+        <div class="sr-list" id="sr-list"><!-- built by script --></div>
+        <div class="sr-foot">
+          Local-first vault<br>
+          Signed event log<br>
+          ⌘⇧L from any app
+        </div>
+      </aside>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ─── Cut 04 · vanilla sequential flow (was React DesignCanvas) ───────────
+   One screen at a time · ←/→ + ⌘↵ advance · steprail jumps · progress bar.
+   Pure DOM; no framework. */
+(() => {
+  const STEPS = [
+    { num: "01", nm: "Pilot key",        crumb: "pilot · v0.1" },
+    { num: "02", nm: "Vault",            crumb: "vault · passphrase" },
+    { num: "03", nm: "Identity key",     crumb: "vault · identity key" },
+    { num: "04", nm: "Daemon",           crumb: "daemon · background process" },
+    { num: "05", nm: "Connect a source", crumb: "signal · sources" },
+    { num: "06", nm: "The three reads",  crumb: "the three reads" },
+    { num: "07", nm: "Day 1",            crumb: "day 1 · the empty workspace" },
+  ];
+  const screens = [...document.querySelectorAll(".screen")];
+  const total = screens.length;
+  let cur = 1;
+
+  /* ── inline-SVG sigil · the 5 tray-evo stages (ported from parts.jsx Tray) ── */
+  const DIM = "rgba(122,122,130,0.55)", ACC = "var(--clarity)";
+  function dots(n, opts = {}) {
+    const r = 8.4, cx = 12, cy = 12; let out = "";
+    for (let i = 0; i < 7; i++) {
+      const a = (i / 7) * Math.PI * 2 - Math.PI / 2;
+      const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+      const sz = opts.varied ? 0.85 + ((i * 0.27) % 1.3) : 1;
+      out += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${(1.2 * sz).toFixed(2)}" fill="${i < n ? ACC : "transparent"}" opacity="${opts.faint ? 0.55 : 1}"/>`;
+    }
+    return out;
+  }
+  function sigil(stage, size = 32) {
+    const ring  = `<circle cx="12" cy="12" r="10.5" fill="none" stroke="${DIM}" stroke-width="1"/>`;
+    const ringL = `<circle cx="12" cy="12" r="10.5" fill="none" stroke="${ACC}" stroke-width="1"/>`;
+    let inner;
+    if (stage === 0) inner = `${ringL}<text x="12" y="16" text-anchor="middle" font-family="Geist Mono" font-size="11" fill="${ACC}">◇</text>`;
+    else if (stage === 1) inner = `${ring}${dots(7, { faint: true })}`;
+    else if (stage === 2) inner = `${ring}${dots(7, { varied: true })}`;
+    else if (stage === 3) inner = `${ring}<path d="M12 2 L21 9 L18 21 L6 21 L3 9 Z" fill="none" stroke="${DIM}" stroke-width="0.6" opacity="0.65"/>${dots(7, { varied: true })}`;
+    else inner = `<defs><radialGradient id="sg${size}-${stage}" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#b59bff"/><stop offset="100%" stop-color="#553AB1"/></radialGradient></defs><circle cx="12" cy="12" r="10.5" fill="url(#sg${size}-${stage})" opacity="0.92"/>${dots(7, { varied: true })}`;
+    return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" role="img" aria-hidden="true">${inner}</svg>`;
+  }
+  function paintSigils() {
+    document.querySelectorAll(".tray-slot").forEach(el => {
+      el.innerHTML = sigil(Number(el.dataset.stage) || 0, 32);
+    });
   }
 
-  ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  /* ── steprail (jump-to-step) ── */
+  const srList = document.getElementById("sr-list");
+  srList.innerHTML = STEPS.map((s, i) =>
+    `<button class="sr-item" data-step="${i + 1}" type="button"><span class="num">${s.num}</span><span class="nm">${s.nm}</span></button>`
+  ).join("");
 
-  // v0.8.5 F5 — fade body in after React mounts
+  const crumbEl = document.getElementById("crumb");
+  const pillNum = document.getElementById("pill-num");
+  const pillNm  = document.getElementById("pill-nm");
+  const fill    = document.getElementById("progress-fill");
+  const progress = fill.closest(".flow-progress");
+
+  function render() {
+    screens.forEach(sc => {
+      const on = Number(sc.dataset.step) === cur;
+      sc.classList.toggle("is-active", on);
+      sc.hidden = !on;
+    });
+    const s = STEPS[cur - 1];
+    crumbEl.textContent = s.crumb;
+    pillNum.textContent = s.num;
+    pillNm.textContent  = s.nm;
+    fill.style.width = (cur / total * 100).toFixed(3) + "%";
+    progress.setAttribute("aria-valuenow", String(cur));
+    [...srList.children].forEach((it, i) => {
+      const idx = i + 1;
+      it.classList.toggle("done", idx < cur);
+      it.classList.toggle("now", idx === cur);
+    });
+    /* focus the active screen's heading for SR/keyboard users, without scrolling the page */
+    const h = screens[cur - 1].querySelector(".display");
+    if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+  }
+
+  function go(step) {
+    cur = Math.max(1, Math.min(total, step));
+    render();
+  }
+
+  document.getElementById("flow").addEventListener("click", e => {
+    const btn = e.target.closest("[data-go]");
+    if (!btn) return;
+    const dir = btn.dataset.go;
+    if (dir === "next") go(cur + 1);
+    else if (dir === "prev") go(cur - 1);
+    else if (dir === "restart") go(1);
+  });
+
+  srList.addEventListener("click", e => {
+    const it = e.target.closest(".sr-item");
+    if (it) go(Number(it.dataset.step));
+  });
+
+  /* source selection (S05) · real radio behavior */
+  document.querySelectorAll(".anchors").forEach(group => {
+    group.addEventListener("click", e => {
+      const card = e.target.closest(".anchor-card");
+      if (!card) return;
+      group.querySelectorAll(".anchor-card").forEach(c => {
+        const on = c === card;
+        c.classList.toggle("sel", on);
+        c.setAttribute("aria-checked", on ? "true" : "false");
+      });
+    });
+  });
+
+  /* keyboard · ← prev · → next · ⌘↵ / Ctrl↵ advance · Esc back to step 1 */
+  document.addEventListener("keydown", e => {
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName || "");
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") { e.preventDefault(); go(cur + 1); return; }
+    if (typing) return;
+    if (e.key === "ArrowRight") { e.preventDefault(); go(cur + 1); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); go(cur - 1); }
+    else if (e.key === "Escape") { go(1); }
+  });
+
+  /* the looping "felt" sigil on S07 · grows Day1→60 then resets · respects reduced-motion */
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const grow = document.getElementById("tray-grow");
+  function startGrow() {
+    if (reduce) { grow.dataset.stage = "4"; grow.innerHTML = sigil(4, 32); return; }
+    let st = 0;
+    setInterval(() => {
+      st = (st + 1) % 5;
+      grow.dataset.stage = String(st);
+      grow.innerHTML = sigil(st, 32);
+    }, 1100);
+  }
+
+  paintSigils();
+  startGrow();
+  render();
   requestAnimationFrame(() => document.body.classList.add("ready"));
+})();
 </script>
 
 <script src="../lib/surface-nav.js"></script>
