@@ -148,18 +148,20 @@
     line-height: 1.35;
   }
   .stream-item--flagged {
-    position: relative;
-    padding-left: 12px;
-  }
-  .stream-item--flagged::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 14px;
-    width: 3px;
-    height: calc(100% - 22px);
-    background: var(--alarm, #c54a3a);
+    margin: 0 -24px;
+    padding: 12px 24px;
+    background: color-mix(in srgb, var(--alarm, #c54a3a) 9%, transparent);
   }
   .stream-item--flagged .stream-item__subject {
+    color: var(--alarm, #c54a3a);
+    display: flex;
+    gap: 7px;
+  }
+  .stream-item--flagged .stream-item__subject::before {
+    content: "!";
+    flex: none;
+    font-family: var(--font-mono, "Geist Mono", monospace);
+    font-weight: 500;
     color: var(--alarm, #c54a3a);
   }
 
@@ -256,6 +258,10 @@
     font-size: 13px;
     color: var(--ink-8, #c8c5be);
     line-height: 1.5;
+  }
+  .move > span:last-child {
+    max-width: 68ch;
+    text-wrap: pretty;
   }
   .move__bullet {
     font-family: var(--font-mono, "Geist Mono", monospace);
