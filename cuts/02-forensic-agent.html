@@ -133,7 +133,7 @@
   .stream-item__when {
     font-family: var(--font-mono, "Geist Mono", monospace);
     font-size: 10px;
-    color: var(--ink-5, #5a5854);
+    color: var(--ink-6, #7b7a75); /* a11y: was --ink-5 #5a5854 (2.77:1, fails AA) → #7b7a75 (4.58:1) */
     letter-spacing: 0.06em;
   }
   .stream-item__from {
@@ -177,13 +177,13 @@
     margin-bottom: 10px;
   }
   .contradiction__claim {
-    font-family: var(--font-serif, "Newsreader", "Perfectly Nineties", serif);
+    font-family: var(--font-serif, "Perfectly Nineties", "PerfectlyNineties", serif);
     font-size: 26px;
     line-height: 1.25;
     font-weight: 400;
-    font-style: italic;
     color: var(--ink-9, #e8e6e1);
     margin: 0 0 22px;
+    text-wrap: balance;
   }
   .contradiction__claim em {
     font-style: normal;
@@ -297,7 +297,7 @@
     border-top: 1px solid var(--ink-3, #1c1e22);
     font-family: var(--font-mono, "Geist Mono", monospace);
     font-size: 10px;
-    color: var(--ink-5, #5a5854);
+    color: var(--ink-6, #7b7a75); /* a11y: was --ink-5 #5a5854 (2.77:1, fails AA) → #7b7a75 (4.58:1) — audit-grade evidence must read */
     line-height: 1.65;
   }
   .provenance strong {
