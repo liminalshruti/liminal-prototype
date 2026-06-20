@@ -38,7 +38,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- canon · DO NOT REDEFINE TOKENS -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
@@ -46,6 +46,8 @@
 <!-- shared desktop-app shell -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
 <link rel="stylesheet" href="../lib/surface-nav.css">
+<!-- brand fonts · loads PerfectlyNineties @font-face + --serif/--display (matches cuts 01/08/11) -->
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
   /* ─── Cut 02 · per-cut layout only · no token redefines ─────────── */
@@ -362,6 +364,8 @@
   }
 
   @media (max-width: 860px) {
+    /* single column · clear the shell's fixed 56px surface-nav rail */
+    .cut-02 { padding-left: 56px; }
     .cut-02__panes {
       grid-template-columns: 1fr;
     }
