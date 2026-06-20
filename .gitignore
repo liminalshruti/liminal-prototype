@@ -7,6 +7,10 @@ node_modules
 
 # audit / verification scratch (not canon)
 .playwright-mcp/
+# impeccable design-skill local cache (machine-local hook state, not source)
+.impeccable/
+# sam-seed fold verification screenshot (throwaway)
+sam-seed-loop-folded.png
 audit-*.png
 zip-*.png
 refactor-*.png
