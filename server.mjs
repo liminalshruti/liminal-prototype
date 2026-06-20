@@ -163,13 +163,43 @@ const server = http.createServer((req, res) => {
   fs.createReadStream(file).pipe(res);
 });
 
+// Index the cut catalog: scan cuts/*.html, pull each <title>, skip _scaffolds.
+function indexCuts() {
+  const dir = path.join(ROOT, 'cuts');
+  let files;
+  try { files = fs.readdirSync(dir); } catch { return []; }
+  return files
+    .filter(f => f.endsWith('.html') && !f.startsWith('_'))
+    .sort()
+    .map(f => {
+      let title = '';
+      try {
+        const html = fs.readFileSync(path.join(dir, f), 'utf8');
+        const m = html.match(/<title>([^<]*)<\/title>/i);
+        title = m ? m[1].trim() : '';
+      } catch { /* unreadable · leave title blank */ }
+      return { file: f, title };
+    });
+}
+
 server.listen(PORT, HOST, () => {
+  const cuts = indexCuts();
   console.log('');
   console.log(`  liminal-prototype · dev server`);
   console.log(`  ────────────────────────────────`);
   console.log(`  → http://${HOST}:${PORT}`);
   console.log(`  → watching: ${ROOT}`);
   console.log(`  → save any .html/.css/.js to live-reload`);
+  console.log('');
+  console.log(`  cuts · ${cuts.length} indexed`);
+  console.log(`  ────────────────────────────────`);
+  for (const { file, title } of cuts) {
+    const slug = file.replace(/\.html$/, '');
+    const label = title || '(untitled)';
+    console.log(`  ${slug.padEnd(20)} ${label}`);
+    console.log(`  ${' '.repeat(20)} → http://${HOST}:${PORT}/cuts/${file}`);
+  }
+  console.log('');
   console.log(`  ─ Ctrl+C to stop`);
   console.log('');
 });
