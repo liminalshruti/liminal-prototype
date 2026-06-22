@@ -256,6 +256,28 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .mnote{border-left:2px solid var(--diligence);padding:4px 0 4px 16px;margin-top:8px}
 .mnote .k{font:8px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--diligence)}
 .mnote p{margin:8px 0 0;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid);font-style:italic}
+.mnote ul{margin:8px 0 0;padding-left:18px;font:13px/1.6 var(--sans);color:var(--text-mid)}
+.mnote code{font:11px/1 var(--mono);color:var(--text);background:var(--frame-bg-3);padding:1px 5px;border-radius:3px}
+
+/* ── run-badge · marks a real-pipeline run vs the inline demo ── */
+.run-badge{margin-left:auto;font:8px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius:3px;padding:4px 8px;align-self:center}
+.run-badge.on{color:var(--connection);border-color:var(--connection)}
+
+/* ── OKR surface (reuses .today shell) ── */
+.okrs{display:flex;flex-direction:column;gap:18px;margin:6px 0 18px}
+.okr-obj{border:1px solid var(--card-border);border-radius:8px;padding:16px 18px;background:var(--frame-bg-2)}
+.okr-head{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
+.okr-head .okr-n{font:9px/1 var(--mono);letter-spacing:.1em;color:var(--depth)}
+.okr-head .okr-name{font:17px/1.2 var(--display,"Nineties Headliner",Georgia,serif);color:var(--text)}
+.okr-head .okr-alloc{margin-left:auto;font:13px/1 var(--mono);color:var(--text)}
+.okr-obj .track{height:8px;background:var(--frame-bg-3);border-radius:4px;overflow:hidden}
+.okr-obj .track .fill{height:100%}
+.okr-krs{margin:10px 0 0;padding-left:18px;font:13px/1.6 var(--sans);color:var(--text-dim)}
+.okr-foot{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.okr-sum{font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:4px;border:1px solid var(--card-border)}
+.okr-sum.ok{color:var(--connection);border-color:var(--connection)}
+.okr-sum.warn{color:var(--alarm);border-color:var(--alarm-edge,var(--alarm))}
+.okr-note{font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
 
 /* ── secondary screens (Registry / Decision log) ── */
 .screen{max-width:760px;margin:0 auto;padding:30px;display:flex;flex-direction:column;gap:16px}
@@ -271,6 +293,33 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .agent .lanes{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
 .agent .lane{font:8px/1 var(--mono);color:var(--text-dim);border:1px solid var(--card-border);border-radius:3px;padding:3px 6px}
 .agent .prov{margin-top:9px;padding-top:8px;border-top:1px solid var(--frame-border);font:8.5px/1.4 var(--mono);color:var(--text-mute)}
+.agent .prov .phash{color:var(--diligence)}
+
+/* ── rich registry agent cards (real reputation + proof) ── */
+.agent.rich{display:flex;flex-direction:column;gap:8px}
+.agent .ar-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.agent .rep{font:600 18px/1 var(--mono);display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.agent .rep .rl{font:7px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);font-weight:400}
+.agent .rep.ok{color:var(--good)}.agent .rep.cost{color:var(--diligence)}.agent .rep.warn{color:var(--watch)}
+.agent .claim{font:12px/1.5 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim);font-style:italic}
+
+/* ── the agent-fit marketplace swap (hero beat in the loop) ── */
+.mswap{margin-top:12px;border:1px solid var(--card-border);border-radius:8px;background:var(--frame-bg-2);overflow:hidden}
+.mswap-h{padding:9px 13px;font:10px/1.4 var(--mono);color:var(--text-dim);border-bottom:1px solid var(--frame-border);background:var(--frame-bg-3)}
+.mswap-grid{display:grid;grid-template-columns:1fr 52px 1fr;align-items:stretch;gap:0}
+.mside{padding:13px 15px;display:flex;flex-direction:column;gap:6px}
+.mside.sug{background:color-mix(in srgb,var(--good) 7%,transparent)}
+.mside .mrole{font:7px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
+.mside .mname{font:500 15px/1.2 var(--sans);color:var(--text)}
+.mside.sug .mname{color:var(--good)}
+.mside .mmeta{font:8px/1.3 var(--mono);color:var(--text-dim)}
+.mside .mstatrow{display:flex;gap:8px;align-items:baseline;margin-top:2px}
+.mside .mcost{font:11px/1 var(--mono);color:var(--text)}
+.mside .mrep{font:8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--good)}
+.mside .mlanes{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
+.mside .mproof{margin-top:auto;padding-top:7px;font:8px/1.4 var(--mono);color:var(--text-mute)}
+.marrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:15px/1 var(--mono);color:var(--text-faint);border-left:1px solid var(--frame-border);border-right:1px solid var(--frame-border)}
+.marrow .msave{font:8px/1 var(--mono);color:var(--good);letter-spacing:.04em}
 
 /* ── RIGHT RAIL · ORBITAL agency (ported from cut 01, canon-clean, spend-subjected) ── */
 .rail-r{background:var(--frame-bg-2);border-left:1px solid var(--frame-border);padding:13px 0;overflow-y:auto}
@@ -331,10 +380,13 @@ body[data-relationship="public"] .work::after{content:"⊘ refused surface — o
     <div class="brand"><span class="dia">◇</span><span class="bc">Liminal</span><span class="bc">/</span><b>Govern</b></div>
     <div class="tabs">
       <button class="tab on" data-go="today"><span class="k">1</span>Today<span class="badge" id="duebadge">1</span></button>
-      <button class="tab" data-go="loop"><span class="k">2</span>The loop</button>
-      <button class="tab" data-go="mirror"><span class="k">3</span>Mirror</button>
-      <button class="tab" data-go="registry"><span class="k">4</span>Registry</button>
-      <button class="tab" data-go="log"><span class="k">5</span>Log</button>
+      <button class="tab" data-go="okr"><span class="k">2</span>OKRs</button>
+      <button class="tab" data-go="loop"><span class="k">3</span>The loop</button>
+      <button class="tab" data-go="report"><span class="k">4</span>Report</button>
+      <button class="tab" data-go="mirror"><span class="k">5</span>Mirror</button>
+      <button class="tab" data-go="registry"><span class="k">6</span>Registry</button>
+      <button class="tab" data-go="log"><span class="k">7</span>Log</button>
+      <span class="run-badge" id="run-badge">demo</span>
     </div>
     <div class="cmdk" id="cmdk-btn"><span>⌘K</span></div>
     <div class="rel"><span class="lbl">rel</span>
@@ -364,29 +416,32 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const body=document.body;
 const usd=n=>'$'+n.toLocaleString('en-US');
 
-// ── REAL DATA (liminal-govern fixtures) ─────────────────────────────────────
-const VENDORS=[
+// ── DATA · inline demo fixtures · overridable by ?run=<json> (the seam) ──────
+// These are `let` so the real-pipeline loader (initGovernData, at boot) can
+// shadow them with output emitted by liminal-agents `npm run govern:emit`.
+// No ?run= ⇒ these fixtures render unchanged (fully backward-compatible).
+let VENDORS=[
   ['Cursor','Business',30,1200],['Linear','Standard',40,320],['Notion','Plus',55,550],
   ['Figma','Organization',15,675,'flag'],['Datadog','Pro',18,1350],['Vercel','Enterprise',12,2400,'flag'],
   ['Granola','Business',35,525],['GitHub Copilot','Business',30,570],['Slack','Business Plus',65,975],
   ['Zoom','Business',25,500],['Claude API','Team',55,1650],['Retool','Team',15,750],
   ['Amplitude','Growth',8,1000],['Sentry','Team',20,520],['Airtable','Team',30,600],
 ];
-const SPEND_TOTAL=13045, OPUS_TOTAL=4500, COHORT=7, CLAIMED=324, VERIFIED=162;
-const USAGE=[
+let SPEND_TOTAL=13045, OPUS_TOTAL=4500, COHORT=7, CLAIMED=324, VERIFIED=162;
+let USAGE=[
   ['Build payments API','product_dev',420],['Threat-model auth service','security_hardening',300],
   ['Feature: search v2','product_dev',400],['Dependency CVE audit','security_hardening',240],
   ['Schedule team offsite + calendar wrangling','calendar_admin',90,'flag'],
   ['Reformat meeting notes + send invites','calendar_admin',90,'flag'],
   ['calendar-sync feature: Google Calendar API + UI','calendar_admin',180,'flag-e14'],
 ];
-const AGENTS=[
+let AGENTS=[
   {name:'Claude Opus 4.8',type:'frontier_model',badges:[['ok','verified'],['warn','high cost']],lanes:['product_dev','security_hardening','architecture_review']},
   {name:'CalendarOps Agent',type:'internal_agent',badges:[['ok','verified'],['cost','low · ~10% of Opus']],lanes:['calendar_management','scheduling'],prov:'registry-verified (Algorand trustless agent registry) · internal-platform'},
   {name:'DigestBot',type:'internal_agent · claude-haiku-4-5',badges:[['ok','verified'],['cost','low · ~5% of Opus']],lanes:['summarization','digests'],prov:'registry-verified'},
   {name:'Analyst (bounded)',type:'internal_agent',badges:[['ok','verified']],lanes:['diligence','analysis']},
 ];
-const SIGNALS=[
+let SIGNALS=[
   {id:'usage',src:'Usage events',nm:'$4,500 Opus · 7 engineers',state:'slate',rows:'E01–E21 · 5 categories · 2026-06'},
   {id:'okr',src:'OKR baseline',nm:'60% product / 40% security',state:'slate',rows:'O1 product 0.6 · O2 security 0.4'},
   {id:'pr',src:'PR evidence',nm:'PR-103 · Priya',state:'slate',rows:'“calendar-sync feature” · workstream=product · linked E14'},
@@ -403,9 +458,9 @@ let READS={
 };
 let corrections=0, signed=false;
 // reconciliation (matches the real /findings screen — naïve → dropped → verified)
-const RECON={naive:486,dropped:162,verified:324};
+let RECON={naive:486,dropped:162,verified:324};
 // the agent-fit findings — clickable provenance artifacts (the hero interaction)
-const FINDINGS=[
+let FINDINGS=[
   {id:'F-CAL',kind:'agent-fit',cat:'calendar_admin',who:'Elif',title:'Route calendar admin to verified agent',save:162,
    route:true,
    events:[['E12','2026-06-03','Elif','Schedule team offsite + calendar wrangling',90],['E13','2026-06-06','Bianca','Reformat meeting notes + send calendar invites',90]],
@@ -416,11 +471,11 @@ const FINDINGS=[
    events:[['E14','2026-06-04','Priya','calendar-sync feature: Google Calendar API + UI',180]],
    receipt:{ph:'—',pp:'—',anchor:'dropped — not anchored',vstate:'✗ dropped · E14 refuted',ok:false}},
 ];
-const CHAIN=[
+let CHAIN=[
   ['t0','15-vendor spend · $13,045/mo',''],['t1','narrowed · Opus $4,500 · 7 eng',''],
   ['t2','exec-comms · refused (out of lane)','ref'],['t3','adversarial · E14 refuted · PR-103','ref'],['t4','verified realizable · $324/mo',''],
 ];
-const LOG=[
+let LOG=[
   ['0','● finding','Figma: downsize from 15 to 6 seats','f1a2…','0000…'],
   ['1','● finding','Vercel: downsize from 12 to 4 seats','c3d4…','f1a2…'],
   ['2','● ratification','Opus 4.8 ≠ calendar management — route to CalendarOps','7d4b…','c3d4…'],
@@ -594,6 +649,66 @@ function renderToday(){
   </div>`;
 }
 
+// ── OKRs · the frame spend is measured against (use case 2) ─────────────────
+function renderOkr(){
+  body.dataset.surface='okr';
+  const objs=OKR.objectives||[];
+  const rows=objs.map((o,i)=>{
+    const pct=Math.round((o.allocation||0)*100);
+    const krs=(o.key_results||[]).map(k=>`<li>${k}</li>`).join('');
+    return `<div class="okr-obj">
+      <div class="okr-head"><span class="okr-n">O${i+1}</span><span class="okr-name">${o.name}</span><span class="okr-alloc">${pct}%</span></div>
+      <div class="track"><div class="fill" style="width:${pct}%;background:${i===0?'var(--depth)':'var(--judgment)'}"></div></div>
+      ${krs?`<ul class="okr-krs">${krs}</ul>`:''}
+    </div>`;
+  }).join('');
+  const sum=Math.round(objs.reduce((a,o)=>a+(o.allocation||0),0)*100);
+  $('#work').innerHTML=`<div class="today">
+    <div class="greet">OKR baseline · what "good usage" means · ${RUN_MODE==='demo'?'demo':'this run'}</div>
+    <h1>Define the outcomes before measuring the spend.</h1>
+    <p class="lede">Spend data is meaningless without business intent. $10K of Opus is great if it ships a feature, wasteful if it summarizes calendars. The baseline is the frame every read below is measured against.</p>
+    <div class="okrs">${rows}</div>
+    <div class="okr-foot"><span class="okr-sum ${sum===100?'ok':'warn'}">allocation total · ${sum}%</span><span class="okr-note">${sum===100?'balanced · ready to govern':'must sum to 100% before ratifying'}</span></div>
+    <button class="tcard decide" data-go="loop"><div class="tk">Next<span class="meta">the loop reads against this frame</span></div><h3>Ask: is our Opus 4.8 spend tracking to these OKRs?</h3><p>The agents harden the right context and surface a finding ready to ratify.</p></button>
+  </div>`;
+}
+
+// ── Report · the spend-ROI exec report (use case 5a) ────────────────────────
+function renderReport(){
+  body.dataset.surface='report';
+  const r=REPORT;
+  if(!r){
+    $('#work').innerHTML=`<div class="today"><div class="greet">Spend-ROI report</div><h1>No ratified run yet.</h1><p class="lede">Run the loop and ratify a decision — the report is generated from the finding + the signed decision, and cites its sources. ${RUN_MODE==='demo'?'(Open with <code>?run=govern-run.json</code> to see a real pipeline report.)':''}</p><button class="tcard decide" data-go="loop"><div class="tk">Go to the loop</div><h3>Sense → read → ratify</h3></button></div>`;
+    return;
+  }
+  const pct=r.spend?.pct||{};
+  const catRows=Object.entries(pct).map(([cat,p])=>`<div class="mbar"><span class="lb">${cat.replace(/_/g,' ')}</span><div class="track"><div class="fill" style="width:${p}%;background:var(--diligence)"></div></div><span class="pct">${p}%</span></div>`).join('');
+  const fp=(r.false_positives_removed||[]).map(f=>`<li><b>${f.event}</b> — ${f.reason}</li>`).join('');
+  const under=(r.under_allocated||[]).map(u=>`<li>${u.objective}: ${u.actual_pct}% actual vs ${u.target_pct}% target</li>`).join('');
+  $('#work').innerHTML=`<div class="mirror">
+    <div class="greet">Spend-ROI report · ${r.period||'2026-06'} · ${r.persona||'Rhea'} · ${RUN_MODE} run</div>
+    <h1>Spend, against the OKRs you set.</h1>
+    <p class="lede">${r.business_impact||''}</p>
+    <div class="mstats">
+      <div class="mstat"><div class="v">${r.spend?.aligned_pct??'—'}%</div><div class="l">OKR-aligned</div></div>
+      <div class="mstat"><div class="v">$${(r.expected_savings?.monthly??0).toLocaleString()}</div><div class="l">verified savings/mo</div></div>
+      <div class="mstat"><div class="v">$${(r.expected_savings?.annual??0).toLocaleString()}</div><div class="l">/yr via ${r.expected_savings?.via||'agent'}</div></div>
+    </div>
+    <div class="mbars"><h3>Spend by category (corrected)</h3>${catRows}</div>
+    <div class="recon" style="margin-top:14px">
+      <div class="rc naive"><span class="l">naïve savings</span><span class="v">$${r.misaligned?.naive_monthly??0}/mo</span></div>
+      <div class="rc drop"><span class="op">−</span><span class="l">dropped (false positive)</span><span class="v">$${r.misaligned?.dropped_monthly??0}</span></div>
+      <div class="rc verified"><span class="op">=</span><span class="l">verified realizable</span><span class="v">$${r.misaligned?.verified_monthly??0}/mo</span></div>
+    </div>
+    ${under?`<div class="mnote"><span class="k">under-allocated</span><ul>${under}</ul></div>`:''}
+    ${fp?`<div class="mnote"><span class="k">false positives removed (not reclassified)</span><ul>${fp}</ul></div>`:''}
+    <div class="mnote"><span class="k">provenance · this report cites its sources</span>
+      <p>Decision <code>${(r.decision_id||'—').slice(0,8)}</code> · hash <code>${r.decision_hash||'—'}</code><br>
+      Cited events: ${(r.cited_events||[]).join(', ')||'—'}${r.cited_prs?.length?` · ${r.cited_prs.join(', ')}`:''}<br>
+      <em>${r.decision||''}</em></p></div>
+  </div>`;
+}
+
 // ── Mirror (OG calibration) ─────────────────────────────────────────────────
 function renderMirror(){
   body.dataset.surface='mirror';
@@ -612,10 +727,58 @@ function renderMirror(){
 }
 
 // ── Registry + Decision log (real) ──────────────────────────────────────────
+// the agent-fit marketplace swap (the hero beat) · current vs suggested, each verifiable
+function swapHTML(fit){
+  const side=(s,role,roleCls)=>{
+    const costPct=Math.round((s.cost_ratio||0)*100);
+    return `<div class="mside ${roleCls}">
+      <span class="mrole">${role}</span>
+      <div class="mname">${s.name}</div>
+      <div class="mmeta">${s.type||''}${s.publisher?' · '+s.publisher:''}</div>
+      <div class="mstatrow"><span class="mcost">${costPct}% of frontier</span>${s.reputation_score!=null?`<span class="mrep">rep ${s.reputation_score}</span>`:''}</div>
+      <div class="mlanes">${(s.lanes||[]).slice(0,3).map(l=>`<span class="lane">${l.replace(/_/g,' ')}</span>`).join('')}</div>
+      <div class="mproof">${s.attested?'⛓ registry-verified · proof '+s.proof_hash:'frontier · out of approved scope'}</div>
+    </div>`;
+  };
+  return `<div class="mswap">
+    <div class="mswap-h">${fit.reason}</div>
+    <div class="mswap-grid">
+      ${side(fit.current,'current','cur')}
+      <div class="marrow">→<span class="msave">−${fit.savings_ratio}%</span></div>
+      ${side(fit.suggested,'route to','sug')}
+    </div>
+  </div>`;
+}
+
+// agent card · rich (real reputation + proof) when REGISTRY_DATA present, else fixture
+function agentCardHTML(a){
+  // rich registry agent (from the pipeline): publisher, claim, cost, lanes, reputation, proof
+  if(a.reputation){
+    const costPct=Math.round((a.cost_ratio||0)*100);
+    const score=a.reputation.score;
+    const scoreCls=score>=90?'ok':score>=75?'cost':'warn';
+    return `<div class="agent rich">
+      <div class="ar-top"><div class="an">${a.name}</div><div class="rep ${scoreCls}" title="reputation · ${a.reputation.reads} reads · ${a.reputation.corrections} corrections">${score==null?'—':score}<span class="rl">rep</span></div></div>
+      <div class="at">${a.type} · ${a.publisher}</div>
+      <div class="claim">${a.claim||''}</div>
+      <div class="badges">
+        ${a.verified?'<span class="bdg ok">verified</span>':''}
+        <span class="bdg ${costPct<=10?'ok':costPct>=100?'warn':'cost'}">${costPct<=10?'low · ':''}${costPct}% of frontier</span>
+        ${a.proof?.attested?'<span class="bdg ok">attested</span>':''}
+      </div>
+      <div class="lanes">${(a.lanes||[]).map(l=>`<span class="lane">${l.replace(/_/g,' ')}</span>`).join('')}</div>
+      <div class="prov">${a.proof?.attested?'⛓ '+a.proof.anchor:'frontier model · not registry-published'} · proof <span class="phash">${a.proof?.integrity_hash||'—'}</span></div>
+    </div>`;
+  }
+  // fixture fallback (demo mode)
+  return `<div class="agent"><div class="an">${a.name}</div><div class="at">${a.type}</div><div class="badges">${(a.badges||[]).map(b=>`<span class="bdg ${b[0]}">${b[1]}</span>`).join('')}</div><div class="lanes">${(a.lanes||[]).map(l=>`<span class="lane">${l}</span>`).join('')}</div>${a.prov?`<div class="prov">provenance: ${a.prov}</div>`:''}</div>`;
+}
 function renderRegistry(){
   body.dataset.surface='registry';
-  const cards=AGENTS.map(a=>`<div class="agent"><div class="an">${a.name}</div><div class="at">${a.type}</div><div class="badges">${a.badges.map(b=>`<span class="bdg ${b[0]}">${b[1]}</span>`).join('')}</div><div class="lanes">${a.lanes.map(l=>`<span class="lane">${l}</span>`).join('')}</div>${a.prov?`<div class="prov">provenance: ${a.prov}</div>`:''}</div>`).join('');
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · agent registry</div><h1>Agent registry</h1><p class="lede">The verified agents the cockpit can route work to. Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity — not a cheaper unknown.</p><div class="agents">${cards}</div></div>`;
+  const list=REGISTRY_DATA||AGENTS;
+  const cards=list.map(agentCardHTML).join('');
+  const verifiable=!!REGISTRY_DATA;
+  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> — a real survived/landed score plus an integrity hash. ${verifiable?'Verified agents are attested on the trustless registry (Algorand TestNet, proven at Berlin); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
 }
 function renderLog(){
   body.dataset.surface='log';
@@ -679,7 +842,7 @@ function mintArtifact(){
 // ── routing ─────────────────────────────────────────────────────────────────
 function go(s){
   $$('.tab').forEach(t=>t.classList.toggle('on',t.dataset.go===s));
-  ({today:renderToday,loop:renderLoop,mirror:renderMirror,registry:renderRegistry,log:renderLog}[s]||renderToday)();
+  ({today:renderToday,okr:renderOkr,loop:renderLoop,report:renderReport,mirror:renderMirror,registry:renderRegistry,log:renderLog}[s]||renderToday)();
 }
 function highlightSignal(id){ $$('.sig').forEach(s=>s.classList.remove('cited'));
   const el=$(`.sig[data-sig="${id}"]`); if(el){el.classList.add('cited');el.classList.add('open');el.scrollIntoView({block:'nearest'});} }
@@ -717,13 +880,49 @@ document.addEventListener('keydown',e=>{
   if($('#palette').classList.contains('open')){if(e.key==='Escape')togglePalette(false);
     if(e.key==='Enter'){const sel=$('.pal-row.sel')||$('.pal-row');if(sel){sel.dataset.goto?go(sel.dataset.goto):doPalAct(sel.dataset.act);togglePalette(false);}}return;}
   if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')return;
-  const map={'1':'today','2':'loop','3':'mirror','4':'registry','5':'log'}; if(map[e.key])go(map[e.key]);
+  const map={'1':'today','2':'okr','3':'loop','4':'report','5':'mirror','6':'registry','7':'log'}; if(map[e.key])go(map[e.key]);
   if(e.key.toLowerCase()==='c'&&body.dataset.surface==='loop')openRegEdit('synthesis');
   if(e.key.toLowerCase()==='s'&&body.dataset.surface==='loop'&&!signed)mintArtifact();
 });
 
-// boot — land on Today (the loop returns)
-renderChain(); go('today');
+// ── the seam · load real pipeline output when ?run=<json> is present ─────────
+// liminal-agents `npm run govern:emit` writes cuts/govern-run.json; opening
+// 11-govern.html?run=govern-run.json renders that real run. No ?run ⇒ fixtures.
+let OKR={product_pct:60,security_pct:40,objectives:[
+  {name:'Accelerate product development',allocation:0.6,key_results:['Ship 3 customer-facing AI features this quarter']},
+  {name:'Improve security hardening',allocation:0.4,key_results:['Complete penetration testing and remediate P0/P1 issues']},
+]};
+let REPORT=null, RUN_MODE='demo', REGISTRY_DATA=null, AGENT_FIT=null;
+
+async function initGovernData(){
+  const run=new URLSearchParams(location.search).get('run');
+  if(run||window.GOVERN_DATA){
+    try{
+      const d=run?await fetch(run).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();}):window.GOVERN_DATA;
+      // shadow the inline globals with the real run (only present keys override)
+      if(d.VENDORS)VENDORS=d.VENDORS; if(d.USAGE)USAGE=d.USAGE; if(d.SIGNALS)SIGNALS=d.SIGNALS;
+      if(d.READS)READS=d.READS; if(d.RECON)RECON=d.RECON; if(d.FINDINGS)FINDINGS=d.FINDINGS;
+      if(d.CHAIN)CHAIN=d.CHAIN; if(d.LOG)LOG=d.LOG;
+      if(typeof d.SPEND_TOTAL==='number')SPEND_TOTAL=d.SPEND_TOTAL;
+      if(typeof d.OPUS_TOTAL==='number')OPUS_TOTAL=d.OPUS_TOTAL;
+      if(typeof d.COHORT==='number')COHORT=d.COHORT;
+      if(typeof d.CLAIMED==='number')CLAIMED=d.CLAIMED;
+      if(typeof d.VERIFIED==='number')VERIFIED=d.VERIFIED;
+      if(d.okr)OKR=d.okr; if(d.report)REPORT=d.report;
+      if(d.REGISTRY)REGISTRY_DATA=d.REGISTRY; if(d.AGENT_FIT)AGENT_FIT=d.AGENT_FIT;
+      // hero swap-in-loop: replace the Outreach read's swap with the real marketplace comparison
+      if(AGENT_FIT&&READS.outreach)READS.outreach.html='Drafted — the registry has a better-fit verified agent for this task <span class="cite" data-cite="registry">agent-registry</span>. Ready to ratify the routing rule.'+swapHTML(AGENT_FIT);
+      RUN_MODE=d.meta?.mode==='live'?'live':'real';
+      const badge=$('#run-badge'); if(badge){badge.textContent=RUN_MODE==='live'?'live run':'real run';badge.classList.add('on');}
+    }catch(err){
+      console.warn('[govern] ?run load failed, using demo fixtures:',err);
+    }
+  }
+  renderChain(); go('today');
+}
+
+// boot — load real data if requested, then land on Today (the loop returns)
+initGovernData();
 </script>
 </body>
 </html>

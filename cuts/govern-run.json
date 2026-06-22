@@ -1,0 +1,643 @@
+{
+  "meta": {
+    "mode": "live",
+    "persona": "Rhea",
+    "generated_for": "11-govern",
+    "schema": 1
+  },
+  "VENDORS": [
+    [
+      "Cursor",
+      "Business",
+      30,
+      1200
+    ],
+    [
+      "Linear",
+      "Standard",
+      40,
+      320
+    ],
+    [
+      "Notion",
+      "Plus",
+      55,
+      550
+    ],
+    [
+      "Figma",
+      "Organization",
+      15,
+      675,
+      "flag"
+    ],
+    [
+      "Datadog",
+      "Pro",
+      18,
+      1350
+    ],
+    [
+      "Vercel",
+      "Enterprise",
+      12,
+      2400,
+      "flag"
+    ],
+    [
+      "Granola",
+      "Business",
+      35,
+      525
+    ],
+    [
+      "GitHub Copilot",
+      "Business",
+      30,
+      570
+    ],
+    [
+      "Slack",
+      "Business Plus",
+      65,
+      975
+    ],
+    [
+      "Zoom",
+      "Business",
+      25,
+      500
+    ],
+    [
+      "Claude API",
+      "Team",
+      55,
+      1650
+    ],
+    [
+      "Retool",
+      "Team",
+      15,
+      750
+    ],
+    [
+      "Amplitude",
+      "Growth",
+      8,
+      1000
+    ],
+    [
+      "Sentry",
+      "Team",
+      20,
+      520
+    ],
+    [
+      "Airtable",
+      "Team",
+      30,
+      600
+    ]
+  ],
+  "SPEND_TOTAL": 13045,
+  "OPUS_TOTAL": 4500,
+  "COHORT": 7,
+  "CLAIMED": 324,
+  "VERIFIED": 162,
+  "USAGE": [
+    [
+      "Build payments API",
+      "product_dev",
+      540
+    ],
+    [
+      "Threat-model auth service",
+      "security_hardening",
+      240
+    ],
+    [
+      "Feature: search v2",
+      "product_dev",
+      520
+    ],
+    [
+      "Dependency CVE audit",
+      "security_hardening",
+      220
+    ],
+    [
+      "Architecture review: event log",
+      "architecture_review",
+      260
+    ],
+    [
+      "Penetration test: API surface",
+      "product_dev",
+      240
+    ],
+    [
+      "Feature: saved views",
+      "product_dev",
+      500
+    ],
+    [
+      "Remediate P1 auth findings",
+      "security_hardening",
+      200
+    ],
+    [
+      "Build export pipeline",
+      "product_dev",
+      480
+    ],
+    [
+      "Feature: bulk edit",
+      "product_dev",
+      484
+    ],
+    [
+      "Secrets-scanning hardening",
+      "security_hardening",
+      180
+    ],
+    [
+      "Schedule team offsite + calendar wrangling",
+      "calendar_admin",
+      162,
+      "flag"
+    ],
+    [
+      "Reformat meeting notes + send calendar invites",
+      "calendar_admin",
+      162,
+      "flag"
+    ],
+    [
+      "calendar-sync feature: Google Calendar API + UI",
+      "product_dev",
+      162,
+      "flag-e14"
+    ],
+    [
+      "Misc investigation (no ticket linked)",
+      "unclassified",
+      150
+    ]
+  ],
+  "SIGNALS": [
+    {
+      "id": "usage",
+      "src": "Usage events",
+      "nm": "$4,500 Opus · 7 engineers",
+      "state": "slate",
+      "rows": "15 events · 5 categories · 2026-06"
+    },
+    {
+      "id": "okr",
+      "src": "OKR baseline",
+      "nm": "60% development / 40% hardening",
+      "state": "slate",
+      "rows": "O1 0.6 · O2 0.4"
+    },
+    {
+      "id": "pr",
+      "src": "PR evidence",
+      "nm": "PR-103 · Priya",
+      "state": "slate",
+      "rows": "\"calendar-sync feature\" · workstream=product · linked E14"
+    },
+    {
+      "id": "registry",
+      "src": "Agent registry",
+      "nm": "CalendarOps · verified",
+      "state": "slate",
+      "rows": "registry-verified · ~10% of Opus · scoped: calendar"
+    },
+    {
+      "id": "tickets",
+      "src": "Security tickets",
+      "nm": "3 · P0×2",
+      "state": "slate",
+      "rows": "security workstream under-allocated"
+    },
+    {
+      "id": "slack",
+      "src": "Slack chatter",
+      "nm": "team messages",
+      "state": "tray",
+      "rows": "low-signal · privacy-sensitive · excluded unless approved"
+    },
+    {
+      "id": "calendar_logs",
+      "src": "Calendar logs",
+      "nm": "raw entries",
+      "state": "tray",
+      "rows": "not needed to govern spend · excluded unless approved"
+    }
+  ],
+  "READS": {
+    "diligence": {
+      "rt": "+0.4s",
+      "html": "<span class=\"hl\">$4,500</span> of Opus 4.8 across 7 engineers <span class=\"cite\" data-cite=\"usage\">usage-events</span>. Product 65% · security 18.7% · calendar/admin 7.2% · unclassified 3.3%."
+    },
+    "synthesis": {
+      "rt": "+4.6s",
+      "html": "Against the frame — <span class=\"hl\">60% development / 40% hardening</span> <span class=\"cite\" data-cite=\"okr\">okr-baseline</span> — security is <span class=\"hl\">under-allocated</span>, and frontier spend leaks to work a verified agent can do.<div class=\"allocbar\"><div class=\"p\" style=\"width:60%\">product 60%</div><div class=\"s\" style=\"width:40%\">security 40%<span class=\"ghost\"></span></div></div>"
+    },
+    "judgment": {
+      "rt": "+6.1s",
+      "html": "__JUDGMENT__"
+    },
+    "outreach": {
+      "rt": "+7.0s",
+      "html": "Drafted — route calendar work to a registry-verified agent <span class=\"cite\" data-cite=\"registry\">agent-registry</span>. Ready to ratify."
+    }
+  },
+  "RECON": {
+    "naive": 486,
+    "dropped": 162,
+    "verified": 324
+  },
+  "FINDINGS": [
+    {
+      "id": "F-CAL",
+      "kind": "agent-fit",
+      "cat": "calendar_admin",
+      "who": "Elif",
+      "title": "Route calendar admin to verified agent",
+      "save": 324,
+      "route": true,
+      "events": [
+        [
+          "E12",
+          "2026-06-03",
+          "Elif",
+          "Schedule team offsite + calendar wrangling",
+          162
+        ],
+        [
+          "E13",
+          "2026-06-06",
+          "Bianca",
+          "Reformat meeting notes + send calendar invites",
+          162
+        ]
+      ],
+      "receipt": {
+        "ph": "7bd9a3ff95…3050",
+        "pp": "0000000000…",
+        "anchor": "local · local-first (not yet on-chain)",
+        "vstate": "✓ submitted",
+        "ok": true
+      }
+    },
+    {
+      "id": "F-E14",
+      "kind": "refuted",
+      "cat": "calendar_admin",
+      "who": "Priya",
+      "title": "E14: calendar-sync feature (misclassified)",
+      "save": 0,
+      "dropped": true,
+      "drop": "PR-103 shows this is a shipped product feature, not calendar_admin; cost is not reallocatable.",
+      "events": [
+        [
+          "E14",
+          "2026-06-04",
+          "Priya",
+          "calendar-sync feature: Google Calendar API + UI",
+          162
+        ]
+      ],
+      "receipt": {
+        "ph": "—",
+        "pp": "—",
+        "anchor": "dropped — not anchored",
+        "vstate": "✗ dropped · E14 refuted",
+        "ok": false
+      }
+    }
+  ],
+  "CHAIN": [
+    [
+      "t0",
+      "15-vendor spend · $13,045/mo",
+      ""
+    ],
+    [
+      "t1",
+      "narrowed · Opus $4,500 · 7 eng",
+      ""
+    ],
+    [
+      "t2",
+      "exec-comms · refused (out of lane)",
+      "ref"
+    ],
+    [
+      "t3",
+      "adversarial · E14 refuted · PR-103",
+      "ref"
+    ],
+    [
+      "t4",
+      "verified realizable · $324/mo",
+      ""
+    ]
+  ],
+  "LOG": [
+    [
+      "0",
+      "● finding",
+      "Figma: downsize from 15 to 6 seats",
+      "f1a2…",
+      "0000…"
+    ],
+    [
+      "1",
+      "● finding",
+      "Vercel: downsize from 12 to 4 seats",
+      "c3d4…",
+      "f1a2…"
+    ],
+    [
+      "2",
+      "● ratification",
+      "Opus 4.8 cannot be used for calendar management or routine admin work.",
+      "7bd9…",
+      "c3d4…"
+    ],
+    [
+      "—",
+      "✗ refuted",
+      "E14 refuted · PR-103 proves product feature ($162, not anchored)",
+      "—",
+      "—"
+    ]
+  ],
+  "okr": {
+    "objectives": [
+      {
+        "name": "Accelerate product development",
+        "allocation": 0.6,
+        "key_results": [
+          "Ship 3 customer-facing AI features this quarter"
+        ]
+      },
+      {
+        "name": "Improve security hardening",
+        "allocation": 0.4,
+        "key_results": [
+          "Complete penetration testing and remediate P0/P1 issues"
+        ]
+      }
+    ],
+    "product_pct": 60,
+    "security_pct": 40
+  },
+  "report": {
+    "kind": "spend_roi_report",
+    "period": "2026-06",
+    "persona": "Rhea",
+    "spend": {
+      "total_opus": 4500,
+      "by_objective_category": {
+        "product_dev": 2926,
+        "security_hardening": 840,
+        "architecture_review": 260,
+        "calendar_admin": 324,
+        "unclassified": 150
+      },
+      "pct": {
+        "product_dev": 65,
+        "security_hardening": 18.7,
+        "architecture_review": 5.8,
+        "calendar_admin": 7.2,
+        "unclassified": 3.3
+      },
+      "aligned_pct": 89.5
+    },
+    "misaligned": {
+      "verified_monthly": 324,
+      "naive_monthly": 486,
+      "dropped_monthly": 162,
+      "events": [
+        "E12",
+        "E13"
+      ],
+      "note": "naïve − dropped = verified realizable (false positives removed by PR cross-check)"
+    },
+    "under_allocated": [
+      {
+        "objective": "Improve security hardening",
+        "target_pct": 40,
+        "actual_pct": 18.7
+      }
+    ],
+    "false_positives_removed": [
+      {
+        "id": "F-E14",
+        "event": "E14",
+        "reason": "PR-103 shows this is a shipped product feature, not calendar_admin; cost is not reallocatable."
+      }
+    ],
+    "recommended_policy": {
+      "model": "opus-4.8",
+      "allowed_for": [
+        "product_dev",
+        "security_hardening",
+        "architecture_review"
+      ],
+      "disallowed_for": [
+        "calendar_management",
+        "routine_admin",
+        "generic_summarization"
+      ]
+    },
+    "expected_savings": {
+      "monthly": 324,
+      "annual": 3888,
+      "via": "CalendarOps"
+    },
+    "business_impact": "Frontier-model spend is 89.5% aligned to approved OKRs. $324/mo ($3888/yr) is realizable by routing verified calendar/admin work to a lower-cost agent — without surveilling employees or touching the 1 item(s) that PR evidence proved were real product work. Security is under-allocated and should be rebalanced toward the 40% target.",
+    "decision_id": "4e435b3e-a0ef-42ad-ad31-a473f7287653",
+    "decision": "Opus 4.8 cannot be used for calendar management or routine admin work.",
+    "decision_hash": "7bd9a3ff95423050",
+    "cited_events": [
+      "E12",
+      "E13",
+      "E14"
+    ],
+    "cited_prs": [
+      "PR-103"
+    ],
+    "referenced_context": [
+      "usage_export_0613",
+      "okr_baseline_v1",
+      "agent_registry_v1",
+      "E12",
+      "E13"
+    ]
+  },
+  "REGISTRY": [
+    {
+      "key": "opus-4.8",
+      "name": "Claude Opus 4.8",
+      "type": "frontier_model",
+      "publisher": "Anthropic",
+      "claim": "general frontier reasoning across product, security, architecture",
+      "cost_ratio": 1,
+      "lanes": [
+        "product_dev",
+        "security_hardening",
+        "architecture_review"
+      ],
+      "verified": true,
+      "stats": {
+        "landed": 96,
+        "corrected": 14
+      },
+      "anchor": null,
+      "reputation": {
+        "score": 85,
+        "reads": 96,
+        "corrections": 14,
+        "hash": "50cadde2fc689c8b8458f7700588cec6ec6052395829b021a76803c8ef4ea072",
+        "schema": "liminal.reputation.v1"
+      },
+      "proof": {
+        "integrity_hash": "50cadde2fc689c8b",
+        "anchor": "n/a · frontier model",
+        "attested": false
+      }
+    },
+    {
+      "key": "calendarops",
+      "name": "CalendarOps Agent",
+      "type": "internal_agent",
+      "publisher": "internal-platform",
+      "claim": "scheduling, calendar wrangling, invite drafting — scoped, no reasoning spend",
+      "cost_ratio": 0.1,
+      "lanes": [
+        "calendar_management",
+        "routine_admin",
+        "scheduling"
+      ],
+      "verified": true,
+      "stats": {
+        "landed": 40,
+        "corrected": 2
+      },
+      "anchor": "algorand:testnet",
+      "reputation": {
+        "score": 95,
+        "reads": 40,
+        "corrections": 2,
+        "hash": "06a9a73cce17adbbf29a6d072d4d7ccdb95e1c219314a973b0d5a7bb5523e9ca",
+        "schema": "liminal.reputation.v1"
+      },
+      "proof": {
+        "integrity_hash": "06a9a73cce17adbb",
+        "anchor": "algorand:testnet · registry-verified (proven at Berlin ARC-8004)",
+        "attested": true
+      }
+    },
+    {
+      "key": "digestbot",
+      "name": "DigestBot",
+      "type": "internal_agent · claude-haiku-4-5",
+      "publisher": "internal-platform",
+      "claim": "summaries and digests at a fraction of frontier cost",
+      "cost_ratio": 0.05,
+      "lanes": [
+        "generic_summarization",
+        "digests"
+      ],
+      "verified": true,
+      "stats": {
+        "landed": 61,
+        "corrected": 5
+      },
+      "anchor": "algorand:testnet",
+      "reputation": {
+        "score": 92,
+        "reads": 61,
+        "corrections": 5,
+        "hash": "2d614c7f7d5f3c1ab499ff8addf0c7bdf9806161e28176c2d11586c6ac9b079e",
+        "schema": "liminal.reputation.v1"
+      },
+      "proof": {
+        "integrity_hash": "2d614c7f7d5f3c1a",
+        "anchor": "algorand:testnet · registry-verified (proven at Berlin ARC-8004)",
+        "attested": true
+      }
+    },
+    {
+      "key": "analyst-bounded",
+      "name": "Analyst (bounded)",
+      "type": "internal_agent",
+      "publisher": "internal-platform",
+      "claim": "diligence and structured analysis; refuses out of lane",
+      "cost_ratio": 0.3,
+      "lanes": [
+        "diligence",
+        "analysis"
+      ],
+      "verified": true,
+      "stats": {
+        "landed": 22,
+        "corrected": 3
+      },
+      "anchor": "algorand:testnet",
+      "reputation": {
+        "score": 86,
+        "reads": 22,
+        "corrections": 3,
+        "hash": "dfdad4419d540511094ab7a18a622e9955cd784b16c0a88fac145fcb57b36412",
+        "schema": "liminal.reputation.v1"
+      },
+      "proof": {
+        "integrity_hash": "dfdad4419d540511",
+        "anchor": "algorand:testnet · registry-verified (proven at Berlin ARC-8004)",
+        "attested": true
+      }
+    }
+  ],
+  "AGENT_FIT": {
+    "task_lane": "calendar_management",
+    "reason": "Claude Opus 4.8 ran calendar management — out of its approved scope and at frontier cost.",
+    "current": {
+      "key": "opus-4.8",
+      "name": "Claude Opus 4.8",
+      "type": "frontier_model",
+      "publisher": "Anthropic",
+      "cost_ratio": 1,
+      "lanes": [
+        "product_dev",
+        "security_hardening",
+        "architecture_review"
+      ],
+      "verified": true,
+      "reputation_score": 85,
+      "proof_hash": "50cadde2fc689c8b",
+      "attested": false
+    },
+    "suggested": {
+      "key": "calendarops",
+      "name": "CalendarOps Agent",
+      "type": "internal_agent",
+      "publisher": "internal-platform",
+      "cost_ratio": 0.1,
+      "lanes": [
+        "calendar_management",
+        "routine_admin",
+        "scheduling"
+      ],
+      "verified": true,
+      "reputation_score": 95,
+      "proof_hash": "06a9a73cce17adbb",
+      "attested": true
+    },
+    "savings_ratio": 90
+  }
+}
