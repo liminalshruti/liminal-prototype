@@ -866,11 +866,20 @@
   --text:         #F4F2EE;
   --text-mid:     #C9C5BD;
   --text-dim:     #8A8780;
-  /* --text-faint bumped 2026-05-12 a11y pass 1 from #5A5852 → #6B6862 to
-     reach WCAG AA body-text contrast (4.5:1 on --bg #0A0A0B). The 17b
-     refusal_kind=values chrome uses this token; the founder's most-common
-     refusal type was previously rendering at 3.0:1 (large-text only). */
-  --text-faint:   #6B6862;
+  /* --text-faint a11y history (corrected 2026-06-19):
+       · 2026-05-12 pass 1: #5A5852 → #6B6862. The note then claimed this
+         reached AA body-text contrast, but #6B6862 measures 3.56:1 on --bg
+         #0A0A0B — that clears the 3:1 LARGE-text bar, NOT the 4.5:1 body bar.
+         Small labels using this token were silently sub-AA catalog-wide.
+       · 2026-06-19 pass 2: #6B6862 → #807D78. Clears AA 1.4.3 for body-grade
+         text with headroom: 4.83:1 on --bg #0A0A0B, and 4.76:1 on the lighter
+         --frame-bg #0C0C0F that the chrome labels actually render against (the
+         minimal #7C7975 cleared --bg at 4.57 but only 4.51 on --frame-bg — too
+         thin). Stays a distinct tier below --text-dim (#8A8780, 5.52:1). The
+         faint tier is now AA-safe for the small forensic labels (counts, source
+         tags, audit meta) that use it across cuts, the desktop client, and
+         marketing. */
+  --text-faint:   #807D78;
   --text-mute:    #3A3833;
 
   /* ─── 5 · type families ─────────────────────────────────── */

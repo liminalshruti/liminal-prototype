@@ -339,14 +339,12 @@
   @media (prefers-reduced-motion: reduce){ .reg-tab, .t-btn{transition:background .15s,color .15s} .reg-tab:hover, .t-btn:hover{transform:none} }
 
   /* ─── 2026-06-19 · a11y parity with cut 01 ───────────────────────────────
-     Contrast: the small forensic labels render in --text-faint (#6B6862 =
-     3.5:1), below the 4.5:1 body-text bar these 9.5–12px labels need. Repoint
-     to --text-dim (#8A8780 = 5.45:1). Same per-surface override used in cut 01;
-     canon token value untouched (the contract forbids forking it). */
-  .rail-h, .beat-tag, .muted, .empty, .frame-foot {
-    color: var(--text-dim);
-  }
-  .frame-foot b { color: var(--text-mid); }   /* keep the in-foot emphasis a tier brighter */
+     Contrast: the small forensic labels (.rail-h/.beat-tag/.muted/.empty/
+     .frame-foot) inherit --text-faint, which was sub-AA (#6B6862 = 3.5:1).
+     FIXED UPSTREAM in canon the same day — --text-faint is now #7C7975 =
+     4.57:1, AA-safe — so no per-surface repoint is needed here; the bare token
+     passes and keeps these labels in their intended faintest tier. (The earlier
+     --text-dim override was removed once the canon value landed.) */
 
   /* Touch targets · the transport + register tabs were 27px tall. 44px floor
      under coarse pointer only, so desktop density is untouched. */
