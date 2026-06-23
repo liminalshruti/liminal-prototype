@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cut 06 · margin-read · Liminal</title>
+
+<!--
+  Cut 06 · margin-read · the founder's hand on the product
+  ──────────────────────────────────────────────────────────────────────
+  Loop-stage · full-loop  (the whole Capture→Read→Decide→Record→Re-enter
+                           loop in one re-entry frame)
+  Altitude   · L1-founder
+  Surface    · desktop
+  Framing    · wedge
+  Maturity   · refining
+  Spec ref   · PRODUCT.md (register: bounded/forensic/inevitable);
+               lib/marginalia.js (the .ed-note mechanism this extends).
+  ──────────────────────────────────────────────────────────────────────
+  WHAT THIS CUT IS
+
+  The product loads as a real, working re-entry surface — the way a founder
+  actually sees the loop come back (modeled on cut 10-today, the proven
+  Re-enter render). No captions, no callouts: just the UX.
+
+  Then the EXPLANATION is drawn onto the real thing. A staged guided reveal
+  walks the founder's own hand (Caveat) through the loop in order — Tray,
+  bounded agents, the refusal, the correction record, the Vault, the signed
+  next-move — one note at a time, spotlighting the live element it explains.
+
+  This is the only cut whose SUBJECT is the explanation layer itself: the
+  others render the loop; this one renders the loop + the founder narrating
+  it in the margins. "Explain with marginalia" and "showcase the UX" become
+  one artifact, because the annotations point at the thing itself.
+
+  CONTRACT
+  · Tokens come from design-system/tokens/design-tokens.css · DO NOT redefine.
+  · Type stack is canon: Geist · Geist Mono · Caveat (the marginalia hand).
+    NO Newsreader (that is the documented cut-shell font drift).
+  · Self-contained: scoped per-cut CSS + one inline reveal engine. No heavy
+    lib/*.js dependency, so it renders standalone and inside the catalog iframe.
+  · The staged-reveal engine is bespoke (lib/marginalia.js is all-at-once);
+    it reuses the .ed-note visual register and the ⌘N / ✎ toggle convention.
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+
+<!-- canon · DO NOT REDEFINE TOKENS -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+
+<style>
+  /* ════════════════════════════════════════════════════════════════
+     Cut 06 · margin-read · per-cut layout only · no token redefines
+     ════════════════════════════════════════════════════════════════ */
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(1100px 620px at 78% -8%, var(--diligence-bg, rgba(80,120,150,0.05)), transparent 60%),
+      var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ── desktop window chrome ─────────────────────────────────────── */
+  .win {
+    max-width: 1180px;
+    margin: clamp(18px, 5vw, 56px) auto clamp(80px, 12vh, 160px);
+    border: 1px solid var(--frame-border);
+    border-radius: var(--radius-4, 12px);
+    background: var(--frame-bg);
+    box-shadow: 0 30px 80px -40px rgba(0,0,0,0.8);
+    overflow: hidden;
+  }
+  .win-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--frame-border);
+    background: var(--rail-bg);
+  }
+  .lights { display: inline-flex; gap: 7px; }
+  .light { width: 11px; height: 11px; border-radius: 50%; opacity: 0.85; }
+  .light.r { background: #E06C5A; }
+  .light.y { background: #D9A441; }
+  .light.g { background: #5CA66E; }
+  .win-title {
+    display: flex; align-items: center; gap: 8px;
+    margin-left: 6px;
+    font: var(--fs-mono-sm)/1 var(--mono);
+    letter-spacing: var(--ls-mono-sm);
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .win-title .diamond { color: var(--signal); }
+  .win-title b { color: var(--text-mid); font-weight: 500; }
+  .win-spacer { flex: 1; }
+  .vault-pill {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 4px 11px;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-pill);
+    font: var(--fs-mono-xs)/1 var(--mono);
+    letter-spacing: var(--ls-mono-sm);
+    text-transform: uppercase;
+    color: var(--text-dim);
+    background: var(--frame-bg-2);
+  }
+  .vault-pill .glyph { color: var(--signal); }
+  .vault-pill b { color: var(--text-mid); font-weight: 600; }
+  .vault-pill .add { color: var(--ui-state-success, #5CA66E); }
+
+  /* ── app body: rail + canvas ───────────────────────────────────── */
+  .app {
+    display: grid;
+    grid-template-columns: 196px 1fr;
+    min-height: 560px;
+  }
+  @media (max-width: 760px) { .app { grid-template-columns: 1fr; } }
+
+  /* ── agency rail · bounded co-workers ──────────────────────────── */
+  .rail {
+    border-right: 1px solid var(--frame-border);
+    background: var(--rail-bg);
+    padding: 18px 14px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  @media (max-width: 760px) { .rail { border-right: 0; border-bottom: 1px solid var(--frame-border); } }
+  .rail-label {
+    font: var(--fs-mono-xs)/1.3 var(--mono);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+  }
+  .agent {
+    display: flex; align-items: center; gap: 9px;
+    padding: 7px 9px;
+    border-radius: var(--radius-2, 6px);
+    font-size: 13px;
+    color: var(--text-dim);
+    cursor: default;
+    transition: background 200ms var(--ease, ease), color 200ms var(--ease, ease);
+  }
+  .agent:hover { background: var(--frame-bg-3); color: var(--text-mid); }
+  .agent .pip { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .agent.active { background: var(--frame-bg-3); color: var(--text); }
+  .agent.active .name { color: var(--text); }
+  .agent .name { color: var(--text-dim); }
+  .agent .reg { margin-left: auto; font: var(--fs-mono-xs)/1 var(--mono); color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; }
+  /* register pips draw from the chrome layer */
+  .pip.diligence { background: var(--diligence); }
+  .pip.judgment  { background: var(--judgment); }
+  .pip.synthesis { background: var(--synthesis); }
+  .pip.outreach  { background: var(--outreach); }
+  .pip.watch     { background: var(--watch); }
+  .pip.signal    { background: var(--signal); }
+  .rail-foot {
+    margin-top: auto;
+    padding-top: 14px;
+    font: var(--fs-mono-xs)/1.5 var(--mono);
+    color: var(--text-faint);
+    border-top: 1px solid var(--frame-border);
+  }
+
+  /* ── canvas ────────────────────────────────────────────────────── */
+  .canvas { padding: clamp(20px, 3.4vw, 40px); min-width: 0; }
+
+  .head { margin-bottom: 28px; max-width: 60ch; }
+  .eyebrow {
+    font: var(--fs-mono-xs)/1.3 var(--mono);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+  }
+  h1.title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+    color: var(--text);
+    text-wrap: balance;
+  }
+  .lede { color: var(--text-mid); font-size: 15px; line-height: 1.6; margin: 0; max-width: 56ch; }
+
+  .cols { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(18px, 2.4vw, 30px); }
+  @media (max-width: 920px) { .cols { grid-template-columns: 1fr; } }
+
+  .col { display: flex; flex-direction: column; gap: 26px; min-width: 0; }
+
+  .sec-label {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    font: var(--fs-mono-sm)/1.2 var(--mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 10px;
+    padding-bottom: 7px;
+    border-bottom: 1px solid var(--frame-border);
+  }
+  .sec-label .meta { font-size: 10px; color: var(--text-faint); letter-spacing: var(--ls-mono-sm); }
+
+  /* ── the held read (Read + Decide + the refusal) ───────────────── */
+  .read {
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-3, 8px);
+    background: var(--frame-bg-2);
+    padding: 18px;
+  }
+  .read-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .tag {
+    font: var(--fs-mono-xs)/1 var(--mono);
+    letter-spacing: var(--ls-mono-sm);
+    text-transform: uppercase;
+    padding: 4px 9px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--frame-border);
+    color: var(--text-dim);
+    background: var(--frame-bg);
+  }
+  .tag.lane   { color: var(--judgment); border-color: color-mix(in oklab, var(--judgment) 40%, transparent); }
+  .tag.almost { color: var(--watch);    border-color: color-mix(in oklab, var(--watch) 40%, transparent); }
+  .verdict {
+    font: var(--fs-mono-sm)/1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--alarm);
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .read-body { color: var(--text-mid); font-size: 14px; line-height: 1.6; margin: 0 0 14px; }
+  .read-body b { color: var(--text); font-weight: 600; }
+
+  /* the refusal line — the architectural signature, made legible */
+  .refusal {
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 11px 13px;
+    border: 1px solid color-mix(in oklab, var(--outreach) 32%, var(--frame-border));
+    border-radius: var(--radius-2, 6px);
+    background: color-mix(in oklab, var(--outreach) 7%, var(--frame-bg));
+    margin-bottom: 14px;
+  }
+  .refusal .x { color: var(--alarm); font-family: var(--mono); flex-shrink: 0; line-height: 1.5; }
+  .refusal-text { font-size: 13px; color: var(--text-mid); line-height: 1.55; }
+  .refusal-text b { color: var(--outreach); font-weight: 600; }
+
+  .receipt {
+    font: var(--fs-mono-xs)/1.55 var(--mono);
+    color: var(--text-faint);
+    letter-spacing: 0.02em;
+    padding-top: 11px;
+    border-top: 1px dashed var(--frame-border);
+    word-break: break-word;
+  }
+  .receipt .k { color: var(--text-dim); }
+
+  .actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
+  .btn {
+    font: var(--fs-mono-sm)/1 var(--mono);
+    letter-spacing: var(--ls-mono-sm);
+    text-transform: uppercase;
+    padding: 9px 14px;
+    border-radius: var(--radius-2, 6px);
+    border: 1px solid var(--card-border);
+    background: var(--frame-bg);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 180ms var(--ease, ease), border-color 180ms var(--ease, ease), background 180ms var(--ease, ease);
+  }
+  .btn:hover { color: var(--text); border-color: var(--signal); }
+  .btn:focus-visible { outline: 2px solid var(--ui-focus-ring); outline-offset: 2px; }
+  .btn.primary { color: var(--signal); border-color: color-mix(in oklab, var(--signal) 50%, var(--card-border)); }
+  .btn.primary:hover { background: color-mix(in oklab, var(--signal) 12%, var(--frame-bg)); }
+
+  /* ── correction record (Record / the moat) ────────────────────── */
+  .corr {
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-3, 8px);
+    background: var(--frame-bg-2);
+    padding: 16px 18px;
+  }
+  .corr-row { display: flex; gap: 11px; align-items: flex-start; padding: 9px 0; border-bottom: 1px solid var(--frame-border); }
+  .corr-row:last-child { border-bottom: 0; }
+  .corr-who { font: var(--fs-mono-xs)/1.4 var(--mono); color: var(--text-faint); flex-shrink: 0; width: 92px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .corr-what { font-size: 13px; color: var(--text-mid); line-height: 1.5; }
+  .corr-what b { color: var(--text); font-weight: 600; }
+  .corr-foot { margin-top: 12px; font: var(--fs-mono-xs)/1.5 var(--mono); color: var(--text-faint); }
+
+  /* ── signed next-move (Decide → seal) ──────────────────────────── */
+  .next {
+    border: 1px solid color-mix(in oklab, var(--signal) 26%, var(--card-border));
+    border-radius: var(--radius-3, 8px);
+    background: color-mix(in oklab, var(--signal) 5%, var(--frame-bg-2));
+    padding: 18px;
+  }
+  .next-q { font-family: var(--serif); font-size: 17px; line-height: 1.4; color: var(--text); margin-bottom: 6px; }
+  .next-sub { font-size: 13px; color: var(--text-dim); line-height: 1.55; margin: 0 0 14px; }
+  .next-sub em { color: var(--text-mid); font-style: italic; }
+  .outcomes { display: flex; flex-direction: column; gap: 8px; }
+  .outcome {
+    text-align: left;
+    font-size: 13px;
+    padding: 10px 13px;
+    border-radius: var(--radius-2, 6px);
+    border: 1px solid var(--card-border);
+    background: var(--frame-bg);
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: border-color 180ms var(--ease, ease), background 180ms var(--ease, ease), color 180ms var(--ease, ease);
+  }
+  .outcome:hover { border-color: var(--signal); color: var(--text); }
+  .outcome:focus-visible { outline: 2px solid var(--ui-focus-ring); outline-offset: 2px; }
+  .outcome .gloss { color: var(--text-faint); }
+  .outcome.good:hover { border-color: var(--ui-state-success, #5CA66E); }
+  .outcome.warn:hover { border-color: var(--alarm); }
+  .sealed { display: none; margin-top: 4px; }
+  .sealed.show { display: block; animation: rise 360ms var(--ease, ease) both; }
+  .sealed-line { font: var(--fs-mono-sm)/1.4 var(--mono); color: var(--text-mid); }
+  .sealed-line .ok { color: var(--ui-state-success, #5CA66E); }
+  .sealed-verdict { font-family: var(--serif); font-size: 16px; color: var(--text); margin: 5px 0; }
+  .sealed-hash { font: var(--fs-mono-xs)/1.5 var(--mono); color: var(--text-faint); word-break: break-all; }
+  .cal { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--frame-border); }
+  .cal-num { font-family: var(--mono); color: var(--signal); font-size: 15px; }
+  .cal-label { font: var(--fs-mono-xs)/1 var(--mono); color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.08em; margin-left: 6px; }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .sealed.show { animation: none; } }
+
+  /* ── tray (Capture · loop entry) ───────────────────────────────── */
+  .tray {
+    margin-top: 30px;
+    display: flex; align-items: center; gap: 13px;
+    padding: 16px 20px;
+    border: 1px dashed var(--card-border);
+    border-radius: var(--radius-3, 8px);
+    background: var(--frame-bg-2);
+    color: var(--text-dim);
+  }
+  .tray .glyph { color: var(--signal); font-size: 18px; }
+  .tray-text { font-size: 13px; line-height: 1.5; }
+
+  .foot {
+    margin-top: 22px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--text-faint);
+    max-width: 64ch;
+  }
+
+  /* ════════════════════════════════════════════════════════════════
+     MARGINALIA · staged guided reveal (extends the .ed-note register)
+     ════════════════════════════════════════════════════════════════ */
+
+  /* the founder's-hand notes */
+  .ed-note {
+    position: absolute;
+    z-index: 90;
+    max-width: 244px;
+    padding: 7px 11px;
+    font-family: var(--hand);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.2;
+    color: var(--signal);
+    /* a faint dark backing keeps the hand legible over any element it
+       overlaps, without reading as a boxed tooltip */
+    background: color-mix(in oklab, var(--bg) 72%, transparent);
+    backdrop-filter: blur(3px);
+    border-radius: 10px 4px 12px 5px / 4px 11px 5px 12px;
+    text-shadow: 0 0 18px color-mix(in oklab, var(--signal) 28%, transparent);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 320ms var(--ease, ease), transform 320ms var(--ease, ease);
+    pointer-events: none;
+  }
+  .ed-note.show { opacity: 1; transform: none; }
+  .ed-note .ed-sig { display: inline-block; margin-left: 6px; font-size: 0.74em; opacity: 0.6; }
+  .ed-note .ed-num {
+    display: inline-block; margin-right: 7px;
+    font-family: var(--mono); font-size: 0.64em;
+    color: var(--text-faint); vertical-align: 2px; letter-spacing: 0.04em;
+  }
+
+  /* the spotlight ring drawn on the live element being explained */
+  [data-annotation] { position: relative; }
+  [data-annotation]::after {
+    content: "";
+    position: absolute; inset: -6px;
+    border: 1.5px solid color-mix(in oklab, var(--signal) 55%, transparent);
+    border-radius: 16px 5px 20px 6px / 5px 18px 6px 20px;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.985);
+    transition: opacity 320ms var(--ease, ease), transform 320ms var(--ease, ease);
+  }
+  [data-annotation].spotlight::after { opacity: 0.85; transform: none; }
+  /* dim everything that ISN'T the current focus, while the walk runs */
+  body.walking .dimmable { transition: opacity 320ms var(--ease, ease); }
+  body.walking.walk-active .dimmable:not(.spotlight) { opacity: 0.4; }
+  @media (prefers-reduced-motion: reduce) {
+    .ed-note { transition: opacity 1ms linear; transform: none; }
+    [data-annotation]::after { transition: opacity 1ms linear; transform: none; }
+    body.walking .dimmable { transition: none; }
+  }
+
+  /* ── the guide dock · drives the staged walk ───────────────────── */
+  .guide {
+    position: fixed;
+    left: 50%; bottom: 18px; transform: translateX(-50%);
+    z-index: 120;
+    display: flex; align-items: center; gap: 14px;
+    padding: 9px 12px 9px 16px;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-pill);
+    background: color-mix(in oklab, var(--bg) 86%, transparent);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 40px -16px rgba(0,0,0,0.8);
+  }
+  .guide-hint {
+    font-family: var(--hand);
+    font-size: 17px;
+    color: var(--text-mid);
+    line-height: 1.1;
+  }
+  .guide-hint .key {
+    font-family: var(--mono); font-size: 0.62em; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-faint); margin-left: 7px;
+  }
+  .guide-prog { display: none; align-items: center; gap: 9px; }
+  .guide.active .guide-hint { display: none; }
+  .guide.active .guide-prog { display: flex; }
+  .guide-dots { display: inline-flex; gap: 6px; }
+  .gd {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--card-border);
+    transition: background 220ms var(--ease, ease), transform 220ms var(--ease, ease);
+  }
+  .gd.done { background: var(--text-faint); }
+  .gd.now  { background: var(--signal); transform: scale(1.4); }
+  .guide-step {
+    font: var(--fs-mono-xs)/1 var(--mono);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-dim);
+    min-width: 46px; text-align: center;
+  }
+  .guide-btn {
+    font: var(--fs-mono-sm)/1 var(--mono);
+    letter-spacing: var(--ls-mono-sm); text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--card-border);
+    background: var(--frame-bg);
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: color 180ms var(--ease, ease), border-color 180ms var(--ease, ease), background 180ms var(--ease, ease);
+  }
+  .guide-btn:hover { color: var(--text); border-color: var(--signal); }
+  .guide-btn:focus-visible { outline: 2px solid var(--ui-focus-ring); outline-offset: 2px; }
+  .guide-btn.primary { color: var(--signal); border-color: color-mix(in oklab, var(--signal) 50%, var(--card-border)); }
+  .guide-btn.ghost { border-color: transparent; color: var(--text-faint); padding-left: 8px; padding-right: 8px; }
+  .guide-btn.ghost:hover { color: var(--text-mid); }
+
+  /* a soft pulse on the idle hint so the affordance reads */
+  @keyframes gpulse { 0%,100% { opacity: 0.8; } 50% { opacity: 1; } }
+  .guide:not(.active) .guide-hint::before {
+    content: "✎ "; color: var(--signal); opacity: 0.85;
+    animation: gpulse 2.6s var(--ease, ease) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .guide:not(.active) .guide-hint::before { animation: none; }
+  }
+</style>
+</head>
+<body data-product="personal" data-relationship="self">
+
+<div class="win">
+  <div class="win-bar">
+    <span class="lights"><span class="light r"></span><span class="light y"></span><span class="light g"></span></span>
+    <span class="win-title"><span class="diamond">◇</span> <span>Liminal</span> <b>/ Today</b></span>
+    <span class="win-spacer"></span>
+    <span class="vault-pill" data-annotation="vault"><span class="glyph">◇</span> Vault <b>324</b> <span class="add">+3 this week</span></span>
+  </div>
+
+  <div class="app">
+    <!-- ── agency rail · bounded co-workers ── -->
+    <aside class="rail dimmable" data-annotation="rail">
+      <div class="rail-label">Agents · in-lane</div>
+      <div class="agent active"><span class="pip judgment"></span><span class="name">Judgment</span><span class="reg">lead</span></div>
+      <div class="agent"><span class="pip synthesis"></span><span class="name">Synthesis</span><span class="reg">3rd</span></div>
+      <div class="agent"><span class="pip diligence"></span><span class="name">Diligence</span><span class="reg">ck</span></div>
+      <div class="agent"><span class="pip outreach"></span><span class="name">Outreach</span><span class="reg">held</span></div>
+      <div class="agent"><span class="pip watch"></span><span class="name">Watch</span><span class="reg">idle</span></div>
+      <div class="agent"><span class="pip signal"></span><span class="name">Mirror</span><span class="reg">note</span></div>
+      <div class="rail-foot">12 bounded co-workers.<br>None speaks out of lane.</div>
+    </aside>
+
+    <!-- ── canvas · the re-entry surface ── -->
+    <main class="canvas">
+      <div class="head">
+        <div class="eyebrow">Today · re-entry · the loop comes back</div>
+        <h1 class="title">Three things came back overnight.</h1>
+        <p class="lede">The daemon re-read your held compositions while you slept. One needs a decision today. One outcome is due to close. The record got a little truer.</p>
+      </div>
+
+      <div class="cols">
+        <!-- LEFT: the held read + the refusal + the correction record -->
+        <div class="col">
+          <div>
+            <div class="sec-label"><span>Needs a decision</span><span class="meta">held 2 days · re-read 04:12</span></div>
+            <div class="read dimmable" data-annotation="read">
+              <div class="read-tags">
+                <span class="tag lane">Founding round</span>
+                <span class="tag almost">Almost ready</span>
+              </div>
+              <div class="verdict">NOT READY · 4 fixes</div>
+              <p class="read-body">The <b>Judgment</b> register led the read; the head-of-eng call is the blocker the agents converged on. Three corrections plus one defer stand between you and a yes.</p>
+
+              <div class="refusal dimmable" data-annotation="refusal">
+                <span class="x">✕</span>
+                <span class="refusal-text">Outreach refused: <b>“drafting the investor email isn't my ground — that's a Judgment call you haven't sealed yet.”</b> Handed back, not around.</span>
+              </div>
+
+              <div class="receipt"><span class="k">read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
+
+              <div class="actions">
+                <button class="btn primary">Open the read →</button>
+                <button class="btn">Sign &amp; hand off</button>
+                <button class="btn">Defer 2d</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec-label"><span>What changed the read</span><span class="meta">correction stream · 3 entries</span></div>
+            <div class="corr dimmable" data-annotation="corr">
+              <div class="corr-row"><span class="corr-who">You · 05-11</span><span class="corr-what">Overrode Synthesis: <b>candidate B ranks first</b>, not third. Sent a write-up unprompted.</span></div>
+              <div class="corr-row"><span class="corr-who">Diligence</span><span class="corr-what">Flagged the term sheet's <b>liquidation stack</b> — Judgment had missed it.</span></div>
+              <div class="corr-row"><span class="corr-who">You · 05-12</span><span class="corr-what">Deferred the raise 2 days. <b>Reason recorded:</b> "deciding this depleted."</span></div>
+              <div class="corr-foot">Every disagreement is kept. The record of where you corrected the agents is the moat — not the answer they gave.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: close the loop (signed next-move) + the mirror -->
+        <div class="col">
+          <div>
+            <div class="sec-label"><span>Close the loop</span><span class="meta">outcome due · 27 days ago</span></div>
+            <div class="next dimmable" data-annotation="next">
+              <div class="next-q">You held the seed round to chase a cleaner close.</div>
+              <p class="next-sub">How did that land? <em>Your answer is what makes the vault's calibration real.</em></p>
+              <div class="outcomes" id="outcomes">
+                <button class="outcome good" data-verdict="Resolved well — right call">Resolved well <span class="gloss">— right call</span></button>
+                <button class="outcome" data-verdict="Mixed — would adjust">Mixed <span class="gloss">— would adjust</span></button>
+                <button class="outcome warn" data-verdict="Regret it — wrong call">Regret it <span class="gloss">— wrong call</span></button>
+                <button class="outcome" data-verdict="Still open">Still open</button>
+              </div>
+              <div class="sealed" id="sealed">
+                <div class="sealed-line"><span class="ok">●</span> outcome recorded · sealed to vault</div>
+                <div class="sealed-verdict" id="sealed-verdict">Resolved well — right call</div>
+                <div class="sealed-hash">seal 9f4c · 7e21 · 0d8a · b3f0 · device-local</div>
+              </div>
+              <div class="cal"><span class="cal-num" id="cal-num">7 of 9</span><span class="cal-label">decisions calibrated · last 12 weeks</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec-label"><span>Mirror</span><span class="meta">a quiet note</span></div>
+            <div class="corr dimmable" style="background:var(--frame-bg);">
+              <p class="corr-what" style="margin:0;">You tend to decide funding calls when depleted. Last two nights averaged 5h. The agents are reading you rested today — <em>maybe let them.</em></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- tray: the loop's entry point (Capture) -->
+      <div class="tray dimmable" data-annotation="tray">
+        <span class="glyph">◇</span>
+        <span class="tray-text">Drag any window, doc, or transcript here to start a new read · captured to the Vault, device-local.</span>
+      </div>
+
+      <p class="foot dimmable">Re-entry is how the loop closes. What you held comes back, you say how it landed, and the record gets truer.</p>
+    </main>
+  </div>
+</div>
+
+<!-- ── the guide dock · drives the staged marginalia walk ── -->
+<div class="guide" id="guide" aria-live="polite">
+  <span class="guide-hint" id="guide-hint">read the founder's notes <span class="key">⌘N / click</span></span>
+  <div class="guide-prog">
+    <span class="guide-step" id="guide-step">1 / 6</span>
+    <span class="guide-dots" id="guide-dots"></span>
+    <button class="guide-btn ghost" id="guide-exit" type="button">exit</button>
+    <button class="guide-btn primary" id="guide-next" type="button">next →</button>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════
+   Cut 06 · staged guided-reveal marginalia engine
+   ─────────────────────────────────────────────────────────────────
+   The product surface above renders clean. This engine layers the
+   founder's hand onto the LIVE elements, one note at a time, in loop
+   order. lib/marginalia.js renders all notes at once; the walk here
+   is bespoke — it spotlights one anchored element per step, reposition-
+   ing the note relative to that element's live rect, and dims the rest.
+   ⌘N starts/advances · ←/→ step · Esc exits · the dock mirrors it.
+   ════════════════════════════════════════════════════════════════ */
+(function () {
+  "use strict";
+
+  /* loop order: Capture → Read → refusal → Record → Re-enter(close) → Vault */
+  const STEPS = [
+    { target: "tray",     side: "below", text: "the palette. drop anything in — it becomes a read, sealed local. this is what makes it a surface, not a webpage." },
+    { target: "rail",     side: "right", text: "12 bounded co-workers · not archetypes. each one stays in its lane. apr 21 rule." },
+    { target: "read",     side: "left",  text: "one read, many registers. judgment led; the others checked it. you see who said what." },
+    { target: "refusal",  side: "left",  text: "THIS is the product. the agent says “not my ground” and hands it back. refusal is the trust move." },
+    { target: "corr",     side: "left",  text: "the disagreement is the signal. where you corrected them is the moat — kept, not overwritten." },
+    { target: "next",     side: "right", text: "you say how it landed; it seals to the vault. the loop closes and the record gets truer." },
+    { target: "vault",    side: "below", text: "one consent primitive · encrypted, device-local. the record is the moat." },
+  ];
+  const SIG = "· sr";
+
+  const body     = document.body;
+  const guide    = document.getElementById("guide");
+  const hint     = document.getElementById("guide-hint");
+  const stepEl   = document.getElementById("guide-step");
+  const dotsEl   = document.getElementById("guide-dots");
+  const nextBtn  = document.getElementById("guide-next");
+  const exitBtn  = document.getElementById("guide-exit");
+
+  let idx = -1;            // -1 = not started
+  let noteEl = null;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // build progress dots
+  STEPS.forEach((_, i) => {
+    const d = document.createElement("span");
+    d.className = "gd"; d.dataset.i = i;
+    dotsEl.appendChild(d);
+  });
+
+  function elFor(i) { return document.querySelector(`[data-annotation="${STEPS[i].target}"]`); }
+
+  function positionNote(el, target, side) {
+    const r  = target.getBoundingClientRect();
+    const nh = el.offsetHeight || 56;     // measured note height (multi-line aware)
+    const w  = 244, m = 16, gap = 10;
+    const sx = window.scrollX, sy = window.scrollY;
+    const vw = window.innerWidth;
+    let top, left;
+
+    // resolve the side against available space, so a note never lands on
+    // a neighbour: left needs room on the left, above needs room above.
+    let resolved = side;
+    if (side === "left"  && r.left < w + m + 12)         resolved = "right";
+    if (side === "right" && r.right + m + w > vw - 12)   resolved = "left";
+    if (side === "above" && r.top < nh + gap + 12)       resolved = "below";
+    if (side === "below" && r.bottom + nh + gap > window.innerHeight - 12) resolved = "above";
+
+    if (resolved === "above") {
+      top  = r.top + sy - nh - gap;       // sit fully above the element
+      left = r.left + sx + 18;
+    } else if (resolved === "below") {
+      top  = r.bottom + sy + gap;
+      left = Math.min(r.left + sx, vw - w - 14);
+    } else if (resolved === "left") {
+      top  = r.top + sy + 4;
+      left = r.left + sx - w - m;
+    } else { // right
+      top  = r.top + sy + 4;
+      left = Math.min(r.right + sx + m, vw - w - 12);
+    }
+    if (left < 10) left = 10;             // never run off the left edge
+    if (top  < sy + 8) top = sy + 8;      // never clip above the fold
+    el.style.top  = `${top}px`;
+    el.style.left = `${left}px`;
+  }
+
+  function clearSpotlights() {
+    document.querySelectorAll("[data-annotation].spotlight").forEach(e => e.classList.remove("spotlight"));
+  }
+
+  function renderNote(i) {
+    const target = elFor(i);
+    if (!target) return;
+    if (!noteEl) {
+      noteEl = document.createElement("div");
+      noteEl.className = "ed-note";
+      body.appendChild(noteEl);
+    }
+    noteEl.classList.remove("show");
+    const s = STEPS[i];
+    noteEl.innerHTML =
+      `<span class="ed-num">${String(i + 1).padStart(2, "0")}</span>${s.text}<span class="ed-sig">${SIG}</span>`;
+    // position after layout settles
+    requestAnimationFrame(() => {
+      positionNote(noteEl, target, s.side);
+      requestAnimationFrame(() => noteEl.classList.add("show"));
+    });
+  }
+
+  function goto(i) {
+    idx = i;
+    clearSpotlights();
+    const target = elFor(i);
+    if (target) {
+      target.classList.add("spotlight");
+      // bring it into view, then render the note against its settled rect
+      const onScrolled = () => renderNote(i);
+      if (reduce) { target.scrollIntoView({ block: "center" }); onScrolled(); }
+      else {
+        target.scrollIntoView({ behavior: "smooth", block: "center" });
+        // smooth scroll has no reliable end event; settle on a short timer
+        setTimeout(onScrolled, 380);
+      }
+    }
+    // dock state
+    body.classList.add("walk-active");
+    stepEl.textContent = `${i + 1} / ${STEPS.length}`;
+    dotsEl.querySelectorAll(".gd").forEach((d, di) => {
+      d.classList.toggle("done", di < i);
+      d.classList.toggle("now", di === i);
+    });
+    nextBtn.textContent = i === STEPS.length - 1 ? "done ✓" : "next →";
+  }
+
+  function start() {
+    if (idx !== -1) return;
+    body.classList.add("walking");
+    guide.classList.add("active");
+    goto(0);
+  }
+
+  function advance() {
+    if (idx === -1) { start(); return; }
+    if (idx >= STEPS.length - 1) { exit(); return; }
+    goto(idx + 1);
+  }
+
+  function back() { if (idx > 0) goto(idx - 1); }
+
+  function exit() {
+    idx = -1;
+    body.classList.remove("walking", "walk-active");
+    guide.classList.remove("active");
+    clearSpotlights();
+    if (noteEl) { noteEl.classList.remove("show"); }
+    // collapse the note after the fade
+    setTimeout(() => { if (idx === -1 && noteEl) { noteEl.remove(); noteEl = null; } }, reduce ? 0 : 340);
+  }
+
+  // ── wiring ──
+  guide.addEventListener("click", (e) => {
+    // clicking the idle hint starts the walk
+    if (!guide.classList.contains("active")) start();
+  });
+  nextBtn.addEventListener("click", (e) => { e.stopPropagation(); advance(); });
+  exitBtn.addEventListener("click", (e) => { e.stopPropagation(); exit(); });
+
+  document.addEventListener("keydown", (e) => {
+    const cmd = e.metaKey || e.ctrlKey;
+    if (cmd && (e.key === "n" || e.key === "N")) { e.preventDefault(); advance(); return; }
+    if (idx === -1) return;            // walk not running; ignore nav keys
+    if (e.key === "ArrowRight") { e.preventDefault(); advance(); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); back(); }
+    else if (e.key === "Escape") { e.preventDefault(); exit(); }
+  });
+
+  // reposition the live note if the viewport changes mid-walk
+  let rsTimer;
+  window.addEventListener("resize", () => {
+    if (idx === -1) return;
+    clearTimeout(rsTimer);
+    rsTimer = setTimeout(() => { const t = elFor(idx); if (t && noteEl) positionNote(noteEl, t, STEPS[idx].side); }, 90);
+  });
+
+  // ── the one real interaction: sealing an outcome (Decide → Record) ──
+  const outcomes = document.getElementById("outcomes");
+  const sealed   = document.getElementById("sealed");
+  const verdictEl = document.getElementById("sealed-verdict");
+  const calNum   = document.getElementById("cal-num");
+  outcomes.addEventListener("click", (e) => {
+    const b = e.target.closest(".outcome");
+    if (!b) return;
+    verdictEl.textContent = b.dataset.verdict;
+    sealed.classList.add("show");
+    calNum.textContent = "8 of 10";
+    outcomes.querySelectorAll(".outcome").forEach(o => { o.disabled = true; o.style.opacity = "0.45"; });
+  });
+})();
+</script>
+
+</body>
+</html>
