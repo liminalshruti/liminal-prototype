@@ -1,6 +1,6 @@
 {
   "$schema_note": "Per-cut proof and portability manifests. Evidence-only: every field is sourced from this repo (cuts/TAXONOMY.md, README.md, the cut files, lib/ grep). Unknowns are marked 'not found in repo' — nothing is invented. 'monolithic: true' means the cut does NOT load the lib/ stack (verified by grep for lib/boot.js|slate.js|state.js, 2026-06-18). Only cut 01 is modular.",
-  "generated": "2026-06-18",
+  "generated": "2026-06-23",
   "branch": "foundry/proof-to-port-architecture",
   "sources": [
     "cuts/TAXONOMY.md (coordinate table + maturity + convergence verdict)",
@@ -46,7 +46,9 @@
       "choreography": "orbital agent-coverage viz with refusal arrows (per README); detailed sequence not found in repo",
       "portability": "not found in repo (not assessed in extraction audit at file level)",
       "monolithic": true,
-      "orphanedSpecRefs": ["CUT_CONSOLIDATION_MAP.md"],
+      "orphanedSpecRefs": [
+        "CUT_CONSOLIDATION_MAP.md"
+      ],
       "openQuestions": [
         "CUT_CONSOLIDATION_MAP.md is cited as its spec but NOT FOUND IN REPO",
         "Whether to actually merge 00/08/09/11 into one parametric surface is deferred (TAXONOMY: larger product-build decision on the desktop spine)"
@@ -149,6 +151,26 @@
       ]
     },
     {
+      "id": "06-margin-read",
+      "name": "Margin-read — the founder's hand on the product",
+      "path": "cuts/06-margin-read.html",
+      "coordinate": "full-loop × L1-founder × desktop × wedge × refining",
+      "role": "The explanation layer itself — the only cut whose subject is the marginalia. Renders the re-entry loop as real UX, then narrates it with staged founder annotations anchored to the live elements.",
+      "primitiveMadeVisible": "staged guided-reveal marginalia (extends lib/marginalia.js's .ed-note register; one note per step, spotlighting the live element it explains)",
+      "loopTested": "full-loop (Capture→Read→Decide→Record→Re-enter narrated in order, with refusal as the focal beat)",
+      "subjectDomain": "the product loop itself (founder re-entry; the L1 wedge surface)",
+      "stateReality": "mock (scripted demo surface modeled on cut 10-today; the one real interaction is sealing an outcome)",
+      "proof": "demonstrates refusal-as-trust as first-class UI (an agent says 'not my ground' and hands back), and the correction record as moat — annotated in place rather than asserted",
+      "choreography": "clean surface loads first (no captions); ✎/⌘N starts a staged walk; →/← step, Esc exits; each step scrolls its anchored element into view, draws a spotlight ring, dims the rest, and reveals a Caveat note positioned against the element's live rect. Reduced-motion: instant reveal, no smooth-scroll gate.",
+      "portability": "the staged-reveal engine is self-contained and could be promoted to lib/ (lib/marginalia.js is all-at-once; this is the staged variant) if a second cut wants guided narration",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "06 slot was previously an archived onboarding-compare cut (folded into cut 04); the number is reused for this live cut — genealogy noted in surfaces.js archive group",
+        "Notes are hand-authored from PRODUCT.md vocabulary; voice should be founder-reviewed"
+      ]
+    },
+    {
       "id": "08-liminal-custody",
       "name": "Liminal Custody — NatSec/defense surface",
       "path": "cuts/08-liminal-custody.html",
@@ -221,7 +243,10 @@
       "choreography": "⌘K to drive it; correction as primary move; loop returns each morning (Today) + Mirror reflect-back",
       "portability": "⌘K palette is reimplemented here AND in surface-nav.js (audit §7 duplication finding) — a consolidation candidate, not a clean extraction",
       "monolithic": true,
-      "orphanedSpecRefs": ["HCI_AUDIT.md", "RECONCILED_SYSTEM.md"],
+      "orphanedSpecRefs": [
+        "HCI_AUDIT.md",
+        "RECONCILED_SYSTEM.md"
+      ],
       "openQuestions": [
         "Cites HCI_AUDIT.md + RECONCILED_SYSTEM.md as specs — both NOT FOUND IN REPO",
         "Grew +722 lines in a recent merge — audit §7 flags product logic accreting inside a demo file",
