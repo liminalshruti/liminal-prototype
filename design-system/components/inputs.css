@@ -113,3 +113,81 @@
 @media (prefers-reduced-motion: reduce) {
   .input { transition: none; }
 }
+
+/*
+ * ─── original specimen input vocabulary ──────────────────────────
+ * The richer input family from design-system.html (serif text field,
+ * textarea, search, select). Distinct from .input above (the React
+ * wrapper's mono field). Extracted verbatim 2026-06-23 so the specimen
+ * page can @import this file instead of inlining it.
+ * Note: uses legacy --accent / --red / --accent-faint tokens (canon-defined).
+ */
+
+.input-text {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--card-border);
+  padding: var(--space-3) 0;
+  font: var(--fs-md)/1.4 var(--serif);
+  color: var(--text);
+  transition: border-color var(--tx-base);
+}
+.input-text::placeholder { color: var(--text-mute); font-style: italic; }
+.input-text:focus { outline: none; border-color: var(--accent); }
+.input-text:disabled { opacity: 0.5; cursor: not-allowed; }
+.input-text.is-error { border-color: var(--red); }
+
+.input-error-msg {
+  margin-top: 4px;
+  font: var(--fs-mono-xs)/1.4 var(--mono);
+  color: var(--red);
+  letter-spacing: 0;
+}
+
+.input-textarea {
+  width: 100%;
+  min-height: 80px;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  padding: var(--space-3);
+  font: var(--fs-base)/1.5 var(--serif);
+  color: var(--text);
+  resize: vertical;
+  transition: border-color var(--tx-base);
+}
+.input-textarea:focus { outline: none; border-color: var(--accent); background: var(--accent-faint); }
+
+.input-search {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  transition: border-color var(--tx-base);
+}
+.input-search:focus-within { border-color: var(--accent); }
+.input-search .glyph { color: var(--text-faint); }
+.input-search input {
+  flex: 1; background: transparent; border: 0;
+  font: var(--fs-mono-sm)/1 var(--mono); color: var(--text);
+  outline: none;
+  letter-spacing: 0;
+}
+.input-search input::placeholder { color: var(--text-mute); }
+
+.input-select {
+  appearance: none;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  padding: 6px 28px 6px 10px;
+  font: var(--fs-mono-sm)/1 var(--mono);
+  color: var(--text);
+  letter-spacing: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><path d='M2 4l3 3 3-3' stroke='%238A8780' stroke-width='1' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+}
+.input-select:focus { outline: none; border-color: var(--accent); }
