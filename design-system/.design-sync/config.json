@@ -8,6 +8,7 @@
   "runtimeFontPrefixes": ["Geist", "Caveat", "Iowan Old Style"],
   "readmeHeader": ".design-sync/conventions.md",
   "overrides": {
-    "Button": { "cardMode": "column" }
+    "Button": { "cardMode": "column" },
+    "AuditRibbon": { "cardMode": "column" }
   }
 }

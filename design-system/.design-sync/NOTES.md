@@ -144,3 +144,22 @@ audit-classification product-surfaces. REGENERATE this on any token/component ch
   (--banner-good-border etc.) but functional as-is (they pair with var(--good/-amber/-red)).
 - **"Iowan Old Style"** added to runtimeFontPrefixes — it's a system serif FALLBACK in
   the canon --display/--serif stacks, not a brand font; intentionally host-provided.
+
+---
+
+## Wrapper expansion (2026-06-23) — all 26 components now have React cards
+
+Wrapped the remaining ~22 components (Banner, Toast, Avatar, Badge, Tabs, Segmented,
+Tooltip, Popover, Modal, Drawer, Checkbox, Radio, Switch, Slider, Progress, Skeleton,
+Spinner, EmptyState, ConsentChip, ClassificationStrip, AuditRibbon, Tile) as thin React
+wrappers over the extracted CSS classes. Sources in `react/src/`. All 26 components now
+ship as both styles AND pickable, prop-typed, graded cards. Previews authored in
+`.design-sync/previews/*.tsx` (each wraps content in `_surface.tsx`, the dark canon
+canvas); all graded good; render check 26/26.
+
+Overrides: Button + AuditRibbon use `cardMode: column` (wide rows).
+Skipped: Slate (`.slate-frame`) — a drop container, not statically previewable; its CSS
+ships (reachable as a class) but no wrapper/card.
+
+Tooltip/Popover cards show only their trigger (hover/click overlay can't render in a
+static screenshot) — graded good with that noted; the .prompt.md documents the behavior.
