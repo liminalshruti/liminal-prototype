@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cut 05 · Plugin seed · Liminal</title>
+
+<!--
+  Cut 05 · Plugin seed · the terminal first-run (the SEED surface, before the desktop land)
+  ──────────────────────────────────────────────────────────────────────
+  Loop-stage · pre-loop      (G1 · entry-of-the-entry — Sam enters via the Claude plugin, not a DMG)
+  Altitude   · L2-team        (the IC seed of the enterprise motion · B1 in the cut matrix)
+  Surface    · plugin         (Claude Code terminal — NOT the desktop app)
+  Framing    · wedge
+  Maturity   · live           (renders the SHIPPED liminal-agents flow, not a speculative design)
+  Coordinate per TAXONOMY.md · first-touch on the plugin surface; orthogonal (entry, not a loop subject).
+  ──────────────────────────────────────────────────────────────────────
+
+  2026-06-23 · BUILD (G1, the plugin-surface gap from REFACTOR_PLAN_sam-seed-fold.md + matrix B1).
+  This cut RENDERS the onboarding flow that already ships in liminal-agents — it is a faithful
+  screencap of shipped behavior, not invented UI:
+    · beat 1 — plugin enable IS the consent gate (.claude-plugin/plugin.json defaultEnabled:false)
+    · beat 2 — /onboard-swarm: each bounded agent reads its source IN PARALLEL, posts one candidate
+        git + claude-code → Analyst (facts) · granola → SDR (commitments) · cross-stream → Auditor (risks)
+        (lib/onboard/swarm.js · read-only · LLM-optional · Promise.allSettled partial-safe)
+    · beat 3 — /try-liminal: three agents read one brief, the in-lane one works, the others REFUSE
+        verbatim and name the right agent, you correct one read via the 9-tag taxonomy
+        (skills/try-liminal/SKILL.md · lib/correction-tags.js)
+    · beat 4 — install the desktop app so the vault outlives the session (the SessionStart hook)
+
+  Lane vocabulary is intentional + matches the shipped flow (see audit doc 2026-06-23):
+    · the swarm beat labels by EXTRACTION    — facts / commitments / risks
+    · the deliberation beat labels by REGISTER — Diligence / Outreach / Judgment
+  Same three agents, two altitudes of the same lane. Do NOT mix the vocabularies within a beat.
+
+  · Tokens from design-system/tokens/design-tokens.css · DO NOT redefine.
+  · Brand faces + canon font stack from lib/cut-shell.css + lib/brand-upgrade.css (Nineties Headliner /
+    Perfectly Nineties / Geist Mono). NO Newsreader, NO local --display/--serif override.
+  · No build step · no framework · the cut owns its own DOM bubble.
+  Canon-safe: locked cast only (Sam, Tariq Osei). No forbidden real names. Public-repo safe (no gated content).
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- canon · 12-wheel tokens · single source of truth -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<!-- canon shell + faces (same loader cuts 00/01/02/04/11 use) -->
+<link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
+
+<style>
+  /* ─── cut-05 · terminal-session shell ───────────────────────────────
+     The plugin lives in the Claude Code terminal, so this cut reads as a
+     terminal session — the commands and their output — NOT the desktop
+     app's windowed chrome. Only player chrome + per-cut layout here; all
+     color/type/space come from tokens. No token redefinition. */
+  body { padding: 0 !important; font-variant-numeric: tabular-nums; }
+  body { opacity: 0; transition: opacity 240ms var(--ease, ease-out); }
+  body.ready { opacity: 1; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+
+  .stage { min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+           padding: clamp(20px, 5vw, 56px) 16px; }
+  .term {
+    width: min(900px, 100%);
+    background: var(--frame-bg, #0C0C0F);
+    border: 1px solid var(--frame-border, var(--card-border));
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 24px 64px rgba(0,0,0,.45);
+  }
+
+  /* ── titlebar ── */
+  .tb { display: flex; align-items: center; gap: 12px; padding: 11px 16px;
+        border-bottom: 1px solid var(--card-border); background: var(--frame-bg-2, rgba(255,255,255,.015)); }
+  .tb .lights { display: flex; gap: 7px; }
+  .tb .lights i { width: 11px; height: 11px; border-radius: 50%; display: block; }
+  .tb .r { background: #FF5F57; } .tb .y { background: #FEBC2E; } .tb .g { background: #28C840; }
+  .tb .who { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: .04em; }
+  .tb .who b { color: var(--text-mid); font-weight: 500; }
+  .tb .surface { margin-left: auto; font-family: var(--mono); font-size: 10px; letter-spacing: .14em;
+                 text-transform: uppercase; color: var(--text-faint);
+                 border: 1px solid var(--card-border); border-radius: 4px; padding: 3px 8px; }
+
+  /* ── the scrolling session body ── */
+  .body { padding: 22px clamp(16px, 3vw, 30px) 26px; font-family: var(--mono); font-size: 13px;
+          line-height: 1.62; color: var(--text-mid); }
+
+  /* a beat = one command + its output, revealed in sequence */
+  .beat { opacity: 0; transform: translateY(8px);
+          animation: rise 520ms var(--ease-out-quint, cubic-bezier(.22,1,.36,1)) both; }
+  @keyframes rise { to { opacity: 1; transform: none; } }
+  .beat + .beat { margin-top: 26px; padding-top: 24px; border-top: 1px dashed var(--card-border); }
+
+  .beat-eyebrow { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-faint);
+                  display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .beat-eyebrow .n { color: var(--clarity); }
+  .beat-eyebrow .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--clarity);
+                       box-shadow: 0 0 10px var(--clarity-glow-soft, transparent); }
+
+  .prompt { color: var(--text-faint); }
+  .prompt .cmd { color: var(--clarity); }
+  .sysline { color: var(--text-faint); font-size: 12px; }
+  .sysline em { color: var(--text-dim); font-style: normal; }
+
+  /* enable beat */
+  .enable { margin-top: 10px; display: flex; flex-direction: column; gap: 7px; }
+  .enable .ln { display: flex; gap: 10px; align-items: baseline; }
+  .enable .k { color: var(--text-faint); min-width: 132px; }
+  .enable .v { color: var(--text); }
+  .enable .v.ok { color: var(--diligence, var(--clarity)); }
+
+  /* swarm beat — agents posting candidates by lane */
+  .swarm { margin-top: 12px; display: flex; flex-direction: column; gap: 14px; }
+  .agent-post { border-left: 2px solid var(--card-border); padding: 2px 0 2px 14px; }
+  .agent-post.analyst { border-color: var(--diligence, var(--clarity)); }
+  .agent-post.sdr     { border-color: var(--outreach, var(--connection, var(--clarity))); }
+  .agent-post.auditor { border-color: var(--judgment); }
+  .ap-hd { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .ap-name { font-size: 12px; font-weight: 500; letter-spacing: .04em; }
+  .agent-post.analyst .ap-name { color: var(--diligence, var(--clarity)); }
+  .agent-post.sdr     .ap-name { color: var(--outreach, var(--connection, var(--clarity))); }
+  .agent-post.auditor .ap-name { color: var(--judgment); }
+  .ap-lane { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); }
+  .ap-src  { font-size: 10px; color: var(--text-faint); margin-left: auto; }
+  .ap-cand { margin-top: 6px; font-family: var(--serif); font-size: 13.5px; line-height: 1.5; color: var(--text-mid); }
+  .ap-pending .ap-cand { color: var(--text-faint); font-style: italic; }
+
+  /* try-liminal beat — three reads, refusals verbatim */
+  .reads { margin-top: 12px; display: flex; flex-direction: column; gap: 12px; }
+  .read { border-left: 2px solid var(--card-border); padding: 2px 0 2px 14px; }
+  .read.inlane  { border-color: var(--diligence, var(--clarity)); }
+  .read.refused { border-color: var(--judgment); }
+  .rd-hd { display: flex; align-items: baseline; gap: 9px; }
+  .rd-name { font-size: 12px; font-weight: 500; letter-spacing: .04em; color: var(--text); }
+  .rd-tag { font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
+            border: 1px solid var(--card-border); border-radius: 3px; padding: 2px 6px; color: var(--text-faint); }
+  .read.inlane  .rd-tag { color: var(--diligence, var(--clarity)); border-color: var(--diligence, var(--clarity)); }
+  .read.refused .rd-tag { color: var(--judgment); border-color: var(--judgment); }
+  .rd-body { margin-top: 6px; font-family: var(--serif); font-size: 13.5px; line-height: 1.52; color: var(--text-mid); }
+  .rd-body .refuse-line { display: block; font-family: var(--mono); font-size: 12px; color: var(--judgment); }
+  .rd-body .refuse-why { color: var(--text-dim); }
+
+  /* the correction capture */
+  .correct { margin-top: 16px; background: var(--diligence-bg, rgba(255,255,255,.02));
+             border: 1px solid var(--card-border); border-radius: 6px; padding: 13px 15px; }
+  .correct .q { font-size: 12px; color: var(--text-dim); }
+  .correct .a { margin-top: 8px; font-family: var(--serif); font-size: 13.5px; color: var(--text); }
+  .correct .tag { margin-top: 10px; display: inline-flex; align-items: baseline; gap: 8px;
+                  font-size: 10px; letter-spacing: .08em; }
+  .correct .tag .lbl { color: var(--text-faint); text-transform: uppercase; letter-spacing: .14em; }
+  .correct .tag .chip { color: var(--diligence, var(--clarity)); border: 1px solid var(--diligence, var(--clarity));
+                        border-radius: 3px; padding: 2px 7px; }
+  .correct .seal { margin-top: 11px; padding-top: 10px; border-top: 1px dashed var(--card-border);
+                   font-size: 11px; color: var(--text-dim); }
+  .correct .seal b { color: var(--text-mid); font-weight: 500; }
+
+  /* install beat — the close line */
+  .install { margin-top: 12px; }
+  .install .line { font-family: var(--serif); font-size: 14px; line-height: 1.55; color: var(--text); }
+  .install .offer { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; }
+  .install .pill { font-family: var(--mono); font-size: 11px; color: var(--text-mid);
+                   border: 1px solid var(--card-border); border-radius: 5px; padding: 7px 12px; }
+  .install .pill b { color: var(--clarity); font-weight: 500; }
+  .install .footnote { margin-top: 12px; font-size: 11px; color: var(--text-faint); }
+
+  /* fixture-mode honesty banner */
+  .modeline { margin-top: 14px; font-size: 11px; color: var(--text-faint); }
+  .modeline b { color: var(--text-dim); font-weight: 500; }
+
+  @media (max-width: 600px) {
+    .ap-src { margin-left: 0; width: 100%; }
+    .body { font-size: 12px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body { transition: none; }
+    .beat { animation: none; opacity: 1; transform: none; }
+    .beat-eyebrow .dot { box-shadow: none; }
+  }
+</style>
+
+<link rel="stylesheet" href="../lib/surface-nav.css">
+</head>
+<body data-product="sam-seed">
+
+<div class="stage">
+  <div class="term" role="region" aria-label="Liminal plugin first-run, in the terminal">
+
+    <!-- ── titlebar · this is the terminal, not the desktop app ── -->
+    <header class="tb">
+      <div class="lights"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+      <div class="who"><b>sam</b>@frontier-assessment · <span>~/pentest</span> — claude</div>
+      <div class="surface">plugin · claude code</div>
+    </header>
+
+    <div class="body" id="body">
+
+      <!-- ════ BEAT 1 · enable (consent IS the gate) ════ -->
+      <section class="beat" aria-label="Beat 1 of 4 · Enable the plugin">
+        <div class="beat-eyebrow"><span class="dot"></span><span class="n">01</span> · enable · the consent gate</div>
+        <div class="prompt">$ <span class="cmd">claude plugins enable liminal-agents</span></div>
+        <div class="enable">
+          <div class="ln"><span class="k">liminal-agents</span><span class="v ok">enabled</span></div>
+          <div class="ln"><span class="k">agents loaded</span><span class="v">Analyst · SDR · Auditor — three bounded agents that disagree on purpose</span></div>
+          <div class="ln"><span class="k">vault</span><span class="v">local-only · created on this machine · nothing leaves without your signature</span></div>
+        </div>
+        <p class="sysline" style="margin-top:12px">Enabling is the consent. No account, no key, no upload. <em>The plugin reads what's already here; it never proxies your data through a server.</em></p>
+      </section>
+
+      <!-- ════ BEAT 2 · /onboard-swarm (beat cold-start: read, don't ask) ════ -->
+      <section class="beat" aria-label="Beat 2 of 4 · The onboarding swarm">
+        <div class="beat-eyebrow"><span class="dot"></span><span class="n">02</span> · /onboard-swarm · beat cold-start</div>
+        <div class="prompt">$ <span class="cmd">/onboard-swarm</span></div>
+        <p class="sysline" style="margin-top:8px">The first thing Liminal does is not ask for a brief. It <em>reads</em>. Each bounded agent reads its own source, in parallel, and posts the one thing worth acting on — so the first deliberation starts warm, not from a blank table.</p>
+
+        <div class="swarm">
+          <div class="agent-post analyst">
+            <div class="ap-hd"><span class="ap-name">Analyst</span><span class="ap-lane">facts · what was built / changed</span><span class="ap-src">read git + claude-code</span></div>
+            <div class="ap-cand">Three weeks of work centers on one workstream: the frontier-model assessment. ~1,000 findings, two triage passes (v1 7d ago, v2 3d ago), and a cluster of ~240 reclassified P1↔P2. The candidate worth acting on is the triage logic itself — its churn is the spine of the first read.</div>
+          </div>
+          <div class="agent-post sdr">
+            <div class="ap-hd"><span class="ap-name">SDR</span><span class="ap-lane">commitments · who, by when, the next move</span><span class="ap-src">read granola</span></div>
+            <div class="ap-cand">The most recent thread that named a person and a time: a 1:1 with the team lead, canceled today. The candidate commitment is the unclosed conversation — confirm whether it gets rescheduled before anything downstream gets queued.</div>
+          </div>
+          <div class="agent-post auditor">
+            <div class="ap-hd"><span class="ap-name">Auditor</span><span class="ap-lane">risks · gaps + drift across the streams</span><span class="ap-src">cross-stream</span></div>
+            <div class="ap-cand">The risk is the seam: the work is drifting (240 misclassified) while a commitment in another stream (the canceled 1:1) is unclosed — and there is <b>no decision-log</b> behind either. Cross-check the triage churn against the team's actual process before reading this as a person problem.</div>
+          </div>
+          <div class="agent-post sdr ap-pending">
+            <div class="ap-hd"><span class="ap-name">SDR</span><span class="ap-lane">commitments</span><span class="ap-src">calendar</span></div>
+            <div class="ap-cand">calendar adapter not wired yet — held as pending, not hidden. (the honest "next")</div>
+          </div>
+        </div>
+        <p class="sysline" style="margin-top:14px">Read-only — the swarm posts candidates; it does not write the vault. <em>That's the daemon's job, on the desktop.</em></p>
+      </section>
+
+      <!-- ════ BEAT 3 · /try-liminal (the loop in 60s — disagree, refuse, correct) ════ -->
+      <section class="beat" aria-label="Beat 3 of 4 · The loop in 60 seconds">
+        <div class="beat-eyebrow"><span class="dot"></span><span class="n">03</span> · /try-liminal · the loop in 60 seconds</div>
+        <div class="prompt">$ <span class="cmd">/try-liminal</span> <span style="color:var(--text-faint)">"is the ~240-finding reclassification a triage-quality problem?"</span></div>
+        <p class="sysline" style="margin-top:8px">Three agents read the same brief. The one in lane does the work; the others refuse and name the right agent. The refusal is the routing — not an error.</p>
+
+        <div class="reads">
+          <div class="read inlane">
+            <div class="rd-hd"><span class="rd-name">Analyst</span><span class="rd-tag">in lane · Diligence</span></div>
+            <div class="rd-body">The reclassification is not a quality failure — it is the absence of a shared P-tier lexicon meeting a novel frontier-model output with no calibration phase. ~240 P1↔P2 moves across two passes is what happens when "moderate" has no agreed definition to drift from. The pattern is systemic, not individual: the same reviewers are inconsistent in the same direction, which reads as a missing rubric, not a missing skill.</div>
+          </div>
+          <div class="read refused">
+            <div class="rd-hd"><span class="rd-name">SDR</span><span class="rd-tag">refused</span></div>
+            <div class="rd-body"><span class="refuse-line">REFUSE: Analyst</span><span class="refuse-why">Reading the triage logic is research, not outreach — that's the Analyst's lane.</span></div>
+          </div>
+          <div class="read refused">
+            <div class="rd-hd"><span class="rd-name">Auditor</span><span class="rd-tag">refused</span></div>
+            <div class="rd-body"><span class="refuse-line">REFUSE: Analyst</span><span class="refuse-why">Producing the diagnosis is analysis, not a readiness judgment — that's the Analyst's lane.</span></div>
+          </div>
+        </div>
+
+        <div class="correct">
+          <div class="q">Correct one read. What did an agent get wrong?</div>
+          <div class="a">"The Analyst is right that it's systemic — but it understated the human cost. The lead is taking the blame for a missing rubric. Read it as a system to tune, not a person to indict."</div>
+          <div class="tag"><span class="lbl">tagged</span><span class="chip">wrong_frame</span></div>
+          <div class="seal"><b>The correction is the record.</b> Not the answer — the place you pushed back. In the terminal the vault is a throwaway; on the desktop it's kept, and the next read starts from your frame, not the model's.</div>
+        </div>
+      </section>
+
+      <!-- ════ BEAT 4 · install (so the vault outlives the session) ════ -->
+      <section class="beat" aria-label="Beat 4 of 4 · Keep the vault">
+        <div class="beat-eyebrow"><span class="dot"></span><span class="n">04</span> · keep the vault</div>
+        <div class="install">
+          <p class="line">This is the loop: three agents read, they disagree, you correct one — and the correction is the record. In the terminal the vault is a throwaway. Install the desktop app to keep it.</p>
+          <div class="offer">
+            <span class="pill">▸ <b>Liminal.dmg</b> — drag to Applications · the daemon ingests on a loop</span>
+            <span class="pill">▸ or open the live cockpit · <b>liminal-govern-cockpit.vercel.app</b></span>
+          </div>
+          <p class="footnote">Offered at session start by the plugin — never auto-installed. The desktop app is the persistent surface (tray, daemon, signed vault); the plugin is the door.</p>
+        </div>
+        <p class="modeline">Reads shown from a bundled sample. <b>Set ANTHROPIC_API_KEY or run <code>claude setup-token</code></b> to run this live on Opus 4.8.</p>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ─── Cut 05 · sequential beat reveal ────────────────────────────────────
+   The four beats rise in sequence so the terminal reads as a session
+   unfolding, not a wall of text. Pure DOM; respects reduced-motion. */
+(() => {
+  const beats = [...document.querySelectorAll(".beat")];
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  beats.forEach((b, i) => { b.style.animationDelay = reduce ? "0ms" : `${i * 220}ms`; });
+  requestAnimationFrame(() => document.body.classList.add("ready"));
+})();
+</script>
+
+<script src="../lib/surface-nav.js"></script>
+</body>
+</html>
