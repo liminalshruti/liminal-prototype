@@ -1,0 +1,94 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Tag
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   A small, non-interactive label that classifies a thing — a status,
+ *   a register, a source. The mono-cased chip that carries metadata
+ *   without taking an action.
+ *
+ * Variants
+ *   default       · neutral · frame-border on quiet bg
+ *   success       · good / sealed / verified register
+ *   error         · alarm / failed / rejected register
+ *   warning       · watch / pending register
+ *   info          · signal / informational register
+ *   (semantic variants reuse --ui-state-* so they track the canon)
+ *
+ * Modifiers
+ *   .tag-dot      · a leading status dot, colored by the variant
+ *
+ * States
+ *   Tags are not interactive. No hover/focus/active. If a chip must be
+ *   removable or clickable, that is a Button concern, not a Tag.
+ *
+ * ARIA
+ *   Decorative classification → no role needed.
+ *   If it conveys live status, the surrounding region owns aria-live.
+ *
+ * Tokens used
+ *   --frame-bg-2, --frame-border, --text-dim, --text-mid
+ *   --ui-state-{success,error,warning,info}[-bg|-border]
+ *   --space-1, --space-2 (× --density-scale)
+ *   --radius-pill
+ *   --fs-mono-xs, --ls-mono-sm, --mono
+ *
+ * Do not
+ *   - make a Tag clickable · use a Button
+ *   - use raw hex values
+ *   - convey status by dot color alone · the label text states it too
+ *
+ * Authored: 2026-06-23 · v1 (design-sync first import)
+ */
+
+/* ─── base · neutral chip ─── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--space-1) * var(--density-scale));
+  padding: calc(var(--space-1) * var(--density-scale))
+           calc(var(--space-2) * var(--density-scale));
+  font: var(--fs-mono-xs)/1 var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+  color: var(--text-mid);
+  background: var(--frame-bg-2);
+  border: 1px solid var(--frame-border);
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+  user-select: none;
+}
+
+/* ─── leading status dot ─── */
+.tag-dot::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* ─── semantic variants · track canon state tokens ─── */
+.tag-success {
+  color: var(--ui-state-success);
+  background: var(--ui-state-success-bg);
+  border-color: var(--ui-state-success-border);
+}
+.tag-error {
+  color: var(--ui-state-error);
+  background: var(--ui-state-error-bg);
+  border-color: var(--ui-state-error-border);
+}
+.tag-warning {
+  color: var(--ui-state-warning);
+  background: var(--ui-state-warning-bg);
+  border-color: var(--ui-state-warning-border);
+}
+.tag-info {
+  color: var(--ui-state-info);
+  background: var(--ui-state-info-bg);
+  border-color: var(--ui-state-info-border);
+}

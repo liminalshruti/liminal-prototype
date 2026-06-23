@@ -1,0 +1,25 @@
+/*
+ * styles.css · Liminal design system · import-closure root
+ * ─────────────────────────────────────────────────────────────
+ * Every rendered design receives ONLY this file's transitive @import
+ * closure. So everything the look depends on is reachable from here:
+ * brand fonts, the 12-wheel token canon, and every component's CSS.
+ *
+ *   1. fonts        @font-face for the shipped brand families
+ *   2. tokens       the single source of truth (12-wheel canon)
+ *   3. components    contract-bound class CSS
+ *   4. _ds_bundle    component CSS scraped by the converter (kept reachable)
+ *
+ * Load order is deliberate: fonts and tokens must resolve before any
+ * component rule that consumes them.
+ */
+
+@import "./fonts/fonts.css";
+@import "./tokens/design-tokens.css";
+
+@import "./components/buttons.css";
+@import "./components/framing.css";
+@import "./components/inputs.css";
+@import "./components/tags.css";
+
+@import "./_ds_bundle.css";

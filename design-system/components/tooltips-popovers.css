@@ -1,0 +1,134 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Tooltips & Popovers
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   Contextual help overlays. Tooltips are passive micro-text callouts.
+ *   Popovers are richer, interactive panels with content and optional actions.
+ *
+ * Variants
+ *   tooltip       · passive, hidden until hover/focus, 1-line text
+ *   popover       · interactive, positioned panel with title & body
+ *
+ * States
+ *   hidden (default) · visible · dismissed
+ *   Tooltips: shown on hover/focus, auto-hide on blur
+ *   Popovers: shown on click, auto-hide or close button
+ *
+ * Keyboard
+ *   Tooltip: shown on Tab (focus-visible)
+ *   Popover: Esc to dismiss (consumer implements)
+ *   Focus trap optional (consumer implements)
+ *
+ * ARIA
+ *   Tooltip: aria-describedby or title attribute on trigger
+ *   Popover: role="dialog" if modal, aria-label on trigger
+ *
+ * Tokens used
+ *   --frame-bg, --card-border
+ *   --text, --text-mid, --text-faint
+ *   --shadow-soft, --shadow-medium
+ *   --fs-mono-xs, --fs-sm, --ls-mono, --mono, --serif
+ *   --radius-2, --radius-3
+ *   --space-2, --space-3
+ *
+ * Do not
+ *   - cover essential UI with tooltips (redundant with labels)
+ *   - make tooltips interactive (use popover for that)
+ *   - use raw shadows; bind to --shadow-* tokens
+ *   - break arrow positioning with excessive padding
+ *
+ * Extracted from design-system.html, 2026-06-23
+ */
+
+/* ─── tooltip · passive hover callout ─── */
+.tooltip-host {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%; transform: translateX(-50%);
+  background: var(--frame-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-2);
+  padding: 5px 9px;
+  font: var(--fs-mono-xs)/1.4 var(--mono);
+  color: var(--text);
+  letter-spacing: 0;
+  white-space: nowrap;
+  box-shadow: 0 4px 16px var(--shadow-soft);
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--tx-base);
+}
+
+.tooltip::after {
+  content: ''; position: absolute;
+  bottom: -4px; left: 50%; transform: translateX(-50%) rotate(45deg);
+  width: 6px; height: 6px;
+  background: var(--frame-bg);
+  border-right: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.tooltip-host:hover .tooltip,
+.tooltip-host:focus-within .tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ─── popover · interactive anchored panel ─── */
+.pop-host {
+  position: relative;
+  display: inline-block;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 240px;
+  background: var(--frame-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  padding: var(--space-3);
+  box-shadow: 0 8px 24px var(--shadow-medium);
+  z-index: 5;
+}
+
+.popover::before {
+  content: '';
+  position: absolute;
+  top: -5px; left: 16px;
+  width: 8px; height: 8px;
+  background: var(--frame-bg);
+  border-left: 1px solid var(--card-border);
+  border-top: 1px solid var(--card-border);
+  transform: rotate(45deg);
+}
+
+.popover h4 {
+  font: var(--fs-mono-xs)/1 var(--mono);
+  color: var(--text-faint);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  margin: 0 0 var(--space-2);
+  font-weight: 500;
+}
+
+.popover p {
+  font: var(--fs-sm)/1.5 var(--serif);
+  color: var(--text-mid);
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tooltip {
+    transition: none;
+  }
+}

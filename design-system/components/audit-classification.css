@@ -1,0 +1,124 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Audit & Classification
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   Display classification metadata and audit trail breadcrumbs.
+ *   Classification: consent level or security tier tag.
+ *   Audit ribbon: chain-of-custody or audit log entry mini-card.
+ *   Consent chip: mutual-vs-unilateral consent indicator.
+ *   Sparkline: dual-line visualization of internal vs. external state drift.
+ *
+ * Variants
+ *   consent-chip          · badge for consent state
+ *     .is-mutual          · bilateral consent (accent)
+ *   classification-strip  · clearance level label
+ *   audit-ribbon-frame    · audit entry metadata strip
+ *     .ar-label           · section label
+ *     .ar-row             · audit entry row
+ *       .is-refused       · entry was refused (judgment red)
+ *   sparkline-frame       · dual-line gap visualization + metadata
+ *     .line-int           · internal state line
+ *     .line-ext           · external state line
+ *     .gap                · difference/gap shading
+ *
+ * States
+ *   idle · hover
+ *   Display-only (no interactive states)
+ *
+ * Keyboard
+ *   No keyboard interaction required (display-only)
+ *
+ * ARIA
+ *   Use <span> or semantic wrappers; no special ARIA needed
+ *   Audit ribbon: optional title via aria-label on container
+ *   Sparkline: provide textual fallback data via aria-describedby
+ *
+ * Tokens used
+ *   --frame-bg-2, --frame-bg, --card-border
+ *   --text-dim, --text-faint, --text-mid
+ *   --accent, --accent-bg, --accent-edge
+ *   --judgment, --judgment-bg, --judgment-edge, --judgment-faint
+ *   --fs-mono-xs, --ls-mono, --ls-mono-sm, --mono
+ *   --space-2, --space-3, --space-4
+ *   --radius-1, --radius-3
+ *
+ * Do not
+ *   - use raw hex/rgba for state colors; bind to token system
+ *   - make these components interactive (they're read-only metadata)
+ *   - abbreviate classification names (spell out full clearance level)
+ *   - embed sparkline SVG directly in markup; use <svg> with proper role
+ *
+ * Extracted from design-system.html, 2026-06-23
+ */
+
+/* ─── consent chip · mutual consent indicator ─── */
+.consent-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid var(--card-border);
+  background: var(--frame-bg-2);
+  border-radius: var(--radius-1);
+  font: 9.5px/1 var(--mono);
+  color: var(--text-dim);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+}
+.consent-chip.is-mutual { color: var(--accent); border-color: var(--accent-edge); background: var(--accent-bg); }
+.consent-chip .lock { color: var(--text-faint); }
+.consent-chip.is-mutual .lock { color: var(--accent); }
+
+/* ─── classification strip · clearance level badge ─── */
+.classification-strip {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 4px 10px;
+  background: var(--judgment-faint);
+  border: 1px solid var(--judgment-edge);
+  border-radius: var(--radius-1);
+  font: var(--fs-mono-xs)/1 var(--mono);
+  color: var(--judgment);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+}
+
+/* ─── audit ribbon · chain-of-custody breadcrumb ─── */
+.audit-ribbon-frame {
+  display: flex; align-items: center; gap: var(--space-4);
+  padding: 8px 12px;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  font: var(--fs-mono-xs)/1 var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+}
+
+.audit-ribbon-frame .ar-label { color: var(--text-faint); }
+.audit-ribbon-frame .ar-row { color: var(--text-dim); display: inline-flex; align-items: baseline; gap: 6px; }
+.audit-ribbon-frame .ar-row .time { color: var(--text-faint); }
+.audit-ribbon-frame .ar-row.is-refused { color: var(--judgment); }
+
+/* ─── sparkline · dual-line state divergence visualization ─── */
+.sparkline-frame {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  padding: var(--space-4);
+  background: var(--frame-bg);
+}
+
+.sparkline-frame svg { width: 100%; height: 56px; display: block; }
+.sparkline-frame .line-int { stroke: var(--text-mid); stroke-width: 1.5; fill: none; }
+.sparkline-frame .line-ext { stroke: var(--judgment); stroke-width: 1.5; fill: none; }
+.sparkline-frame .gap { fill: var(--judgment-faint); }
+
+.sparkline-frame .meta {
+  display: flex; justify-content: space-between;
+  margin-top: var(--space-2);
+  font: var(--fs-mono-xs)/1 var(--mono);
+  color: var(--text-dim);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+}
+
+.sparkline-frame .meta .delta { color: var(--judgment); }
