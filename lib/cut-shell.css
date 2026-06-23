@@ -105,13 +105,13 @@
        so prototype renders correctly even when canon's value is absent
        OR the var-self-ref invalidation hits.
        Canon target values: --text #F4F2EE · --text-mid #C9C5BD ·
-       --text-dim #8A8780 · --text-faint #6B6862 (a11y pass 1 · WCAG AA).
+       --text-dim #8A8780 · --text-faint #807D78 (a11y pass 2 · WCAG AA 4.76:1 on --frame-bg).
        THESE MUST TRACK CANON — re-sync on every canon ink change, else this
        fallback silently shadows the linked token (it loads after it). */
     --text:       #F4F2EE;
     --text-mid:   #C9C5BD;
     --text-dim:   #8A8780;
-    --text-faint: #6B6862;   /* synced 2026-06-11 · was #5A5852 (pre-a11y) */
+    --text-faint: #807D78;   /* synced 2026-06-19 · a11y pass 2 · was #6B6862 (3.56:1, sub-AA for body) */
 
     /* type families · bridge to canon (same pattern as the register hues
        above): canon wins when design-tokens.css is imported, the fallback

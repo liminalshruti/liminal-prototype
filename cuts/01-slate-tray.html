@@ -237,10 +237,11 @@
   .orbital-coverage .coverage-input {
     display: block;
     font-style: italic;
-    /* 2026-06-19 a11y · was --text-faint @ opacity 0.72 → composited ~2.9:1.
-       --text-dim at full opacity = 5.45:1; the muted tier is carried by the
-       token, not by a contrast-killing alpha. */
-    color: var(--text-dim);
+    /* 2026-06-19 a11y · keep --text-faint (now AA at #807D78 / 4.76:1 on
+       --frame-bg after the upstream canon fix), but the original opacity:0.72
+       is DROPPED — it composited the token to ~2.9:1 (sub-AA). The faint tier
+       is carried by the token value, not by a contrast-killing alpha. */
+    color: var(--text-faint);
     text-transform: none;
     letter-spacing: 0.02em;
     margin-top: 6px;
@@ -600,31 +601,17 @@
      hugs the card instead of clipping its corners */
   .entry-door:focus-visible { outline-offset: 3px; border-radius: 6px; }
 
-  /* ─── 2026-06-19 · colorize · forensic-label contrast (WCAG AA 1.4.3) ────
-     The small mono labels carrying forensic info — metric labels, agency +
-     coverage counts, the frame-receipt id, the audit-disclosure meta — render
-     in --text-faint (#6B6862). That token measures 3.56:1 even on canon's own
-     reference --bg, i.e. it clears the 3:1 large-text bar but NOT the 4.5:1
-     body-text bar these 9–11px labels need. (The canon token's own comment
-     claims 4.5:1; that's an upstream overclaim — flagged separately. Cannot
-     fix the token here: design-tokens.css is the synced canon, no per-surface
-     forks of token *values*.)
-
-     Contract-clean fix: re-point only these labels to --text-dim (#8A8780 =
-     5.45:1 on the frame), a per-surface typography override the token contract
-     explicitly allows. Decorative faint uses (glyph dots, separators) keep
-     --text-faint — they aren't text that must be read. ───────────────────── */
-  .metric-label,
-  .orbital-coverage,
-  .coverage-input,
-  .agency-label,
-  .frame-receipt,
-  .frame-receipt .fr-right,
-  .audit-disclosure,
-  .audit-disclosure .ad-meta,
-  .audit-disclosure .ad-plus {
-    color: var(--text-dim);
-  }
+  /* ─── 2026-06-19 · forensic-label contrast (WCAG AA 1.4.3) ───────────────
+     The small mono forensic labels (metric labels, coverage counts, receipt
+     id, audit meta) inherit --text-faint. That token was sub-AA for body text
+     (#6B6862 = 3.56:1); FIXED UPSTREAM in canon this same day — --text-faint is
+     now #807D78 = 4.76:1 on --frame-bg, AA-safe. So these labels need no
+     per-surface override anymore: the bare token both passes AND keeps them in
+     the intended faintest tier (below --text-dim). The earlier --text-dim
+     workaround was removed once the canon value landed. The only label that
+     still needs a local touch is .coverage-input — see its rule above (the
+     opacity:0.72 that compounded the old token into ~2.9:1 was dropped so
+     #807D78 isn't dragged back below AA). */
 
   /* ─── 2026-06-19 · responsive adapt · ≤1024px three-pane restack ─────────
      The shared responsive layer (lib/brand-upgrade.css §RESPONSIVE) hides the
