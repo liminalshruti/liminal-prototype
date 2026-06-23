@@ -1,0 +1,13 @@
+{
+  "pkg": "@liminal/design-system",
+  "globalName": "LiminalDS",
+  "projectId": "ae960dee-babe-4c97-a198-bb2e62379c22",
+  "shape": "package",
+  "cssEntry": "ds-styles.css",
+  "extraFonts": ["fonts/fonts.css"],
+  "runtimeFontPrefixes": ["Geist", "Caveat"],
+  "readmeHeader": ".design-sync/conventions.md",
+  "overrides": {
+    "Button": { "cardMode": "column" }
+  }
+}

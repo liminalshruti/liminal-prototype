@@ -1,0 +1,77 @@
+/*
+ * fonts.css · Liminal brand @font-face declarations
+ * ─────────────────────────────────────────────────────────────
+ * The two families the design system SHIPS as files live here.
+ * Geist / Geist Mono / Caveat are host-served (runtime) and are
+ * declared as runtimeFontPrefixes in .design-sync/config.json.
+ *
+ * Family names match the canon token values exactly
+ * (--display / --serif in tokens/design-tokens.css).
+ */
+
+/* ── Nineties Headliner · display face ── */
+@font-face {
+  font-family: "Nineties Headliner";
+  src: url("./nineties-headliner.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── Perfectly Nineties · serif face · full weight range ── */
+@font-face {
+  font-family: "Perfectly Nineties";
+  src: url("./PerfectlyNineties-Thin.otf") format("opentype");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Perfectly Nineties";
+  src: url("./PerfectlyNineties-Extralight.otf") format("opentype");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Perfectly Nineties";
+  src: url("./perfectly-nineties-light.otf") format("opentype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Perfectly Nineties";
+  src: url("./perfectly-nineties-regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Perfectly Nineties";
+  src: url("./PerfectlyNineties-Semibold.otf") format("opentype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Perfectly Nineties";
+  src: url("./perfectly-nineties-bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Perfectly Nineties";
+  src: url("./PerfectlyNineties-Extrabold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Perfectly Nineties";
+  src: url("./PerfectlyNineties-Black.otf") format("opentype");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,0 +1,115 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Input
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   Single-line text entry. The quiet surface where the operator speaks
+ *   back to the system. Pairs with a label and (optionally) a hint or
+ *   error message.
+ *
+ * Variants
+ *   default       · the canonical text field
+ *   (sizes come from --density-scale on the body, not a prop)
+ *
+ * States
+ *   idle · focus-visible · disabled · invalid (aria-invalid="true")
+ *
+ * Keyboard
+ *   Native <input> behavior. Tab in/out. No custom key handling.
+ *
+ * ARIA
+ *   Use native <input>. Pair with <label for> or aria-label.
+ *   aria-invalid="true" when the value fails validation.
+ *   aria-describedby points at the hint/error element.
+ *   disabled attribute when not editable.
+ *
+ * Tokens used
+ *   --frame-bg-2, --card-border, --frame-border
+ *   --text, --text-dim, --text-faint
+ *   --ui-focus-ring, --ui-focus-bg
+ *   --ui-state-error, --ui-state-error-border, --ui-state-error-bg
+ *   --space-2, --space-3 (× --density-scale)
+ *   --radius-2
+ *   --fs-mono-sm, --mono, --sans
+ *   --tx-base, --ease
+ *
+ * Do not
+ *   - reference hue tokens directly · use --ui-* bindings
+ *   - use raw hex values
+ *   - omit focus-visible styling
+ *   - convey error by color alone · pair with the error message text
+ *
+ * Authored: 2026-06-23 · v1 (design-sync first import)
+ */
+
+/* ─── field group · label + control + hint stack ─── */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-1) * var(--density-scale));
+}
+
+.field-label {
+  font: var(--fs-mono-xs)/1.2 var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ─── base control ─── */
+.input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: calc(var(--space-2) * var(--density-scale))
+           calc(var(--space-3) * var(--density-scale));
+  font: var(--fs-mono-sm)/1.4 var(--mono);
+  color: var(--text);
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-2);
+  transition: border-color var(--tx-base) var(--ease),
+              background var(--tx-base) var(--ease);
+}
+.input::placeholder {
+  color: var(--text-faint);
+}
+.input:hover {
+  border-color: var(--frame-border);
+}
+.input:focus-visible,
+.input:focus {
+  outline: 2px solid var(--ui-focus-ring);
+  outline-offset: 1px;
+  border-color: var(--ui-focus-ring);
+  background: var(--ui-focus-bg);
+}
+.input[disabled],
+.input[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ─── invalid · error-typed ─── */
+.input[aria-invalid="true"] {
+  border-color: var(--ui-state-error-border);
+  background: var(--ui-state-error-bg);
+}
+.input[aria-invalid="true"]:focus-visible {
+  outline-color: var(--ui-state-error);
+}
+
+/* ─── hint / error message ─── */
+.field-hint {
+  font: var(--fs-mono-xs)/1.4 var(--mono);
+  color: var(--text-faint);
+}
+.field-hint.is-error {
+  color: var(--ui-state-error);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .input { transition: none; }
+}
