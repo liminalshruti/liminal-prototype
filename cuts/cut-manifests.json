@@ -129,6 +129,26 @@
       ]
     },
     {
+      "id": "05-plugin-seed",
+      "name": "Plugin seed — terminal first-run",
+      "path": "cuts/05-plugin-seed.html",
+      "coordinate": "pre-loop (first-run) × L2-team × plugin × wedge × live",
+      "role": "G1 (the plugin-surface gap from REFACTOR_PLAN_sam-seed-fold.md + matrix B1). The SEED surface before the desktop land (cut 04): Sam enters via the Claude plugin, not a DMG. Renders the shipped liminal-agents onboarding flow — a screencap of shipped behavior, not invented UI.",
+      "primitiveMadeVisible": "the plugin onboarding as it ships: enable (consent gate) → /onboard-swarm (bounded agents read sources in parallel, post candidates by lane) → /try-liminal (three reads, refusal-as-routing, correct one) → install (the vault outlives the session)",
+      "loopTested": "pre-loop (entry); depicts the /try-liminal taste-loop within beat 3",
+      "subjectDomain": "n/a (entry); the depicted brief is the Sam-seed pen-test triage crisis (matrix B1)",
+      "stateReality": "live — renders the shipped flow in liminal-agents (lib/onboard/swarm.js, skills/{onboard-swarm,try-liminal}, bin/liminal-plugin-onboard.js)",
+      "proof": "Renders shipped behavior: lib/onboard/swarm.js (parallel per-agent source scan), skills/try-liminal/SKILL.md (refusal + 9-tag correction), .claude-plugin/plugin.json (defaultEnabled:false consent gate). Audit: docs/architecture/ONBOARDING_TIERING_AND_FRAMING_AUDIT_2026-06-23.md.",
+      "choreography": "four beats reveal in sequence (enable → swarm → try-liminal → install)",
+      "portability": "the terminal/plugin surface of the same loop cut 04 renders for desktop; both are pre-loop entries at different surfaces",
+      "monolithic": true,
+      "orphanedSpecRefs": [],
+      "openQuestions": [
+        "Lane vocabulary is intentionally dual: swarm labels by extraction (facts/commitments/risks), deliberation by register (Diligence/Outreach/Judgment) — same agents, two altitudes; do not mix within a beat",
+        "Source-register residue (register:\"inner\") on granola/claude-code sources in liminal-agents is retired-framing residue, internal-only — candidate for a future agents-repo cleanup, out of prototype scope"
+      ]
+    },
+    {
       "id": "08-liminal-custody",
       "name": "Liminal Custody — NatSec/defense surface",
       "path": "cuts/08-liminal-custody.html",
