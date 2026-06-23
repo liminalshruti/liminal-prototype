@@ -237,10 +237,10 @@
   .orbital-coverage .coverage-input {
     display: block;
     font-style: italic;
-    /* 2026-06-19 a11y · keep --text-faint (now AA at #7C7975 / 4.57:1 after the
-       upstream canon fix), but the original opacity:0.72 is DROPPED — it
-       composited the token to ~2.9:1 (sub-AA). The faint tier is carried by the
-       token value, not by a contrast-killing alpha. */
+    /* 2026-06-19 a11y · keep --text-faint (now AA at #807D78 / 4.76:1 on
+       --frame-bg after the upstream canon fix), but the original opacity:0.72
+       is DROPPED — it composited the token to ~2.9:1 (sub-AA). The faint tier
+       is carried by the token value, not by a contrast-killing alpha. */
     color: var(--text-faint);
     text-transform: none;
     letter-spacing: 0.02em;
@@ -605,12 +605,13 @@
      The small mono forensic labels (metric labels, coverage counts, receipt
      id, audit meta) inherit --text-faint. That token was sub-AA for body text
      (#6B6862 = 3.56:1); FIXED UPSTREAM in canon this same day — --text-faint is
-     now #7C7975 = 4.57:1, AA-safe. So these labels need no per-surface override
-     anymore: the bare token both passes AND keeps them in the intended faintest
-     tier (below --text-dim). The earlier --text-dim workaround was removed once
-     the canon value landed. The only label that still needs a local touch is
-     .coverage-input — see its rule above (the opacity:0.72 that compounded the
-     old token into ~2.9:1 was dropped so #7C7975 isn't dragged back below AA). */
+     now #807D78 = 4.76:1 on --frame-bg, AA-safe. So these labels need no
+     per-surface override anymore: the bare token both passes AND keeps them in
+     the intended faintest tier (below --text-dim). The earlier --text-dim
+     workaround was removed once the canon value landed. The only label that
+     still needs a local touch is .coverage-input — see its rule above (the
+     opacity:0.72 that compounded the old token into ~2.9:1 was dropped so
+     #807D78 isn't dragged back below AA). */
 
   /* ─── 2026-06-19 · responsive adapt · ≤1024px three-pane restack ─────────
      The shared responsive layer (lib/brand-upgrade.css §RESPONSIVE) hides the
