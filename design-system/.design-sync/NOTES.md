@@ -107,3 +107,40 @@ Built with `tsc` → `dist/` (+ `.d.ts`). React/types/esbuild installed there.
 - Uploaded to claude.ai/design project **Liminal DS — cuts substrate**
   (`ae960dee-babe-4c97-a198-bb2e62379c22`). 4 components, all graded good,
   render check clean. Incremental path (project created fresh + empty this run).
+
+---
+
+## Scope expansion (2026-06-23, same session) — full component layer
+
+The design system renders far more than 4 components: `design-system.html` (root,
+specimen page) inlines the FULL canon + ~18 components whose CSS was never extracted
+into the README-promised `components/*.css` files. Per founder call ("use
+design-system.html as the styling source"), the styling closure now ships the WHOLE
+component layer so every design renders fully on-brand; only 4 have React wrapper
+cards (Button/Input/Tag/Framing), the rest are reachable as classes (listed in
+conventions.md).
+
+**9 component CSS files extracted from design-system.html into `components/`:**
+selection-controls, avatars-badges, tabs-segmented-nav, tooltips-popovers,
+modals-drawers, banners-toasts-alerts, empty-loading-skeleton, audit-classification,
+product-surfaces. Faithful extraction (verbatim rules, de-indented, contract-block
+headers, provenance line). This completes most of the README's promised component set.
+
+**`ds-styles.css` generator now concatenates ALL 13 component files** (was 4). Order:
+tokens → buttons framing inputs tags selection-controls avatars-badges tabs-segmented-nav
+tooltips-popovers modals-drawers banners-toasts-alerts empty-loading-skeleton
+audit-classification product-surfaces. REGENERATE this on any token/component change.
+
+### Re-sync risks (additions)
+- **The extracted CSS still lives in BOTH `components/*.css` AND inline in
+  `design-system.html`.** They can drift. The specimen page is the older source; the
+  extracted files are the new canonical home the README always intended. A future task
+  should make design-system.html `@import` the component files instead of inlining,
+  closing the drift. Until then, treat design-system.html as the source if they disagree.
+- **Raw rgba() in extracted files** (pre-existing specimen choices, faithfully copied):
+  `.banner.is-good/-amber/-red` and `.tag-base.is-good/-amber/-red` use
+  rgba(69,201,163/245,165,36/240,64,64) overlays; `.tile-bar-line` uses rgba(0,0,0,.18).
+  Canon discipline says no raw hex in components — candidates for tokenizing
+  (--banner-good-border etc.) but functional as-is (they pair with var(--good/-amber/-red)).
+- **"Iowan Old Style"** added to runtimeFontPrefixes — it's a system serif FALLBACK in
+  the canon --display/--serif stacks, not a brand font; intentionally host-provided.

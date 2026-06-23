@@ -1,0 +1,87 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Avatars & Badges
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   Represent user identities and classification metadata.
+ *   Avatars display initials or user indicators.
+ *   Badges tag content with semantic state or classification.
+ *
+ * Variants
+ *   avatar-base       · circular identity indicator
+ *     .is-accent      · accent brand color
+ *     .is-drift       · judgment color with status dot
+ *   tag-base          · rectangular metadata badge
+ *     .is-accent      · clarity primary
+ *     .is-good        · connection/success
+ *     .is-amber       · watch/caution
+ *     .is-red         · alarm/error
+ *     .is-judgment    · verdict/secondary brand
+ *
+ * States
+ *   idle · hover · active
+ *
+ * Keyboard
+ *   Not interactive elements (use for non-interactive display only)
+ *
+ * ARIA
+ *   Badges: use <span> or semantic wrapper, no ARIA needed
+ *   Avatars: wrap in context that provides aria-label for image-only display
+ *
+ * Tokens used
+ *   --frame-bg-2, --card-border, --text-mid, --text-dim
+ *   --accent, --accent-bg, --accent-edge
+ *   --good, --amber, --red, --judgment
+ *   --judgment-bg, --judgment-edge
+ *   --fs-mono-xs, --ls-mono-sm, --mono
+ *   --radius-1
+ *
+ * Do not
+ *   - use raw rgba/hex — use token-bound colors only
+ *   - make avatars interactive without explicit ARIA roles
+ *   - vary avatar size outside the 32px canonical (scale via --density-scale)
+ *
+ * Extracted from design-system.html, 2026-06-23
+ */
+
+/* ─── avatars · identity indicators ─── */
+.avatar-base {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  display: inline-grid; place-items: center;
+  font: 500 11px/1 var(--mono);
+  color: var(--text-mid);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.avatar-base.is-accent { background: var(--accent-bg); border-color: var(--accent-edge); color: var(--accent); }
+.avatar-base.is-drift  { background: var(--judgment-bg); border-color: var(--judgment-edge); color: var(--judgment); position: relative; }
+.avatar-base.is-drift::after {
+  content: ''; position: absolute;
+  bottom: 0; right: 0;
+  width: 8px; height: 8px;
+  background: var(--judgment);
+  border: 1.5px solid var(--frame-bg);
+  border-radius: 50%;
+}
+
+/* ─── badges / tags · classification metadata ─── */
+.tag-base {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-1);
+  background: var(--frame-bg-2);
+  font: var(--fs-mono-xs)/1 var(--mono);
+  color: var(--text-dim);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+}
+.tag-base.is-accent { color: var(--accent); border-color: var(--accent-edge); background: var(--accent-bg); }
+.tag-base.is-good   { color: var(--good);   border-color: rgba(69,201,163,.3);  background: rgba(69,201,163,.05); }
+.tag-base.is-amber  { color: var(--amber);  border-color: rgba(245,165,36,.3);  background: rgba(245,165,36,.05); }
+.tag-base.is-red    { color: var(--red);    border-color: rgba(240,64,64,.3);   background: rgba(240,64,64,.05); }
+.tag-base.is-judgment { color: var(--judgment); border-color: var(--judgment-edge); background: var(--judgment-bg); }

@@ -5,7 +5,7 @@
   "shape": "package",
   "cssEntry": "ds-styles.css",
   "extraFonts": ["fonts/fonts.css"],
-  "runtimeFontPrefixes": ["Geist", "Caveat"],
+  "runtimeFontPrefixes": ["Geist", "Caveat", "Iowan Old Style"],
   "readmeHeader": ".design-sync/conventions.md",
   "overrides": {
     "Button": { "cardMode": "column" }

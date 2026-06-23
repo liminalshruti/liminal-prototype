@@ -1,0 +1,105 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Banners, Toasts & Alerts
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   Inform users of important messages without blocking flow.
+ *   Banner: persistent inline alert for contextual feedback.
+ *   Toast: ephemeral notification in fixed/floating position (consumer-timed).
+ *
+ * Variants
+ *   banner            · full-width or inline, persistent
+ *     .is-accent      · primary attention (informational)
+ *     .is-good        · success (connection green)
+ *     .is-amber       · warning (watch gold)
+ *     .is-red         · error (alarm red)
+ *   toast             · compact floating notification
+ *
+ * States
+ *   idle · visible · dismissing
+ *   Banners: always visible in context
+ *   Toasts: fade in on appear, fade out on dismiss or timeout
+ *
+ * Keyboard
+ *   Banners: no keyboard interaction (display only)
+ *   Toasts: Esc dismisses (consumer implements)
+ *
+ * ARIA
+ *   Banner: role="region" aria-live="polite" aria-label or aria-labelledby
+ *   Toast: role="status" aria-live="polite" aria-atomic="true"
+ *   Use <strong> for emphasis in message body
+ *
+ * Tokens used
+ *   --frame-bg-2, --frame-bg, --card-border
+ *   --accent, --accent-bg, --accent-edge
+ *   --good, --amber, --red
+ *   --judgment
+ *   --text, --text-mid
+ *   --shadow-medium
+ *   --fs-mono-sm, --ls-mono-sm, --mono
+ *   --space-3, --space-4
+ *   --radius-3
+ *   --tx-base
+ *
+ * Do not
+ *   - overuse alerts; reserve for genuinely important messages
+ *   - use color alone to convey meaning; add icon + text
+ *   - auto-dismiss non-critical toasts too quickly (3-5s minimum)
+ *   - use raw hex/rgba; only token-bound colors allowed
+ *
+ * Extracted from design-system.html, 2026-06-23
+ */
+
+/* ─── banner · persistent inline alert ─── */
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  background: var(--frame-bg-2);
+  color: var(--text-mid);
+  font: var(--fs-mono-sm)/1.5 var(--mono);
+}
+
+.banner.is-accent { border-color: var(--accent-edge); background: var(--accent-bg); }
+.banner.is-good   { border-color: rgba(69,201,163,.3); background: rgba(69,201,163,.05); color: var(--good); }
+.banner.is-amber  { border-color: rgba(245,165,36,.3); background: rgba(245,165,36,.05); color: var(--amber); }
+.banner.is-red    { border-color: rgba(240,64,64,.3); background: rgba(240,64,64,.05); color: var(--red); }
+
+.banner .b-glyph { font-size: 14px; line-height: 1.2; flex-shrink: 0; }
+.banner strong { color: var(--text); font-weight: 500; margin-right: 6px; }
+
+/* ─── toast · ephemeral notification ─── */
+.toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--frame-bg);
+  border: 1px solid var(--accent-edge);
+  border-radius: var(--radius-3);
+  box-shadow: 0 8px 24px var(--shadow-medium);
+  font: var(--fs-mono-sm)/1 var(--mono);
+  color: var(--text);
+  letter-spacing: 0;
+  animation: toast-slide-in var(--tx-emphasize) var(--ease) forwards;
+}
+
+.toast .t-glyph { color: var(--accent); flex-shrink: 0; }
+.toast .t-meta { color: var(--text-faint); }
+.toast .t-meta::before { content: '·'; margin: 0 6px; }
+
+/* Toast slide-in animation (consumer positions and times auto-dismiss) */
+@keyframes toast-slide-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    animation: none;
+  }
+}

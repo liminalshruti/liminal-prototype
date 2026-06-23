@@ -1,0 +1,101 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Tabs & Segmented Navigation
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   Switch between peer sibling views within a single context.
+ *   Tabs: traditional horizontal tablist for document-like structures.
+ *   Segmented: compact radio-button-like group for density-sensitive layouts.
+ *
+ * Variants
+ *   tabs          · bordered container, full-width buttons
+ *   segmented     · compact, rounded background container
+ *
+ * States
+ *   idle · hover · active (.is-active) · focus-visible
+ *
+ * Keyboard
+ *   Arrow Left/Right to switch tabs in focus
+ *   Tab to move focus into list
+ *   Enter/Space to activate a tab
+ *   Standard tablist semantics per ARIA Authoring Practices
+ *
+ * ARIA
+ *   <div role="tablist">
+ *     <button role="tab" aria-selected="true" aria-controls="panel-id">
+ *   <div role="tabpanel" id="panel-id">
+ *   Only one tab may have aria-selected="true"
+ *
+ * Tokens used
+ *   --card-border, --frame-bg-2, --frame-bg
+ *   --accent, --accent-bg
+ *   --text-dim, --text
+ *   --hover
+ *   --fs-mono-xs, --ls-mono-sm, --mono
+ *   --radius-2, --radius-3
+ *   --tx-base
+ *
+ * Do not
+ *   - use raw hex; bind to semantic tokens
+ *   - omit visual focus indicator
+ *   - mix tabs and segmented in same row
+ *   - use as general button groups (use .btn-row for that)
+ *
+ * Extracted from design-system.html, 2026-06-23
+ */
+
+/* ─── tabs · traditional tablist ─── */
+.tabs {
+  display: inline-flex;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-2);
+  overflow: hidden;
+}
+.tabs button {
+  padding: 6px 14px;
+  background: var(--frame-bg-2);
+  border-right: 1px solid var(--card-border);
+  color: var(--text-dim);
+  font: var(--fs-mono-xs)/1 var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+  transition: all var(--tx-base);
+  cursor: pointer;
+  border: 0;
+}
+.tabs button:last-child { border-right: 0; }
+.tabs button:hover { color: var(--text); background: var(--hover); }
+.tabs button.is-active { color: var(--accent); background: var(--accent-bg); }
+.tabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+/* ─── segmented · compact radio-style group ─── */
+.segmented {
+  display: inline-flex;
+  background: var(--frame-bg-2);
+  border-radius: var(--radius-3);
+  padding: 2px;
+  border: 1px solid var(--card-border);
+}
+.segmented button {
+  padding: 4px 12px;
+  background: transparent;
+  color: var(--text-dim);
+  font: var(--fs-mono-xs)/1 var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+  border-radius: var(--radius-2);
+  border: 0;
+  cursor: pointer;
+  transition: color var(--tx-base), background var(--tx-base);
+}
+.segmented button:hover { color: var(--text); }
+.segmented button.is-active { color: var(--text); background: var(--frame-bg); }
+.segmented button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tabs button,
+  .segmented button {
+    transition: none;
+  }
+}

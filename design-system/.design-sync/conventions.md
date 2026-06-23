@@ -49,6 +49,16 @@ Component classes (used by the React components, available directly too): `.btn`
 `.input` + `.field` `.field-label` `.field-hint`; `.tag` + `.tag-success/-error/-warning/-info`
 (+ `.tag-dot`); `.seam` (serif framing) and `.thesis-line` (mono framing).
 
+**The full component layer ships in the styles closure** — these have no React
+wrapper card yet but are fully styled, so hand-write the markup with these classes:
+`.banner` (+ `.is-good/-amber/-red/-accent`), `.toast`, `.modal-frame` + `.modal-actions`,
+`.drawer-panel` + `.drawer-pill`, `.tooltip` (+ `.tooltip-host`), `.popover` (+ `.pop-host`),
+`.tabs` + `.segmented` (+ `.is-active`), `.avatar-base` (+ `.is-accent/-drift`),
+`.tag-base` (+ `.is-good/-amber/-red/-judgment/-accent`), `.ck` `.rd` `.sw` `.sld`
+(checkbox/radio/switch/slider), `.progress`, `.skeleton` + `.skeleton-line` (+ `.is-short/-mid/-long`),
+`.spinner`, `.empty-state`, `.consent-chip`, `.classification-strip`, `.audit-ribbon-frame`,
+`.sparkline-frame`, `.slate-frame`, `.tile-frame` (+ `.is-on-slate/-refused/-vault`).
+
 ## Where the truth lives
 
 Read these bound files before styling: `_ds/<folder>/styles.css` (the import

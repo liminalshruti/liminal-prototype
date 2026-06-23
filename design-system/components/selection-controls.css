@@ -1,0 +1,197 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Selection Controls
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   Capture user binary or single-select decisions. Includes checkboxes,
+ *   radio buttons, switches, sliders, and progress indicators.
+ *
+ * Variants
+ *   checkbox          · multi-select, check-mark indicator
+ *   radio             · single-select per group, dot indicator
+ *   switch            · binary toggle, track + thumb
+ *   slider            · range input, continuous value
+ *   progress          · determinate or indeterminate bar
+ *
+ * States
+ *   idle · hover · checked/active · focus-visible · disabled
+ *
+ * Keyboard
+ *   Checkbox/Radio: Space/Enter to toggle
+ *   Switch: Space/Enter to toggle
+ *   Slider: Arrow keys (Left/Right/Up/Down) to adjust
+ *   Tab navigation throughout
+ *
+ * ARIA
+ *   <input type="checkbox"> native element (never <div role="checkbox">)
+ *   <input type="radio"> native element
+ *   <input type="range"> for slider
+ *   aria-disabled="true" + disabled attribute when not interactive
+ *   aria-label for unlabeled controls
+ *
+ * Tokens used
+ *   --card-border, --frame-bg-2, --accent, --accent-bg
+ *   --text-mid, --text-dim
+ *   --tx-base, --ease
+ *   --space-1 through --space-3
+ *   --radius-1, --radius-2
+ *   --fs-base, --fs-mono-xs
+ *   --mono, --serif
+ *
+ * Do not
+ *   - use raw hex values
+ *   - omit focus-visible outlines on interactive elements
+ *   - suppress animation transitions (use prefers-reduced-motion instead)
+ *   - change input opacity to hide — use visibility or position: absolute
+ *
+ * Extracted from design-system.html, 2026-06-23
+ */
+
+/* ─── checkbox ─── */
+.ck {
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer;
+  font: var(--fs-base)/1 var(--serif);
+  color: var(--text-mid);
+}
+.ck input { position: absolute; opacity: 0; }
+.ck .ck-box {
+  width: 16px; height: 16px;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-1);
+  background: var(--frame-bg-2);
+  display: grid; place-items: center;
+  transition: border-color var(--tx-base), background var(--tx-base);
+}
+.ck input:focus-visible + .ck-box { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ck input:checked + .ck-box {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.ck input:checked + .ck-box::after {
+  content: '';
+  width: 8px; height: 4px;
+  border-left: 1.5px solid var(--bg);
+  border-bottom: 1.5px solid var(--bg);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+.ck input:disabled + .ck-box { opacity: 0.4; }
+
+/* ─── radio ─── */
+.rd {
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer;
+  font: var(--fs-base)/1 var(--serif);
+  color: var(--text-mid);
+}
+.rd input { position: absolute; opacity: 0; }
+.rd .rd-circle {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--card-border);
+  background: var(--frame-bg-2);
+  display: grid; place-items: center;
+  transition: border-color var(--tx-base);
+}
+.rd input:checked + .rd-circle { border-color: var(--accent); }
+.rd input:checked + .rd-circle::after {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.rd input:focus-visible + .rd-circle { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ─── switch ─── */
+.sw {
+  display: inline-flex; align-items: center; gap: 10px;
+  cursor: pointer;
+  font: var(--fs-base)/1 var(--serif);
+  color: var(--text-mid);
+}
+.sw input { position: absolute; opacity: 0; }
+.sw .sw-track {
+  width: 32px; height: 18px;
+  border-radius: 9px;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  position: relative;
+  transition: background var(--tx-base), border-color var(--tx-base);
+}
+.sw .sw-track::after {
+  content: '';
+  position: absolute;
+  top: 2px; left: 2px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--text-mid);
+  transition: transform var(--tx-base), background var(--tx-base);
+}
+.sw input:checked + .sw-track { background: var(--accent-bg); border-color: var(--accent); }
+.sw input:checked + .sw-track::after {
+  transform: translateX(14px);
+  background: var(--accent);
+}
+.sw input:focus-visible + .sw-track { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ─── slider ─── */
+.sld {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 2px;
+  background: var(--card-border);
+  outline: none;
+  border-radius: 1px;
+}
+.sld::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 0 0 4px var(--accent-bg);
+}
+.sld::-moz-range-thumb {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 0;
+  cursor: pointer;
+  box-shadow: 0 0 0 4px var(--accent-bg);
+}
+
+/* ─── progress ─── */
+.progress {
+  width: 100%; height: 3px;
+  background: var(--card-border);
+  border-radius: 1.5px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: var(--accent);
+  transition: width var(--tx-deliberate) var(--ease);
+}
+.progress.is-determinate .progress-bar { width: var(--progress, 50%); }
+.progress.is-indeterminate .progress-bar {
+  width: 30%;
+  animation: progress-slide 1.4s ease-in-out infinite;
+}
+@keyframes progress-slide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ck .ck-box,
+  .rd .rd-circle,
+  .sw .sw-track,
+  .progress-bar {
+    transition: none;
+  }
+  .progress.is-indeterminate .progress-bar {
+    animation: none;
+  }
+}

@@ -1,0 +1,150 @@
+/*
+ * ════════════════════════════════════════════════════════════════
+ * Component: Modals & Drawers
+ * ════════════════════════════════════════════════════════════════
+ *
+ * Purpose
+ *   Modal: centered dialog for critical decision moments (confirm, form input).
+ *   Drawer: edge-anchored panel for auxiliary content (settings, details, tray).
+ *   Drawer pill: minimized state button for revealing/hiding panel.
+ *
+ * Variants
+ *   modal-frame        · centered card container
+ *   modal-actions      · button row (typically .btn-primary + .btn-secondary)
+ *   drawer-host        · container with drawer overlay
+ *   drawer-panel       · side panel (right-anchored)
+ *   drawer-pill        · compact toggle button (absolute positioned)
+ *
+ * States
+ *   visible · hidden · transitioning
+ *   Modal: scrim fade in/out (consumer implements via opacity/display)
+ *   Drawer: slide in/out from right (consumer implements via transform)
+ *
+ * Keyboard
+ *   Modal: Esc closes (consumer implements + focus trap)
+ *   Drawer: Esc closes drawer panel
+ *   Tab trapping within active modal
+ *
+ * ARIA
+ *   Modal: role="dialog" aria-modal="true" aria-labelledby
+ *   Drawer: role="region" aria-label or aria-labelledby
+ *   Scrim: inert on underlying content when modal open
+ *
+ * Tokens used
+ *   --frame-bg, --frame-bg-2, --card-border, --accent-edge
+ *   --accent, --accent-bg
+ *   --text, --text-mid, --text-dim
+ *   --shadow-strong, --shadow-medium
+ *   --fs-sm, --fs-xl, --display, --serif, --mono
+ *   --lh-snug, --lh-relaxed, --ls-tight, --ls-mono-sm
+ *   --space-2, --space-3, --space-4, --space-5
+ *   --radius-3, --radius-4
+ *
+ * Do not
+ *   - use raw shadows; bind to --shadow-* tokens
+ *   - skip focus management / focus trap implementation
+ *   - hide scrim—it's essential for accessibility
+ *   - use modal for non-critical flows (favor inline forms)
+ *
+ * Extracted from design-system.html, 2026-06-23
+ */
+
+/* ─── modal frame · centered dialog ─── */
+.modal-frame {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-4);
+  background: var(--frame-bg);
+  padding: var(--space-5);
+  box-shadow: 0 24px 60px var(--shadow-strong);
+  max-width: 520px;
+}
+
+.modal-frame h3 {
+  font-family: var(--display);
+  font-size: var(--fs-xl);
+  color: var(--text);
+  line-height: var(--lh-snug);
+  margin: 0 0 var(--space-2);
+  font-weight: 400;
+  letter-spacing: var(--ls-tight);
+  text-transform: none;
+}
+
+.modal-frame p {
+  font: var(--fs-sm)/1.5 var(--serif);
+  color: var(--text-mid);
+  margin: 0 0 var(--space-4);
+}
+
+/* ─── modal actions · button footer ─── */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+/* ─── drawer · edge-anchored panel ─── */
+.drawer-host {
+  position: relative;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-3);
+  background: var(--frame-bg);
+  height: 200px;
+  overflow: hidden;
+}
+
+.drawer-host .body-content {
+  padding: var(--space-5);
+  color: var(--text-dim);
+  font: var(--fs-sm)/1.5 var(--serif);
+}
+
+/* ─── drawer pill · minimized toggle button ─── */
+.drawer-pill {
+  position: absolute;
+  top: 50%; right: 0;
+  transform: translateY(-50%);
+  background: var(--frame-bg);
+  border: 1px solid var(--accent-edge);
+  border-right: 0;
+  border-radius: var(--radius-3) 0 0 var(--radius-3);
+  padding: 8px 10px;
+  color: var(--accent);
+  font: var(--fs-mono-xs)/1 var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all var(--tx-base);
+}
+
+.drawer-pill:hover {
+  background: var(--accent-bg);
+}
+
+/* ─── drawer panel · side panel container ─── */
+.drawer-panel {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 240px;
+  background: var(--frame-bg-2);
+  border-left: 1px solid var(--accent-edge);
+  padding: var(--space-4);
+  overflow-y: auto;
+  transition: transform var(--tx-base);
+}
+
+.drawer-panel h4 {
+  font: var(--fs-mono-xs)/1 var(--mono);
+  color: var(--accent);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  margin: 0 0 var(--space-3);
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer-pill,
+  .drawer-panel {
+    transition: none;
+  }
+}
