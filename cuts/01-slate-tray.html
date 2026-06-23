@@ -186,7 +186,7 @@
      pre-applyStep flash. .ready class fires after STEP 0 applies (see boot script).
 
      2026-06-19 harden — the reveal must never strand the page invisible. Three
-     failsafes so opacity:0 is only ever a brief, self-healing state:
+     failsafes so opacity:0 is only ever a brief, self-recovering state:
        1. a CSS keyframe (reveal-failsafe) force-reveals at 1200ms even if the
           boot script throws before adding .ready — content can't ship blank;
        2. <noscript> (in <head>) forces opacity:1 when JS is off entirely;
