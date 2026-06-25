@@ -482,6 +482,16 @@
     display: flex;
     flex-direction: column;
   }
+  /* supporting wedge beneath the canonical Slide-1 tagline — operator register, dimmed below the hero */
+  #entry-overlay .entry-subwedge {
+    font-family: "PerfectlyNineties", Georgia, serif;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-mid, rgba(242,240,236,0.66));
+    max-width: 52ch;
+    margin: 0 auto 4px;
+    text-wrap: pretty;
+  }
   #entry-overlay .entry-card.is-speedrun .entry-register { order: 0; }
   #entry-overlay .entry-card.is-speedrun .entry-wedge {
     order: 1;
@@ -727,7 +737,8 @@
 <div class="entry-overlay" id="entry-overlay" hidden role="dialog" aria-label="Choose a scenario">
   <div class="entry-card">
     <div class="entry-brand">Liminal · gives form to inner life.</div>
-    <h1 class="entry-wedge">The control plane for companies at agentic scale — where AI agents disagree, deliberate, and prompt you. Founders enter first; the corrections are the moat.</h1>
+    <h1 class="entry-wedge">AI gives you infinite answers. Liminal gives you a record of which ones you trusted.</h1>
+    <p class="entry-subwedge">The control plane for companies at agentic scale — where AI agents disagree, deliberate, and prompt you. Founders enter first; the corrections are the moat.</p>
     <div class="entry-register" role="group" aria-label="Hero register">
       <button type="button" data-register="brand" aria-pressed="true">Brand-first</button>
       <button type="button" data-register="speedrun" aria-pressed="false">Speedrun</button>
