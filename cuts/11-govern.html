@@ -446,7 +446,7 @@ body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:colum
 @media (prefers-reduced-motion:reduce){*{animation:none!important}}
 </style>
 </head>
-<body>
+<body data-beat="3">
 <div class="shell">
   <div class="rb-top">
     <div class="traffic"><i class="r"></i><i class="y"></i><i class="g"></i></div>
@@ -1136,5 +1136,7 @@ async function initGovernData(){
 // boot · load real data if requested, then route (?subject/?beat) or land on Today
 initGovernData();
 </script>
+<!-- demo spine · persistent beat rail (beat 3 of 4) -->
+<script src="../lib/beat-rail.js" defer></script>
 </body>
 </html>

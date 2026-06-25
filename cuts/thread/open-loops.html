@@ -49,7 +49,7 @@
   #loops.is-live { display: flex; }
 </style>
 </head>
-<body data-product="personal">
+<body data-product="personal" data-beat="1" data-beat-base="../">
 
 <div class="stage">
   <div class="frame">
@@ -113,6 +113,9 @@
     </main>
   </div>
 </div>
+
+<!-- demo spine · persistent beat rail (beat 1 of 4) -->
+<script src="../../lib/beat-rail.js" defer></script>
 
 <script type="module">
   import { DISCLOSURE, openLoops } from "./seed.js";
