@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Liminal · Vault + Agents · The Founder OS</title>
-<meta name="description" content="Drag any window in. Twelve bounded agents read it. Founder signs off. Vault commits the record. Local SQLCipher vault, no inbound network surface, no vault-content telemetry.">
+<meta name="description" content="Drag any window in. Bounded agents read it and disagree. Founder corrects what they got wrong; the correction appends to the chain. Vault commits the signed record. Local SQLCipher vault, no inbound network surface, no vault-content telemetry.">
 <meta property="og:title" content="Liminal · The Founder OS">
 <meta property="og:description" content="Compose → read → dispatch → commit. The founder OS, running.">
 <meta property="og:type" content="website">
@@ -381,6 +381,24 @@
     display: flex; justify-content: space-between;
   }
   .move .signed::before { content: '✓ '; }
+  /* corrected move — the founder pushed back on the agent's read (the moat made visible) */
+  .move.corrected { border-left: 2px solid var(--wholeness); padding-left: 9px; }
+  .move .correction {
+    font-size: 11px; color: var(--text); line-height: 1.45; margin-top: 6px;
+    padding-top: 6px; border-top: 1px dashed var(--card-border);
+  }
+  .move .correction .label {
+    font-family: var(--mono); font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--wholeness); display: block; margin-bottom: 3px;
+  }
+  .move .correction .strike { color: var(--text-faint); text-decoration: line-through; }
+  .move .correction em { font-style: italic; color: var(--wholeness); }
+  .move .corr-receipt {
+    font-family: var(--mono); font-size: 8px; line-height: 1.5; color: var(--text-dim);
+    margin-top: 6px; display: flex; flex-wrap: wrap; gap: 2px 14px;
+  }
+  .move .corr-receipt .k { color: var(--text-faint); letter-spacing: 0.08em; text-transform: uppercase; margin-right: 4px; }
+  .move .corr-receipt .seal { color: var(--connection); }
 
   /* COMMIT · vault terminal */
   .vault-pane { background: linear-gradient(180deg, rgba(142,102,251,0.025), transparent 80%); }
@@ -584,10 +602,18 @@
               <div class="text"><em>Reschedule board prep</em> to Friday so Monday's investor call lands clean.</div>
               <div class="signed">founder signed<span>14:24</span></div>
             </div>
-            <div class="move">
+            <div class="move corrected">
               <div class="num">→ Move 02 · narrative<span class="from">editor</span></div>
               <div class="text"><em>Collapse moat-slide v1+v2</em> into one. Frontier-banner stays.</div>
-              <div class="signed">founder signed<span>14:24</span></div>
+              <div class="correction">
+                <span class="label">✎ founder corrected</span>
+                <span class="strike">"the moat is the data"</span> → <em>"the moat is the correction stream — the data is the byproduct."</em> The editor read it backwards.
+              </div>
+              <div class="corr-receipt">
+                <span><span class="k">correction_kind</span>read-divergence</span>
+                <span><span class="k">packet_hash</span>3f9c…a21e</span>
+                <span class="seal">⛓ appends to the chain · never overwrites · signing seals YOUR judgment</span>
+              </div>
             </div>
             <div class="move">
               <div class="num">→ Move 03 · memo<span class="from">witness</span></div>
