@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo · Lan Wu · Liminal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
+
+<!--
+  cuts/_demo-lan.html · Stitched demo launcher · Lan Wu / Fusion Fund · 2026-06-25 3pm
+  ──────────────────────────────────────────────────────────────────────
+  Layer 0 · the LINKER. The guaranteed-working, offline-safe fallback demo.
+  Four beats in order: FEEL -> UNDERSTAND -> PRICE -> PROVE.
+  Beats 1-3 are LOCAL (fully offline). Beat 4 links the deployed Berlin
+  walkthrough (static GitHub Pages; loads offline once pre-opened in a tab).
+  Chrome: lib/cut-shell.css (.stage/.frame/.titlebar) · matches the 01/00 register.
+  Tokens: design-system/tokens/design-tokens.css (canon · not redefined).
+  Guardrails: traction 21/18/~10 · 35,406 events · "PPA filed" not patented ·
+  Berlin 1st place Infrastructure track · no em dashes · no emojis.
+-->
+
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
+
+<style>
+  html, body { background: var(--bg); }
+  .stage { padding: clamp(16px, 3vw, 40px); min-height: 100vh; }
+  .frame { max-width: 1020px; margin: 0 auto; }
+
+  .demo-pill { font-family: var(--font-mono, "Geist Mono", monospace); font-size: 11px; color: var(--text-dim); letter-spacing: .04em; }
+  .demo-pill b { color: var(--cerulean); }
+
+  .demo-head { padding: clamp(20px,3vw,34px) clamp(4px,2vw,10px) 8px; }
+  .demo-eyebrow { font-family: var(--font-mono,"Geist Mono",monospace); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); display: flex; align-items: center; gap: 8px; }
+  .demo-eyebrow .dot { color: var(--cerulean); }
+  .demo-h1 { font-family: var(--font-display, "Nineties Headliner", serif); font-size: clamp(26px, 4vw, 40px); line-height: 1.04; color: var(--text); margin: 12px 0 8px; font-weight: 500; }
+  .demo-h1 em { font-style: italic; color: var(--cerulean); }
+  .demo-lede { font-size: 14px; line-height: 1.55; color: var(--text-dim); max-width: 70ch; margin: 0; }
+
+  /* the "it's real" chip · cut-04 proof language, folded into the launcher header */
+  .real-chip { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 18px;
+    font-family: var(--font-mono,"Geist Mono",monospace); font-size: 11px; color: var(--text-dim);
+    border: 1px solid var(--card-border); border-radius: 999px; padding: 7px 14px;
+    background: var(--cerulean-wash, rgba(25,126,235,.08)); }
+  .real-chip .lead { color: var(--cerulean); font-weight: 500; }
+  .real-chip .sep { color: var(--text-faint); }
+
+  .beats { display: grid; gap: var(--space-4, 18px); padding: 22px clamp(4px,2vw,10px) 10px; }
+  @media (min-width: 760px) { .beats { grid-template-columns: 1fr 1fr; } }
+
+  .beat { display: flex; flex-direction: column; text-decoration: none; color: inherit;
+    border: 1px solid var(--card-border); border-radius: 14px;
+    background: var(--frame-bg); padding: 22px 22px 20px;
+    transition: border-color 220ms, transform 220ms, background 220ms; position: relative; overflow: hidden; }
+  .beat:hover { border-color: var(--cerulean-edge, rgba(25,126,235,.42)); transform: translateY(-2px); background: var(--frame-bg-3); }
+  .beat:focus-visible { outline: 2px solid var(--cerulean); outline-offset: 2px; }
+
+  .beat-top { display: flex; align-items: baseline; gap: 12px; margin-bottom: 12px; }
+  .beat-num { font-family: var(--font-display,"Nineties Headliner",serif); font-size: 40px; line-height: 1; color: var(--cerulean); font-weight: 600; opacity: .9; }
+  .beat-arc { font-family: var(--font-mono,"Geist Mono",monospace); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--text); font-weight: 600; }
+  .beat-arc .where { display: block; font-size: 10px; letter-spacing: .08em; text-transform: none; color: var(--text-faint); margin-top: 3px; font-weight: 400; }
+
+  .beat-narr { font-size: 13.5px; line-height: 1.5; color: var(--text-dim); margin: 4px 0 14px; }
+  .beat-note { font-family: "Caveat", var(--font-serif, serif); font-size: 17px; line-height: 1.3; color: var(--cerulean); margin: 0 0 16px; }
+
+  .beat-guard { margin-top: auto; font-family: var(--font-mono,"Geist Mono",monospace); font-size: 10.5px; line-height: 1.5;
+    color: var(--text-faint); border-top: 1px dashed var(--card-border); padding-top: 12px; letter-spacing: .02em; }
+  .beat-guard b { color: var(--text-dim); }
+
+  .beat-go { position: absolute; top: 20px; right: 20px; font-family: var(--font-mono,"Geist Mono",monospace);
+    font-size: 11px; color: var(--text-faint); display: flex; align-items: center; gap: 8px; }
+  .beat-go .tag { border: 1px solid var(--card-border-2); border-radius: 4px; padding: 1px 6px; letter-spacing: .04em; }
+  .beat-go .tag.offline { color: var(--clarity, #7FB069); border-color: rgba(127,176,105,.4); }
+  .beat-go .tag.online { color: var(--watch, #d8a657); border-color: rgba(216,166,87,.4); }
+  .beat-go .arrow { color: var(--cerulean); font-size: 14px; }
+
+  .demo-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 18px clamp(4px,2vw,10px) 30px;
+    font-family: var(--font-mono,"Geist Mono",monospace); font-size: 11px; color: var(--text-faint); }
+  .demo-foot .sep { color: var(--text-faint); opacity: .5; }
+  .demo-foot b { color: var(--text-dim); }
+</style>
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+
+    <header class="titlebar">
+      <div class="lights">
+        <span class="light red"></span>
+        <span class="light yellow"></span>
+        <span class="light green"></span>
+      </div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="demo-pill">&nbsp;Liminal&nbsp; /&nbsp; demo&nbsp; /&nbsp; <b>the four beats</b></span>
+      </div>
+      <div class="demo-pill">FEEL · UNDERSTAND · PRICE · PROVE</div>
+    </header>
+
+    <div class="demo-head">
+      <div class="demo-eyebrow"><span class="dot">◇</span> Liminal · live walkthrough</div>
+      <h1 class="demo-h1">The bottleneck moved from information to <em>judgment</em>.</h1>
+      <p class="demo-lede">Nobody running agents can answer two things: how their AI is actually being used,
+        and whether it moved the business. Four beats, in order. Feel the problem, see the loop, price the
+        wedge, prove it from outside. Each card opens its surface.</p>
+      <div class="real-chip">
+        <span class="lead">it's real:</span>
+        <span>local-first</span><span class="sep">·</span>
+        <span>signed event log</span><span class="sep">·</span>
+        <span>vault.db</span><span class="sep">·</span>
+        <span>ed25519</span>
+      </div>
+    </div>
+
+    <div class="beats">
+
+      <!-- BEAT 1 · FEEL -->
+      <a class="beat" href="./thread/open-loops.html">
+        <div class="beat-go"><span class="tag offline">offline</span><span class="arrow">→</span></div>
+        <div class="beat-top">
+          <span class="beat-num">1</span>
+          <span class="beat-arc">Feel<span class="where">the thread · open loops</span></span>
+        </div>
+        <p class="beat-narr">Real founder's week. Liminal pulled the eight things you're about to drop, each
+          receipted to the exact message. Dismiss a wrong one, it learns your line. This is the felt problem.</p>
+        <p class="beat-note">receipted to the exact source. dismiss a wrong one, it learns your line.</p>
+        <div class="beat-guard"><b>Guardrail:</b> read-only, on-device. No real inbox is read; the loops are disclosed, fictional, render-truthful.</div>
+      </a>
+
+      <!-- BEAT 2 · UNDERSTAND -->
+      <a class="beat" href="./01-slate-tray.html">
+        <div class="beat-go"><span class="tag offline">offline</span><span class="arrow">→</span></div>
+        <div class="beat-top">
+          <span class="beat-num">2</span>
+          <span class="beat-arc">Understand<span class="where">cut 01 · slate · tray</span></span>
+        </div>
+        <p class="beat-narr">Here's the loop underneath. Slate is decisions, Tray is raw context, bounded agents
+          disagree in writing. I correct the read, I stay in command. Drag a signal from tray to slate; the agents re-read it.</p>
+        <p class="beat-note">the disagreement is the signal. i correct the read, i stay in command. local-first, signed.</p>
+        <div class="beat-guard"><b>Guardrail:</b> local-first, signed event log, a vault only you can open. The corrections are the moat.</div>
+      </a>
+
+      <!-- BEAT 3 · PRICE -->
+      <a class="beat" href="./11-govern.html?subject=spend">
+        <div class="beat-go"><span class="tag offline">offline</span><span class="arrow">→</span></div>
+        <div class="beat-top">
+          <span class="beat-num">3</span>
+          <span class="beat-arc">Price<span class="where">govern · the spend loop</span></span>
+        </div>
+        <p class="beat-narr">Spend is the wedge. Judgment is the company. You enter via AI-spend because that's where
+          the pain has a dollar sign. Eight agents deliberate, one refuses out of lane, a correction appends to the chain.
+          Switch the subject to custody, to OSINT; the architecture doesn't change.</p>
+        <p class="beat-note">spend is the wedge. judgment is the company. same loop, every subject.</p>
+        <div class="beat-guard"><b>Guardrail:</b> the correction appends to a hash-linked ledger, never overwrites. Self-contained, offline.</div>
+      </a>
+
+      <!-- BEAT 4 · PROVE -->
+      <a class="beat" href="https://liminalshruti.github.io/algorand-berlin-2026/walkthrough.html" target="_blank" rel="noopener">
+        <div class="beat-go"><span class="tag online">pre-open</span><span class="arrow">→</span></div>
+        <div class="beat-top">
+          <span class="beat-num">4</span>
+          <span class="beat-arc">Prove<span class="where">x402 trust router · on-chain</span></span>
+        </div>
+        <p class="beat-narr">Provable from outside. The router pinned the quote, caught the drift, proved it on a public
+          ledger. Step through it: the agent quoted one price, the chain demanded another, Liminal caught the gap.
+          Frontier labs ship omniscience. Liminal ships refusal.</p>
+        <p class="beat-note">refusal with receipts. notarized on a public ledger. verifiable today.</p>
+        <div class="beat-guard"><b>Guardrail:</b> Berlin, 1st place Infrastructure track. Static page, loads offline once pre-opened; explorer links need wifi.</div>
+      </a>
+
+    </div>
+
+    <div class="demo-foot">
+      <span>Liminal · gives form to inner life</span>
+      <span class="sep">|</span>
+      <span><b>21</b> registered · <b>18</b> profiled · ~<b>10</b> external pilot</span>
+      <span class="sep">|</span>
+      <span><b>35,406</b> events over ~4 months</span>
+      <span class="sep">|</span>
+      <span>Architecture PPA filed · Jun 2 · 7 patentable primitives</span>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

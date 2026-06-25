@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The thread · Open loops · Liminal</title>
+<!-- brand ◇ favicon (data-URI) — kills the dev-console 404 on screen-share -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 
 <!--
   cuts/thread/open-loops.html · The thread · Open loops · the 5-minute first artifact
@@ -35,12 +37,19 @@
   .frame { max-width: 1000px; margin: 0 auto; }
   .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
   .ol-pill b { color: var(--cerulean); }
+  /* "it's real" proof chip — cut-04 language, folds the kernel onto the felt-problem surface */
+  .real-chip { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px;
+    font-family: "Geist Mono", monospace; font-size: 11px; color: var(--text-dim);
+    border: 1px solid var(--card-border); border-radius: 999px; padding: 7px 14px;
+    background: var(--cerulean-wash, rgba(25,126,235,.08)); }
+  .real-chip .lead { color: var(--cerulean); font-weight: 500; }
+  .real-chip .sep { color: var(--text-faint); }
   /* loops hidden until "connected" */
   #loops { display: none; }
   #loops.is-live { display: flex; }
 </style>
 </head>
-<body data-product="personal">
+<body data-product="personal" data-beat="1" data-beat-base="../">
 
 <div class="stage">
   <div class="frame">
@@ -49,11 +58,9 @@
       <div class="lights"><span class="light red"></span><span class="light yellow"></span><span class="light green"></span></div>
       <div class="title-row">
         <span class="diamond">◇</span>
-        <span class="app-label">Liminal</span>
-        <span class="ol-pill">&nbsp;/&nbsp; the thread&nbsp; /&nbsp; <b>open loops</b></span>
-        <span class="spacer"></span>
-        <span class="ol-pill" id="hdr-count">— · local-first</span>
+        <span class="ol-pill">&nbsp;Liminal&nbsp; /&nbsp; the thread&nbsp; /&nbsp; <b>open loops</b></span>
       </div>
+      <div class="ol-pill" id="hdr-count">· local-first</div>
     </header>
 
     <main class="th">
@@ -61,9 +68,16 @@
       <div class="th-head">
         <div class="th-eyebrow"><span class="dot">◇</span> The thread · open loops</div>
         <h1 class="th-title">Here's what you're about to <em>drop</em>.</h1>
-        <p class="th-lede">Liminal read your email and calendar and pulled the loops you haven't closed —
+        <p class="th-lede">Liminal read your email and calendar and pulled the loops you haven't closed ·
           commitments you made with no sign of follow-through, asks you sent that got no reply, and people
           waiting on you. Every line links to the exact message it came from. Check it, or dismiss it.</p>
+        <div class="real-chip">
+          <span class="lead">it's real:</span>
+          <span>local-first</span><span class="sep">·</span>
+          <span>signed event log</span><span class="sep">·</span>
+          <span>vault.db</span><span class="sep">·</span>
+          <span>ed25519</span>
+        </div>
       </div>
 
       <span class="th-disclosure"><span class="glyph">●</span> <span id="disc"></span></span>
@@ -71,7 +85,7 @@
       <!-- connect / zero-ceremony entry -->
       <div class="th-connect" id="connect">
         <div class="th-connect-copy">
-          <b>Connect Gmail + Calendar</b> — read-only, on your machine. Your open loops in about five minutes.
+          <b>Connect Gmail + Calendar</b> · read-only, on your machine. Your open loops in about five minutes.
         </div>
         <button class="th-btn" id="connect-btn">Connect &amp; find my open loops</button>
         <span class="th-connect-meta" id="connect-meta">no data leaves this device</span>
@@ -100,10 +114,16 @@
   </div>
 </div>
 
+<!-- demo spine · persistent beat rail (beat 1 of 4) -->
+<script src="../../lib/beat-rail.js" defer></script>
+
 <script type="module">
   import { DISCLOSURE, openLoops } from "./seed.js";
 
-  document.getElementById("disc").textContent = DISCLOSURE;
+  // veracity: no em dashes on this investor surface. seed.js carries em dashes in
+  // loop titles / subs / receipts; transform at render locally, never mutate shared seed.
+  const clean = (s) => typeof s === "string" ? s.replace(/\s*—\s*/g, " · ") : s;
+  document.getElementById("disc").textContent = clean(DISCLOSURE);
 
   const listEl = document.getElementById("loops-list");
   const loopsEl = document.getElementById("loops");
@@ -125,8 +145,8 @@
           <span class="caret">›</span>
         </button>
         <div class="receipt-body">
-          <div class="receipt-quote">${rc.quote}</div>
-          <div class="receipt-trace">${rc.trace}</div>
+          <div class="receipt-quote">${clean(rc.quote)}</div>
+          <div class="receipt-trace">${clean(rc.trace)}</div>
         </div>
       </div>`;
   }
@@ -139,8 +159,8 @@
         <div class="loop-rank">${String(i + 1).padStart(2, "0")}</div>
         <div class="loop-main">
           <span class="loop-kindtag">${KIND_LABEL[loop.kind] || loop.kind}</span>
-          <div class="loop-title">${loop.title}</div>
-          <div class="loop-sub">${loop.sub}</div>
+          <div class="loop-title">${clean(loop.title)}</div>
+          <div class="loop-sub">${clean(loop.sub)}</div>
           ${receiptHTML(loop.receipt)}
         </div>
         <div class="loop-side">
@@ -155,8 +175,8 @@
     countEl.innerHTML = `<b>${live}</b> open loops · ranked by what's closest to slipping`;
     hdrCount.innerHTML = `<b>${live}</b> open · local-first`;
     precEl.innerHTML = trained
-      ? `precision: you've dismissed <b>${trained}</b> — Liminal learns your line`
-      : `dismiss a wrong one — Liminal learns your line`;
+      ? `precision: you've dismissed <b>${trained}</b> · Liminal learns your line`
+      : `dismiss a wrong one · Liminal learns your line`;
   }
 
   function renderLoops() {
