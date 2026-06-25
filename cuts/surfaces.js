@@ -102,7 +102,6 @@ export const SURFACES = [
     { file:'_archive/index-agenthansa-frozen.html', name:'index-agenthansa-frozen', badge:'retired', jump:'Frozen “Agenthansa” Speedrun-pipeline hero.' },
   ]},
   { grp: 'Archive · root-experiments', desc: 'frozen index versions + the ontology-agent-travel 3D series', frozen:true, items: [
-    { file:'_archive/root-experiments/index-v036-frozen.html', name:'index-v036-frozen', badge:'retired', jump:'Frozen index · v0.3.7.' },
     { file:'_archive/root-experiments/index-v04-frozen.html', name:'index-v04-frozen', badge:'retired', jump:'Frozen index · v0.4 (Agents · Space).' },
     { file:'_archive/root-experiments/ontology-agent-travel-options.html', name:'ontology-agent-travel-options', badge:'retired', jump:'Ontology agent-travel — options exploration.' },
     { file:'_archive/root-experiments/ontology-agent-travel-real-3d.html', name:'ontology-agent-travel-real-3d', badge:'retired', jump:'Ontology agent-travel — real 3D graphs.' },
