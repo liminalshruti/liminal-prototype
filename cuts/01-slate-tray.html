@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cut 01 · Three-surface slate · Liminal</title>
-<!-- brand ◇ favicon (data-URI) — kills the dev-console 404 on screen-share -->
+<!-- brand ◇ favicon (data-URI) · kills the dev-console 404 on screen-share -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 
 <!--
@@ -13,11 +13,11 @@
   Loop-stage · Capture → Read → Decide
   Altitude   · L1-founder
   Surface    · desktop
-  Framing    · wedge       (the founder front door — entered here)
+  Framing    · wedge       (the founder front door · entered here)
   Maturity   · live
   Coordinate per TAXONOMY.md v2 · the canonical front door · the L1 reference render.
   (Personal/Team/Business below are register variants WITHIN this surface, not
-  separate altitudes — they're the surface's own internal switch.)
+  separate altitudes · they're the surface's own internal switch.)
   ──────────────────────────────────────────────────────────────────────
   Personal · Team · Business · operator-subject relationships
   slate · tray · vault · 13 agents in 4 registers (incl. Witness)
@@ -38,7 +38,7 @@
      Perfectly Nineties) are self-hosted via lib/brand-upgrade.css @font-face,
      and the mono renders from the canon Cougar→system fallback chain. Geist,
      Geist Mono and Newsreader were requested but never rendered (verified:
-     status "unloaded") — dropped to cut three unused render-blocking families
+     status "unloaded") · dropped to cut three unused render-blocking families
      from this first-impression surface. Caveat = editor's-notes marginalia. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,7 +54,7 @@
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
-  /* per-cut polish · v0.8.3 P1 fix #3 — agency hover affordance
+  /* per-cut polish · v0.8.3 P1 fix #3 · agency hover affordance
      · cursor:help + dotted underline signals the title-tooltip surface
      · matches the cut-shell classification-token tooltip idiom (cursor:help) */
   .agency-label {
@@ -67,7 +67,7 @@
     border-bottom-color: rgba(255, 255, 255, 0.42);
   }
 
-  /* ─── v0.8.4 — orbital agency rail · inspo-register correction ──────────
+  /* ─── v0.8.4 · orbital agency rail · inspo-register correction ──────────
      Per COPY_AUDIT_2026-04-28.md cross-cutting note: the inspo register
      (Houdini Containment MUBs #3, Pinterest pin orbital diagram) prescribed
      flat / saturated / hard-edged / instrument-grade rendering for the
@@ -93,7 +93,7 @@
     color: var(--text-mid);
   }
 
-  /* Orbital container — replaces #register-blocks visually */
+  /* Orbital container · replaces #register-blocks visually */
   .orbital-rail {
     position: relative;
     width: 100%;
@@ -146,8 +146,8 @@
     transition: fill 200ms ease;
   }
   /* Status states · v0.8.5 P3 fixes:
-     · F3 — opacity transition added to all states for smoother loop reset
-     · F4 — pulse-glyph period synced to step duration (4.2s = 1 cycle per step) */
+     · F3 · opacity transition added to all states for smoother loop reset
+     · F4 · pulse-glyph period synced to step duration (4.2s = 1 cycle per step) */
   .agent-glyph {
     transition: fill 200ms ease, opacity 400ms ease;
   }
@@ -174,7 +174,7 @@
     fill: rgba(142, 102, 251, 0.18);
     stroke: rgba(142, 102, 251, 0.55);
   }
-  /* v0.8.5 F2 — sealed state: rest step is visually distinct from convergent.
+  /* v0.8.5 F2 · sealed state: rest step is visually distinct from convergent.
      Convergent = deliberation reaching a recommendation. Sealed = vault committed.
      Stronger fill + stroke + subtle inner ring signals "vault committed, recording". */
   .center-orb.sealed {
@@ -184,13 +184,13 @@
     filter: drop-shadow(0 0 8px rgba(142, 102, 251, 0.35));
   }
 
-  /* v0.8.5 F5 — initial paint suppression. Body opacity 0 → 1 toggle eliminates
+  /* v0.8.5 F5 · initial paint suppression. Body opacity 0 → 1 toggle eliminates
      pre-applyStep flash. .ready class fires after STEP 0 applies (see boot script).
 
-     2026-06-19 harden — the reveal must never strand the page invisible. Three
+     2026-06-19 harden · the reveal must never strand the page invisible. Three
      failsafes so opacity:0 is only ever a brief, self-recovering state:
        1. a CSS keyframe (reveal-failsafe) force-reveals at 1200ms even if the
-          boot script throws before adding .ready — content can't ship blank;
+          boot script throws before adding .ready · content can't ship blank;
        2. <noscript> (in <head>) forces opacity:1 when JS is off entirely;
        3. reduced-motion skips the fade and shows the body immediately. */
   body {
@@ -200,7 +200,7 @@
   }
   body.ready {
     opacity: 1;
-    animation: none;            /* normal path won — cancel the safety net */
+    animation: none;            /* normal path won · cancel the safety net */
   }
   @keyframes reveal-failsafe { to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
@@ -241,7 +241,7 @@
     font-style: italic;
     /* 2026-06-19 a11y · keep --text-faint (now AA at #807D78 / 4.76:1 on
        --frame-bg after the upstream canon fix), but the original opacity:0.72
-       is DROPPED — it composited the token to ~2.9:1 (sub-AA). The faint tier
+       is DROPPED · it composited the token to ~2.9:1 (sub-AA). The faint tier
        is carried by the token value, not by a contrast-killing alpha. */
     color: var(--text-faint);
     text-transform: none;
@@ -251,7 +251,7 @@
     line-height: 1.4;
   }
 
-  /* ─── v0.9 port — anointment + cut-06 primitives ────────────────────────
+  /* ─── v0.9 port · anointment + cut-06 primitives ────────────────────────
      Ported verbatim from cuts/01-slate-tray-speedrun.html (PRs #3, #4).
      Eight anointment moves + three desktop primitives + boot staging.
      The canonical 01 cut has identical structure to the speedrun variant
@@ -259,7 +259,7 @@
      v0.9 chrome treats them the same.
      ──────────────────────────────────────────────────────────────────── */
 
-  /* 1. Anointment — slate title is the loudest object on the surface */
+  /* 1. Anointment · slate title is the loudest object on the surface */
   .slate-title {
     font-size: 36px !important;
     font-weight: 500 !important;
@@ -297,7 +297,7 @@
   .tray-panel .live-indicator,
   .tray-panel [class*="pill"] { opacity: 0.55; }
 
-  /* 4. Promote the agents coverage line — this is the pitch */
+  /* 4. Promote the agents coverage line · this is the pitch */
   .orbital-coverage {
     font-size: 11px !important;
     line-height: 1.65 !important;
@@ -311,7 +311,7 @@
     font-weight: 500;
   }
 
-  /* 5. Soften contrarian magenta — margin voice, not primary */
+  /* 5. Soften contrarian magenta · margin voice, not primary */
   .mystic-margin {
     background: color-mix(in oklch, var(--judgment-bg) 65%, transparent) !important;
     border-left-color: color-mix(in oklch, var(--judgment) 70%, transparent) !important;
@@ -319,7 +319,7 @@
   .mystic-attr { opacity: 0.78; }
   .mystic-quote { color: var(--text-mid) !important; }
 
-  /* 6. Disposition hierarchy — primary / secondary outline / text link */
+  /* 6. Disposition hierarchy · primary / secondary outline / text link */
   .disposition .dispo-btn.is-defer {
     background: transparent !important;
     border-color: var(--card-border-2) !important;
@@ -357,7 +357,7 @@
     margin-left: 4px;
   }
 
-  /* v0.9.1 — metric-band · audit disclosure · frame-receipt */
+  /* v0.9.1 · metric-band · audit disclosure · frame-receipt */
   .metric-band {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -430,7 +430,7 @@
   .frame-receipt .fr-strong { color: var(--text-mid); }
   .frame-receipt .fr-right { margin-left: auto; color: var(--text-faint); opacity: 0.72; }
 
-  /* v0.9.2 — boot staging for v0.9.1 chrome */
+  /* v0.9.2 · boot staging for v0.9.1 chrome */
   body[data-boot="staged"] .slate-area > .metric-band,
   body[data-boot="staged"] .slate-area > .audit-disclosure,
   body[data-boot="staged"] .frame > .frame-receipt {
@@ -447,7 +447,7 @@
      state. DEFAULT (no .is-speedrun) is untouched: the entry-card stays
      block-flow, brand-first, pixel-identical to pre-refactor. The
      speedrun state flips the hero stack (wedge leads, brand demotes to
-     byline) the way the archived variant did — scoped to #entry-overlay
+     byline) the way the archived variant did · scoped to #entry-overlay
      so nothing leaks to other cuts or the shared cut-shell rules. */
   #entry-overlay .entry-register {
     display: inline-flex;
@@ -477,12 +477,12 @@
     color: #fff;
   }
 
-  /* speedrun state — flip the stack via local flex (default stays block-flow) */
+  /* speedrun state · flip the stack via local flex (default stays block-flow) */
   #entry-overlay .entry-card.is-speedrun {
     display: flex;
     flex-direction: column;
   }
-  /* supporting wedge beneath the canonical Slide-1 tagline — operator register, dimmed below the hero */
+  /* supporting wedge beneath the canonical Slide-1 tagline · operator register, dimmed below the hero */
   #entry-overlay .entry-subwedge {
     font-family: "PerfectlyNineties", Georgia, serif;
     font-size: 0.95rem;
@@ -500,7 +500,7 @@
     margin-bottom: 10px;
   }
   #entry-overlay .entry-card.is-speedrun .entry-brand {
-    /* S6 — match archived speedrun byline: relative em + opacity, not eyeballed
+    /* S6 · match archived speedrun byline: relative em + opacity, not eyeballed
        absolutes (was 13px/#8A8780). Scales with parent; stays register-level. */
     order: 2;
     text-transform: none;
@@ -519,11 +519,11 @@
      The shared shell renders the three doors as an even repeat(3,1fr) grid —
      three identical rectangles, the one AI-grammar tell on this surface (and
      it fights the thesis: "founders enter first" shouldn't read as "pick any
-     of three"). The doors ARE a sequence — self-read → peer-read → IC-read,
-     ascending altitude — so hierarchy here carries information.
+     of three"). The doors ARE a sequence · self-read → peer-read → IC-read,
+     ascending altitude · so hierarchy here carries information.
 
      Restructure (scoped to this cut's overlay): the founder's own door —
-     Personal · self-read, this cut's canonical front door — LEADS full-width
+     Personal · self-read, this cut's canonical front door · LEADS full-width
      and larger; Team + Seed sit beneath as a quieter secondary pair. Asymmetry
      replaces the grid; the register colors + scenario copy already in the
      shell are untouched. ──────────────────────────────────────────────────── */
@@ -556,11 +556,11 @@
   }
   #entry-overlay .entry-door[data-product="team"]:hover,
   #entry-overlay .entry-door[data-product="sam-seed"]:hover { opacity: 1; }
-  /* (secondary pair keeps the shell's base 16px title — only the lead is bumped,
+  /* (secondary pair keeps the shell's base 16px title · only the lead is bumped,
      so the size contrast alone carries the lead/secondary hierarchy.) */
   /* register-coded eyebrows · the shell wires these per data-product, but
      brand-upgrade.css flattens them with `.ed-eyebrow{color:rgba(...0.35)!
-     important}` — restore the registers (and the seed door, which the shell
+     important}` · restore the registers (and the seed door, which the shell
      never colour-keyed) on equal !important terms so each door is legible AND
      distinguished by its register, not a uniform faint white. */
   #entry-overlay .entry-door[data-product="personal"] .ed-eyebrow { color: var(--diligence) !important; }
@@ -572,7 +572,7 @@
   @media (max-width: 720px) {
     #entry-overlay .entry-doors { grid-template-columns: 1fr; }
   }
-  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) — in-cut, matched to each
+  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) · in-cut, matched to each
      control's own selector specificity so it wins (dispo-btn's real rule is .brief-disposition .dispo-btn, 0,2,0). */
   .product-tab, .brief-disposition .dispo-btn, .dispo-btn { transition: transform .22s var(--ease-spring, ease), background 180ms, color 180ms, border-color 180ms; }
   .product-tab:hover, .brief-disposition .dispo-btn:hover, .dispo-btn:hover { transform: translateY(-1.5px); }
@@ -584,7 +584,7 @@
      users got the browser-default blue ring (off-brand, and the audit flagged
      "missing focus indicators"). One register-aware ring on the cut's
      interactive elements: the per-product accent (--p-accent) at a 2px offset
-     so it reads on the dark frame. :focus-visible only — mouse clicks don't
+     so it reads on the dark frame. :focus-visible only · mouse clicks don't
      get the ring, keyboard/AT navigation does.
 
      Ring color: the canon --diligence accent (#8E66FB), NOT --p-accent —
@@ -609,19 +609,19 @@
     outline-offset: 2px;
     border-radius: 3px;
   }
-  /* entry doors carry their own border-radius (5px) — match it so the ring
+  /* entry doors carry their own border-radius (5px) · match it so the ring
      hugs the card instead of clipping its corners */
   .entry-door:focus-visible { outline-offset: 3px; border-radius: 6px; }
 
   /* ─── 2026-06-19 · forensic-label contrast (WCAG AA 1.4.3) ───────────────
      The small mono forensic labels (metric labels, coverage counts, receipt
      id, audit meta) inherit --text-faint. That token was sub-AA for body text
-     (#6B6862 = 3.56:1); FIXED UPSTREAM in canon this same day — --text-faint is
+     (#6B6862 = 3.56:1); FIXED UPSTREAM in canon this same day · --text-faint is
      now #807D78 = 4.76:1 on --frame-bg, AA-safe. So these labels need no
      per-surface override anymore: the bare token both passes AND keeps them in
      the intended faintest tier (below --text-dim). The earlier --text-dim
      workaround was removed once the canon value landed. The only label that
-     still needs a local touch is .coverage-input — see its rule above (the
+     still needs a local touch is .coverage-input · see its rule above (the
      opacity:0.72 that compounded the old token into ~2.9:1 was dropped so
      #807D78 isn't dragged back below AA). */
 
@@ -629,7 +629,7 @@
      The shared responsive layer (lib/brand-upgrade.css §RESPONSIVE) hides the
      orbital agency rail (.rail-right{display:none}) at ≤1023px and runs the
      panes as a clipped grid. That removes the IP-receipt centerpiece on tablet
-     diligence — the one surface that carries "refusal is the feature."
+     diligence · the one surface that carries "refusal is the feature."
 
      brand-upgrade owns that layer with !important, so the override has to
      answer on equal terms (!important, scoped to this cut). Below 1024px the
@@ -692,7 +692,7 @@
     /* orbital diagram · cap + center so it isn't a full-bleed slab when stacked */
     .orbital-rail { max-width: 360px !important; margin-inline: auto !important; }
     .orbital-coverage { max-width: 440px !important; margin-inline: auto !important; }
-    /* restore the pt-shape label brand-upgrade hides — room exists when stacked */
+    /* restore the pt-shape label brand-upgrade hides · room exists when stacked */
     .product-tab .pt-shape { display: inline !important; }
   }
 
@@ -713,7 +713,7 @@
   }
 
   /* Touch targets · gate on coarse pointer so desktop density is untouched.
-     Audit found dispo-btn 54×30 (brand-upgrade caps it at 36 — still short),
+     Audit found dispo-btn 54×30 (brand-upgrade caps it at 36 · still short),
      tray-pill 18×40, notes/kbd-hint ~27px tall. 44px is the floor. */
   @media (pointer: coarse) {
     .dispo-btn, .da-handoff-btn, #modal-close { min-height: 44px !important; padding-block: 11px !important; }
@@ -738,7 +738,7 @@
   <div class="entry-card">
     <div class="entry-brand">Liminal · gives form to inner life.</div>
     <h1 class="entry-wedge">AI gives you infinite answers. Liminal gives you a record of which ones you trusted.</h1>
-    <p class="entry-subwedge">The control plane for founders running multi-agent systems — where AI agents disagree, deliberate, and prompt you. Founders enter first; the corrections are the moat.</p>
+    <p class="entry-subwedge">The control plane for founders running multi-agent systems · where AI agents disagree, deliberate, and prompt you. Founders enter first; the corrections are the moat.</p>
     <div class="entry-register" role="group" aria-label="Hero register">
       <button type="button" data-register="brand" aria-pressed="true">Brand-first</button>
       <button type="button" data-register="speedrun" aria-pressed="false">Speedrun</button>
@@ -779,7 +779,7 @@
       </div>
       <div class="title-row">
         <span class="diamond">◇</span>
-        <span class="tb-wedge">The control plane for founders running multi-agent systems — AI agents disagree, deliberate, and prompt you · The corrections are the moat.</span>
+        <span class="tb-wedge">The control plane for founders running multi-agent systems · AI agents disagree, deliberate, and prompt you · The corrections are the moat.</span>
         <span class="crumb-sep" id="crumb-sep" hidden>·</span>
         <span class="breadcrumb" id="breadcrumb"></span>
       </div>
@@ -912,7 +912,7 @@
       <!-- right rail · agency console (orbital · v0.8.4) -->
       <aside class="rail-right" data-annotation="agency-rail">
         <div class="rail-right-header">
-          <span class="agency-label" title="Twelve bounded specialists in four registers — Diligence, Outreach, Synthesis, Judgment. Each refuses out of lane and names the right agent. The refusal is the feature.">
+          <span class="agency-label" title="Twelve bounded specialists in four registers · Diligence, Outreach, Synthesis, Judgment. Each refuses out of lane and names the right agent. The refusal is the feature.">
             <!-- static orbital glyph: 4 quadrant arcs around a ◇ -->
             <svg class="orbital-glyph" viewBox="0 0 14 14" aria-hidden="true">
               <path d="M 7 1 A 6 6 0 0 1 13 7" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
@@ -1134,12 +1134,12 @@
   <span id="toast-msg">·</span>
 </div>
 
-<!-- v0.8.4 — orbital-rail demo loop · self-contained · zero deps
+<!-- v0.8.4 · orbital-rail demo loop · self-contained · zero deps
      ─────────────────────────────────────────────────────────────────
      Cycles agents through queued → reading → complete / refused states
      on a 4.2s cadence so the orbital diagram is always-animated even
      when the slate is empty. Runs independently of the agency.js
-     ticker (which targets #register-blocks, now absent — it no-ops
+     ticker (which targets #register-blocks, now absent · it no-ops
      silently per its existing null-guard).
 
      The cycle plays a synthetic "head-of-eng / customer-X" scenario
@@ -1205,10 +1205,10 @@
         arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
         coverage: "12 agents · vault committed · the disagreement is the data",
         convergent: true,
-        sealed: true  /* v0.8.5 F2 — rest step distinguished from convergent
+        sealed: true  /* v0.8.5 F2 · rest step distinguished from convergent
                          via .sealed center-orb class (stronger fill + outer
                          glow). Coverage label also shifts from "read complete"
-                         to "vault committed" — investor-legible signal that
+                         to "vault committed" · investor-legible signal that
                          deliberation produced a durable artifact. */
       }
     ];
@@ -1235,7 +1235,7 @@
       const counts = document.getElementById("coverage-counts");
       if (counts) counts.textContent = step.coverage;
       // update center orb convergence + sealed states
-      // v0.8.5 F2 — sealed state on rest step makes step 5 visually distinct
+      // v0.8.5 F2 · sealed state on rest step makes step 5 visually distinct
       // from step 4 (convergent). Investors reading the loop see: deliberation
       // → convergence → vault commit. Three visible beats, not two.
       const orb = document.getElementById("orbital-center-orb");
@@ -1250,19 +1250,19 @@
       idx = (idx + 1) % STEPS.length;
     }
 
-    // v0.8.5 F1 — pre-apply STEP 0 synchronously at script execution. Without
+    // v0.8.5 F1 · pre-apply STEP 0 synchronously at script execution. Without
     // this, the cut renders default-queued state for ~150-300ms before
     // DOMContentLoaded fires + first tick. On B-roll capture starting at t=0
     // that flash reads as a glitch.
     // Pre-applyStep is safe because applyStep() is null-checked on every
-    // querySelector — if the DOM isn't fully parsed yet, the assignments
+    // querySelector · if the DOM isn't fully parsed yet, the assignments
     // simply skip. Then DOMContentLoaded re-applies cleanly.
     try { applyStep(STEPS[0]); } catch (_) { /* DOM not ready yet, harmless */ }
 
     function start() {
       // skip if already running
       if (timer) return;
-      // v0.8.5 F5 — toggle body.ready to fade the cut in. CSS handles the
+      // v0.8.5 F5 · toggle body.ready to fade the cut in. CSS handles the
       // 240ms opacity transition. Eliminates pre-apply flash.
       requestAnimationFrame(() => document.body.classList.add("ready"));
       // skip if reduced motion preferred

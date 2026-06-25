@@ -693,7 +693,7 @@ function findingHTML(f){
   const badge=f.dropped?'<span class="bdg bad dot">refuted &amp; dropped</span>':gov?'<span class="bdg acc dot">governance · no-surveillance</span>':'<span class="bdg good dot">agent-fit</span>';
   const rows=f.events.map(e=>`<tr><td class="mono">${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td><td class="num">${typeof e[4]==='number'?usd(e[4]):e[4]}</td></tr>`).join('');
   const route=f.route?`<div class="finding-route">→ route to <span class="chip">CalendarOps</span> · registry-verified · ~10% of Opus cost</div>`:'';
-  const dropStrip=f.dropped?`<div class="finding-route" style="background:var(--alarm-bg);border-color:var(--alarm-edge)">🪤 ${f.drop} <span class="cite" data-cite="pr">pr-evidence</span></div>`:gov?`<div class="finding-route" style="background:var(--judgment-bg);border-color:var(--judgment)">⊘ ${f.drop}</div>`:'';
+  const dropStrip=f.dropped?`<div class="finding-route" style="background:var(--alarm-bg);border-color:var(--alarm-edge)">✗ ${f.drop} <span class="cite" data-cite="pr">pr-evidence</span></div>`:gov?`<div class="finding-route" style="background:var(--judgment-bg);border-color:var(--judgment)">⊘ ${f.drop}</div>`:'';
   const r=f.receipt;
   const correctBlock=f.dropped?'':`<div class="finding-correct">
       <button class="fc-toggle" data-fcorrect="${f.id}">Correct this finding →</button>
