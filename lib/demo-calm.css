@@ -1,0 +1,142 @@
+/* lib/demo-calm.css · presentation legibility layer for the Lan demo
+   ──────────────────────────────────────────────────────────────────────
+   Scoped entirely under body.demo-calm · adds nothing when the class is off,
+   so the cuts render exactly as before in normal use. Toggle with the "D" key
+   (wired by lib/demo-calm.js). Built for the two dense govern cuts (11, 00);
+   harmless on the others.
+
+   The thesis: density is not the enemy, undifferentiated density is. So this
+   does four things · (1) one clear hierarchy, (2) floor illegible text,
+   (3) make the center read primary and the rails ambient, (4) breathing room.
+   No DOM changes; re-levels via the existing grid + type. Fully reversible. */
+
+/* ── 1 · re-proportion the grid: center read dominates, rails recede ── */
+body.demo-calm .mid {
+  grid-template-columns: 248px minmax(0, 1fr) 280px;
+  gap: 0;
+}
+/* the side rails become ambient context: dimmed until you look at them */
+body.demo-calm .rail-l,
+body.demo-calm .rail-r {
+  opacity: 0.5;
+  filter: saturate(0.8);
+  transition: opacity .28s var(--ease, ease), filter .28s var(--ease, ease);
+}
+body.demo-calm .rail-l:hover,
+body.demo-calm .rail-r:hover {
+  opacity: 1;
+  filter: none;
+}
+
+/* ── 2 · floor illegible text · nothing below 11px on a screen-share ── */
+/* BLANKET FLOOR: lift every text node in the work + rails to a readable
+   minimum. A 7-9px label on a projected screen is noise, not information.
+   This is a floor (min-size), so anything already larger is untouched. */
+body.demo-calm .work *,
+body.demo-calm .rail-l *,
+body.demo-calm .rail-r *,
+body.demo-calm .subjects * {
+  font-size: max(11px, 1em);
+}
+/* keep label-register letterspacing readable at the new size */
+body.demo-calm .invoke,
+body.demo-calm .subj-head .sk,
+body.demo-calm .screen .sh,
+body.demo-calm .reg .rname,
+body.demo-calm .subj {
+  letter-spacing: .08em;
+}
+/* a few labels use the `font:` shorthand which resets size past the floor;
+   pin them explicitly (the recon/savings stat captions). */
+body.demo-calm .recon .l,
+body.demo-calm .mbar .l,
+body.demo-calm .l,
+body.demo-calm .anum,
+body.demo-calm .asub,
+body.demo-calm .TH,
+body.demo-calm .cat,
+body.demo-calm .dispo .sub,
+body.demo-calm .sub {
+  font-size: 11px !important;
+}
+/* SVG diagram labels (orbital agency map) are geometry, not reading content;
+   leave their internal sizing so the diagram doesn't distort. */
+
+/* ── 3 · make the center read PRIMARY ── */
+/* the work column gets real margins so the read is a column, not edge-to-edge */
+body.demo-calm .work {
+  padding: 4px clamp(20px, 4vw, 56px) 30px !important;
+}
+/* the subject question is the headline the eye should land on */
+body.demo-calm .subj-head h2 {
+  font-size: 27px !important;
+  line-height: 1.18 !important;
+  letter-spacing: -0.01em;
+  margin-top: 9px !important;
+}
+/* the four register reads: the actual content · bigger, airier, calmer */
+body.demo-calm .reg {
+  padding: 18px 0 !important;
+}
+body.demo-calm .reg .rbody {
+  font-size: 15.5px !important;
+  line-height: 1.7 !important;
+  max-width: 64ch;
+}
+/* the verdict line gets weight so the conclusion reads at a glance */
+body.demo-calm .verdict,
+body.demo-calm .verdict-mini {
+  font-size: 13px !important;
+}
+
+/* ── 4 · quiet the top chrome · you only present "The loop" ── */
+/* the 7-tab govern nav recedes to ambient (it is not the story) */
+body.demo-calm .tabs {
+  opacity: 0.45;
+  transition: opacity .25s var(--ease, ease);
+}
+body.demo-calm .rb-top:hover .tabs {
+  opacity: 1;
+}
+/* the relationship switch + cmdk also recede until hovered */
+body.demo-calm .rel,
+body.demo-calm .cmdk {
+  opacity: 0.55;
+  transition: opacity .25s var(--ease, ease);
+}
+body.demo-calm .rb-top:hover .rel,
+body.demo-calm .rb-top:hover .cmdk {
+  opacity: 1;
+}
+/* but the SUBJECT switcher stays loud · it is the "it generalizes" move */
+body.demo-calm .subjects {
+  opacity: 1;
+  border-color: var(--cerulean-edge, rgba(25,126,235,.42));
+}
+body.demo-calm .subj.on {
+  box-shadow: 0 0 0 1px var(--cerulean, #197EEB) inset;
+}
+
+/* ── breathing room on the evidence table · the fleet spend list ── */
+body.demo-calm .urow,
+body.demo-calm .arow {
+  padding-top: 9px !important;
+  padding-bottom: 9px !important;
+  font-size: 11px !important;
+}
+
+/* ── cut-00 (agency) parity · same calming on its read + rails ── */
+body.demo-calm .reglist,
+body.demo-calm .orbit-wrap { opacity: 0.62; transition: opacity .28s ease; }
+body.demo-calm .reglist:hover,
+body.demo-calm .orbit-wrap:hover { opacity: 1; }
+
+/* a soft hint that calm mode is on, bottom-right, unobtrusive */
+body.demo-calm::after {
+  content: "calm";
+  position: fixed; right: 14px; bottom: 14px; z-index: 9997;
+  font-family: var(--font-mono, monospace); font-size: 10px; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--text-faint, #6B6862);
+  border: 1px solid var(--card-border, #232327); border-radius: 999px;
+  padding: 4px 10px; background: rgba(10,10,11,0.8); pointer-events: none;
+}
