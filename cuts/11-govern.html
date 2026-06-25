@@ -12,10 +12,11 @@
   Framing · wedge→infra (AI-spend) · Maturity · live
   ──────────────────────────────────────────────────────────────────────
   PORTED from the shipped Govern cockpit (liminal-govern/app) + RECONCILED with cut 11's
-  loved prototype interactions. Real verified figures ($13,045→$4,500→$324→$162; E14/PR-103
+  loved prototype interactions. Real verified figures ($13,045→$4,500 · naïve $446→verified $284; E14/PR-103 dropped $162
   adversarial catch). Restores: the 4-register read + the CORRECTION FLOW (correction is the
-  primary act), the OKR allocation bar, the OG Today + Mirror surfaces, and the 12-agent
-  ORBITAL agency rail (from slate-tray, re-subjected to spend, canon-color-clean).
+  primary act), the OKR allocation bar, the OG Today + Mirror surfaces, and the
+  ORBITAL agency rail (8 bounded + adversarial reviewer, per liminal-govern canon;
+  from slate-tray, re-subjected to spend, canon-color-clean).
   Follows design-system.html canon: register tokens only, NO inline color overrides.
 
   Surfaces (tabs + ⌘K): Today (re-entry) · The Loop (sense→read→catch→ratify) · Mirror
@@ -479,7 +480,7 @@ let VENDORS=[
   ['Zoom','Business',25,500],['Claude API','Team',55,1650],['Retool','Team',15,750],
   ['Amplitude','Growth',8,1000],['Sentry','Team',20,520],['Airtable','Team',30,600],
 ];
-let SPEND_TOTAL=13045, OPUS_TOTAL=4500, COHORT=7, CLAIMED=324, VERIFIED=162;
+let SPEND_TOTAL=13045, OPUS_TOTAL=4500, COHORT=7, CLAIMED=446, VERIFIED=284;
 let USAGE=[
   ['Build payments API','product_dev',420],['Threat-model auth service','security_hardening',300],
   ['Feature: search v2','product_dev',400],['Dependency CVE audit','security_hardening',240],
@@ -510,7 +511,7 @@ let READS={
 };
 let corrections=0, signed=false;
 // reconciliation (matches the real /findings screen — naïve → dropped → verified)
-let RECON={naive:486,dropped:162,verified:324};
+let RECON={naive:446,dropped:162,verified:284};
 // the agent-fit findings — clickable provenance artifacts (the hero interaction)
 let FINDINGS=[
   {id:'F-CAL',kind:'agent-fit',cat:'calendar_admin',who:'Elif',title:'Route calendar admin to verified agent',save:162,
@@ -525,7 +526,7 @@ let FINDINGS=[
 ];
 let CHAIN=[
   ['t0','15-vendor spend · $13,045/mo',''],['t1','narrowed · Opus $4,500 · 7 eng',''],
-  ['t2','exec-comms · refused (out of lane)','ref'],['t3','adversarial · E14 refuted · PR-103','ref'],['t4','verified realizable · $324/mo',''],
+  ['t2','exec-comms · refused (out of lane)','ref'],['t3','adversarial · E14 refuted · PR-103','ref'],['t4','verified realizable · $284/mo',''],
 ];
 let LOG=[
   ['0','● finding','Figma: downsize from 15 to 6 seats','f1a2…','0000…'],
@@ -544,7 +545,7 @@ function renderSignals(){
 
 // the ORBITAL agency rail (spend-subjected, canon-clean) ----------------------
 function renderAgency(){
-  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · 12 bounded</span><span class="live">live</span></div>
+  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · 8 bounded + reviewer</span><span class="live">live</span></div>
   <div class="orbital-rail"><svg class="orbital-svg" viewBox="0 0 280 320" preserveAspectRatio="xMidYMid meet">
     <g class="refusal-arrows">
       <path id="arrow-execcomms" class="refusal-arrow outreach" d="M 140 88 Q 220 160 140 232"/>
@@ -566,7 +567,7 @@ function renderAgency(){
       <g transform="translate(170,270)"><text class="agent-glyph queued" data-agent="reconcile">◯</text><text class="agent-slot" y="14">Reconcile</text></g></g>
     <g class="center"><circle class="center-orb" id="orbital-center-orb" cx="140" cy="160" r="14"/><text class="center-mark" x="140" y="160">◇</text></g>
   </svg></div>
-  <div class="orbital-coverage"><span class="ce" id="coverage-counts">9 specialists · 1 reading · 8 queued</span></div>`;
+  <div class="orbital-coverage"><span class="ce" id="coverage-counts">8 bounded + reviewer · 1 reading · 8 queued</span></div>`;
   orbitalDemo();
 }
 
@@ -576,8 +577,8 @@ function orbitalDemo(){
   if(_orbTimer){clearInterval(_orbTimer);_orbTimer=null;}
   const G={queued:'◯',reading:'◉',complete:'●',refused:'⊘'};
   const STEPS=[
-    {a:{spend:'reading',util:'queued',security:'queued',marketplace:'queued',execcomms:'queued',misuse:'queued',adversarial:'queued',okr:'queued',reconcile:'queued'},arr:[],cov:'9 specialists · 1 reading · scanning the fleet spend',conv:false},
-    {a:{spend:'complete',util:'reading',security:'reading',marketplace:'queued',execcomms:'queued',misuse:'reading',adversarial:'queued',okr:'reading',reconcile:'queued'},arr:[],cov:'9 specialists · 4 reading · spend + util + OKR + misuse',conv:false},
+    {a:{spend:'reading',util:'queued',security:'queued',marketplace:'queued',execcomms:'queued',misuse:'queued',adversarial:'queued',okr:'queued',reconcile:'queued'},arr:[],cov:'8 bounded + reviewer · 1 reading · scanning the fleet spend',conv:false},
+    {a:{spend:'complete',util:'reading',security:'reading',marketplace:'queued',execcomms:'queued',misuse:'reading',adversarial:'queued',okr:'reading',reconcile:'queued'},arr:[],cov:'8 bounded + reviewer · 4 reading · spend + util + OKR + misuse',conv:false},
     {a:{spend:'complete',util:'complete',security:'complete',marketplace:'reading',execcomms:'refused',misuse:'reading',adversarial:'reading',okr:'complete',reconcile:'queued'},arr:['arrow-execcomms'],cov:'exec-comms refused — out of lane, pre-verdict',conv:false},
     {a:{spend:'complete',util:'complete',security:'complete',marketplace:'complete',execcomms:'refused',misuse:'complete',adversarial:'refused',okr:'complete',reconcile:'reading'},arr:['arrow-execcomms','arrow-adversarial'],cov:'adversarial dropped E14 — PR-103 · honesty in the chain',conv:false},
     {a:{spend:'complete',util:'complete',security:'complete',marketplace:'complete',execcomms:'refused',misuse:'complete',adversarial:'refused',okr:'complete',reconcile:'complete'},arr:['arrow-execcomms','arrow-adversarial','arrow-util'],cov:'convergence: route calendar → CalendarOps',conv:true},
@@ -694,7 +695,7 @@ function renderToday(){
     <h1>Three things came back overnight.</h1>
     <p class="lede">The daemon re-read your held decisions while you slept. One needs a decision today. One outcome is closing. Your pattern has a note.</p>
     <button class="tcard decide" data-go="loop"><div class="tk">Needs a decision<span class="meta">held 2 days · re-read 04:12</span></div>
-      <h3>Opus 4.8 spend vs the Q2 OKRs</h3><p>The agents read this period's $4,500 Opus spend. Security is under-allocated and a frontier model is doing calendar work — but the adversarial reviewer already dropped one false claim.</p><span class="verdict-mini">⚠ not ready · $162/mo verified</span></button>
+      <h3>Opus 4.8 spend vs the Q2 OKRs</h3><p>The agents read this period's $4,500 Opus spend. Security is under-allocated and a frontier model is doing calendar work — but the adversarial reviewer already dropped one false claim.</p><span class="verdict-mini">⚠ not ready · $284/mo verified</span></button>
     <button class="tcard outcome"><div class="tk">Outcome closing<span class="meta">ratified 12 weeks ago</span></div>
       <h3>“Cursor seats — downsize to 12”</h3><p>Resolved well — spend held flat, no complaints. The call calibrated; your judgment on tool-spend is trending accurate.</p></button>
     <button class="tcard mirror" data-go="mirror"><div class="tk">◍ Mirror · a quiet note</div>
