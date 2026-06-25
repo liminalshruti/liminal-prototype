@@ -101,6 +101,33 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .invoke{display:flex;align-items:baseline;gap:10px;font:10px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);border-bottom:1px solid var(--card-border);padding-bottom:12px}
 .invoke b{color:var(--diligence);letter-spacing:.12em;text-transform:uppercase}
 .invoke .invoke-q{margin-left:auto;color:var(--text-mute);letter-spacing:.04em}.invoke .invoke-q b{color:var(--text-mid);text-transform:none;letter-spacing:.02em}
+
+/* ── SUBJECT SWITCHER (converged from cut 00) — the loop's subject is a parameter ── */
+.subjects{display:flex;gap:3px;margin:0 0 14px;background:var(--frame-bg);border:1px solid var(--card-border);border-radius:6px;padding:3px;width:fit-content}
+.subj{font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:0;border-radius:4px;padding:7px 12px;cursor:pointer;transition:.15s;white-space:nowrap}
+.subj:hover{color:var(--text)}.subj.on{color:var(--bg);background:var(--diligence)}
+.subj .deep{font-size:7px;letter-spacing:.14em;opacity:.6;margin-left:5px}
+/* per-subject read head (non-spend subjects reuse this; spend keeps its native sense-h) */
+.subj-head{margin:2px 0 12px}.subj-head .sk{font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
+.subj-head h2{margin:7px 0 0;font:400 22px/1.15 var(--display);color:var(--text)}
+/* ported evidence-pane primitives (custody map · osint layers · notice atrail · pattern coverage) */
+.subj-map{width:100%;height:170px;border-radius:6px;background:radial-gradient(120% 100% at 30% 20%,#0c1622,#08080a);border:1px solid var(--card-border);display:block}
+.map-legend{display:flex;gap:18px;margin-top:9px;font:8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
+.map-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.layers{display:flex;flex-direction:column;gap:6px}
+.layer{display:flex;gap:12px;align-items:baseline;padding:8px 11px;border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg)}
+.layer.counter{border-color:var(--alarm-edge);background:var(--alarm-bg)}
+.layer .ln{font:8px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);min-width:54px}
+.layer .lc{font:11px/1.4 var(--mono);color:var(--text-mid)}.layer.counter .lc{color:var(--alarm)}
+.hyp{margin-top:12px}.hyp-l{display:flex;justify-content:space-between;font:9px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);margin-bottom:6px}
+.hyp-bar{display:flex;height:14px;border-radius:3px;overflow:hidden;border:1px solid var(--card-border)}
+.hyp-bar .h1{flex:62;background:var(--good)}.hyp-bar .h2{flex:26;background:var(--watch)}.hyp-bar .h3{flex:12;background:var(--alarm)}
+.atrail{display:flex;flex-direction:column;gap:5px}
+.arow{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;padding:8px 11px;border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg);font:10px/1.3 var(--mono)}
+.arow .ak{color:var(--text-faint);letter-spacing:.12em}.arow .ae{color:var(--text-mid)}.arow .av{color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;font-size:8px}
+.arow.match{border-color:var(--connection-edge,var(--connection))}.arow.match .av{color:var(--connection,var(--good))}
+.arow.contra{border-color:var(--alarm-edge);background:var(--alarm-bg)}.arow.contra .av{color:var(--alarm)}
+.subj-cov{font:13px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim)}.subj-cov em{color:var(--text)}
 .seam{--seam-mb:14px}
 
 /* sense — vendor table + usage stream */
@@ -541,6 +568,51 @@ let LOG=[
   ['—','✗ refuted','E14 refuted · PR-103 proves product feature ($162, not anchored)','—','—'],
 ];
 
+// ── SUBJECT-PARAMETRIC LOOP (ported + converged from cut 00-agency) ──────────────
+// The Loop's SUBJECT is a switch: spend is the deep native render (above); the other
+// four subjects re-skin the Loop center using cut-00's per-subject panes. Same loop,
+// any subject — "you're watching the control plane, not a spend tool." Spend = default.
+const SUBJECT_ORDER=['spend','pattern','notice','custody','osint'];
+let SUBJECT='spend';
+const SUBJECTS={
+  pattern:{label:'Your pattern',product:'personal · subject = you',
+    registers:['Diligence','Synthesis','Judgment','Outreach'],
+    cover:['reads your week','frames the shape','what it means','the gentle next move'],
+    refuse:['won’t diagnose','won’t prescribe','won’t score','won’t advise'],
+    sk:'subject · your own week, read back',title:'Your pattern · what this week held',
+    reads:['A heavy build week <span class="cite" data-cite="git">Git</span> with one high-context partner call <span class="cite" data-cite="granola">Granola</span>.','The shape: output high, but the open loop with the partner is unclosed — that’s the weight.','VERDICT','Not a problem to fix — a thread to close. One message clears it. Drafted, in your voice — yours to send.'],
+    verdict:'◍ Read · one open loop',
+    refusalLine:'<b>Judgment refused to diagnose.</b> It reads the shape and names the loop; it won’t pathologize. The anti-domain, held.',
+    evidence:{h:'Evidence · the week, as coverage',tag:'your signals',body:'<div class="subj-cov">Four registers traversed the same week from different positions. Diligence read the facts; Synthesis found the shape; Judgment named the open loop and <em>refused to pathologize it</em>. The coverage is what was read — the gaps are what was refused.</div>'}},
+  notice:{label:'Notification',product:'operator · subject = a contradicting notice',
+    registers:['Forensic','Judgment','Outreach','Operations'],
+    cover:['authenticates','verdicts the contradiction','drafts the response','schedules + vaults'],
+    refuse:['won’t interpret','won’t send','won’t conclude','won’t verdict'],
+    sk:'subject · a notice that contradicts your records',title:'Diligence · routing-mismatch notice',
+    reads:['Email DKIM/SPF <span class="hl">pass</span>, but recipient routed to the catch-all, not the founder address.','The notice says "rejected"; the dashboard <span class="hl">still shows in-review</span> — they contradict.','VERDICT','Draft a clarification to the partner; hold the silent-wait until the window closes.'],
+    verdict:'⚠ Real-but-contradicted · 1 action',
+    refusalLine:'<b>Operations refused to vault before Judgment.</b> Nothing is recorded until the contradiction is verdicted. Order preserved.',
+    evidence:{h:'Evidence · the contradiction, authenticated',tag:'forensic',body:'<div class="atrail"><div class="arow match"><span class="ak">DKIM</span><span class="ae">signature valid · sender authentic</span><span class="av">pass</span></div><div class="arow"><span class="ak">ROUTE</span><span class="ae">to catch-all@ — not founder@</span><span class="av">anomaly</span></div><div class="arow contra"><span class="ak">STATE</span><span class="ae">notice "rejected" vs dashboard "in-review"</span><span class="av">contradiction</span></div><div class="arow"><span class="ak">SLA</span><span class="ae">stated review window · 14d · not elapsed</span><span class="av">open</span></div></div>'}},
+  custody:{label:'Custody',product:'defense · subject = a contested location',
+    registers:['Custody','Trial','Verdict','Review'],
+    cover:['holds the evidence','tries the hypothesis','the disposition','process audit'],
+    refuse:['won’t conclude','won’t publish','won’t re-open','won’t read content'],
+    sk:'subject · a contested maritime location',title:'Custody read · strait transit anomaly',
+    reads:['Three vessels transited <span class="hl">AIS-dark</span>; marker δ shifted 2nm overnight.','Hypothesis: coordinated dark transit — <span class="hl">tried against</span> 7 prior transits.','VERDICT','Custody held; recommend escalate to watch-officer, not publish.'],
+    verdict:'◆ Hold · escalate · do not publish',
+    refusalLine:'<b>Review refused to read content — process only.</b> Oversight sees the chain, not the intercept. The privacy boundary, structural.',
+    evidence:{h:'Evidence · the contested location',tag:'IMINT + pattern',body:'<svg class="subj-map" viewBox="0 0 440 170"><path d="M0,130 Q80,100 140,120 T260,100 Q320,90 360,115 L440,100 L440,170 L0,170 Z" fill="#0e1a26" stroke="var(--card-border-2)"/><path d="M150,0 Q180,55 160,100 Q150,130 175,170" fill="none" stroke="var(--card-border-2)" stroke-dasharray="3 4"/><text x="186" y="34" fill="var(--text-faint)" font-size="8" font-family="var(--mono)">STRAIT</text><g transform="translate(210,98)"><circle r="3" fill="none" stroke="var(--alarm)"/><circle r="3" fill="var(--alarm)" opacity="0.5"/></g><g transform="translate(255,86)"><circle r="3" fill="var(--watch)" opacity="0.7"/></g><g transform="translate(300,114)"><circle r="3" fill="var(--watch)" opacity="0.7"/></g></svg><div class="map-legend"><span><i style="background:var(--alarm)"></i>marker δ · moved 2nm</span><span><i style="background:var(--watch)"></i>AIS-dark transit</span></div>'}},
+  osint:{label:'OSINT',product:'open-source · subject = a claim',
+    registers:['Diligence','Redteam','Reconcile','Decide'],
+    cover:['gathers sources','attacks the claim','settles the posterior','the call'],
+    refuse:['won’t opine','won’t confirm','won’t source','won’t gather'],
+    sk:'subject · an open-source claim',title:'OSINT read · the contested assertion',
+    reads:['Two independent sources support the claim; one is primary.','Redteam found <span class="hl">one strong counter</span> — the timeline doesn’t reconcile.','VERDICT','Posterior 62% true · 26% partial · 12% false — decide: partial, with the contradiction flagged.'],
+    verdict:'▲ Partial · contradiction unresolved',
+    refusalLine:'<b>Decide refused to upgrade past the evidence.</b> The counter doesn’t reconcile, so the posterior stays split. Refusal as honesty.',
+    evidence:{h:'Evidence · layered reads + posterior',tag:'3 sources',body:'<div class="layers"><div class="layer"><span class="ln">Primary</span><span class="lc">Source A · filed Nov 12 · supports</span></div><div class="layer"><span class="ln">Corrob.</span><span class="lc">Source B · independent · supports</span></div><div class="layer counter"><span class="ln">Counter</span><span class="lc">Redteam · timeline doesn’t reconcile</span></div></div><div class="hyp"><div class="hyp-l"><span>posterior</span><span>true 62 · partial 26 · false 12</span></div><div class="hyp-bar"><div class="h1"></div><div class="h2"></div><div class="h3"></div></div></div>'}},
+};
+
 // ── render: rails ───────────────────────────────────────────────────────────
 // tile · cut-01 vocabulary: title-bar (traffic-dots + source + action) · display title · preview rows
 const sigHTML=s=>`<div class="sig ${s.state}" data-sig="${s.id}"><div class="src">${s.src}<span class="act">${s.state==='tray'?'harden ↑':'on slate'}</span></div><div class="nm">${s.nm}</div><div class="rows">${s.rows}</div></div>`;
@@ -664,11 +736,22 @@ function regHTML(reg,name,r,delay){
 }
 
 // ── THE LOOP (sense → 4-register read → ratify) ─────────────────────────────
+// subject-switcher bar (converged from cut 00): spend = deep native render below;
+// other subjects re-skin the Loop center via renderSubjectLoop().
+function subjectBar(){
+  return `<div class="subjects" id="subjects">`+SUBJECT_ORDER.map(k=>{
+    const lbl = k==='spend' ? 'AI Spend' : SUBJECTS[k].label;
+    const deep = k==='spend' ? `<span class="deep">deep</span>` : '';
+    return `<button class="subj ${k===SUBJECT?'on':''}" data-subj="${k}">${lbl}${deep}</button>`;
+  }).join('')+`</div>`;
+}
 function renderLoop(){
   body.dataset.surface='loop';
+  if(SUBJECT!=='spend'){ renderSubjectLoop(); return; }
   const vendorRows=VENDORS.map(v=>`<tr class="${v[4]||''}"><td>${v[0]}</td><td>${v[1]}</td><td class="num">${v[2]}</td><td class="num">${usd(v[3])}</td></tr>`).join('');
   const usageRows=USAGE.map(u=>`<div class="urow ${u[3]?'flagged':''}"><span>${u[0]}</span><span class="cat">${u[1]}</span><span class="cost">${usd(u[2])}</span></div>`).join('');
   $('#work').innerHTML=`<div class="pad">
+    ${subjectBar()}
     <div class="invoke"><b>/govern invoked</b><span>reading the agent fleet · 2026-06 · the AI-spend loop</span><span class="invoke-q">the two questions: <b>how is AI being used</b> · <b>did it move the business</b></span></div>
     <div class="seam">Spend is the wedge — the one read a CFO pays for today. But the loop — sense · read · refuse · correct · ratify — is the judgment layer, pointed at a budget first. <b>The read is the model's until you change it.</b></div>
     <div>
@@ -691,6 +774,45 @@ function renderLoop(){
   </div>`;
   renderSignals(); renderAgency();
   if(signed) mintArtifact();
+}
+
+// ── non-spend subjects: re-skin the Loop center (converged from cut 00) ──────
+const REGCLS=['diligence','synthesis','judgment','outreach']; // canon register colors, by position
+function renderSubjectLoop(){
+  const S=SUBJECTS[SUBJECT];
+  const reads=S.registers.map((nm,i)=>{
+    const cls=REGCLS[i]||'diligence';
+    if(S.reads[i]==='VERDICT') return `<div class="reg ${cls}" style="animation-delay:${(.1+i*.13)}s"><div class="rh"><span class="rname">${nm}</span><span class="rt">verdict</span></div>
+      <div class="rbody"><span class="verdict">${S.verdict}</span><div class="refusal"><span class="ico">⊘</span><span class="tx">${S.refusalLine}</span></div></div></div>`;
+    return `<div class="reg ${cls}" style="animation-delay:${(.1+i*.13)}s"><div class="rh"><span class="rname">${nm}</span><span class="rt">+${(0.4+i*1.5).toFixed(1)}s</span><span class="amend">${S.cover[i]}</span></div>
+      <div class="rbody">${S.reads[i]}</div></div>`;
+  }).join('');
+  $('#work').innerHTML=`<div class="pad">
+    ${subjectBar()}
+    <div class="invoke"><b>/agency invoked</b><span>reading · ${S.product}</span></div>
+    <div class="seam">Switch the subject above — the four registers re-skin, but the loop never changes: sense · read · refuse · correct · ratify. <b>Spend is the door a CFO pays for today. The loop below is the same on any subject — you're watching the control plane for companies at agentic scale, not a single tool.</b></div>
+    <div class="subj-head"><span class="sk">${S.sk}</span><h2>${S.title}</h2></div>
+    <div class="sense-h"><span class="anum">01 · EVIDENCE</span><span class="atitle">${S.evidence.h.replace('Evidence · ','')}</span><span class="asub">${S.evidence.tag}</span></div>
+    <div class="evidence"><div class="ev-h">${S.evidence.h}<span class="tag">${S.evidence.tag}</span></div><div class="ev-body">${S.evidence.body}</div></div>
+    <div class="sense-h" style="margin-top:4px"><span class="anum">02 · THE READ</span><span class="atitle">Four registers read the subject.</span><span class="asub">same loop · different subject</span></div>
+    ${reads}
+    <div class="sense-h" style="margin-top:4px"><span class="anum">03 · RATIFY</span><span class="atitle">You decide. The chain remembers.</span><span class="asub">operator-gated</span></div>
+    <div class="dispo"><span class="lbl">${S.verdict} · the read is the model's until you change it</span>
+      <button class="db" data-act="defer">Defer</button>
+      <button class="db sign" data-act="sign"> Sign &amp; hand off</button></div>
+  </div>`;
+  renderSignals(); renderSubjectAgency();
+}
+function renderSubjectAgency(){
+  const S=SUBJECTS[SUBJECT];
+  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · ${S.product.split('·')[0].trim()}</span><span class="live">live</span></div>
+    <div style="padding:10px 15px;display:flex;flex-direction:column;gap:9px">
+    ${S.registers.map((nm,i)=>`<div style="border:1px solid var(--card-border);border-radius:6px;padding:10px 12px;background:var(--frame-bg-2)">
+      <div style="font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--${REGCLS[i]==='synthesis'?'depth':REGCLS[i]==='outreach'?'connection':REGCLS[i]})">${nm}</div>
+      <div style="margin-top:5px;font:10px/1.4 var(--mono);color:var(--text-mid)">${S.cover[i]}</div>
+      <div style="margin-top:4px;font:9px/1.3 var(--mono);color:var(--judgment)">⊘ ${S.refuse[i]}</div></div>`).join('')}
+    </div>
+    <div class="orbital-coverage"><span class="ce">4 registers · 1 subject · the loop travels</span></div>`;
 }
 
 // ── Today (OG, real figures) ────────────────────────────────────────────────
@@ -922,6 +1044,7 @@ function highlightSignal(id){ $$('.sig').forEach(s=>s.classList.remove('cited'))
   const el=$(`.sig[data-sig="${id}"]`); if(el){el.classList.add('cited');el.classList.add('open');el.scrollIntoView({block:'nearest'});} }
 
 document.addEventListener('click',e=>{
+  const subj=e.target.closest('[data-subj]'); if(subj){ SUBJECT=subj.dataset.subj; corrections=0; signed=false; renderLoop(); return; }
   const go_=e.target.closest('[data-go]'); if(go_){go(go_.dataset.go);return;}
   const cite=e.target.closest('[data-cite]'); if(cite){highlightSignal(cite.dataset.cite);return;}
   const sig=e.target.closest('[data-sig]'); if(sig){const s=SIGNALS.find(x=>x.id===sig.dataset.sig);
