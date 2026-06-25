@@ -526,7 +526,7 @@ let AGENTS=[
 let SIGNALS=[
   {id:'usage',src:'Usage events',nm:'$4,500 Opus · 7 engineers',state:'slate',rows:'E01–E21 · 5 categories · 2026-06'},
   {id:'okr',src:'OKR baseline',nm:'60% product / 40% security',state:'slate',rows:'O1 product 0.6 · O2 security 0.4'},
-  {id:'pr',src:'PR evidence',nm:'PR-103 · Priya',state:'slate',rows:'“calendar-sync feature” · workstream=product · linked E14'},
+  {id:'pr',src:'PR evidence',nm:'PR-103 · Mara',state:'slate',rows:'“calendar-sync feature” · workstream=product · linked E14'},
   {id:'registry',src:'Agent registry',nm:'CalendarOps · verified',state:'slate',rows:'registry-verified · ~10% of Opus · scoped: calendar'},
   {id:'tickets',src:'Security tickets',nm:'12 open · P0×2',state:'tray',rows:'security workstream under-allocated'},
   {id:'model',src:'Model access',nm:'cohort=7 · Opus 4.8',state:'tray',rows:'early-access · approved lanes only'},
@@ -556,10 +556,10 @@ let FINDINGS=[
    drop:'Diligence refused to read the team\'s work · setup only. It audits how the fleet is configured, never the contents. High spend, output unverifiable: observe + tune the agent setup, without reading their logs. Observability without snooping · the boundary that lets you govern a team you can\'t surveil.',
    events:[['—','2026-06','2nd team','pen-test fleet · agent setup audited, contents never read','black-box']],
    receipt:{ph:'a90c12…77fe',pp:'b81e4f2c07…3d9a',anchor:'local · setup-only · no content read',vstate:'✓ governed without surveillance',ok:true}},
-  {id:'F-E14',kind:'refuted',cat:'calendar_admin',who:'Priya',title:'E14: Google Calendar sync feature (misclassified)',save:0,
+  {id:'F-E14',kind:'refuted',cat:'calendar_admin',who:'Mara',title:'E14: Google Calendar sync feature (misclassified)',save:0,
    dropped:true,
    drop:'Verifier dropped this claim. PR-103 shows this is a shipped product feature (Google Calendar API + UI), not calendar admin. The $180 cannot be reallocated.',
-   events:[['E14','2026-06-04','Priya','calendar-sync feature: Google Calendar API + UI',180]],
+   events:[['E14','2026-06-04','Mara','calendar-sync feature: Google Calendar API + UI',180]],
    receipt:{ph:'—',pp:'—',anchor:'dropped · not anchored',vstate:'✗ dropped · E14 refuted',ok:false}},
 ];
 let CHAIN=[
