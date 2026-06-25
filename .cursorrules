@@ -1,0 +1,21 @@
+# Cursor rules — liminal-prototype
+
+You are working in liminal-prototype, the public demo surface + design-system reference for Liminal.
+
+## Read first (the shared brain)
+- `CLAUDE.md` in this repo — points to the canonical context.
+- `~/liminal/founder-brain/meta/SHARED_CONTEXT.md` — single source of truth for bio, brand, voice, banned words, core sentence. Honor it. (Present on the maintainer's machine.)
+
+## Hard rules (non-negotiable)
+- Brand name is "Liminal" — ONE word, never "Liminal Space" (the domain is a URL artifact only).
+- Core sentence: "Liminal gives form to inner life."
+- Founder bio: Shruti did NOT attend Stanford / NO Stanford GSB MBA / NOT a South Park Commons member. UC Berkeley (CogSci + CS); ex-PM Asana/Cloudflare/Robinhood/Ancestry; co-founder Sean Nejad.
+- Banned words: transformation, journey, companion, unlock, manifest, healing, optimize, breakthrough, flourishing, wellness, emotional intelligence, empathic.
+- No em dashes in external copy. No emojis on external surfaces.
+- NOT a wellness app, coaching tool, AI companion, mood tracker, meditation app, or HR platform.
+
+## This repo (local)
+- Public demo cuts (`cuts/*.html`) + `index.html`. Live at liminalshruti.github.io/liminal-prototype/.
+- This repo holds the canonical `design-tokens.css` (the practical token upstream). When styling, consume the canonical tokens — do not inline hardcoded colors/type.
+- Type stack: Nineties Headliner + Perfectly Nineties + Geist Mono. No Inter/Helvetica/system-ui as primary.
+- This is a PUBLIC surface — bio/brand hard-stops and claim-veracity are load-bearing.
