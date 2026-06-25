@@ -487,6 +487,8 @@ let USAGE=[
   ['Schedule team offsite + calendar wrangling','calendar_admin',90,'flag'],
   ['Reformat meeting notes + send invites','calendar_admin',90,'flag'],
   ['calendar-sync feature: Google Calendar API + UI','calendar_admin',180,'flag-e14'],
+  ['Summarize 40-page vendor PDF','summarization',75,'flag'],
+  ['Summarize Slack threads into weekly digest','summarization',60,'flag'],
 ];
 let AGENTS=[
   {name:'Claude Opus 4.8',type:'frontier_model',badges:[['ok','verified'],['warn','high cost']],lanes:['product_dev','security_hardening','architecture_review']},
@@ -518,6 +520,10 @@ let FINDINGS=[
    route:true,
    events:[['E12','2026-06-03','Elif','Schedule team offsite + calendar wrangling',90],['E13','2026-06-06','Bianca','Reformat meeting notes + send calendar invites',90]],
    receipt:{ph:'7d4ba0c91e…a284',pp:'c3d4f8b271…91ad',anchor:'local · local-first (not yet on-chain)',vstate:'✓ submitted',ok:true}},
+  {id:'F-SUM',kind:'agent-fit',cat:'summarization',who:'Marco',title:'Route summarization to DigestBot',save:122,
+   route:true,
+   events:[['E18','2026-06-05','Marco','Summarize 40-page vendor PDF',75],['E20','2026-06-09','Dana','Summarize Slack threads into weekly digest',60]],
+   receipt:{ph:'b81e4f2c07…3d9a',pp:'7d4ba0c91e…a284',anchor:'local · local-first (not yet on-chain)',vstate:'✓ submitted',ok:true}},
   {id:'F-E14',kind:'refuted',cat:'calendar_admin',who:'Priya',title:'E14: Google Calendar sync feature (misclassified)',save:0,
    dropped:true,
    drop:'Verifier dropped this claim. PR-103 shows this is a shipped product feature (Google Calendar API + UI), not calendar admin. The $180 cannot be reallocated.',
@@ -639,7 +645,7 @@ function findingHTML(f){
 
 // the judgment register body: verdict + refusal + recon strip + clickable findings (the hero)
 function judgmentHTML(){
-  return `<span class="verdict">⚠ Not ready · 2 findings · 1 dropped</span>
+  return `<span class="verdict">⚠ Not ready · 3 findings · 1 dropped</span>
     <span class="verifier">Adversarial reviewer · cross-check vs PR evidence</span>
     <div class="refusal"><span class="ico">⊘</span><span class="tx"><b>Exec-comms refused — not its lane.</b> It won't draft outreach until Judgment clears. The refusal is the boundary working, logged.</span></div>
     <div class="recon">
