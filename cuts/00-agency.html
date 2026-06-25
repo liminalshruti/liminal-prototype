@@ -231,10 +231,10 @@ const SUBJECTS={
     registers:['Diligence','Synthesis','Judgment','Outreach'],
     cover:['reads the fleet’s spend','frames vs the OKRs','the verdict + refusals','the escalation, drafted'],
     refuse:['won’t read their work','won’t price','won’t draft outreach','won’t judge'],
-    slate:[['Fleet usage','usage-events · $12,400 Opus','7 agents · 4 teams · by OKR'],['OKR baseline','60% product / 40% security','O1 0.6 · O2 0.4'],['Pen-test team','agent setup · black-box','no output · 2nd team auditing'],['Registry','agent-registry · CalendarOps','verified · ~10% Opus']],
+    slate:[['Fleet usage','usage-events · $4,500 Opus','7 engineers · 4 teams · by OKR'],['OKR baseline','60% product / 40% security','O1 0.6 · O2 0.4'],['Pen-test team','agent setup · black-box','no output · 2nd team auditing'],['Registry','agent-registry · CalendarOps','verified · ~10% Opus']],
     tray:[['Security','P0 backlog · stalled','triage owner unclear'],['Org','escalation path','IC → lead → CISO']],
     sk:'subject · a team’s agent fleet, this period',title:'Is the pen-test team’s fleet tracking the OKRs?',
-    reads:['<span class="hl">$12,400</span> of Opus across 7 agents in 4 teams <span class="cite" data-c="0">usage-events</span>. One team · pen-test · is a <span class="hl">black box</span>: spend high, output unverifiable.','Against <span class="hl">60/40</span> <span class="cite" data-c="1">okr-baseline</span> · security under-allocated, and the black-box team’s setup can’t be audited without reading their work. <span class="hl">It’s not a people problem · it’s a system one.</span>','VERDICT','Observe + tune the team’s agent setup <span class="cite" data-c="2">setup</span> · without reading their logs. Draft the escalation with the audit chain attached.'],
+    reads:['<span class="hl">$4,500</span> of Opus across 7 engineers in 4 teams <span class="cite" data-c="0">usage-events</span>. One team · pen-test · is a <span class="hl">black box</span>: spend high, output unverifiable.','Against <span class="hl">60/40</span> <span class="cite" data-c="1">okr-baseline</span> · security under-allocated, and the black-box team’s setup can’t be audited without reading their work. <span class="hl">It’s not a people problem · it’s a system one.</span>','VERDICT','Observe + tune the team’s agent setup <span class="cite" data-c="2">setup</span> · without reading their logs. Draft the escalation with the audit chain attached.'],
     verdict:'⚠ Not ready · 2 fixes · escalation drafted',
     refusalLine:'<b>Diligence refused to read the team’s work · setup only.</b> It audits how the fleet is configured, never the contents. Observability without snooping · the boundary that lets you govern a team you can’t surveil.',
     evidence:'spend'},
@@ -289,7 +289,7 @@ const CHAIN=[['14:31','signals captured',''],['14:32','registers read',''],['14:
 
 /* ── evidence panes (the preserved charts, one per subject) ── */
 function evidencePane(kind){
-  if(kind==='spend')return `<div class="ev-h">Evidence · fleet spend vs OKR<span class="tag">$12,400 · 4 teams</span></div><div class="ev-body">
+  if(kind==='spend')return `<div class="ev-h">Evidence · fleet spend vs OKR<span class="tag">$4,500 Opus · 4 teams</span></div><div class="ev-body">
     <div class="allocbar"><div class="p" style="width:60%">product 60%</div><div class="s" style="width:40%">security 40%<span class="ghost"></span></div></div>
     <div class="swap"><div class="side cur"><span class="ro">black-box team</span><div class="ag">pen-test fleet</div><div class="co">setup unauditable · output unverified</div><span class="bd">observe + tune</span></div><div class="arrow">→</div><div class="side sug"><span class="ro">calendar leak</span><div class="ag">CalendarOps</div><div class="co">~10% · scoped · verified</div><span class="bd">route</span></div></div></div>`;
   if(kind==='custody')return `<div class="ev-h">Evidence · the contested location<span class="tag">IMINT + pattern</span></div><div class="ev-body">
