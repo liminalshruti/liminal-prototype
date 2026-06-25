@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Liminal · Vault + Agents · The Founder OS</title>
-<meta name="description" content="Drag any window in. Twelve bounded agents read it. Founder signs off. Vault commits the record. Network calls during this loop: zero.">
+<meta name="description" content="Drag any window in. Twelve bounded agents read it. Founder signs off. Vault commits the record. Local SQLCipher vault, no inbound network surface, no vault-content telemetry.">
 <meta property="og:title" content="Liminal · The Founder OS">
 <meta property="og:description" content="Compose → read → dispatch → commit. The founder OS, running.">
 <meta property="og:type" content="website">
@@ -605,10 +605,10 @@
           <div class="pane-h">
             <span class="num">04</span>
             <span class="title">commit · vault-local</span>
-            <span class="live">PPA #7</span>
+            <span class="live">Architecture PPA</span>
           </div>
           <div class="pane-caption">
-            Vault on-device, model-agnostic by design. <em>Refusals run local; synthesis can route to frontier.</em> Vault contents never touch the network.
+            Vault on-device, model-agnostic by design. <em>Refusals run local; synthesis can route to frontier.</em> No vault-content telemetry; the vault has no inbound network surface.
           </div>
           <div class="vault-rows">
             <div class="vault-row">
@@ -621,7 +621,7 @@
             </div>
             <div class="vault-row">
               <span class="cmd"><span class="prompt">$</span>liminal --inspect-routes</span>
-              <span class="out">refusal: <em>local</em> · synth: <em>frontier</em> · vault: <em>never crosses the network</em></span>
+              <span class="out">refusal: <em>local</em> · synth: <em>frontier</em> · vault: <em>no inbound surface · no content telemetry</em></span>
             </div>
           </div>
           <div class="pane-foot">
@@ -634,8 +634,8 @@
       <!-- ── DECK FOOTER · ledger of the loop ── -->
       <div class="deck-foot">
         <span class="left">compose → read → dispatch → commit · <b>the founder operates at agentic scale</b></span>
-        <span class="center"><b>3,041</b> refusals across <b>1,287</b> deliberations · N=19 v0 cohort</span>
-        <span class="right">network calls during this loop · <b>0</b></span>
+        <span class="center">refusal-as-trust · <b>judges named it "the most original architectural idea in the cohort"</b></span>
+        <span class="right">local SQLCipher vault · no inbound network surface · no vault-content telemetry</span>
       </div>
 
     </div>
