@@ -212,6 +212,8 @@ and is the single call with the most downstream surface area.
 ---
 
 *Producer session, 2026-07-01. Inputs: RUN_B_CUTS_INVENTORY.md (commit 91895e5), fresh
-1440px render wall (13 surfaces, scratchpad archive), live walks of 7 cuts. Panel: 4
+1440px render wall (13 surfaces, persisted at repo root as `audit-runb-wall-*.png` —
+gitignored working artifacts; re-render via `npm run dev` if absent), live walks of 7
+cuts. Panel: 4
 independent single-lens critics (Sonnet), converged by the producer session. NOT-CANON —
 Run-B adjudicates.*
