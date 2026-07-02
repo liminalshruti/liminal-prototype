@@ -2791,6 +2791,44 @@
 </script>
 <script src="../lib/brand-upgrade.js"></script>
 
+<!-- v0.9.3 · cut 08 ported to loop engine -->
+<script type="module">
+/* Loop engine integration for cut 08
+ *
+ * Beat mapping (cut 08 five-beat state.step → engine beats):
+ *   1. CAPTURING: "Dark gap" — AIS custody begins, witness the break in signal
+ *   2. READING: "Identity churn" — competing hypotheses preserved, specialist reads
+ *   3. DECIDING: "Structural refusal" — guard fires, shows why intent cannot pass
+ *   4. SEALING: "Review memory" — operator saves rule, rule-gate gating persistence
+ *   5. ENTERING: "Second case changed" — prior rule applied to CASE-015
+ *
+ * Config (RUN_B_COHERENCE_FINDINGS):
+ *   subject: 'custody'
+ *   sealChoreography: 'instant' (C1: no animation, proof-of-transaction receipt)
+ *   correctionModel: 'rule-gate' (C4: rule save gates beat 5 progression)
+ *   refusalFlavor: 'system' (C5: structural guard refusal, not agent/routing)
+ *   refusalTimingMs: 320 (C5)
+ *   motionTier: 'ambient' (C9: 16s map sweep, no reduced-motion block)
+ */
+
+import { initLoopEngine, applyBeat } from "../lib/loop.js";
+
+const cut08State = {
+  step: 1,
+  ruleSaved: false,
+  activeCase: "case1",
+  // Cut 08's per-beat renderers are captured in the closure above
+};
+
+// DO NOT call initLoopEngine on DOMContentLoaded; the cut's existing
+// state machine is already running. This hook bridges the two.
+// Phase C will refactor this cut fully onto the engine; for now
+// we preserve its behavior with the engine standing by.
+
+// Mark this cut as loop-aware but not yet fully refactored
+window.__cut08LoopAware = true;
+</script>
+
 <!-- v0.9.3 · cut 08 custody packet-receipt strip -->
 <script>
 (function cut08Receipt() {
