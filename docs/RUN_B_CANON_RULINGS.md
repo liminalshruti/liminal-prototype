@@ -380,7 +380,7 @@ The following positions require the founder's explicit choice to proceed:
 | C9 — Ambient vs refined | Refined pauses ambient (implicit), 4.2s pulse canonical | ADJUDICATED | NO (motion is CSS, not parameterized) | YES — DESIGN_SYSTEM.md §Motion | No |
 | D1 — Typography grade split | Resolved by C2 (tokens are infrastructure, binding is deferred) | RESOLVED | NO | YES (by C2 spec) | No |
 | D2 — Seal consistency | Resolved by C1 (altitude rule explains instant vs animated) | RESOLVED | Applies to C1 flips | YES (by C1 spec) | **By C1 decision** |
-| D3 — Cut 01 seal timing | Resolved by live verification (360ms confirmed) | RESOLVED | YES (cut 01 locks 360ms) | N/A | No |
+| D3 — Cut 01 seal timing | Resolved: rendered timing is 520ms (cut-shell artifact-arrive); the findings ledger's 360ms claim was the error — config keeps 520 | RESOLVED | NO (behavior preserved at 520ms) | N/A | No |
 
 ---
 
@@ -393,7 +393,7 @@ The following positions require the founder's explicit choice to proceed:
 1. **Apply C1 seal flips** (if altitude rule approved):
    - lib/loop.js: lines 66–67, 91–92 (master defaults + default fallback)
    - cuts/00-agency.html: line 341 (sealChoreography: instant)
-   - cuts/01-slate-tray.html: line 1316 (sealChoreography: rise, sealRiseMs: 360)
+   - cuts/01-slate-tray.html: line 1316 (sealChoreography: rise, sealRiseMs: 520 — rendered truth; ledger's 360 was erroneous)
    - cuts/06-margin-read.html: line 636 (sealChoreography: rise, sealRiseMs: 360)
    - cuts/09-osint-custody.html: line 815 (sealChoreography: rise, sealRiseMs: 500)
    - cuts/11-govern.html: line 1170 (sealChoreography: bifurcated, sealRiseMs: 600)
