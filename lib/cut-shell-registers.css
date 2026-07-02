@@ -1,0 +1,328 @@
+/*
+ * cut-shell.css · Liminal cut · desktop-app shell + register accents + slate/tray vocabulary
+ * ════════════════════════════════════════════════════════════════════════════════════
+ *
+ * SCOPE
+ * ─────
+ * Every cut that adopts the canonical Liminal desktop-app shell imports this
+ * file (after design-system/tokens/design-tokens.css). Provides:
+ *
+ *   · register-coded :root tokens (--diligence/--synthesis/--judgment/--outreach)
+ *   · macOS-style frame chrome · titlebar · traffic lights · product-row tabs
+ *   · three-pane main layout · left rail / slate / right rail (agency)
+ *   · slate composition surface · empty-state · gaze stripe · reader chips
+ *   · tray inkwell-rail · tile previews · drag-and-drop choreography
+ *   · brief area · disposition paper-card · audit ribbon
+ *   · classification banner with decode toggle (Business)
+ *   · marginalia editor's notes (Caveat) · per-surface accent modulation
+ *   · staged boot animations · prefers-reduced-motion respected
+ *
+ * CONSUMPTION
+ * ───────────
+ *   <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+ *   <link rel="stylesheet" href="../lib/cut-shell.css">
+ *
+ * Each cut adds its own surface-specific overrides AFTER these imports if it
+ * needs different layout or treatment. Tokens are canonical; layout is per cut.
+ *
+ * AUTHOR
+ * ──────
+ * Extracted 2026-04-28 from index.html v0.8.1 to support iframe-per-cut
+ * studio architecture. Until extraction, all this CSS lived inline in the
+ * single-file prototype. Now shared across cuts via this file.
+ */
+
+  /* Personal · diligence · inward · thin underline only · no fill */
+  .product-tab[data-product="personal"].is-active {
+    color: var(--diligence);
+    background: transparent;
+    box-shadow: inset 0 -2px 0 0 var(--diligence);
+  }
+  .product-tab[data-product="personal"].is-active .pt-glyph { background: var(--diligence); }
+  /* Team · synthesis · lateral · bracket left+right · partial fill */
+  .product-tab[data-product="team"].is-active {
+    color: var(--synthesis);
+    background: var(--synthesis-bg);
+    box-shadow: inset 2px 0 0 0 var(--synthesis), inset -2px 0 0 0 var(--synthesis);
+  }
+  .product-tab[data-product="team"].is-active .pt-glyph { background: var(--synthesis); }
+  /* Business · outreach · institutional · full block · weighted */
+  .product-tab[data-product="business"].is-active {
+    color: var(--connection-tint);
+    background: var(--outreach);
+  }
+  .product-tab[data-product="business"].is-active .pt-glyph { background: var(--connection-tint); }
+  .product-tab[data-product="business"].is-active .pt-shape { color: rgba(15,26,18,0.6); }
+
+  .surface-meta {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 14px;
+    padding-right: 4px;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-faint); letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .surface-meta .sm-strong { color: var(--p-accent); }
+  .surface-meta .sm-banner {
+    padding: 3px 9px;
+    border: 1px solid var(--card-border);
+    border-radius: 3px;
+    color: var(--text-mid);
+    background: var(--frame-bg-3);
+  }
+  body[data-product="business"] .sm-banner {
+    color: var(--outreach);
+    border-color: var(--outreach-edge);
+    background: var(--outreach-bg);
+  }
+
+  /* main · 3-pane: subject rail (left) · slate (center) · agency console (right) */
+  .slated-readers {
+    position: absolute;
+    top: 6px; right: 26px;            /* leaves room for the × button */
+    display: flex; gap: 3px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .reader-chip {
+    width: 17px; height: 17px;
+    border-radius: 50%;
+    background: var(--frame-bg);
+    border: 1px solid var(--p-accent-edge);
+    color: var(--p-accent);
+    font-family: var(--mono); font-size: 8.5px;
+    font-weight: 500;
+    display: inline-flex; align-items: center; justify-content: center;
+    letter-spacing: 0;
+    transition: transform 240ms;
+  }
+  .reader-chip.is-reading {
+    background: var(--p-accent);
+    color: var(--bg);
+    box-shadow: 0 0 8px var(--p-accent-soft);
+    animation: chip-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes chip-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--p-accent-soft); }
+    50%      { box-shadow: 0 0 0 5px transparent; }
+  }
+  .reader-chip.is-disagreed {
+    background: var(--judgment-bg);
+    color: var(--judgment);
+    border-color: var(--judgment-edge);
+  }
+
+  .slated.is-refused {
+    border-color: var(--judgment-edge);
+    background: var(--judgment-bg);
+  }
+  .slated.is-refused::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(135deg,
+      transparent 0 8px,
+      var(--wholeness-50) 8px 16px);
+    border-radius: 6px;
+    pointer-events: none;
+  }
+  .slated-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 8px; margin-bottom: 6px;
+  }
+  .slated-glyph { font-family: var(--mono); font-size: 11px; color: var(--p-accent); }
+  .slated-source {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--text-faint); letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .slated-label {
+    font-family: var(--display); font-size: 13px;
+    color: var(--text); letter-spacing: -0.01em;
+    line-height: 1.25; margin-bottom: 4px;
+  }
+  .slated.is-refused .slated-label { color: var(--judgment); text-decoration: line-through; text-decoration-thickness: 1px; }
+  .slated-note {
+    font-family: var(--serif); font-style: italic; font-size: 11.5px;
+    color: var(--text-dim); line-height: 1.4;
+  }
+  .slated-refusal {
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--judgment); letter-spacing: 0.06em;
+    line-height: 1.4;
+  }
+  .slated .slated-x {
+    position: absolute; top: 4px; right: 6px;
+    font-family: var(--mono); font-size: 13px;
+    color: var(--text-faint);
+    line-height: 1;
+    cursor: pointer;
+    width: 18px; height: 18px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--frame-bg);
+    border-radius: 50%;
+    z-index: 3;
+    transition: color 180ms, background 180ms;
+  }
+  .slated .slated-x:hover { color: var(--text); background: var(--judgment-bg); }
+
+  /* sparkline tile · Devon DRIFT primary read */
+  .slated.is-sparkline {
+    width: 100%;
+    background: var(--frame-bg-2);
+  }
+  .slated.is-sparkline .sparkline {
+    width: 100%; height: 56px;
+    margin-top: 8px;
+    display: block;
+  }
+  .sparkline path { fill: none; stroke-width: 1.5; }
+  .sparkline .line-int  { stroke: var(--text-mid); }
+  .sparkline .line-ext  { stroke: var(--judgment); }
+  .sparkline .gap       { fill: var(--wholeness-100); stroke: none; }
+  .sparkline-meta {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 9.5px;
+    color: var(--text-dim); margin-top: 6px;
+    letter-spacing: 0.06em;
+  }
+  .sparkline-meta .delta { color: var(--judgment); }
+
+  /* synthesis · the brief that renders below the slate */
+  .brief-area {
+  .rail-right {
+    border-left: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    overflow-y: auto;
+    padding: 18px 0;
+  }
+  .rail-right-header {
+    display: flex; justify-content: space-between;
+    padding: 0 18px 12px;
+    border-bottom: 1px solid var(--frame-border);
+    margin-bottom: 14px;
+    font-family: var(--mono); font-size: 10px;
+    color: var(--text-faint); letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .rail-right-header .live-indicator { color: var(--good); }
+  .register-block {
+    padding: 0 18px 14px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .register-block:last-child { border-bottom: none; }
+  .reg-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .reg-name-block { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .reg-status .status {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+    padding: 2px 6px; border-radius: 3px;
+  }
+  .register-block.diligence .reg-name-block { color: var(--diligence); }
+  .register-block.synthesis .reg-name-block { color: var(--synthesis); }
+  .register-block.judgment  .reg-name-block { color: var(--judgment); }
+  .register-block.outreach  .reg-name-block { color: var(--outreach); }
+  .reg-status .status.idle    { color: var(--text-faint); border: 1px solid var(--card-border); }
+  .reg-status .status.active  { color: var(--p-accent); border: 1px solid var(--p-accent-edge); background: var(--p-accent-bg); }
+  .reg-status .status.refused { color: var(--judgment); border: 1px solid var(--judgment-edge); background: var(--judgment-bg); }
+  .reg-status .status.routing { color: var(--judgment); border: 1px solid var(--judgment-edge); background: var(--judgment-bg); }
+  .reg-agents { display: flex; flex-direction: column; gap: 2px; position: relative; }
+  .reg-agent {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 5px 8px 5px 18px;
+    font-family: var(--display); font-size: 12.5px; color: var(--text-mid);
+    border-radius: 3px;
+    transition: color 220ms, background 220ms;
+    position: relative;
+  }
+  .reg-agent .ra-name { letter-spacing: -0.01em; flex: 1; min-width: 0; }
+  .reg-agent .ra-detail {
+    font-family: var(--mono); font-size: 9px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  /* status bullet · per-agent left dot · color and behavior depends on state */
+  .reg-agent::before {
+    content: "";
+    position: absolute;
+    left: 6px; top: 50%;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--text-faint);
+    transform: translateY(-50%);
+    transition: background 220ms, box-shadow 220ms;
+  }
+  /* idle agent · faint dot · slept */
+  .reg-agent.is-idle { color: var(--text-dim); }
+  .reg-agent.is-idle::before { background: var(--text-faint); }
+  .reg-agent.is-idle .ra-detail { color: var(--text-faint); }
+  /* read · agent has logged a read · timestamp visible */
+  .reg-agent.is-read { color: var(--text); }
+  .reg-agent.is-read::before { background: var(--p-accent); opacity: 0.7; }
+  .reg-agent.is-read .ra-detail { color: var(--p-accent); opacity: 0.85; }
+  /* currently-reading · gentle pulse · just one at a time */
+  .reg-agent.is-reading {
+    color: var(--text);
+    background: var(--p-accent-bg);
+  }
+  .reg-agent.is-reading::before {
+    background: var(--p-accent);
+    box-shadow: 0 0 0 0 var(--p-accent-soft);
+    animation: ra-pulse 1.6s ease-in-out infinite;
+  }
+  .reg-agent.is-reading .ra-detail {
+    color: var(--p-accent);
+    font-style: italic;
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+  }
+  @keyframes ra-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 var(--p-accent-soft); }
+    50%      { box-shadow: 0 0 0 6px transparent; }
+  }
+  /* disagreed · pinned hot · judgment edge */
+  .reg-agent.is-disagreed { color: var(--text); }
+  .reg-agent.is-disagreed::before {
+    background: var(--judgment);
+    box-shadow: 0 0 6px var(--judgment-soft);
+  }
+  .reg-agent.is-disagreed .ra-detail {
+    color: var(--judgment);
+    font-style: italic;
+    text-transform: lowercase;
+    letter-spacing: 0.04em;
+  }
+  /* refused · the agent flagged consent/clearance · stays bright */
+  .reg-agent.is-refused-by { color: var(--judgment); }
+  .reg-agent.is-refused-by::before {
+    background: var(--judgment);
+  }
+  .reg-agent.is-refused-by .ra-detail { color: var(--judgment); }
+
+  /* disagreement edge · drawn between two agents who diverge on current slate
+     · hairline accent stroke · hint at the conflict relationship · purely
+     visual · sits absolute inside .reg-agents which is position:relative */
+  .reg-edge {
+    position: absolute;
+    left: 8px;
+    width: 1px;
+    background: var(--judgment);
+    box-shadow: 0 0 4px var(--judgment-soft);
+    pointer-events: none;
+    z-index: 1;
+    animation: re-fade-in 320ms ease-out;
+  }
+  .reg-edge::before, .reg-edge::after {
+    content: ""; position: absolute;
+    left: -1.5px; width: 4px; height: 4px;
+    background: var(--judgment); border-radius: 50%;
+  }
+  .reg-edge::before { top: -2px; }
+  .reg-edge::after  { bottom: -2px; }
+  @keyframes re-fade-in {
+    0%   { opacity: 0; transform: scaleY(0.6); transform-origin: top; }
+    100% { opacity: 1; transform: scaleY(1); }
+  }
+
+  /* ─── tray · attached to desktop frame's right edge ─────────────
