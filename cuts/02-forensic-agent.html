@@ -52,6 +52,29 @@
 <style>
   /* ─── Cut 02 · per-cut layout only · no token redefines ─────────── */
 
+  /* CANON BIND (2026-07-02) · resolves the "CANON DRIFT · TODO(canon)" note
+     below (option b). The --ink-1..9 ramp this cut paints from is no longer a
+     phantom: each level is bound to a real canon surface/text token, so a
+     canon change now lands here. Same pattern as cut 03/10's --paper aliases
+     (prototype-vocabulary bound INTO canon, not a canon redefine). Mapping
+     preserves the prior ramp: surfaces by nearest value, the five text levels
+     rank-aligned to canon's five (mute→primary). Per-property hex fallbacks
+     stay as belt-and-braces if a token is ever missing. */
+  :root {
+    --ink-1: var(--bg);            /* #0a0b0d → page surface     */
+    --ink-2: var(--frame-bg-3);    /* #111317 → lifted panel     */
+    --ink-3: var(--frame-border);  /* #1c1e22 → borders/dividers */
+    --ink-5: var(--text-mute);     /* #5a5854 → dimmest meta · recessive by design
+                                      (soft bullet + provenance footer, ~1.7:1, was
+                                      ~2.8:1 — both sub-AA on purpose). Elevate to
+                                      var(--text-faint) [~4.9:1, AA] if the provenance
+                                      line should read louder. */
+    --ink-6: var(--text-faint);    /* #7b7a75 → faint text       */
+    --ink-7: var(--text-dim);      /* #aaa79f → dim label        */
+    --ink-8: var(--text-mid);      /* #c8c5be → secondary text   */
+    --ink-9: var(--text);          /* #e8e6e1 → primary text     */
+  }
+
   body[data-cut="02"] {
     background: var(--ink-1, #0a0b0d);
     color: var(--ink-9, #e8e6e1);
@@ -337,17 +360,15 @@
     color: var(--ink-5, #5a5854);
   }
 
-  /* CANON DRIFT · TODO(canon) ─────────────────────────────────────────
-     This cut paints its dark surface from an --ink-1…--ink-9 ramp that
-     CANON DOES NOT DEFINE (0 matches in design-tokens.css). Every --ink-*
-     reference here renders only via its per-property fallback (e.g.
-     `var(--ink-1, #0a0b0d)`), so a canon dark-ramp change would NOT land
-     here. The chrome tokens (--alarm/--watch/--signal) DO resolve from canon.
-     A prior :root block here self-referenced (`--ink-9: var(--ink-9,#e8e6e1)`)
-     and was removed — it was a no-op masquerading as a fallback.
-     RESOLUTION (founder call, not a polish edit): either (a) add a named
-     ink/surface ramp to canon, or (b) rename these locals to the real canon
-     surface tokens. Until then the per-property fallbacks are the truth. */
+  /* CANON DRIFT · RESOLVED (2026-07-02, option b) ──────────────────────
+     This cut paints its dark surface from an --ink-1…--ink-9 ramp that canon
+     does not name. That ramp is now BOUND to real canon tokens in the :root
+     block at the top of this <style> (--ink-1→--bg … --ink-9→--text), so a
+     canon surface/text change now lands here — the phantom is closed. The
+     per-property hex fallbacks (`var(--ink-1, #0a0b0d)`) are retained as a
+     belt-and-braces default. Chrome tokens (--alarm/--watch/--signal) already
+     resolved from canon. Option (a) — adding a first-class ink/surface ramp to
+     canon — remains open upstream, but is no longer required for this cut. */
 
   /* ─── responsive · matches cut 08 breakpoint register (1380 / 1180 / 780) ─── */
   @media (max-width: 1180px) {
