@@ -31,8 +31,9 @@ The deeper finding (v2): **the company already has a product taxonomy** — it's
 four-layer ladder in `CANONICAL_POSITIONING_FRAME`, one repo over. v1 of this doc
 reinvented a generic PM ladder (`Journey/Feature/Flow`) from first principles. v2
 discards the invention and uses the canonical ladder. The cuts have simply never
-been mapped onto it. **That missing join is the phantom `CUT_CONSOLIDATION_MAP.md`
-that cut 00 already promises.**
+been mapped onto it. **That missing join is now written: `docs/CUT_CONSOLIDATION_MAP.md`
+(2026-07-01) — the ladder × fold × situation × divergence join cut 00 promised; binding
+for the consolidation build.**
 
 ---
 
