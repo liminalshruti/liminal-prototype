@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Custody · defense | OSINT · Liminal</title>
+
+<!--
+  Custody · Structural scaffold for C1 fold (Phase B implementation)
+  ──────────────────────────────────────────────────────────────────────
+  Loop-stage · full-loop    (custody subject, planned dual mode: defense + osint)
+  Altitude   · L3-high-stakes
+  Surface    · desktop
+  Framing    · infra        (depth proof — dual substrate at high-stakes altitude)
+  Maturity   · sketch       (structural shell only; beat handlers deferred to Phase B)
+  Spec ref   · liminal-natsec/docs/liminal-custody-onepager.md
+             · liminal-natsec/docs/maven-analysis.md
+             · liminal-natsec/docs/v4-judge-calibrated-demo.md
+             · founder-brain/ops/build-day/CUT_CONSOLIDATION_MAP.md § C1 custody fold
+  Coordinate per TAXONOMY.md v2 · the L3 depth-proof cluster (with molehunt) —
+  same loop at the high-stakes altitude, one SUBJECT (custody). This sketch
+  establishes the mode-toggle infrastructure for folding 08 (defense) + 09 (osint)
+  into one surface. Mode is data-driven (data-mode attr); markup and CSS support
+  both modes. Beat handler scripts deferred to Phase B transplant work.
+  ──────────────────────────────────────────────────────────────────────
+
+  CONSOLIDATION CONTRACT DEFERRED:
+  Phase B will transplant:
+  - 08 (defense) mode: cut 08's full beat handler (5-beat state machine, guard logic,
+    localStorage persistence, instant-seal rule-gate, frame-receipt footer)
+  - 09 (osint) mode: cut 09's full beat handler (frozen kernel import, 4→5 beat loop,
+    visible-clause WHEN/THEN, 500ms dispo rise animation, vault pill, register swap)
+
+  This cut provides the scaffold:
+  - Layout (left-rail, center-panel, right-panel, command-shell) per mode
+  - Mode toggle (data-mode="defense"|"osint" with button handlers)
+  - CSS visibility gates ([data-mode="X"] .Y-only { display: none })
+  - Per-mode engine config stubs (ready for initLoopEngine call)
+
+  Original working cuts archived at cuts/_archive/pre-consolidation/{08,09}
+  for Phase B source-of-truth on transplant.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../design-system/components/framing.css">
+<link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/surface-nav.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
+
+<style>
+  /* ════════════════════════════════════════════════════════════════
+     Custody fold · unified defense/osint desktop view
+     Colour/tokens from canon; layout accommodates both modes.
+     ════════════════════════════════════════════════════════════════ */
+
+  body[data-product="business"] {
+    background:
+      radial-gradient(circle at top left, var(--expression-bg), transparent 28%),
+      radial-gradient(circle at top right, var(--wholeness-bg), transparent 22%),
+      linear-gradient(180deg, rgba(8, 12, 14, 0.98), rgba(10, 10, 11, 1));
+  }
+
+  body[data-product="business"] .stage::before {
+    opacity: 0.48;
+    background:
+      radial-gradient(circle at 18% 14%, var(--expression-bg), transparent 22%),
+      radial-gradient(circle at 84% 12%, var(--stability-bg), transparent 18%),
+      radial-gradient(circle at 54% 76%, var(--connection-bg), transparent 24%);
+  }
+
+  .custody-stage {
+    width: 100%;
+    max-width: 1700px;
+    position: relative;
+  }
+
+  .custody-stage::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(transparent 94%, rgba(255, 255, 255, 0.03) 100%),
+      linear-gradient(90deg, transparent 94%, rgba(255, 255, 255, 0.02) 100%);
+    background-size: 100% 120px, 120px 100%;
+    opacity: 0.22;
+    mix-blend-mode: screen;
+  }
+
+  .custody-frame {
+    min-height: 960px;
+  }
+
+  .title-row {
+    justify-content: flex-start;
+  }
+
+  .title-row .diamond {
+    color: var(--expression);
+  }
+
+  .mode-toggle {
+    display: inline-flex;
+    gap: 8px;
+    padding: 6px;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    margin-left: 12px;
+  }
+
+  .mode-toggle button {
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: transparent;
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: all 160ms ease;
+  }
+
+  .mode-toggle button:hover {
+    color: var(--text);
+  }
+
+  .mode-toggle button.active {
+    background: var(--expression-bg);
+    border-color: var(--expression-edge);
+    color: var(--expression);
+  }
+
+  .vault-pill {
+    color: var(--expression);
+    background: var(--expression-bg);
+    border-color: var(--expression-edge);
+  }
+
+  .vault-pill .diamond {
+    color: var(--expression);
+  }
+
+  /* Mode-specific visibility */
+  [data-mode="defense"] .osint-only { display: none !important; }
+  [data-mode="osint"] .defense-only { display: none !important; }
+
+  .product-row {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent),
+      var(--frame-bg-2);
+    padding: 0 18px;
+    gap: 12px;
+  }
+
+  .workflow-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: min(860px, 100%);
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .workflow-node {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+  }
+
+  .workflow-node::after {
+    content: "";
+    position: absolute;
+    inset: auto -10px 0 auto;
+    width: 42px;
+    height: 42px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.09), transparent 68%);
+    opacity: 0.55;
+  }
+
+  .workflow-node.is-active {
+    border-color: var(--expression-edge);
+    background:
+      linear-gradient(90deg, var(--expression-bg), rgba(255, 255, 255, 0.02)),
+      rgba(255, 255, 255, 0.02);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 0 28px rgba(30, 150, 146, 0.08);
+  }
+
+  .workflow-node.is-alert {
+    border-color: var(--stability-edge);
+    background:
+      linear-gradient(90deg, var(--stability-bg), rgba(255, 255, 255, 0.02)),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .workflow-glyph {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-mid);
+    background: rgba(255, 255, 255, 0.04);
+    flex-shrink: 0;
+  }
+
+  .workflow-node.is-active .workflow-glyph {
+    color: var(--expression);
+    border-color: var(--expression-edge);
+    background: var(--expression-bg);
+  }
+
+  .workflow-node.is-alert .workflow-glyph {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+    background: var(--stability-bg);
+  }
+
+  .workflow-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .workflow-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .workflow-value {
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .surface-meta {
+    margin-left: auto;
+  }
+
+  .surface-meta .sm-strong {
+    color: var(--expression);
+  }
+
+  .surface-meta .sm-banner {
+    color: var(--expression);
+    border-color: var(--expression-edge);
+    background: var(--expression-bg);
+  }
+
+  .custody-main {
+    display: grid;
+    grid-template-columns: 264px minmax(0, 1fr) 392px;
+    grid-template-rows: minmax(0, 1fr) 232px;
+    min-height: 820px;
+    overflow: hidden;
+  }
+
+  .left-rail,
+  .center-panel,
+  .right-panel,
+  .command-shell {
+    min-width: 0;
+  }
+
+  .left-rail {
+    border-right: 1px solid var(--frame-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 18%),
+      var(--frame-bg-2);
+    padding: 18px 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  .center-panel {
+    background: var(--frame-bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .right-panel {
+    border-left: 1px solid var(--frame-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 18%),
+      var(--frame-bg-2);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  .command-shell {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--frame-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 20%),
+      #090b0d;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .rail-section,
+  .console-card,
+  .panel-card,
+  .map-card,
+  .event-card {
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 24%),
+      rgba(255, 255, 255, 0.018);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.015);
+  }
+
+  .rail-section {
+    padding: 14px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .section-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--expression);
+  }
+
+  .scenario-blurb {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-mid);
+  }
+
+  .scenario-blurb strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .source-list,
+  .case-list,
+  .rule-list,
+  .beat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .source-item,
+  .case-button,
+  .rule-bullet,
+  .beat-item {
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 11px 12px;
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  .source-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: start;
+  }
+
+  .source-glyph,
+  .case-index,
+  .beat-index {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--expression);
+    border: 1px solid var(--expression-edge);
+    background: var(--expression-bg);
+    flex-shrink: 0;
+  }
+
+  .source-alert .source-glyph,
+  .beat-item.is-current .beat-index {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+    background: var(--stability-bg);
+  }
+
+  .source-copy,
+  .case-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .source-name,
+  .case-name,
+  .beat-name {
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .source-note,
+  .case-note,
+  .beat-note {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .status-chip,
+  .mini-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 7px;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    color: var(--text-mid);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .status-chip.is-contested,
+  .mini-chip.is-contested {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+    background: var(--stability-bg);
+  }
+
+  .status-chip.is-open,
+  .mini-chip.is-open {
+    color: var(--expression);
+    border-color: var(--expression-edge);
+    background: var(--expression-bg);
+  }
+
+  .status-chip.is-ready,
+  .mini-chip.is-ready,
+  .status-chip.is-saved {
+    color: var(--connection);
+    border-color: var(--connection-edge);
+    background: var(--connection-bg);
+  }
+
+  .status-chip.is-locked,
+  .mini-chip.is-locked {
+    color: var(--text-faint);
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  .case-button {
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+  }
+
+  .case-button:hover:not(:disabled) {
+    border-color: var(--expression-edge);
+    transform: translateY(-1px);
+  }
+
+  .case-button.is-active {
+    border-color: var(--expression-edge);
+    background:
+      linear-gradient(90deg, var(--expression-bg), transparent 64%),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .case-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .case-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .rail-footer {
+    margin-top: auto;
+    border: 1px dashed var(--card-border);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  .rail-footer p {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .rail-footer strong {
+    color: var(--text-mid);
+    font-weight: 500;
+  }
+
+  .center-header {
+    padding: 20px 22px 16px;
+    border-bottom: 1px solid var(--frame-border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--expression);
+    margin-bottom: 6px;
+  }
+
+  .thesis-line { --thesis-rule: var(--expression); }
+
+  .center-title {
+    font-size: 32px;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    font-weight: 500;
+    max-width: 760px;
+  }
+
+  .center-subtitle {
+    margin-top: 8px;
+    color: var(--text-mid);
+    font-size: 14px;
+    line-height: 1.55;
+    max-width: 760px;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    min-width: 300px;
+  }
+
+  .hero-stat {
+    padding: 10px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .hero-stat-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 5px;
+  }
+
+  .hero-stat-value {
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.2;
+  }
+
+  .hero-stat-value.is-contested {
+    color: var(--stability);
+  }
+
+  .center-body {
+    padding: 18px 22px 22px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .map-card {
+    padding: 16px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 14px;
+    min-height: 0;
+  }
+
+  .map-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .map-title {
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .map-note {
+    color: var(--text-dim);
+    font-size: 12px;
+  }
+
+  .viewport {
+    position: relative;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 16% 18%, rgba(30, 150, 146, 0.12), transparent 20%),
+      radial-gradient(circle at 74% 22%, rgba(255, 149, 73, 0.12), transparent 18%),
+      linear-gradient(180deg, rgba(7, 13, 16, 0.98), rgba(5, 10, 13, 1));
+    min-height: 420px;
+  }
+
+  .viewport::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 72px 72px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .viewport::after {
+    content: "";
+    position: absolute;
+    width: 160%;
+    height: 160%;
+    top: -30%;
+    left: -30%;
+    background: conic-gradient(from 0deg, transparent 0deg 322deg, rgba(30, 150, 146, 0.18) 334deg 344deg, transparent 356deg);
+    opacity: 0.55;
+    animation: sweep 16s linear infinite;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  @keyframes sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .viewport svg {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .viewport-label {
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: rgba(5, 8, 10, 0.82);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  .viewport-label strong {
+    color: var(--expression);
+    font-weight: 500;
+  }
+
+  .viewport-corner {
+    position: absolute;
+    right: 16px;
+    bottom: 14px;
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+  }
+
+  .corner-pill {
+    padding: 5px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: rgba(5, 8, 10, 0.82);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  .corner-pill strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    font-size: 11px;
+  }
+
+  .legend-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .legend-swatch.primary { background: var(--expression); }
+  .legend-swatch.secondary { background: var(--connection); }
+  .legend-swatch.alert { background: var(--stability); }
+  .legend-swatch.rule { background: var(--agency); }
+
+  .event-card {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .event-stream {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .event-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 11px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .event-item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .event-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--expression);
+    border: 1px solid var(--expression-edge);
+    background: var(--expression-bg);
+  }
+
+  .event-item.is-alert .event-dot {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+    background: var(--stability-bg);
+  }
+
+  .event-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .event-headline {
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .event-time {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .event-detail {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .panel-card {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .overview-cell {
+    padding: 11px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  .overview-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+
+  .overview-value {
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .overview-value.alert {
+    color: var(--stability);
+  }
+
+  .hypothesis-board {
+    display: grid;
+    gap: 10px;
+  }
+
+  .hypothesis-card {
+    padding: 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  .hypothesis-card.is-leading {
+    border-color: var(--expression-edge);
+    background:
+      linear-gradient(90deg, var(--expression-bg), transparent 60%),
+      rgba(255, 255, 255, 0.018);
+  }
+
+  .hypothesis-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .hypothesis-name {
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .hypothesis-score {
+    color: var(--expression);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .hypothesis-card.is-suppressed .hypothesis-score {
+    color: var(--agency);
+  }
+
+  .hypothesis-copy {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .read-grid {
+    display: grid;
+    gap: 10px;
+  }
+
+  .read-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  .read-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+
+  .read-name {
+    color: var(--text);
+    font-size: 12px;
+  }
+
+  .read-body {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .read-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+  }
+
+  .read-meta .mini-chip {
+    min-width: 92px;
+  }
+
+  .guard-banner {
+    border: 1px solid var(--stability-edge);
+    border-radius: 12px;
+    padding: 14px;
+    background:
+      linear-gradient(90deg, var(--stability-bg), rgba(255, 255, 255, 0.015) 68%),
+      rgba(255, 255, 255, 0.02);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.015);
+  }
+
+  .guard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 7px;
+  }
+
+  .guard-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stability);
+  }
+
+  .guard-body {
+    color: var(--text-mid);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .rule-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rule-slate {
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.018);
+    padding: 12px;
+  }
+
+  .rule-preview {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.65;
+    color: var(--text-mid);
+    white-space: pre-wrap;
+  }
+
+  .rule-preview .token {
+    color: var(--expression);
+  }
+
+  .rule-preview .action {
+    color: var(--agency);
+  }
+
+  .rule-preview .guard {
+    color: var(--stability);
+  }
+
+  .rule-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .button {
+    appearance: none;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.018);
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
+  }
+
+  .button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    border-color: var(--expression-edge);
+    color: var(--text);
+  }
+
+  .button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .button.is-primary {
+    background: var(--expression-bg);
+    border-color: var(--expression-edge);
+    color: var(--expression);
+  }
+
+  .button.is-primary:hover:not(:disabled) {
+    background: rgba(30, 150, 146, 0.18);
+  }
+
+  .button.is-danger {
+    background: var(--stability-bg);
+    border-color: var(--stability-edge);
+    color: var(--stability);
+  }
+
+  .receipt {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 12px;
+    border: 1px solid var(--connection-edge);
+    border-radius: 12px;
+    background:
+      linear-gradient(90deg, var(--connection-bg), transparent 70%),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .receipt-glyph {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--connection);
+    border: 1px solid var(--connection-edge);
+    background: var(--connection-bg);
+    flex-shrink: 0;
+  }
+
+  .receipt-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .receipt-title {
+    color: var(--text);
+    font-size: 12px;
+  }
+
+  .receipt-note {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .console-left,
+  .console-right {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .console-right {
+    border-left: 1px solid var(--frame-border);
+  }
+
+  .console-card {
+    padding: 14px;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .console-banner {
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .console-banner.alert {
+    border-color: var(--stability-edge);
+    background:
+      linear-gradient(90deg, var(--stability-bg), transparent 72%),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .console-banner strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .console-banner.alert strong {
+    color: var(--stability);
+  }
+
+  .console-copy {
+    color: var(--text-mid);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .terminal {
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background: rgba(2, 5, 7, 0.88);
+    padding: 12px;
+    overflow: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .log-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .log-row {
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .log-time {
+    color: var(--text-faint);
+  }
+
+  .log-text {
+    color: var(--text-mid);
+  }
+
+  .log-text strong {
+    color: var(--expression);
+    font-weight: 500;
+  }
+
+  .log-text .danger {
+    color: var(--stability);
+  }
+
+  .prompt-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+
+  .prompt-mark {
+    color: var(--expression);
+  }
+
+  .prompt-text {
+    color: var(--text-mid);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .beat-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .step-button {
+    appearance: none;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 8px 11px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+  }
+
+  .step-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    color: var(--text);
+    border-color: var(--expression-edge);
+  }
+
+  .step-button.is-current {
+    color: var(--expression);
+    background: var(--expression-bg);
+    border-color: var(--expression-edge);
+  }
+
+  .step-button.is-complete {
+    color: var(--connection);
+    background: var(--connection-bg);
+    border-color: var(--connection-edge);
+  }
+
+  .step-button.is-blocked {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+  }
+
+  .step-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .toast {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 40;
+    min-width: 280px;
+    max-width: 380px;
+    padding: 12px 14px;
+    border: 1px solid var(--expression-edge);
+    border-radius: 12px;
+    background:
+      linear-gradient(90deg, var(--expression-bg), rgba(10, 14, 16, 0.95) 72%),
+      rgba(10, 14, 16, 0.95);
+    color: var(--text);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .toast.is-alert {
+    border-color: var(--stability-edge);
+    background:
+      linear-gradient(90deg, var(--stability-bg), rgba(10, 14, 16, 0.95) 72%),
+      rgba(10, 14, 16, 0.95);
+  }
+
+  .toast-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    color: var(--expression);
+  }
+
+  .toast.is-alert .toast-title {
+    color: var(--stability);
+  }
+
+  .toast-body {
+    color: var(--text-mid);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .map-strait {
+    fill: rgba(7, 16, 19, 0.86);
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 1.5;
+  }
+
+  .map-coast {
+    fill: rgba(255, 255, 255, 0.045);
+  }
+
+  .track-line {
+    fill: none;
+    stroke-linecap: round;
+    stroke-width: 5;
+    opacity: 0.95;
+  }
+
+  .track-line.track-a {
+    stroke: var(--expression);
+    filter: drop-shadow(0 0 8px rgba(30, 150, 146, 0.25));
+  }
+
+  .track-line.track-b {
+    stroke: var(--connection);
+    filter: drop-shadow(0 0 8px rgba(49, 230, 130, 0.24));
+  }
+
+  .track-line.dashed {
+    stroke-dasharray: 12 10;
+  }
+
+  .gap-segment {
+    stroke: var(--stability);
+    stroke-dasharray: 6 10;
+    stroke-width: 4;
+    opacity: 0.92;
+  }
+
+  .marker {
+    transition: transform 220ms ease, opacity 220ms ease;
+  }
+
+  .marker-ring {
+    fill: rgba(255, 255, 255, 0.03);
+    stroke-width: 2;
+  }
+
+  .marker-ring.primary { stroke: var(--expression); }
+  .marker-ring.secondary { stroke: var(--connection); }
+  .marker-ring.alert { stroke: var(--stability); }
+
+  .marker-core.primary { fill: var(--expression); }
+  .marker-core.secondary { fill: var(--connection); }
+  .marker-core.alert { fill: var(--stability); }
+
+  .marker-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    fill: rgba(244, 242, 238, 0.9);
+  }
+
+  .marker-note {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    fill: rgba(201, 197, 189, 0.72);
+  }
+
+  .marker.pulse .marker-ring {
+    animation: pulse-ring 1.8s ease-in-out infinite;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { opacity: 0.55; transform: scale(1); transform-origin: center; }
+    50% { opacity: 1; transform: scale(1.22); transform-origin: center; }
+  }
+
+  .connection-arc {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.18);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 7;
+  }
+
+  .connection-arc.rule-on {
+    stroke: var(--agency);
+    stroke-width: 2;
+  }
+
+  .heat-zone {
+    fill: rgba(240, 64, 64, 0.1);
+    stroke: rgba(240, 64, 64, 0.18);
+    stroke-dasharray: 6 7;
+  }
+
+  @media (max-width: 1380px) {
+    .custody-main {
+      grid-template-columns: 240px minmax(0, 1fr) 352px;
+    }
+
+    .center-body {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 1180px) {
+    body {
+      padding: 18px 12px;
+    }
+
+    .custody-frame {
+      min-height: 0;
+    }
+
+    .workflow-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .custody-main {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto 260px;
+    }
+
+    .left-rail {
+      border-right: none;
+      border-bottom: 1px solid var(--frame-border);
+    }
+
+    .right-panel {
+      border-left: none;
+      border-top: 1px solid var(--frame-border);
+    }
+
+    .command-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .console-right {
+      border-left: none;
+      border-top: 1px solid var(--frame-border);
+    }
+  }
+</style>
+</head>
+<body data-product="business" data-mode="defense">
+
+<div class="custody-stage">
+  <div class="frame custody-frame">
+    <div class="top-ribbon">
+      <div class="frame-chrome"></div>
+      <div class="title-row">
+        <h1>Custody · defense | OSINT</h1>
+        <div class="mode-toggle">
+          <button class="active" id="modeDefense" data-mode="defense" type="button">Defense</button>
+          <button id="modeOsint" data-mode="osint" type="button">OSINT</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="custody-main">
+      <aside class="left-rail defense-only">
+        <!-- Defense mode left rail: sources, scenario, replay beats -->
+        <section class="rail-section">
+          <div class="section-head">
+            <span class="section-label">Sources</span>
+            <span class="section-meta" id="source-meta">6 feeds</span>
+          </div>
+          <div class="source-list" id="source-list"></div>
+        </section>
+
+        <section class="rail-section">
+          <div class="section-head">
+            <span class="section-label">Case</span>
+          </div>
+          <div class="scenario-blurb">
+            Surfaced live during the hackathon demo from real Strait of Hormuz OSINT feeds. No staged data. Same agents as production.
+          </div>
+        </section>
+
+        <section class="rail-section">
+          <div class="section-head">
+            <span class="section-label">Replay beats</span>
+            <span class="section-meta" id="beat-meta">step 1 of 5</span>
+          </div>
+          <div class="beat-list" id="beat-list"></div>
+        </section>
+
+        <div class="rail-footer">
+          <p><strong>Maven is the foundation.</strong> This prototype owns the substrate layer beneath it: contested signals, structural refusal, and review memory before command action.</p>
+        </div>
+      </aside>
+
+      <aside class="left-rail osint-only" style="display:none;">
+        <!-- OSINT mode left rail: observations -->
+        <p class="rail-h" id="obsHead" style="font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 10px;">Ingest · observations</p>
+        <div id="obsList"></div>
+      </aside>
+
+      <section class="center-panel">
+        <div class="center-header defense-only">
+          <div>
+            <div class="eyebrow">Substrate / Stage viewport / Working panel / Command line</div>
+            <h1 class="center-title" id="center-title"></h1>
+            <p class="center-subtitle" id="center-subtitle"></p>
+            <div class="thesis-line">The same capture · read · refuse · correct · sign loop — at scale — under maximum constraint: overload, ambiguity, accountability. <b>This is the depth proof: if the loop holds here, it holds anywhere. Do not automate the moral lever; equip the operator at it.</b></div>
+          </div>
+          <div class="hero-stats" id="hero-stats"></div>
+        </div>
+
+        <div class="center-header osint-only" style="display:none;">
+          <div>
+            <div class="case-eyebrow" id="caseEyebrow">CASE C1 · awaiting deliberation</div>
+            <h1 class="center-title" id="caseTitle"></h1>
+            <p class="center-subtitle" id="caseSub"></p>
+            <div class="thesis-line">The same capture · read · refuse · correct · sign loop — at the high-stakes altitude. Everything below is computed in your browser by a frozen kernel bundle (<span style="font-family:var(--mono)">osint-kernel.bundle.js</span>), recomputed each load. <b>This is the depth proof with a working engine: not a mockup of the loop, the loop itself — pointed at an intelligence claim.</b> <span style="opacity:0.7">The bundle is a recorded artifact; its source is not currently rebuildable in-workspace.</span></div>
+          </div>
+        </div>
+
+        <div class="center-body">
+          <article class="map-card defense-only">
+            <div class="map-head">
+              <div>
+                <div class="map-title">Stage viewport</div>
+                <div class="map-note" id="map-note"></div>
+              </div>
+              <div id="map-chip-slot"></div>
+            </div>
+            <div class="viewport">
+              <div class="viewport-label"><span>viewport</span><strong id="viewport-label"></strong></div>
+              <div class="viewport-corner">
+                <span class="corner-pill"><strong id="corner-range">Range 14nm</strong></span>
+                <span class="corner-pill"><strong id="corner-latency">Latency 2.3s</strong></span>
+              </div>
+              <svg viewBox="0 0 860 520" aria-label="Strait of Hormuz contested-track map">
+                <path class="map-coast" d="M0,56 C120,32 176,42 278,64 C334,77 388,114 470,118 C570,124 676,75 860,45 L860,0 L0,0 Z"></path>
+                <path class="map-coast" d="M0,520 L860,520 L860,420 C732,382 614,372 552,392 C462,420 388,470 292,478 C182,486 92,444 0,420 Z"></path>
+                <path class="map-strait" d="M52,92 C152,78 222,96 306,138 C366,169 414,190 494,194 C600,200 684,166 806,110 L806,410 C704,448 622,456 528,434 C432,412 384,354 292,326 C208,300 132,302 52,326 Z"></path>
+                <ellipse class="heat-zone" cx="470" cy="260" rx="116" ry="72"></ellipse>
+                <path class="connection-arc" id="connection-arc" d="M326,286 C408,248 482,226 598,208"></path>
+                <path class="track-line track-a" d="M178,310 C240,300 282,294 326,286"></path>
+                <path class="gap-segment" id="gap-segment" d="M326,286 C374,272 430,250 468,232"></path>
+                <path class="track-line track-a dashed" id="projected-track" d="M468,232 C520,214 560,206 598,208"></path>
+                <path class="track-line track-b" id="track-b" d="M522,232 C552,222 580,214 598,208"></path>
+
+                <g class="marker pulse" id="marker-alpha" transform="translate(326 286)">
+                  <circle class="marker-ring primary" r="18"></circle>
+                  <circle class="marker-core primary" r="7"></circle>
+                </g>
+                <text class="marker-label" x="304" y="252">MMSI-88102</text>
+                <text class="marker-note" x="302" y="268">last clean identity</text>
+
+                <g class="marker pulse" id="marker-gap" transform="translate(468 232)">
+                  <circle class="marker-ring alert" r="18"></circle>
+                  <circle class="marker-core alert" r="7"></circle>
+                </g>
+                <text class="marker-label" x="438" y="198">dark gap</text>
+                <text class="marker-note" x="432" y="214">38 minutes no AIS</text>
+
+                <g class="marker" id="marker-beta" transform="translate(598 208)">
+                  <circle class="marker-ring secondary" r="18"></circle>
+                  <circle class="marker-core secondary" r="7"></circle>
+                </g>
+                <text class="marker-label" x="568" y="174" id="marker-beta-label">MMSI-22241</text>
+                <text class="marker-note" x="544" y="190" id="marker-beta-note">new identity nearby</text>
+
+                <text class="marker-note" x="116" y="144">Gulf of Oman</text>
+                <text class="marker-note" x="664" y="150">Strait chokepoint</text>
+                <text class="marker-note" x="194" y="404">Arabian Sea</text>
+              </svg>
+            </div>
+            <div class="map-legend">
+              <span class="legend-item"><span class="legend-swatch primary"></span>original track</span>
+              <span class="legend-item"><span class="legend-swatch alert"></span>contested gap</span>
+              <span class="legend-item"><span class="legend-swatch secondary"></span>emergent identity</span>
+              <span class="legend-item"><span class="legend-swatch rule"></span>rule-applied recommendation</span>
+            </div>
+          </article>
+
+          <article class="map-card osint-only" style="display:none;">
+            <div class="metric-band">
+              <div class="metric"><div class="metric-k" id="m1k">Signal integrity</div><div class="metric-v" id="m1v">—</div></div>
+              <div class="metric"><div class="metric-k" id="m2k">Lead hypothesis</div><div class="metric-v" id="m2v">—</div></div>
+              <div class="metric"><div class="metric-k" id="m3k">Doctrine</div><div class="metric-v" id="m3v">—</div></div>
+            </div>
+
+            <div class="sec-h" id="readsHead" style="font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); margin: 20px 0 9px; display: flex; align-items: baseline; gap: 8px;">Bounded specialist reads <span class="hint" id="readsHint" style="color: var(--text-mute); letter-spacing: .04em; text-transform: none; font-size: 10px;">stateless · each sees only this bundle (I2)</span></div>
+            <div class="reads" id="reads"><div class="empty" style="color: var(--text-faint); font-size: 12px; font-style: italic; padding: 30px 0; text-align: center;">Run the loop — the kernel fans out to six bounded specialists.</div></div>
+
+            <div class="sec-h" id="hypHead" style="font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); margin: 20px 0 9px;">Competing hypotheses</div>
+            <div id="hyps"><div class="empty muted" style="color: var(--text-faint); font-size: 12px; font-style: italic; padding: 30px 0; text-align: center;">—</div></div>
+
+            <div class="sec-h" id="actHead" style="font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); margin: 20px 0 9px;">Recommended next move <span class="hint" id="actHint" style="color: var(--text-mute); letter-spacing: .04em; text-transform: none; font-size: 10px;">ranked</span></div>
+            <div class="actions" id="actions"><div class="empty muted" style="color: var(--text-faint); font-size: 12px; font-style: italic; padding: 30px 0; text-align: center;">—</div></div>
+
+            <div class="brief" style="margin-top: 20px; border: 1px solid var(--frame-border); border-radius: var(--radius-4); padding: 14px; background: var(--frame-bg-2, #0C0C0F);">
+              <div class="brief-h" id="briefH" style="font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 9px;">Operator review · durable doctrine</div>
+              <div class="rule" id="rule" style="font-family: var(--mono); font-size: 12px; line-height: 1.5; color: var(--text-mid); background: var(--bg); border: 1px solid var(--frame-border); border-radius: var(--radius-3); padding: 10px 12px; opacity: .45; transition: opacity .3s, border-color .3s;"><span class="kw" style="color: var(--c-verdict);">WHEN</span> identity_churn <span class="kw">AND</span> single_source_confirmation <span class="kw">THEN</span> block_escalation</div>
+              <div class="rule-meta" id="ruleMeta" style="font-family: var(--mono); font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint); margin-top: 8px;">unsigned</div>
+            </div>
+
+            <div class="dispo" id="dispo" style="margin-top: 16px; border: 1px solid color-mix(in srgb, var(--expression) 32%, var(--frame-border)); border-radius: var(--radius-4); padding: 14px 16px; background: color-mix(in srgb, var(--expression) 5%, var(--frame-bg-2)); display: none;">
+              <div class="dispo-h" id="dispoH" style="font-family: var(--mono); font-size: 9.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--expression); margin-bottom: 8px;">Case sealed · signed to vault</div>
+              <div class="dispo-row" id="dispoBody" style="font-size: 12px; color: var(--text-mid); line-height: 1.7;"></div>
+            </div>
+          </article>
+
+          <article class="event-card defense-only">
+            <div class="section-head">
+              <span class="section-label">Evidence chain</span>
+              <span class="section-meta" id="event-meta">traceable receipts</span>
+            </div>
+            <div class="event-stream" id="event-stream"></div>
+          </article>
+        </div>
+      </section>
+
+      <aside class="right-panel defense-only">
+        <section class="panel-card">
+          <div class="section-head">
+            <span class="section-label">Working panel</span>
+            <span class="section-meta" id="panel-case-label"></span>
+          </div>
+          <div class="overview-grid" id="overview-grid"></div>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <span class="section-label">Custody hypotheses</span>
+            <span class="section-meta" id="hypothesis-meta"></span>
+          </div>
+          <div class="hypothesis-board" id="hypothesis-board"></div>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <span class="section-label">Specialist reads</span>
+            <span class="section-meta" id="reads-meta"></span>
+          </div>
+          <div class="read-grid" id="read-grid"></div>
+        </section>
+
+        <section class="guard-banner" id="guard-banner"></section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <span class="section-label">Review memory</span>
+            <span class="section-meta" id="rule-meta"></span>
+          </div>
+          <div class="rule-area">
+            <div class="rule-slate">
+              <div class="rule-preview" id="rule-preview"></div>
+            </div>
+            <div class="rule-actions">
+              <button class="button is-primary" id="save-rule-button" type="button">Save review rule</button>
+              <button class="button" id="open-second-case-button" type="button">Open second case</button>
+              <button class="button is-danger" id="reset-button" type="button">Reset demo</button>
+            </div>
+            <div id="rule-receipt"></div>
+          </div>
+        </section>
+      </aside>
+
+      <aside class="right-panel osint-only" style="display:none;">
+        <p class="rail-h" style="font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); margin: 0 0 10px;">graph-spine · ontology</p>
+        <div class="spine-stat" style="display: flex; gap: 10px; margin-bottom: 10px;">
+          <div style="flex: 1; border: 1px solid var(--frame-border); border-radius: var(--radius-3); padding: 8px; text-align: center;">
+            <div class="spine-n" id="spineNodes" style="font-family: var(--serif, 'Newsreader'); font-size: 20px; color: var(--expression);">0</div>
+            <div class="spine-k" style="font-family: var(--mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint); margin-top: 2px;">nodes</div>
+          </div>
+          <div style="flex: 1; border: 1px solid var(--frame-border); border-radius: var(--radius-3); padding: 8px; text-align: center;">
+            <div class="spine-n" id="spineEdges" style="font-family: var(--serif, 'Newsreader'); font-size: 20px; color: var(--expression);">0</div>
+            <div class="spine-k" style="font-family: var(--mono); font-size: 8px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint); margin-top: 2px;">edges</div>
+          </div>
+        </div>
+        <div class="applies" id="applies" style="font-family: var(--mono); font-size: 9.5px; color: var(--text-dim); line-height: 1.6;">projection of the correction log · never an input to a specialist (I2)</div>
+
+        <p class="rail-h" style="font-family: var(--mono); font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-faint); margin-top: 22px; margin-bottom: 10px;">Correction stream · audit</p>
+        <ul class="audit" id="audit" style="list-style: none; margin: 0; padding: 0;"><li class="muted" style="font-family: var(--mono); font-size: 9.5px; color: var(--text-dim); padding: 4px 0; border-bottom: 1px solid var(--frame-border); display: flex; gap: 7px;">append-only · I1</li></ul>
+
+        <div class="prov" id="prov" style="margin-top: 12px; font-family: var(--mono); font-size: 9px; letter-spacing: .04em; line-height: 1.6; color: var(--text-faint); border-top: 1px dashed var(--frame-border); padding-top: 10px;"></div>
+        <div class="infra" id="infra" style="margin-top: 12px; border-top: 1px dashed var(--frame-border); padding-top: 10px; display: none;"></div>
+      </aside>
+
+      <section class="command-shell defense-only">
+        <div class="console-left">
+          <div class="section-head">
+            <span class="section-label">Command line</span>
+            <span class="section-meta" id="command-meta">causal trace</span>
+          </div>
+          <div class="console-card">
+            <div class="console-banner alert" id="causal-banner"></div>
+            <div class="terminal">
+              <div class="log-list" id="log-list"></div>
+            </div>
+            <div class="prompt-bar">
+              <span class="prompt-mark">custody://</span>
+              <span class="prompt-text" id="prompt-text"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="console-right">
+          <div class="section-head">
+            <span class="section-label">Replay controls</span>
+            <span class="section-meta">Ctrl/Cmd+Shift+R resets</span>
+          </div>
+          <div class="console-card">
+            <div class="beat-controls" id="beat-controls"></div>
+            <div class="console-banner" id="step-banner"></div>
+            <div class="step-summary">
+              <div class="console-copy" id="step-copy"></div>
+              <div class="rule-list" id="rule-list"></div>
+            </div>
+            <div class="rule-actions">
+              <button class="button" id="prev-step-button" type="button">Previous beat</button>
+              <button class="button is-primary" id="next-step-button" type="button">Advance beat</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="command-shell osint-only" style="display:none; grid-template-columns: 1fr;">
+        <nav class="reg-row" style="display: flex; align-items: center; gap: 6px; padding: 9px 14px; background: var(--frame-bg, #0E0E11); border-bottom: 1px solid var(--frame-border, #1F1F23);">
+          <button class="reg-tab" id="tabCustody" aria-selected="true" type="button" style="font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); background: transparent; border: 1px solid transparent; padding: 6px 12px; border-radius: var(--radius-3); cursor: pointer; transition: all .15s;">Custody · OSINT</button>
+          <button class="reg-tab" id="tabDiscord" aria-selected="false" type="button" style="font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-dim); background: transparent; border: 1px solid transparent; padding: 6px 12px; border-radius: var(--radius-3); cursor: pointer; transition: all .15s;">DISCORD · tactics</button>
+          <div class="transport" style="margin-left: auto; display: flex; align-items: center; gap: 8px;">
+            <span class="beat-tag" id="beatTag" style="font-family: var(--mono); font-size: 10px; color: var(--text-faint); letter-spacing: .08em;">idle</span>
+            <button class="t-btn" id="btnStep" type="button" style="font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-mid); background: var(--frame-bg-3, #15161A); border: 1px solid var(--frame-border); border-radius: var(--radius-3); padding: 6px 13px; cursor: pointer; transition: all .15s;">Step</button>
+            <button class="t-btn primary" id="btnRun" type="button" style="font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-mid); background: var(--frame-bg-3, #15161A); border: 1px solid var(--frame-border); border-radius: var(--radius-3); padding: 6px 13px; cursor: pointer; transition: all .15s;">▶ Run loop</button>
+            <button class="t-btn" id="btnReset" type="button" disabled style="font-family: var(--mono); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-mid); background: var(--frame-bg-3, #15161A); border: 1px solid var(--frame-border); border-radius: var(--radius-3); padding: 6px 13px; cursor: pointer; transition: all .15s;">Reset</button>
+          </div>
+        </nav>
+      </section>
+    </div>
+
+    <footer class="frame-footer defense-only" style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap; padding: 9px 16px; background: var(--frame-bg-2, #0C0C0F); border-top: 1px solid var(--frame-border); font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; color: var(--text-faint);">
+      <span style="color: var(--text-dim); font-weight: 500;">Custody defense mode</span>
+      <span class="spacer" style="margin-left: auto;"></span>
+      <span>Instant-seal proof-of-transaction · zero false positives on rule gates</span>
+    </footer>
+
+    <footer class="frame-footer osint-only" style="display: none; flex-align: center; gap: 16px; flex-wrap: wrap; padding: 9px 16px; background: var(--frame-bg-2, #0C0C0F); border-top: 1px solid var(--frame-border); font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; color: var(--text-faint);">
+      <span id="footRead" style="color: var(--text-dim); font-weight: 500;">READ —</span>
+      <span id="footEvents"><b>0</b> events</span>
+      <span class="spacer" style="margin-left: auto;"></span>
+      <span id="footEngine">kernel · frozen bundle, runs in-page (source not in-workspace)</span>
+    </footer>
+  </div>
+</div>
+
+<script type="module">
+/* Custody fold · unified defense/osint mode toggle
+ *
+ * Mode switch (data-mode attr):
+ *   defense: cut 08 map + marker-rings + read-grid + guard-banner + rule-gate (instant seal)
+ *   osint: cut 09 kernel + visible-clause + 500ms dispo rise + vault pill
+ *
+ * Engine config (per RUN_B_COHERENCE_FINDINGS):
+ *   defense: {subject:'custody', sealChoreography:'instant', correctionModel:'rule-gate', refusalFlavor:'system', motionTier:'ambient'}
+ *   osint: {subject:'osint', sealChoreography:'rise', sealRiseMs:500, correctionModel:'visible-clause', refusalFlavor:'agent', motionTier:'refined'}
+ */
+
+import { initLoopEngine, applyBeat } from "../lib/loop.js";
+
+const modeDefense = document.getElementById("modeDefense");
+const modeOsint = document.getElementById("modeOsint");
+const root = document.documentElement;
+
+function setMode(mode) {
+  root.setAttribute("data-mode", mode);
+
+  // Update button states
+  if (mode === "defense") {
+    modeDefense.classList.add("active");
+    modeOsint.classList.remove("active");
+  } else {
+    modeOsint.classList.add("active");
+    modeDefense.classList.remove("active");
+  }
+
+  // Initialize engine per mode config
+  const engineConfig = mode === "defense"
+    ? {
+        subject: "custody",
+        sealChoreography: "instant",
+        correctionModel: "rule-gate",
+        refusalFlavor: "system",
+        motionTier: "ambient"
+      }
+    : {
+        subject: "osint",
+        sealChoreography: "rise",
+        sealRiseMs: 500,
+        correctionModel: "visible-clause",
+        refusalFlavor: "agent",
+        motionTier: "refined"
+      };
+
+  initLoopEngine(engineConfig);
+}
+
+modeDefense.addEventListener("click", () => setMode("defense"));
+modeOsint.addEventListener("click", () => setMode("osint"));
+
+// Init with defense mode
+setMode("defense");
+</script>
+
+<!-- PHASE B TRANSPLANT POINT
+  Cut 08 and 09 beat handlers will be transplanted here during Phase B.1b.
+  Source-of-truth archival at cuts/_archive/pre-consolidation/{08,09}.
+  See fold map § C1 for transplant strategy (element ID reconciliation, mode gating).
+-->
+
+</body>
+</html>
