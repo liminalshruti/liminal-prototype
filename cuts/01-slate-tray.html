@@ -1313,13 +1313,11 @@
        - refusalTimingMs: 320 (matching 01's existing timing) */
     initLoopEngine({
       subject: "pattern",
-      sealChoreography: "rise",
-      sealRiseMs: 520,  /* NOTE: findings say 360ms, but cut-shell.css defines 520ms
-                           Keep as 520ms to match current rendered behavior,
-                           Run-B will adjudicate this value post-Phase-A. */
+      sealChoreography: "rise",  // C1: demo surface (framing story)
+      sealRiseMs: 520,  // C1: artifact-arrive keyframe (cut-shell-products.css:264); verified vs audit wall
       correctionModel: "rule-gate",
-      refusalFlavor: "routing",
-      refusalTimingMs: 320,
+      refusalFlavor: "routing",  // C5: routing refusal (out-of-lane)
+      refusalTimingMs: 320,  // C5: unified timing
       motionTier: "both",
     });
 

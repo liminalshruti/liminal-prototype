@@ -633,10 +633,11 @@ import { initLoopEngine, applyBeat } from '../lib/loop.js';
 // Initialize the loop engine for the pattern subject with gloss-layer correction
 initLoopEngine({
   subject: 'pattern',
-  sealChoreography: 'rise',
-  sealRiseMs: 360,  // verified from cut 06's @keyframes rise
-  correctionModel: 'gloss-layer',
-  refusalFlavor: 'routing',
+  sealChoreography: 'rise',  // C1: demo surface (gloss-layer correction surface)
+  sealRiseMs: 360,  // C1: verified from cut 06's @keyframes rise
+  correctionModel: 'gloss-layer',  // C4: lightweight, non-blocking annotation
+  refusalFlavor: 'routing',  // C5: routing refusal
+  refusalTimingMs: 320,  // C5: unified timing
   motionTier: 'refined',
 });
 

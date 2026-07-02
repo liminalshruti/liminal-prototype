@@ -338,9 +338,9 @@ let loopEngine=null;
 function initEngine(){
   loopEngine={
     subject:CUR,
-    sealChoreography:'instant',
-    refusalFlavor:'routing',
-    refusalTimingMs:200,
+    sealChoreography:'instant',  // C1: operator surface (early-phase loop), no animation
+    refusalFlavor:'system',       // C5: cut 00 is system-hold, not routing
+    refusalTimingMs:320,          // C5: unified timing (converged from 200ms to 320ms, per 01/11)
     motionTier:'ambient'
   };
 }

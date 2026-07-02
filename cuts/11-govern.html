@@ -1167,11 +1167,11 @@ let loopEngine=null;
 function initEngine(){
   loopEngine={
     subject:'spend',
-    sealChoreography:'bifurcated',
-    sealRiseMs:600,
-    refusalFlavor:'agent',
-    refusalTimingMs:320,
-    motionTier:'both',
+    sealChoreography:'bifurcated',  // C1: master surface, richest ceremony
+    sealRiseMs:600,  // C1: orbital glow duration
+    refusalFlavor:'routing',  // C5: master inherits 00's orbital routing refusal pattern
+    refusalTimingMs:320,  // C5: unified timing
+    motionTier:'both',  // C9: both ambient + refined motion tiers
     onSealGlow:()=>{
       // bifurcated seal: trigger orbital center-orb glow animation (600ms by convention)
       const orb=document.querySelector('svg.orbit .core');
