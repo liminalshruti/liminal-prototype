@@ -2342,11 +2342,19 @@
   const state = loadState();
   const els = {};
   let toastTimer = null;
+  let loopEngine = null;  // Set by init-loop-engine script below
 
   document.addEventListener("DOMContentLoaded", () => {
     bindElements();
     bindEvents();
     render();
+
+    /* Wire loop engine reference from global once it's initialized */
+    setTimeout(() => {
+      if (window.__cut08LoopEngine) {
+        loopEngine = window.__cut08LoopEngine;
+      }
+    }, 100);
   });
 
   function loadState() {
@@ -2454,6 +2462,13 @@
     render();
     const meta = beatMeta.find((item) => item.id === state.step);
     showToast(meta.toast[0], meta.toast[1], state.step === 3);
+
+    /* Notify loop engine of beat change (shallow integration) */
+    if (loopEngine && loopEngine.applyBeat) {
+      const beatNames = ["IDLE", "CAPTURING", "READING", "DECIDING", "SEALING", "ENTERING"];
+      const engineBeat = beatNames[state.step] || "IDLE";
+      loopEngine.applyBeat(engineBeat);
+    }
   }
 
   function saveRule() {
@@ -2468,6 +2483,11 @@
     persistState();
     render();
     showToast("Review rule saved", "RULE-014 persisted. The next ambiguous case will default to Request Collection.");
+
+    /* Notify loop engine: rule-gate has passed, sealing can proceed */
+    if (loopEngine && loopEngine.applyBeat) {
+      loopEngine.applyBeat("SEALING");
+    }
   }
 
   function resetDemo() {
@@ -2790,6 +2810,62 @@
   }
 </script>
 <script src="../lib/brand-upgrade.js"></script>
+
+<!-- v0.9.3 · cut 08 ported to loop engine (Phase B.1b shallow integration) -->
+<script type="module">
+/* Loop engine integration for cut 08
+ *
+ * Beat mapping (cut 08 five-beat state.step → engine beats):
+ *   Beat 1 → CAPTURING: "Dark gap" — AIS custody begins, witness the break in signal
+ *   Beat 2 → READING: "Identity churn" — competing hypotheses preserved, specialist reads
+ *   Beat 3 → DECIDING: "Structural refusal" — guard fires, shows why intent cannot pass
+ *   Beat 4 → SEALING: "Review memory" — operator saves rule, rule-gate gating persistence
+ *   Beat 5 → ENTERING: "Second case changed" — prior rule applied to CASE-015
+ *
+ * Choreography config (per RUN_B_COHERENCE_FINDINGS):
+ *   subject: 'custody'
+ *   sealChoreography: 'instant' (C1: no animation, proof-of-transaction receipt only)
+ *   correctionModel: 'rule-gate' (C4: rule save gates beat 5 progression)
+ *   refusalFlavor: 'system' (C5: structural guard refusal, not agent/routing)
+ *   refusalTimingMs: 320 (C5: refusal reveal timing)
+ *   motionTier: 'ambient' (C9: 16s map sweep, no reduced-motion block)
+ *
+ * Note: This is a shallow integration. Cut 08 maintains its own state machine
+ * (state.step 1-5) and calls applyBeat() to notify the engine. The engine
+ * does not drive the cut's behavior; it coordinates vault/audit/receipt updates
+ * via hooks. Phase C will deepen this into a full refactor.
+ */
+
+import { initLoopEngine, applyBeat } from "../lib/loop.js";
+
+/* Initialize the loop engine once cut 08 has fully loaded */
+document.addEventListener("DOMContentLoaded", () => {
+  const engineState = initLoopEngine({
+    subject: "custody",
+    persona: "Analyst",
+    tier: "L3",
+    sealChoreography: "instant",      // C1: no animation, just receipt
+    correctionModel: "rule-gate",     // C4: rule save gates sealing
+    refusalFlavor: "system",          // C5: structural guard refusal
+    refusalTimingMs: 320,             // C5: timing for refusal reveal
+    motionTier: "ambient",            // C9: 16s map sweep, no reduced-motion
+    onSealed: (artifact) => {
+      /* Hook: Cut 08's frame-receipt injection happens here */
+      // Frame receipt is injected at end of file; this hook allows
+      // the engine to coordinate with vault state if needed
+    },
+  });
+
+  /* Expose engine to cut 08's state machine so nextStep() can call applyBeat */
+  window.__cut08LoopEngine = { applyBeat };
+
+  /* Wire the engine reference into the cut's closure */
+  const script = document.currentScript;
+  if (script && script.previousElementSibling && script.previousElementSibling.textContent) {
+    // The cut's main script is above; we just made the engine available globally
+  }
+});
+</script>
 
 <!-- v0.9.3 · cut 08 custody packet-receipt strip -->
 <script>
