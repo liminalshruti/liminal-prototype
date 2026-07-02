@@ -6,31 +6,39 @@
 <title>Custody · defense | OSINT · Liminal</title>
 
 <!--
-  Custody · defense | OSINT fold
+  Custody · Structural scaffold for C1 fold (Phase B implementation)
   ──────────────────────────────────────────────────────────────────────
-  Loop-stage · full-loop    (custody subject, dual mode: defense + osint)
+  Loop-stage · full-loop    (custody subject, planned dual mode: defense + osint)
   Altitude   · L3-high-stakes
   Surface    · desktop
   Framing    · infra        (depth proof — dual substrate at high-stakes altitude)
-  Maturity   · live (defense: refining; OSINT: kernel-wired)
+  Maturity   · sketch       (structural shell only; beat handlers deferred to Phase B)
   Spec ref   · liminal-natsec/docs/liminal-custody-onepager.md
              · liminal-natsec/docs/maven-analysis.md
              · liminal-natsec/docs/v4-judge-calibrated-demo.md
              · founder-brain/ops/build-day/CUT_CONSOLIDATION_MAP.md § C1 custody fold
   Coordinate per TAXONOMY.md v2 · the L3 depth-proof cluster (with molehunt) —
-  same loop at the high-stakes altitude, one SUBJECT (custody). Folds 08 (defense)
-  + 09 (osint/kernel) into ONE cut with a mode toggle. Mode is data (data-mode attr);
-  both the map AND the layers+hyp-bar are preserved per mode.
+  same loop at the high-stakes altitude, one SUBJECT (custody). This sketch
+  establishes the mode-toggle infrastructure for folding 08 (defense) + 09 (osint)
+  into one surface. Mode is data-driven (data-mode attr); markup and CSS support
+  both modes. Beat handler scripts deferred to Phase B transplant work.
   ──────────────────────────────────────────────────────────────────────
 
-  CONSOLIDATION CONTRACT (from fold map § 2):
-  - 08 (defense) mode: geographic map SVG + marker-rings + read-grid/overview-grid
-    + guard-banner + rule-gate (instant receipt) + frame-receipt footer
-  - 09 (osint) mode: frozen kernel flow (read-only black box), visible WHEN/THEN
-    clause, 500ms dispo rise, vault pill
-  - Both preserve all distinctive elements; nothing is averaged away
-  - Mode toggle uses cut 09's existing register-swap pattern (mode is data, not UI paradigm)
-  - Per-beat contract blocks per cuts/CONTRIBUTING.md conventions
+  CONSOLIDATION CONTRACT DEFERRED:
+  Phase B will transplant:
+  - 08 (defense) mode: cut 08's full beat handler (5-beat state machine, guard logic,
+    localStorage persistence, instant-seal rule-gate, frame-receipt footer)
+  - 09 (osint) mode: cut 09's full beat handler (frozen kernel import, 4→5 beat loop,
+    visible-clause WHEN/THEN, 500ms dispo rise animation, vault pill, register swap)
+
+  This cut provides the scaffold:
+  - Layout (left-rail, center-panel, right-panel, command-shell) per mode
+  - Mode toggle (data-mode="defense"|"osint" with button handlers)
+  - CSS visibility gates ([data-mode="X"] .Y-only { display: none })
+  - Per-mode engine config stubs (ready for initLoopEngine call)
+
+  Original working cuts archived at cuts/_archive/pre-consolidation/{08,09}
+  for Phase B source-of-truth on transplant.
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1864,20 +1872,11 @@ modeOsint.addEventListener("click", () => setMode("osint"));
 setMode("defense");
 </script>
 
-<!-- Cut 08 behavior script (defense mode) -->
-<script type="module">
-/* Defense mode (cut 08) initialization stub
-   Placeholder: full beat handlers from cut 08 will be wired here */
-window.__custodyDefenseReady = true;
-</script>
-
-<!-- Cut 09 behavior script (OSINT mode) -->
-<script type="module">
-/* OSINT mode (cut 09) initialization stub
-   The frozen kernel (lib/osint-kernel.bundle.js) will be imported on demand
-   Placeholder: beat sequence + kernel wiring from cut 09 */
-window.__custodyOsintReady = true;
-</script>
+<!-- PHASE B TRANSPLANT POINT
+  Cut 08 and 09 beat handlers will be transplanted here during Phase B.1b.
+  Source-of-truth archival at cuts/_archive/pre-consolidation/{08,09}.
+  See fold map § C1 for transplant strategy (element ID reconciliation, mode gating).
+-->
 
 </body>
 </html>

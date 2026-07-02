@@ -3,15 +3,2890 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="refresh" content="0; url=custody.html?mode=defense">
-<title>Redirect: Custody Defense</title>
+<title>Cut 08 · Liminal Custody · Desktop flow prototype</title>
+
+<!--
+  Cut 08 · Liminal Custody · contested-target desktop prototype
+  ──────────────────────────────────────────────────────────────────────
+  Loop-stage · full-loop    (defense subject)
+  Altitude   · L3-high-stakes
+  Surface    · desktop
+  Framing    · infra        (depth proof — "the substrate generalizes")
+  Maturity   · refining     (4-stage interactive narrative console, end-to-end; the old "sketch" tag was stale — 2026-06-16)
+  Spec ref   · liminal-natsec/docs/liminal-custody-onepager.md
+             · liminal-natsec/docs/maven-analysis.md
+             · liminal-natsec/docs/v4-judge-calibrated-demo.md
+  Coordinate per TAXONOMY.md v2 · the L3 depth-proof cluster (with 09 + molehunt) —
+  same loop at the high-stakes altitude; a SUBJECT of cut 00, not a separate product
+  (positioning: natsec is proof-of-generalization). (investor/judge/sponsor = who
+  it's SHOWN to — viewing context, not a coordinate field.)
+  ──────────────────────────────────────────────────────────────────────
+
+  DIVERGENCE NOTE
+  This cut uses the shared frame chrome from lib/cut-shell.css but owns a
+  different internal layout from the Personal/Team/Business surfaces. The
+  product claim here is not archive/mirror/vault. It is substrate custody
+  before command, so the interior panes are custom to the NatSec workflow.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../design-system/components/framing.css">
+<link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/surface-nav.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
+
+<style>
+  body[data-product="business"] {
+    background:
+      radial-gradient(circle at top left, var(--expression-bg), transparent 28%),
+      radial-gradient(circle at top right, var(--wholeness-bg), transparent 22%),
+      linear-gradient(180deg, rgba(8, 12, 14, 0.98), rgba(10, 10, 11, 1));
+  }
+
+  body[data-product="business"] .stage::before {
+    opacity: 0.48;
+    background:
+      radial-gradient(circle at 18% 14%, var(--expression-bg), transparent 22%),
+      radial-gradient(circle at 84% 12%, var(--stability-bg), transparent 18%),
+      radial-gradient(circle at 54% 76%, var(--connection-bg), transparent 24%);
+  }
+
+  .custody-stage {
+    width: 100%;
+    max-width: 1700px;
+    position: relative;
+  }
+
+  .custody-stage::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(transparent 94%, rgba(255, 255, 255, 0.03) 100%),
+      linear-gradient(90deg, transparent 94%, rgba(255, 255, 255, 0.02) 100%);
+    background-size: 100% 120px, 120px 100%;
+    opacity: 0.22;
+    mix-blend-mode: screen;
+  }
+
+  .custody-frame {
+    min-height: 960px;
+  }
+
+  .title-row {
+    justify-content: flex-start;
+  }
+
+  .title-row .diamond {
+    color: var(--expression);
+  }
+
+  .vault-pill {
+    color: var(--expression);
+    background: var(--expression-bg);
+    border-color: var(--expression-edge);
+  }
+
+  .vault-pill .diamond {
+    color: var(--expression);
+  }
+
+  .product-row {
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent),
+      var(--frame-bg-2);
+    padding: 0 18px;
+    gap: 12px;
+  }
+
+  .workflow-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: min(860px, 100%);
+    gap: 12px;
+    padding: 10px 0;
+  }
+
+  .workflow-node {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    overflow: hidden;
+  }
+
+  .workflow-node::after {
+    content: "";
+    position: absolute;
+    inset: auto -10px 0 auto;
+    width: 42px;
+    height: 42px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.09), transparent 68%);
+    opacity: 0.55;
+  }
+
+  .workflow-node.is-active {
+    border-color: var(--expression-edge);
+    background:
+      linear-gradient(90deg, var(--expression-bg), rgba(255, 255, 255, 0.02)),
+      rgba(255, 255, 255, 0.02);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02), 0 0 28px rgba(30, 150, 146, 0.08);
+  }
+
+  .workflow-node.is-alert {
+    border-color: var(--stability-edge);
+    background:
+      linear-gradient(90deg, var(--stability-bg), rgba(255, 255, 255, 0.02)),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .workflow-glyph {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-mid);
+    background: rgba(255, 255, 255, 0.04);
+    flex-shrink: 0;
+  }
+
+  .workflow-node.is-active .workflow-glyph {
+    color: var(--expression);
+    border-color: var(--expression-edge);
+    background: var(--expression-bg);
+  }
+
+  .workflow-node.is-alert .workflow-glyph {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+    background: var(--stability-bg);
+  }
+
+  .workflow-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .workflow-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .workflow-value {
+    font-size: 12px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .surface-meta {
+    margin-left: auto;
+  }
+
+  .surface-meta .sm-strong {
+    color: var(--expression);
+  }
+
+  .surface-meta .sm-banner {
+    color: var(--expression);
+    border-color: var(--expression-edge);
+    background: var(--expression-bg);
+  }
+
+  .custody-main {
+    display: grid;
+    grid-template-columns: 264px minmax(0, 1fr) 392px;
+    grid-template-rows: minmax(0, 1fr) 232px;
+    min-height: 820px;
+    overflow: hidden;
+  }
+
+  .left-rail,
+  .center-panel,
+  .right-panel,
+  .command-shell {
+    min-width: 0;
+  }
+
+  .left-rail {
+    border-right: 1px solid var(--frame-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 18%),
+      var(--frame-bg-2);
+    padding: 18px 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  .center-panel {
+    background: var(--frame-bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .right-panel {
+    border-left: 1px solid var(--frame-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 18%),
+      var(--frame-bg-2);
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+  }
+
+  .command-shell {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--frame-border);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 20%),
+      #090b0d;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 0;
+    overflow: hidden;
+  }
+
+  .rail-section,
+  .console-card,
+  .panel-card,
+  .map-card,
+  .event-card {
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.015), transparent 24%),
+      rgba(255, 255, 255, 0.018);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.015);
+  }
+
+  .rail-section {
+    padding: 14px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+
+  .section-meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--expression);
+  }
+
+  .scenario-blurb {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--text-mid);
+  }
+
+  .scenario-blurb strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .source-list,
+  .case-list,
+  .rule-list,
+  .beat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .source-item,
+  .case-button,
+  .rule-bullet,
+  .beat-item {
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 11px 12px;
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  .source-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: start;
+  }
+
+  .source-glyph,
+  .case-index,
+  .beat-index {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--expression);
+    border: 1px solid var(--expression-edge);
+    background: var(--expression-bg);
+    flex-shrink: 0;
+  }
+
+  .source-alert .source-glyph,
+  .beat-item.is-current .beat-index {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+    background: var(--stability-bg);
+  }
+
+  .source-copy,
+  .case-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .source-name,
+  .case-name,
+  .beat-name {
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .source-note,
+  .case-note,
+  .beat-note {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.45;
+  }
+
+  .status-chip,
+  .mini-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 7px;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    color: var(--text-mid);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .status-chip.is-contested,
+  .mini-chip.is-contested {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+    background: var(--stability-bg);
+  }
+
+  .status-chip.is-open,
+  .mini-chip.is-open {
+    color: var(--expression);
+    border-color: var(--expression-edge);
+    background: var(--expression-bg);
+  }
+
+  .status-chip.is-ready,
+  .mini-chip.is-ready,
+  .status-chip.is-saved {
+    color: var(--connection);
+    border-color: var(--connection-edge);
+    background: var(--connection-bg);
+  }
+
+  .status-chip.is-locked,
+  .mini-chip.is-locked {
+    color: var(--text-faint);
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  .case-button {
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+  }
+
+  .case-button:hover:not(:disabled) {
+    border-color: var(--expression-edge);
+    transform: translateY(-1px);
+  }
+
+  .case-button.is-active {
+    border-color: var(--expression-edge);
+    background:
+      linear-gradient(90deg, var(--expression-bg), transparent 64%),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .case-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .case-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .rail-footer {
+    margin-top: auto;
+    border: 1px dashed var(--card-border);
+    border-radius: 12px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  .rail-footer p {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .rail-footer strong {
+    color: var(--text-mid);
+    font-weight: 500;
+  }
+
+  .center-header {
+    padding: 20px 22px 16px;
+    border-bottom: 1px solid var(--frame-border);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--expression);
+    margin-bottom: 6px;
+  }
+
+  /* L3 depth-proof framing — .thesis-line rule from design-system/components/framing.css
+     (canon, operator register). Only the per-cut accent override stays here. */
+  .thesis-line { --thesis-rule: var(--expression); }
+
+  .center-title {
+    font-size: 32px;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    color: var(--text);
+    font-weight: 500;
+    max-width: 760px;
+  }
+
+  .center-subtitle {
+    margin-top: 8px;
+    color: var(--text-mid);
+    font-size: 14px;
+    line-height: 1.55;
+    max-width: 760px;
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    min-width: 300px;
+  }
+
+  .hero-stat {
+    padding: 10px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .hero-stat-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 5px;
+  }
+
+  .hero-stat-value {
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.2;
+  }
+
+  .hero-stat-value.is-contested {
+    color: var(--stability);
+  }
+
+  .center-body {
+    padding: 18px 22px 22px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .map-card {
+    padding: 16px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 14px;
+    min-height: 0;
+  }
+
+  .map-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .map-title {
+    color: var(--text);
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .map-note {
+    color: var(--text-dim);
+    font-size: 12px;
+  }
+
+  .viewport {
+    position: relative;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 16% 18%, rgba(30, 150, 146, 0.12), transparent 20%),
+      radial-gradient(circle at 74% 22%, rgba(255, 149, 73, 0.12), transparent 18%),
+      linear-gradient(180deg, rgba(7, 13, 16, 0.98), rgba(5, 10, 13, 1));
+    min-height: 420px;
+  }
+
+  .viewport::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 72px 72px;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .viewport::after {
+    content: "";
+    position: absolute;
+    width: 160%;
+    height: 160%;
+    top: -30%;
+    left: -30%;
+    background: conic-gradient(from 0deg, transparent 0deg 322deg, rgba(30, 150, 146, 0.18) 334deg 344deg, transparent 356deg);
+    opacity: 0.55;
+    animation: sweep 16s linear infinite;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  @keyframes sweep {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .viewport svg {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .viewport-label {
+    position: absolute;
+    left: 16px;
+    top: 14px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: rgba(5, 8, 10, 0.82);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  .viewport-label strong {
+    color: var(--expression);
+    font-weight: 500;
+  }
+
+  .viewport-corner {
+    position: absolute;
+    right: 16px;
+    bottom: 14px;
+    z-index: 2;
+    display: flex;
+    gap: 8px;
+  }
+
+  .corner-pill {
+    padding: 5px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--card-border);
+    background: rgba(5, 8, 10, 0.82);
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+  }
+
+  .corner-pill strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-dim);
+    font-size: 11px;
+  }
+
+  .legend-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .legend-swatch.primary { background: var(--expression); }
+  .legend-swatch.secondary { background: var(--connection); }
+  .legend-swatch.alert { background: var(--stability); }
+  .legend-swatch.rule { background: var(--agency); }
+
+  .event-card {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+  }
+
+  .event-stream {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .event-item {
+    display: grid;
+    grid-template-columns: 28px 1fr;
+    gap: 12px;
+    align-items: start;
+    padding: 11px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .event-item:first-child {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .event-dot {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--expression);
+    border: 1px solid var(--expression-edge);
+    background: var(--expression-bg);
+  }
+
+  .event-item.is-alert .event-dot {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+    background: var(--stability-bg);
+  }
+
+  .event-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 4px;
+  }
+
+  .event-headline {
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .event-time {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-faint);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .event-detail {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .panel-card {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .overview-cell {
+    padding: 11px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  .overview-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 6px;
+  }
+
+  .overview-value {
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  .overview-value.alert {
+    color: var(--stability);
+  }
+
+  .hypothesis-board {
+    display: grid;
+    gap: 10px;
+  }
+
+  .hypothesis-card {
+    padding: 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  .hypothesis-card.is-leading {
+    border-color: var(--expression-edge);
+    background:
+      linear-gradient(90deg, var(--expression-bg), transparent 60%),
+      rgba(255, 255, 255, 0.018);
+  }
+
+  .hypothesis-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+
+  .hypothesis-name {
+    color: var(--text);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .hypothesis-score {
+    color: var(--expression);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .hypothesis-card.is-suppressed .hypothesis-score {
+    color: var(--agency);
+  }
+
+  .hypothesis-copy {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .read-grid {
+    display: grid;
+    gap: 10px;
+  }
+
+  .read-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.018);
+  }
+
+  .read-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 5px;
+  }
+
+  .read-name {
+    color: var(--text);
+    font-size: 12px;
+  }
+
+  .read-body {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .read-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-end;
+  }
+
+  .read-meta .mini-chip {
+    min-width: 92px;
+  }
+
+  .guard-banner {
+    border: 1px solid var(--stability-edge);
+    border-radius: 12px;
+    padding: 14px;
+    background:
+      linear-gradient(90deg, var(--stability-bg), rgba(255, 255, 255, 0.015) 68%),
+      rgba(255, 255, 255, 0.02);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.015);
+  }
+
+  .guard-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 7px;
+  }
+
+  .guard-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stability);
+  }
+
+  .guard-body {
+    color: var(--text-mid);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .rule-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .rule-slate {
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.018);
+    padding: 12px;
+  }
+
+  .rule-preview {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.65;
+    color: var(--text-mid);
+    white-space: pre-wrap;
+  }
+
+  .rule-preview .token {
+    color: var(--expression);
+  }
+
+  .rule-preview .action {
+    color: var(--agency);
+  }
+
+  .rule-preview .guard {
+    color: var(--stability);
+  }
+
+  .rule-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .button {
+    appearance: none;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.018);
+    color: var(--text-mid);
+    cursor: pointer;
+    transition: transform 160ms ease, border-color 160ms ease, background 160ms ease, color 160ms ease;
+  }
+
+  .button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    border-color: var(--expression-edge);
+    color: var(--text);
+  }
+
+  .button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .button.is-primary {
+    background: var(--expression-bg);
+    border-color: var(--expression-edge);
+    color: var(--expression);
+  }
+
+  .button.is-primary:hover:not(:disabled) {
+    background: rgba(30, 150, 146, 0.18);
+  }
+
+  .button.is-danger {
+    background: var(--stability-bg);
+    border-color: var(--stability-edge);
+    color: var(--stability);
+  }
+
+  .receipt {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 12px;
+    border: 1px solid var(--connection-edge);
+    border-radius: 12px;
+    background:
+      linear-gradient(90deg, var(--connection-bg), transparent 70%),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .receipt-glyph {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--connection);
+    border: 1px solid var(--connection-edge);
+    background: var(--connection-bg);
+    flex-shrink: 0;
+  }
+
+  .receipt-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .receipt-title {
+    color: var(--text);
+    font-size: 12px;
+  }
+
+  .receipt-note {
+    color: var(--text-dim);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .console-left,
+  .console-right {
+    padding: 16px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .console-right {
+    border-left: 1px solid var(--frame-border);
+  }
+
+  .console-card {
+    padding: 14px;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .console-banner {
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .console-banner.alert {
+    border-color: var(--stability-edge);
+    background:
+      linear-gradient(90deg, var(--stability-bg), transparent 72%),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .console-banner strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .console-banner.alert strong {
+    color: var(--stability);
+  }
+
+  .console-copy {
+    color: var(--text-mid);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .terminal {
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    background: rgba(2, 5, 7, 0.88);
+    padding: 12px;
+    overflow: auto;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .log-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .log-row {
+    display: grid;
+    grid-template-columns: 68px 1fr;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .log-time {
+    color: var(--text-faint);
+  }
+
+  .log-text {
+    color: var(--text-mid);
+  }
+
+  .log-text strong {
+    color: var(--expression);
+    font-weight: 500;
+  }
+
+  .log-text .danger {
+    color: var(--stability);
+  }
+
+  .prompt-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.02);
+    font-family: var(--mono);
+    font-size: 11px;
+  }
+
+  .prompt-mark {
+    color: var(--expression);
+  }
+
+  .prompt-text {
+    color: var(--text-mid);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .beat-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .step-button {
+    appearance: none;
+    border: 1px solid var(--card-border);
+    border-radius: 999px;
+    padding: 8px 11px;
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease;
+  }
+
+  .step-button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    color: var(--text);
+    border-color: var(--expression-edge);
+  }
+
+  .step-button.is-current {
+    color: var(--expression);
+    background: var(--expression-bg);
+    border-color: var(--expression-edge);
+  }
+
+  .step-button.is-complete {
+    color: var(--connection);
+    background: var(--connection-bg);
+    border-color: var(--connection-edge);
+  }
+
+  .step-button.is-blocked {
+    color: var(--stability);
+    border-color: var(--stability-edge);
+  }
+
+  .step-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .toast {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+    z-index: 40;
+    min-width: 280px;
+    max-width: 380px;
+    padding: 12px 14px;
+    border: 1px solid var(--expression-edge);
+    border-radius: 12px;
+    background:
+      linear-gradient(90deg, var(--expression-bg), rgba(10, 14, 16, 0.95) 72%),
+      rgba(10, 14, 16, 0.95);
+    color: var(--text);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .toast.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .toast.is-alert {
+    border-color: var(--stability-edge);
+    background:
+      linear-gradient(90deg, var(--stability-bg), rgba(10, 14, 16, 0.95) 72%),
+      rgba(10, 14, 16, 0.95);
+  }
+
+  .toast-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    color: var(--expression);
+  }
+
+  .toast.is-alert .toast-title {
+    color: var(--stability);
+  }
+
+  .toast-body {
+    color: var(--text-mid);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .map-strait {
+    fill: rgba(7, 16, 19, 0.86);
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 1.5;
+  }
+
+  .map-coast {
+    fill: rgba(255, 255, 255, 0.045);
+  }
+
+  .track-line {
+    fill: none;
+    stroke-linecap: round;
+    stroke-width: 5;
+    opacity: 0.95;
+  }
+
+  .track-line.track-a {
+    stroke: var(--expression);
+    filter: drop-shadow(0 0 8px rgba(30, 150, 146, 0.25));
+  }
+
+  .track-line.track-b {
+    stroke: var(--connection);
+    filter: drop-shadow(0 0 8px rgba(49, 230, 130, 0.24));
+  }
+
+  .track-line.dashed {
+    stroke-dasharray: 12 10;
+  }
+
+  .gap-segment {
+    stroke: var(--stability);
+    stroke-dasharray: 6 10;
+    stroke-width: 4;
+    opacity: 0.92;
+  }
+
+  .marker {
+    transition: transform 220ms ease, opacity 220ms ease;
+  }
+
+  .marker-ring {
+    fill: rgba(255, 255, 255, 0.03);
+    stroke-width: 2;
+  }
+
+  .marker-ring.primary { stroke: var(--expression); }
+  .marker-ring.secondary { stroke: var(--connection); }
+  .marker-ring.alert { stroke: var(--stability); }
+
+  .marker-core.primary { fill: var(--expression); }
+  .marker-core.secondary { fill: var(--connection); }
+  .marker-core.alert { fill: var(--stability); }
+
+  .marker-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    fill: rgba(244, 242, 238, 0.9);
+  }
+
+  .marker-note {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    fill: rgba(201, 197, 189, 0.72);
+  }
+
+  .marker.pulse .marker-ring {
+    animation: pulse-ring 1.8s ease-in-out infinite;
+  }
+
+  @keyframes pulse-ring {
+    0%, 100% { opacity: 0.55; transform: scale(1); transform-origin: center; }
+    50% { opacity: 1; transform: scale(1.22); transform-origin: center; }
+  }
+
+  .connection-arc {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.18);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 7;
+  }
+
+  .connection-arc.rule-on {
+    stroke: var(--agency);
+    stroke-width: 2;
+  }
+
+  .heat-zone {
+    fill: rgba(240, 64, 64, 0.1);
+    stroke: rgba(240, 64, 64, 0.18);
+    stroke-dasharray: 6 7;
+  }
+
+  @media (max-width: 1380px) {
+    .custody-main {
+      grid-template-columns: 240px minmax(0, 1fr) 352px;
+    }
+
+    .center-body {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 1180px) {
+    body {
+      padding: 18px 12px;
+    }
+
+    .custody-frame {
+      min-height: 0;
+    }
+
+    .workflow-strip {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .custody-main {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto 260px;
+    }
+
+    .left-rail {
+      border-right: none;
+      border-bottom: 1px solid var(--frame-border);
+    }
+
+    .right-panel {
+      border-left: none;
+      border-top: 1px solid var(--frame-border);
+    }
+
+    .command-shell {
+      grid-template-columns: 1fr;
+    }
+
+    .console-right {
+      border-left: none;
+      border-top: 1px solid var(--frame-border);
+    }
+  }
+
+  @media (max-width: 780px) {
+    .product-row {
+      height: auto;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 12px 14px;
+    }
+
+    .surface-meta {
+      margin-left: 0;
+      justify-content: space-between;
+    }
+
+    .center-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-stats {
+      width: 100%;
+      min-width: 0;
+      grid-template-columns: 1fr;
+    }
+
+    .center-title {
+      font-size: 26px;
+    }
+  }
+
+  /* ─── v0.9.3 — cut 08 custody anointment ──────────────────────────────
+     Cut 08 (natsec custody view) already has hero-stats which is the
+     equivalent of a metric-band; we don't need to inject one. Three moves:
+       1. center-title 32 -> 40px
+       2. vault-pill delta for desktop-demo state
+       3. footer packet-receipt promotion (custody-packet format)
+     ──────────────────────────────────────────────────────────────────── */
+  .center-title {
+    font-size: 40px !important;
+    letter-spacing: -0.025em !important;
+    line-height: 1.05 !important;
+  }
+  .vault-pill::after {
+    content: " · custody chain · 14 events";
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: var(--accent, var(--p-accent));
+    opacity: 0.72;
+    margin-left: 6px;
+  }
+  /* hero-stats — promote spacing + label register to match the metric-band primitive */
+  .hero-stats {
+    border-top: 1px solid var(--frame-border, rgba(255,255,255,0.08));
+    border-bottom: 1px solid var(--frame-border, rgba(255,255,255,0.08));
+    padding-top: 14px !important;
+    padding-bottom: 14px !important;
+  }
+  .hero-stat-label {
+    text-transform: uppercase;
+    letter-spacing: 0.18em !important;
+  }
+
+  /* footer packet-receipt strip */
+  .frame-receipt {
+    display: flex; gap: 14px; align-items: center;
+    padding: 8px 24px;
+    border-top: 1px solid var(--frame-border, rgba(255,255,255,0.08));
+    background: var(--frame-bg, #0E0E11);
+    font-family: 'Geist Mono', ui-monospace, monospace;
+    font-size: 9.5px;
+    color: var(--text-faint, rgba(255,255,255,0.4));
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    overflow: hidden; white-space: nowrap;
+  }
+  .frame-receipt .fr-glyph { color: var(--accent, var(--p-accent)); }
+  .frame-receipt .fr-strong { color: var(--text-mid, rgba(255,255,255,0.7)); }
+  .frame-receipt .fr-right { margin-left: auto; opacity: 0.72; }
+  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) — in-cut, wins source-order */
+  .case-button { transition: transform .22s var(--ease-spring, ease), background .15s, color .15s, border-color .15s; }
+  .case-button:hover { transform: translateY(-1.5px); }
+  .case-button:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  @media (prefers-reduced-motion: reduce){ .case-button{transition:background .15s,color .15s} .case-button:hover{transform:none} }
+</style>
 </head>
-<body>
-<p>This cut has been consolidated. Redirecting to <a href="custody.html?mode=defense">custody.html?mode=defense</a>...</p>
+<body data-product="business">
+
+<div class="custody-stage stage">
+  <div class="frame custody-frame">
+    <div class="titlebar">
+      <div class="lights" aria-hidden="true">
+        <span class="light red"></span>
+        <span class="light yellow"></span>
+        <span class="light green"></span>
+      </div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span>Liminal Custody</span>
+        <span class="breadcrumb">evidence integrity before command</span>
+      </div>
+      <div class="vault-pill"><span class="diamond">◌</span>desktop demo shell</div>
+    </div>
+
+    <div class="product-row">
+      <div class="workflow-strip" id="workflow-strip"></div>
+      <div class="surface-meta">
+        <span><span class="sm-strong">5th Fleet</span> watchfloor</span>
+        <span>0200 local</span>
+        <span class="sm-banner">Strait of Hormuz</span>
+      </div>
+    </div>
+
+    <div class="custody-main">
+      <aside class="left-rail">
+        <section class="rail-section">
+          <div class="section-head">
+            <span class="section-label">Named operator</span>
+            <span class="section-meta">PS1 primary</span>
+          </div>
+          <p class="scenario-blurb">
+            <strong>Maritime watch officer, U.S. 5th Fleet.</strong> One vessel goes dark in the chokepoint. A second identity appears nearby. The system preserves custody hypotheses and refuses intent until the evidence chain clears.
+          </p>
+        </section>
+
+        <section class="rail-section">
+          <div class="section-head">
+            <span class="section-label">Signal sources</span>
+            <span class="section-meta" id="source-meta">4 feeds live</span>
+          </div>
+          <div class="source-list" id="source-list"></div>
+        </section>
+
+        <section class="rail-section">
+          <div class="section-head">
+            <span class="section-label">Case queue</span>
+            <span class="section-meta" id="case-meta">1 active</span>
+          </div>
+          <div class="case-list" id="case-list"></div>
+        </section>
+
+        <section class="rail-section">
+          <div class="section-head">
+            <span class="section-label">Real-world findings</span>
+            <span class="section-meta">NatSec hackathon · 2026-05-03</span>
+          </div>
+          <p class="scenario-blurb" style="font-size: 11px; line-height: 1.45; color: var(--ink-muted, #8a8b8f); margin-bottom: 8px;">
+            Surfaced live during the hackathon demo from real Strait of Hormuz OSINT feeds. No staged data. Same agents as production.
+          </p>
+          <div class="findings-list" style="display: flex; flex-direction: column; gap: 6px; font-size: 11px; line-height: 1.4;">
+            <div class="finding-item" style="padding: 6px 8px; border-left: 2px solid var(--accent, #d4a373); background: rgba(0,0,0,0.02);">
+              <strong style="color: var(--ink-strong, #1a1a1a);">Iranian crude tanker MMSI spoofing.</strong>
+              <span style="color: var(--ink-muted, #8a8b8f);">Multiple distinct intel markers chained. Each signal unremarkable alone, suspicious in sequence.</span>
+            </div>
+            <div class="finding-item" style="padding: 6px 8px; border-left: 2px solid var(--accent, #d4a373); background: rgba(0,0,0,0.02);">
+              <strong style="color: var(--ink-strong, #1a1a1a);">Sanctions-fleet evasion.</strong>
+              <span style="color: var(--ink-muted, #8a8b8f);">Routing choices, gray-market destinations, timing patterns connecting commercial behavior to sanctions risk.</span>
+            </div>
+            <div class="finding-item" style="padding: 6px 8px; border-left: 2px solid var(--accent, #d4a373); background: rgba(0,0,0,0.02);">
+              <strong style="color: var(--ink-strong, #1a1a1a);">Loitering clusters.</strong>
+              <span style="color: var(--ink-muted, #8a8b8f);">Pattern-not-anomaly framing. Cluster behavior with contextual markers as intent indicator.</span>
+            </div>
+            <div class="finding-item" style="padding: 6px 8px; border-left: 2px solid var(--accent, #d4a373); background: rgba(0,0,0,0.02);">
+              <strong style="color: var(--ink-strong, #1a1a1a);">Vessel-identity changes over time.</strong>
+              <span style="color: var(--ink-muted, #8a8b8f);">Standalone identity change is administrative; chained with other markers, it becomes an indicator.</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="rail-section">
+          <div class="section-head">
+            <span class="section-label">Replay beats</span>
+            <span class="section-meta" id="beat-meta">step 1 of 5</span>
+          </div>
+          <div class="beat-list" id="beat-list"></div>
+        </section>
+
+        <div class="rail-footer">
+          <p><strong>Maven is the foundation.</strong> This prototype owns the substrate layer beneath it: contested signals, structural refusal, and review memory before command action.</p>
+        </div>
+      </aside>
+
+      <section class="center-panel">
+        <div class="center-header">
+          <div>
+            <div class="eyebrow">Substrate / Stage viewport / Working panel / Command line</div>
+            <h1 class="center-title" id="center-title"></h1>
+            <p class="center-subtitle" id="center-subtitle"></p>
+            <div class="thesis-line">The same capture · read · refuse · correct · sign loop — at scale — under maximum constraint: overload, ambiguity, accountability. <b>This is the depth proof: if the loop holds here, it holds anywhere. Do not automate the moral lever; equip the operator at it.</b></div>
+          </div>
+          <div class="hero-stats" id="hero-stats"></div>
+        </div>
+
+        <div class="center-body">
+          <article class="map-card">
+            <div class="map-head">
+              <div>
+                <div class="map-title">Stage viewport</div>
+                <div class="map-note" id="map-note"></div>
+              </div>
+              <div id="map-chip-slot"></div>
+            </div>
+            <div class="viewport">
+              <div class="viewport-label"><span>viewport</span><strong id="viewport-label"></strong></div>
+              <div class="viewport-corner">
+                <span class="corner-pill"><strong id="corner-range">Range 14nm</strong></span>
+                <span class="corner-pill"><strong id="corner-latency">Latency 2.3s</strong></span>
+              </div>
+              <svg viewBox="0 0 860 520" aria-label="Strait of Hormuz contested-track map">
+                <path class="map-coast" d="M0,56 C120,32 176,42 278,64 C334,77 388,114 470,118 C570,124 676,75 860,45 L860,0 L0,0 Z"></path>
+                <path class="map-coast" d="M0,520 L860,520 L860,420 C732,382 614,372 552,392 C462,420 388,470 292,478 C182,486 92,444 0,420 Z"></path>
+                <path class="map-strait" d="M52,92 C152,78 222,96 306,138 C366,169 414,190 494,194 C600,200 684,166 806,110 L806,410 C704,448 622,456 528,434 C432,412 384,354 292,326 C208,300 132,302 52,326 Z"></path>
+                <ellipse class="heat-zone" cx="470" cy="260" rx="116" ry="72"></ellipse>
+                <path class="connection-arc" id="connection-arc" d="M326,286 C408,248 482,226 598,208"></path>
+                <path class="track-line track-a" d="M178,310 C240,300 282,294 326,286"></path>
+                <path class="gap-segment" id="gap-segment" d="M326,286 C374,272 430,250 468,232"></path>
+                <path class="track-line track-a dashed" id="projected-track" d="M468,232 C520,214 560,206 598,208"></path>
+                <path class="track-line track-b" id="track-b" d="M522,232 C552,222 580,214 598,208"></path>
+
+                <g class="marker pulse" id="marker-alpha" transform="translate(326 286)">
+                  <circle class="marker-ring primary" r="18"></circle>
+                  <circle class="marker-core primary" r="7"></circle>
+                </g>
+                <text class="marker-label" x="304" y="252">MMSI-88102</text>
+                <text class="marker-note" x="302" y="268">last clean identity</text>
+
+                <g class="marker pulse" id="marker-gap" transform="translate(468 232)">
+                  <circle class="marker-ring alert" r="18"></circle>
+                  <circle class="marker-core alert" r="7"></circle>
+                </g>
+                <text class="marker-label" x="438" y="198">dark gap</text>
+                <text class="marker-note" x="432" y="214">38 minutes no AIS</text>
+
+                <g class="marker" id="marker-beta" transform="translate(598 208)">
+                  <circle class="marker-ring secondary" r="18"></circle>
+                  <circle class="marker-core secondary" r="7"></circle>
+                </g>
+                <text class="marker-label" x="568" y="174" id="marker-beta-label">MMSI-22241</text>
+                <text class="marker-note" x="544" y="190" id="marker-beta-note">new identity nearby</text>
+
+                <text class="marker-note" x="116" y="144">Gulf of Oman</text>
+                <text class="marker-note" x="664" y="150">Strait chokepoint</text>
+                <text class="marker-note" x="194" y="404">Arabian Sea</text>
+              </svg>
+            </div>
+            <div class="map-legend">
+              <span class="legend-item"><span class="legend-swatch primary"></span>original track</span>
+              <span class="legend-item"><span class="legend-swatch alert"></span>contested gap</span>
+              <span class="legend-item"><span class="legend-swatch secondary"></span>emergent identity</span>
+              <span class="legend-item"><span class="legend-swatch rule"></span>rule-applied recommendation</span>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="section-head">
+              <span class="section-label">Evidence chain</span>
+              <span class="section-meta" id="event-meta">traceable receipts</span>
+            </div>
+            <div class="event-stream" id="event-stream"></div>
+          </article>
+        </div>
+      </section>
+
+      <aside class="right-panel">
+        <section class="panel-card">
+          <div class="section-head">
+            <span class="section-label">Working panel</span>
+            <span class="section-meta" id="panel-case-label"></span>
+          </div>
+          <div class="overview-grid" id="overview-grid"></div>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <span class="section-label">Custody hypotheses</span>
+            <span class="section-meta" id="hypothesis-meta"></span>
+          </div>
+          <div class="hypothesis-board" id="hypothesis-board"></div>
+        </section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <span class="section-label">Specialist reads</span>
+            <span class="section-meta" id="reads-meta"></span>
+          </div>
+          <div class="read-grid" id="read-grid"></div>
+        </section>
+
+        <section class="guard-banner" id="guard-banner"></section>
+
+        <section class="panel-card">
+          <div class="section-head">
+            <span class="section-label">Review memory</span>
+            <span class="section-meta" id="rule-meta"></span>
+          </div>
+          <div class="rule-area">
+            <div class="rule-slate">
+              <div class="rule-preview" id="rule-preview"></div>
+            </div>
+            <div class="rule-actions">
+              <button class="button is-primary" id="save-rule-button" type="button">Save review rule</button>
+              <button class="button" id="open-second-case-button" type="button">Open second case</button>
+              <button class="button is-danger" id="reset-button" type="button">Reset demo</button>
+            </div>
+            <div id="rule-receipt"></div>
+          </div>
+        </section>
+      </aside>
+
+      <section class="command-shell">
+        <div class="console-left">
+          <div class="section-head">
+            <span class="section-label">Command line</span>
+            <span class="section-meta" id="command-meta">causal trace</span>
+          </div>
+          <div class="console-card">
+            <div class="console-banner alert" id="causal-banner"></div>
+            <div class="terminal">
+              <div class="log-list" id="log-list"></div>
+            </div>
+            <div class="prompt-bar">
+              <span class="prompt-mark">custody://</span>
+              <span class="prompt-text" id="prompt-text"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="console-right">
+          <div class="section-head">
+            <span class="section-label">Replay controls</span>
+            <span class="section-meta">Ctrl/Cmd+Shift+R resets</span>
+          </div>
+          <div class="console-card">
+            <div class="beat-controls" id="beat-controls"></div>
+            <div class="console-banner" id="step-banner"></div>
+            <div class="step-summary">
+              <div class="console-copy" id="step-copy"></div>
+              <div class="rule-list" id="rule-list"></div>
+            </div>
+            <div class="rule-actions">
+              <button class="button" id="prev-step-button" type="button">Previous beat</button>
+              <button class="button is-primary" id="next-step-button" type="button">Advance beat</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" aria-live="polite">
+  <div class="toast-title" id="toast-title"></div>
+  <div class="toast-body" id="toast-body"></div>
+</div>
+
 <script>
-if (window.location.search === '' || !window.location.search.includes('mode=')) {
-  window.location.replace('custody.html?mode=defense');
-}
+  const STORAGE_KEY = "liminal-custody-prototype-v1";
+
+  const workflowNodes = [
+    { label: "Substrate", value: "raw contested observations", glyph: "01" },
+    { label: "Stage viewport", value: "dark gap + identity churn", glyph: "02" },
+    { label: "Working panel", value: "hypotheses + refusal + review", glyph: "03" },
+    { label: "Command line", value: "causal trace + operator override", glyph: "04" }
+  ];
+
+  const beatMeta = [
+    {
+      id: 1,
+      name: "Dark gap",
+      short: "gap detected",
+      note: "AIS custody begins before any command action.",
+      toast: ["Beat 1 loaded", "Dark gap opened. The system preserves the signal instead of deciding intent."]
+    },
+    {
+      id: 2,
+      name: "Identity churn",
+      short: "new identity nearby",
+      note: "A second MMSI emerges inside kinematic continuity.",
+      toast: ["Beat 2 loaded", "Identity churn surfaced. Competing custody hypotheses are now preserved."]
+    },
+    {
+      id: 3,
+      name: "Structural refusal",
+      short: "guard fires",
+      note: "Signal integrity is contested. Intent cannot pass.",
+      toast: ["Beat 3 loaded", "Intent refused because the structural guard fired on contested evidence."]
+    },
+    {
+      id: 4,
+      name: "Review memory",
+      short: "save operator doctrine",
+      note: "Operator correction becomes durable policy.",
+      toast: ["Beat 4 loaded", "Review memory is ready. Save the rule to change the next case."]
+    },
+    {
+      id: 5,
+      name: "Second case changed",
+      short: "prior rule applied",
+      note: "The next ambiguous case inherits the prior rule.",
+      toast: ["Beat 5 loaded", "Second case opened. Prior rule changed the recommendation before escalation."]
+    }
+  ];
+
+  const caseData = {
+    case1: {
+      label: "CASE-014",
+      name: "Dark-gap reappearance",
+      route: "Hormuz eastbound",
+      baseSummary: "Original identity goes dark. Nearby identity emerges with kinematic continuity but insufficient corroboration.",
+      location: "26.5N / 56.1E",
+      risk: "Command too early risks acting on a spoofed or re-flagged vessel.",
+      mapLabel: "CASE-014 / contested reappearance",
+      range: "Range 14nm",
+      latency: "Latency 2.3s",
+      beats: {
+        1: {
+          title: "The watchfloor sees absence before it sees intent.",
+          subtitle: "AIS continuity breaks at 01:58 local. The system opens custody immediately because signal integrity is now unresolved upstream of command.",
+          heroStats: [
+            { label: "Signal integrity", value: "Unresolved", kind: "normal" },
+            { label: "Intent status", value: "Not evaluated", kind: "normal" },
+            { label: "Guard state", value: "Standing by", kind: "normal" }
+          ],
+          mapNote: "Primary track holds until the gap. No substitute identity is yet surfaced.",
+          mapChip: { label: "Dark gap open", kind: "open" },
+          cornerRange: "Range 14nm",
+          cornerLatency: "Latency 2.3s",
+          eventMeta: "1 observation preserved",
+          events: [
+            { glyph: "01", headline: "AIS position feed drops for MMSI-88102", time: "01:58", detail: "Kalman dark-gap predictor starts a continuity hold instead of closing the track.", alert: false },
+            { glyph: "02", headline: "No second-source confirmation yet", time: "01:59", detail: "RF, EO, and port-log evidence remain pending.", alert: false }
+          ],
+          overview: [
+            { label: "Contested target", value: "MMSI-88102", alert: false },
+            { label: "Dark gap", value: "38 minutes projected", alert: true },
+            { label: "Current action", value: "Hold custody", alert: false },
+            { label: "Downstream command", value: "Not yet eligible", alert: false }
+          ],
+          hypothesesMeta: "Preservation begins",
+          hypotheses: [
+            { name: "H1 Same vessel, transponder outage", score: "0.49 posterior", copy: "The existing track remains provisionally intact while the signal is missing.", leading: true, suppressed: false },
+            { name: "H2 Deliberate spoof or handoff", score: "0.31 posterior", copy: "No evidence yet, but the chokepoint context keeps spoof risk live.", leading: false, suppressed: false },
+            { name: "H3 Distinct vessel nearby", score: "0.20 posterior", copy: "Cannot be ruled out, but there is no adjacent identity to evaluate yet.", leading: false, suppressed: false }
+          ],
+          readsMeta: "4 specialists waiting",
+          reads: [
+            { name: "Track continuity", body: "Kalman dark-gap module is holding the track open with uncertainty growth but no replacement identity.", status: { label: "Open", kind: "open" }, evidence: { label: "1 cite", kind: "open" } },
+            { name: "Identity correlation", body: "Insufficient input. No candidate identity has surfaced in range.", status: { label: "Pending", kind: "locked" }, evidence: { label: "0 cite", kind: "locked" } },
+            { name: "Signal integrity", body: "Single-source AIS only. Chain remains unresolved until corroboration arrives.", status: { label: "Watch", kind: "open" }, evidence: { label: "AIS only", kind: "open" } },
+            { name: "Intent", body: "Not evaluated. The system does not infer hostile intent on absence alone.", status: { label: "Held", kind: "locked" }, evidence: { label: "No claim", kind: "locked" } },
+            { name: "Action options", body: "Continue monitoring the custody hold. No command action recommended.", status: { label: "Hold", kind: "locked" }, evidence: { label: "1 option", kind: "locked" } }
+          ],
+          guard: {
+            title: "Guard state",
+            meta: "armed",
+            body: "The structural guard is standing by. No intent claim has been generated because evidence-type minimums are not yet met."
+          },
+          causal: {
+            title: "Custody opened",
+            body: "The system is preserving the missing signal because command systems start too late if the evidence chain is not held first."
+          },
+          logs: [
+            ["01:58", "AIS drop detected for <strong>MMSI-88102</strong> near the chokepoint."],
+            ["01:58", "Custody case created. Confidence flow now routes through evidence preservation."],
+            ["01:59", "No intent claim generated. Waiting for identity or second-source evidence."]
+          ],
+          prompt: "case CASE-014 --hold-custody --watch 5th-fleet/hormuz",
+          stepBanner: "Beat 1 keeps the system upstream of command. Absence becomes a custody object, not a conclusion.",
+          stepCopy: "This is the load-bearing move: preserve the break in evidence before anybody compresses it into a command picture.",
+          ruleBullets: [
+            "No review rule exists yet.",
+            "Second case remains locked until doctrine is saved."
+          ],
+          mapState: {
+            showTrackB: false,
+            showGap: true,
+            showProjected: false,
+            betaLabel: "No candidate",
+            betaNote: "awaiting identity emergence",
+            arcRuleOn: false,
+            betaOpacity: 0.14
+          }
+        },
+        2: {
+          title: "A second identity appears, but the system preserves ambiguity.",
+          subtitle: "MMSI-22241 appears 4.2 nautical miles from the projected exit point with a different flag and destination. Liminal Custody keeps competing hypotheses live instead of declaring sameness or difference.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Intent status", value: "Not cleared", kind: "normal" },
+            { label: "Guard state", value: "Evaluating", kind: "normal" }
+          ],
+          mapNote: "Projected continuity and the emergent identity overlap, but corroboration is still missing.",
+          mapChip: { label: "Identity churn", kind: "contested" },
+          cornerRange: "Range 14nm",
+          cornerLatency: "Latency 2.4s",
+          eventMeta: "3 receipts traceable",
+          events: [
+            { glyph: "01", headline: "MMSI-88102 goes dark", time: "01:58", detail: "Continuity hold remains open.", alert: false },
+            { glyph: "02", headline: "MMSI-22241 appears 4.2nm away", time: "02:36", detail: "Heading is consistent. Name, flag, and destination are different.", alert: true },
+            { glyph: "03", headline: "Custody board expands to preserved hypotheses", time: "02:37", detail: "The system refuses to collapse ambiguity into a single narrative.", alert: false }
+          ],
+          overview: [
+            { label: "Contested target", value: "88102 / 22241", alert: true },
+            { label: "Hypotheses open", value: "3 preserved", alert: false },
+            { label: "Kinematic gap", value: "4.2nm", alert: false },
+            { label: "Second-source state", value: "Not yet acquired", alert: true }
+          ],
+          hypothesesMeta: "Competing custody live",
+          hypotheses: [
+            { name: "H1 Same vessel under new identity", score: "0.53 posterior", copy: "Heading and speed remain plausible across the gap, but identity fields conflict.", leading: true, suppressed: false },
+            { name: "H2 Distinct vessel, coincident route", score: "0.28 posterior", copy: "Possible at the chokepoint, but continuity metrics keep it below the lead.", leading: false, suppressed: false },
+            { name: "H3 Spoof / relay behavior", score: "0.19 posterior", copy: "Signal-chain manipulation remains plausible because the source is still single-channel.", leading: false, suppressed: false }
+          ],
+          readsMeta: "Signal integrity contested",
+          reads: [
+            { name: "Track continuity", body: "Projected exit point and observed reappearance are kinematically compatible.", status: { label: "Match", kind: "open" }, evidence: { label: "2 cites", kind: "open" } },
+            { name: "Identity correlation", body: "Fields diverge on name, flag, and destination. Identity confidence remains unresolved.", status: { label: "Mixed", kind: "contested" }, evidence: { label: "3 cites", kind: "contested" } },
+            { name: "Signal integrity", body: "Still AIS-dominant. No RF or imagery corroboration has entered the graph.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Intent", body: "Not yet cleared for analysis because the chain of evidence is still contested upstream.", status: { label: "Held", kind: "locked" }, evidence: { label: "Guard wait", kind: "locked" } },
+            { name: "Action options", body: "Request second-source collection, continue custody hold, or manually annotate for watch officer review.", status: { label: "3 options", kind: "open" }, evidence: { label: "bounded", kind: "open" } }
+          ],
+          guard: {
+            title: "Guard state",
+            meta: "yellow",
+            body: "The guard sees competing hypotheses and single-source evidence. It can evaluate claims, but it will refuse overreach if intent is asserted."
+          },
+          causal: {
+            title: "Competing custody preserved",
+            body: "Liminal Custody is keeping the ambiguity live because command action based on a forced resolution would be structurally unsafe."
+          },
+          logs: [
+            ["02:36", "Emergent identity <strong>MMSI-22241</strong> surfaced near projected track exit."],
+            ["02:37", "Posterior split generated across three custody hypotheses."],
+            ["02:37", "Signal integrity remains <span class=\"danger\">CONTESTED</span>. Intent specialist not cleared."]
+          ],
+          prompt: "case CASE-014 --preserve-hypotheses --compare 88102 22241",
+          stepBanner: "Beat 2 shows the wedge. The system holds three hypotheses instead of choosing a story too early.",
+          stepCopy: "This is the product difference from command systems: preserve competing claims, trace every one back to evidence, and do not compress the dispute away.",
+          ruleBullets: [
+            "Structural refusal has not fired yet.",
+            "Operator doctrine can be written after the guard outcome."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "MMSI-22241",
+            betaNote: "new identity nearby",
+            arcRuleOn: false,
+            betaOpacity: 1
+          }
+        },
+        3: {
+          title: "Refusal is structurally enforced, not requested.",
+          subtitle: "The specialist tries to characterize intent, but the server-side guard blocks persistence because signal integrity is contested and there is no intent-indicator evidence. The app receives refusal, not overclaim.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Intent status", value: "Refused", kind: "contested" },
+            { label: "Guard state", value: "Layer 2 fired", kind: "contested" }
+          ],
+          mapNote: "The geometry has not changed. What changes is whether the evidence chain permits command-adjacent inference.",
+          mapChip: { label: "Intent refused", kind: "contested" },
+          cornerRange: "Range 14nm",
+          cornerLatency: "Latency 2.6s",
+          eventMeta: "Guard trace attached",
+          events: [
+            { glyph: "01", headline: "Intent specialist emits draft claim", time: "02:38", detail: "Draft suggests possible deceptive maneuvering.", alert: true },
+            { glyph: "02", headline: "Structural guard rejects persistence", time: "02:38", detail: "Citation minimum and evidence-type requirements are not satisfied.", alert: true },
+            { glyph: "03", headline: "Bounded recommendation remains collection-first", time: "02:39", detail: "Operator sees why refusal happened and what is still allowed.", alert: false }
+          ],
+          overview: [
+            { label: "Refusal mode", value: "Server-side invariant", alert: true },
+            { label: "Guard layer", value: "Layer 2 / signal integrity", alert: true },
+            { label: "Allowed action", value: "Request EO/SAR", alert: false },
+            { label: "Command posture", value: "Human review only", alert: false }
+          ],
+          hypothesesMeta: "Ambiguity preserved",
+          hypotheses: [
+            { name: "H1 Same vessel under new identity", score: "0.58 posterior", copy: "Still the lead hypothesis, but not enough to justify intent or attribution.", leading: true, suppressed: false },
+            { name: "H2 Distinct vessel, coincident route", score: "0.24 posterior", copy: "Remains plausible because only one sensor chain is carrying the story.", leading: false, suppressed: false },
+            { name: "H3 Spoof / relay behavior", score: "0.18 posterior", copy: "Source-integrity risk keeps the chain contested and blocks stronger claims.", leading: false, suppressed: false }
+          ],
+          readsMeta: "Refusal propagated",
+          reads: [
+            { name: "Track continuity", body: "Continuity evidence supports a custody link, not a behavioral conclusion.", status: { label: "Bounded", kind: "open" }, evidence: { label: "2 cites", kind: "open" } },
+            { name: "Identity correlation", body: "Identity conflict persists across multiple fields.", status: { label: "Contested", kind: "contested" }, evidence: { label: "3 cites", kind: "contested" } },
+            { name: "Signal integrity", body: "No corroborating source has entered the graph. Single-channel evidence cannot carry intent.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Intent", body: "Refused. Structural guard blocked the claim because the evidence chain does not support it.", status: { label: "Refused", kind: "contested" }, evidence: { label: "guard hit", kind: "contested" } },
+            { name: "Action options", body: "Request second-source collection is the top recommendation. Escalation is intentionally absent.", status: { label: "Collection", kind: "ready" }, evidence: { label: "1 safe path", kind: "ready" } }
+          ],
+          guard: {
+            title: "Intent refused",
+            meta: "layer 2",
+            body: "Causal line: intent refused because the guard fired on signal integrity. Citation minimums passed, but evidence-type requirements and posterior thresholds did not."
+          },
+          causal: {
+            title: "Intent refused because the guard fired",
+            body: "Signal Integrity is contested. The specialist output cannot become command-adjacent because the evidence chain is not commandable."
+          },
+          logs: [
+            ["02:38", "Intent specialist returned draft JSON for review."],
+            ["02:38", "<span class=\"danger\">guard.ts</span> blocked persistence: missing intent-indicator evidence under contested signal integrity."],
+            ["02:39", "Returned operator-safe action set: <strong>Request second-source EO/SAR</strong>."]
+          ],
+          prompt: "case CASE-014 --trace-guard --why intent-refused",
+          stepBanner: "Beat 3 is the hard differentiator: AI cannot overclaim because refusal is server-side, not cosmetic.",
+          stepCopy: "Everything downstream reads this causal line. The user sees refusal with provenance, not a hidden scoring rule.",
+          ruleBullets: [
+            "Structural refusal is now visible on the product surface.",
+            "Review memory can convert a human correction into durable doctrine."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "MMSI-22241",
+            betaNote: "contested identity",
+            arcRuleOn: false,
+            betaOpacity: 1
+          }
+        },
+        4: {
+          title: "An operator correction becomes durable doctrine.",
+          subtitle: "The watch officer writes a rule: ambiguous dark-gap identity churn with contested integrity must default to second-source collection before escalation. Saving the rule changes the next case, not just this one.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Intent status", value: "Refused", kind: "contested" },
+            { label: "Review memory", value: "Ready to persist", kind: "normal" }
+          ],
+          mapNote: "The first case is still contested. The new thing is doctrine, not new evidence.",
+          mapChip: { label: "Review memory", kind: "open" },
+          cornerRange: "Range 14nm",
+          cornerLatency: "Latency 2.7s",
+          eventMeta: "Operator correction live",
+          events: [
+            { glyph: "01", headline: "Watch officer writes rule", time: "02:40", detail: "Ambiguous dark-gap identity churn requires collection-first posture.", alert: false },
+            { glyph: "02", headline: "Rule compiles to DSL and persists locally", time: "02:40", detail: "Future cases can consume the new doctrine immediately.", alert: false },
+            { glyph: "03", headline: "Second case is now eligible to show policy shift", time: "02:41", detail: "Opening the next case demonstrates memory as moat.", alert: false }
+          ],
+          overview: [
+            { label: "Operator action", value: "Write review rule", alert: false },
+            { label: "Persistence", value: "Local doctrine receipt", alert: false },
+            { label: "Next proof", value: "Open CASE-015", alert: false },
+            { label: "Command impact", value: "Future recommendation shifts", alert: false }
+          ],
+          hypothesesMeta: "Doctrine pending save",
+          hypotheses: [
+            { name: "H1 Same vessel under new identity", score: "0.58 posterior", copy: "Still lead, but the operator does not want escalation without corroboration.", leading: true, suppressed: false },
+            { name: "H2 Distinct vessel, coincident route", score: "0.24 posterior", copy: "Human judgment keeps ambiguity meaningful rather than nuisance noise.", leading: false, suppressed: false },
+            { name: "H3 Spoof / relay behavior", score: "0.18 posterior", copy: "The rule treats contested integrity as a durable decision surface.", leading: false, suppressed: false }
+          ],
+          readsMeta: "Rule authoring beat",
+          reads: [
+            { name: "Track continuity", body: "Evidence still supports continuity but not a coercive command posture.", status: { label: "Bounded", kind: "open" }, evidence: { label: "2 cites", kind: "open" } },
+            { name: "Identity correlation", body: "Conflicting identity fields remain unresolved.", status: { label: "Contested", kind: "contested" }, evidence: { label: "3 cites", kind: "contested" } },
+            { name: "Signal integrity", body: "Still contested, which is now the operator's chosen policy hinge.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Intent", body: "Refusal remains structurally enforced regardless of operator preference.", status: { label: "Refused", kind: "contested" }, evidence: { label: "guard hit", kind: "contested" } },
+            { name: "Action options", body: "Collection-first posture is about to become doctrine for future ambiguous cases.", status: { label: "Pending save", kind: "open" }, evidence: { label: "operator", kind: "open" } }
+          ],
+          guard: {
+            title: "Review memory ready",
+            meta: "human doctrine",
+            body: "The human does not bypass refusal. They write a durable rule that changes the next recommendation under similar contested conditions."
+          },
+          causal: {
+            title: "Operator correction compounds",
+            body: "Review memory turns judgment into doctrine so the next case starts from the better decision boundary."
+          },
+          logs: [
+            ["02:40", "Operator drafted rule for ambiguous dark-gap identity churn."],
+            ["02:40", "Rule awaiting save: require second-source collection before escalation."],
+            ["02:41", "CASE-015 remains locked until doctrine is persisted."]
+          ],
+          prompt: "case CASE-014 --compose-rule --class VESSEL-AMBIGUOUS",
+          stepBanner: "Beat 4 makes the moat visible. Human judgment is not ephemeral; it modifies the next case.",
+          stepCopy: "The user is not correcting a chat response. They are writing operational doctrine into the substrate loop.",
+          ruleBullets: [
+            "Save the rule to open CASE-015.",
+            "After save, the second case should default to Request Collection."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "MMSI-22241",
+            betaNote: "rule draft ready",
+            arcRuleOn: false,
+            betaOpacity: 1
+          }
+        },
+        5: {
+          title: "The first case remains preserved. The second case proves the doctrine changed.",
+          subtitle: "CASE-014 still shows the original contested scenario. The product proof now lives in CASE-015, where the prior rule changes the recommended action before anybody escalates.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Intent status", value: "Refused", kind: "contested" },
+            { label: "Review memory", value: "Rule applied elsewhere", kind: "normal" }
+          ],
+          mapNote: "CASE-014 remains your source case. Switch to CASE-015 to see the review rule alter the next recommendation.",
+          mapChip: { label: "Source case preserved", kind: "open" },
+          cornerRange: "Range 14nm",
+          cornerLatency: "Latency 2.7s",
+          eventMeta: "Doctrine in effect",
+          events: [
+            { glyph: "01", headline: "CASE-014 remains the originating custody dispute", time: "02:41", detail: "Nothing about the first case is rewritten.", alert: false },
+            { glyph: "02", headline: "RULE-014 now exists as operator doctrine", time: "02:41", detail: "Future similar cases inherit the collection-first action boundary.", alert: false },
+            { glyph: "03", headline: "Open CASE-015 to see the changed recommendation", time: "02:41", detail: "The proof is cross-case memory, not within-case decoration.", alert: false }
+          ],
+          overview: [
+            { label: "Origin case", value: "Preserved", alert: false },
+            { label: "Rule id", value: "RULE-014", alert: false },
+            { label: "Next move", value: "Open CASE-015", alert: false },
+            { label: "Memory state", value: "Doctrine active", alert: false }
+          ],
+          hypothesesMeta: "Same evidence, new doctrine elsewhere",
+          hypotheses: [
+            { name: "H1 Same vessel under new identity", score: "0.58 posterior", copy: "The first case remains exactly as it was when the rule was saved.", leading: true, suppressed: false },
+            { name: "H2 Distinct vessel, coincident route", score: "0.24 posterior", copy: "Preserved ambiguity is still visible for audit.", leading: false, suppressed: false },
+            { name: "H3 Spoof / relay behavior", score: "0.18 posterior", copy: "The doctrine does not erase this hypothesis; it changes future action posture.", leading: false, suppressed: false }
+          ],
+          readsMeta: "Switchable proof state",
+          reads: [
+            { name: "Track continuity", body: "Source-case evidence remains intact for audit and review.", status: { label: "Preserved", kind: "ready" }, evidence: { label: "audit", kind: "ready" } },
+            { name: "Identity correlation", body: "The original contested identity fields remain visible and unchanged.", status: { label: "Preserved", kind: "ready" }, evidence: { label: "trace", kind: "ready" } },
+            { name: "Signal integrity", body: "Still contested. The rule was authored precisely because this stays live.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Intent", body: "Still refused. Structural guard posture is unchanged.", status: { label: "Refused", kind: "contested" }, evidence: { label: "guard", kind: "contested" } },
+            { name: "Action options", body: "Switch to the next case to see the prior rule apply before escalation enters the surface.", status: { label: "Open CASE-015", kind: "ready" }, evidence: { label: "memory", kind: "ready" } }
+          ],
+          guard: {
+            title: "Source case preserved",
+            meta: "audit intact",
+            body: "Review memory is additive. It does not rewrite the first case. It changes the next recommendation under similar evidence conditions."
+          },
+          causal: {
+            title: "Review rule saved",
+            body: "CASE-014 authored the doctrine. CASE-015 is where the recommendation changes."
+          },
+          logs: [
+            ["02:41", "RULE-014 persisted from CASE-014."],
+            ["02:41", "Source case remains intact for audit and replay."],
+            ["02:41", "Open CASE-015 to see prior rule change the recommendation."]
+          ],
+          prompt: "case CASE-014 --handoff RULE-014 --open CASE-015",
+          stepBanner: "Beat 5 is a two-case proof. The first case remains true; the second case changes because doctrine is now durable.",
+          stepCopy: "Memory is the moat only if it survives the first case and alters the second. Open CASE-015 from the queue or the review panel.",
+          ruleBullets: [
+            "CASE-014 is still the originating evidence dispute.",
+            "CASE-015 should now default to Request Collection before escalation."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "MMSI-22241",
+            betaNote: "source case preserved",
+            arcRuleOn: true,
+            betaOpacity: 1
+          }
+        }
+      }
+    },
+    case2: {
+      label: "CASE-015",
+      name: "Prior rule applied",
+      route: "Hormuz westbound",
+      baseSummary: "A new ambiguous dark-gap event arrives. Review memory changes the recommendation before escalation becomes available.",
+      location: "26.7N / 56.4E",
+      risk: "Without doctrine, this case would have been routed toward manual escalation review too early.",
+      mapLabel: "CASE-015 / prior rule applied",
+      range: "Range 16nm",
+      latency: "Latency 2.5s",
+      beats: {
+        5: {
+          title: "The prior rule changes the second case before command enters the frame.",
+          subtitle: "Another vessel goes dark and reappears under ambiguous identity conditions. Because RULE-014 exists, the working panel defaults to collection-first posture instead of escalation review.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Intent status", value: "Refused", kind: "contested" },
+            { label: "Review memory", value: "RULE-014 applied", kind: "normal" }
+          ],
+          mapNote: "The geometry is similar enough to match the ambiguous-dark-gap class, so the rule enters before a human has to restate it.",
+          mapChip: { label: "Prior rule applied", kind: "ready" },
+          cornerRange: "Range 16nm",
+          cornerLatency: "Latency 2.5s",
+          eventMeta: "Cross-case doctrine proved",
+          events: [
+            { glyph: "01", headline: "New dark-gap identity churn classified as VESSEL-AMBIGUOUS", time: "03:12", detail: "CASE-015 matches the same operational pattern class.", alert: false },
+            { glyph: "02", headline: "RULE-014 auto-applies before escalation option renders", time: "03:13", detail: "The default recommendation becomes collection-first.", alert: false },
+            { glyph: "03", headline: "Operator sees changed recommendation with provenance", time: "03:13", detail: "The system names the prior rule and shows why it attached.", alert: false }
+          ],
+          overview: [
+            { label: "Matched rule", value: "RULE-014", alert: false },
+            { label: "Default action", value: "Request collection", alert: false },
+            { label: "Escalation status", value: "Suppressed pending corroboration", alert: true },
+            { label: "Doctrine source", value: "CASE-014 operator review", alert: false }
+          ],
+          hypothesesMeta: "Rule-mediated action boundary",
+          hypotheses: [
+            { name: "H1 Same vessel under new identity", score: "0.61 posterior", copy: "Lead hypothesis is stronger here, which is exactly why the rule matters.", leading: true, suppressed: false },
+            { name: "H2 Distinct vessel, coincident route", score: "0.22 posterior", copy: "Still viable enough to preserve ambiguity.", leading: false, suppressed: false },
+            { name: "H3 Escalation candidate", score: "suppressed by rule", copy: "Without prior doctrine, this case would have surfaced manual escalation review. RULE-014 forces collection first.", leading: false, suppressed: true }
+          ],
+          readsMeta: "Rule-modified readout",
+          reads: [
+            { name: "Track continuity", body: "Continuity is slightly stronger than CASE-014, which would normally raise escalation pressure.", status: { label: "Stronger", kind: "ready" }, evidence: { label: "3 cites", kind: "ready" } },
+            { name: "Identity correlation", body: "Ambiguous again: fields still diverge even though kinematics look persuasive.", status: { label: "Contested", kind: "contested" }, evidence: { label: "3 cites", kind: "contested" } },
+            { name: "Signal integrity", body: "Still not corroborated across independent sources, so rule conditions are satisfied.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Intent", body: "Still refused by the structural guard. Rule memory does not weaken refusal.", status: { label: "Refused", kind: "contested" }, evidence: { label: "guard hit", kind: "contested" } },
+            { name: "Action options", body: "Request collection is promoted to default. Escalation stays suppressed until corroboration arrives.", status: { label: "Rule applied", kind: "ready" }, evidence: { label: "RULE-014", kind: "ready" } }
+          ],
+          guard: {
+            title: "Prior rule applied",
+            meta: "cross-case",
+            body: "Review memory changed the second case before command action. The guard still refuses intent; the rule changes which safe action is promoted."
+          },
+          causal: {
+            title: "Recommendation changed by prior rule",
+            body: "CASE-015 matches the ambiguous dark-gap class, so the system defaults to Request Collection instead of escalation review."
+          },
+          logs: [
+            ["03:12", "CASE-015 classified into VESSEL-AMBIGUOUS."],
+            ["03:13", "Applied <strong>RULE-014</strong> from prior operator review."],
+            ["03:13", "Recommendation changed: <strong>Request Collection</strong>. Escalation withheld pending corroboration."]
+          ],
+          prompt: "case CASE-015 --apply-review-memory RULE-014 --recommend collection",
+          stepBanner: "The moat is now visible. Human correction from CASE-014 changed CASE-015 before the operator had to restate it.",
+          stepCopy: "This is the investor and judge proof: review memory is not a note. It is durable doctrine with immediate operational consequence.",
+          ruleBullets: [
+            "RULE-014 matched the new case class.",
+            "Escalation stayed off the surface until corroboration arrives."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "MMSI-55218",
+            betaNote: "rule-modified recommendation",
+            arcRuleOn: true,
+            betaOpacity: 1
+          }
+        }
+      }
+    }
+  };
+
+  const sourceStates = {
+    1: [
+      { glyph: "A", name: "AIS stream", note: "Primary vessel signal only. Dark gap just opened.", status: { label: "open gap", kind: "open" }, alert: false },
+      { glyph: "R", name: "RF intercept", note: "Passive listener available but not yet correlated.", status: { label: "standby", kind: "locked" }, alert: false },
+      { glyph: "E", name: "EO / SAR", note: "No second-source imagery tasked yet.", status: { label: "not tasked", kind: "locked" }, alert: false },
+      { glyph: "O", name: "Watch log / OSINT", note: "Regional bulletin context only. No event-specific corroboration.", status: { label: "context", kind: "open" }, alert: false }
+    ],
+    2: [
+      { glyph: "A", name: "AIS stream", note: "Original identity dark. Emergent identity now in range.", status: { label: "contested", kind: "contested" }, alert: true },
+      { glyph: "R", name: "RF intercept", note: "No aligned RF signature yet.", status: { label: "missing", kind: "locked" }, alert: false },
+      { glyph: "E", name: "EO / SAR", note: "Still unavailable until operator requests collection.", status: { label: "not tasked", kind: "locked" }, alert: false },
+      { glyph: "O", name: "Watch log / OSINT", note: "Chokepoint spoofing context remains relevant but not decisive.", status: { label: "context", kind: "open" }, alert: false }
+    ],
+    3: [
+      { glyph: "A", name: "AIS stream", note: "Single-source chain cannot carry intent.", status: { label: "contested", kind: "contested" }, alert: true },
+      { glyph: "R", name: "RF intercept", note: "Still absent. Integrity remains unresolved.", status: { label: "missing", kind: "contested" }, alert: true },
+      { glyph: "E", name: "EO / SAR", note: "Recommended next action to corroborate the chain.", status: { label: "request", kind: "ready" }, alert: false },
+      { glyph: "O", name: "Watch log / OSINT", note: "Narrative context exists, but the guard ignores it for intent claims.", status: { label: "bounded", kind: "open" }, alert: false }
+    ],
+    4: [
+      { glyph: "A", name: "AIS stream", note: "Still the dominant evidence plane.", status: { label: "contested", kind: "contested" }, alert: true },
+      { glyph: "R", name: "RF intercept", note: "Operator rule now treats missing RF as a policy hinge.", status: { label: "hinge", kind: "open" }, alert: false },
+      { glyph: "E", name: "EO / SAR", note: "Collection-first rule draft points here as the safe default.", status: { label: "default", kind: "ready" }, alert: false },
+      { glyph: "O", name: "Watch log / OSINT", note: "Human judgment is about to become durable doctrine.", status: { label: "review", kind: "open" }, alert: false }
+    ],
+    5: [
+      { glyph: "A", name: "AIS stream", note: "Ambiguous class persists across cases.", status: { label: "contested", kind: "contested" }, alert: true },
+      { glyph: "R", name: "RF intercept", note: "Rule still requires corroboration before escalation.", status: { label: "required", kind: "ready" }, alert: false },
+      { glyph: "E", name: "EO / SAR", note: "Now promoted automatically on matched cases.", status: { label: "default", kind: "ready" }, alert: false },
+      { glyph: "O", name: "Watch log / OSINT", note: "Operator doctrine is now a first-class input.", status: { label: "memory", kind: "ready" }, alert: false }
+    ]
+  };
+
+  const ruleText = [
+    "<span class=\"token\">WHEN</span> class == <span class=\"token\">VESSEL-AMBIGUOUS</span>",
+    "AND dark_gap_minutes >= <span class=\"token\">20</span>",
+    "AND identity_churn == <span class=\"token\">true</span>",
+    "AND signal_integrity == <span class=\"guard\">contested</span>",
+    "<span class=\"token\">THEN</span> promote_action = <span class=\"action\">request_collection</span>",
+    "AND suppress_action = <span class=\"action\">escalate</span> until corroborated"
+  ].join("\\n");
+
+  const state = loadState();
+  const els = {};
+  let toastTimer = null;
+  let loopEngine = null;  // Set by init-loop-engine script below
+
+  document.addEventListener("DOMContentLoaded", () => {
+    bindElements();
+    bindEvents();
+    render();
+
+    /* Wire loop engine reference from global once it's initialized */
+    setTimeout(() => {
+      if (window.__cut08LoopEngine) {
+        loopEngine = window.__cut08LoopEngine;
+      }
+    }, 100);
+  });
+
+  function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return defaultState();
+      const parsed = JSON.parse(raw);
+      return {
+        step: clampStep(parsed.step || 1),
+        ruleSaved: Boolean(parsed.ruleSaved),
+        activeCase: parsed.activeCase === "case2" ? "case2" : "case1"
+      };
+    } catch (error) {
+      return defaultState();
+    }
+  }
+
+  function defaultState() {
+    return {
+      step: 1,
+      ruleSaved: false,
+      activeCase: "case1"
+    };
+  }
+
+  function persistState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function clampStep(step) {
+    return Math.max(1, Math.min(5, Number(step) || 1));
+  }
+
+  function bindElements() {
+    const ids = [
+      "workflow-strip", "source-list", "source-meta", "case-list", "case-meta", "beat-list", "beat-meta",
+      "center-title", "center-subtitle", "hero-stats", "map-note", "map-chip-slot", "viewport-label",
+      "corner-range", "corner-latency", "event-meta", "event-stream", "panel-case-label", "overview-grid",
+      "hypothesis-meta", "hypothesis-board", "reads-meta", "read-grid", "guard-banner", "rule-meta",
+      "rule-preview", "rule-receipt", "command-meta", "causal-banner", "log-list", "prompt-text",
+      "beat-controls", "step-banner", "step-copy", "rule-list", "save-rule-button", "open-second-case-button",
+      "reset-button", "prev-step-button", "next-step-button", "toast", "toast-title", "toast-body",
+      "connection-arc", "gap-segment", "projected-track", "track-b", "marker-beta", "marker-beta-label",
+      "marker-beta-note", "marker-gap"
+    ];
+    ids.forEach((id) => {
+      els[id] = document.getElementById(id);
+    });
+  }
+
+  function bindEvents() {
+    els["save-rule-button"].addEventListener("click", saveRule);
+    els["open-second-case-button"].addEventListener("click", () => {
+      if (!state.ruleSaved) {
+        showToast("Rule required", "Save the review rule first so the second case has doctrine to inherit.", true);
+        return;
+      }
+      state.step = 5;
+      state.activeCase = "case2";
+      persistState();
+      render();
+      showToast("Second case opened", "CASE-015 now shows the prior rule changing the default recommendation.");
+    });
+    els["reset-button"].addEventListener("click", resetDemo);
+    els["prev-step-button"].addEventListener("click", previousStep);
+    els["next-step-button"].addEventListener("click", nextStep);
+    document.addEventListener("keydown", (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.shiftKey && (event.key === "R" || event.key === "r")) {
+        event.preventDefault();
+        resetDemo();
+      }
+    });
+  }
+
+  function previousStep() {
+    if (state.activeCase === "case2") {
+      state.activeCase = "case1";
+    }
+    state.step = clampStep(state.step - 1);
+    persistState();
+    render();
+  }
+
+  function nextStep() {
+    if (state.step === 5 && state.activeCase === "case1" && state.ruleSaved) {
+      state.activeCase = "case2";
+      persistState();
+      render();
+      return;
+    }
+    if (state.step === 4 && !state.ruleSaved) {
+      showToast("Save required", "Beat 5 depends on review memory. Save the rule before advancing.", true);
+      return;
+    }
+    if (state.step === 4 && state.ruleSaved) {
+      state.step = 5;
+      state.activeCase = "case2";
+    } else if (state.step < 5) {
+      state.step += 1;
+      if (state.step < 5) {
+        state.activeCase = "case1";
+      }
+    }
+    persistState();
+    render();
+    const meta = beatMeta.find((item) => item.id === state.step);
+    showToast(meta.toast[0], meta.toast[1], state.step === 3);
+
+    /* Notify loop engine of beat change (shallow integration) */
+    if (loopEngine && loopEngine.applyBeat) {
+      const beatNames = ["IDLE", "CAPTURING", "READING", "DECIDING", "SEALING", "ENTERING"];
+      const engineBeat = beatNames[state.step] || "IDLE";
+      loopEngine.applyBeat(engineBeat);
+    }
+  }
+
+  function saveRule() {
+    if (state.ruleSaved) {
+      showToast("Rule already saved", "RULE-014 is already active and ready to modify the next case.");
+      return;
+    }
+    if (state.step < 4) {
+      state.step = 4;
+    }
+    state.ruleSaved = true;
+    persistState();
+    render();
+    showToast("Review rule saved", "RULE-014 persisted. The next ambiguous case will default to Request Collection.");
+
+    /* Notify loop engine: rule-gate has passed, sealing can proceed */
+    if (loopEngine && loopEngine.applyBeat) {
+      loopEngine.applyBeat("SEALING");
+    }
+  }
+
+  function resetDemo() {
+    const fresh = defaultState();
+    state.step = fresh.step;
+    state.ruleSaved = fresh.ruleSaved;
+    state.activeCase = fresh.activeCase;
+    localStorage.removeItem(STORAGE_KEY);
+    render();
+    showToast("Demo reset", "Prototype state cleared. Dark gap, refusal, and review memory are back at beat 1.");
+  }
+
+  function showToast(title, body, alert = false) {
+    clearTimeout(toastTimer);
+    els["toast-title"].textContent = title;
+    els["toast-body"].textContent = body;
+    els["toast"].classList.toggle("is-alert", alert);
+    els["toast"].classList.add("is-visible");
+    toastTimer = window.setTimeout(() => {
+      els["toast"].classList.remove("is-visible");
+    }, 2600);
+  }
+
+  function getCurrentView() {
+    const active = caseData[state.activeCase];
+    if (state.activeCase === "case2" && state.step !== 5) {
+      state.activeCase = "case1";
+      return getCurrentView();
+    }
+    const beat = active.beats[state.step] || active.beats[5];
+    return { active, beat };
+  }
+
+  function render() {
+    persistState();
+    renderWorkflow();
+    renderSources();
+    renderCases();
+    renderBeats();
+    renderMain();
+    renderRuleArea();
+    renderConsole();
+    renderMap();
+    renderControls();
+  }
+
+  function renderWorkflow() {
+    const activeIndex = state.step >= 3 ? 2 : state.step - 1;
+    const html = workflowNodes.map((node, index) => {
+      const classes = [
+        "workflow-node",
+        index === activeIndex ? "is-active" : "",
+        state.step >= 3 && index === 2 ? "is-alert" : ""
+      ].filter(Boolean).join(" ");
+      return `
+        <div class="${classes}">
+          <div class="workflow-glyph">${node.glyph}</div>
+          <div class="workflow-copy">
+            <span class="workflow-label">${node.label}</span>
+            <span class="workflow-value">${node.value}</span>
+          </div>
+        </div>
+      `;
+    }).join("");
+    els["workflow-strip"].innerHTML = html;
+  }
+
+  function renderSources() {
+    const list = sourceStates[state.step];
+    els["source-meta"].textContent = state.step >= 3 ? "integrity contested" : "4 feeds live";
+    els["source-list"].innerHTML = list.map((item) => `
+      <div class="source-item ${item.alert ? "source-alert" : ""}">
+        <div class="source-glyph">${item.glyph}</div>
+        <div class="source-copy">
+          <div class="source-name">${item.name}</div>
+          <div class="source-note">${item.note}</div>
+        </div>
+        ${statusChip(item.status)}
+      </div>
+    `).join("");
+  }
+
+  function renderCases() {
+    const caseItems = [
+      {
+        id: "case1",
+        label: "CASE-014",
+        name: "Dark-gap reappearance",
+        note: "The originating contested identity event.",
+        status: state.step >= 3 ? { label: "refusal traced", kind: "contested" } : { label: "active", kind: "open" },
+        disabled: false
+      },
+      {
+        id: "case2",
+        label: "CASE-015",
+        name: "Prior rule applied",
+        note: state.ruleSaved ? "Second case proves doctrine changed the recommendation." : "Locked until review memory is saved.",
+        status: state.ruleSaved ? { label: "ready", kind: "ready" } : { label: "locked", kind: "locked" },
+        disabled: !state.ruleSaved
+      }
+    ];
+    els["case-meta"].textContent = state.ruleSaved ? "2 cases" : "1 active";
+    els["case-list"].innerHTML = caseItems.map((item, index) => `
+      <button class="case-button ${state.activeCase === item.id ? "is-active" : ""}" data-case="${item.id}" ${item.disabled ? "disabled" : ""} type="button">
+        <div class="case-row">
+          <div class="case-index">${String(index + 1).padStart(2, "0")}</div>
+          <div class="case-copy">
+            <div class="case-name">${item.label} · ${item.name}</div>
+            <div class="case-note">${item.note}</div>
+          </div>
+          ${statusChip(item.status)}
+        </div>
+      </button>
+    `).join("");
+    els["case-list"].querySelectorAll(".case-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const nextCase = button.dataset.case;
+        if (nextCase === "case2" && !state.ruleSaved) {
+          showToast("Rule required", "CASE-015 stays locked until the review rule is saved.", true);
+          return;
+        }
+        state.activeCase = nextCase;
+        if (nextCase === "case2") {
+          state.step = 5;
+        }
+        persistState();
+        render();
+      });
+    });
+  }
+
+  function renderBeats() {
+    els["beat-meta"].textContent = `step ${state.step} of 5`;
+    els["beat-list"].innerHTML = beatMeta.map((beat) => {
+      const isCurrent = beat.id === state.step;
+      return `
+        <div class="beat-item ${isCurrent ? "is-current" : ""}">
+          <div class="case-row">
+            <div class="beat-index">${String(beat.id).padStart(2, "0")}</div>
+            <div class="case-copy">
+              <div class="beat-name">${beat.name}</div>
+              <div class="beat-note">${beat.note}</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  function renderMain() {
+    const { active, beat } = getCurrentView();
+    els["center-title"].textContent = beat.title;
+    els["center-subtitle"].textContent = beat.subtitle;
+    els["map-note"].textContent = beat.mapNote;
+    els["map-chip-slot"].innerHTML = statusChip(beat.mapChip, "map-chip");
+    els["viewport-label"].textContent = active.mapLabel;
+    els["corner-range"].textContent = beat.cornerRange;
+    els["corner-latency"].textContent = beat.cornerLatency;
+    els["event-meta"].textContent = beat.eventMeta;
+    els["panel-case-label"].textContent = `${active.label} · ${active.route}`;
+    els["hypothesis-meta"].textContent = beat.hypothesesMeta;
+    els["reads-meta"].textContent = beat.readsMeta;
+    els["rule-meta"].textContent = state.ruleSaved ? "RULE-014 active" : "awaiting doctrine";
+
+    els["hero-stats"].innerHTML = beat.heroStats.map((item) => `
+      <div class="hero-stat">
+        <div class="hero-stat-label">${item.label}</div>
+        <div class="hero-stat-value ${item.kind === "contested" ? "is-contested" : ""}">${item.value}</div>
+      </div>
+    `).join("");
+
+    els["event-stream"].innerHTML = beat.events.map((item) => `
+      <div class="event-item ${item.alert ? "is-alert" : ""}">
+        <div class="event-dot">${item.glyph}</div>
+        <div>
+          <div class="event-top">
+            <div class="event-headline">${item.headline}</div>
+            <div class="event-time">${item.time}</div>
+          </div>
+          <div class="event-detail">${item.detail}</div>
+        </div>
+      </div>
+    `).join("");
+
+    els["overview-grid"].innerHTML = beat.overview.map((item) => `
+      <div class="overview-cell">
+        <div class="overview-label">${item.label}</div>
+        <div class="overview-value ${item.alert ? "alert" : ""}">${item.value}</div>
+      </div>
+    `).join("");
+
+    els["hypothesis-board"].innerHTML = beat.hypotheses.map((item) => `
+      <div class="hypothesis-card ${item.leading ? "is-leading" : ""} ${item.suppressed ? "is-suppressed" : ""}">
+        <div class="hypothesis-top">
+          <div class="hypothesis-name">${item.name}</div>
+          <div class="hypothesis-score">${item.score}</div>
+        </div>
+        <div class="hypothesis-copy">${item.copy}</div>
+      </div>
+    `).join("");
+
+    els["read-grid"].innerHTML = beat.reads.map((item) => `
+      <div class="read-row">
+        <div>
+          <div class="read-head">
+            <div class="read-name">${item.name}</div>
+            ${statusChip(item.status)}
+          </div>
+          <div class="read-body">${item.body}</div>
+        </div>
+        <div class="read-meta">
+          ${miniChip(item.evidence)}
+        </div>
+      </div>
+    `).join("");
+
+    els["guard-banner"].innerHTML = `
+      <div class="guard-top">
+        <div class="guard-title">${beat.guard.title}</div>
+        <div class="section-meta">${beat.guard.meta}</div>
+      </div>
+      <div class="guard-body">${beat.guard.body}</div>
+    `;
+  }
+
+  function renderRuleArea() {
+    els["rule-preview"].innerHTML = ruleText;
+    els["save-rule-button"].disabled = state.ruleSaved;
+    els["save-rule-button"].textContent = state.ruleSaved ? "Review rule saved" : "Save review rule";
+    els["open-second-case-button"].disabled = !state.ruleSaved;
+
+    if (state.ruleSaved) {
+      els["rule-receipt"].innerHTML = `
+        <div class="receipt">
+          <div class="receipt-glyph">✓</div>
+          <div class="receipt-copy">
+            <div class="receipt-title">RULE-014 saved from CASE-014</div>
+            <div class="receipt-note">Ambiguous dark-gap identity churn with contested signal integrity now defaults to <strong>Request Collection</strong> before escalation.</div>
+          </div>
+        </div>
+      `;
+    } else {
+      els["rule-receipt"].innerHTML = "";
+    }
+  }
+
+  function renderConsole() {
+    const { beat } = getCurrentView();
+    els["command-meta"].textContent = state.activeCase === "case2" ? "recommendation changed" : "causal trace";
+    els["causal-banner"].innerHTML = `
+      <div class="guard-top">
+        <div class="guard-title">${beat.causal.title}</div>
+        <div class="section-meta">${state.activeCase === "case2" ? "CASE-015" : "CASE-014"}</div>
+      </div>
+      <div class="console-copy">${beat.causal.body}</div>
+    `;
+    els["log-list"].innerHTML = beat.logs.map(([time, text]) => `
+      <div class="log-row">
+        <div class="log-time">${time}</div>
+        <div class="log-text">${text}</div>
+      </div>
+    `).join("");
+    els["prompt-text"].textContent = beat.prompt;
+    els["step-banner"].innerHTML = `<strong>Beat ${state.step}</strong> ${beat.stepBanner}`;
+    els["step-copy"].textContent = beat.stepCopy;
+    els["rule-list"].innerHTML = beat.ruleBullets.map((item) => `
+      <div class="rule-bullet">
+        <div class="console-copy">${item}</div>
+      </div>
+    `).join("");
+  }
+
+  function renderMap() {
+    const { beat } = getCurrentView();
+    const mapState = beat.mapState;
+    els["track-b"].style.opacity = mapState.showTrackB ? "1" : "0";
+    els["projected-track"].style.opacity = mapState.showProjected ? "0.74" : "0";
+    els["gap-segment"].style.opacity = mapState.showGap ? "1" : "0";
+    els["marker-beta"].style.opacity = String(mapState.betaOpacity);
+    els["marker-beta-label"].textContent = mapState.betaLabel;
+    els["marker-beta-note"].textContent = mapState.betaNote;
+    els["connection-arc"].classList.toggle("rule-on", mapState.arcRuleOn);
+    els["marker-gap"].classList.toggle("pulse", state.step >= 1 && state.step <= 4);
+  }
+
+  function renderControls() {
+    els["beat-controls"].innerHTML = beatMeta.map((beat) => {
+      let className = "step-button";
+      if (beat.id === state.step) className += " is-current";
+      else if (beat.id < state.step || (beat.id === 5 && state.ruleSaved && state.activeCase === "case2")) className += " is-complete";
+      if (beat.id === 5 && !state.ruleSaved) className += " is-blocked";
+      return `<button class="${className}" data-step="${beat.id}" type="button">${String(beat.id).padStart(2, "0")} ${beat.short}</button>`;
+    }).join("");
+    els["beat-controls"].querySelectorAll(".step-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const targetStep = Number(button.dataset.step);
+        if (targetStep === 5 && !state.ruleSaved) {
+          showToast("Save required", "Beat 5 depends on review memory. Save the rule before jumping ahead.", true);
+          return;
+        }
+        state.step = targetStep;
+        state.activeCase = targetStep === 5 && state.ruleSaved ? "case2" : "case1";
+        persistState();
+        render();
+      });
+    });
+    els["prev-step-button"].disabled = state.step === 1 && state.activeCase === "case1";
+    els["next-step-button"].disabled = state.step === 5 && state.activeCase === "case2";
+    els["next-step-button"].textContent = state.step === 5 && state.activeCase === "case1" ? "Open second case" : "Advance beat";
+  }
+
+  function statusChip(item, id = "") {
+    const className = ["status-chip", item.kind ? `is-${item.kind}` : ""].filter(Boolean).join(" ");
+    const attr = id ? `id="${id}"` : "";
+    return `<span ${attr} class="${className}">${item.label}</span>`;
+  }
+
+  function miniChip(item) {
+    return `<span class="mini-chip ${item.kind ? `is-${item.kind}` : ""}">${item.label}</span>`;
+  }
 </script>
+<script src="../lib/brand-upgrade.js"></script>
+
+<!-- v0.9.3 · cut 08 ported to loop engine (Phase B.1b shallow integration) -->
+<script type="module">
+/* Loop engine integration for cut 08
+ *
+ * Beat mapping (cut 08 five-beat state.step → engine beats):
+ *   Beat 1 → CAPTURING: "Dark gap" — AIS custody begins, witness the break in signal
+ *   Beat 2 → READING: "Identity churn" — competing hypotheses preserved, specialist reads
+ *   Beat 3 → DECIDING: "Structural refusal" — guard fires, shows why intent cannot pass
+ *   Beat 4 → SEALING: "Review memory" — operator saves rule, rule-gate gating persistence
+ *   Beat 5 → ENTERING: "Second case changed" — prior rule applied to CASE-015
+ *
+ * Choreography config (per RUN_B_COHERENCE_FINDINGS):
+ *   subject: 'custody'
+ *   sealChoreography: 'instant' (C1: no animation, proof-of-transaction receipt only)
+ *   correctionModel: 'rule-gate' (C4: rule save gates beat 5 progression)
+ *   refusalFlavor: 'system' (C5: structural guard refusal, not agent/routing)
+ *   refusalTimingMs: 320 (C5: refusal reveal timing)
+ *   motionTier: 'ambient' (C9: 16s map sweep, no reduced-motion block)
+ *
+ * Note: This is a shallow integration. Cut 08 maintains its own state machine
+ * (state.step 1-5) and calls applyBeat() to notify the engine. The engine
+ * does not drive the cut's behavior; it coordinates vault/audit/receipt updates
+ * via hooks. Phase C will deepen this into a full refactor.
+ */
+
+import { initLoopEngine, applyBeat } from "../lib/loop.js";
+
+/* Initialize the loop engine once cut 08 has fully loaded */
+document.addEventListener("DOMContentLoaded", () => {
+  const engineState = initLoopEngine({
+    subject: "custody",
+    persona: "Analyst",
+    tier: "L3",
+    sealChoreography: "instant",      // C1: no animation, just receipt
+    correctionModel: "rule-gate",     // C4: rule save gates sealing
+    refusalFlavor: "system",          // C5: structural guard refusal
+    refusalTimingMs: 320,             // C5: timing for refusal reveal
+    motionTier: "ambient",            // C9: 16s map sweep, no reduced-motion
+    onSealed: (artifact) => {
+      /* Hook: Cut 08's frame-receipt injection happens here */
+      // Frame receipt is injected at end of file; this hook allows
+      // the engine to coordinate with vault state if needed
+    },
+  });
+
+  /* Expose engine to cut 08's state machine so nextStep() can call applyBeat */
+  window.__cut08LoopEngine = { applyBeat };
+
+  /* Wire the engine reference into the cut's closure */
+  const script = document.currentScript;
+  if (script && script.previousElementSibling && script.previousElementSibling.textContent) {
+    // The cut's main script is above; we just made the engine available globally
+  }
+});
+</script>
+
+<!-- v0.9.3 · cut 08 custody packet-receipt strip -->
+<script>
+(function cut08Receipt() {
+  function inject() {
+    const frame = document.querySelector('.frame, .custody-stage');
+    if (!frame || frame.querySelector('.frame-receipt')) return;
+    const receipt = document.createElement('div');
+    receipt.className = 'frame-receipt';
+    receipt.innerHTML = `
+      <span class="fr-glyph">◇</span>
+      <span class="fr-strong">custody-packet · case-014</span>
+      <span>14 events · 3 guards · 1 contested</span>
+      <span class="fr-right">evidence integrity before command · device-local</span>
+    `;
+    frame.appendChild(receipt);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => setTimeout(inject, 50));
+  else setTimeout(inject, 50);
+})();
+</script>
+<script src="../lib/surface-nav.js"></script>
 </body>
 </html>
