@@ -1,94 +1,117 @@
 # Session handoff — Fable product-design session (2026-07-02)
 
-> For the next session. Written on branch `claude/session-handoff-th499m` (off
-> `main`, standalone — kept off the two review PRs so they stay clean).
-> Model: claude-opus-4-8. Repo: `liminalshruti/liminal-prototype` (public demo
-> surface, GitHub Pages at `liminalshruti.github.io/liminal-prototype`).
+> **Purpose:** let a *future Claude session working in `liminal-prototype`* understand
+> what this session did, **why**, and **planned vs actual outcomes** — and make sure no
+> task this session surfaced gets lost. This is NOT org/situational context (the human
+> will supply that separately). Written on branch `claude/session-handoff-th499m`
+> (standalone off `main`, kept off the two review PRs). Model: claude-opus-4-8.
+> Repo = public demo surface; live at `liminalshruti.github.io/liminal-prototype`.
+
+## ⬇️ Everything is landed — this session is safe to delete
+All work is committed and pushed; local == remote on every branch; working tree clean.
+
+| Branch | Tip | Is | Status |
+|---|---|---|---|
+| `claude/fable-product-design-th499m` | `c09220d` | **PR #45** — Run-B fixes + E8 | open, mergeable-clean |
+| `claude/frontdoor-redesign` | `075989f` | **PR #46** — front-door redesign | open, mergeable-clean |
+| `claude/session-handoff-th499m` | this doc | handoff only | pushed |
+
+Nothing is merged to `main` yet — that's the human's local task. The two PRs touch
+**disjoint files**, so merge order is free (suggested: #45 then #46). **No CI** in this
+repo (`.github/workflows/` absent) — a "pending" status means no checks, not a failure.
 
 ---
 
-## TL;DR — current state
+## Planned vs actual outcomes (read this — it's where the nuance lives)
 
-- **Two clean, mergeable PRs open against `main`, nothing merged yet:**
-  - **#45** — Run-B coherence fixes + E8. Branch `claude/fable-product-design-th499m` (tip `c09220d`). 6 commits, touches cuts/lib only.
-  - **#46** — Front-door redesign. Branch `claude/frontdoor-redesign`. 4 commits, 5 files (`index.html`, 3 prototypes, `.gitignore`).
-- The two PRs touch **disjoint files** → no conflicts, merge order free. Recommended: **#45 first** (a11y/canon), then **#46** after eyeballing the orbital motion live.
-- User was mid-transition to their **local Claude Code** setup to merge/continue. Working tree clean at handoff.
-- **No CI** in this repo (`.github/workflows/` absent) — a "pending" status = no checks, not a failure.
-
----
-
-## What shipped
-
-### PR #45 — Run-B findings turned into code (all CDP-verified)
-- **C8 · reduced-motion parity** across cuts 00/03/08/10/11, **plus 2 bugs the audit missed**:
-  - cuts 00 & 11: `*{animation:none!important}` + `.reg{opacity:0;animation:rin forwards}` left register reads **stuck invisible** under reduced motion → added `.reg{opacity:1;transform:none}`.
-  - `*` doesn't match pseudo-elements → widened to `*,*::before,*::after` (the `.live::before`/`.verifier::before` pulses).
-- **C3 · single serif**: off-canon Newsreader (removed catalog-wide in `5b269f7`) → canon Perfectly Nineties (`--serif`). Brand-upgrade opt-out cuts (03/10/`_compare`/surface-nav) now resolve to the canon Georgia fallback. `cuts/thread/` left alone intentionally (deliberate editorial font).
-- **C7 · hero `!important`** (cut 01): dropped the 4 gratuitous ones, kept the 3 load-bearing (they answer brand-upgrade's shared defaults). Byte-identical render verified at 1440/1100/800px.
-- **cut-02 canon binding**: bound the phantom `--ink-1..9` ramp (canon never defined it) to real canon surface/text tokens.
-- **`3dba7dc`** (parallel session): elevated cut-02 provenance-footer legibility + a thread a11y fix. Already in #45.
-- **E8 · shell reduced-motion floor** (`cut-shell.css`): new cuts inherit safe motion via the **near-instant pattern** (`animation-duration:.01ms`, `iteration-count:1`) — NOT `animation:none`, so reveals still land visible (avoids the C8 trap).
-
-### PR #46 — Front door redesign
-- `index.html` rebuilt from a static 640px card stack → **C-led living-orbital hero + A's hairline catalog**.
-- **Bifurcated C1 seal** (this is the canon C1 decision, prototyped): (1) vault artifact appears **instantly**, no transition (finality-as-transaction), then (2) a **separate** core-glow ceremony (stakes-scaled acknowledgment). Verified by polling animation state: beat 1 `phase="sealed · vault", glow=0`; beat 2 `phase="acknowledged", glow=0.5`.
-- **3 direction prototypes** kept as reference: `cuts/_explore/frontdoor-{a-elevated,b-cinematic,c-swing}.html`.
-- Veracity fixes (index.html + all 3 prototypes).
+| Thread | Planned | Actual outcome |
+|---|---|---|
+| Run-B findings | Close them in code | Closed **C8, C3, cut-02**; **C7 partial** (contained only); **C1 prototyped in the front door, not wired into cuts**. C2/C4/C5/C6/C9/D1 **untouched** (see ledger). |
+| Dataviz | "Standardize" the charts | **Surprise: already standardized** — token-driven, CVD-safe, labeled. Only one real non-gated fix existed (cut-02 ink ramp). Did NOT manufacture churn. One a11y guardrail surfaced (see insights). |
+| Front door | First built a **B+C+A composite** | **Rebuilt C-led + A-catalog** after the human's design review — B's manifesto register was wrong for a prototype front door (reserved for the deck). |
+| C1 seal | Ship "a seal" | Shipped the **bifurcated** seal (artifact-instant → glow-ceremony) after review flagged my first version **conflated** record + ceremony. |
+| C7 | Full de-escalation | Only the **contained** cut-01 cleanup shipped; the full "claim a display scale in brand-upgrade.css" is a **gated canon decision** (touches 3 surfaces). |
+| "Close all next steps / go live" | Merge & deploy | Got to **ready + split into two clean PRs**; the human chose to **merge locally**, not have me push to `main` (public deploy = outward-facing, needs their hand). |
+| Two bugs | (not planned) | C8 work **surfaced 2 defects the audit missed** — invisible `.reg` content under reduced-motion in cuts 00/11, and pseudo-element pulses escaping `*{animation:none}`. Both fixed. |
 
 ---
 
-## Key decisions & rationale (so they aren't re-litigated)
+## Run-B ledger status (so nothing gets lost)
+Source: `docs/RUN_B_COHERENCE_FINDINGS.md` (NOT-CANON substrate). The **adjudication → written
+canon** step was never done in-repo; the human referenced an upstream **`RUNB_DESIGN_SYSTEM_SPEC`**
+(has canon C1 = bifurcated) that is **NOT in this repo** — locate it (likely founder-brain) before
+wiring C1 into cuts.
 
-- **C-led, not B-led.** B (brand-type-at-scale manifesto) opens on the "inner life" brand sentence then pivots to the category noun — a widen-before-concrete register collision, wrong for a *prototype* front door. B's technique is **reserved for the deck / marketing site**.
-- **Bifurcated seal = canon C1.** Record and ceremony are two beats, not one. Don't re-conflate them when wiring into cuts.
-- **Veracity (public-surface, ratified):**
-  - lead noun → **"local-first control plane for human-AI work"** (Option B), replacing "judgment infrastructure".
-  - **"top 16 of 102 finalists (200 teams at start)"** — the bare denominator is banned.
-  - **drop the "12" agent count** (3-vs-12 unresolved) → "bounded agents". "four registers" is fine (structural).
-  - refusal in the **external worker register** ("ask Diligence"), not the internal "Healer" archetype.
-- **Everything was verified in a real headless Chromium (CDP), not eyeballed.** Keep that bar.
-
----
-
-## Open threads / next steps (prioritized)
-
-1. **Eyeball the front-door orbital MOTION live before final-locking #46.** The state machine + both seal beats are verified in stills; the *feel* of the 8.9s auto-cycle and the ~650ms artifact→glow gap is NOT. This is the one thing stills can't certify.
-2. **Merge** #45, then #46 (order free, but this is safest). Both mergeable-clean at handoff.
-3. **C1-in-cuts** — wire the bifurcated seal back into the live cuts **00/01/11**. Natural follow-up; the front door only *demonstrates* it. Touches their seal moments → deliberate, reviewable.
-4. **C7-full** — claim a named display scale (22 / 28–32 / 36) in `brand-upgrade.css` and de-escalate its shared `.slate-title !important` (touches cut 01 + `embed-slate-tray-demo.html` + `liminal-desktop-specimen.html`). This is a **canon decision** ("lock a scale vs canonize moment-relative sizing"), founder-gated.
-
-### Founder-gated — do NOT touch without an explicit decision (documented in-code)
-- **team-drift** (`team-drift/index.html`): forks canon (redefines `--synthesis`/`--outreach` to *stale* values; parallel `--drift/--good/--queued` status palette). Comment marks it a "founder-gated telemetry-choreography sub-register."
-- **cuts/thread/** positioning: embodies the superseded diffuse-context framing; uses Newsreader deliberately.
-
-### Dataviz audit result (already done — don't redo)
-The shipping cuts' charts are **already** token-driven, CVD-safe (register quad ΔE 43.5), and labeled (not color-alone) — validated with the dataviz skill's `validate_palette.js`. **Guardrail:** canon `--signal` (lime) vs `--watch` (amber) collapse to ΔE 2.9 in deuteranopia → never distinguish those two by color alone (must stay glyph/label-paired). The only real divergences were the two founder-gated items above.
+| # | Finding | Status this session |
+|---|---|---|
+| **C1** | Sealed moment has 3–4 choreographies (HIGHEST STAKES) | **Prototyped bifurcated seal in front door #46**; cuts 00/01/11 **not wired** |
+| **C2** | Tokens declared but not consumed (hardcoded sizes/tracking/rails) | **OPEN** (the D1 question) |
+| **C3** | Serif: Newsreader vs Perfectly Nineties | **DONE** (#45) |
+| **C4** | Correction has 3 UX models (gloss / rule-gate / visible-clause / amend) | **OPEN** |
+| **C5** | Refusal: 1 grammar, 3 semantics + 2 timings (200 vs 320ms) | **OPEN** |
+| **C6** | Frame restructuring in cuts 10 & 11 undocumented | **OPEN** |
+| **C7** | Display-scale steps unclaimed + `!important` | **PARTIAL** — contained cut-01 fix done (#45); full scale-claim **gated** |
+| **C8** | reduced-motion at 50% | **DONE + E8 shell floor** (#45) |
+| **C9** | Ambient vs refined motion: no precedence rule + pulse duration | **OPEN** |
+| **D1** | Meta-split: are tokens **infrastructure** (bind, canonize scales) or **documentation** (compositional sizing)? | **UNRESOLVED** — underpins C2 & C7; decides how much canon must invent vs transcribe |
 
 ---
 
-## Environment / gotchas (save time next session)
+## What shipped (detail)
 
-- **No image-generation tool.** `imagegen-frontend-web`/`brandkit` skills need an image model that isn't wired up. Build visual direction as **rendered HTML on the real tokens** and screenshot via CDP — plays to the env's real edge and is more truthful anyway.
-- **Chromium**: `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`. Launch with the Bash tool's `run_in_background:true` (backgrounding inside a compound command dies). Drive via CDP over a `--remote-debugging-port`; Node 22 has a global `WebSocket`.
-  - **Deterministic animation capture**: poll DOM state (e.g. `#phase.textContent`, a stop's `stop-opacity`) rather than wall-clock waits — timing drifts with nav/paint/fonts.
-  - Long-lived Chromium instances get flaky after many screenshot passes — relaunch fresh if a CDP call hangs.
-- **Dev server**: `node server.mjs` (port 5173), zero-dep.
-- **`pkill` in a compound Bash command returns exit 144** in this sandbox and aborts the rest of the line — kill/launch in separate calls.
-- **Screenshot artifacts**: the **front-door branch's** `.gitignore` ignores `_frontdoor-*.png`; the **designated branch's does NOT** — throwaway PNGs will trip the clean-tree stop hook. Delete them (`rm -f _frontdoor-*.png`) before ending a turn on that branch. `_scratch/` is gitignored; scratch scripts live under the session scratchpad.
-- **Brand canon is UPSTREAM, not in this repo**: `~/liminal/founder-brain/meta/SHARED_CONTEXT.md` + `liminal-creative/tokens/`. Visual direction is doable from in-repo `PRODUCT.md` + `design-system/tokens/design-tokens.css` + vendored fonts + the cuts. Bio/positioning **copy** needs the upstream canon — treat front-door copy as visual-placeholder pending it.
-- **The git split**: `#45` and `#46` were separated by cherry-picking the front-door commits onto a fresh branch off `main`, then rebuilding the designated branch as Run-B + E8 and force-pushing with lease. Both PRs are diffs vs `main`; if #45 merges first, #46 stays clean (disjoint files).
+**PR #45 — Run-B, all CDP-verified:** C8 reduced-motion (00/03/08/10/11) + the 2 bugs;
+C3 serif→canon; C7 contained `!important` cleanup (cut 01, byte-identical render); cut-02
+phantom `--ink-1..9` bound to canon; `3dba7dc` (parallel session) provenance-a11y + thread
+fix; **E8** shell reduced-motion floor via the **near-instant pattern** (NOT `animation:none`
+— so reveals still land visible, avoiding the C8 trap).
 
----
-
-## How to re-verify (commands that worked)
-
-- **Reduced-motion**: CDP `Emulation.setEmulatedMedia` with `prefers-reduced-motion:reduce`, then evaluate computed `.reg` opacity (must be >0) and count elements with `animationName!=='none' && animationDuration>0.05s` (must be 0).
-- **Seal bifurcation**: navigate `index.html`, poll `getElementById('phase').textContent` + `getElementById('c1').getAttribute('stop-opacity')`; capture at `sealed · vault`/`0` and `acknowledged`/`0.5`.
-- **Link integrity**: `grep -oE 'href="[^"]+"' index.html` → `curl -o /dev/null -w "%{http_code}"` each.
-- **Palette**: dataviz skill `scripts/validate_palette.js "<hex,…>" --mode dark` (skill-bundle path under `/tmp/claude-0/bundled-skills/.../dataviz/` — may not persist across sessions; reload the `dataviz` skill).
+**PR #46 — front door:** `index.html` = C-led living-orbital hero + A hairline catalog +
+**bifurcated C1 seal**; 3 direction prototypes in `cuts/_explore/frontdoor-{a-elevated,b-cinematic,c-swing}.html`;
+veracity fixes across all four files.
 
 ---
 
-## Session arc (for context)
-Cold-read of the repo → discovered the prior "Fable Run-B" design-system audit (`docs/RUN_B_*`, `docs/run-b-critiques/`) → closed its findings in code (C8/C3/C7/cut-02) → validated-audited the dataviz (already sound; one gated fix green-lit: cut-02 ink ramp) → opened #45 + subscribed to watch it → explored 3 front-door directions as rendered HTML → per design review, shipped C-led + A-catalog with the bifurcated C1 seal + veracity fixes → added E8 shell floor → split front-door out into #46 so #45 stays the reviewed Run-B scope.
+## Key decisions & rationale (don't re-litigate)
+- **C-led, not B-led.** B opens on the abstract brand sentence then pivots to the category noun — a *widen-before-concrete* register collision ("the Sydney landmine"), wrong for a prototype front door. B's brand-type-at-scale is for the **deck**.
+- **Seal is two beats** (record instant / ceremony separate) = canon C1. Do not re-conflate when wiring cuts.
+- **Veracity rules (public-surface, treat as enforced):** lead noun = **"local-first control plane for human-AI work"** (Option B, was "judgment infrastructure"); **"top 16 of 102 finalists (200 teams at start)"** (bare denominator banned); **drop the "12" agent count** (3-vs-12 unresolved) → "bounded agents" ("four registers" is fine); refusal in the **external worker register** ("ask Diligence"), not the internal "Healer" archetype. Positioning source: see `FRONT_DOOR_DECISION_2026-05-12.md` + upstream canon.
+- **Verification bar = real headless Chromium (CDP), not eyeballed.** Keep it.
+
+## Insights worth keeping (the stuff not visible in the diff)
+1. **The repo's real shape:** a *mature design system with a thin design surface*. Leverage is in the consuming designs, not the tokens (which are excellent).
+2. **Unifying root cause of the bugs:** there is **no enforced token-consumption contract**. Cuts consume the canon inconsistently — some load `brand-upgrade.css`, some don't; some hardcode; some fight the cascade with `!important`. C8/C3/C7/cut-02 are all symptoms of this one disease. A "substrate-hardening" sweep (enforce one consumption pattern) is the highest-leverage non-glamorous next move.
+3. **Dataviz was already sound** — validated with the dataviz skill's `validate_palette.js` (register quad CVD ΔE 43.5, labeled, token-driven). **Guardrail:** canon `--signal` (lime) vs `--watch` (amber) collapse to **ΔE 2.9 in deuteranopia** → never distinguish those two by color alone; keep them glyph/label-paired. Don't re-audit; don't rebuild.
+4. **Two genuine divergences are founder-gated in-code** (team-drift fork, cut-02 ink-ramp before it was green-lit) — the repo authors already found and parked them. Respect that pattern: **code where canon is settled, flag where it's a decision.**
+5. **Stills can't certify motion.** The front-door orbital's *state machine* is verified; the *feel* of the 8.9s cycle + ~650ms artifact→glow gap needs a live human eyeball before final lock.
+
+---
+
+## Open-task ledger (prioritized — nothing here should be dropped)
+1. **Merge #45, then #46** (human's local task; disjoint files, order free).
+2. **Eyeball the front-door orbital motion live** before final-locking #46 (only unverified thing).
+3. **C1-in-cuts** — wire the bifurcated seal into cuts **00/01/11**; first locate upstream `RUNB_DESIGN_SYSTEM_SPEC` for the exact canon.
+4. **Run-B C2/C4/C5/C6/C9** — untouched coherence findings (token binding, correction-UX unification, refusal semantics/timings, frame-restructuring license, motion precedence).
+5. **D1 meta-decision** — tokens as infrastructure vs documentation. Blocks a clean C2/C7-full.
+6. **C7-full** — claim the display scale + de-escalate brand-upgrade's shared `.slate-title !important` (cut 01 + `embed-slate-tray-demo.html` + `liminal-desktop-specimen.html`).
+7. **Run-B adjudication → canon** — the RUN_B docs are substrate for an adjudicator that writes canon; that write-up (or reconciling with the upstream spec) is still open.
+8. **Verify** cut-02 provenance legibility (parallel session `3dba7dc` elevated it — confirm it reads).
+9. **Founder-gated, do NOT touch without a decision:** team-drift palette fork; `cuts/thread/` positioning (superseded diffuse-context framing, deliberate Newsreader).
+
+---
+
+## Environment / gotchas (save time)
+- **No image-gen tool** — `imagegen`/`brandkit` skills need an image model that isn't wired up. Build visual direction as **rendered HTML on real tokens** + CDP screenshots (more truthful anyway).
+- **Chromium**: `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`. Launch via Bash `run_in_background:true` (backgrounding inside a compound command dies). Drive by CDP over `--remote-debugging-port`; Node 22 has global `WebSocket`. **Capture animations deterministically by polling DOM state** (e.g. `#phase.textContent`, a stop's `stop-opacity`), not wall-clock. Long-lived instances get flaky — relaunch if a CDP call hangs.
+- **Dev server**: `node server.mjs` (:5173), zero-dep.
+- **`pkill` in a compound Bash line returns exit 144** in this sandbox and aborts the rest — kill/launch in separate calls.
+- **Screenshot artifacts**: the front-door branch's `.gitignore` ignores `_frontdoor-*.png`; the **designated branch's does NOT** — throwaway PNGs trip the clean-tree stop hook. `rm -f _frontdoor-*.png` before ending a turn. `_scratch/` is gitignored.
+- **Brand canon is UPSTREAM**: `~/liminal/founder-brain/meta/SHARED_CONTEXT.md` + `liminal-creative/tokens/`. Visual direction works from in-repo `PRODUCT.md` + `design-system/tokens/design-tokens.css` + vendored `fonts/`; **positioning/bio copy needs the upstream canon** — treat front-door copy as placeholder pending it.
+
+## Re-verify commands (that worked)
+- **reduced-motion**: CDP `Emulation.setEmulatedMedia` `prefers-reduced-motion:reduce`; eval computed `.reg` opacity (>0) and count elements with `animationName!=='none' && animationDuration>0.05s` (must be 0).
+- **seal bifurcation**: poll `#phase.textContent` + `#c1` `stop-opacity`; beat1 = `sealed · vault`/`0`, beat2 = `acknowledged`/`0.5`.
+- **links**: `grep -oE 'href="[^"]+"' index.html` → curl each for 200.
+- **palette**: dataviz skill `scripts/validate_palette.js "<hex,…>" --mode dark` (skill-bundle path may not persist — reload the `dataviz` skill).
+
+## Session arc
+Cold-read → found the prior Fable Run-B audit (`docs/RUN_B_*`) → closed findings in code (C8/C3/C7-partial/cut-02, +2 bug fixes) → validated-audited dataviz (already sound; green-lit only the cut-02 ink ramp) → opened **#45** + watched it → explored 3 front-door directions as rendered HTML → per the human's design review, shipped **C-led + A-catalog** with the **bifurcated C1 seal** + veracity fixes → added **E8** shell floor → split the front door into **#46** so #45 stays the reviewed Run-B scope → wrote this handoff.
