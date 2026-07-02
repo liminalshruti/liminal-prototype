@@ -25,7 +25,7 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
 <link rel="stylesheet" href="../design-system/components/framing.css">
 <!-- Shared design system (converged): chrome + canonical .artifact from cut-shell.css. -->
@@ -443,7 +443,7 @@ body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:colum
 .tab[data-go="okr"]:hover,.tab[data-go="report"]:hover,.tab[data-go="registry"]:hover,.tab[data-go="log"]:hover,.tab.on{opacity:1}
 .run-badge:not(.on){opacity:.4;transition:opacity .2s}.run-badge:hover{opacity:1}
 
-@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.reg{opacity:1;transform:none}}
 </style>
 </head>
 <body data-beat="3">
