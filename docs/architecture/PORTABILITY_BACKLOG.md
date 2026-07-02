@@ -54,7 +54,7 @@ the audit's "change before extraction" items.
 | **undo-stack** | `lib/undo.js` + undo bits in `lib/state.js` | Framework-agnostic ctx-injection undo (5 deep) | 4 | Touches `document.body.dataset` + tab `classList` directly | Route all DOM writes through the injected `ctx` callback; then the logic is pure | `@liminal/undo` | SOURCE |
 | **agent-register model** | `lib/agency.js` · `REGISTERS`/`REGISTER_AGENTS`/`AGENT_FLAT` | The 4-register / 12-agent ontology (data) | 4 | Data is entangled with the liveness ticker in one file | Split the data (pure) from `tickAgencyRail` (render) | `@liminal/agent-ontology` | **MIRROR-ish** — overlaps the agent ontology in `liminal-agents`; reconcile to one source |
 | **keyboard layer** | `lib/keyboard.js` · `wireKeyboard(ctx)` | Reusable ⌘-shortcut layer + help overlay | 3 | DOM-id coupled; imports `v0_3_config.js` for sibling lookup | Pass element refs not ids; drop the config import (inject the sibling list) | `@liminal/keymap` | SOURCE |
-| **UI state core** | `lib/state.js` | Pure mutable state + derived accessors — the cleanest seam in the repo | 3 | Hard import of the 1460-line `v0_3_config.js` | Split `v0_3_config.js` into data/copy/ontology so `state.js` imports only data | (pairs with the app, not a standalone pkg yet) | SOURCE |
+| **UI state core** | `lib/state.js` | Pure mutable state + derived accessors — the cleanest seam in the repo | 3 | ~~Hard import of the 1460-line `v0_3_config.js`~~ **RESOLVED 2026-06-18, verified 2026-07-01:** `v0_3_config.js` is now a 280-line seam re-exporting `config/` + `data/` modules; `state.js` is its sole importer | Done — extraction unblocked | (pairs with the app, not a standalone pkg yet) | SOURCE |
 
 ---
 
@@ -105,3 +105,20 @@ tool travels; the SolidJS re-implementation on the spine is downstream of it.
 - No runtime code changed by this document.
 - "Destination `@liminal/*`" names are *proposed*, not created.
 - Scores are conceptual portability (audit §9), not a promise of drop-in reuse.
+
+---
+
+## Addendum · 2026-07-01 status sweep
+
+- **Tier 2 · UI state core:** blocker RESOLVED (see row) — the `v0_3_config.js`
+  data/copy split landed 2026-06-18; verified 2026-07-01 (280-line seam, `lib/state.js`
+  sole importer).
+- **Tier 2 · agent-register model:** the reconcile-to-one-source action is being
+  executed by the ontology reconciliation (see
+  `docs/architecture/ONTOLOGY_RECONCILIATION_2026-07-01.md`); the data/ticker split
+  lands with the loop-engine consolidation build.
+- **Tier 3 · cut-shell chrome:** the audit-and-split action is being executed by the
+  consolidation build (3-layer split: base/registers/products behind a shim) — see
+  `docs/CUT_CONSOLIDATION_MAP.md`.
+- **Tier 4 · ⌘K palette dedupe:** absorbed by the same build (the master surface owns
+  one palette).
