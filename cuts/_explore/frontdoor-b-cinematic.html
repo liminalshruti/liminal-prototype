@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liminal · front door · Direction B (cinematic/editorial)</title>
+
+<!-- DIRECTION B · cinematic/editorial · "the manifesto, at scale"
+     Brand type at display scale, editorial layout, scroll-driven loop beats.
+     Type-as-image (no raster). Register palette as full-bleed section markers.
+     Consumes the real canon tokens + locked brand type stack. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+
+<style>
+  @font-face { font-family:'NinetiesHeadliner'; src:url('../../fonts/nineties-headliner.otf') format('opentype'); font-weight:700; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('../../fonts/perfectly-nineties-light.otf') format('opentype'); font-weight:300; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('../../fonts/perfectly-nineties-regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('../../fonts/PerfectlyNineties-Semibold.otf') format('opentype'); font-weight:600; font-display:swap; }
+
+  :root{
+    --bg:#0A0A0B; --frame-bg:#0E0E11; --hair:#1F1F24;
+    --text:#EDEDEF; --text-mid:#B0B0B6; --text-dim:#7C7A74; --text-faint:#5A5852;
+    --display:"NinetiesHeadliner",Georgia,serif; --sans:"PerfectlyNineties",Georgia,serif; --mono:"Geist Mono","SF Mono",monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+  /* fixed brand + progress rail */
+  .rail{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:18px 32px;mix-blend-mode:difference}
+  .rail .n{font-family:var(--display);font-size:16px;letter-spacing:-.01em;color:#fff}
+  .rail .n b{color:var(--clarity)}
+  .rail .enter{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#fff;text-decoration:none;border:1px solid #fff;border-radius:100px;padding:8px 15px}
+  .prog{position:fixed;top:0;left:0;height:2px;background:var(--clarity);z-index:30;width:0}
+
+  section{padding:0 32px;max-width:1280px;margin:0 auto;position:relative}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:80px}
+  .hero .kick{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--clarity);margin-bottom:26px}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(52px,11.5vw,164px);line-height:.92;letter-spacing:-.03em;color:var(--text)}
+  .hero h1 em{font-style:normal;color:var(--text-dim)}
+  .hero .sub{margin-top:34px;max-width:44ch;font-family:var(--sans);font-style:italic;font-size:clamp(16px,2vw,21px);line-height:1.5;color:var(--text-mid)}
+  .hero .scrollcue{margin-top:56px;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:10px}
+  .hero .scrollcue::after{content:"";width:44px;height:1px;background:var(--text-faint)}
+
+  /* LOOP BEATS */
+  .beats{padding-top:14vh;padding-bottom:8vh}
+  .beat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px;align-items:center;min-height:74vh;border-top:1px solid var(--hair);padding:9vh 0}
+  .beat .idx{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--beat,#fff);opacity:.9}
+  .beat h2{font-family:var(--display);font-weight:700;font-size:clamp(38px,6vw,82px);line-height:.98;letter-spacing:-.02em;margin:18px 0 0}
+  .beat p{font-family:var(--sans);font-size:clamp(15px,1.6vw,18px);line-height:1.6;color:var(--text-mid);max-width:46ch;margin-top:20px}
+  .beat .word{font-family:var(--display);font-weight:700;font-size:clamp(90px,20vw,300px);line-height:.8;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px color-mix(in oklch,var(--beat,#fff) 55%,transparent);text-stroke:1.5px var(--beat,#fff);justify-self:end;text-align:right;user-select:none}
+  .beat.flip{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+  .beat.flip .txt{order:2}.beat.flip .word{order:1;justify-self:start;text-align:left}
+
+  /* PULL STATEMENT */
+  .pull{min-height:78vh;display:flex;align-items:center;border-top:1px solid var(--hair)}
+  .pull p{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.2vw,74px);line-height:1.04;letter-spacing:-.02em;max-width:20ch}
+  .pull .r{color:var(--alarm)}
+
+  /* INDEX */
+  .index{padding-top:12vh;padding-bottom:14vh;border-top:1px solid var(--hair)}
+  .index .h{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px}
+  .ix{text-decoration:none;display:grid;grid-template-columns:56px 1fr auto;gap:22px;align-items:baseline;padding:22px 4px;border-top:1px solid var(--hair);transition:background .18s,padding .18s}
+  .ix:last-child{border-bottom:1px solid var(--hair)}
+  .ix:hover{background:var(--frame-bg);padding-left:14px}
+  .ix .no{font-family:var(--mono);font-size:12px;color:var(--ac,#fff)}
+  .ix .t{font-family:var(--display);font-size:clamp(20px,2.4vw,30px);letter-spacing:-.01em;color:var(--text)}
+  .ix .t small{display:block;font-family:var(--sans);font-size:13px;color:var(--text-dim);letter-spacing:0;margin-top:3px;max-width:64ch}
+  .ix .go{font-family:var(--mono);font-size:14px;color:var(--ac,var(--text-faint))}
+
+  footer{max-width:1280px;margin:0 auto;padding:26px 32px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+  footer a{color:var(--text-faint);text-decoration:none}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+  @media (max-width:860px){.beat,.beat.flip{grid-template-columns:1fr;gap:12px;min-height:auto}.beat .word{justify-self:start;text-align:left;order:0}.beat.flip .txt{order:0}}
+</style>
+</head>
+<body>
+<div class="prog" id="prog"></div>
+<div class="rail"><span class="n">◇ <b>Liminal</b></span><a class="enter" href="../01-slate-tray.html">Enter →</a></div>
+
+<section class="hero">
+  <div class="kick reveal">Judgment infrastructure for founders</div>
+  <h1 class="reveal">Liminal gives form to <em>inner life.</em></h1>
+  <p class="sub reveal">When anyone can build, the bottleneck moves from output to judgment. Liminal is the substrate where judgment gets recorded, corrected, and compounded.</p>
+  <div class="scrollcue reveal">Scroll · the loop</div>
+</section>
+
+<section class="beats">
+  <div class="beat reveal" style="--beat:var(--diligence)">
+    <div class="txt"><div class="idx">01 · capture</div><h2>Drag it into the tray.</h2><p>A Slack thread, a doc, a transcript, a session. No pipes, no integrations. The tray is the substrate your other tools enter.</p></div>
+    <div class="word">TRAY</div>
+  </div>
+  <div class="beat flip reveal" style="--beat:var(--judgment)">
+    <div class="txt"><div class="idx">02 · read</div><h2>Twelve bounded agents read it — and refuse.</h2><p>Out-of-lane agents say <i>“that's not my ground, talk to the Healer.”</i> Refusal as designed output is the architectural answer to the hallucinated-capability problem.</p></div>
+    <div class="word">REFUSE</div>
+  </div>
+  <div class="beat reveal" style="--beat:var(--synthesis)">
+    <div class="txt"><div class="idx">03 · correct</div><h2>You push back. The delta becomes data.</h2><p>When you correct a read, the semantic delta is captured as first-party data — how <i>you</i> decide, recorded at the moment of judgment.</p></div>
+    <div class="word">CORRECT</div>
+  </div>
+  <div class="beat flip reveal" style="--beat:var(--depth,#3B6FE0)">
+    <div class="txt"><div class="idx">04 · record</div><h2>The vault holds the record.</h2><p>Local-first. Every session, every correction, canonically hashed and searchable. The record is the moat.</p></div>
+    <div class="word">VAULT</div>
+  </div>
+  <div class="beat flip reveal" style="--beat:var(--outreach)">
+    <div class="txt"><div class="idx">05 · next move</div><h2>One signed packet. One thing you can stand behind.</h2><p>The loop returns it tomorrow in Today — re-read overnight, brought back for the decision only you can make.</p></div>
+    <div class="word">MOVE</div>
+  </div>
+</section>
+
+<section class="pull"><p class="reveal">Frontier labs ship omniscience.<br>Liminal ships <span class="r">refusal.</span></p></section>
+
+<section class="index">
+  <div class="h reveal">The catalog · 12 surfaces</div>
+  <a class="ix reveal" href="../01-slate-tray.html" style="--ac:var(--diligence)"><span class="no">01</span><span class="t">Slate &amp; tray — the wedge<small>Founders enter first. The core capture→read→correct→record→move loop.</small></span><span class="go">→</span></a>
+  <a class="ix reveal" href="../00-agency.html" style="--ac:var(--diligence)"><span class="no">02</span><span class="t">Agency — the subject is a parameter<small>The proof it's infrastructure: one loop, any subject.</small></span><span class="go">→</span></a>
+  <a class="ix reveal" href="../09-osint-custody.html" style="--ac:var(--alarm)"><span class="no">03</span><span class="t">OSINT Custody — the real kernel<small>The full loop computed live in-browser; the guard refuses the intent claim.</small></span><span class="go">→</span></a>
+  <a class="ix reveal" href="../11-govern.html" style="--ac:var(--judgment)"><span class="no">04</span><span class="t">Govern — correction is the interaction<small>The loop turned on the agent fleet itself.</small></span><span class="go">→</span></a>
+  <a class="ix reveal" href="../10-today.html" style="--ac:var(--outreach)"><span class="no">05</span><span class="t">Today — what came back overnight<small>The daemon re-reads; you say how it landed. The loop, made a place.</small></span><span class="go">→</span></a>
+  <a class="ix reveal" href="../08-liminal-custody.html" style="--ac:var(--alarm)"><span class="no">06</span><span class="t">Liminal Custody — defense surface<small>Same architecture under maximum constraint. NatSec, top 16 of 102.</small></span><span class="go">→</span></a>
+</section>
+
+<footer><span>theliminalspace.io · 2026 · bounded · forensic · inevitable</span><a href="https://theliminalspace.io">site →</a></footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.18});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  const prog=document.getElementById('prog');
+  addEventListener('scroll',()=>{const h=document.documentElement;const p=h.scrollTop/(h.scrollHeight-h.clientHeight);prog.style.width=(p*100)+'%'},{passive:true});
+</script>
+</body>
+</html>
