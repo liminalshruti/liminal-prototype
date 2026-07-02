@@ -758,6 +758,18 @@ function renderLoop(){
   const usageRows=USAGE.map(u=>`<div class="urow ${u[3]?'flagged':''}"><span>${u[0]}</span><span class="cat">${u[1]}</span><span class="cost">${usd(u[2])}</span></div>`).join('');
   $('#work').innerHTML=`<div class="pad">
     ${subjectBar()}
+    <script>
+      /* subject switch: wire each button to change SUBJECT and re-render */
+      (function() {
+        const btns = document.querySelectorAll('.subjects .subj');
+        btns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            SUBJECT = btn.getAttribute('data-subj');
+            renderLoop();
+          });
+        });
+      })();
+    </script>
     <div class="invoke"><b>/govern invoked</b><span>reading the agent fleet · 2026-06 · the AI-spend loop</span><span class="invoke-q">the two questions: <b>how is AI being used</b> · <b>did it move the business</b></span></div>
     <div class="seam">Spend is the wedge · the one read a CFO pays for today. But the loop · sense · read · refuse · correct · ratify · is the judgment layer, pointed at a budget first. <b>The subject is the agent fleet and the spend · never the people. Governance without surveillance.</b> <b>The read is the model's until you change it.</b></div>
     <div>
@@ -795,6 +807,18 @@ function renderSubjectLoop(){
   }).join('');
   $('#work').innerHTML=`<div class="pad">
     ${subjectBar()}
+    <script>
+      /* subject switch wiring for non-spend subjects */
+      (function() {
+        const btns = document.querySelectorAll('.subjects .subj');
+        btns.forEach(btn => {
+          btn.addEventListener('click', () => {
+            SUBJECT = btn.getAttribute('data-subj');
+            renderSubjectLoop();
+          });
+        });
+      })();
+    </script>
     <div class="invoke"><b>/agency invoked</b><span>reading · ${S.product}</span></div>
     <div class="seam">Switch the subject above · the four registers re-skin, but the loop never changes: sense · read · refuse · correct · ratify. <b>Spend is the door a CFO pays for today. The loop below is the same on any subject · you're watching the control plane for founders running multi-agent systems, not a single tool.</b></div>
     <div class="subj-head"><span class="sk">${S.sk}</span><h2>${S.title}</h2></div>
@@ -821,20 +845,149 @@ function renderSubjectAgency(){
     <div class="orbital-coverage"><span class="ce">4 registers · 1 subject · the loop travels</span></div>`;
 }
 
-// ── Today (OG, real figures) ────────────────────────────────────────────────
+// ── Today (OG, real figures + full re-entry surface absorption) ──────────────
+// Absorbed from cut 10: two-column layout (left: needs decision + resurfaced reads;
+// right: close-the-loop outcomes + mirror) + outcome sealing with calibration bump
 function renderToday(){
   body.dataset.surface='today';
-  $('#work').innerHTML=`<div class="today">
-    <div class="greet">Friday · 8:42am · vault 324 reads</div>
-    <h1>Three things came back overnight.</h1>
-    <p class="lede">The daemon re-read your held decisions while you slept. One needs a decision today. One outcome is closing. Your pattern has a note.</p>
-    <button class="tcard decide" data-go="loop"><div class="tk">Needs a decision<span class="meta">held 2 days · re-read 04:12</span></div>
-      <h3>Opus 4.8 spend vs the Q2 OKRs</h3><p>The agents read this period's $4,500 Opus spend. Security is under-allocated and a frontier model is doing calendar work · but the adversarial reviewer already dropped one false claim.</p><span class="verdict-mini">⚠ not ready · $284/mo verified</span></button>
-    <button class="tcard outcome"><div class="tk">Outcome closing<span class="meta">ratified 12 weeks ago</span></div>
-      <h3>“Cursor seats · downsize to 12”</h3><p>Resolved well · spend held flat, no complaints. The call calibrated; your judgment on tool-spend is trending accurate.</p></button>
-    <button class="tcard mirror" data-go="mirror"><div class="tk">◍ Mirror · a quiet note</div>
-      <h3>You correct Synthesis most</h3><p>Across 12 weeks, your corrections cluster on framing, not facts. The agents read the numbers right; you reshape what they mean. That is the doctrine forming.</p></button>
+
+  // Outcome sealing interaction (from cut 10, ported to master)
+  const setupTodayInteraction = () => {
+    const loopEl = document.getElementById('tdy-loop');
+    const outcomesEl = document.getElementById('tdy-outcomes');
+    const verdictEl = document.getElementById('tdy-sealed-verdict');
+    const hashEl = document.getElementById('tdy-sealed-hash');
+    const calNum = document.getElementById('tdy-cal-num');
+
+    if (!loopEl || !outcomesEl) return;
+
+    // deterministic seals per outcome
+    const SEALS = {
+      'resolved-well': '9f4c · 7e21 · 0d8a · b3f0',
+      'mixed':         'a1d8 · 3b07 · ee52 · 6c19',
+      'regret':        '4e90 · c2aa · 71f3 · 08bd',
+      'open':          '0c3f · 5512 · 9a8e · d7b1',
+    };
+
+    outcomesEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.tdy-outcome');
+      if (!btn || loopEl.classList.contains('is-sealed')) return;
+
+      const verdict = btn.getAttribute('data-outcome');
+      const disp = btn.getAttribute('data-disp');
+
+      if (verdictEl) verdictEl.textContent = verdict;
+      if (hashEl) hashEl.textContent = 'seal ' + (SEALS[disp] || SEALS['resolved-well']) + ' · device-local';
+
+      loopEl.classList.add('is-sealed');
+
+      // Calibration counter bump (520ms rise)
+      if (disp !== 'open' && calNum) {
+        calNum.textContent = '8 of 10';
+        calNum.classList.add('bump');
+        setTimeout(() => calNum.classList.remove('bump'), 520);
+      }
+    });
+  };
+
+  // Render the full two-column Today surface
+  $('#work').innerHTML=`<div class=”today” style=”max-width:1080px;margin:0 auto;padding:40px 30px”>
+    <div style=”font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);margin-bottom:14px”>Today · re-entry · the loop comes back</div>
+    <h1 style=”margin:10px 0 6px;font:400 30px/1.15 var(--display);color:var(--text)”>Three things came back overnight.</h1>
+    <p style=”margin:0 0 26px;font:16px/1.6 var(--serif,Georgia,serif);color:var(--text-dim)”>The daemon re-read your held compositions while you slept. One needs a decision today. One outcome is due to close. Your pattern has a note.</p>
+
+    <div style=”display:grid;grid-template-columns:1.35fr 1fr;gap:1.5rem;align-items:start”>
+      <!-- LEFT: needs a decision + resurfaced reads -->
+      <div style=”display:flex;flex-direction:column;gap:1.5rem”>
+        <!-- Needs a decision -->
+        <div>
+          <div style=”font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.85rem;display:flex;justify-content:space-between”>
+            <span>Needs a decision</span><span style=”color:var(--text-mute);font-size:8px”>held 2 days · re-read 04:12</span>
+          </div>
+          <div style=”background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.6rem 1.7rem”>
+            <div style=”display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap”>
+              <span style=”font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid var(--card-border);color:var(--text-faint)”>Founding round</span>
+              <span style=”font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,210,74,0.3);color:var(--agency-500,#FFD24A)”>Almost ready</span>
+            </div>
+            <div style=”font:500 italic 1.7rem var(--display);color:var(--wholeness-500,#E90095);letter-spacing:-.01em;margin-bottom:0.7rem”>NOT READY · 4 fixes</div>
+            <p style=”font:0.92rem/1.6 var(--sans);color:var(--text-mid);margin-bottom:1.1rem”>The <b style=”color:var(--text);font-weight:500”>Judgment</b> register refused to ship. Three corrections plus one defer stand between you and a yes — the head-of-eng call is the blocker the agents converged on.</p>
+            <div style=”font:9.5px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);margin-bottom:1.2rem”><span style=”color:var(--text-soft)”>read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
+            <div style=”display:flex;gap:0.6rem;flex-wrap:wrap”>
+              <button style=”font:11px/1 var(--mono);letter-spacing:.04em;padding:9px 16px;border-radius:6px;border:1px solid var(--card-border);background:var(--card-border);color:var(--text-mid);cursor:pointer;transition:all 140ms” onclick=”this.closest('.work').querySelector('[data-go=loop]')&&this.closest('.work').querySelector('[data-go=loop]').click()”>Open the read →</button>
+              <button style=”font:11px/1 var(--mono);letter-spacing:.04em;padding:9px 16px;border-radius:6px;border:1px solid var(--card-border);background:transparent;color:var(--text-mid);cursor:pointer;transition:all 140ms”>Sign &amp; hand off</button>
+              <button style=”font:11px/1 var(--mono);letter-spacing:.04em;padding:9px 16px;border-radius:6px;border:1px solid var(--card-border);background:transparent;color:var(--text-mid);cursor:pointer;transition:all 140ms”>Defer 2d</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Re-surfaced overnight -->
+        <div>
+          <div style=”font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.85rem;display:flex;justify-content:space-between”>
+            <span>Re-surfaced overnight</span><span style=”color:var(--text-mute);font-size:8px”>2 held reads · no decision due</span>
+          </div>
+          <div style=”display:flex;flex-direction:column;gap:0.7rem”>
+            <div style=”background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:7px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:0.4rem”>
+              <div style=”display:flex;align-items:center;gap:0.55rem”>
+                <span style=”width:6px;height:6px;border-radius:50%;background:var(--connection,#3EE878);flex-shrink:0”></span>
+                <span style=”font:500 1.05rem var(--display);color:var(--text)”>Eng hire · candidate B</span>
+                <span style=”margin-left:auto;font:9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)”>held 6d</span>
+              </div>
+              <p style=”font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0”>Sent a technical write-up unprompted. Synthesis flips its read: the Judgment register placed this third — pattern, just one counter-example.</p>
+            </div>
+            <div style=”background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:7px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:0.4rem”>
+              <div style=”display:flex;align-items:center;gap:0.55rem”>
+                <span style=”width:6px;height:6px;border-radius:50%;background:var(--connection,#3EE878);flex-shrink:0”></span>
+                <span style=”font:500 1.05rem var(--display);color:var(--text)”>Design system · v2 migration</span>
+                <span style=”margin-left:auto;font:9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)”>held 9d</span>
+              </div>
+              <p style=”font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0”>Strategist surfaced a third option overnight — ship v1, run v2 in parallel two weeks. Maia's review supports it.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: close the loop + mirror -->
+      <div style=”display:flex;flex-direction:column;gap:1.5rem”>
+        <!-- Close the loop (outcome sealing) -->
+        <div>
+          <div style=”font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.85rem;display:flex;justify-content:space-between”>
+            <span>Close the loop</span><span style=”color:var(--text-mute);font-size:8px”>outcome due · 27 days ago</span>
+          </div>
+          <div id=”tdy-loop” style=”background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.6rem 1.7rem”>
+            <div style=”font:500 1.3rem var(--display);line-height:1.25;color:var(--text);letter-spacing:-.01em;margin-bottom:0.7rem”>You held the seed round to chase a cleaner close.</div>
+            <p style=”font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin-bottom:1.3rem”>How did that land? <em style=”font-style:italic;color:var(--text-mid)”>Your answer is what makes the vault's calibration real.</em></p>
+
+            <div id=”tdy-outcomes” style=”display:flex;flex-direction:column;gap:0.5rem”>
+              <button class=”tdy-outcome good” data-outcome=”Resolved well — right call” data-disp=”resolved-well” style=”font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem”>Resolved well <span style=”color:var(--text-faint);font-size:0.8rem”>— right call</span></button>
+              <button class=”tdy-outcome” data-outcome=”Mixed — would adjust” data-disp=”mixed” style=”font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem”>Mixed <span style=”color:var(--text-faint);font-size:0.8rem”>— would adjust</span></button>
+              <button class=”tdy-outcome warn” data-outcome=”Regret it — wrong call” data-disp=”regret” style=”font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem”>Regret it <span style=”color:var(--text-faint);font-size:0.8rem”>— wrong call</span></button>
+              <button class=”tdy-outcome” data-outcome=”Still open” data-disp=”open” style=”font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem”>Still open</button>
+            </div>
+
+            <div id=”tdy-sealed” style=”display:none;flex-direction:column;gap:0.6rem;animation:tdy-rise 360ms var(--ease-out) both”>
+              <div style=”font:10.5px/1 var(--mono);letter-spacing:.05em;color:var(--text-soft);display:flex;align-items:center;gap:0.5rem”><span style=”color:var(--connection,#3EE878)”>●</span> outcome recorded · sealed to vault</div>
+              <div id=”tdy-sealed-verdict” style=”font:italic 1.05rem var(--display);color:var(--text)”>Resolved well — right call</div>
+              <div id=”tdy-sealed-hash” style=”font:9.5px/1 var(--mono);letter-spacing:.08em;color:var(--text-faint)”>seal 9f4c · 7e21 · 0d8a · b3f0 · device-local</div>
+            </div>
+
+            <div style=”margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--card-border);display:flex;align-items:baseline;gap:0.5rem”>
+              <span id=”tdy-cal-num” style=”font:1.4rem var(--mono);color:var(--diligence,#8E66FB);transition:color 300ms”>7 of 9</span>
+              <span style=”font:0.8rem var(--sans);color:var(--text-soft)”>decisions calibrated · last 12 weeks</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mirror note -->
+        <div style=”background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.4rem 1.6rem”>
+          <div style=”font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--agency-500,#FFD24A);margin-bottom:0.7rem”>◍ Mirror · a quiet note</div>
+          <p style=”font:1.05rem/1.5 var(--display);color:var(--text-mid);margin:0”>You tend to decide funding calls when depleted. Last two nights averaged 5h. The agents are reading you rested today — <em style=”font-style:italic;color:var(--diligence,#8E66FB)”>maybe let them.</em></p>
+        </div>
+      </div>
+    </div>
   </div>`;
+
+  // Wire outcome sealing interaction (happens after DOM paint)
+  setTimeout(setupTodayInteraction, 0);
 }
 
 // ── OKRs · the frame spend is measured against (use case 2) ─────────────────
