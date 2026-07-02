@@ -3,14 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liminal · Judgment infrastructure</title>
+<title>Liminal · Local-first control plane for human-AI work</title>
 
-<!-- Front door · B+C+A composite (2026-07-02)
-     Cinematic scroll spine (display type + loop beats) · the read/refuse beat
-     IS the live orbital (registers deliberate → one refuses → converge → seal) ·
-     hairline register-dot catalog at the foot. Real canon tokens + locked brand
-     type stack. Full reduced-motion fallback. Superseded catalog front door
-     preserved in git history. -->
+<!-- Front door · C-led + A-catalog (2026-07-02)
+     The hero IS the product's core mechanic: a live orbital where the registers
+     deliberate a read, one refuses out-of-lane (spatial subtraction, E5), the
+     rest converge, and the verdict seals in TWO beats — the vault artifact lands
+     instantly (finality-as-transaction), then a separate stakes-scaled
+     acknowledgment (the core-glow ceremony). That bifurcation is canon C1.
+     A's hairline register-dot catalog gives the wayfinding below the fold.
+     Real canon tokens + locked brand type stack. Full reduced-motion fallback. -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,7 +26,7 @@
   @font-face { font-family:'PerfectlyNineties'; src:url('fonts/PerfectlyNineties-Semibold.otf') format('opentype'); font-weight:600; font-display:swap; }
 
   :root{
-    --bg:#08080A; --frame-bg:#0E0E11; --hair:#1C1C22; --hair-2:#2A2A30;
+    --bg:#08080A; --frame-bg:#0E0E11; --frame-bg-2:#0C0C0F; --hair:#1C1C22; --hair-2:#2A2A30;
     --text:#EDEDEF; --text-mid:#B0B0B6; --text-dim:#7C7A74; --text-faint:#56544E;
     --display:"NinetiesHeadliner",Georgia,serif; --sans:"PerfectlyNineties",Georgia,serif; --mono:"Geist Mono","SF Mono",monospace;
   }
@@ -32,62 +34,47 @@
   html{scroll-behavior:smooth}
   body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-  .rail{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:18px 32px;mix-blend-mode:difference}
-  .rail .n{font-family:var(--display);font-size:16px;letter-spacing:-.01em;color:#fff}
-  .rail .n b{color:var(--clarity)}
-  .rail .enter{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#fff;text-decoration:none;border:1px solid #fff;border-radius:100px;padding:8px 15px}
-  .prog{position:fixed;top:0;left:0;height:2px;background:var(--clarity);z-index:30;width:0}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;position:relative;z-index:5}
+  .top .n{font-family:var(--display);font-size:17px;letter-spacing:-.01em}.top .n b{color:var(--clarity)}
+  .top .meta{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
 
-  section{padding:0 32px;max-width:1280px;margin:0 auto;position:relative}
+  /* HERO SCENE (C) */
+  .hero{min-height:calc(100vh - 62px);display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:32px;align-items:center;max-width:1280px;margin:0 auto;padding:0 32px 40px;position:relative}
+  .thesis{max-width:26ch}
+  .thesis .kick{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--clarity);margin-bottom:20px}
+  .thesis h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,4.2vw,52px);line-height:1.02;letter-spacing:-.02em}
+  .thesis p{font-family:var(--sans);font-size:clamp(14px,1.5vw,16px);line-height:1.6;color:var(--text-dim);margin-top:18px;max-width:40ch}
+  .thesis .cta{display:inline-flex;align-items:center;gap:9px;margin-top:26px;text-decoration:none;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--text);border:1px solid var(--hair-2);border-radius:100px;padding:11px 18px;transition:border-color .18s,background .18s}
+  .thesis .cta:hover{border-color:var(--clarity);background:color-mix(in oklch,var(--clarity) 12%,transparent)}
+  .thesis .cta .a{color:var(--clarity)}
 
-  /* HERO */
-  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:80px}
-  .hero .kick{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--clarity);margin-bottom:26px}
-  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(50px,11vw,158px);line-height:.92;letter-spacing:-.03em;color:var(--text)}
-  .hero h1 em{font-style:normal;color:var(--text-dim)}
-  .hero .sub{margin-top:34px;max-width:46ch;font-family:var(--sans);font-style:italic;font-size:clamp(16px,2vw,21px);line-height:1.5;color:var(--text-mid)}
-  .hero .scrollcue{margin-top:54px;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:10px}
-  .hero .scrollcue::after{content:"";width:44px;height:1px;background:var(--text-faint)}
-
-  /* LOOP BEATS (B) */
-  .beats{padding-top:12vh}
-  .beat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px;align-items:center;min-height:72vh;border-top:1px solid var(--hair);padding:8vh 0}
-  .beat .idx{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--beat,#fff);opacity:.9}
-  .beat h2{font-family:var(--display);font-weight:700;font-size:clamp(36px,5.6vw,78px);line-height:.98;letter-spacing:-.02em;margin:18px 0 0}
-  .beat p{font-family:var(--sans);font-size:clamp(15px,1.6vw,18px);line-height:1.6;color:var(--text-mid);max-width:46ch;margin-top:20px}
-  .beat .word{font-family:var(--display);font-weight:700;font-size:clamp(84px,19vw,280px);line-height:.8;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px color-mix(in oklch,var(--beat,#fff) 55%,transparent);justify-self:end;text-align:right;user-select:none}
-  .beat.flip{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
-  .beat.flip .txt{order:2}.beat.flip .word{order:1;justify-self:start;text-align:left}
-
-  /* ORBITAL beat (C) — the read/refuse centerpiece, full-bleed within the section */
-  .orbit-beat{border-top:1px solid var(--hair);min-height:96vh;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px;align-items:center;padding:6vh 0}
-  .orbit-beat .txt .idx{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--judgment)}
-  .orbit-beat .txt h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,5.2vw,72px);line-height:.98;letter-spacing:-.02em;margin:16px 0 0}
-  .orbit-beat .txt p{font-family:var(--sans);font-size:clamp(15px,1.6vw,18px);line-height:1.6;color:var(--text-mid);max-width:44ch;margin-top:20px}
   .orbit-wrap{position:relative;width:min(72vh,560px);aspect-ratio:1;justify-self:center;transform-style:preserve-3d;transition:transform .3s ease-out}
   svg.orbit{width:100%;height:100%;overflow:visible}
-  .caption{position:absolute;left:50%;bottom:-52px;transform:translateX(-50%);text-align:center;width:100%;pointer-events:none}
+  .caption{position:absolute;left:50%;bottom:-58px;transform:translateX(-50%);text-align:center;width:100%;pointer-events:none}
   .caption .phase{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);min-height:14px;transition:color .3s}
   .caption .line{font-family:var(--sans);font-style:italic;font-size:15px;color:var(--text-mid);margin-top:8px;min-height:22px;transition:opacity .3s}
+  /* bifurcated seal · beat 1 = the artifact, appears INSTANTLY (no transition) */
+  .artifact{position:absolute;left:50%;top:calc(50% + 92px);transform:translateX(-50%);display:none;align-items:center;gap:8px;
+            font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--text-mid);
+            background:var(--frame-bg-2);border:1px solid var(--hair-2);border-radius:5px;padding:7px 11px;white-space:nowrap;pointer-events:none}
+  .artifact.show{display:inline-flex}
+  .artifact .d{color:var(--clarity)}
+  .artifact .h{color:var(--text-faint)}
+
   .agent-glyph{transition:opacity .4s, fill .4s}
   .refuse{opacity:0;transition:opacity .35s}
   @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
   .reading{animation:pulse 1.3s ease-in-out infinite}
 
-  /* PULL statement (B) */
-  .pull{min-height:76vh;display:flex;align-items:center;border-top:1px solid var(--hair)}
-  .pull p{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.2vw,74px);line-height:1.04;letter-spacing:-.02em;max-width:20ch}
-  .pull .r{color:var(--alarm)}
-
   /* CATALOG (A) */
-  .catalog{padding-top:11vh;padding-bottom:12vh;border-top:1px solid var(--hair)}
-  .cat-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+  .catalog{max-width:1180px;margin:0 auto;padding:5vh 32px 12vh;border-top:1px solid var(--hair)}
+  .cat-head{display:flex;align-items:baseline;justify-content:space-between;margin:8px 0 6px}
   .cat-head .t{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint)}
   .cat-head .c{font-family:var(--mono);font-size:10px;color:var(--text-faint)}
-  .lead-card{margin:14px 0 34px;border:1px solid var(--hair-2);border-radius:9px;background:linear-gradient(180deg,color-mix(in oklch,var(--clarity) 7%,var(--frame-bg)),var(--frame-bg));padding:24px 26px;display:block;text-decoration:none;position:relative;transition:border-color .18s,transform .18s}
+  .lead-card{margin:14px 0 30px;border:1px solid var(--hair-2);border-radius:9px;background:linear-gradient(180deg,color-mix(in oklch,var(--clarity) 7%,var(--frame-bg)),var(--frame-bg));padding:24px 26px;display:block;text-decoration:none;position:relative;transition:border-color .18s,transform .18s}
   .lead-card:hover{border-color:color-mix(in oklch,var(--clarity) 55%,var(--hair-2));transform:translateY(-1px)}
   .lc-tag{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--clarity)}
-  .lc-title{font-family:var(--display);font-size:24px;letter-spacing:-.01em;margin:8px 0 6px}
+  .lc-title{font-family:var(--display);font-size:23px;letter-spacing:-.01em;margin:8px 0 6px}
   .lc-desc{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--text-mid);max-width:60ch}
   .lc-go{position:absolute;right:24px;top:24px;font-family:var(--mono);color:var(--clarity);font-size:15px}
   .idx{border-top:1px solid var(--hair)}
@@ -100,13 +87,12 @@
   .row .meta{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);white-space:nowrap;text-align:right}
   .row:hover .meta{color:var(--text-mid)}
 
-  footer{max-width:1280px;margin:0 auto;padding:26px 32px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+  footer{max-width:1180px;margin:0 auto;padding:24px 32px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
   footer a{color:var(--text-faint);text-decoration:none}
   footer a:hover{color:var(--text-mid)}
 
-  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
   .reveal.in{opacity:1;transform:none}
-
   @media (prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
     html{scroll-behavior:auto}
@@ -114,37 +100,26 @@
     .orbit-wrap{transform:none!important}
   }
   @media (max-width:860px){
-    .beat,.beat.flip,.orbit-beat{grid-template-columns:1fr;gap:16px;min-height:auto;padding:9vh 0}
-    .beat .word{justify-self:start;text-align:left;order:0}.beat.flip .txt{order:0}
-    .orbit-wrap{width:min(72vw,420px);order:2}
+    .hero{grid-template-columns:1fr;gap:26px;min-height:auto;padding-top:6vh;padding-bottom:9vh}
+    .orbit-wrap{width:min(74vw,420px);order:2}
+    .top .meta{display:none}
   }
 </style>
 </head>
 <body>
-<div class="prog" id="prog"></div>
-<div class="rail"><span class="n">◇ <b>Liminal</b></span><a class="enter" href="cuts/01-slate-tray.html">Enter →</a></div>
+<div class="top">
+  <span class="n">◇ <b>Liminal</b></span>
+  <span class="meta">local-first control plane for human-AI work · refusal as output</span>
+</div>
 
 <section class="hero">
-  <div class="kick reveal">Judgment infrastructure for founders</div>
-  <h1 class="reveal">Liminal gives form to <em>inner life.</em></h1>
-  <p class="sub reveal">When anyone can build, the bottleneck moves from output to judgment. Liminal is the substrate where judgment gets recorded, corrected, and compounded.</p>
-  <div class="scrollcue reveal">Scroll · the loop</div>
-</section>
-
-<section class="beats">
-  <div class="beat reveal" style="--beat:var(--diligence)">
-    <div class="txt"><div class="idx">01 · capture</div><h2>Drag it into the tray.</h2><p>A Slack thread, a doc, a transcript, a session. No pipes, no integrations. The tray is the substrate your other tools enter.</p></div>
-    <div class="word">TRAY</div>
+  <div class="thesis">
+    <div class="kick">A read, running</div>
+    <h1>Bounded agents read it. They disagree. You decide.</h1>
+    <p>Watch one read run: the registers deliberate, one refuses out-of-lane, the rest converge — and the verdict seals to the vault twice over, the packet landing before the read is acknowledged. That loop is the whole product.</p>
+    <a class="cta" href="cuts/01-slate-tray.html">Enter the wedge <span class="a">→</span></a>
   </div>
-</section>
 
-<!-- READ / REFUSE · the live orbital (C) -->
-<section class="orbit-beat reveal">
-  <div class="txt">
-    <div class="idx">02 · read &amp; refuse</div>
-    <h2>Twelve bounded agents read it — and refuse.</h2>
-    <p>Watch one read run: four registers deliberate, one refuses out-of-lane — <i>“that's not my ground, talk to the Healer”</i> — the rest converge, and the verdict seals to the vault. Refusal as designed output is the whole architecture.</p>
-  </div>
   <div class="orbit-wrap" id="wrap">
     <svg class="orbit" viewBox="0 0 400 400" id="svg">
       <circle cx="200" cy="200" r="150" fill="none" stroke="var(--hair)" stroke-width="1"/>
@@ -158,36 +133,20 @@
         <stop id="c1" offset="100%" stop-color="var(--clarity)" stop-opacity="0"/>
       </radialGradient>
       <circle id="glow" cx="200" cy="200" r="46" fill="url(#core)"/>
-      <circle id="orb" cx="200" cy="200" r="15" fill="var(--frame-bg)" stroke="var(--text-dim)" stroke-width="1.4"/>
-      <text id="diamond" x="200" y="205" text-anchor="middle" font-size="15" fill="var(--text-mid)" font-family="Geist Mono, monospace">◇</text>
+      <circle id="orb" cx="200" cy="200" r="15" fill="var(--frame-bg)" stroke="var(--text-dim)" stroke-width="1.4" style="transition:stroke .5s"/>
+      <text id="diamond" x="200" y="205" text-anchor="middle" font-size="15" fill="var(--text-mid)" font-family="Geist Mono, monospace" style="transition:fill .5s">◇</text>
     </svg>
+    <div class="artifact" id="artifact"><span class="d">◇</span> sealed · packet <span class="h">a1f3·9e2</span> → vault</div>
     <div class="caption"><div class="phase" id="phase">scanning</div><div class="line" id="line">the tray composes what's there</div></div>
   </div>
 </section>
-
-<section class="beats" style="padding-top:0">
-  <div class="beat flip reveal" style="--beat:var(--synthesis)">
-    <div class="txt"><div class="idx">03 · correct</div><h2>You push back. The delta becomes data.</h2><p>When you correct a read, the semantic delta is captured as first-party data — how <i>you</i> decide, recorded at the moment of judgment.</p></div>
-    <div class="word">CORRECT</div>
-  </div>
-  <div class="beat reveal" style="--beat:var(--depth,#3B6FE0)">
-    <div class="txt"><div class="idx">04 · record</div><h2>The vault holds the record.</h2><p>Local-first. Every session, every correction, canonically hashed and searchable. The record is the moat.</p></div>
-    <div class="word">VAULT</div>
-  </div>
-  <div class="beat flip reveal" style="--beat:var(--outreach)">
-    <div class="txt"><div class="idx">05 · next move</div><h2>One signed packet. One thing you can stand behind.</h2><p>The loop returns it tomorrow in Today — re-read overnight, brought back for the decision only you can make.</p></div>
-    <div class="word">MOVE</div>
-  </div>
-</section>
-
-<section class="pull"><p class="reveal">Frontier labs ship omniscience.<br>Liminal ships <span class="r">refusal.</span></p></section>
 
 <section class="catalog">
   <div class="cat-head reveal"><span class="t">The catalog</span><span class="c">12 surfaces</span></div>
   <a class="lead-card reveal" href="cuts/01-slate-tray.html">
     <span class="lc-tag">Start here · founders enter first</span>
     <div class="lc-title">The slate &amp; tray — the wedge</div>
-    <p class="lc-desc">Drag a Slack thread, a doc, a transcript into the tray. Twelve bounded agents read it, disagree, and stage one next move. You correct the read; the vault keeps the record.</p>
+    <p class="lc-desc">Drag a Slack thread, a doc, a transcript into the tray. Bounded agents read it, disagree, and stage one next move. You correct the read; the vault keeps the record.</p>
     <span class="lc-go">→</span>
   </a>
   <div class="idx reveal">
@@ -196,26 +155,22 @@
     <a class="row" href="cuts/10-today.html"><span class="dot" style="background:var(--outreach)"></span><span class="body"><span class="t">Today — what came back overnight</span><span class="d">The daemon re-reads held compositions; you say how it landed. The loop, made a place.</span></span><span class="meta">re-entry</span></a>
     <a class="row" href="cuts/11-govern.html"><span class="dot" style="background:var(--judgment)"></span><span class="body"><span class="t">Govern — correction is the interaction</span><span class="d">The loop turned on the agent fleet itself. Where you correct is first-party data.</span></span><span class="meta">govern</span></a>
     <a class="row" href="cuts/09-osint-custody.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">OSINT Custody — the real kernel</span><span class="d">INGEST→READ→GUARD→REVIEW→VAULT, computed live in-browser. The guard refuses the intent claim.</span></span><span class="meta">live kernel</span></a>
-    <a class="row" href="cuts/08-liminal-custody.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">Liminal Custody — defense surface</span><span class="d">Same architecture under maximum constraint. NatSec, top 16 of 102, in 48 hours.</span></span><span class="meta">natsec</span></a>
+    <a class="row" href="cuts/08-liminal-custody.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">Liminal Custody — defense surface</span><span class="d">Same architecture under maximum constraint. NatSec, top 16 of 102 finalists (200 teams at start), in 48 hours.</span></span><span class="meta">natsec</span></a>
     <a class="row" href="cuts/03-calibration.html"><span class="dot" style="background:var(--synthesis)"></span><span class="body"><span class="t">Calibration — the moat, made visible</span><span class="d">12 weeks × 4 registers. Corrections compound into a record that reads as pattern.</span></span><span class="meta">record</span></a>
     <a class="row" href="cuts/thread/index.html"><span class="dot" style="background:var(--outreach)"></span><span class="body"><span class="t">The thread — diffuse context</span><span class="d">Connect Gmail + Calendar; see your open loops in five minutes, each with a receipt.</span></span><span class="meta">staged</span></a>
     <a class="row" href="team-drift/index.html"><span class="dot" style="background:var(--judgment)"></span><span class="body"><span class="t">Team Drift — coherence as a pipe</span><span class="d">Governance as a pipe, not a flag. The correction-stream substrate, turned on the team.</span></span><span class="meta">telemetry</span></a>
     <a class="row" href="molehunt/index.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">Molehunt — analyst console</span><span class="d">High-assurance counterintelligence: statutory gate, append-only chain-of-custody.</span></span><span class="meta">counterintel</span></a>
     <a class="row" href="embed-slate-tray-demo.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Slate &amp; Tray — live composition</span><span class="d">Drag any window in. The agents read what's there. No pipes, no integrations.</span></span><span class="meta">composition</span></a>
-    <a class="row" href="embed-vault-demo.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Vault + Agents — four-register read</span><span class="d">Twelve bounded agents across four registers. Each reads one surface, refuses the rest.</span></span><span class="meta">vault</span></a>
+    <a class="row" href="embed-vault-demo.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Vault + Agents — four-register read</span><span class="d">Bounded agents across four registers. Each reads one surface, refuses the rest.</span></span><span class="meta">vault</span></a>
   </div>
 </section>
 
 <footer><span>theliminalspace.io · 2026 · bounded · forensic · inevitable</span><a href="https://theliminalspace.io">site →</a></footer>
 
 <script>
-  // reveals + scroll progress
   const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.15});
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-  const prog=document.getElementById('prog');
-  addEventListener('scroll',()=>{const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
 
-  // orbital (C)
   (function(){
     const REGS=[
       {k:'diligence',label:'DILIGENCE',ag:'Auditor',ang:-90},
@@ -237,30 +192,34 @@
     });
     const phase=document.getElementById('phase'),line=document.getElementById('line'),
           orb=document.getElementById('orb'),diamond=document.getElementById('diamond'),
-          refuse=document.getElementById('refuseLine'),glyphs=[...document.querySelectorAll('.agent-glyph')],
+          refuse=document.getElementById('refuseLine'),artifact=document.getElementById('artifact'),
+          glyphs=[...document.querySelectorAll('.agent-glyph')],
           c0=document.getElementById('c0'),c1=document.getElementById('c1');
     const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
     const set=(p,l)=>{phase.textContent=p;line.textContent=l;};
     const gset=o=>{c1.setAttribute('stop-opacity',o);c0.setAttribute('stop-opacity',o*0.9);};
-    function sealed(){glyphs.forEach(x=>{x.classList.remove('reading');x.style.opacity=1;});refuse.style.opacity=.85;gset(.5);orb.setAttribute('stroke','var(--clarity)');diamond.setAttribute('fill','var(--clarity)');set('sealed','one signed packet · held in the vault');}
-    if(reduce){sealed();return;}
+    // canon C1 is BIFURCATED: the artifact is a transaction (instant), the glow is a ceremony (animated).
+    function artifactInstant(){artifact.classList.add('show');}           // beat 1 · finality-as-transaction
+    function glowCeremony(){orb.setAttribute('stroke','var(--clarity)');diamond.setAttribute('fill','var(--clarity)');gset(.5);} // beat 2 · acknowledgment
+    function sealedStatic(){glyphs.forEach(x=>{x.classList.remove('reading');x.style.opacity=1;});refuse.style.opacity=.85;artifactInstant();glowCeremony();set('sealed','packet in the vault · read acknowledged');}
+    if(reduce){sealedStatic();return;}
     const steps=[
       {t:400, f:()=>{set('scanning','the tray composes what’s there');glyphs.forEach(x=>x.classList.add('reading'));}},
       {t:1800,f:()=>set('reading','four registers take the read')},
       {t:3200,f:()=>{set('refusal','Skeptic: “not my ground — ask Diligence”');refuse.style.opacity=.9;const j=glyphs.find(x=>x.dataset.k==='judgment');j.classList.remove('reading');j.style.opacity=.28;}},
-      {t:4800,f:()=>{set('converging','the read resolves');glyphs.forEach(x=>{x.classList.remove('reading');x.style.opacity=1;});gset(.42);}},
-      {t:6000,f:()=>{set('sealed','one signed packet · held in the vault');orb.setAttribute('stroke','var(--clarity)');diamond.setAttribute('fill','var(--clarity)');gset(.5);}},
-      {t:8100,f:()=>{refuse.style.opacity=0;gset(0);orb.setAttribute('stroke','var(--text-dim)');diamond.setAttribute('fill','var(--text-mid)');glyphs.forEach(x=>{x.style.opacity='';});}}
+      {t:4800,f:()=>{set('converging','the read resolves');glyphs.forEach(x=>{x.classList.remove('reading');x.style.opacity=1;});}},
+      // ── canon C1, split into two beats ──
+      {t:5900,f:()=>{set('sealed · vault','the packet lands — instantly');artifactInstant();}},   // beat 1 · transaction (no anim)
+      {t:6550,f:()=>{set('acknowledged','the read is witnessed');glowCeremony();}},                // beat 2 · ceremony (glow rises)
+      {t:8400,f:()=>{artifact.classList.remove('show');refuse.style.opacity=0;gset(0);orb.setAttribute('stroke','var(--text-dim)');diamond.setAttribute('fill','var(--text-mid)');glyphs.forEach(x=>{x.style.opacity='';});}}
     ];
     let timers=[],running=false;
-    function cycle(){timers.forEach(clearTimeout);timers=steps.map(s=>setTimeout(s.f,s.t));timers.push(setTimeout(cycle,8600));}
-    // start when the orbital scrolls into view; pause when out
+    function cycle(){timers.forEach(clearTimeout);timers=steps.map(s=>setTimeout(s.f,s.t));timers.push(setTimeout(cycle,8900));}
     const wrap=document.getElementById('wrap');
     new IntersectionObserver((es)=>{es.forEach(e=>{
       if(e.isIntersecting&&!running){running=true;cycle();}
       else if(!e.isIntersecting&&running){running=false;timers.forEach(clearTimeout);}
     })},{threshold:.35}).observe(wrap);
-    // subtle parallax tilt
     addEventListener('mousemove',e=>{if(reduce)return;const rx=(e.clientY/innerHeight-.5)*-5,ry=(e.clientX/innerWidth-.5)*5;wrap.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;},{passive:true});
   })();
 </script>
