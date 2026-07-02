@@ -35,7 +35,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- canon · single source of truth -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
@@ -119,7 +119,7 @@
     margin-bottom: 0.9rem;
   }
   .tdy-title {
-    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-family: var(--display, Georgia, serif);
     font-weight: 500;
     font-size: 2.6rem;
     letter-spacing: -0.015em;
@@ -182,7 +182,7 @@
   .tdy-tag.almost { color: var(--ink-amber); border-color: rgba(255,210,74,0.3); }
 
   .tdy-verdict {
-    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-family: var(--display, Georgia, serif);
     font-weight: 500;
     font-style: italic;
     font-size: 1.7rem;
@@ -245,7 +245,7 @@
   .tdy-rcard-top { display: flex; align-items: center; gap: 0.55rem; }
   .tdy-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-good); flex-shrink: 0; }
   .tdy-rcard-name {
-    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-family: var(--display, Georgia, serif);
     font-weight: 500;
     font-size: 1.05rem;
     color: var(--text);
@@ -273,7 +273,7 @@
     padding: 1.6rem 1.7rem;
   }
   .tdy-loop-q {
-    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-family: var(--display, Georgia, serif);
     font-weight: 500;
     font-size: 1.3rem;
     line-height: 1.25;
@@ -335,7 +335,7 @@
   }
   .tdy-sealed-line .ok { color: var(--ink-good); }
   .tdy-sealed-verdict {
-    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-family: var(--display, Georgia, serif);
     font-style: italic;
     font-size: 1.05rem;
     color: var(--text);
@@ -386,7 +386,7 @@
     margin-bottom: 0.7rem;
   }
   .tdy-state-body {
-    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-family: var(--display, Georgia, serif);
     font-size: 1.05rem;
     line-height: 1.5;
     color: var(--text-mid);
@@ -417,7 +417,7 @@
     margin: 2.4rem auto 0;
     padding-top: 1.3rem;
     border-top: 1px solid var(--border-soft);
-    font-family: var(--display, "Newsreader", Georgia, serif);
+    font-family: var(--display, Georgia, serif);
     font-style: italic;
     font-size: 0.9rem;
     color: var(--text-soft);
@@ -426,7 +426,7 @@
   .tdy-btn { transition: transform .22s var(--ease-spring, ease), background .15s, color .15s, border-color .15s; }
   .tdy-btn:hover { transform: translateY(-1.5px); }
   .tdy-btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
-  @media (prefers-reduced-motion: reduce){ .tdy-btn{transition:background .15s,color .15s} .tdy-btn:hover{transform:none} }
+  @media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important} body{transition:none} .tdy-btn{transition:background .15s,color .15s} .tdy-btn:hover{transform:none} }
 </style>
 </head>
 <body data-product="personal">

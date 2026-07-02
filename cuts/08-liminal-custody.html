@@ -1535,7 +1535,7 @@
   .case-button { transition: transform .22s var(--ease-spring, ease), background .15s, color .15s, border-color .15s; }
   .case-button:hover { transform: translateY(-1.5px); }
   .case-button:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
-  @media (prefers-reduced-motion: reduce){ .case-button{transition:background .15s,color .15s} .case-button:hover{transform:none} }
+  @media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important} .case-button{transition:background .15s,color .15s} .case-button:hover{transform:none} }
 </style>
 </head>
 <body data-product="business">

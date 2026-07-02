@@ -261,16 +261,23 @@
 
   /* 1. Anointment · slate title is the loudest object on the surface */
   .slate-title {
+    /* font-size / weight / letter-spacing keep !important: they answer
+       brand-upgrade.css's shared .slate-title !important defaults (base
+       weight/tracking at :339, responsive font-size at :636/:727) on equal
+       terms. line-height + margin have no !important competitor, so plain
+       declarations win by source order. Full de-escalation = de-important
+       brand-upgrade's shared rules (touches embed-slate-tray + desktop
+       specimen too) — the C7 "lock a display scale" call. */
     font-size: 36px !important;
     font-weight: 500 !important;
     letter-spacing: -0.025em !important;
-    line-height: 1.05 !important;
-    margin-bottom: 8px !important;
+    line-height: 1.05;
+    margin-bottom: 8px;
   }
   .slate-subtitle { font-size: 15px !important; opacity: 0.88; }
   .rail-header, .rail-right-header,
   .tray-panel-head .tpa-title { opacity: 0.62; }
-  .agency-label { font-size: 9px !important; letter-spacing: 0.18em !important; opacity: 0.62; }
+  .agency-label { font-size: 9px; letter-spacing: 0.18em; opacity: 0.62; }
 
   /* 2. Reorder · brief above tiles */
   .slate-area { display: flex; flex-direction: column; }

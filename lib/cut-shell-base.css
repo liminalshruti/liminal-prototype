@@ -1645,3 +1645,20 @@
   }
 
   /* ════════════════════════════════════════════════════════════════
+
+/* E8 · shell-level reduced-motion floor (Run-B follow-up, ported from PR #45's
+   edit to the pre-split cut-shell.css). A NEW cut that forgets its own block
+   still gets safe motion from the shell. This uses the near-instant pattern
+   (NOT `animation: none`): animations/transitions collapse to ~0ms and loops
+   run once, so a reveal that starts at opacity:0 still lands at its visible
+   end-state — avoiding the C8 invisible-content trap that `*{animation:none}`
+   caused in cuts 00/11. A cut may still opt into a stronger per-cut rule;
+   this is the floor, not a ceiling. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
