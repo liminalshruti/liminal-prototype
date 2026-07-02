@@ -121,3 +121,31 @@ team-drift) are flagged there as coverage debt.
 *Sources verified this session: TAXONOMY coordinates quoted from the "verified
 placement" table; fold destinations from founder-brain fold map §1–5 (read-only);
 situation rows from the matrix §Tier tables; divergences from the findings ledger §2.*
+
+---
+
+## Build state · 2026-07-01 (what actually landed vs the plan above)
+
+The consolidation build executed same-day. Deltas from the plan-of-record:
+
+- **Engine + ports:** landed and verified — `lib/loop.js` (parameterized beats) +
+  `lib/evidence-panes.js`; cuts 00/01/02/06/08/09/11 initialize the engine with
+  behavior-preserving per-surface configs. `lib/cut-shell.css` split into
+  base/registers/products behind an import shim.
+- **Master (11):** subject switch (5 subjects) + register reskin + COMPLETED cut-10
+  Today absorption (the fold map's "already absorbed" claim was wrong — see
+  `docs/architecture/CUT10_ABSORPTION_PARITY.md`; the gaps are now closed and
+  browser-verified: outcome seal, calibration bump, resurfaced reads). The §4
+  tray/orbital grammar upgrade is deferred to
+  `docs/architecture/MASTER_GRAMMAR_UPGRADE_SPEC.md`.
+- **Custody fold (08+09):** scaffold landed as `cuts/custody.html` (maturity:
+  sketch, mode toggle + layout + per-mode configs) — the behavior transplant is
+  pending per `docs/architecture/CUSTODY_TRANSPLANT_SPEC.md`. **Originals remain
+  live at their URLs** (first fold attempt was reverted honestly); copies archived
+  at `cuts/_archive/pre-consolidation/`.
+- **§4 redirect discipline: NOT yet triggered** — no cut is behind a redirect.
+  Redirects begin only when the transplant spec executes (08/09) and when a fold
+  session retires 10 (absorbed) and 00 (mechanism now lives in the engine).
+- Two coordinates therefore move: 08/09 gain `custody.html` as their fold
+  destination *in progress*; 10's "already absorbed" verdict corrects to
+  "absorbed as of this build."
