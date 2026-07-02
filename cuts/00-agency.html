@@ -333,6 +333,21 @@ function orbitSVG(big){
   </svg>`;
 }
 
+/* ── engine integration · loop engine config ───────────────────────────────────*/
+let loopEngine=null;
+function initEngine(){
+  loopEngine={
+    subject:CUR,
+    sealChoreography:'instant',
+    refusalFlavor:'routing',
+    refusalTimingMs:200,
+    motionTier:'ambient'
+  };
+}
+function updateEngineSubject(newSubject){
+  if(loopEngine) loopEngine.subject=newSubject;
+}
+
 /* ── renderers ── */
 function renderSubjects(){$('#subjects').innerHTML=ORDER.map(k=>`<button class="subj ${k===CUR?'on':''}" data-subj="${k}">${SUBJECTS[k].label}</button>`).join('');}
 function renderSlate(){const S=SUBJECTS[CUR];
@@ -379,6 +394,7 @@ function renderRead(){const S=SUBJECTS[CUR];
 function renderFrame(){$('#frameid').innerHTML=SUBJECTS[CUR].product;}
 
 function go(k){CUR=k;corrections=0;signed=false;
+  updateEngineSubject(k);
   CHAIN.length=4; $('#ledger').classList.remove('open','proving');$('#prove')&&$('#prove').classList.remove('on');
   renderSubjects();renderFrame();renderSlate();renderAgency();renderRead();renderChain();
   toast('Subject → '+SUBJECTS[k].label+' · same loop, reskinned');}
@@ -417,6 +433,7 @@ slate.addEventListener('dragleave',()=>slate.classList.remove('drop'));
 slate.addEventListener('drop',e=>{e.preventDefault();slate.classList.remove('drop');
   const S=SUBJECTS[CUR];const idx=+dragId-100;if(idx>=0&&S.tray[idx]){const t=S.tray.splice(idx,1)[0];S.slate.push(t);renderSlate();CHAIN.push(['14:3'+(3+corrections),'slate · hardened '+t[0],'corr','new']);renderChain();toast('Hardened '+t[0]+' onto the slate · the agents now read it');}});
 
+initEngine();
 go('spend');
 </script>
 <!-- demo spine · persistent beat rail (beat 3 · agency view) -->

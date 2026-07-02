@@ -609,17 +609,40 @@
   </div>
 </div>
 
-<script>
+<script type="module">
 /* ════════════════════════════════════════════════════════════════
-   Cut 06 · staged guided-reveal marginalia engine
-   ─────────────────────────────────────────────────────────────────
-   The product surface above renders clean. This engine layers the
-   founder's hand onto the LIVE elements, one note at a time, in loop
-   order. lib/marginalia.js renders all notes at once; the walk here
-   is bespoke — it spotlights one anchored element per step, reposition-
-   ing the note relative to that element's live rect, and dims the rest.
-   ⌘N starts/advances · ←/→ step · Esc exits · the dock mirrors it.
+   Cut 06 · margin-read · loop integration + marginalia walk engine
+   ──────────────────────────────────────────────────────────────────
+   This cut is a full-loop surface with the gloss-layer correction model
+   (marginalia walk) + outcome sealing (360ms rise, verified from code).
+
+   Engine config (verified):
+   - subject: 'pattern' (this is the founder's hand on the product)
+   - sealChoreography: 'rise'
+   - sealRiseMs: 360 (from @keyframes rise animation 360ms at line 331)
+   - correctionModel: 'gloss-layer' (marginalia walk + outcome seal)
+   - refusalFlavor: 'routing'
+   - motionTier: 'refined'
+
+   The staged-reveal walk is preserved; it reuses the .ed-note register
+   and spotlight mechanism. Outcome click triggers SEALING beat.
    ════════════════════════════════════════════════════════════════ */
+
+import { initLoopEngine, applyBeat } from '../lib/loop.js';
+
+// Initialize the loop engine for the pattern subject with gloss-layer correction
+initLoopEngine({
+  subject: 'pattern',
+  sealChoreography: 'rise',
+  sealRiseMs: 360,  // verified from cut 06's @keyframes rise
+  correctionModel: 'gloss-layer',
+  refusalFlavor: 'routing',
+  motionTier: 'refined',
+});
+
+// Apply READING beat on load to initialize the surface
+applyBeat('READING');
+
 (function () {
   "use strict";
 
@@ -801,6 +824,9 @@
     sealed.classList.add("show");
     calNum.textContent = "8 of 10";
     outcomes.querySelectorAll(".outcome").forEach(o => { o.disabled = true; o.style.opacity = "0.45"; });
+
+    // Trigger the loop engine's SEALING beat (360ms rise choreography, gloss-layer correction)
+    applyBeat('SEALING');
   });
 })();
 </script>

@@ -494,64 +494,10 @@
       </div>
     </section>
 
-    <!-- RIGHT · forensic audit trail -->
+    <!-- RIGHT · forensic audit trail (rendered by loop engine, notice pane) -->
     <aside class="pane pane--audit" aria-label="Forensic audit trail">
       <h3 class="pane__title">Audit trail · primary sources</h3>
-
-      <div class="audit-row">
-        <span class="audit-row__check">✓</span>
-        <span>
-          <div class="audit-row__key">DKIM · SPF · DMARC</div>
-          <div class="audit-row__val">all four [venue] emails pass · noreply@sr-team origin verified</div>
-        </span>
-      </div>
-
-      <div class="audit-row">
-        <span class="audit-row__check">✓</span>
-        <span>
-          <div class="audit-row__key">CRM contact IDs · X-HS-Cid</div>
-          <div class="audit-row__val">3 distinct values across 4 emails → 3 distinct conversation tracks</div>
-        </span>
-      </div>
-
-      <div class="audit-row">
-        <span class="audit-row__check">✓</span>
-        <span>
-          <div class="audit-row__key">Workflow Feedback-IDs</div>
-          <div class="audit-row__val">3 distinct send-templates → 3 separate workflow triggers, not one record</div>
-        </span>
-      </div>
-
-      <div class="audit-row">
-        <span class="audit-row__check audit-row__check--watch">!</span>
-        <span>
-          <div class="audit-row__key">Stated review window</div>
-          <div class="audit-row__val">May 1 receipt promised "within two weeks" · decision arrived day 7 of 14</div>
-        </span>
-      </div>
-
-      <div class="audit-row">
-        <span class="audit-row__check audit-row__check--watch">!</span>
-        <span>
-          <div class="audit-row__key">Decision-email body scan</div>
-          <div class="audit-row__val">references "video interview" only · no mention of form prose, deck, or traction toggles</div>
-        </span>
-      </div>
-
-      <div class="audit-row">
-        <span class="audit-row__check">✓</span>
-        <span>
-          <div class="audit-row__key">Inbox topology canon</div>
-          <div class="audit-row__val">catch-all vs founder split documented 8 days before this event · not retroactive</div>
-        </span>
-      </div>
-
-      <div class="provenance">
-        <strong>Captured</strong> · 2026-05-08 · forensic agent v0.3<br>
-        <strong>Substrate</strong> · 4 .eml files · 5 PDFs · 1 dashboard screenshot<br>
-        <strong>Authority</strong> · founder<br>
-        <strong>Visibility</strong> · private · audit-grade
-      </div>
+      <div class="evidence-pane-notice-container"></div>
     </aside>
 
   </div>
@@ -565,5 +511,34 @@
 </div>
 
 <script src="../lib/surface-nav.js"></script>
+<script type="module">
+  /* Cut 02 loop integration · notice pane port (Phase B2)
+     This cut is READ-beat-only: no interactive loop, no seal choreography.
+     It renders the notice evidence pane (contradiction narrative + audit trail).
+
+     Note: Cut 02 is a static, self-contained surface with no agency rail or
+     tray. It doesn't use the full READING beat (which expects .evidence-pane,
+     renderBrief, etc.). Instead, it manually renders the notice pane into its
+     audit-trail container. */
+
+  import { initLoopEngine } from '../lib/loop.js';
+  import { EVIDENCE_PANES } from '../lib/evidence-panes.js';
+
+  // Initialize engine for notice subject (documents the beat choreography, even though unused)
+  initLoopEngine({
+    subject: 'notice',
+    sealChoreography: 'instant',
+    correctionModel: 'rule-gate',
+    refusalFlavor: 'agent',
+    motionTier: 'ambient',
+  });
+
+  // Render the notice pane into the audit-trail container
+  // (cut 02 has no agency rail, so we bypass the READING beat and render directly)
+  const host = document.querySelector('.evidence-pane-notice-container');
+  if (host && EVIDENCE_PANES.notice && EVIDENCE_PANES.notice.render) {
+    EVIDENCE_PANES.notice.render(host, {});
+  }
+</script>
 </body>
 </html>

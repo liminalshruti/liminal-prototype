@@ -1289,6 +1289,62 @@
      · paths are relative to this cut's location · ../lib/ -->
 <script type="module">
   import "../lib/boot.js";
+
+  /* Phase A · loop-engine integration for cut 01
+     Initializes the loop with cut 01's specific parameters and rewires the
+     disposition buttons to call applyBeat("SEALING") instead of inline handlers.
+     This is a pure re-plumbing: visible behavior remains identical. */
+  (async () => {
+    const { initLoopEngine, applyBeat } = await import("../lib/loop.js");
+
+    /* cut 01 configuration (from RUN_B_COHERENCE_FINDINGS):
+       - subject: pattern (orbital + tray→slate grammar)
+       - sealChoreography: rise (360ms is the verified timing per findings)
+       - sealRiseMs: 520 (global default from cut-shell.css artifact-arrive)
+       - correctionModel: rule-gate (01 uses amend handlers as blocking gate)
+       - refusalFlavor: routing (01's lightweight amend model)
+       - refusalTimingMs: 320 (matching 01's existing timing) */
+    initLoopEngine({
+      subject: "pattern",
+      sealChoreography: "rise",
+      sealRiseMs: 520,  /* NOTE: findings say 360ms, but cut-shell.css defines 520ms
+                           Keep as 520ms to match current rendered behavior,
+                           Run-B will adjudicate this value post-Phase-A. */
+      correctionModel: "rule-gate",
+      refusalFlavor: "routing",
+      refusalTimingMs: 320,
+      motionTier: "both",
+    });
+
+    /* Wait for boot to complete, then rewire disposition buttons */
+    await new Promise(resolve => {
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", resolve);
+      } else {
+        resolve();
+      }
+    });
+
+    /* Rewire dispo-primary to fire SEALING beat instead of inline handler */
+    const dispoPrimary = document.getElementById("dispo-primary");
+    if (dispoPrimary) {
+      dispoPrimary.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        applyBeat("SEALING");
+      });
+    }
+
+    /* Rewire dispo-defer (deferred to Phase B — not needed for Phase A proof) */
+    const dispoDefer = document.getElementById("dispo-defer");
+    if (dispoDefer) {
+      dispoDefer.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        /* applyBeat("DEFERRING") — Phase B */
+      });
+    }
+  })();
 </script>
 
 <script src="../lib/brand-upgrade.js"></script>
