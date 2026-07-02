@@ -91,7 +91,7 @@ Beats: `applyBeat('IDLE'|'CAPTURING'|'READING'|'DECIDING'|'SEALING'|'ENTERING')`
 other hooks: `onBeatChange(beat, prev)`, `onSealed(artifact)`.
 
 Post-consolidation surface list (where the config blocks live): the master
-(`cuts/11-govern.html`, subject-switchable), `cuts/custody.html` (defense|osint modes),
+(`cuts/11-govern.html`, subject-switchable), `cuts/custody.html` (defense|osint modes — SCAFFOLD ONLY until CUSTODY_TRANSPLANT_SPEC executes; until then rule against cuts/08+09 which remain live),
 `cuts/01-slate-tray.html`, `cuts/02-forensic-agent.html` (READ-only), 
 `cuts/06-margin-read.html`, `cuts/00-agency.html` (archived behind redirect once the
 master absorbs it — check `docs/CUT_CONSOLIDATION_MAP.md` §4 state at your runtime).
