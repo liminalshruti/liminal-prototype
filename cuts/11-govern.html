@@ -1022,16 +1022,43 @@ function resetDemo(){
 }
 function toast(msg){const t=$('#toast');t.innerHTML=`<span class="d">✎</span>${msg}`;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
 
+// ── engine integration · loop engine state + hooks ───────────────────────────
+let loopEngine=null;
+function initEngine(){
+  loopEngine={
+    subject:'spend',
+    sealChoreography:'bifurcated',
+    sealRiseMs:600,
+    refusalFlavor:'agent',
+    refusalTimingMs:320,
+    motionTier:'both',
+    onSealGlow:()=>{
+      // bifurcated seal: trigger orbital center-orb glow animation (600ms by convention)
+      const orb=document.querySelector('svg.orbit .core');
+      if(orb){orb.classList.add('glow');setTimeout(()=>orb.classList.remove('glow'),600);}
+    }
+  };
+}
+
 // ── ratify → mint canonical artifact (corrections shape it) ─────────────────
 function mintArtifact(){
   signed=true; const aw=$('#artwrap'); if(!aw)return;
   const corrLine = corrections? `<span class="corr" style="color:var(--coherence,#7AA9FF)">Operator made ${corrections} correction${corrections>1?'s':''} to the read before sealing · this reflects the corrected judgment.</span> ` : '';
-  aw.innerHTML=`<div class="artifact"><div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
+  const artifactHTML=`<div class="artifact"><div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
     <div class="abody"><p class="adec">Opus 4.8 cannot be used for calendar management or routine admin work.</p>
     <p class="arat">${corrLine}Calendar/admin usage does not map to the approved OKRs, and a registry-verified lower-cost agent (CalendarOps, ~10% of Opus) covers it. E14 is product engineering (PR-103) and is NOT reclassified.</p>
     <div class="apol"><span class="pc al">allow · product_dev</span><span class="pc al">allow · security_hardening</span><span class="pc al">allow · architecture_review</span><span class="pc dn">deny · calendar_management</span><span class="pc dn">deny · routine_admin</span><span class="pc dn">deny · generic_summarization</span></div>
     <div class="arec"><span class="hl">anchored</span><span class="hs">sha256: 7d4b…a284 · local-first chain · entry ${6+corrections}/${6+corrections}</span><span class="ok">chain verified</span></div></div></div>
     <div class="calib-cta"><button data-go="mirror">◍ see how your judgment is calibrating →</button></div>`;
+  aw.innerHTML=artifactHTML;
+
+  /* apply choreography: bifurcated seal (instant artifact + glow) */
+  const artifact=aw.querySelector('.artifact');
+  if(artifact&&loopEngine&&loopEngine.onSealGlow){
+    artifact.style.animation='none'; /* instant render */
+    loopEngine.onSealGlow(); /* fire glow hook */
+  }
+
   const sb=$('.db.sign'); if(sb) sb.style.display='none';
   logChain('ratified · policy anchored · chain verified','corr');
   $('#duebadge').style.display='none';
@@ -1133,7 +1160,8 @@ async function initGovernData(){
   renderChain(); go(wantLoop?'loop':'today');
 }
 
-// boot · load real data if requested, then route (?subject/?beat) or land on Today
+// boot · init engine, load real data if requested, then route (?subject/?beat) or land on Today
+initEngine();
 initGovernData();
 </script>
 <!-- demo spine · persistent beat rail (beat 3 of 4) -->
