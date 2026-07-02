@@ -3,326 +3,266 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liminal · Live Demos</title>
+<title>Liminal · Judgment infrastructure</title>
+
+<!-- Front door · B+C+A composite (2026-07-02)
+     Cinematic scroll spine (display type + loop beats) · the read/refuse beat
+     IS the live orbital (registers deliberate → one refuses → converge → seal) ·
+     hairline register-dot catalog at the foot. Real canon tokens + locked brand
+     type stack. Full reduced-motion fallback. Superseded catalog front door
+     preserved in git history. -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- F3 — Geist Mono only (the locked mono). Newsreader + Geist dropped: display
-     + sans now use the local brand stack (Nineties Headliner / Perfectly Nineties). -->
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="design-system/tokens/design-tokens.css">
 
 <style>
-  /* F3 — menu adopts the LOCKED brand stack (Nineties Headliner + Perfectly
-     Nineties), matching the cuts. Display + sans only; --mono stays Geist Mono
-     per the 2026-05-14 brand lock (brand-upgrade.css predates the lock and uses
-     Cougar — not canon). @font-face paths are root-relative (this is an inline
-     stylesheet, so url() resolves against index.html at repo root → fonts/). */
-  @font-face {
-    font-family: 'NinetiesHeadliner';
-    src: url('fonts/nineties-headliner.otf') format('opentype');
-    font-weight: 700; font-style: normal; font-display: swap;
-  }
-  @font-face {
-    font-family: 'PerfectlyNineties';
-    src: url('fonts/perfectly-nineties-light.otf') format('opentype');
-    font-weight: 300; font-style: normal; font-display: swap;
-  }
-  @font-face {
-    font-family: 'PerfectlyNineties';
-    src: url('fonts/perfectly-nineties-regular.otf') format('opentype');
-    font-weight: 400; font-style: normal; font-display: swap;
-  }
-  @font-face {
-    font-family: 'PerfectlyNineties';
-    src: url('fonts/PerfectlyNineties-Semibold.otf') format('opentype');
-    font-weight: 600; font-style: normal; font-display: swap;
-  }
-  @font-face {
-    font-family: 'PerfectlyNineties';
-    src: url('fonts/perfectly-nineties-bold.otf') format('opentype');
-    font-weight: 700; font-style: normal; font-display: swap;
-  }
+  @font-face { font-family:'NinetiesHeadliner'; src:url('fonts/nineties-headliner.otf') format('opentype'); font-weight:700; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('fonts/perfectly-nineties-light.otf') format('opentype'); font-weight:300; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('fonts/perfectly-nineties-regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('fonts/PerfectlyNineties-Semibold.otf') format('opentype'); font-weight:600; font-display:swap; }
 
-  :root {
-    --bg:           #0A0A0B;
-    --frame-bg:     #0E0E11;
-    --frame-border: #1F1F24;
-    --text:         #E8E8EA;
-    --text-mid:     #B0B0B6;
-    --text-faint:   #6B6862; /* canon WCAG-AA a11y value — inline block loads after design-tokens.css and wins the cascade, so it must carry the canon value (2026-06-11) */
-    --accent:       var(--clarity, #8E66FB);
-    --accent-bg:    var(--clarity-bg, rgba(142,102,251,0.06));
-    --card-border:  #2A2A30;
-    --display:      "NinetiesHeadliner", Georgia, serif;
-    --sans:         "PerfectlyNineties", Georgia, serif;
-    --mono:         "Geist Mono", "SF Mono", monospace;
+  :root{
+    --bg:#08080A; --frame-bg:#0E0E11; --hair:#1C1C22; --hair-2:#2A2A30;
+    --text:#EDEDEF; --text-mid:#B0B0B6; --text-dim:#7C7A74; --text-faint:#56544E;
+    --display:"NinetiesHeadliner",Georgia,serif; --sans:"PerfectlyNineties",Georgia,serif; --mono:"Geist Mono","SF Mono",monospace;
   }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .rail{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:18px 32px;mix-blend-mode:difference}
+  .rail .n{font-family:var(--display);font-size:16px;letter-spacing:-.01em;color:#fff}
+  .rail .n b{color:var(--clarity)}
+  .rail .enter{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#fff;text-decoration:none;border:1px solid #fff;border-radius:100px;padding:8px 15px}
+  .prog{position:fixed;top:0;left:0;height:2px;background:var(--clarity);z-index:30;width:0}
 
-  html, body {
-    min-height: 100%;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--sans);
-    -webkit-font-smoothing: antialiased;
+  section{padding:0 32px;max-width:1280px;margin:0 auto;position:relative}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:80px}
+  .hero .kick{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--clarity);margin-bottom:26px}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(50px,11vw,158px);line-height:.92;letter-spacing:-.03em;color:var(--text)}
+  .hero h1 em{font-style:normal;color:var(--text-dim)}
+  .hero .sub{margin-top:34px;max-width:46ch;font-family:var(--sans);font-style:italic;font-size:clamp(16px,2vw,21px);line-height:1.5;color:var(--text-mid)}
+  .hero .scrollcue{margin-top:54px;font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);display:flex;align-items:center;gap:10px}
+  .hero .scrollcue::after{content:"";width:44px;height:1px;background:var(--text-faint)}
+
+  /* LOOP BEATS (B) */
+  .beats{padding-top:12vh}
+  .beat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:48px;align-items:center;min-height:72vh;border-top:1px solid var(--hair);padding:8vh 0}
+  .beat .idx{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--beat,#fff);opacity:.9}
+  .beat h2{font-family:var(--display);font-weight:700;font-size:clamp(36px,5.6vw,78px);line-height:.98;letter-spacing:-.02em;margin:18px 0 0}
+  .beat p{font-family:var(--sans);font-size:clamp(15px,1.6vw,18px);line-height:1.6;color:var(--text-mid);max-width:46ch;margin-top:20px}
+  .beat .word{font-family:var(--display);font-weight:700;font-size:clamp(84px,19vw,280px);line-height:.8;letter-spacing:-.04em;color:transparent;-webkit-text-stroke:1.5px color-mix(in oklch,var(--beat,#fff) 55%,transparent);justify-self:end;text-align:right;user-select:none}
+  .beat.flip{grid-template-columns:minmax(0,1.1fr) minmax(0,1fr)}
+  .beat.flip .txt{order:2}.beat.flip .word{order:1;justify-self:start;text-align:left}
+
+  /* ORBITAL beat (C) — the read/refuse centerpiece, full-bleed within the section */
+  .orbit-beat{border-top:1px solid var(--hair);min-height:96vh;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px;align-items:center;padding:6vh 0}
+  .orbit-beat .txt .idx{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--judgment)}
+  .orbit-beat .txt h2{font-family:var(--display);font-weight:700;font-size:clamp(34px,5.2vw,72px);line-height:.98;letter-spacing:-.02em;margin:16px 0 0}
+  .orbit-beat .txt p{font-family:var(--sans);font-size:clamp(15px,1.6vw,18px);line-height:1.6;color:var(--text-mid);max-width:44ch;margin-top:20px}
+  .orbit-wrap{position:relative;width:min(72vh,560px);aspect-ratio:1;justify-self:center;transform-style:preserve-3d;transition:transform .3s ease-out}
+  svg.orbit{width:100%;height:100%;overflow:visible}
+  .caption{position:absolute;left:50%;bottom:-52px;transform:translateX(-50%);text-align:center;width:100%;pointer-events:none}
+  .caption .phase{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-dim);min-height:14px;transition:color .3s}
+  .caption .line{font-family:var(--sans);font-style:italic;font-size:15px;color:var(--text-mid);margin-top:8px;min-height:22px;transition:opacity .3s}
+  .agent-glyph{transition:opacity .4s, fill .4s}
+  .refuse{opacity:0;transition:opacity .35s}
+  @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+  .reading{animation:pulse 1.3s ease-in-out infinite}
+
+  /* PULL statement (B) */
+  .pull{min-height:76vh;display:flex;align-items:center;border-top:1px solid var(--hair)}
+  .pull p{font-family:var(--display);font-weight:700;font-size:clamp(30px,5.2vw,74px);line-height:1.04;letter-spacing:-.02em;max-width:20ch}
+  .pull .r{color:var(--alarm)}
+
+  /* CATALOG (A) */
+  .catalog{padding-top:11vh;padding-bottom:12vh;border-top:1px solid var(--hair)}
+  .cat-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+  .cat-head .t{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--text-faint)}
+  .cat-head .c{font-family:var(--mono);font-size:10px;color:var(--text-faint)}
+  .lead-card{margin:14px 0 34px;border:1px solid var(--hair-2);border-radius:9px;background:linear-gradient(180deg,color-mix(in oklch,var(--clarity) 7%,var(--frame-bg)),var(--frame-bg));padding:24px 26px;display:block;text-decoration:none;position:relative;transition:border-color .18s,transform .18s}
+  .lead-card:hover{border-color:color-mix(in oklch,var(--clarity) 55%,var(--hair-2));transform:translateY(-1px)}
+  .lc-tag{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--clarity)}
+  .lc-title{font-family:var(--display);font-size:24px;letter-spacing:-.01em;margin:8px 0 6px}
+  .lc-desc{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--text-mid);max-width:60ch}
+  .lc-go{position:absolute;right:24px;top:24px;font-family:var(--mono);color:var(--clarity);font-size:15px}
+  .idx{border-top:1px solid var(--hair)}
+  .row{display:grid;grid-template-columns:20px 1fr auto;gap:16px;align-items:center;padding:15px 6px;border-bottom:1px solid var(--hair);text-decoration:none;transition:background .16s,padding-left .16s}
+  .row:hover{background:var(--frame-bg);padding-left:12px}
+  .dot{width:7px;height:7px;border-radius:50%;justify-self:center}
+  .row .body{display:flex;flex-direction:column;gap:3px}
+  .row .body .t{font-family:var(--display);font-size:15.5px;letter-spacing:-.005em;color:var(--text)}
+  .row .body .d{font-family:var(--sans);font-size:12.5px;line-height:1.45;color:var(--text-dim);max-width:62ch}
+  .row .meta{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);white-space:nowrap;text-align:right}
+  .row:hover .meta{color:var(--text-mid)}
+
+  footer{max-width:1280px;margin:0 auto;padding:26px 32px;border-top:1px solid var(--hair);display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+  footer a{color:var(--text-faint);text-decoration:none}
+  footer a:hover{color:var(--text-mid)}
+
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.22,.61,.36,1),transform .8s cubic-bezier(.22,.61,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    html{scroll-behavior:auto}
+    .reading{animation:none;opacity:1}
+    .orbit-wrap{transform:none!important}
   }
-
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 72px 24px 80px;
-    gap: 0;
+  @media (max-width:860px){
+    .beat,.beat.flip,.orbit-beat{grid-template-columns:1fr;gap:16px;min-height:auto;padding:9vh 0}
+    .beat .word{justify-self:start;text-align:left;order:0}.beat.flip .txt{order:0}
+    .orbit-wrap{width:min(72vw,420px);order:2}
   }
-
-  /* ── header ── */
-  header {
-    width: 100%;
-    max-width: 640px;
-    margin-bottom: 52px;
-  }
-
-  .wordmark {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-
-  .wordmark-glyph {
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 18px;
-  }
-
-  .wordmark-name {
-    font-family: var(--display);
-    font-size: 20px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    color: var(--text);
-  }
-
-  .lede {
-    font-family: var(--display);
-    font-size: 15px;
-    font-style: italic;
-    color: var(--text-mid);
-    line-height: 1.55;
-    max-width: 480px;
-  }
-
-  /* ── demo cards ── */
-  .demos {
-    width: 100%;
-    max-width: 640px;
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    background: var(--frame-border);
-    border: 1px solid var(--frame-border);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-
-  .demo-card {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 24px 28px;
-    background: var(--frame-bg);
-    text-decoration: none;
-    transition: background 160ms;
-    position: relative;
-  }
-
-  .demo-card:hover {
-    background: var(--accent-bg);
-  }
-
-  .demo-card:hover .demo-arrow {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .demo-tag {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
-  .demo-title {
-    font-family: var(--display);
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    color: var(--text);
-    line-height: 1.2;
-  }
-
-  .demo-desc {
-    font-family: var(--sans);
-    font-size: 13px;
-    color: var(--text-mid);
-    line-height: 1.5;
-    max-width: 520px;
-  }
-
-  .demo-arrow {
-    position: absolute;
-    right: 28px;
-    top: 50%;
-    transform: translateX(-4px) translateY(-50%);
-    color: var(--accent);
-    font-family: var(--mono);
-    font-size: 16px;
-    opacity: 0;
-    transition: opacity 160ms, transform 160ms;
-  }
-
-  /* ── footer ── */
-  footer {
-    width: 100%;
-    max-width: 640px;
-    margin-top: 32px;
-    padding-top: 20px;
-    border-top: 1px solid var(--frame-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .footer-note {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-  }
-
-  .footer-link {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    text-decoration: none;
-    transition: color 160ms;
-  }
-
-  .footer-link:hover { color: var(--text-mid); }
 </style>
 </head>
 <body>
+<div class="prog" id="prog"></div>
+<div class="rail"><span class="n">◇ <b>Liminal</b></span><a class="enter" href="cuts/01-slate-tray.html">Enter →</a></div>
 
-<header>
-  <div class="wordmark">
-    <span class="wordmark-glyph">◇</span>
-    <span class="wordmark-name">Liminal</span>
+<section class="hero">
+  <div class="kick reveal">Judgment infrastructure for founders</div>
+  <h1 class="reveal">Liminal gives form to <em>inner life.</em></h1>
+  <p class="sub reveal">When anyone can build, the bottleneck moves from output to judgment. Liminal is the substrate where judgment gets recorded, corrected, and compounded.</p>
+  <div class="scrollcue reveal">Scroll · the loop</div>
+</section>
+
+<section class="beats">
+  <div class="beat reveal" style="--beat:var(--diligence)">
+    <div class="txt"><div class="idx">01 · capture</div><h2>Drag it into the tray.</h2><p>A Slack thread, a doc, a transcript, a session. No pipes, no integrations. The tray is the substrate your other tools enter.</p></div>
+    <div class="word">TRAY</div>
   </div>
-  <p class="lede">Judgment infrastructure for founders running multi-agent systems — founders enter first. Drag any window into the tray. Twelve bounded agents read it, disagree, and propose one move. You correct the read. The vault holds the record.</p>
-</header>
+</section>
 
-<div class="demos" role="list">
+<!-- READ / REFUSE · the live orbital (C) -->
+<section class="orbit-beat reveal">
+  <div class="txt">
+    <div class="idx">02 · read &amp; refuse</div>
+    <h2>Twelve bounded agents read it — and refuse.</h2>
+    <p>Watch one read run: four registers deliberate, one refuses out-of-lane — <i>“that's not my ground, talk to the Healer”</i> — the rest converge, and the verdict seals to the vault. Refusal as designed output is the whole architecture.</p>
+  </div>
+  <div class="orbit-wrap" id="wrap">
+    <svg class="orbit" viewBox="0 0 400 400" id="svg">
+      <circle cx="200" cy="200" r="150" fill="none" stroke="var(--hair)" stroke-width="1"/>
+      <circle cx="200" cy="200" r="96" fill="none" stroke="var(--hair)" stroke-width="1" stroke-dasharray="2 5"/>
+      <g stroke-width="1.4" fill="none" stroke-dasharray="3 4">
+        <line class="refuse" id="refuseLine" x1="330" y1="200" x2="228" y2="200" stroke="var(--judgment)"/>
+      </g>
+      <g id="regs" font-family="Geist Mono, monospace"></g>
+      <radialGradient id="core" cx="50%" cy="50%" r="50%">
+        <stop id="c0" offset="0%" stop-color="var(--clarity)" stop-opacity="0"/>
+        <stop id="c1" offset="100%" stop-color="var(--clarity)" stop-opacity="0"/>
+      </radialGradient>
+      <circle id="glow" cx="200" cy="200" r="46" fill="url(#core)"/>
+      <circle id="orb" cx="200" cy="200" r="15" fill="var(--frame-bg)" stroke="var(--text-dim)" stroke-width="1.4"/>
+      <text id="diamond" x="200" y="205" text-anchor="middle" font-size="15" fill="var(--text-mid)" font-family="Geist Mono, monospace">◇</text>
+    </svg>
+    <div class="caption"><div class="phase" id="phase">scanning</div><div class="line" id="line">the tray composes what's there</div></div>
+  </div>
+</section>
 
-  <a class="demo-card" href="cuts/01-slate-tray.html" role="listitem">
-    <span class="demo-tag">Start here · founders enter first</span>
-    <span class="demo-title">Slate tray — the wedge</span>
-    <p class="demo-desc">The core workflow: drag a Slack thread, Notion doc, or meeting transcript into the tray. Twelve bounded agents read it and disagree. Stage one next move. Correct the read. The vault keeps the record.</p>
-    <span class="demo-arrow">→</span>
+<section class="beats" style="padding-top:0">
+  <div class="beat flip reveal" style="--beat:var(--synthesis)">
+    <div class="txt"><div class="idx">03 · correct</div><h2>You push back. The delta becomes data.</h2><p>When you correct a read, the semantic delta is captured as first-party data — how <i>you</i> decide, recorded at the moment of judgment.</p></div>
+    <div class="word">CORRECT</div>
+  </div>
+  <div class="beat reveal" style="--beat:var(--depth,#3B6FE0)">
+    <div class="txt"><div class="idx">04 · record</div><h2>The vault holds the record.</h2><p>Local-first. Every session, every correction, canonically hashed and searchable. The record is the moat.</p></div>
+    <div class="word">VAULT</div>
+  </div>
+  <div class="beat flip reveal" style="--beat:var(--outreach)">
+    <div class="txt"><div class="idx">05 · next move</div><h2>One signed packet. One thing you can stand behind.</h2><p>The loop returns it tomorrow in Today — re-read overnight, brought back for the decision only you can make.</p></div>
+    <div class="word">MOVE</div>
+  </div>
+</section>
+
+<section class="pull"><p class="reveal">Frontier labs ship omniscience.<br>Liminal ships <span class="r">refusal.</span></p></section>
+
+<section class="catalog">
+  <div class="cat-head reveal"><span class="t">The catalog</span><span class="c">12 surfaces</span></div>
+  <a class="lead-card reveal" href="cuts/01-slate-tray.html">
+    <span class="lc-tag">Start here · founders enter first</span>
+    <div class="lc-title">The slate &amp; tray — the wedge</div>
+    <p class="lc-desc">Drag a Slack thread, a doc, a transcript into the tray. Twelve bounded agents read it, disagree, and stage one next move. You correct the read; the vault keeps the record.</p>
+    <span class="lc-go">→</span>
   </a>
+  <div class="idx reveal">
+    <a class="row" href="cuts/06-margin-read.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Margin-read — the founder's hand</span><span class="d">The re-entry loop, narrated in the founder's own hand over the live UI.</span></span><span class="meta">explainer</span></a>
+    <a class="row" href="cuts/00-agency.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Agency — the subject is a parameter</span><span class="d">The proof it's infrastructure: one loop, pointed at spend, custody, OSINT, a contradiction.</span></span><span class="meta">substrate</span></a>
+    <a class="row" href="cuts/10-today.html"><span class="dot" style="background:var(--outreach)"></span><span class="body"><span class="t">Today — what came back overnight</span><span class="d">The daemon re-reads held compositions; you say how it landed. The loop, made a place.</span></span><span class="meta">re-entry</span></a>
+    <a class="row" href="cuts/11-govern.html"><span class="dot" style="background:var(--judgment)"></span><span class="body"><span class="t">Govern — correction is the interaction</span><span class="d">The loop turned on the agent fleet itself. Where you correct is first-party data.</span></span><span class="meta">govern</span></a>
+    <a class="row" href="cuts/09-osint-custody.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">OSINT Custody — the real kernel</span><span class="d">INGEST→READ→GUARD→REVIEW→VAULT, computed live in-browser. The guard refuses the intent claim.</span></span><span class="meta">live kernel</span></a>
+    <a class="row" href="cuts/08-liminal-custody.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">Liminal Custody — defense surface</span><span class="d">Same architecture under maximum constraint. NatSec, top 16 of 102, in 48 hours.</span></span><span class="meta">natsec</span></a>
+    <a class="row" href="cuts/03-calibration.html"><span class="dot" style="background:var(--synthesis)"></span><span class="body"><span class="t">Calibration — the moat, made visible</span><span class="d">12 weeks × 4 registers. Corrections compound into a record that reads as pattern.</span></span><span class="meta">record</span></a>
+    <a class="row" href="cuts/thread/index.html"><span class="dot" style="background:var(--outreach)"></span><span class="body"><span class="t">The thread — diffuse context</span><span class="d">Connect Gmail + Calendar; see your open loops in five minutes, each with a receipt.</span></span><span class="meta">staged</span></a>
+    <a class="row" href="team-drift/index.html"><span class="dot" style="background:var(--judgment)"></span><span class="body"><span class="t">Team Drift — coherence as a pipe</span><span class="d">Governance as a pipe, not a flag. The correction-stream substrate, turned on the team.</span></span><span class="meta">telemetry</span></a>
+    <a class="row" href="molehunt/index.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">Molehunt — analyst console</span><span class="d">High-assurance counterintelligence: statutory gate, append-only chain-of-custody.</span></span><span class="meta">counterintel</span></a>
+    <a class="row" href="embed-slate-tray-demo.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Slate &amp; Tray — live composition</span><span class="d">Drag any window in. The agents read what's there. No pipes, no integrations.</span></span><span class="meta">composition</span></a>
+    <a class="row" href="embed-vault-demo.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Vault + Agents — four-register read</span><span class="d">Twelve bounded agents across four registers. Each reads one surface, refuses the rest.</span></span><span class="meta">vault</span></a>
+  </div>
+</section>
 
-  <a class="demo-card" href="cuts/06-margin-read.html" role="listitem">
-    <span class="demo-tag">…in the founder's own hand · the loop, explained in the margins</span>
-    <span class="demo-title">Margin-read — the founder's hand on the product</span>
-    <p class="demo-desc">The same re-entry loop, but narrated. The product loads as the real working surface; press ⌘N and the founder's notes draw onto the live UI one at a time — the tray, the bounded agents, the refusal that hands work back, the correction record, the vault. The clearest read on why each part is there, anchored to the thing itself rather than a slide.</p>
-    <span class="demo-arrow">→</span>
-  </a>
+<footer><span>theliminalspace.io · 2026 · bounded · forensic · inevitable</span><a href="https://theliminalspace.io">site →</a></footer>
 
-  <a class="demo-card" href="cuts/00-agency.html" role="listitem">
-    <span class="demo-tag">…and the same loop runs anywhere · the substrate proof</span>
-    <span class="demo-title">Agency — the subject is a parameter</span>
-    <p class="demo-desc">The proof it's infrastructure, not one app: the wedge loop above is the same loop pointed at any subject — a team's AI spend, custody, OSINT, a contradiction. Switch the subject and the four registers reskin while the evidence pane swaps. Entered through the founder wedge — the same loop, on whatever the founder points it at.</p>
-    <span class="demo-arrow">→</span>
-  </a>
+<script>
+  // reveals + scroll progress
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')})},{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  const prog=document.getElementById('prog');
+  addEventListener('scroll',()=>{const h=document.documentElement;prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%'},{passive:true});
 
-  <a class="demo-card" href="cuts/thread/index.html" role="listitem">
-    <span class="demo-tag">New frame · diffuse-context · proposed (staged)</span>
-    <span class="demo-title">The thread — catches what you're about to drop</span>
-    <p class="demo-desc">The diffuse-context wedge, as five click-able cuts: connect Gmail + Calendar and see your open loops in five minutes, each line with a receipt to the exact message. Plus the morning brief, the pre-meeting prep card, a subject's full receipted history, and the component atlas. Allowed-vocabulary, render-truthful, token-locked. Staged behind its own page per the proposed 2026-06-12 plan — not the front door until ratified.</p>
-    <span class="demo-arrow">→</span>
-  </a>
-
-  <a class="demo-card" href="cuts/10-today.html" role="listitem">
-    <span class="demo-tag">Re-entry · the loop closes</span>
-    <span class="demo-title">Today — what came back overnight</span>
-    <p class="demo-desc">The daemon re-reads your held compositions while you sleep. One needs a decision, one outcome is due to close. You say how it landed — and that answer is what makes the vault's calibration real. The loop, made a place.</p>
-    <span class="demo-arrow">→</span>
-  </a>
-
-  <a class="demo-card" href="cuts/08-liminal-custody.html" role="listitem">
-    <span class="demo-tag">NatSec stress-case</span>
-    <span class="demo-title">Liminal Custody — defense surface</span>
-    <p class="demo-desc">Same architecture under maximum operational constraint: overload, ambiguity, accountability. Built at NatSec May 2–3. Top 16 of 102 finalists (200 teams at start), in 48 hours. Do not automate the moral lever — equip the human holding it.</p>
-    <span class="demo-arrow">→</span>
-  </a>
-
-  <a class="demo-card" href="cuts/09-osint-custody.html" role="listitem">
-    <span class="demo-tag">OSINT · live kernel</span>
-    <span class="demo-title">OSINT Custody — the loop, wired to the real kernel</span>
-    <p class="demo-desc">INGEST → READ → GUARD → REVIEW → VAULT, computed live in-browser by the liminal-test kernel. Six bounded specialists read a Strait-of-Hormuz dark-gap; the structural guard refuses the intent claim; a signed review-rule re-ranks the next case. Toggle the DARPA DISCORD register. Real Kafka round-trip + on-chain Algorand provenance (verified) when the infra run has been executed.</p>
-    <span class="demo-arrow">→</span>
-  </a>
-
-  <a class="demo-card" href="molehunt/index.html" role="listitem">
-    <span class="demo-tag">Counterintelligence</span>
-    <span class="demo-title">Molehunt — analyst console</span>
-    <p class="demo-desc">High-assurance counterintelligence dossier console: tier-sorted subject queue, parallel review, statutory gate, append-only chain-of-custody. Operator-grade, severity-by-weight, print-to-dossier.</p>
-    <span class="demo-arrow">→</span>
-  </a>
-
-  <a class="demo-card" href="cuts/11-govern.html" role="listitem">
-    <span class="demo-tag">Govern · the agency loop</span>
-    <span class="demo-title">Govern — correction is the interaction</span>
-    <p class="demo-desc">The loop turned on the agent fleet itself. Correction is the primary move, not an afterthought; the loop returns each morning (Today), and the record reflects back how your judgment is changing (Mirror). ⌘K to drive it. Where you correct is first-party data about how you decide.</p>
-    <span class="demo-arrow">→</span>
-  </a>
-
-  <a class="demo-card" href="team-drift/index.html" role="listitem">
-    <span class="demo-tag">Team telemetry</span>
-    <span class="demo-title">Team Drift — coherence as a pipe</span>
-    <p class="demo-desc">Governance as a pipe, not a flag. A drift signal surfaces; the manager calibrates; the correction commits to the governance log. The same correction-stream substrate, turned on the team.</p>
-    <span class="demo-arrow">→</span>
-  </a>
-
-  <a class="demo-card" href="embed-slate-tray-demo.html" role="listitem">
-    <span class="demo-tag">Composition surface</span>
-    <span class="demo-title">Slate &amp; Tray — live composition</span>
-    <p class="demo-desc">Drag any window in. The agents read what's there. No pipes. No integrations. The Tray is the substrate the operator's other tools enter.</p>
-    <span class="demo-arrow">→</span>
-  </a>
-
-  <a class="demo-card" href="embed-vault-demo.html" role="listitem">
-    <span class="demo-tag">Vault</span>
-    <span class="demo-title">Vault + Agents — four-register read</span>
-    <p class="demo-desc">Twelve bounded agents across four registers. Each reads one surface, refuses the rest. Corrections compound. The vault holds the record.</p>
-    <span class="demo-arrow">→</span>
-  </a>
-
-
-</div>
-
-<footer>
-  <span class="footer-note">theliminalspace.io · May 2026</span>
-  <a class="footer-link" href="https://theliminalspace.io">site</a>
-</footer>
-
+  // orbital (C)
+  (function(){
+    const REGS=[
+      {k:'diligence',label:'DILIGENCE',ag:'Auditor',ang:-90},
+      {k:'judgment', label:'JUDGMENT', ag:'Skeptic',ang:0},
+      {k:'synthesis',label:'SYNTHESIS',ag:'Weaver', ang:90},
+      {k:'outreach', label:'OUTREACH', ag:'Envoy',  ang:180}
+    ];
+    const COLOR={diligence:'var(--diligence)',judgment:'var(--judgment)',synthesis:'var(--synthesis)',outreach:'var(--outreach)'};
+    const R=150,cx=200,cy=200,g=document.getElementById('regs');
+    REGS.forEach((r,i)=>{
+      const rad=r.ang*Math.PI/180,x=cx+R*Math.cos(rad),y=cy+R*Math.sin(rad);
+      const lx=cx+(R+2)*Math.cos(rad),ly=cy+(R+2)*Math.sin(rad);
+      const anchor=Math.abs(Math.cos(rad))<0.3?'middle':(Math.cos(rad)>0?'start':'end');
+      const dy=Math.abs(Math.sin(rad))<0.3?4:(Math.sin(rad)>0?16:-8);
+      g.insertAdjacentHTML('beforeend',
+        `<circle class="agent-glyph" data-k="${r.k}" cx="${x}" cy="${y}" r="6.5" fill="${COLOR[r.k]}" style="animation-delay:${i*0.3}s"/>
+         <text x="${lx}" y="${ly+dy}" text-anchor="${anchor}" font-size="8" letter-spacing="1.4" fill="var(--text-faint)">${r.label}</text>
+         <text x="${lx}" y="${ly+dy+11}" text-anchor="${anchor}" font-size="7.5" fill="var(--text-dim)">${r.ag}</text>`);
+    });
+    const phase=document.getElementById('phase'),line=document.getElementById('line'),
+          orb=document.getElementById('orb'),diamond=document.getElementById('diamond'),
+          refuse=document.getElementById('refuseLine'),glyphs=[...document.querySelectorAll('.agent-glyph')],
+          c0=document.getElementById('c0'),c1=document.getElementById('c1');
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const set=(p,l)=>{phase.textContent=p;line.textContent=l;};
+    const gset=o=>{c1.setAttribute('stop-opacity',o);c0.setAttribute('stop-opacity',o*0.9);};
+    function sealed(){glyphs.forEach(x=>{x.classList.remove('reading');x.style.opacity=1;});refuse.style.opacity=.85;gset(.5);orb.setAttribute('stroke','var(--clarity)');diamond.setAttribute('fill','var(--clarity)');set('sealed','one signed packet · held in the vault');}
+    if(reduce){sealed();return;}
+    const steps=[
+      {t:400, f:()=>{set('scanning','the tray composes what’s there');glyphs.forEach(x=>x.classList.add('reading'));}},
+      {t:1800,f:()=>set('reading','four registers take the read')},
+      {t:3200,f:()=>{set('refusal','Skeptic: “not my ground — ask Diligence”');refuse.style.opacity=.9;const j=glyphs.find(x=>x.dataset.k==='judgment');j.classList.remove('reading');j.style.opacity=.28;}},
+      {t:4800,f:()=>{set('converging','the read resolves');glyphs.forEach(x=>{x.classList.remove('reading');x.style.opacity=1;});gset(.42);}},
+      {t:6000,f:()=>{set('sealed','one signed packet · held in the vault');orb.setAttribute('stroke','var(--clarity)');diamond.setAttribute('fill','var(--clarity)');gset(.5);}},
+      {t:8100,f:()=>{refuse.style.opacity=0;gset(0);orb.setAttribute('stroke','var(--text-dim)');diamond.setAttribute('fill','var(--text-mid)');glyphs.forEach(x=>{x.style.opacity='';});}}
+    ];
+    let timers=[],running=false;
+    function cycle(){timers.forEach(clearTimeout);timers=steps.map(s=>setTimeout(s.f,s.t));timers.push(setTimeout(cycle,8600));}
+    // start when the orbital scrolls into view; pause when out
+    const wrap=document.getElementById('wrap');
+    new IntersectionObserver((es)=>{es.forEach(e=>{
+      if(e.isIntersecting&&!running){running=true;cycle();}
+      else if(!e.isIntersecting&&running){running=false;timers.forEach(clearTimeout);}
+    })},{threshold:.35}).observe(wrap);
+    // subtle parallax tilt
+    addEventListener('mousemove',e=>{if(reduce)return;const rx=(e.clientY/innerHeight-.5)*-5,ry=(e.clientX/innerWidth-.5)*5;wrap.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;},{passive:true});
+  })();
+</script>
 </body>
 </html>
