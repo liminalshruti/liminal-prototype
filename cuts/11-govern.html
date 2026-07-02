@@ -758,18 +758,6 @@ function renderLoop(){
   const usageRows=USAGE.map(u=>`<div class="urow ${u[3]?'flagged':''}"><span>${u[0]}</span><span class="cat">${u[1]}</span><span class="cost">${usd(u[2])}</span></div>`).join('');
   $('#work').innerHTML=`<div class="pad">
     ${subjectBar()}
-    <script>
-      /* subject switch: wire each button to change SUBJECT and re-render */
-      (function() {
-        const btns = document.querySelectorAll('.subjects .subj');
-        btns.forEach(btn => {
-          btn.addEventListener('click', () => {
-            SUBJECT = btn.getAttribute('data-subj');
-            renderLoop();
-          });
-        });
-      })();
-    </script>
     <div class="invoke"><b>/govern invoked</b><span>reading the agent fleet · 2026-06 · the AI-spend loop</span><span class="invoke-q">the two questions: <b>how is AI being used</b> · <b>did it move the business</b></span></div>
     <div class="seam">Spend is the wedge · the one read a CFO pays for today. But the loop · sense · read · refuse · correct · ratify · is the judgment layer, pointed at a budget first. <b>The subject is the agent fleet and the spend · never the people. Governance without surveillance.</b> <b>The read is the model's until you change it.</b></div>
     <div>
@@ -807,18 +795,6 @@ function renderSubjectLoop(){
   }).join('');
   $('#work').innerHTML=`<div class="pad">
     ${subjectBar()}
-    <script>
-      /* subject switch wiring for non-spend subjects */
-      (function() {
-        const btns = document.querySelectorAll('.subjects .subj');
-        btns.forEach(btn => {
-          btn.addEventListener('click', () => {
-            SUBJECT = btn.getAttribute('data-subj');
-            renderSubjectLoop();
-          });
-        });
-      })();
-    </script>
     <div class="invoke"><b>/agency invoked</b><span>reading · ${S.product}</span></div>
     <div class="seam">Switch the subject above · the four registers re-skin, but the loop never changes: sense · read · refuse · correct · ratify. <b>Spend is the door a CFO pays for today. The loop below is the same on any subject · you're watching the control plane for founders running multi-agent systems, not a single tool.</b></div>
     <div class="subj-head"><span class="sk">${S.sk}</span><h2>${S.title}</h2></div>
