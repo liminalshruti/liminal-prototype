@@ -630,7 +630,9 @@
       renderObservations(CASE_1_BUNDLE, "C1");
       $("reads").innerHTML = `<div class="empty">${reg === "discord" ? "P2 diversification fanning out…" : "Specialists reading…"}</div>`;
       setBeatTag("1/4 · deliberate C1");
-      beat = 1; return;
+      beat = 1;
+      if (window.__cut09LoopEngine) window.__cut09LoopEngine.applyBeat("CAPTURING");
+      return;
     }
     if (beat === 1) {                       // deliberate + guard C1
       const res = session.ingest("C1", CASE_1_BUNDLE, facts);
@@ -641,7 +643,9 @@
       renderMetrics(res.case, "none yet");
       renderProjections();
       setBeatTag("2/4 · operator signs R-001");
-      beat = 2; return;
+      beat = 2;
+      if (window.__cut09LoopEngine) window.__cut09LoopEngine.applyBeat("READING");
+      return;
     }
     if (beat === 2) {                       // sign durable doctrine
       session.commit("C1", lastC1);
@@ -650,7 +654,9 @@
       $("ruleMeta").innerHTML = "R-001 · <b>ACTIVE</b> · signed to correction stream";
       renderProjections();
       setBeatTag("3/4 · case C2 arrives");
-      beat = 3; return;
+      beat = 3;
+      if (window.__cut09LoopEngine) window.__cut09LoopEngine.applyBeat("DECIDING");
+      return;
     }
     if (beat === 3) {                       // ingest C2 with doctrine → re-rank
       $("caseEyebrow").textContent = "CASE C2 · doctrine applies";
@@ -666,9 +672,11 @@
       session.commit("C2", res.case);
       renderProjections();
       setBeatTag("4/4 · seal");
-      beat = 4; return;
+      beat = 4;
+      if (window.__cut09LoopEngine) window.__cut09LoopEngine.applyBeat("READING");
+      return;
     }
-    if (beat === 4) {                       // seal / disposition artifact
+    if (beat === 4) {                       // seal / disposition artifact (500ms rise)
       const p = renderProjections();
       const last = p.vault[p.vault.length - 1];
       $("dispoBody").innerHTML =
@@ -678,7 +686,9 @@
       $("dispo").classList.add("in");
       setBeatTag("complete");
       $("btnStep").disabled = true; $("btnRun").disabled = true; $("btnReset").disabled = false;
-      beat = 5; return;
+      beat = 5;
+      if (window.__cut09LoopEngine) window.__cut09LoopEngine.applyBeat("SEALING");
+      return;
     }
   }
 
@@ -762,6 +772,62 @@
   // init
   applyRegisterChrome();
   reset();
+</script>
+
+<!-- v0.9.3 · cut 09 ported to loop engine (Phase B.1b shallow integration) -->
+<script type="module">
+/* Loop engine integration for cut 09
+ *
+ * Beat mapping (cut 09 kernel-driven four-beat flow → engine beats):
+ *   Beat 0 → CAPTURING: "INGEST · C1" — session created, case loaded
+ *   Beat 1 → READING: "READ C1" — specialists read, hypotheses + actions rendered
+ *   Beat 2 → DECIDING: "SIGN · R-001" — rule signed (visible WHEN/THEN clause, visible-clause model)
+ *   Beat 3 → READING again: "INGEST · C2" — second case with prior rule, re-rank happens
+ *   Beat 4 → SEALING: "SEAL" — disposition rises 500ms, vault updates, kernel artifacts persisted
+ *
+ * Choreography config (per RUN_B_COHERENCE_FINDINGS):
+ *   subject: 'osint'
+ *   sealChoreography: 'rise' (C1: 500ms rise for dispo)
+ *   sealRiseMs: 500 (C1: exact timing from cut 09)
+ *   correctionModel: 'visible-clause' (C4: rule signed with visible WHEN/THEN)
+ *   refusalFlavor: 'agent' (C5: specialist won't stake a read if guard fires)
+ *   refusalTimingMs: 320 (C5: typical refusal timing)
+ *   motionTier: 'refined' (C9: most aggressive reduced-motion handling in cut 09)
+ *
+ * FROZEN KERNEL: lib/osint-kernel.bundle.js is a recorded artifact (source missing, LIM-1135).
+ * Do NOT attempt to rebuild or modify. The doBeat() sequence uses the kernel as a
+ * black-box compute engine; re-plumbing onto applyBeat preserves its behavior.
+ *
+ * Note: This is a shallow integration. Cut 09 maintains its own beat loop (beat 0-4)
+ * and calls applyBeat() to notify the engine. Phase C will deepen this.
+ */
+
+import { initLoopEngine, applyBeat } from "../lib/loop.js";
+
+let loopEngineOsint = null;
+
+/* Initialize the loop engine once cut 09 has fully loaded */
+document.addEventListener("DOMContentLoaded", () => {
+  const engineState = initLoopEngine({
+    subject: "osint",
+    persona: "Analyst",
+    tier: "L3",
+    sealChoreography: "rise",        // C1: 500ms rise for disposition
+    sealRiseMs: 500,                 // C1: exact timing
+    correctionModel: "visible-clause", // C4: rule shows WHEN/THEN clause
+    refusalFlavor: "agent",          // C5: specialist refusal flavor
+    refusalTimingMs: 320,            // C5: refusal timing
+    motionTier: "refined",           // C9: aggressive reduced-motion handling
+    onSealed: (artifact) => {
+      /* Hook: vault update + kernel persistence happens here */
+      // The vault pill update and kernel state persistence are coordinated by the engine
+    },
+  });
+
+  /* Expose engine to cut 09's beat loop so doBeat() can call applyBeat */
+  window.__cut09LoopEngine = { applyBeat };
+  loopEngineOsint = { applyBeat };
+});
 </script>
 
 </body>
