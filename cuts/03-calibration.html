@@ -38,7 +38,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- canon · DO NOT REDEFINE TOKENS -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
@@ -126,7 +126,7 @@
   }
 
   .cal-eyebrow {
-    font-family: Newsreader, serif;
+    font-family: var(--serif, Georgia, serif);
     font-style: italic;
     font-size: 0.875rem;
     color: var(--text-soft);
@@ -441,7 +441,7 @@
     padding: 0.75rem;
     background: var(--paper-lift);
     border-radius: 3px;
-    font-family: Newsreader, serif;
+    font-family: var(--serif, Georgia, serif);
     font-size: 0.8125rem;
     line-height: 1.5;
     color: var(--text);
@@ -491,7 +491,7 @@
     flex-shrink: 0;
     padding-top: 1rem;
     border-top: 1px solid var(--border-soft);
-    font-family: Newsreader, serif;
+    font-family: var(--serif, Georgia, serif);
     font-size: 0.875rem;
     font-style: italic;
     color: var(--text-soft);
@@ -911,7 +911,7 @@
               <div>${item.isReal ? '<span style="color: var(--signal-violet-ink); font-family: Geist Mono, monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; margin-right: 0.5rem;">live</span>' : ""}Corrected for <strong>${(item.tag || "untagged").replace(/_/g, "·")}</strong> ${item.context}</div>
               <div class="cal-history-time">${item.date}</div>
             </div>
-          `).join("") || '<div style="font-family: Newsreader, serif; font-style: italic; color: var(--text-soft); font-size: 0.875rem;">No history for this agent yet.</div>'}
+          `).join("") || '<div style="font-family: var(--serif, Georgia, serif); font-style: italic; color: var(--text-soft); font-size: 0.875rem;">No history for this agent yet.</div>'}
         </div>
       `;
     } else {
