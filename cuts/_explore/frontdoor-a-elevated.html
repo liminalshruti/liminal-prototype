@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liminal · front door · Direction A (elevated-restrained)</title>
+
+<!-- DIRECTION A · elevated-restrained · "the instrument panel at rest"
+     Today's forensic register, perfected. Calm, black, type-led, hairline-precise.
+     Consumes the real canon tokens + locked brand type stack. No imagery. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+
+<style>
+  @font-face { font-family:'NinetiesHeadliner'; src:url('../../fonts/nineties-headliner.otf') format('opentype'); font-weight:700; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('../../fonts/perfectly-nineties-light.otf') format('opentype'); font-weight:300; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('../../fonts/perfectly-nineties-regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('../../fonts/PerfectlyNineties-Semibold.otf') format('opentype'); font-weight:600; font-display:swap; }
+
+  :root {
+    --bg: #0A0A0B; --frame-bg: #0E0E11; --frame-bg-2:#0C0C0F; --hair:#1F1F24; --hair-2:#2A2A30;
+    --text:#E8E8EA; --text-mid:#B0B0B6; --text-dim:#8A8780; --text-faint:#6B6862;
+    --accent: var(--clarity, #8E66FB);
+    --display:"NinetiesHeadliner", Georgia, serif;
+    --sans:"PerfectlyNineties", Georgia, serif;
+    --mono:"Geist Mono","SF Mono",monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%;background:var(--bg);color:var(--text);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  body{
+    background-image:
+      radial-gradient(1100px 560px at 12% -8%, color-mix(in oklch, var(--clarity) 7%, transparent), transparent 60%),
+      radial-gradient(900px 520px at 108% 2%, color-mix(in oklch, var(--depth, #3B6FE0) 6%, transparent), transparent 55%);
+    background-attachment:fixed;
+  }
+  .wrap{max-width:760px;margin:0 auto;padding:64px 28px 90px}
+
+  /* ── top meta ribbon ── */
+  .topbar{display:flex;align-items:center;justify-content:space-between;padding-bottom:20px;border-bottom:1px solid var(--hair);margin-bottom:56px}
+  .brand{display:flex;align-items:center;gap:9px}
+  .brand .g{color:var(--accent);font-family:var(--mono);font-size:16px}
+  .brand .n{font-family:var(--display);font-size:18px;letter-spacing:-.01em}
+  .status{font-family:var(--mono);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);display:flex;gap:14px}
+  .status .live{color:var(--outreach, #31E682)}
+  .status .live::before{content:"";display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--outreach,#31E682);margin-right:5px;vertical-align:1px}
+
+  /* ── hero ── */
+  .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,5.4vw,50px);line-height:1.06;letter-spacing:-.02em;color:var(--text);max-width:15ch}
+  .lede{font-family:var(--sans);font-style:italic;font-size:clamp(15px,1.7vw,17px);line-height:1.6;color:var(--text-mid);max-width:52ch;margin-top:22px}
+  .thesis-ribbon{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:26px;font-family:var(--mono);font-size:9.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--text-dim)}
+  .thesis-ribbon b{color:var(--text-mid);font-weight:500}
+
+  /* ── primary entry ── */
+  .lead-card{margin-top:48px;border:1px solid var(--hair-2);border-radius:9px;background:linear-gradient(180deg, color-mix(in oklch, var(--clarity) 6%, var(--frame-bg)), var(--frame-bg));padding:24px 26px;display:block;text-decoration:none;position:relative;transition:border-color .18s,transform .18s}
+  .lead-card:hover{border-color:color-mix(in oklch,var(--clarity) 55%,var(--hair-2));transform:translateY(-1px)}
+  .lc-tag{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  .lc-title{font-family:var(--display);font-size:23px;letter-spacing:-.01em;color:var(--text);margin:8px 0 6px}
+  .lc-desc{font-family:var(--sans);font-size:14px;line-height:1.55;color:var(--text-mid);max-width:58ch}
+  .lc-go{position:absolute;right:24px;top:24px;font-family:var(--mono);color:var(--accent);font-size:15px}
+
+  /* ── index ── */
+  .idx-head{display:flex;align-items:baseline;justify-content:space-between;margin:46px 0 4px}
+  .idx-head .t{font-family:var(--mono);font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
+  .idx-head .c{font-family:var(--mono);font-size:9.5px;color:var(--text-faint)}
+  .idx{border-top:1px solid var(--hair)}
+  .row{display:grid;grid-template-columns:20px 1fr auto;gap:16px;align-items:center;padding:15px 6px;border-bottom:1px solid var(--hair);text-decoration:none;transition:background .16s,padding-left .16s}
+  .row:hover{background:var(--frame-bg);padding-left:12px}
+  .dot{width:7px;height:7px;border-radius:50%;justify-self:center}
+  .row .body{display:flex;flex-direction:column;gap:3px}
+  .row .body .t{font-family:var(--display);font-size:15.5px;letter-spacing:-.005em;color:var(--text)}
+  .row .body .d{font-family:var(--sans);font-size:12.5px;line-height:1.45;color:var(--text-dim);margin-top:2px;max-width:60ch}
+  .row .meta{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);white-space:nowrap;text-align:right}
+  .row:hover .meta{color:var(--text-mid)}
+
+  footer{margin-top:44px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+  footer a{color:var(--text-faint);text-decoration:none}
+  footer a:hover{color:var(--text-mid)}
+
+  /* restrained reveal */
+  .rise{opacity:0;transform:translateY(8px);animation:rise .6s cubic-bezier(.22,.61,.36,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .d1{animation-delay:.04s}.d2{animation-delay:.12s}.d3{animation-delay:.2s}.d4{animation-delay:.28s}
+  @media (prefers-reduced-motion:reduce){.rise{animation:none;opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar rise">
+    <div class="brand"><span class="g">◇</span><span class="n">Liminal</span></div>
+    <div class="status"><span>bounded · forensic · inevitable</span><span class="live">loop live</span></div>
+  </div>
+
+  <div class="eyebrow rise d1">Local-first control plane for human-AI work</div>
+  <h1 class="rise d1">When anyone can build, the bottleneck moves to judgment.</h1>
+  <p class="lede rise d2">Liminal is the substrate where that judgment gets recorded, corrected, and compounded. Frontier labs ship omniscience. Liminal ships <b style="font-style:normal;color:var(--text)">refusal</b> — bounded agents that say <i>“that's not my ground — ask Diligence.”</i></p>
+  <div class="thesis-ribbon rise d3">
+    <span>bounded agents</span><span><b>4</b> registers</span><span>refusal as output</span><span>the record is the moat</span>
+  </div>
+
+  <a class="lead-card rise d3" href="../01-slate-tray.html">
+    <span class="lc-tag">Start here · founders enter first</span>
+    <div class="lc-title">The slate &amp; tray — the wedge</div>
+    <p class="lc-desc">Drag a Slack thread, a doc, a transcript into the tray. Bounded agents read it, disagree, and stage one next move. You correct the read; the vault keeps the record.</p>
+    <span class="lc-go">→</span>
+  </a>
+
+  <div class="idx-head rise d4"><span class="t">The catalog</span><span class="c">11 surfaces</span></div>
+  <div class="idx rise d4">
+    <a class="row" href="../06-margin-read.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Margin-read — the founder's hand</span><span class="d">The re-entry loop, narrated in the founder's own hand over the live UI.</span></span><span class="meta">explainer</span></a>
+    <a class="row" href="../00-agency.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Agency — the subject is a parameter</span><span class="d">The proof it's infrastructure: one loop, pointed at spend, custody, OSINT, a contradiction.</span></span><span class="meta">substrate</span></a>
+    <a class="row" href="../10-today.html"><span class="dot" style="background:var(--outreach)"></span><span class="body"><span class="t">Today — what came back overnight</span><span class="d">The daemon re-reads held compositions; you say how it landed. The loop, made a place.</span></span><span class="meta">re-entry</span></a>
+    <a class="row" href="../11-govern.html"><span class="dot" style="background:var(--judgment)"></span><span class="body"><span class="t">Govern — correction is the interaction</span><span class="d">The loop turned on the agent fleet itself. Where you correct is first-party data.</span></span><span class="meta">govern</span></a>
+    <a class="row" href="../09-osint-custody.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">OSINT Custody — the real kernel</span><span class="d">INGEST→READ→GUARD→REVIEW→VAULT, computed live in-browser. The guard refuses the intent claim.</span></span><span class="meta">live kernel</span></a>
+    <a class="row" href="../08-liminal-custody.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">Liminal Custody — defense surface</span><span class="d">Same architecture under maximum constraint. NatSec, top 16 of 102 finalists (200 teams at start), in 48 hours.</span></span><span class="meta">natsec</span></a>
+    <a class="row" href="../03-calibration.html"><span class="dot" style="background:var(--synthesis)"></span><span class="body"><span class="t">Calibration — the moat, made visible</span><span class="d">12 weeks × 4 registers. Corrections compound into a record that reads as pattern.</span></span><span class="meta">record</span></a>
+    <a class="row" href="../thread/index.html"><span class="dot" style="background:var(--outreach)"></span><span class="body"><span class="t">The thread — diffuse context</span><span class="d">Connect Gmail + Calendar; see your open loops in five minutes, each with a receipt.</span></span><span class="meta">staged</span></a>
+    <a class="row" href="../../team-drift/index.html"><span class="dot" style="background:var(--judgment)"></span><span class="body"><span class="t">Team Drift — coherence as a pipe</span><span class="d">Governance as a pipe, not a flag. The correction-stream substrate, turned on the team.</span></span><span class="meta">telemetry</span></a>
+    <a class="row" href="../../molehunt/index.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">Molehunt — analyst console</span><span class="d">High-assurance counterintelligence: statutory gate, append-only chain-of-custody.</span></span><span class="meta">counterintel</span></a>
+    <a class="row" href="../../embed-vault-demo.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Vault + Agents — four-register read</span><span class="d">Bounded agents across four registers. Each reads one surface, refuses the rest.</span></span><span class="meta">vault</span></a>
+  </div>
+
+  <footer class="rise d4"><span>theliminalspace.io · 2026</span><a href="https://theliminalspace.io">site →</a></footer>
+</div>
+</body>
+</html>
