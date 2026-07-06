@@ -1,0 +1,140 @@
+{
+  "_doc": "Stable named-entity registry for the Maia Founder OS persona. ALL ENTITIES FICTIONAL. Every named entity in every snapshot file MUST trace back here for cross-snapshot consistency. Adversarial pattern-matching against this list against real public records (LinkedIn, GitHub, USPTO, Crunchbase) MUST produce zero real-Shruti hits.",
+  "persona_slug": "maia-founder-os",
+  "icp": "founder-operator-creator at agentic scale (the wedge)",
+  "created": "2026-04-28",
+  "founder": {
+    "name": "Maia",
+    "age": 32,
+    "education": "UCLA, Computer Science + Linguistics double-major (graduated 2016)",
+    "location": "Austin, TX",
+    "career_arc": [
+      "Engineering manager, B2B productivity platform (2016-2019)",
+      "Senior PM, consumer mapping app (2019-2022)",
+      "Director of Platform PM, B2B productivity platform (2022-2024)",
+      "Solo founder, Veridian (2024-present)"
+    ],
+    "founder_type": "technical-product-thinker; ships full-stack solo; layer-finding operator pattern",
+    "public_surface": {
+      "_note": "deliberately none — Maia has no public web presence in this corpus. Demo does not depend on cited external URLs.",
+      "substack_url": null,
+      "x_handle": null,
+      "linkedin_url": null,
+      "github_url": "github.com/personae/maia-veridian (synthetic only)"
+    }
+  },
+  "cofounder": {
+    "name": "Devon Reyes",
+    "role": "Co-founder, Engineering (part-time)",
+    "fte": "~10 hrs/week on Veridian; continues as senior staff engineer at fictional regulated-fintech security company",
+    "education": "Carnegie Mellon, Computer Science + Math",
+    "career_arc": [
+      "Distributed-systems engineer, fintech infrastructure (2017-2020)",
+      "Staff engineer, edge-network platform (2020-2023)",
+      "Senior staff engineer, regulated-fintech security (2023-present)"
+    ],
+    "expertise": "Distributed-systems testing; consensus protocols; adversarial-conditions correctness",
+    "publications": "Two prior MICRO/ASPLOS papers on distributed-systems verification",
+    "joined_veridian_as_cofounder": "2026-04-21 (matches real-substrate cofounder-commitment date for narrative parallelism)",
+    "github_url": "github.com/personae/devon-reyes (synthetic only)",
+    "_relationship_to_maia_DO_NOT_DEVIATE": {
+      "shape": "professional + personal-friendship long-arc",
+      "origin": "Sibling-of-college-roommate connection (Maia's college roommate's older sibling). Met ~2017 through that sibling. Worked together briefly on a hackathon team that placed 3rd at a major academic-conference student competition. Stayed in touch. Started talking about a joint venture in late 2025 when Maia's day-job got constraint-bound.",
+      "relationship_status": "Friends + co-founders. NOT romantic. NOT married. NOT dating. NEVER were.",
+      "reason_for_constraint": "Founder-couple framing is the most personally-identifying shape Shruti has. It does NOT get reused in any persona. Adversarial pattern-matching against any persona must NOT recover the founder-couple shape.",
+      "communication_register": "Asynchronous Slack + occasional in-person (Devon Bay-Area-based, Maia Austin-based). Co-founder dailies are video calls, not in-person."
+    }
+  },
+  "company": {
+    "name": "Veridian",
+    "tagline_primary": "Operational knowledge layer for solo operators running agentic teams.",
+    "tagline_alt_speedrun_register": "An inner workspace for solo operators running agentic teams.",
+    "tagline_alt_yc_register": "Company Brain for the founder before the company exists.",
+    "_tagline_strategy": "Three taglines, all consistent. Primary tagline lands as a 'Company Brain'-adjacent claim (YC #4 thesis register: 'extracts and structures fragmented operational knowledge'). Speedrun-register variant is the warmer founder-OS framing the SR007 demo uses. YC-register variant lands explicitly within YC's stated rfs language. Maia swaps among the three depending on which audience the demo is constructed for.",
+    "thesis_alignment": {
+      "yc_rfs_company_brain_4": "Veridian extracts and structures fragmented operational knowledge from a solo founder's email + meeting transcripts + code repos + drafts. Not search, not chatbots — typed event log + bounded multi-agent reads + correction stream. Same architectural pattern YC's Tom Blomfield describes for Company Brain at company scale, applied to the individual operator scale.",
+      "yc_rfs_ai_os_for_companies_15": "Veridian is the AI Operating System claim Diana Hu describes — but for the founder before the company exists. Single intelligence layer reasoning across all the operator's context. Not another dashboard — infrastructure for individual-scale legibility.",
+      "speedrun_sr007": "Veridian is on-thesis for Speedrun's editorial frame ('AI does the work, you guarantee the outcome') — bounded multi-agent diligence does the work; the correction stream guarantees the outcome sharpens over time. Founder-first not category-first per Speedrun's stated evaluation rubric."
+    },
+    "stage": "Pre-seed, $0 raised, bootstrapped",
+    "founded": "2024-Q3",
+    "headquarters": "Austin, TX",
+    "url": "veridian.computer (synthetic — does not resolve)",
+    "github_org": "github.com/veridian-computer (synthetic)",
+    "product_surface": "Local-first desktop app. Drag-window-into-tray ingest. Bounded-multi-agent disagreement on ingested context. Correction stream as the moat.",
+    "architectural_pattern": "Same architectural pattern as Liminal — the persona demonstrates Liminal's mechanics through a synthetic surface. Cross-thesis-aligned: YC #4 + YC #15 + Speedrun SR007 all hit at the architectural layer.",
+    "lead_artifact": {
+      "name": "Founder Day Trust Packet",
+      "type": "packet",
+      "subject": "End-of-day fundraise-decision retrospective with corrections, disagreements, and audit chain",
+      "buyer_pay_for": "$49 per packet, or unlimited via Founder OS subscription",
+      "packet_shape": "header (eyebrow + title + disposition) + subject (the single decision) + bounded reads (12 agents) + refusals (with named-route to right agent) + disagreements (with evidence anchors) + corrections (9-tag taxonomy) + disposition (approve / escalate / route / hold / refuse) + audit chain (SHA-256 + provenance + vault commit ID) + outcome strip (open-loop → closed-loop → artifact)",
+      "_packet_abstraction_reference": "Per `liminal-ip/06-evidence/INVENTIONS.md` §10 — the packet is the bridge between Liminal's substrate (correction stream + 12 bounded agents + vault) and Liminal's deliverable (what the user pays for). The substrate is the moat; the packet is the deliverable. Each persona ships its own packet name + content with the same architectural shape.",
+      "shipped_packet_siblings_in_corpus": [
+        "Mission Trust Packet (Connor Walsh / Defense / Battalion S6)",
+        "Board Decision Packet (Maia / Founder OS / fundraise close — this persona)",
+        "AgentActionPacket (Darius Okonkwo-class / Enterprise / Head of AI Product)",
+        "Pilot Decision Packet (Darius Okonkwo / Business / VP Support)",
+        "Sprint Correction Packet (Lena Park / Team / VP Eng)"
+      ]
+    }
+  },
+  "accelerator_being_applied_to": {
+    "name": "Inflection Lab",
+    "cohort": "Spring 2026 (cohort IL-12)",
+    "shape": "12-week residency, partner ecosystem, signal-triage pipeline. Pattern-faithful to Speedrun without naming Speedrun.",
+    "investment": "$1M for ~10% equity, $3M+ in vendor credits",
+    "partners": [
+      {
+        "name": "Daniela Park",
+        "role": "Marketing Partner",
+        "register": "the front-of-house operator who runs OH and qualifies founders into video stage"
+      },
+      {
+        "name": "James Okafor",
+        "role": "Investing Partner",
+        "register": "lead investing partner; quarterback of cohort relationships"
+      },
+      {
+        "name": "Yuki Tanaka",
+        "role": "Head of People",
+        "register": "people-function support; selection-criteria language voice"
+      },
+      {
+        "name": "Marcus Bell",
+        "role": "Visiting Investing Partner",
+        "register": "tone-leader / hot-takes / 'what's the secret you can teach me' archetype"
+      }
+    ],
+    "_strategic_substrate": "Maia's stakeholder mental-model evolution against synthetic partners — same pattern as real Tom Hammer + Fareed Mosavat championship-building substrate, but fully constructed."
+  },
+  "hackathon": {
+    "name": "AgentScale Q2 Showcase",
+    "dates": "Apr 23-24, 2026",
+    "shape": "Pattern-faithful to AgentHansa: judging cohort, judge-feedback timing pattern, public marketplace deploy-flow",
+    "judge_feedback_verbatim": "Veridian's bounded-specialist refusal pattern was the most architecturally distinct entry in our cohort. Most agents in the cohort hallucinated capability when given out-of-domain prompts; yours refused with named-route. That's a thoughtful answer to the AI-overreach problem and the local-first vault posture is a credible audit/compliance signal.",
+    "judge_feedback_received_at": "2026-04-26T01:00:00-07:00",
+    "_strategic_substrate": "the synthetic 'judge-feedback as proof-point' beat the demo uses, parallel to real AgentHansa quote"
+  },
+  "co_authored_paper": {
+    "title": "Argus — Distributed Systems Testing under Adversarial Latency Conditions",
+    "lead_author": "Devon Reyes",
+    "secondary_author": "Maia",
+    "venue": "TBD (distributed-systems venue: NSDI / OSDI / SOSP / EuroSys / SIGMOD)",
+    "status": "Active draft, ~12 pages",
+    "submission_target": "forward in time; venue not yet visible from the artifact itself",
+    "architectural_relevance_to_veridian": "Argus orchestrates parallel test-evaluators with bounded specialization (timing analyzer, consistency analyzer, partition-tolerance analyzer) — same multi-evaluator orchestration pattern Veridian uses in its agent runtime, applied to distributed-systems testing.",
+    "_why_distinct_from_heron": "Heron is security research benchmarking against CodeQL; Argus is distributed-systems research benchmarking against Jepsen. Same architectural-claim shape, different research domain, different baseline tool. Adversarial pattern-matching does NOT recover Heron from Argus."
+  },
+  "_critical_DO_NOTS": [
+    "Do NOT introduce founder-couple framing into Maia/Devon — they are friends + cofounders only.",
+    "Do NOT use any real venture name (a16z Speedrun, YC, AgentHansa, Sequoia, etc.) in any snapshot.",
+    "Do NOT use any real partner name (Andrew Chen, Ryan Rigney, Tom Hammer, Fareed Mosavat, Peter Dimov, Marcus Segal, Sam Shank, Kenan Saleh, Emily Bennett, Jon Lai, Daniela Park ≠ real Daniela, James Okafor ≠ real James, etc.) in any snapshot.",
+    "Do NOT use any real company name where Shruti or Shayaun worked (Asana, Cloudflare, Robinhood, Ancestry, Yelp, Twitch, Voxel, Rubrik) in any snapshot.",
+    "Do NOT use 'Heron' or 'liminal-agents' or any real Liminal artifact name. Use Argus and Veridian respectively.",
+    "Do NOT use 'MENA Group' or 'Haas' or 'AMENA Center' or 'YC finalist at 21' anywhere.",
+    "Do NOT echo the real Liminal one-line pitch ('Liminal gives form to inner life'). Use Veridian's synthetic tagline only.",
+    "Do NOT include any real .eml header chain. All synthetic .eml files generate fresh RFC-822 headers.",
+    "Do NOT include real timestamps that match Shruti's known calendar — synthetic timestamps offset by ~1 hour from real to break temporal correlation."
+  ]
+}
