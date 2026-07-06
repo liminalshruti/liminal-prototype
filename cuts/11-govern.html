@@ -1284,8 +1284,8 @@ async function initGovernData(){
       if(d.REGISTRY)REGISTRY_DATA=d.REGISTRY; if(d.AGENT_FIT)AGENT_FIT=d.AGENT_FIT;
       // hero swap-in-loop: replace the Outreach read's swap with the real marketplace comparison
       if(AGENT_FIT&&READS.outreach)READS.outreach.html='Drafted · the registry has a better-fit verified agent for this task <span class="cite" data-cite="registry">agent-registry</span>. Ready to ratify the routing rule.'+swapHTML(AGENT_FIT);
-      RUN_MODE=d.meta?.mode==='live'?'live':'real';
-      const badge=$('#run-badge'); if(badge){badge.textContent=RUN_MODE==='live'?'live run':'real run';badge.classList.add('on');}
+      RUN_MODE=d.meta?.mode==='demonstration'?'demonstration':(d.meta?.mode==='live'?'live':'real');
+      const badge=$('#run-badge'); if(badge){badge.textContent=RUN_MODE==='demonstration'?'demonstration run':(RUN_MODE==='live'?'live run':'real run');badge.classList.add('on');}
     }catch(err){
       console.warn('[govern] ?run load failed, using demo fixtures:',err);
     }
