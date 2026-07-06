@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cut 12 · The operating plane · Liminal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
+
+<!--
+  Cut 12 · The operating plane · the four-zone loop desktop, one instrument
+  ──────────────────────────────────────────────────────────────────────
+  Loop-stage · full-loop (Capture → Read → Decide → Record → Re-enter)
+  Altitude   · L1-founder
+  Surface    · desktop
+  Framing    · wedge        (the founder front door, entered here)
+  Maturity   · sketch       (visual mockup, six togglable scenes, no build wiring)
+  Spec ref   · founder-brain/ops/fable-sprint-2026-07/FP-DESIGN_desktop-frontend-spec.md
+               §4 zones · §5 flows · §6 states · §7 components · §8 motion · §11 this cut
+  ──────────────────────────────────────────────────────────────────────
+  Coordinate note (TAXONOMY.md rule 5, convergence check): shares
+  (altitude, surface, framing) with cut 01 but NOT loop-stage. Cut 01 is
+  Capture→Read→Decide, the slate-tray detail. This cut is full-loop: the
+  plane cut 01's center zone unwinds into, per FP-DESIGN §1. Not a
+  duplicate projection, a wider frame around the same L1 wedge.
+  ──────────────────────────────────────────────────────────────────────
+  Four zones, one grid: 280px loop map · 1fr slate · 320px agent
+  workspace · full-width intake dock. Six scenes swap the slate + agent
+  workspace content; the loop map and dock are the shell and hold steady.
+  Layered over the four canon stylesheets below. No build step, no
+  dependency on the parent catalog iframe. Open this file directly.
+-->
+
+<!-- canon · 12-wheel tokens · single source of truth -->
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<!-- shared shell · frame chrome, titlebar, three-pane grid, dispo-artifact -->
+<link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/surface-nav.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
+
+<style>
+  /* ════════════════════════════════════════════════════════════════
+     Per-cut layer. Canon stylesheets provide the chrome (.stage/.frame/
+     .titlebar/.lights/.diamond/.vault-pill/.product-row/.main grid/
+     .rail-left/.slate-area/.rail-right/.dispo-artifact). Everything
+     below is this cut's own content: the loop map, the slate panels,
+     the agent workspace, the intake dock, and the six-scene switch.
+     No canon token is redefined; only consumed via var().
+     ════════════════════════════════════════════════════════════════ */
+
+  /* register the app's default accent · Diligence, the read/facts register */
+  body { --p-accent: var(--diligence); }
+
+  /* weight replaces italic, everywhere this cut touches shared classes
+     that ship italic by default (the paper artifact title, quoted
+     margin text). No <i> tag and no authored italic anywhere below. */
+  .da-title, .op-quote, .op-substrate-text { font-style: normal !important; }
+  .da-title { font-weight: 600 !important; }
+
+  /* magnetic hover + press, canon spring, on this cut's own controls */
+  .op-scene-tab, .op-btn, .op-chip, .op-loop-row, .op-proposal-card, .op-tile {
+    transition: transform .22s var(--ease-spring, ease), background 180ms, color 180ms, border-color 180ms, box-shadow 180ms;
+  }
+  .op-scene-tab:hover, .op-btn:hover { transform: translateY(-1.5px); }
+  .op-scene-tab:active, .op-btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
+  @media (prefers-reduced-motion: reduce) {
+    .op-scene-tab, .op-btn, .op-chip, .op-loop-row, .op-proposal-card, .op-tile { transition: background 180ms, color 180ms, border-color 180ms; }
+    .op-scene-tab:hover, .op-btn:hover, .op-scene-tab:active, .op-btn:active { transform: none; }
+  }
+
+  /* focus ring · keyboard access, register-tinted */
+  .op-scene-tab:focus-visible, .op-btn:focus-visible, .op-chip:focus-visible,
+  .op-loop-row:focus-visible, .op-proposal-card button:focus-visible,
+  .op-field:focus-visible, .op-redirect input:focus-visible, .op-radio:focus-visible {
+    outline: 2px solid var(--diligence); outline-offset: 2px; border-radius: 3px;
+  }
+
+  /* ── shell composition ─────────────────────────────────────────── */
+
+  .op-scene-row {
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .op-scene-label {
+    font-family: var(--mono); font-size: 10px; color: var(--text-faint);
+    letter-spacing: 0.18em; text-transform: uppercase;
+    display: flex; align-items: center; padding-right: 14px;
+    border-right: 1px solid var(--frame-border);
+  }
+  .op-scene-tabs { display: flex; align-items: stretch; overflow-x: auto; }
+  .op-scene-tab {
+    background: transparent; border: none; border-left: 1px solid var(--frame-border);
+    padding: 0 16px; font-family: var(--mono); font-size: 10.5px; color: var(--text-dim);
+    letter-spacing: 0.05em; white-space: nowrap; display: flex; align-items: center; gap: 6px;
+  }
+  .op-scene-tab .op-scene-n { color: var(--text-faint); }
+  .op-scene-tab:hover { color: var(--text-mid); background: var(--hover); }
+  .op-scene-tab.is-active { color: var(--text); background: var(--diligence-bg); }
+  .op-scene-tab.is-active .op-scene-n { color: var(--diligence); }
+
+  .main.op-main {
+    grid-template-rows: 1fr auto;
+    min-height: 0;
+    overflow: visible;
+  }
+  .op-loopmap { grid-column: 1; grid-row: 1; display: flex; flex-direction: column; }
+  .op-slate   { grid-column: 2; grid-row: 1; display: flex; flex-direction: column; min-width: 0; }
+  .op-agents  { grid-column: 3; grid-row: 1; display: flex; flex-direction: column; }
+  .op-dock    { grid-column: 1 / -1; grid-row: 2; border-top: 1px solid var(--frame-border); background: var(--frame-bg-2); }
+
+  @media (max-width: 1180px) {
+    .main.op-main { grid-template-columns: 240px 1fr 280px; }
+  }
+  @media (max-width: 900px) {
+    .main.op-main {
+      display: flex; flex-direction: column;
+      grid-template-columns: none;
+    }
+    .op-loopmap, .op-agents { max-height: 320px; }
+  }
+
+  /* ── zone 1 · loop map ──────────────────────────────────────────── */
+
+  .op-loopmap-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 4px 18px 10px;
+  }
+  .op-loopmap-head .rh-meta { font-family: var(--mono); font-size: 9.5px; color: var(--text-faint); letter-spacing: 0.08em; }
+  .op-group { padding: 10px 18px 6px; }
+  .op-group-title {
+    font-family: var(--serif); font-size: 13px; color: var(--text-mid);
+    letter-spacing: 0.01em; margin-bottom: 6px;
+  }
+  .op-loop-row {
+    display: block; width: 100%; text-align: left; background: transparent;
+    border: 1px solid transparent; border-radius: 4px;
+    padding: 8px 9px; margin-bottom: 2px; cursor: default;
+  }
+  .op-loop-row:hover { background: var(--hover); border-color: var(--card-border); }
+  .op-loop-name { font-family: var(--serif); font-size: 13px; color: var(--text); line-height: 1.35; display: block; margin-bottom: 4px; }
+  .op-loop-meta { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .op-badge { display: inline-flex; align-items: center; gap: 5px; padding: 2px 7px 2px 6px; border-radius: 3px; border: 1px solid; }
+  .op-badge .op-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .op-badge.st-running { color: var(--signal); border-color: var(--signal-edge); background: var(--signal-bg); }
+  .op-badge.st-running .op-dot { background: var(--signal); animation: op-pulse 1.6s ease-in-out infinite; }
+  .op-badge.st-watch { color: var(--watch); border-color: var(--watch-edge); background: var(--watch-bg); }
+  .op-badge.st-watch .op-dot { background: var(--watch); }
+  .op-badge.st-queued { color: var(--text-dim); border-color: var(--card-border); background: transparent; }
+  .op-badge.st-queued .op-dot { background: var(--text-faint); }
+  .op-badge.st-closed { color: var(--resolved); border-color: var(--resolved-edge); background: var(--resolved-bg); }
+  .op-badge.st-closed .op-dot { background: var(--resolved); }
+  .op-badge.st-blocked { color: var(--alarm); border-color: var(--alarm-edge); background: var(--alarm-bg); }
+  .op-badge.st-blocked .op-dot { background: var(--alarm); }
+  .op-loop-count { color: var(--text-faint); }
+  @keyframes op-pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+  .op-loop-row.is-lit { background: var(--signal-bg); border-color: var(--signal-edge); }
+  .op-edge {
+    display: flex; align-items: center; gap: 7px; margin: 2px 0 6px 9px;
+    padding-left: 8px; border-left: 1px dashed var(--card-border-2);
+    font-family: var(--mono); font-size: 9px; color: var(--text-faint);
+    letter-spacing: 0.06em; text-transform: uppercase;
+  }
+  .op-rail-foot {
+    margin-top: auto; padding: 12px 18px; border-top: 1px solid var(--frame-border);
+    display: flex; gap: 14px; font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint);
+  }
+  .op-rail-foot a, .op-rail-foot span.op-fake-link { color: inherit; border-bottom: 1px dotted var(--card-border-2); padding-bottom: 1px; }
+  .op-rail-foot a:hover { color: var(--text-mid); }
+
+  /* ── zone 2 · slate ─────────────────────────────────────────────── */
+
+  .op-stage-strip {
+    display: flex; flex-wrap: wrap; gap: 0; padding: 12px 28px;
+    border-bottom: 1px solid var(--frame-border); background: var(--frame-bg-2);
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .op-stage-chip { color: var(--text-mute); padding: 2px 10px 2px 0; position: relative; }
+  .op-stage-chip:not(:last-child)::after { content: "·"; margin-left: 10px; color: var(--card-border-2); }
+  .op-stage-chip.is-active { color: var(--diligence); font-weight: 500; }
+
+  .op-slate-scroll { flex: 1; overflow-y: auto; padding: 28px 32px 32px; }
+  .op-panel { display: none; }
+  .op-plane[data-scene="rest"]      .op-panel[data-panel="rest"],
+  .op-plane[data-scene="proposals"] .op-panel[data-panel="proposals"],
+  .op-plane[data-scene="running"]   .op-panel[data-panel="running"],
+  .op-plane[data-scene="judgment"]  .op-panel[data-panel="judgment"],
+  .op-plane[data-scene="closure"]   .op-panel[data-panel="closure"],
+  .op-plane[data-scene="vault"]     .op-panel[data-panel="vault"] { display: block; }
+
+  .op-eyebrow { font-family: var(--mono); font-size: 10px; color: var(--text-faint); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 10px; }
+  .op-brain-title {
+    font-family: var(--display); font-weight: 500; letter-spacing: -0.02em;
+    font-size: 40px; line-height: 1.05; color: var(--text); margin: 0 0 12px;
+  }
+  .op-brain-sub { font-family: var(--serif); font-size: 15px; line-height: 1.55; color: var(--text-mid); max-width: 56ch; margin: 0 0 20px; }
+  .op-field-wrap { position: relative; margin-bottom: 14px; }
+  .op-field {
+    width: 100%; min-height: 110px; resize: vertical;
+    background: var(--frame-bg-3); border: 1px solid var(--card-border);
+    border-radius: 5px; padding: 14px 46px 14px 16px;
+    font-family: var(--serif); font-size: 14.5px; line-height: 1.55; color: var(--text);
+  }
+  .op-field::placeholder { color: var(--text-faint); }
+  .op-mic {
+    position: absolute; right: 12px; top: 12px; width: 26px; height: 26px;
+    border: 1px dashed var(--card-border-2); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-faint); font-size: 11px;
+  }
+  .op-hint { font-family: var(--mono); font-size: 10.5px; color: var(--text-faint); letter-spacing: 0.02em; line-height: 1.5; }
+
+  .op-quote {
+    border-left: 2px solid var(--card-border-2); padding: 4px 0 4px 16px; margin-bottom: 22px;
+    font-family: var(--serif); font-size: 15px; line-height: 1.55; color: var(--text-mid); max-width: 62ch;
+  }
+  .op-quote .op-q-label { display: block; font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 6px; }
+
+  .op-proposal-grid { display: flex; flex-direction: column; gap: 12px; }
+  .op-proposal-card {
+    border: 1px solid var(--card-border); border-radius: 6px; background: var(--frame-bg-2);
+    padding: 16px 18px;
+  }
+  .op-proposal-card:hover { border-color: var(--card-border-2); }
+  .op-proposal-name { font-family: var(--serif); font-size: 16px; color: var(--text); margin: 0 0 5px; }
+  .op-proposal-obj { font-family: var(--serif); font-size: 13px; color: var(--text-mid); line-height: 1.5; margin: 0 0 10px; }
+  .op-contract {
+    display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center;
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-faint); padding: 8px 0; border-top: 1px solid var(--frame-border); border-bottom: 1px solid var(--frame-border); margin-bottom: 12px;
+  }
+  .op-contract .op-req { color: var(--gold); }
+  .op-proposal-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  .op-btn {
+    height: 28px; padding: 0 13px; font-family: var(--mono); font-size: 9.5px;
+    letter-spacing: 0.12em; text-transform: uppercase; background: var(--hover);
+    border: 1px solid var(--card-border); color: var(--text-mid); border-radius: 3px;
+  }
+  .op-btn:hover { background: rgba(255,255,255,0.06); color: var(--text); }
+  .op-btn.is-primary { background: var(--diligence); border-color: var(--diligence); color: #0A0A0B; }
+  .op-btn.is-primary:hover { background: var(--diligence-soft); }
+  .op-btn.is-quiet { background: transparent; color: var(--text-faint); border-style: dashed; }
+  .op-btn.is-danger { color: var(--judgment); border-color: var(--judgment-edge); }
+
+  .op-substrate {
+    display: flex; gap: 10px; padding: 12px 14px; border: 1px solid var(--card-border);
+    border-radius: 5px; background: var(--frame-bg-3); margin-bottom: 20px;
+  }
+  .op-substrate .op-diamond-mark { color: var(--diligence); font-size: 13px; line-height: 1.5; }
+  .op-substrate-label { font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 4px; }
+  .op-substrate-text { font-family: var(--serif); font-size: 13.5px; color: var(--text-mid); line-height: 1.5; }
+
+  .op-watch-note { font-family: var(--serif); font-size: 13.5px; color: var(--text-mid); line-height: 1.6; max-width: 58ch; }
+  .op-watch-note strong { color: var(--text); font-weight: 500; }
+
+  .op-reads { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
+  .op-read { border-left: 2px solid var(--card-border-2); padding: 12px 0 12px 16px; }
+  .op-read.reg-diligence { border-left-color: var(--diligence); }
+  .op-read.reg-outreach  { border-left-color: var(--outreach); }
+  .op-read.reg-judgment  { border-left-color: var(--judgment); }
+  .op-read-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .op-read.reg-diligence .op-read-head { color: var(--diligence); }
+  .op-read.reg-outreach  .op-read-head { color: var(--outreach); }
+  .op-read.reg-judgment  .op-read-head { color: var(--judgment); }
+  .op-read-refused {
+    font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 1px 6px; border: 1px solid var(--judgment-edge); border-radius: 3px; color: var(--judgment);
+  }
+  .op-read-row { display: flex; gap: 10px; font-size: 13px; line-height: 1.55; margin-bottom: 6px; }
+  .op-read-row:last-child { margin-bottom: 0; }
+  .op-read-k { font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; width: 84px; flex-shrink: 0; padding-top: 2px; }
+  .op-read-v { font-family: var(--serif); color: var(--text-mid); }
+  .op-read.reg-judgment .op-read-v.op-refusal-text { color: var(--text); }
+
+  .op-correction {
+    border: 1px solid var(--card-border); border-radius: 6px; padding: 18px 20px; background: var(--frame-bg-2);
+  }
+  .op-correction-title { font-family: var(--serif); font-size: 14.5px; color: var(--text); margin: 0 0 12px; }
+  .op-radio-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+  .op-radio {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
+    padding: 6px 12px; border: 1px solid var(--card-border); border-radius: 999px; background: transparent; color: var(--text-dim);
+  }
+  .op-radio:hover { border-color: var(--card-border-2); }
+  .op-radio.is-selected { background: var(--diligence-bg); border-color: var(--diligence); color: var(--diligence); }
+  .op-freetext {
+    width: 100%; min-height: 56px; background: var(--frame-bg-3); border: 1px solid var(--card-border);
+    border-radius: 5px; padding: 10px 12px; font-family: var(--serif); font-size: 13px; color: var(--text); margin-bottom: 14px;
+  }
+  .op-freetext::placeholder { color: var(--text-faint); }
+  .op-kind-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .op-chip {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 6px 11px; border: 1px solid var(--card-border); border-radius: 4px; background: transparent; color: var(--text-dim);
+  }
+  .op-chip:hover { color: var(--text-mid); border-color: var(--card-border-2); }
+  .op-chip.is-active { background: var(--correction-bg); border-color: var(--correction); color: var(--correction); }
+  .op-chip.is-emergence {
+    color: var(--emergence); border-color: var(--emergence-edge); background: var(--emergence-bg);
+    box-shadow: 0 0 0 0 var(--emergence-glow); animation: op-glow 2.2s ease-in-out infinite;
+  }
+  @keyframes op-glow {
+    0%, 100% { box-shadow: 0 0 0 0 var(--emergence-glow); }
+    50% { box-shadow: 0 0 10px 1px var(--emergence-glow); }
+  }
+  @media (prefers-reduced-motion: reduce) { .op-chip.is-emergence { animation: none; box-shadow: 0 0 6px 1px var(--emergence-glow); } }
+
+  .op-receipt-wrap { margin-bottom: 18px; }
+  .op-dispo-artifact { margin: 0 0 18px; }
+  .op-receipt-note { font-family: var(--serif); font-size: 13px; color: var(--text-mid); line-height: 1.55; max-width: 56ch; }
+  .op-receipt-note a, .op-feed-link { color: var(--gold); border-bottom: 1px dotted var(--gold); padding-bottom: 1px; }
+
+  .op-vault-list { display: flex; flex-direction: column; gap: 2px; margin-bottom: 20px; }
+  .op-vault-row {
+    display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    padding: 10px 12px; border-radius: 4px; border: 1px solid transparent;
+  }
+  .op-vault-row:hover { background: var(--hover); border-color: var(--card-border); }
+  .op-vault-row.is-selected { background: var(--diligence-bg); border-color: var(--diligence-edge); }
+  .op-vault-row-name { font-family: var(--serif); font-size: 13.5px; color: var(--text); }
+  .op-vault-row-meta { font-family: var(--mono); font-size: 9.5px; color: var(--text-faint); letter-spacing: 0.06em; white-space: nowrap; }
+  .op-vault-detail { border: 1px solid var(--card-border); border-radius: 6px; padding: 16px 18px; background: var(--frame-bg-2); margin-bottom: 14px; }
+  .op-vault-detail-title { font-family: var(--serif); font-size: 15px; color: var(--text); margin: 0 0 8px; }
+  .op-vault-detail-body { font-family: var(--serif); font-size: 13px; color: var(--text-mid); line-height: 1.55; margin-bottom: 14px; }
+  .op-vault-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .op-vault-caption { font-family: var(--mono); font-size: 9.5px; color: var(--text-faint); letter-spacing: 0.08em; }
+
+  /* ── zone 3 · agent workspace ───────────────────────────────────── */
+
+  .op-agents-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 16px; border-bottom: 1px solid var(--frame-border);
+  }
+  .op-agents-label { font-family: var(--mono); font-size: 10px; color: var(--text-faint); letter-spacing: 0.16em; text-transform: uppercase; }
+  .op-agents-live { font-family: var(--mono); font-size: 9px; color: var(--text-mute); letter-spacing: 0.1em; text-transform: uppercase; }
+  .op-agents-live.is-live { color: var(--signal); }
+  .op-agents-body { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; }
+
+  .op-agents-panel { display: none; }
+  .op-plane[data-scene="rest"]      .op-agents-panel[data-panel="empty-rest"],
+  .op-plane[data-scene="proposals"] .op-agents-panel[data-panel="empty-proposals"],
+  .op-plane[data-scene="running"]   .op-agents-panel[data-panel="running"],
+  .op-plane[data-scene="judgment"]  .op-agents-panel[data-panel="judgment"],
+  .op-plane[data-scene="closure"]   .op-agents-panel[data-panel="closure"],
+  .op-plane[data-scene="vault"]     .op-agents-panel[data-panel="vault"] { display: flex; flex-direction: column; flex: 1; }
+
+  .op-agents-empty { text-align: center; margin: auto 0; padding: 20px 10px; }
+  .op-empty-diamond { font-size: 22px; color: var(--card-border-2); border: 1px dashed var(--card-border-2); border-radius: 50%; width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; }
+  .op-empty-title { font-family: var(--serif); font-size: 14.5px; color: var(--text-mid); margin: 0 0 6px; }
+  .op-empty-hint { font-family: var(--mono); font-size: 10px; color: var(--text-faint); letter-spacing: 0.02em; line-height: 1.55; max-width: 30ch; margin: 0 auto; }
+
+  .op-orbital { position: relative; width: 100%; aspect-ratio: 1 / 1; margin: 4px auto 10px; }
+  .op-orb-svg { width: 100%; height: 100%; overflow: visible; }
+  .op-plate { fill: rgba(255,255,255,0.025); stroke-width: 1; }
+  .op-plate.diligence { stroke: var(--diligence); }
+  .op-plate.outreach  { stroke: var(--outreach); }
+  .op-plate.judgment  { stroke: var(--judgment); }
+  .op-plate.synthesis { stroke: var(--synthesis); }
+  .op-plate-label { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; text-transform: uppercase; text-anchor: middle; }
+  .op-plate-label.diligence { fill: var(--diligence); }
+  .op-plate-label.outreach  { fill: var(--outreach); }
+  .op-plate-label.judgment  { fill: var(--judgment); }
+  .op-plate-label.synthesis { fill: var(--synthesis); }
+  .op-agent-glyph { font-family: var(--mono); font-size: 11px; text-anchor: middle; }
+  .op-agent-glyph.queued   { fill: rgba(255,255,255,0.24); }
+  .op-agent-glyph.reading  { fill: var(--text); animation: op-pulse-glyph 2.4s ease-in-out infinite; }
+  .op-agent-glyph.complete { fill: var(--resolved); }
+  .op-agent-glyph.refused  { fill: var(--judgment); }
+  @keyframes op-pulse-glyph { 0%, 100% { opacity: 0.55; } 50% { opacity: 1; } }
+  .op-agent-slot { font-family: var(--mono); font-size: 7px; text-anchor: middle; fill: rgba(255,255,255,0.5); }
+  .op-center-mark { font-family: var(--mono); font-size: 15px; text-anchor: middle; fill: rgba(255,255,255,0.5); }
+  .op-center-orb { fill: rgba(142,102,251,0); stroke: rgba(142,102,251,0); transition: fill 500ms ease, stroke 500ms ease; }
+  .op-center-orb.is-convergent { fill: var(--diligence-bg); stroke: var(--diligence-edge); }
+  .op-center-orb.is-sealed { fill: color-mix(in oklch, var(--gold) 30%, transparent); stroke: var(--gold); stroke-width: 1.5; filter: drop-shadow(0 0 8px var(--emergence-glow)); }
+  @media (prefers-reduced-motion: reduce) { .op-agent-glyph.reading { animation: none; opacity: 0.8; } }
+
+  .op-phase-caption { text-align: center; font-family: var(--mono); font-size: 9.5px; color: var(--text-dim); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  .op-phase-caption strong { color: var(--text); }
+
+  .op-steplog { display: flex; flex-direction: column; gap: 6px; font-family: var(--mono); font-size: 10px; margin-bottom: 12px; }
+  .op-steplog-row { display: flex; gap: 8px; align-items: baseline; }
+  .op-steplog-reg { flex-shrink: 0; width: 66px; letter-spacing: 0.06em; text-transform: uppercase; font-size: 9px; }
+  .op-steplog-row .op-steplog-reg.diligence { color: var(--diligence); }
+  .op-steplog-row .op-steplog-reg.outreach  { color: var(--outreach); }
+  .op-steplog-row .op-steplog-reg.judgment  { color: var(--judgment); }
+  .op-steplog-row .op-steplog-reg.synthesis { color: var(--synthesis); }
+  .op-steplog-text { color: var(--text-dim); }
+
+  .op-redirect { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--frame-border); }
+  .op-redirect input {
+    width: 100%; height: 34px; background: var(--frame-bg-3); border: 1px solid var(--card-border);
+    border-radius: 4px; padding: 0 34px 0 12px; font-family: var(--serif); font-size: 12.5px; color: var(--text);
+  }
+  .op-redirect input::placeholder { color: var(--text-faint); }
+  .op-redirect-wrap { position: relative; }
+  .op-redirect-mic { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); font-size: 10px; color: var(--text-faint); border: 1px dashed var(--card-border-2); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; }
+
+  .op-sealed-note { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--frame-border); font-family: var(--mono); font-size: 10px; color: var(--text-dim); letter-spacing: 0.04em; line-height: 1.6; }
+  .op-sealed-note strong { color: var(--gold); }
+  .op-feeds-list { margin-top: 10px; font-family: var(--mono); font-size: 9.5px; color: var(--text-faint); letter-spacing: 0.04em; line-height: 1.6; }
+  .op-feeds-list .op-badge { margin-left: 4px; }
+
+  /* ── zone 4 · intake dock ───────────────────────────────────────── */
+
+  .op-dock-head {
+    display: flex; align-items: center; gap: 14px; padding: 12px 24px;
+    border-bottom: 1px solid var(--frame-border);
+  }
+  .op-dock-pill {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--text-mid); display: flex; align-items: center; gap: 6px;
+  }
+  .op-dock-pill .op-diamond-mark { color: var(--diligence); }
+  .op-triage { display: flex; gap: 6px; }
+  .op-triage .op-btn { height: 24px; padding: 0 10px; font-size: 9px; }
+  .op-dock-body { display: grid; grid-template-columns: 260px 1fr; gap: 0; }
+  @media (max-width: 900px) { .op-dock-body { grid-template-columns: 1fr; } }
+
+  .op-capture { padding: 16px 24px; border-right: 1px solid var(--frame-border); }
+  .op-capture-tabs { display: flex; gap: 2px; margin-bottom: 10px; }
+  .op-capture-tab {
+    font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 5px 11px; border: 1px solid var(--card-border); border-radius: 999px; background: transparent; color: var(--text-dim);
+  }
+  .op-capture-tab.is-active { background: var(--diligence-bg); border-color: var(--diligence-edge); color: var(--diligence); }
+  .op-capture-tab.is-staged { color: var(--text-faint); }
+  .op-capture textarea {
+    width: 100%; min-height: 64px; background: var(--frame-bg-3); border: 1px solid var(--card-border);
+    border-radius: 5px; padding: 10px 12px; font-family: var(--serif); font-size: 13px; color: var(--text);
+  }
+  .op-capture textarea::placeholder { color: var(--text-faint); }
+
+  .op-tile-groups { display: flex; gap: 20px; overflow-x: auto; padding: 16px 24px; }
+  .op-tile-group { flex-shrink: 0; min-width: 190px; }
+  .op-tile-group-label { font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; }
+  .op-tiles { display: flex; flex-direction: column; gap: 8px; }
+  .op-tile { border: 1px solid var(--card-border); border-radius: 5px; background: var(--frame-bg-3); overflow: hidden; }
+  .op-tile-bar { display: flex; align-items: center; gap: 6px; padding: 6px 9px; border-bottom: 1px solid var(--frame-border); }
+  .op-tile-led { width: 7px; height: 7px; border-radius: 50%; }
+  .op-tile-led.red { background: var(--alarm-600, #8a3b3b); }
+  .op-tile-led.yellow { background: var(--amber-orn-500, #a6802e); }
+  .op-tile-led.green { background: var(--connection-600, #3f6e5a); }
+  .op-tile-src { margin-left: auto; font-family: var(--mono); font-size: 8px; color: var(--text-faint); letter-spacing: 0.08em; text-transform: uppercase; }
+  .op-tile-live { width: 6px; height: 6px; border-radius: 50%; background: var(--text-mute); }
+  .op-tile-live.is-live { background: var(--signal); }
+  .op-tile-body { padding: 8px 10px 10px; }
+  .op-tile-title { font-family: var(--serif); font-size: 12px; color: var(--text); line-height: 1.35; margin: 0 0 3px; }
+  .op-tile-note { font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.02em; }
+  .op-tile.is-manual { border-style: dashed; background: transparent; }
+  .op-tile.is-manual .op-tile-body { display: flex; align-items: center; justify-content: center; padding: 14px; color: var(--text-faint); font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  .op-dock-foot { padding: 8px 24px 14px; font-family: var(--mono); font-size: 9px; color: var(--text-faint); letter-spacing: 0.04em; }
+</style>
+
+</head>
+<body data-product="personal">
+
+<div class="stage">
+  <div class="frame">
+
+    <!-- titlebar · canon chrome, unmodified -->
+    <header class="titlebar">
+      <div class="lights">
+        <span class="light red"></span>
+        <span class="light yellow"></span>
+        <span class="light green"></span>
+      </div>
+      <div class="title-row">
+        <span class="diamond">◇</span>
+        <span class="tb-wedge">Liminal gives form to inner life.</span>
+      </div>
+      <div class="vault-pill">
+        <span class="diamond">◇</span>vault: <strong>41 packets</strong>
+      </div>
+    </header>
+
+    <!-- scene switcher · reuses the product-row chrome, its own tabs -->
+    <nav class="product-row op-scene-row">
+      <span class="op-scene-label">Scene</span>
+      <div class="op-scene-tabs" id="op-scene-tabs" role="tablist" aria-label="Operating plane scenes">
+        <button class="op-scene-tab is-active" type="button" data-scene="rest" role="tab" aria-selected="true"><span class="op-scene-n">01</span> At rest</button>
+        <button class="op-scene-tab" type="button" data-scene="proposals" role="tab" aria-selected="false"><span class="op-scene-n">02</span> Brain-dump</button>
+        <button class="op-scene-tab" type="button" data-scene="running" role="tab" aria-selected="false"><span class="op-scene-n">03</span> Loop running</button>
+        <button class="op-scene-tab" type="button" data-scene="judgment" role="tab" aria-selected="false"><span class="op-scene-n">04</span> Judgment</button>
+        <button class="op-scene-tab" type="button" data-scene="closure" role="tab" aria-selected="false"><span class="op-scene-n">05</span> Closure</button>
+        <button class="op-scene-tab" type="button" data-scene="vault" role="tab" aria-selected="false"><span class="op-scene-n">06</span> Vault</button>
+      </div>
+    </nav>
+
+    <!-- the four-zone plane -->
+    <main class="main op-main op-plane" id="op-plane" data-scene="rest">
+
+      <!-- ZONE 1 · loop map -->
+      <aside class="rail-left op-loopmap">
+        <div class="op-loopmap-head">
+          <span class="rail-header">Loop map</span>
+          <span class="rh-meta" id="op-loopmap-count">3 running · 2 awaiting you</span>
+        </div>
+
+        <div class="op-group">
+          <div class="op-group-title">Hiring</div>
+          <div class="op-loop-row" id="op-loop-hire" tabindex="0">
+            <span class="op-loop-name">Hire decision, pipeline pressure</span>
+            <span class="op-loop-meta">
+              <span class="op-badge st-running" id="op-badge-hire"><span class="op-dot"></span>running</span>
+              <span class="op-loop-count">3 agents · 2 corrections</span>
+            </span>
+          </div>
+          <div class="op-edge">feeds ↓ vault schema decision</div>
+          <div class="op-loop-row" tabindex="0">
+            <span class="op-loop-name">Head of eng offer, third slip</span>
+            <span class="op-loop-meta">
+              <span class="op-badge st-watch"><span class="op-dot"></span>awaiting you</span>
+              <span class="op-loop-count">2d idle</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="op-group">
+          <div class="op-group-title">Fundraise</div>
+          <div class="op-loop-row" tabindex="0">
+            <span class="op-loop-name">SR007 follow-up</span>
+            <span class="op-loop-meta">
+              <span class="op-badge st-queued"><span class="op-dot"></span>confirmed</span>
+              <span class="op-loop-count">due Friday</span>
+            </span>
+          </div>
+          <div class="op-loop-row" tabindex="0">
+            <span class="op-loop-name">Design partner onboarding</span>
+            <span class="op-loop-meta">
+              <span class="op-badge st-closed"><span class="op-dot"></span>closed</span>
+              <span class="op-loop-count">signed 3d ago</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="op-group">
+          <div class="op-group-title">Product</div>
+          <div class="op-loop-row" tabindex="0">
+            <span class="op-loop-name">Vault schema decision</span>
+            <span class="op-loop-meta">
+              <span class="op-badge st-blocked"><span class="op-dot"></span>blocked</span>
+              <span class="op-loop-count">waits on hire decision</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="op-rail-foot">
+          <span class="op-fake-link">Recents</span>
+          <span class="op-fake-link">Search</span>
+          <span class="op-fake-link">Vault</span>
+        </div>
+      </aside>
+
+      <!-- ZONE 2 · the slate -->
+      <section class="slate-area op-slate">
+        <div class="op-stage-strip" aria-hidden="false">
+          <span class="op-stage-chip" data-stage="brain-dump">brain-dump</span>
+          <span class="op-stage-chip" data-stage="work-stream">work-stream</span>
+          <span class="op-stage-chip" data-stage="loop">loop</span>
+          <span class="op-stage-chip" data-stage="agent-run">agent-run</span>
+          <span class="op-stage-chip" data-stage="read">read</span>
+          <span class="op-stage-chip" data-stage="correction">correction</span>
+          <span class="op-stage-chip" data-stage="signed-packet">signed packet</span>
+          <span class="op-stage-chip" data-stage="vault-item">vault item</span>
+        </div>
+
+        <div class="op-slate-scroll">
+
+          <!-- panel: rest -->
+          <div class="op-panel" data-panel="rest">
+            <div class="op-eyebrow">Slate · brain-dump</div>
+            <h1 class="op-brain-title">What's on your mind?</h1>
+            <p class="op-brain-sub">Drop the mess in. Loops sprout from what you type here, not the other way around.</p>
+            <div class="op-field-wrap">
+              <textarea class="op-field" placeholder="Devon's offer slipped a third time. Sleep's bad. SR007 wants a follow-up by Friday. The design partner onboarding still isn't confirmed."></textarea>
+              <span class="op-mic" title="Voice input, staged">🎙</span>
+            </div>
+            <p class="op-hint">Try: the hire that's stalling, the investor thread that won't resolve, the onboarding that's dragging.</p>
+          </div>
+
+          <!-- panel: proposals -->
+          <div class="op-panel" data-panel="proposals">
+            <div class="op-eyebrow">Slate · brain-dump to proposals</div>
+            <div class="op-quote">
+              <span class="op-q-label">What you typed</span>
+              "Devon's offer slipped a third time. Sleep's bad. SR007 wants a follow-up by Friday. The design partner onboarding still isn't confirmed."
+            </div>
+            <h1 class="op-brain-title" style="font-size:28px;">Three loops, from what you just said.</h1>
+            <div class="op-proposal-grid">
+              <div class="op-proposal-card">
+                <h2 class="op-proposal-name">Hire decision, pipeline pressure</h2>
+                <p class="op-proposal-obj">Decide on Devon's counter before a fourth slip costs the search.</p>
+                <div class="op-contract">Diligence + Judgment <span aria-hidden="true">·</span> closes on signed decision <span aria-hidden="true">·</span> <span class="op-req">requires packet ◇</span></div>
+                <div class="op-proposal-actions">
+                  <button class="op-btn is-primary" type="button">Confirm</button>
+                  <button class="op-btn" type="button">Edit</button>
+                  <button class="op-btn" type="button">Merge</button>
+                  <button class="op-btn" type="button">Split</button>
+                  <button class="op-btn is-quiet" type="button">Reject</button>
+                </div>
+              </div>
+              <div class="op-proposal-card">
+                <h2 class="op-proposal-name">SR007 follow-up</h2>
+                <p class="op-proposal-obj">Answer the partner's Friday ask without reopening claims already signed.</p>
+                <div class="op-contract">Outreach + Diligence <span aria-hidden="true">·</span> closes on reply sent <span aria-hidden="true">·</span> <span class="op-req">requires packet ◇</span></div>
+                <div class="op-proposal-actions">
+                  <button class="op-btn is-primary" type="button">Confirm</button>
+                  <button class="op-btn" type="button">Edit</button>
+                  <button class="op-btn" type="button">Merge</button>
+                  <button class="op-btn" type="button">Split</button>
+                  <button class="op-btn is-quiet" type="button">Reject</button>
+                </div>
+              </div>
+              <div class="op-proposal-card">
+                <h2 class="op-proposal-name">Design partner onboarding</h2>
+                <p class="op-proposal-obj">Get the pilot's first environment access moving before it goes cold.</p>
+                <div class="op-contract">Outreach + Synthesis <span aria-hidden="true">·</span> closes on kickoff scheduled <span aria-hidden="true">·</span> no packet required</div>
+                <div class="op-proposal-actions">
+                  <button class="op-btn is-primary" type="button">Confirm</button>
+                  <button class="op-btn" type="button">Edit</button>
+                  <button class="op-btn" type="button">Merge</button>
+                  <button class="op-btn" type="button">Split</button>
+                  <button class="op-btn is-quiet" type="button">Reject</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- panel: running -->
+          <div class="op-panel" data-panel="running">
+            <div class="op-eyebrow">Slate · loop running</div>
+            <div class="op-substrate">
+              <span class="op-diamond-mark">◇</span>
+              <div>
+                <div class="op-substrate-label">Dropped in</div>
+                <div class="op-substrate-text">Devon's counter: 12% more base, no change to start date. Recruiter says he's got a second offer close.</div>
+              </div>
+            </div>
+            <h1 class="op-brain-title" style="font-size:26px;">Hire decision, pipeline pressure</h1>
+            <p class="op-watch-note">The workspace is <strong>reading Devon's counter-offer thread</strong> against your last three hiring decisions. Nothing to correct yet. Watch it in the agent workspace, and redirect it there if the framing looks off.</p>
+          </div>
+
+          <!-- panel: judgment -->
+          <div class="op-panel" data-panel="judgment">
+            <div class="op-eyebrow">Slate · read, correct, sign</div>
+            <div class="op-substrate">
+              <span class="op-diamond-mark">◇</span>
+              <div>
+                <div class="op-substrate-label">Dropped in</div>
+                <div class="op-substrate-text">Devon's counter: 12% more base, no change to start date. Recruiter says he's got a second offer close.</div>
+              </div>
+            </div>
+
+            <div class="op-reads">
+              <div class="op-read reg-diligence">
+                <div class="op-read-head">Diligence</div>
+                <div class="op-read-row"><span class="op-read-k">Quoted</span><span class="op-read-v">"Base counter sits inside your last three hires' band. The start-date hold doesn't."</span></div>
+                <div class="op-read-row"><span class="op-read-k">Situation</span><span class="op-read-v">The gap is timing, not money. He isn't asking for more, he's asking you to move faster than this search usually allows.</span></div>
+                <div class="op-read-row"><span class="op-read-k">Hidden risk</span><span class="op-read-v">If the search reopens, six weeks go with it, and the two references who already vouched for him.</span></div>
+                <div class="op-read-row"><span class="op-read-k">Next move</span><span class="op-read-v">Match the base. Hold the start date. Name a decision date instead of an open hold.</span></div>
+              </div>
+              <div class="op-read reg-outreach">
+                <div class="op-read-head">Outreach</div>
+                <div class="op-read-row"><span class="op-read-k">Quoted</span><span class="op-read-v">"Recruiter flagged a second offer close. Not confirmed."</span></div>
+                <div class="op-read-row"><span class="op-read-k">Situation</span><span class="op-read-v">Nothing you've sent him raises the stakes on your side. Silence reads as slow, not careful.</span></div>
+                <div class="op-read-row"><span class="op-read-k">Hidden risk</span><span class="op-read-v">A generic counter email undercuts the personal case you made on the first call.</span></div>
+                <div class="op-read-row"><span class="op-read-k">Next move</span><span class="op-read-v">Draft goes out today. It references the first call by name.</span></div>
+              </div>
+              <div class="op-read reg-judgment">
+                <div class="op-read-head">Judgment <span class="op-read-refused">refused, out of lane</span></div>
+                <div class="op-read-row"><span class="op-read-k">Refusal</span><span class="op-read-v op-refusal-text">Reads the compensation band. Refuses to weigh in on whether Devon is the right hire. That call is yours, not a read of a thread.</span></div>
+                <div class="op-read-row"><span class="op-read-k">Next move</span><span class="op-read-v">Set the decision date today so this doesn't become a fourth slip.</span></div>
+              </div>
+            </div>
+
+            <div class="op-correction">
+              <h2 class="op-correction-title">Which read guided your decision?</h2>
+              <div class="op-radio-row" role="radiogroup" aria-label="Chosen agent">
+                <button class="op-radio is-selected" type="button">Diligence</button>
+                <button class="op-radio" type="button">Outreach</button>
+                <button class="op-radio" type="button">Judgment</button>
+                <button class="op-radio" type="button">None of these</button>
+              </div>
+              <textarea class="op-freetext" placeholder="What did the reads miss?">The reads were right about timing, but missed that Devon already told me verbally he'd take a decision date over more money.</textarea>
+              <div class="op-kind-chips">
+                <button class="op-chip is-active" type="button">Missed context</button>
+                <button class="op-chip" type="button">Wrong emphasis</button>
+                <button class="op-chip" type="button">Too cautious</button>
+                <button class="op-chip is-emergence" type="button">★ Emergence</button>
+              </div>
+              <div class="disposition" style="margin-top:0;">
+                <button class="dispo-btn is-primary" type="button">Sign</button>
+                <button class="dispo-btn is-defer" type="button">Sleep on it 7d</button>
+                <button class="preview-sub" type="button">Preview</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- panel: closure -->
+          <div class="op-panel" data-panel="closure">
+            <div class="op-eyebrow">Slate · sealed</div>
+            <div class="op-receipt-wrap">
+              <div class="dispo-artifact op-dispo-artifact">
+                <div class="da-bar">
+                  <span class="da-stamp">Signed</span>
+                  <span class="da-title">Hire decision, signed</span>
+                  <span class="da-time">today · 2:14pm</span>
+                </div>
+                <div class="da-body">
+                  <div class="da-section">
+                    <div class="da-label">What you decided</div>
+                    <div class="da-text">Match Devon's base. Hold the start date. Name a decision date instead of an open-ended hold.</div>
+                  </div>
+                  <div class="da-section">
+                    <div class="da-label">Saved to vault</div>
+                    <div class="da-text">1 loop, 2 reads corrected, 1 refusal logged.</div>
+                  </div>
+                  <div class="da-section">
+                    <div class="da-label">Next action</div>
+                    <div class="da-text">Send the counter today. The Outreach read has the draft ready.</div>
+                  </div>
+                  <div class="da-section">
+                    <div class="da-label">Proof it's real</div>
+                    <div class="da-text">Fingerprint below. Anyone with the packet link can verify which reads fed this.</div>
+                  </div>
+                </div>
+                <div class="da-foot">
+                  <div class="da-hash">
+                    <span class="da-hash-label">Fingerprint</span>
+                    <code>SHA256 · 8f2a1c9e4b7d0f3e</code>
+                  </div>
+                  <div class="da-handoff">
+                    <button class="dispo-btn da-handoff-btn" type="button">Hand off</button>
+                    <button class="dispo-btn da-handoff-btn" type="button">Share with Devon</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="op-receipt-note">This closes the loop. It can feed the next one, <a href="#" onclick="return false;">feed the vault schema decision</a> that's waiting on it.</p>
+          </div>
+
+          <!-- panel: vault -->
+          <div class="op-panel" data-panel="vault">
+            <div class="op-eyebrow">Slate · vault</div>
+            <h1 class="op-brain-title" style="font-size:30px;">Vault</h1>
+            <div class="op-vault-list">
+              <div class="op-vault-row is-selected">
+                <span class="op-vault-row-name">Hire decision, pipeline pressure</span>
+                <span class="op-vault-row-meta">signed today</span>
+              </div>
+              <div class="op-vault-row">
+                <span class="op-vault-row-name">Design partner onboarding</span>
+                <span class="op-vault-row-meta">signed 3d ago</span>
+              </div>
+              <div class="op-vault-row">
+                <span class="op-vault-row-name">SR007 forensic audit</span>
+                <span class="op-vault-row-meta">signed May 8</span>
+              </div>
+            </div>
+            <div class="op-vault-detail">
+              <h2 class="op-vault-detail-title">Hire decision, pipeline pressure</h2>
+              <p class="op-vault-detail-body">Matched base, held start date, named a decision date. Two reads corrected, one refusal logged. Feeds the vault schema decision now waiting in the loop map.</p>
+              <div class="op-vault-actions">
+                <button class="op-btn is-primary" type="button">Export bundle</button>
+                <button class="op-btn" type="button">Generate decision record</button>
+                <button class="op-btn" type="button">Feed a downstream loop</button>
+              </div>
+            </div>
+            <p class="op-vault-caption">41 packets · 9 corrections logged this month</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ZONE 3 · agent workspace -->
+      <aside class="rail-right op-agents">
+        <div class="op-agents-head">
+          <span class="op-agents-label">Agent workspace</span>
+          <span class="op-agents-live" id="op-agents-live">idle</span>
+        </div>
+        <div class="op-agents-body">
+
+          <div class="op-agents-panel" data-panel="empty-rest">
+            <div class="op-agents-empty">
+              <div class="op-empty-diamond">◇</div>
+              <h2 class="op-empty-title">Nothing running</h2>
+              <p class="op-empty-hint">Confirm a loop and its agent run shows up here, step by step.</p>
+            </div>
+          </div>
+
+          <div class="op-agents-panel" data-panel="empty-proposals">
+            <div class="op-agents-empty">
+              <div class="op-empty-diamond">◇</div>
+              <h2 class="op-empty-title">Nothing running</h2>
+              <p class="op-empty-hint">Confirm a proposal in the Slate to start its first run.</p>
+            </div>
+          </div>
+
+          <div class="op-agents-panel" data-panel="running">
+            <div class="op-orbital">
+              <svg class="op-orb-svg" viewBox="0 0 260 260" preserveAspectRatio="xMidYMid meet">
+                <g>
+                  <rect class="op-plate diligence" x="50" y="14" width="160" height="56" rx="4"/>
+                  <text class="op-plate-label diligence" x="130" y="28">Diligence</text>
+                  <text class="op-agent-glyph reading" x="100" y="52">◉</text>
+                  <text class="op-agent-slot" x="100" y="64">reading</text>
+                  <text class="op-agent-glyph queued" x="160" y="52">◯</text>
+                  <text class="op-agent-slot" x="160" y="64">queued</text>
+                </g>
+                <g>
+                  <rect class="op-plate outreach" x="6" y="96" width="80" height="70" rx="4"/>
+                  <text class="op-plate-label outreach" x="46" y="110">Outreach</text>
+                  <text class="op-agent-glyph queued" x="46" y="138">◯</text>
+                  <text class="op-agent-slot" x="46" y="150">queued</text>
+                </g>
+                <g>
+                  <rect class="op-plate judgment" x="174" y="96" width="80" height="70" rx="4"/>
+                  <text class="op-plate-label judgment" x="214" y="110">Judgment</text>
+                  <text class="op-agent-glyph refused" x="214" y="138">⊘</text>
+                  <text class="op-agent-slot" x="214" y="150">refused</text>
+                </g>
+                <g>
+                  <rect class="op-plate synthesis" x="50" y="190" width="160" height="56" rx="4"/>
+                  <text class="op-plate-label synthesis" x="130" y="204">Synthesis</text>
+                  <text class="op-agent-glyph complete" x="130" y="228">●</text>
+                  <text class="op-agent-slot" x="130" y="240">complete</text>
+                </g>
+                <circle class="op-center-orb is-convergent" cx="130" cy="130" r="16"/>
+                <text class="op-center-mark" x="130" y="135">◇</text>
+              </svg>
+            </div>
+            <p class="op-phase-caption">reading <strong>2 of 4</strong> agents active</p>
+            <div class="op-steplog">
+              <div class="op-steplog-row"><span class="op-steplog-reg diligence">Diligence</span><span class="op-steplog-text">reading compensation history</span></div>
+              <div class="op-steplog-row"><span class="op-steplog-reg outreach">Outreach</span><span class="op-steplog-text">queued</span></div>
+              <div class="op-steplog-row"><span class="op-steplog-reg judgment">Judgment</span><span class="op-steplog-text">refused, hiring call is not its lane</span></div>
+              <div class="op-steplog-row"><span class="op-steplog-reg synthesis">Synthesis</span><span class="op-steplog-text">complete, pattern matches two prior hires</span></div>
+            </div>
+            <div class="op-redirect">
+              <div class="op-redirect-wrap">
+                <input type="text" placeholder="Redirect this loop…">
+                <span class="op-redirect-mic" title="Voice input, staged">🎙</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="op-agents-panel" data-panel="judgment">
+            <div class="op-orbital">
+              <svg class="op-orb-svg" viewBox="0 0 260 260" preserveAspectRatio="xMidYMid meet">
+                <g>
+                  <rect class="op-plate diligence" x="50" y="14" width="160" height="56" rx="4"/>
+                  <text class="op-plate-label diligence" x="130" y="28">Diligence</text>
+                  <text class="op-agent-glyph complete" x="130" y="52">●</text>
+                  <text class="op-agent-slot" x="130" y="64">complete</text>
+                </g>
+                <g>
+                  <rect class="op-plate outreach" x="6" y="96" width="80" height="70" rx="4"/>
+                  <text class="op-plate-label outreach" x="46" y="110">Outreach</text>
+                  <text class="op-agent-glyph complete" x="46" y="138">●</text>
+                  <text class="op-agent-slot" x="46" y="150">complete</text>
+                </g>
+                <g>
+                  <rect class="op-plate judgment" x="174" y="96" width="80" height="70" rx="4"/>
+                  <text class="op-plate-label judgment" x="214" y="110">Judgment</text>
+                  <text class="op-agent-glyph refused" x="214" y="138">⊘</text>
+                  <text class="op-agent-slot" x="214" y="150">refused</text>
+                </g>
+                <g>
+                  <rect class="op-plate synthesis" x="50" y="190" width="160" height="56" rx="4"/>
+                  <text class="op-plate-label synthesis" x="130" y="204">Synthesis</text>
+                  <text class="op-agent-glyph complete" x="130" y="228">●</text>
+                  <text class="op-agent-slot" x="130" y="240">complete</text>
+                </g>
+                <circle class="op-center-orb is-convergent" cx="130" cy="130" r="16"/>
+                <text class="op-center-mark" x="130" y="135">◇</text>
+              </svg>
+            </div>
+            <p class="op-phase-caption">read complete, <strong>awaiting your correction</strong></p>
+            <div class="op-redirect">
+              <div class="op-redirect-wrap">
+                <input type="text" placeholder="Redirect this loop…">
+                <span class="op-redirect-mic" title="Voice input, staged">🎙</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="op-agents-panel" data-panel="closure">
+            <div class="op-orbital">
+              <svg class="op-orb-svg" viewBox="0 0 260 260" preserveAspectRatio="xMidYMid meet">
+                <g>
+                  <rect class="op-plate diligence" x="50" y="14" width="160" height="56" rx="4"/>
+                  <text class="op-plate-label diligence" x="130" y="28">Diligence</text>
+                  <text class="op-agent-glyph complete" x="130" y="52">●</text>
+                </g>
+                <g>
+                  <rect class="op-plate outreach" x="6" y="96" width="80" height="70" rx="4"/>
+                  <text class="op-plate-label outreach" x="46" y="110">Outreach</text>
+                  <text class="op-agent-glyph complete" x="46" y="138">●</text>
+                </g>
+                <g>
+                  <rect class="op-plate judgment" x="174" y="96" width="80" height="70" rx="4"/>
+                  <text class="op-plate-label judgment" x="214" y="110">Judgment</text>
+                  <text class="op-agent-glyph refused" x="214" y="138">⊘</text>
+                </g>
+                <g>
+                  <rect class="op-plate synthesis" x="50" y="190" width="160" height="56" rx="4"/>
+                  <text class="op-plate-label synthesis" x="130" y="204">Synthesis</text>
+                  <text class="op-agent-glyph complete" x="130" y="228">●</text>
+                </g>
+                <circle class="op-center-orb is-sealed" cx="130" cy="130" r="16"/>
+                <text class="op-center-mark" x="130" y="135">◇</text>
+              </svg>
+            </div>
+            <p class="op-phase-caption">sealed, <strong>vault committed</strong></p>
+            <div class="op-sealed-note">This run is sealed. <strong>Vault pulse, +1 packet.</strong> A redirect from here opens a new loop, not this one.</div>
+          </div>
+
+          <div class="op-agents-panel" data-panel="vault">
+            <div class="op-orbital">
+              <svg class="op-orb-svg" viewBox="0 0 260 260" preserveAspectRatio="xMidYMid meet">
+                <g>
+                  <rect class="op-plate diligence" x="50" y="14" width="160" height="56" rx="4"/>
+                  <text class="op-plate-label diligence" x="130" y="28">Diligence</text>
+                  <text class="op-agent-glyph complete" x="130" y="52">●</text>
+                </g>
+                <g>
+                  <rect class="op-plate outreach" x="6" y="96" width="80" height="70" rx="4"/>
+                  <text class="op-plate-label outreach" x="46" y="110">Outreach</text>
+                  <text class="op-agent-glyph complete" x="46" y="138">●</text>
+                </g>
+                <g>
+                  <rect class="op-plate judgment" x="174" y="96" width="80" height="70" rx="4"/>
+                  <text class="op-plate-label judgment" x="214" y="110">Judgment</text>
+                  <text class="op-agent-glyph refused" x="214" y="138">⊘</text>
+                </g>
+                <g>
+                  <rect class="op-plate synthesis" x="50" y="190" width="160" height="56" rx="4"/>
+                  <text class="op-plate-label synthesis" x="130" y="204">Synthesis</text>
+                  <text class="op-agent-glyph complete" x="130" y="228">●</text>
+                </g>
+                <circle class="op-center-orb is-sealed" cx="130" cy="130" r="16"/>
+                <text class="op-center-mark" x="130" y="135">◇</text>
+              </svg>
+            </div>
+            <p class="op-phase-caption">sealed, <strong>vault committed</strong></p>
+            <div class="op-feeds-list">
+              This loop feeds <span class="op-badge st-blocked"><span class="op-dot"></span>vault schema decision</span>
+            </div>
+          </div>
+
+        </div>
+      </aside>
+
+      <!-- ZONE 4 · intake dock -->
+      <section class="op-dock">
+        <div class="op-dock-head">
+          <span class="op-dock-pill"><span class="op-diamond-mark">◇</span>Intake</span>
+          <div class="op-triage">
+            <button class="op-btn" type="button">Select</button>
+            <button class="op-btn" type="button">Clear</button>
+            <button class="op-btn is-primary" type="button">Place</button>
+            <button class="op-btn" type="button">Ack</button>
+            <button class="op-btn is-quiet" type="button">Archive</button>
+          </div>
+        </div>
+        <div class="op-dock-body">
+          <div class="op-capture">
+            <div class="op-capture-tabs">
+              <button class="op-capture-tab is-active" type="button">Typed</button>
+              <button class="op-capture-tab is-staged" type="button">Voice, staged</button>
+            </div>
+            <textarea placeholder="Paste a thread, forward an email, drop a screenshot. Or just type what's stuck."></textarea>
+          </div>
+          <div class="op-tile-groups">
+            <div class="op-tile-group">
+              <div class="op-tile-group-label">Captured now</div>
+              <div class="op-tiles">
+                <div class="op-tile">
+                  <div class="op-tile-bar">
+                    <span class="op-tile-led red"></span><span class="op-tile-led yellow"></span><span class="op-tile-led green"></span>
+                    <span class="op-tile-src">email</span>
+                    <span class="op-tile-live is-live"></span>
+                  </div>
+                  <div class="op-tile-body">
+                    <p class="op-tile-title">Devon, counter-offer thread</p>
+                    <p class="op-tile-note">attached to Hire decision</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="op-tile-group">
+              <div class="op-tile-group-label">Signals</div>
+              <div class="op-tiles">
+                <div class="op-tile">
+                  <div class="op-tile-bar">
+                    <span class="op-tile-led red"></span><span class="op-tile-led yellow"></span><span class="op-tile-led green"></span>
+                    <span class="op-tile-src">email</span>
+                    <span class="op-tile-live is-live"></span>
+                  </div>
+                  <div class="op-tile-body">
+                    <p class="op-tile-title">SR007, partner reply landed</p>
+                    <p class="op-tile-note">new, unattached</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="op-tile-group">
+              <div class="op-tile-group-label">Recent</div>
+              <div class="op-tiles">
+                <div class="op-tile">
+                  <div class="op-tile-bar">
+                    <span class="op-tile-led red"></span><span class="op-tile-led yellow"></span><span class="op-tile-led green"></span>
+                    <span class="op-tile-src">calendar</span>
+                    <span class="op-tile-live"></span>
+                  </div>
+                  <div class="op-tile-body">
+                    <p class="op-tile-title">Design partner, kickoff hold</p>
+                    <p class="op-tile-note">2d ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="op-tile-group">
+              <div class="op-tile-group-label">Corpus</div>
+              <div class="op-tiles">
+                <div class="op-tile">
+                  <div class="op-tile-bar">
+                    <span class="op-tile-led red"></span><span class="op-tile-led yellow"></span><span class="op-tile-led green"></span>
+                    <span class="op-tile-src">vault</span>
+                    <span class="op-tile-live"></span>
+                  </div>
+                  <div class="op-tile-body">
+                    <p class="op-tile-title">Last quarter's hiring decisions</p>
+                    <p class="op-tile-note">3 packets</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="op-tile-group">
+              <div class="op-tile-group-label">Manual</div>
+              <div class="op-tiles">
+                <div class="op-tile is-manual">
+                  <div class="op-tile-body">+ add a source</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="op-dock-foot">Drop attaches a source to the active loop. Everything else here is staged.</p>
+      </section>
+
+    </main>
+
+  </div><!-- /.frame -->
+</div><!-- /.stage -->
+
+<script>
+(function () {
+  "use strict";
+  var plane = document.getElementById('op-plane');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.op-scene-tab'));
+  var liveLabel = document.getElementById('op-agents-live');
+  var badgeHire = document.getElementById('op-badge-hire');
+  var loopmapCount = document.getElementById('op-loopmap-count');
+
+  var stageMap = {
+    rest:       ['brain-dump'],
+    proposals:  ['work-stream'],
+    running:    ['loop', 'agent-run'],
+    judgment:   ['read', 'correction'],
+    closure:    ['signed-packet'],
+    vault:      ['vault-item']
+  };
+  var liveMap = {
+    rest: 'idle', proposals: 'idle', running: 'live',
+    judgment: 'read complete', closure: 'sealed', vault: 'sealed'
+  };
+
+  function setScene(scene) {
+    plane.setAttribute('data-scene', scene);
+    tabs.forEach(function (t) {
+      var active = t.getAttribute('data-scene') === scene;
+      t.classList.toggle('is-active', active);
+      t.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    var active = stageMap[scene] || [];
+    document.querySelectorAll('.op-stage-chip').forEach(function (c) {
+      c.classList.toggle('is-active', active.indexOf(c.getAttribute('data-stage')) > -1);
+    });
+    liveLabel.textContent = liveMap[scene] || 'idle';
+    liveLabel.classList.toggle('is-live', scene === 'running');
+    if (badgeHire) {
+      badgeHire.className = 'op-badge ' + (scene === 'running' ? 'st-running' : 'st-queued');
+      badgeHire.innerHTML = '<span class="op-dot"></span>' + (scene === 'running' ? 'running' : 'confirmed');
+    }
+    if (loopmapCount) {
+      loopmapCount.textContent = scene === 'running' ? '3 running · 2 awaiting you' : '2 running · 2 awaiting you';
+    }
+  }
+
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { setScene(t.getAttribute('data-scene')); });
+  });
+
+  // small cosmetic interactivity, correction block + capture tabs
+  document.querySelectorAll('.op-radio-row').forEach(function (group) {
+    group.querySelectorAll('.op-radio').forEach(function (r) {
+      r.addEventListener('click', function () {
+        group.querySelectorAll('.op-radio').forEach(function (o) { o.classList.remove('is-selected'); });
+        r.classList.add('is-selected');
+      });
+    });
+  });
+  document.querySelectorAll('.op-kind-chips').forEach(function (group) {
+    group.querySelectorAll('.op-chip:not(.is-emergence)').forEach(function (c) {
+      c.addEventListener('click', function () {
+        group.querySelectorAll('.op-chip:not(.is-emergence)').forEach(function (o) { o.classList.remove('is-active'); });
+        c.classList.add('is-active');
+      });
+    });
+  });
+  document.querySelectorAll('.op-capture-tabs').forEach(function (group) {
+    group.querySelectorAll('.op-capture-tab').forEach(function (t) {
+      t.addEventListener('click', function () {
+        group.querySelectorAll('.op-capture-tab').forEach(function (o) { o.classList.remove('is-active'); });
+        t.classList.add('is-active');
+      });
+    });
+  });
+  document.querySelectorAll('.op-vault-row').forEach(function (row) {
+    row.addEventListener('click', function () {
+      document.querySelectorAll('.op-vault-row').forEach(function (o) { o.classList.remove('is-selected'); });
+      row.classList.add('is-selected');
+    });
+  });
+
+  setScene('rest');
+})();
+</script>
+
+<script src="../lib/surface-nav.js"></script>
+</body>
+</html>
