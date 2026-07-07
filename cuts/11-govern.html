@@ -1106,7 +1106,7 @@ function renderRegistry(){
   const list=REGISTRY_DATA||AGENTS;
   const cards=list.map(agentCardHTML).join('');
   const verifiable=!!REGISTRY_DATA;
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> · a real survived/landed score plus an integrity hash. ${verifiable?'Verified agents are attested on the trustless registry (Algorand TestNet, proven at Berlin); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
+  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> · a real survived/landed score plus an integrity hash. ${verifiable?'Verified agents carry registry attestation (proven at Berlin on Algorand TestNet; product anchoring optional/roadmap); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
 }
 function renderLog(){
   body.dataset.surface='log';
