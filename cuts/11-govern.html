@@ -519,7 +519,7 @@ let USAGE=[
 ];
 let AGENTS=[
   {name:'Claude Opus 4.8',type:'frontier_model',badges:[['ok','verified'],['warn','high cost']],lanes:['product_dev','security_hardening','architecture_review']},
-  {name:'CalendarOps Agent',type:'internal_agent',badges:[['ok','verified'],['cost','low · ~10% of Opus']],lanes:['calendar_management','scheduling'],prov:'registry-verified (Algorand trustless agent registry) · internal-platform'},
+  {name:'CalendarOps Agent',type:'internal_agent',badges:[['ok','verified'],['cost','low · ~10% of Opus']],lanes:['calendar_management','scheduling'],prov:'registry-verified (trustless agent registry · design concept — on-chain optional/roadmap) · internal-platform'},
   {name:'DigestBot',type:'internal_agent · claude-haiku-4-5',badges:[['ok','verified'],['cost','low · ~5% of Opus']],lanes:['summarization','digests'],prov:'registry-verified'},
   {name:'Analyst (bounded)',type:'internal_agent',badges:[['ok','verified']],lanes:['diligence','analysis']},
 ];
@@ -1106,7 +1106,7 @@ function renderRegistry(){
   const list=REGISTRY_DATA||AGENTS;
   const cards=list.map(agentCardHTML).join('');
   const verifiable=!!REGISTRY_DATA;
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> · a real survived/landed score plus an integrity hash. ${verifiable?'Verified agents are attested on the trustless registry (Algorand TestNet, proven at Berlin); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
+  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> · a real survived/landed score plus an integrity hash. ${verifiable?'Verified agents carry registry attestation (proven at Berlin on Algorand TestNet; product anchoring optional/roadmap); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
 }
 function renderLog(){
   body.dataset.surface='log';
