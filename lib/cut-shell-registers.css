@@ -57,8 +57,8 @@
   .surface-meta {
     margin-left: auto;
     display: flex; align-items: center; gap: 14px;
-    padding-right: 4px;
-    font-family: var(--mono); font-size: 10px;
+    padding-right: var(--space-1);
+    font-family: var(--mono); font-size: var(--fs-mono-xs);
     color: var(--text-faint); letter-spacing: 0.12em;
     text-transform: uppercase;
   }
@@ -66,7 +66,7 @@
   .surface-meta .sm-banner {
     padding: 3px 9px;
     border: 1px solid var(--card-border);
-    border-radius: 3px;
+    border-radius: var(--radius-2);
     color: var(--text-mid);
     background: var(--frame-bg-3);
   }
@@ -122,23 +122,23 @@
     background: repeating-linear-gradient(135deg,
       transparent 0 8px,
       var(--wholeness-50) 8px 16px);
-    border-radius: 6px;
+    border-radius: var(--radius-4);
     pointer-events: none;
   }
   .slated-head {
     display: flex; align-items: baseline; justify-content: space-between;
-    gap: 8px; margin-bottom: 6px;
+    gap: var(--space-2); margin-bottom: var(--space-app-1-5);
   }
-  .slated-glyph { font-family: var(--mono); font-size: 11px; color: var(--p-accent); }
+  .slated-glyph { font-family: var(--mono); font-size: var(--fs-mono-sm); color: var(--p-accent); }
   .slated-source {
-    font-family: var(--mono); font-size: 9px;
+    font-family: var(--mono); font-size: var(--fs-eyebrow);
     color: var(--text-faint); letter-spacing: 0.1em;
     text-transform: uppercase;
   }
   .slated-label {
-    font-family: var(--display); font-size: 13px;
-    color: var(--text); letter-spacing: -0.01em;
-    line-height: 1.25; margin-bottom: 4px;
+    font-family: var(--display); font-size: var(--fs-mono-lg);
+    color: var(--text); letter-spacing: var(--ls-app-normal);
+    line-height: 1.25; margin-bottom: var(--space-1);
   }
   .slated.is-refused .slated-label { color: var(--judgment); text-decoration: line-through; text-decoration-thickness: 1px; }
   .slated-note {
@@ -147,12 +147,12 @@
   }
   .slated-refusal {
     font-family: var(--mono); font-size: 9.5px;
-    color: var(--judgment); letter-spacing: 0.06em;
+    color: var(--judgment); letter-spacing: var(--ls-app-wide);
     line-height: 1.4;
   }
   .slated .slated-x {
     position: absolute; top: 4px; right: 6px;
-    font-family: var(--mono); font-size: 13px;
+    font-family: var(--mono); font-size: var(--fs-mono-lg);
     color: var(--text-faint);
     line-height: 1;
     cursor: pointer;
@@ -172,7 +172,7 @@
   }
   .slated.is-sparkline .sparkline {
     width: 100%; height: 56px;
-    margin-top: 8px;
+    margin-top: var(--space-2);
     display: block;
   }
   .sparkline path { fill: none; stroke-width: 1.5; }
@@ -182,8 +182,8 @@
   .sparkline-meta {
     display: flex; justify-content: space-between;
     font-family: var(--mono); font-size: 9.5px;
-    color: var(--text-dim); margin-top: 6px;
-    letter-spacing: 0.06em;
+    color: var(--text-dim); margin-top: var(--space-app-1-5);
+    letter-spacing: var(--ls-app-wide);
   }
   .sparkline-meta .delta { color: var(--judgment); }
 
@@ -197,25 +197,25 @@
   }
   .rail-right-header {
     display: flex; justify-content: space-between;
-    padding: 0 18px 12px;
+    padding: 0 18px var(--space-3);
     border-bottom: 1px solid var(--frame-border);
     margin-bottom: 14px;
-    font-family: var(--mono); font-size: 10px;
-    color: var(--text-faint); letter-spacing: 0.16em;
+    font-family: var(--mono); font-size: var(--fs-mono-xs);
+    color: var(--text-faint); letter-spacing: var(--ls-mono-sm);
     text-transform: uppercase;
   }
   .rail-right-header .live-indicator { color: var(--good); }
   .register-block {
     padding: 0 18px 14px;
-    margin-bottom: 12px;
+    margin-bottom: var(--space-3);
     border-bottom: 1px solid var(--card-border);
   }
   .register-block:last-child { border-bottom: none; }
   .reg-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-  .reg-name-block { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .reg-name-block { font-family: var(--mono); font-size: var(--fs-mono-xs); letter-spacing: var(--ls-mono-sm); text-transform: uppercase; }
   .reg-status .status {
-    font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
-    padding: 2px 6px; border-radius: 3px;
+    font-family: var(--mono); font-size: var(--fs-eyebrow); letter-spacing: var(--ls-app-wider);
+    padding: var(--space-app-0-5) var(--space-app-1-5); border-radius: var(--radius-2);
   }
   .register-block.diligence .reg-name-block { color: var(--diligence); }
   .register-block.synthesis .reg-name-block { color: var(--synthesis); }
@@ -225,18 +225,18 @@
   .reg-status .status.active  { color: var(--p-accent); border: 1px solid var(--p-accent-edge); background: var(--p-accent-bg); }
   .reg-status .status.refused { color: var(--judgment); border: 1px solid var(--judgment-edge); background: var(--judgment-bg); }
   .reg-status .status.routing { color: var(--judgment); border: 1px solid var(--judgment-edge); background: var(--judgment-bg); }
-  .reg-agents { display: flex; flex-direction: column; gap: 2px; position: relative; }
+  .reg-agents { display: flex; flex-direction: column; gap: var(--space-app-0-5); position: relative; }
   .reg-agent {
     display: flex; justify-content: space-between; align-items: center;
-    padding: 5px 8px 5px 18px;
+    padding: 5px var(--space-2) 5px 18px;
     font-family: var(--display); font-size: 12.5px; color: var(--text-mid);
-    border-radius: 3px;
+    border-radius: var(--radius-2);
     transition: color 220ms, background 220ms;
     position: relative;
   }
-  .reg-agent .ra-name { letter-spacing: -0.01em; flex: 1; min-width: 0; }
+  .reg-agent .ra-name { letter-spacing: var(--ls-app-normal); flex: 1; min-width: 0; }
   .reg-agent .ra-detail {
-    font-family: var(--mono); font-size: 9px;
+    font-family: var(--mono); font-size: var(--fs-eyebrow);
     color: var(--text-faint);
     letter-spacing: 0.12em;
     text-transform: uppercase;
