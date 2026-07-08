@@ -15,7 +15,7 @@
 <meta property="og:description" content="The layer Palantir doesn't have. Surface drift before plan hatches.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!--
   Promoted catalog cut · Team Coherence Telemetry (Devon DRIFT)
@@ -24,6 +24,8 @@
   local :root only extends them, it does not redefine the 12-wheel hues.
 -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<!-- canon faces · loads NinetiesHeadliner + PerfectlyNineties @font-face, sets --display/--serif (de-fork 2026-07-08) -->
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
   :root {
@@ -35,22 +37,19 @@
     --card-border:  #232327;
     --card-border-2:#2A2A2F;
 
-    --diligence:  #8E66FB;
-    --outreach:   #3EE878;
-    --judgment:   #E90095;
-    --synthesis:  #FFD24A;
+    /* Register hues inherit canon (de-fork · founder ruling 2026-07-08): canon
+       --diligence=clarity #8E66FB and --judgment=wholeness #E90095 already matched
+       the former fork; --outreach/--synthesis now resolve to canon connection/agency. */
 
-    /* telemetry-choreography register · data-semantic tokens (NOT brand drift).
-       drift/good/queued encode telemetry states, not the 12-wheel. Documented sub-register
-       per DESIGN_SYSTEM_RECONCILIATION_PLAN_2026-06-12.md §3 (Amendment 2.3). The canonical
-       register redefinitions above (--diligence etc.) + the Fraunces/Newsreader font choice
-       are a SEPARATE, founder-gated question — see that plan's telemetry-choreography sub-register. */
-    --drift:      #F04040;
-    --drift-bg:   rgba(240,64,64,0.06);
-    --drift-soft: rgba(240,64,64,0.32);
+    /* Telemetry-choreography register · data-semantic states (NOT the 12-wheel).
+       drift/good/queued encode telemetry, repointed to canon's CURRENT semantics
+       (was pinned to pre-migration retired hexes). */
+    --drift:      var(--alarm);          /* was #F04040 */
+    --drift-bg:   var(--stability-bg);   /* was rgba(240,64,64,0.06) */
+    --drift-soft: var(--stability-edge); /* was rgba(240,64,64,0.32) */
 
-    --good:       #45C9A3;
-    --queued:     #F5A524;
+    /* --good inherits canon (--connection green) · was #45C9A3 */
+    --queued:     var(--amber);          /* was #F5A524 */
 
     --text:       #F4F2EE;
     --text-mid:   #C9C5BD;
@@ -59,8 +58,7 @@
        retired #5A5852 here; it measured sub-AA for the small mono forensic labels. */
     --text-mute:  #3A3833;
 
-    --display: "Fraunces", "Newsreader", Georgia, serif;
-    --serif:   "Newsreader", "Iowan Old Style", Georgia, serif;
+    /* --display / --serif inherit brand-upgrade.css (NinetiesHeadliner / PerfectlyNineties) */
     --sans:    "Geist", system-ui, -apple-system, sans-serif;
     --mono:    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
@@ -185,9 +183,7 @@
     color: var(--text-mid);
     letter-spacing: -0.012em;
     line-height: 1.1;
-    margin-top: 2px;
-    font-variation-settings: "opsz" 24, "SOFT" 60;
-  }
+    margin-top: 2px;  }
   .phase.active .label { color: var(--text); }
   .phase.p1 { --phase-color: var(--diligence); }
   .phase.p2 { --phase-color: var(--synthesis); }
@@ -250,9 +246,7 @@
     font-size: 16px;
     letter-spacing: -0.014em;
     color: var(--text);
-    line-height: 1;
-    font-variation-settings: "opsz" 24, "SOFT" 60;
-  }
+    line-height: 1;  }
   .person .role {
     font-family: var(--mono);
     font-size: 9.5px;
@@ -332,9 +326,7 @@
     font-style: italic;
     color: var(--text);
     line-height: 1.05;
-    letter-spacing: -0.025em;
-    font-variation-settings: "opsz" 96, "SOFT" 100;
-    margin-top: -8px;
+    letter-spacing: -0.025em;    margin-top: -8px;
   }
   .doc-title .pink { color: var(--judgment); }
 
@@ -366,9 +358,7 @@
     font-style: italic;
     font-size: 24px;
     letter-spacing: -0.018em;
-    color: var(--text);
-    font-variation-settings: "opsz" 36, "SOFT" 80;
-  }
+    color: var(--text);  }
   .drift-card .who-role {
     font-family: var(--mono);
     font-size: 10px;
@@ -649,9 +639,7 @@
     font-size: 16px;
     line-height: 1.4;
     color: var(--text-mid);
-    letter-spacing: -0.012em;
-    font-variation-settings: "opsz" 24, "SOFT" 60;
-  }
+    letter-spacing: -0.012em;  }
   .palantir-line .pink { color: var(--judgment); }
 
   /* toast */
