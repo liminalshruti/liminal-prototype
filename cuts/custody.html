@@ -1844,22 +1844,24 @@ function setMode(mode) {
     modeDefense.classList.remove("active");
   }
 
-  // Initialize engine per mode config
+  // Initialize engine per mode config (Run-B C1/C5/C9 adjudication)
   const engineConfig = mode === "defense"
     ? {
         subject: "custody",
-        sealChoreography: "instant",
+        sealChoreography: "instant",  // C1: operator surface
         correctionModel: "rule-gate",
-        refusalFlavor: "system",
-        motionTier: "ambient"
+        refusalFlavor: "system",  // C5: system-hold refusal
+        refusalTimingMs: 320,  // C5: unified timing
+        motionTier: "ambient"  // C9: 16s map sweep ambient only
       }
     : {
         subject: "osint",
-        sealChoreography: "rise",
-        sealRiseMs: 500,
+        sealChoreography: "rise",  // C1: demo surface
+        sealRiseMs: 500,  // C1: kernel-driven dispo rise
         correctionModel: "visible-clause",
-        refusalFlavor: "agent",
-        motionTier: "refined"
+        refusalFlavor: "agent",  // C5: specialist refusal flavor
+        refusalTimingMs: 320,  // C5: unified timing
+        motionTier: "refined"  // C9: aggressive motion handling
       };
 
   initLoopEngine(engineConfig);
