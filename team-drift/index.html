@@ -55,7 +55,8 @@
     --text:       #F4F2EE;
     --text-mid:   #C9C5BD;
     --text-dim:   #8A8780;
-    --text-faint: #5A5852;
+    /* --text-faint inherits canon (#807D78 · WCAG-AA fix) — do NOT re-pin the
+       retired #5A5852 here; it measured sub-AA for the small mono forensic labels. */
     --text-mute:  #3A3833;
 
     --display: "Fraunces", "Newsreader", Georgia, serif;
@@ -676,6 +677,25 @@
     0%, 60% { transform: translateX(360px); opacity: 0; }
     66%, 76% { transform: translateX(0); opacity: 1; }
     78%, 100% { transform: translateX(360px); opacity: 0; }
+  }
+
+  /* ─── reduced-motion (canon-mandated · C8) ───
+     This surface is a 12s auto-playing loop where much of the content rests at
+     opacity:0 / collapsed and is only revealed mid-cycle. A blunt `animation:none`
+     would freeze all of it hidden — the C8 trap. So we stop motion AND assert the
+     revealed end-state (the design's own expanded values), so a still viewer sees
+     the full, legible surface. Transient overlays (toast, virtual cursor, button
+     flash) correctly stay at their rest-hidden base state. */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .person .tag-queued { opacity: 1 !important; }
+    .drift-card { max-height: 540px !important; }
+    .drift-detail { opacity: 1 !important; }
+    svg.sparkline .line-int,
+    svg.sparkline .line-ext { stroke-dashoffset: 0 !important; }
+    svg.sparkline .gap { opacity: 1 !important; }
+    .calib-block { opacity: 1 !important; transform: none !important; }
+    .gov-row.new { opacity: 1 !important; transform: translateX(0) !important; }
   }
 
   /* commandbar — non-functional, signals "interactive even if static" */
