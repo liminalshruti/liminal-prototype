@@ -10,15 +10,20 @@
   A SUBJECT of cut 00 (counterintelligence) — same loop at the high-stakes altitude,
   proof-of-travel, NOT a separate product. (Register divergence documented below.)
   ──────────────────────────────────────────────────────────────────────
-  Promoted catalog cut · listed from index.html. DELIBERATELY self-contained: file://-safe,
-  system-monospace only, severity-by-weight-not-color. It does NOT import design-tokens.css —
-  that divergence is the point (a high-assurance operator surface, not the brand register).
-  REGISTER: high-assurance-monochrome (a documented sub-register, NOT drift). Deviations from
-  core — system-monospace, zero color differentiation, severity by border-thickness + font-weight —
-  are intentional and load-bearing. See DESIGN_SYSTEM_RECONCILIATION_PLAN_2026-06-12.md §2 +
-  proposed canon Amendment 2.1. Do not force token import.
-  See cuts/CONTRIBUTING.md for when a divergent shell is acceptable.
+  Promoted catalog cut · listed from index.html. RE-SKINNED onto canon (founder
+  ruling 2026-07-08): imports canon tokens + brand faces; the local :root names are
+  kept but repointed to the canon cream/ink substrate; the three-voice type stack is
+  restored (Geist Mono data voice + brand display/serif prose). The color-independent
+  severity (border-weight) + timeline-perimeter (shape) encodings are PRESERVED — that
+  was the surface's genuinely canon-aligned a11y move. (The prior fork rationale cited
+  a reconciliation-plan doc + "Amendment 2.1" that never existed in the repo.)
+  See cuts/CONTRIBUTING.md for the divergent-shell contract.
 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
 <style>
 /* ─────────────────────────────────────────────────────────────────────
    LIMINAL MOLEHUNT — Counterintelligence Analyst Console
@@ -28,22 +33,22 @@
    ───────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* monochrome ink + paper system */
-  --paper:        #f5f3ee;        /* ledger off-white */
-  --paper-2:      #ecebe5;        /* table-stripe / panel fill */
-  --paper-3:      #e2e0d8;        /* well */
-  --rule:         #1a1a1a;        /* full-strength rule */
-  --rule-2:       #6b6b66;        /* mid rule */
-  --rule-3:       #b6b3aa;        /* hairline */
-  --ink:          #111111;        /* body text */
-  --ink-2:        #3a3a36;        /* secondary */
-  --ink-3:        #6e6c66;        /* tertiary / metadata */
-  --ink-4:        #8e8c84;        /* quaternary */
-  --hash:         #2a2a26;        /* monospace runs */
+  /* ink + paper system — repointed onto the canon cream/ink substrate (names kept) */
+  --paper:        var(--cream-100);   /* ledger off-white */
+  --paper-2:      var(--cream-200);   /* table-stripe / panel fill */
+  --paper-3:      var(--cream-300);   /* well */
+  --rule:         var(--cream-900);   /* full-strength rule */
+  --rule-2:       var(--cream-600);   /* mid rule */
+  --rule-3:       var(--cream-400);   /* hairline */
+  --ink:          var(--cream-900);   /* body text */
+  --ink-2:        var(--cream-800);   /* secondary */
+  --ink-3:        var(--cream-700);   /* tertiary / metadata (darkened to AA) */
+  --ink-4:        var(--cream-600);   /* quaternary (darkened to AA) */
+  --hash:         var(--cream-800);   /* monospace runs */
 
   /* the single accent — reserved for WPA parallel review only */
-  --accent:       #1c3a5e;        /* oxidised navy */
-  --accent-fill:  #d8dee6;        /* WPA banner fill */
+  --accent:       var(--diligence);      /* canon register (was oxidised navy) */
+  --accent-fill:  var(--diligence-100);  /* WPA banner fill (light clarity tint) */
 
   /* density variables (tweakable) */
   --u:            4px;            /* unit */
@@ -64,13 +69,13 @@
   --rule-med:     1.75px;
   --rule-low:     0.75px;
 
-  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 /* ── Reset ─────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; padding: 0; }
-html { background: #d8d6cf; }
+html { background: var(--cream-300); }
 body {
   font-family: var(--mono);
   font-size: var(--fs-body);
@@ -274,7 +279,8 @@ a { color: inherit; }
   align-items: baseline;
 }
 .subject-id-block .pseudo {
-  font-size: 22px; font-weight: 700; letter-spacing: 0.04em;
+  font-family: var(--display);
+  font-size: 22px; font-weight: 700; letter-spacing: -0.01em;
 }
 .subject-id-block .pseudo .pname {
   font-size: var(--fs-meta); color: var(--ink-3); font-weight: 500;
@@ -313,9 +319,10 @@ a { color: inherit; }
   color: var(--ink-3);
 }
 .tier-value {
+  font-family: var(--display);
   font-size: var(--fs-tier);
   font-weight: 700;
-  letter-spacing: 0.01em;
+  letter-spacing: -0.01em;
   line-height: 1;
 }
 .tier-value .slash { color: var(--ink-3); margin: 0 6px; font-weight: 400; }
@@ -514,7 +521,8 @@ a { color: inherit; }
 }
 
 .action-body {
-  font-size: var(--fs-meta);
+  font-family: var(--serif);
+  font-size: var(--fs-sm);
   color: var(--ink);
   line-height: 1.5;
   white-space: pre-line;
@@ -556,8 +564,9 @@ a { color: inherit; }
   letter-spacing: 0.1em;
 }
 .alt-h-body {
-  font-size: 13px;
-  line-height: 1.5;
+  font-family: var(--serif);
+  font-size: var(--fs-sm);
+  line-height: 1.55;
   color: var(--ink);
   max-width: 78ch;
   text-wrap: pretty;
@@ -958,22 +967,22 @@ body.accent-flags .flag .fname { color: var(--accent); }
 
 /* ── DARK MODE — institutional, no neon ───────────────────────────── */
 body.theme-dark {
-  --paper:        #14140f;
-  --paper-2:      #1c1c17;
-  --paper-3:      #232320;
-  --rule:         #d8d6cf;
-  --rule-2:       #5a5a55;
-  --rule-3:       #38382f;
-  --ink:          #ece8de;
-  --ink-2:        #c0bdb3;
-  --ink-3:        #8a877e;
-  --ink-4:        #5a5750;
-  --hash:         #e8e4d8;
-  --accent:       #94b3d6;
-  --accent-fill:  #1f2a38;
+  --paper:        var(--frame-bg);
+  --paper-2:      var(--frame-bg-2);
+  --paper-3:      var(--frame-bg-3);
+  --rule:         var(--text);
+  --rule-2:       var(--text-dim);
+  --rule-3:       var(--frame-border);
+  --ink:          var(--text);
+  --ink-2:        var(--text-mid);
+  --ink-3:        var(--text-dim);
+  --ink-4:        var(--text-faint);
+  --hash:         var(--text-mid);
+  --accent:       var(--diligence);
+  --accent-fill:  var(--diligence-bg);
 }
-body.theme-dark { background: var(--paper); }
-body.theme-dark html { background: #0a0a08; }
+body.theme-dark { background: var(--bg); }
+body.theme-dark html { background: var(--bg); }
 
 /* ── PRINT — defensible PDF dossier ───────────────────────────────── */
 @media print {
