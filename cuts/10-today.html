@@ -82,19 +82,19 @@
   /* crumb in the titlebar */
   .tdy-crumb {
     font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 11px;
+    font-size: var(--fs-mono-sm);
     letter-spacing: 0.04em;
     color: var(--text-soft);
   }
   .tdy-crumb b { color: var(--text); font-weight: 500; }
   .tdy-vault-pill {
     font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 10px;
+    font-size: var(--fs-mono-xs);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-soft);
     border: 1px solid var(--border-soft);
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     padding: 3px 10px;
   }
   .tdy-vault-pill .glyph { color: var(--ink-clarity); }
@@ -112,8 +112,8 @@
   .tdy-head { max-width: 1080px; margin: 0 auto 2rem; }
   .tdy-eyebrow {
     font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 10px;
-    letter-spacing: 0.18em;
+    font-size: var(--fs-mono-xs);
+    letter-spacing: var(--ls-mono);
     text-transform: uppercase;
     color: var(--ink-clarity);
     margin-bottom: 0.9rem;
@@ -148,8 +148,8 @@
 
   .tdy-section-label {
     font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 10px;
-    letter-spacing: 0.16em;
+    font-size: var(--fs-mono-xs);
+    letter-spacing: var(--ls-mono-sm);
     text-transform: uppercase;
     color: var(--text-soft);
     display: flex;
@@ -170,11 +170,11 @@
   .tdy-tags { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
   .tdy-tag {
     font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 9px;
+    font-size: var(--fs-eyebrow);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    padding: 3px 8px;
-    border-radius: 4px;
+    padding: 3px var(--space-2);
+    border-radius: var(--radius-3);
     border: 1px solid var(--border);
     color: var(--text-soft);
   }
@@ -187,7 +187,7 @@
     font-style: italic;
     font-size: 1.7rem;
     color: var(--ink-warn);
-    letter-spacing: -0.01em;
+    letter-spacing: var(--ls-app-normal);
     margin-bottom: 0.7rem;
   }
   .tdy-decision-body {
@@ -202,7 +202,7 @@
   .tdy-receipt {
     font-family: var(--mono, "Geist Mono", monospace);
     font-size: 9.5px;
-    letter-spacing: 0.06em;
+    letter-spacing: var(--ls-app-wide);
     color: var(--text-faint, #4A4A52);
     margin-bottom: 1.2rem;
   }
@@ -211,10 +211,10 @@
   .tdy-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
   .tdy-btn {
     font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 11px;
+    font-size: var(--fs-mono-sm);
     letter-spacing: 0.04em;
-    padding: 9px 16px;
-    border-radius: 6px;
+    padding: 9px var(--space-4);
+    border-radius: var(--radius-4);
     border: 1px solid var(--border);
     background: transparent;
     color: var(--text-mid);
@@ -253,7 +253,7 @@
   .tdy-rcard-age {
     margin-left: auto;
     font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 9px;
+    font-size: var(--fs-eyebrow);
     letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--text-faint, #4A4A52);
@@ -278,7 +278,7 @@
     font-size: 1.3rem;
     line-height: 1.25;
     color: var(--text);
-    letter-spacing: -0.01em;
+    letter-spacing: var(--ls-app-normal);
     margin-bottom: 0.7rem;
   }
   .tdy-loop-sub {
@@ -296,7 +296,7 @@
     font-size: 0.9rem;
     text-align: left;
     padding: 0.85rem 1.1rem;
-    border-radius: 6px;
+    border-radius: var(--radius-4);
     border: 1px solid var(--border);
     background: var(--paper);
     color: var(--text-mid);
@@ -379,8 +379,8 @@
   }
   .tdy-state-eyebrow {
     font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 9px;
-    letter-spacing: 0.14em;
+    font-size: var(--fs-eyebrow);
+    letter-spacing: var(--ls-app-wider);
     text-transform: uppercase;
     color: var(--ink-amber);
     margin-bottom: 0.7rem;
@@ -405,7 +405,7 @@
   .tdy-tray-glyph { color: var(--ink-clarity); font-size: 1.1rem; margin-bottom: 0.5rem; }
   .tdy-tray-text {
     font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 10px;
+    font-size: var(--fs-mono-xs);
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--text-soft);

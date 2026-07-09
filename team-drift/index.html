@@ -94,7 +94,7 @@
     height: 920px;
     background: var(--frame-bg);
     border: 1px solid var(--frame-border);
-    border-radius: 14px;
+    border-radius: var(--radius-5);
     box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.02) inset;
     display: grid;
     grid-template-rows: 44px 56px 1fr 56px;
@@ -112,34 +112,34 @@
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 var(--space-4);
     border-bottom: 1px solid var(--frame-border);
     background: rgba(255,255,255,0.005);
     user-select: none;
   }
-  .lights { display: flex; gap: 8px; }
+  .lights { display: flex; gap: var(--space-2); }
   .light { width: 12px; height: 12px; border-radius: 50%; }
   .light.r { background: #FF5F57; } .light.y { background: #FEBC2E; } .light.g { background: #28C840; }
   .title {
     font-family: var(--display);
     font-style: italic;
-    font-size: 18px;
+    font-size: var(--fs-app-h2);
     letter-spacing: -0.018em;
     color: var(--text);
     text-align: center;
   }
-  .title .glyph { color: var(--diligence); margin-right: 10px; font-family: var(--mono); font-style: normal; font-size: 14px; vertical-align: 2px; }
-  .title .crumb { color: var(--text-dim); font-size: 13px; font-family: var(--sans); font-style: normal; margin-left: 6px; }
+  .title .glyph { color: var(--diligence); margin-right: 10px; font-family: var(--mono); font-style: normal; font-size: var(--fs-body); vertical-align: 2px; }
+  .title .crumb { color: var(--text-dim); font-size: var(--fs-mono-lg); font-family: var(--sans); font-style: normal; margin-left: var(--space-app-1-5); }
   .vault-pill {
     justify-self: end;
-    font-family: var(--mono); font-size: 11px;
+    font-family: var(--mono); font-size: var(--fs-mono-sm);
     color: var(--text-dim);
     background: rgba(142,102,251,0.05);
     border: 1px solid rgba(142,102,251,0.22);
-    padding: 5px 12px; border-radius: 5px;
+    padding: 5px var(--space-3); border-radius: 5px;
     animation: vaultIdle var(--loop) ease-in-out infinite;
   }
-  .vault-pill .diamond { color: var(--diligence); margin-right: 4px; }
+  .vault-pill .diamond { color: var(--diligence); margin-right: var(--space-1); }
   @keyframes vaultIdle {
     0%, 64%, 76%, 100% { box-shadow: 0 0 0 transparent; background: rgba(142,102,251,0.05); border-color: rgba(142,102,251,0.22); color: var(--text-dim); }
     66%, 74% { box-shadow: 0 0 26px rgba(142,102,251,0.45); background: rgba(142,102,251,0.18); border-color: var(--diligence); color: var(--text); }
@@ -150,7 +150,7 @@
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    padding: 0 16px;
+    padding: 0 var(--space-4);
     border-bottom: 1px solid var(--frame-border);
     background: var(--frame-bg-2);
   }
@@ -178,12 +178,12 @@
   .phase.active .num { color: var(--phase-color, var(--diligence)); }
   .phase .label {
     font-family: var(--display);
-    font-size: 16px;
+    font-size: var(--fs-app-lg);
     font-style: italic;
     color: var(--text-mid);
     letter-spacing: -0.012em;
     line-height: 1.1;
-    margin-top: 2px;  }
+    margin-top: var(--space-app-0-5);  }
   .phase.active .label { color: var(--text); }
   .phase.p1 { --phase-color: var(--diligence); }
   .phase.p2 { --phase-color: var(--synthesis); }
@@ -208,10 +208,10 @@
     font-family: var(--mono);
     font-size: 9.5px;
     color: var(--text-dim);
-    letter-spacing: 0.20em;
+    letter-spacing: var(--ls-mono-lg);
     text-transform: uppercase;
-    margin-bottom: 12px;
-    padding: 0 4px 8px;
+    margin-bottom: var(--space-3);
+    padding: 0 var(--space-1) var(--space-2);
     border-bottom: 1px solid var(--card-border);
     display: flex; justify-content: space-between;
   }
@@ -221,7 +221,7 @@
     padding: 10px 10px;
     border-radius: 8px;
     border: 1px solid transparent;
-    margin-bottom: 4px;
+    margin-bottom: var(--space-1);
     display: grid;
     grid-template-columns: 26px 1fr auto;
     gap: 10px;
@@ -235,7 +235,7 @@
     border: 1px solid var(--card-border);
     display: grid; place-items: center;
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: var(--fs-mono-xs);
     color: var(--text-dim);
     text-transform: uppercase;
     letter-spacing: 0.04em;
@@ -243,7 +243,7 @@
   .person .who {
     font-family: var(--display);
     font-style: italic;
-    font-size: 16px;
+    font-size: var(--fs-app-lg);
     letter-spacing: -0.014em;
     color: var(--text);
     line-height: 1;  }
@@ -253,7 +253,7 @@
     color: var(--text-faint);
     letter-spacing: 0.10em;
     text-transform: uppercase;
-    margin-top: 4px;
+    margin-top: var(--space-1);
   }
   .person.maia { background: rgba(142,102,251,0.04); border-color: rgba(142,102,251,0.18); }
   .person.maia .avatar { color: var(--diligence); border-color: rgba(142,102,251,0.4); background: rgba(142,102,251,0.10); }
@@ -277,13 +277,13 @@
     font-family: var(--mono);
     font-size: 9.5px;
     color: var(--queued);
-    letter-spacing: 0.18em;
+    letter-spacing: var(--ls-mono);
     text-transform: uppercase;
     background: rgba(245,165,36,0.08);
     border: 1px solid rgba(245,165,36,0.32);
-    padding: 2px 7px;
-    border-radius: 3px;
-    margin-left: 8px;
+    padding: var(--space-app-0-5) 7px;
+    border-radius: var(--radius-2);
+    margin-left: var(--space-2);
     opacity: 0;
     animation: tagFade var(--loop) ease infinite;
   }
@@ -293,23 +293,23 @@
   }
 
   .rail-section {
-    margin-top: 24px;
+    margin-top: var(--space-app-5);
     padding-top: 14px;
     border-top: 1px solid var(--card-border);
   }
 
   /* center · drift card */
   .doc-area {
-    padding: 28px 40px;
+    padding: var(--space-6) 40px;
     overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--space-app-5);
   }
   .doc-meta {
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: var(--fs-mono-xs);
     color: var(--text-dim);
     letter-spacing: 0.22em;
     text-transform: uppercase;
@@ -321,12 +321,12 @@
 
   .doc-title {
     font-family: var(--display);
-    font-size: 36px;
+    font-size: var(--fs-3xl);
     font-weight: 300;
     font-style: italic;
     color: var(--text);
     line-height: 1.05;
-    letter-spacing: -0.025em;    margin-top: -8px;
+    letter-spacing: var(--ls-tight);    margin-top: -8px;
   }
   .doc-title .pink { color: var(--judgment); }
 
@@ -335,7 +335,7 @@
     background: var(--frame-bg-2);
     border: 1px solid var(--card-border);
     border-radius: 12px;
-    padding: 24px 26px;
+    padding: var(--space-app-5) 26px;
     transition: max-height .8s ease, border-color .8s ease, padding .8s ease;
     position: relative;
     overflow: hidden;
@@ -350,34 +350,34 @@
   .drift-card .top-row {
     display: grid;
     grid-template-columns: auto 1fr auto;
-    gap: 16px;
+    gap: var(--space-4);
     align-items: center;
   }
   .drift-card .who-name {
     font-family: var(--display);
     font-style: italic;
-    font-size: 24px;
+    font-size: var(--fs-app-h1);
     letter-spacing: -0.018em;
     color: var(--text);  }
   .drift-card .who-role {
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: var(--fs-mono-xs);
     color: var(--text-dim);
-    letter-spacing: 0.16em;
+    letter-spacing: var(--ls-mono-sm);
     text-transform: uppercase;
-    margin-top: 4px;
+    margin-top: var(--space-1);
   }
   .drift-card .drift-status {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: var(--fs-mono-sm);
     color: var(--drift);
-    letter-spacing: 0.18em;
+    letter-spacing: var(--ls-mono);
     text-transform: uppercase;
     background: var(--drift-bg);
     border: 1px solid var(--drift-soft);
-    padding: 6px 12px;
-    border-radius: 4px;
-    display: flex; align-items: center; gap: 8px;
+    padding: var(--space-app-1-5) var(--space-3);
+    border-radius: var(--radius-3);
+    display: flex; align-items: center; gap: var(--space-2);
   }
   .drift-card .drift-status::before {
     content: "";
@@ -389,16 +389,16 @@
 
   .drift-card .summary-line {
     font-family: var(--serif);
-    font-size: 16px;
+    font-size: var(--fs-app-lg);
     line-height: 1.5;
     color: var(--text-mid);
-    margin-top: 12px;
+    margin-top: var(--space-3);
   }
   .drift-card .summary-line .accent { color: var(--drift); font-style: italic; }
 
   /* expanded section */
   .drift-detail {
-    margin-top: 16px;
+    margin-top: var(--space-4);
     opacity: 0;
     animation: detailFade var(--loop) ease infinite;
   }
@@ -417,11 +417,11 @@
   .sparkline-label {
     display: flex; justify-content: space-between;
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: var(--fs-mono-xs);
     color: var(--text-dim);
-    letter-spacing: 0.16em;
+    letter-spacing: var(--ls-mono-sm);
     text-transform: uppercase;
-    margin-bottom: 8px;
+    margin-bottom: var(--space-2);
   }
   .sparkline-label .delta { color: var(--drift); }
   svg.sparkline {
@@ -460,9 +460,9 @@
   @keyframes gapFade { 0%, 32% { opacity: 0; } 40%, 80% { opacity: 1; } 100% { opacity: 0; } }
   svg.sparkline text {
     font-family: var(--mono);
-    font-size: 9px;
+    font-size: var(--fs-eyebrow);
     fill: var(--text-faint);
-    letter-spacing: 0.06em;
+    letter-spacing: var(--ls-app-wide);
   }
 
   /* calibration block */
@@ -471,7 +471,7 @@
     background: rgba(142,102,251,0.04);
     border: 1px dashed rgba(142,102,251,0.32);
     border-radius: 8px;
-    padding: 14px 16px;
+    padding: 14px var(--space-4);
     display: grid;
     grid-template-columns: auto 1fr auto;
     gap: 14px;
@@ -491,19 +491,19 @@
     background: var(--diligence);
     color: var(--bg);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: var(--fs-mono-sm);
     display: grid; place-items: center;
     font-weight: 600;
   }
   .calib-block .text {
     font-family: var(--serif);
-    font-size: 14px;
+    font-size: var(--fs-body);
     line-height: 1.45;
     color: var(--text);
   }
   .calib-block .text .accent { color: var(--diligence); font-style: italic; }
   .calib-block .actions {
-    display: flex; gap: 8px;
+    display: flex; gap: var(--space-2);
     position: relative;
   }
   .calib-block button {
@@ -512,10 +512,10 @@
     color: white;
     border: 0;
     border-radius: 5px;
-    padding: 7px 12px;
+    padding: 7px var(--space-3);
     font-family: var(--mono);
     font-size: 10.5px;
-    letter-spacing: 0.16em;
+    letter-spacing: var(--ls-mono-sm);
     text-transform: uppercase;
     cursor: pointer;
     position: relative;
@@ -564,7 +564,7 @@
   .rail-right {
     border-left: 1px solid var(--frame-border);
     background: var(--rail-bg);
-    padding: 18px 16px;
+    padding: 18px var(--space-4);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -573,11 +573,11 @@
     font-family: var(--mono);
     font-size: 9.5px;
     color: var(--text-dim);
-    letter-spacing: 0.20em;
+    letter-spacing: var(--ls-mono-lg);
     text-transform: uppercase;
-    padding: 0 4px 10px;
+    padding: 0 var(--space-1) 10px;
     border-bottom: 1px solid var(--card-border);
-    margin-bottom: 12px;
+    margin-bottom: var(--space-3);
     display: flex;
     justify-content: space-between;
   }
@@ -591,7 +591,7 @@
     overflow: hidden;
   }
   .gov-row {
-    padding: 10px 6px;
+    padding: 10px var(--space-app-1-5);
     border-bottom: 1px solid var(--card-border);
     display: grid;
     grid-template-columns: 50px 1fr;
@@ -600,13 +600,13 @@
   }
   .gov-row .ts {
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: var(--fs-mono-xs);
     color: var(--text-faint);
     letter-spacing: 0.04em;
   }
   .gov-row .what {
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: var(--fs-mono-sm);
     color: var(--text-mid);
     line-height: 1.5;
   }
@@ -632,11 +632,11 @@
   /* palantir rail closer */
   .palantir-line {
     margin-top: auto;
-    padding: 14px 0 4px;
+    padding: 14px 0 var(--space-1);
     border-top: 1px dashed var(--card-border);
     font-family: var(--display);
     font-style: italic;
-    font-size: 16px;
+    font-size: var(--fs-app-lg);
     line-height: 1.4;
     color: var(--text-mid);
     letter-spacing: -0.012em;  }
@@ -651,16 +651,16 @@
     border: 1px solid var(--good);
     color: var(--text);
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: var(--fs-mono-sm);
     padding: 10px 14px;
-    border-radius: 6px;
+    border-radius: var(--radius-4);
     transform: translateX(360px);
     opacity: 0;
     box-shadow: 0 12px 30px rgba(0,0,0,0.5);
     z-index: 5;
     animation: toastSlide var(--loop) ease infinite;
   }
-  .toast .glyph { color: var(--good); margin-right: 6px; }
+  .toast .glyph { color: var(--good); margin-right: var(--space-app-1-5); }
   @keyframes toastSlide {
     0%, 60% { transform: translateX(360px); opacity: 0; }
     66%, 76% { transform: translateX(0); opacity: 1; }
@@ -699,14 +699,14 @@
   }
   .cmd-prefix {
     font-family: var(--mono);
-    font-size: 13px;
+    font-size: var(--fs-mono-lg);
     color: var(--diligence);
     font-weight: 500;
     letter-spacing: 0.04em;
   }
   .cmd-input {
     font-family: var(--mono);
-    font-size: 13.5px;
+    font-size: var(--fs-sm);
     color: var(--text-mid);
     letter-spacing: -0.005em;
   }
@@ -715,18 +715,18 @@
     font-family: var(--mono);
     font-size: 10.5px;
     color: var(--text-dim);
-    letter-spacing: 0.14em;
+    letter-spacing: var(--ls-app-wider);
     text-transform: uppercase;
   }
   .cmd-actions kbd {
     background: rgba(255,255,255,0.05);
     border: 1px solid var(--card-border);
-    border-radius: 3px;
-    padding: 1px 6px;
+    border-radius: var(--radius-2);
+    padding: 1px var(--space-app-1-5);
     color: var(--text);
     margin-right: 3px;
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: var(--fs-mono-xs);
   }
 
   /* brand sentence at bottom border */
@@ -736,7 +736,7 @@
     transform: translateX(-50%);
     font-family: var(--display);
     font-style: italic;
-    font-size: 13px;
+    font-size: var(--fs-mono-lg);
     color: var(--text-faint);
     letter-spacing: -0.005em;
     z-index: 2;

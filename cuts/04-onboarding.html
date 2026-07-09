@@ -93,7 +93,7 @@
   /* steprail items are now real buttons (jump-to-step) · keep them looking identical */
   .sr-item { width: 100%; text-align: left; background: transparent; border: 0; cursor: pointer; font: inherit; }
   .sr-item:not(.now):hover .nm { color: var(--text-mid); }
-  .sr-item:focus-visible { outline: 2px solid var(--ui-focus-ring, var(--clarity)); outline-offset: 2px; border-radius: var(--radius-1, 3px); }
+  .sr-item:focus-visible { outline: 2px solid var(--ui-focus-ring, var(--clarity)); outline-offset: 2px; border-radius: var(--radius-1, var(--radius-2)); }
 
   /* anchor / time picks become real selectable controls */
   .anchor-card { cursor: pointer; transition: border-color .18s var(--ease, ease), background .18s var(--ease, ease); }
@@ -106,11 +106,11 @@
     .split { grid-template-columns: 1fr; gap: var(--space-6); }
     .pane-r { padding-left: 0; border-left: 0; border-top: 1px solid var(--frame-border); padding-top: var(--space-6); }
     .anchors, .agents { grid-template-columns: 1fr; }
-    .stage-area { padding: 40px 28px 32px; }
-    .display { font-size: clamp(32px, 7vw, 56px); }
+    .stage-area { padding: 40px var(--space-6) 32px; }
+    .display { font-size: clamp(var(--fs-app-display), 7vw, var(--fs-delta)); }
   }
   @media (max-width: 560px) {
-    .stage-area { padding: 28px 18px 24px; }
+    .stage-area { padding: var(--space-6) 18px var(--space-app-5); }
     .tray-evo { grid-template-columns: repeat(3, 1fr); }
     .tray-evo .cell:nth-child(n+4) { border-top: 1px dashed var(--card-border); }
     .row { flex-wrap: wrap; gap: var(--space-4); }
