@@ -51,15 +51,6 @@
   --accent-fill:  var(--diligence-100);  /* WPA banner fill (light clarity tint) */
 
   /* density variables (tweakable) */
-  --u:            4px;            /* unit */
-  --pad-pane:     16px;
-  --pad-row:      6px;
-  --gap-col:      14px;
-  --fs-body:      12.5px;
-  --fs-meta:      11px;
-  --fs-micro:     10px;
-  --fs-tier:      28px;
-  --fs-h:         13px;
   --lh-body:      1.42;
   --weight-body:  450;
   --weight-strong:680;
@@ -78,7 +69,7 @@ html, body { margin: 0; padding: 0; }
 html { background: var(--cream-300); }
 body {
   font-family: var(--mono);
-  font-size: var(--fs-body);
+  font-size: 12.5px;
   line-height: var(--lh-body);
   font-weight: var(--weight-body);
   color: var(--ink);
@@ -102,12 +93,12 @@ a { color: inherit; }
 }
 .brand {
   border-right: 1px solid var(--rule);
-  padding: 10px 16px 8px;
-  display: flex; flex-direction: column; gap: 2px;
+  padding: 10px var(--space-4) var(--space-2);
+  display: flex; flex-direction: column; gap: var(--space-app-0-5);
 }
 .brand .mark {
   font-weight: 700; letter-spacing: 0.04em; font-size: 14px;
-  display: flex; align-items: center; gap: 8px;
+  display: flex; align-items: center; gap: var(--space-2);
 }
 .brand .mark::before {
   content: "";
@@ -117,7 +108,7 @@ a { color: inherit; }
   clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
 }
 .brand .strap {
-  font-size: var(--fs-micro); color: var(--ink-3); letter-spacing: 0.06em;
+  font-size: var(--fs-mono-xs); color: var(--ink-3); letter-spacing: var(--ls-app-wide);
   text-transform: uppercase;
 }
 
@@ -125,17 +116,17 @@ a { color: inherit; }
   display: flex; align-items: stretch;
 }
 .tab {
-  padding: 0 22px;
+  padding: 0 var(--space-5);
   border-right: 1px solid var(--rule-3);
   display: flex; align-items: center; gap: 10px;
-  font-size: var(--fs-h);
-  letter-spacing: 0.02em;
+  font-size: var(--fs-mono-lg);
+  letter-spacing: var(--ls-app-loose);
   color: var(--ink-2);
   position: relative;
   font-weight: 500;
 }
 .tab .num {
-  font-size: var(--fs-micro); color: var(--ink-4);
+  font-size: var(--fs-mono-xs); color: var(--ink-4);
   font-variant-numeric: tabular-nums;
 }
 .tab[aria-selected="true"] {
@@ -149,17 +140,17 @@ a { color: inherit; }
 }
 
 .session {
-  padding: 10px 16px 6px;
+  padding: 10px var(--space-4) var(--space-app-1-5);
   border-left: 1px solid var(--rule);
-  display: grid; grid-template-columns: auto auto; gap: 2px 16px;
-  font-size: var(--fs-micro); color: var(--ink-3);
+  display: grid; grid-template-columns: auto auto; gap: var(--space-app-0-5) var(--space-4);
+  font-size: var(--fs-mono-xs); color: var(--ink-3);
   align-content: center;
 }
-.session b { color: var(--ink); font-weight: 680; letter-spacing: 0.02em; }
+.session b { color: var(--ink); font-weight: 680; letter-spacing: var(--ls-app-loose); }
 .session .lock {
   grid-column: 1 / -1;
-  display: flex; align-items: center; gap: 6px;
-  font-size: var(--fs-micro); color: var(--ink-2);
+  display: flex; align-items: center; gap: var(--space-app-1-5);
+  font-size: var(--fs-mono-xs); color: var(--ink-2);
 }
 .session .lock::before {
   content: ""; width: 8px; height: 8px; background: var(--ink);
@@ -171,14 +162,14 @@ a { color: inherit; }
   border-bottom: 1px solid var(--rule);
   background: var(--paper-2);
   display: flex; align-items: stretch;
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-2);
-  letter-spacing: 0.02em;
+  letter-spacing: var(--ls-app-loose);
 }
 .statusstrip > div {
-  padding: 4px 14px;
+  padding: var(--space-1) 14px;
   border-right: 1px solid var(--rule-3);
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: var(--space-app-1-5);
 }
 .statusstrip b { color: var(--ink); font-weight: 680; }
 .statusstrip .spacer { flex: 1; border-right: 0; }
@@ -203,11 +194,11 @@ a { color: inherit; }
   background: var(--paper);
 }
 .rail-h {
-  padding: 10px 14px 6px;
+  padding: 10px 14px var(--space-app-1-5);
   border-bottom: 1px solid var(--rule);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-3);
-  letter-spacing: 0.06em;
+  letter-spacing: var(--ls-app-wide);
   text-transform: uppercase;
   display: flex; justify-content: space-between;
 }
@@ -216,8 +207,8 @@ a { color: inherit; }
   width: 100%;
   text-align: left;
   border-bottom: 1px solid var(--rule-3);
-  padding: 10px 14px 12px;
-  font-size: var(--fs-body);
+  padding: 10px 14px var(--space-3);
+  font-size: 12.5px;
   position: relative;
   background: transparent;
 }
@@ -232,19 +223,19 @@ a { color: inherit; }
   display: flex; justify-content: space-between; align-items: baseline;
 }
 .rail-item .rname {
-  color: var(--ink-3); font-size: var(--fs-meta);
-  letter-spacing: 0.02em;
+  color: var(--ink-3); font-size: var(--fs-mono-sm);
+  letter-spacing: var(--ls-app-loose);
 }
 .rail-item .rmeta {
-  margin-top: 4px;
-  font-size: var(--fs-micro); color: var(--ink-3);
+  margin-top: var(--space-1);
+  font-size: var(--fs-mono-xs); color: var(--ink-3);
   display: flex; gap: 10px; flex-wrap: wrap;
 }
 .rail-item .rmeta b { color: var(--ink); font-weight: 680; }
 .rail-item .rtier {
-  margin-top: 6px; font-size: var(--fs-micro); letter-spacing: 0.06em;
+  margin-top: var(--space-app-1-5); font-size: var(--fs-mono-xs); letter-spacing: var(--ls-app-wide);
   text-transform: uppercase; font-weight: 680;
-  display: flex; align-items: center; gap: 6px;
+  display: flex; align-items: center; gap: var(--space-app-1-5);
 }
 .rail-item .rtier .pip {
   width: 7px; height: 14px; background: var(--ink);
@@ -253,10 +244,10 @@ a { color: inherit; }
 .rail-item .rtier.low .pip { height: 5px; background: var(--rule-2); }
 .rail-item .rtier.control .pip { height: 3px; background: var(--rule-3); }
 .rail-item .rwpa {
-  margin-top: 5px; font-size: var(--fs-micro); letter-spacing: 0.04em;
+  margin-top: 5px; font-size: var(--fs-mono-xs); letter-spacing: 0.04em;
   color: var(--accent); font-weight: 680;
   border-top: 1px dashed var(--accent);
-  padding-top: 4px;
+  padding-top: var(--space-1);
 }
 
 /* ── Dossier main ──────────────────────────────────────────────────── */
@@ -271,37 +262,37 @@ a { color: inherit; }
   grid-template-columns: 1.4fr 1fr;
 }
 .subject-id-block {
-  padding: 14px 22px 12px;
+  padding: 14px var(--space-5) var(--space-3);
   border-right: 1px solid var(--rule);
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 6px 18px;
+  gap: var(--space-app-1-5) 18px;
   align-items: baseline;
 }
 .subject-id-block .pseudo {
   font-family: var(--display);
-  font-size: 22px; font-weight: 700; letter-spacing: -0.01em;
+  font-size: 22px; font-weight: 700; letter-spacing: var(--ls-app-normal);
 }
 .subject-id-block .pseudo .pname {
-  font-size: var(--fs-meta); color: var(--ink-3); font-weight: 500;
-  letter-spacing: 0.04em; margin-left: 8px;
+  font-size: var(--fs-mono-sm); color: var(--ink-3); font-weight: 500;
+  letter-spacing: 0.04em; margin-left: var(--space-2);
 }
 .subject-id-block dl { margin: 0; display: contents; }
 .subject-id-block dt {
-  font-size: var(--fs-micro); color: var(--ink-3);
-  text-transform: uppercase; letter-spacing: 0.06em;
+  font-size: var(--fs-mono-xs); color: var(--ink-3);
+  text-transform: uppercase; letter-spacing: var(--ls-app-wide);
 }
 .subject-id-block dd {
-  margin: 0; font-size: var(--fs-meta);
+  margin: 0; font-size: var(--fs-mono-sm);
   color: var(--ink); font-weight: 600;
 }
 
 /* Tier + WPA block — the freeze-frame */
 .headline-block {
-  padding: 12px 22px 12px;
+  padding: var(--space-3) var(--space-5) var(--space-3);
   display: grid;
   grid-template-columns: 1fr;
-  gap: 6px;
+  gap: var(--space-app-1-5);
   position: relative;
 }
 .tier-row {
@@ -310,53 +301,53 @@ a { color: inherit; }
   align-items: end;
   gap: 14px;
   border-bottom: 1.5px solid var(--rule);
-  padding-bottom: 8px;
+  padding-bottom: var(--space-2);
 }
 .tier-label {
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--ink-3);
 }
 .tier-value {
   font-family: var(--display);
-  font-size: var(--fs-tier);
+  font-size: var(--fs-2xl);
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--ls-app-normal);
   line-height: 1;
 }
-.tier-value .slash { color: var(--ink-3); margin: 0 6px; font-weight: 400; }
+.tier-value .slash { color: var(--ink-3); margin: 0 var(--space-app-1-5); font-weight: 400; }
 .tier-value .doctrine { font-weight: 700; }
 .tier-meta {
-  font-size: var(--fs-micro); color: var(--ink-3);
+  font-size: var(--fs-mono-xs); color: var(--ink-3);
   text-align: right; line-height: 1.35;
   text-transform: uppercase; letter-spacing: 0.04em;
 }
-.tier-meta b { color: var(--ink); font-weight: 680; display: block; font-size: var(--fs-meta); }
+.tier-meta b { color: var(--ink); font-weight: 680; display: block; font-size: var(--fs-mono-sm); }
 
 /* WPA banner — the only place accent appears */
 .wpa-banner {
   border: 1.5px solid var(--accent);
   background: var(--accent-fill);
   color: var(--accent);
-  padding: 6px 12px;
+  padding: var(--space-app-1-5) var(--space-3);
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 12px;
+  gap: var(--space-3);
   align-items: center;
-  font-size: var(--fs-meta);
+  font-size: var(--fs-mono-sm);
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: var(--ls-app-loose);
 }
 .wpa-banner .wpa-mark {
   font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase;
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   border-right: 1px solid var(--accent);
-  padding-right: 12px;
+  padding-right: var(--space-3);
 }
 .wpa-banner .wpa-status {
   font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
 }
 .wpa-banner.wpa-na {
   border-color: var(--rule-3);
@@ -377,7 +368,7 @@ a { color: inherit; }
 .panes.geometry-third-axis .pane:nth-child(3) {
   background: var(--paper);
   border-left: 1px dashed var(--rule);
-  margin-left: 6px;
+  margin-left: var(--space-app-1-5);
 }
 .pane {
   border-right: 1px solid var(--rule);
@@ -391,20 +382,20 @@ a { color: inherit; }
 .pane.sev-low  { border-top: var(--rule-low)  solid var(--rule-2); }
 
 .pane-h {
-  padding: 10px 16px 8px;
+  padding: 10px var(--space-4) var(--space-2);
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 4px 12px;
+  gap: var(--space-1) var(--space-3);
   border-bottom: 1px solid var(--rule);
 }
 .pane-doctrine {
-  font-size: var(--fs-h);
+  font-size: var(--fs-mono-lg);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 .pane-sev {
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   text-transform: uppercase; letter-spacing: 0.08em;
   text-align: right; font-weight: 700;
   align-self: start;
@@ -416,10 +407,10 @@ a { color: inherit; }
 
 .pane-version {
   grid-column: 1 / -1;
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-3);
-  letter-spacing: 0.02em;
-  display: flex; gap: 6px; flex-wrap: wrap;
+  letter-spacing: var(--ls-app-loose);
+  display: flex; gap: var(--space-app-1-5); flex-wrap: wrap;
   align-items: baseline;
 }
 .pane-version .vpin {
@@ -430,7 +421,7 @@ a { color: inherit; }
   font-weight: 600;
 }
 .pane-score {
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-3);
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -438,17 +429,17 @@ a { color: inherit; }
 }
 .pane-score b {
   color: var(--ink); font-weight: 700;
-  font-size: var(--fs-h);
+  font-size: var(--fs-mono-lg);
 }
 
 /* Pane body */
-.pane-body { padding: var(--pad-pane); display: flex; flex-direction: column; gap: 14px; }
+.pane-body { padding: var(--space-4); display: flex; flex-direction: column; gap: 14px; }
 
 .pane-section {
-  display: flex; flex-direction: column; gap: 6px;
+  display: flex; flex-direction: column; gap: var(--space-app-1-5);
 }
 .section-h {
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   text-transform: uppercase; letter-spacing: 0.08em;
   color: var(--ink-3);
   border-bottom: 1px dotted var(--rule-3);
@@ -461,23 +452,23 @@ a { color: inherit; }
 }
 
 /* Cited signals — margin-rule discipline */
-.signals { display: flex; flex-direction: column; gap: 4px; }
+.signals { display: flex; flex-direction: column; gap: var(--space-1); }
 .sig {
   display: grid;
   grid-template-columns: 86px 110px 1fr;
-  gap: 0 8px;
-  font-size: var(--fs-meta);
-  padding: 3px 0 4px 8px;
+  gap: 0 var(--space-2);
+  font-size: var(--fs-mono-sm);
+  padding: 3px 0 var(--space-1) var(--space-2);
   border-left: 2px solid var(--rule);
   position: relative;
 }
 .sig .sig-id {
   font-weight: 700; color: var(--ink);
-  font-size: var(--fs-meta);
-  letter-spacing: 0.02em;
+  font-size: var(--fs-mono-sm);
+  letter-spacing: var(--ls-app-loose);
 }
 .sig .sig-src {
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-2);
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -487,37 +478,37 @@ a { color: inherit; }
 .sig .sig-src::after  { content: " ]"; color: var(--ink-3); }
 .sig .sig-src.ext { font-style: italic; }
 .sig .sig-body {
-  font-size: var(--fs-meta);
+  font-size: var(--fs-mono-sm);
   color: var(--ink);
 }
 .sig .sig-hash {
   grid-column: 3 / 4;
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-3);
   letter-spacing: 0.04em;
   margin-top: 1px;
 }
-.sig .sig-hash b { color: var(--hash); font-weight: 700; letter-spacing: 0.02em; }
+.sig .sig-hash b { color: var(--hash); font-weight: 700; letter-spacing: var(--ls-app-loose); }
 
 .flags {
-  display: flex; flex-direction: column; gap: 2px;
-  font-size: var(--fs-meta);
+  display: flex; flex-direction: column; gap: var(--space-app-0-5);
+  font-size: var(--fs-mono-sm);
 }
 .flag {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 0 10px;
   border-left: 2px solid var(--rule);
-  padding: 2px 8px 2px 8px;
+  padding: var(--space-app-0-5) var(--space-2) var(--space-app-0-5) var(--space-2);
 }
 .flag .fname { font-weight: 700; }
-.flag .fver { font-size: var(--fs-micro); color: var(--ink-3); }
-.flag .fnote { grid-column: 1 / -1; color: var(--ink-3); font-size: var(--fs-micro); }
+.flag .fver { font-size: var(--fs-mono-xs); color: var(--ink-3); }
+.flag .fnote { grid-column: 1 / -1; color: var(--ink-3); font-size: var(--fs-mono-xs); }
 .flag-empty {
-  font-size: var(--fs-meta);
+  font-size: var(--fs-mono-sm);
   color: var(--ink-3);
   font-style: italic;
-  padding: 2px 0;
+  padding: var(--space-app-0-5) 0;
 }
 
 .action-body {
@@ -530,7 +521,7 @@ a { color: inherit; }
 .action-body .stat {
   background: var(--paper-2);
   border: 1px solid var(--rule-3);
-  padding: 0 4px;
+  padding: 0 var(--space-1);
   font-weight: 600;
 }
 
@@ -539,22 +530,22 @@ a { color: inherit; }
   border-top: 2px solid var(--rule);
   border-bottom: 1px solid var(--rule);
   background: var(--paper-2);
-  padding: 14px var(--pad-pane) 14px;
+  padding: 14px var(--space-4) 14px;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 6px;
+  gap: var(--space-app-1-5);
 }
 .panes.alth-prominence-high .alt-h-body { font-size: 14px; line-height: 1.55; }
 .alt-h-h {
-  display: flex; align-items: baseline; gap: 12px;
-  font-size: var(--fs-micro);
+  display: flex; align-items: baseline; gap: var(--space-3);
+  font-size: var(--fs-mono-xs);
   text-transform: uppercase; letter-spacing: 0.08em;
   color: var(--ink-2);
 }
 .alt-h-h b {
-  font-size: var(--fs-h);
+  font-size: var(--fs-mono-lg);
   font-weight: 800;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--ls-app-wide);
   color: var(--ink);
 }
 .alt-h-h .req {
@@ -579,33 +570,33 @@ a { color: inherit; }
   border-top: 1.5px solid var(--rule);
 }
 .gate-block {
-  padding: 14px 22px 18px;
+  padding: 14px var(--space-5) 18px;
   border-right: 1px solid var(--rule);
 }
 .gate-block:last-child { border-right: 0; }
 .gate-h {
-  font-size: var(--fs-h);
+  font-size: var(--fs-mono-lg);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--ls-app-wide);
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
   display: flex; justify-content: space-between; align-items: baseline;
 }
 .gate-h .gate-meta {
-  font-size: var(--fs-micro); color: var(--ink-3);
+  font-size: var(--fs-mono-xs); color: var(--ink-3);
   font-weight: 500; letter-spacing: 0.04em;
 }
 .gate-list {
   list-style: none; padding: 0; margin: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 2px 24px;
-  font-size: var(--fs-meta);
+  gap: var(--space-app-0-5) var(--space-app-5);
+  font-size: var(--fs-mono-sm);
 }
 .gate-list li {
   display: grid;
   grid-template-columns: 18px 1fr;
-  gap: 6px; align-items: baseline;
+  gap: var(--space-app-1-5); align-items: baseline;
   padding: 3px 0;
   border-bottom: 1px dotted var(--rule-3);
 }
@@ -625,19 +616,19 @@ a { color: inherit; }
 .gate-list .blocked .box { border-color: var(--ink); background: repeating-linear-gradient(45deg, var(--paper), var(--paper) 3px, var(--ink-4) 3px, var(--ink-4) 4px); }
 
 .evidence {
-  font-size: var(--fs-meta);
+  font-size: var(--fs-mono-sm);
   display: grid;
   grid-template-columns: max-content 1fr;
-  gap: 4px 14px;
+  gap: var(--space-1) 14px;
 }
 .evidence dt {
   text-transform: uppercase;
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-3); letter-spacing: 0.04em;
 }
 .evidence dd {
   margin: 0;
-  font-size: var(--fs-meta);
+  font-size: var(--fs-mono-sm);
   color: var(--ink);
   font-weight: 600;
   word-break: break-all;
@@ -646,38 +637,38 @@ a { color: inherit; }
 /* ── Dossier footer (chain-of-custody) ─────────────────────────────── */
 .coc {
   border-top: 1.5px solid var(--rule);
-  padding: 8px 22px 10px;
+  padding: var(--space-2) var(--space-5) 10px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 4px 24px;
-  font-size: var(--fs-micro);
+  gap: var(--space-1) var(--space-app-5);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-3);
-  letter-spacing: 0.02em;
+  letter-spacing: var(--ls-app-loose);
   background: var(--paper-2);
 }
-.coc dt { text-transform: uppercase; letter-spacing: 0.06em; }
+.coc dt { text-transform: uppercase; letter-spacing: var(--ls-app-wide); }
 .coc dd { margin: 0; color: var(--ink); font-weight: 700; word-break: break-all; }
 .coc .coc-row { display: grid; grid-template-rows: auto auto; }
 
 /* ── QUEUE PAGE ────────────────────────────────────────────────────── */
 .queue { padding: 0; }
 .queue table {
-  width: 100%; border-collapse: collapse; font-size: var(--fs-meta);
+  width: 100%; border-collapse: collapse; font-size: var(--fs-mono-sm);
   font-variant-numeric: tabular-nums;
 }
 .queue thead th {
   text-align: left;
   font-weight: 700;
-  font-size: var(--fs-micro);
-  text-transform: uppercase; letter-spacing: 0.06em;
+  font-size: var(--fs-mono-xs);
+  text-transform: uppercase; letter-spacing: var(--ls-app-wide);
   border-bottom: 1.5px solid var(--rule);
   border-top: 1px solid var(--rule);
-  padding: 8px 12px;
+  padding: var(--space-2) var(--space-3);
   background: var(--paper-2);
   white-space: nowrap;
 }
 .queue tbody td {
-  padding: 7px 12px;
+  padding: 7px var(--space-3);
   border-bottom: 1px solid var(--rule-3);
   vertical-align: top;
 }
@@ -687,14 +678,14 @@ a { color: inherit; }
 .queue td.col-tier { font-weight: 700; letter-spacing: 0.04em; }
 .queue td.col-tier.t-high { font-weight: 800; }
 .queue td.col-tier.t-low { color: var(--ink-3); font-weight: 500; }
-.queue td.col-doctrine { letter-spacing: 0.02em; }
+.queue td.col-doctrine { letter-spacing: var(--ls-app-loose); }
 .queue td.col-wpa.wpa-on { color: var(--accent); font-weight: 700; }
-.queue td.col-audit { font-size: var(--fs-micro); color: var(--ink-3); }
+.queue td.col-audit { font-size: var(--fs-mono-xs); color: var(--ink-3); }
 .queue td.col-density { font-variant-numeric: tabular-nums; }
 .queue .density-bar {
   display: inline-block;
   height: 8px; vertical-align: middle;
-  background: var(--ink); margin-right: 8px;
+  background: var(--ink); margin-right: var(--space-2);
 }
 
 /* ── TIMELINE PAGE ─────────────────────────────────────────────────── */
@@ -703,14 +694,14 @@ a { color: inherit; }
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-  padding: 10px 22px;
+  padding: 10px var(--space-5);
   border-bottom: 1px solid var(--rule);
   background: var(--paper-2);
-  font-size: var(--fs-meta);
+  font-size: var(--fs-mono-sm);
 }
-.timeline-controls .legend { display: flex; gap: 22px; align-items: center; font-size: var(--fs-micro); color: var(--ink-2); }
+.timeline-controls .legend { display: flex; gap: var(--space-5); align-items: center; font-size: var(--fs-mono-xs); color: var(--ink-2); }
 .timeline-controls .legend .swatch {
-  display: inline-flex; align-items: center; gap: 6px;
+  display: inline-flex; align-items: center; gap: var(--space-app-1-5);
   text-transform: uppercase; letter-spacing: 0.04em;
 }
 .swatch .glyph-internal {
@@ -730,22 +721,22 @@ a { color: inherit; }
 
 .timeline {
   position: relative;
-  padding: 22px 22px 32px 22px;
+  padding: var(--space-5) var(--space-5) 32px var(--space-5);
   overflow-x: auto;
 }
 .tl-axis {
   position: relative;
   height: 28px;
   border-bottom: 1px solid var(--rule);
-  margin-bottom: 8px;
+  margin-bottom: var(--space-2);
 }
 .tl-tick {
   position: absolute;
   top: 0; bottom: 0;
   border-left: 1px solid var(--rule-3);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-3);
-  padding-left: 4px;
+  padding-left: var(--space-1);
   white-space: nowrap;
 }
 .tl-tick.major { border-color: var(--rule); color: var(--ink); font-weight: 700; }
@@ -753,12 +744,12 @@ a { color: inherit; }
 .tl-tick.baseline::after {
   content: "BASELINE_START";
   position: absolute; top: -16px; left: 4px;
-  font-weight: 700; letter-spacing: 0.06em;
+  font-weight: 700; letter-spacing: var(--ls-app-wide);
   font-size: 9px;
 }
 .tl-tick.window-start::after, .tl-tick.window-end::after {
   position: absolute; top: -16px; left: 4px;
-  font-weight: 700; letter-spacing: 0.06em;
+  font-weight: 700; letter-spacing: var(--ls-app-wide);
   font-size: 9px;
 }
 .tl-tick.window-start::after { content: "WINDOW_START"; }
@@ -766,7 +757,7 @@ a { color: inherit; }
 
 .tl-rows {
   position: relative;
-  display: flex; flex-direction: column; gap: 4px;
+  display: flex; flex-direction: column; gap: var(--space-1);
 }
 .tl-row {
   position: relative;
@@ -777,9 +768,9 @@ a { color: inherit; }
   position: absolute;
   left: -200px; width: 200px;
   top: 6px;
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   color: var(--ink-3);
-  text-transform: uppercase; letter-spacing: 0.06em;
+  text-transform: uppercase; letter-spacing: var(--ls-app-wide);
   text-align: right;
   padding-right: 14px;
 }
@@ -801,8 +792,8 @@ a { color: inherit; }
   left: 50%; transform: translateX(-50%);
   background: var(--ink);
   color: var(--paper);
-  padding: 6px 8px;
-  font-size: var(--fs-micro);
+  padding: var(--space-app-1-5) var(--space-2);
+  font-size: var(--fs-mono-xs);
   white-space: nowrap;
   display: none;
   z-index: 5;
@@ -821,53 +812,53 @@ a { color: inherit; }
 .audit-h {
   display: grid;
   grid-template-columns: 1fr auto;
-  padding: 12px 22px 10px;
+  padding: var(--space-3) var(--space-5) 10px;
   border-bottom: 1.5px solid var(--rule);
   background: var(--paper-2);
 }
 .audit-h h2 { margin: 0; font-size: 17px; letter-spacing: 0.04em; }
 .audit-h .lead {
-  font-size: var(--fs-meta); color: var(--ink-2);
-  margin-top: 4px; max-width: 78ch;
+  font-size: var(--fs-mono-sm); color: var(--ink-2);
+  margin-top: var(--space-1); max-width: 78ch;
 }
 .audit-h .chain {
-  font-size: var(--fs-micro); color: var(--ink-3);
-  display: grid; gap: 2px; align-content: end;
+  font-size: var(--fs-mono-xs); color: var(--ink-3);
+  display: grid; gap: var(--space-app-0-5); align-content: end;
   text-align: right;
 }
 .audit-h .chain b { color: var(--ink); font-weight: 700; letter-spacing: 0.04em; }
 
 .audit-table {
   width: 100%; border-collapse: collapse;
-  font-size: var(--fs-meta); font-variant-numeric: tabular-nums;
+  font-size: var(--fs-mono-sm); font-variant-numeric: tabular-nums;
 }
 .audit-table thead th {
   text-align: left;
-  font-size: var(--fs-micro);
-  text-transform: uppercase; letter-spacing: 0.06em;
+  font-size: var(--fs-mono-xs);
+  text-transform: uppercase; letter-spacing: var(--ls-app-wide);
   font-weight: 700;
   border-bottom: 1.5px solid var(--rule);
-  padding: 8px 12px;
+  padding: var(--space-2) var(--space-3);
   background: var(--paper);
   white-space: nowrap;
 }
 .audit-table tbody td {
-  padding: 6px 12px;
+  padding: var(--space-app-1-5) var(--space-3);
   border-bottom: 1px dotted var(--rule-3);
   vertical-align: top;
 }
 .audit-table .col-seq { color: var(--ink-3); width: 60px; }
 .audit-table .col-ts { white-space: nowrap; }
 .audit-table .col-actor { font-weight: 600; }
-.audit-table .col-action { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: var(--fs-micro); }
+.audit-table .col-action { font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; font-size: var(--fs-mono-xs); }
 .audit-table .col-hash { color: var(--hash); font-weight: 600; word-break: break-all; max-width: 200px; }
-.audit-table .col-prev { color: var(--ink-3); word-break: break-all; max-width: 200px; font-size: var(--fs-micro); }
+.audit-table .col-prev { color: var(--ink-3); word-break: break-all; max-width: 200px; font-size: var(--fs-mono-xs); }
 
 /* ── Tweaks panel ──────────────────────────────────────────────────── */
 .tweaks-fab {
   position: fixed; bottom: 16px; right: 16px;
   border: 1.25px solid var(--ink); background: var(--paper);
-  padding: 6px 12px; font-size: var(--fs-micro);
+  padding: var(--space-app-1-5) var(--space-3); font-size: var(--fs-mono-xs);
   letter-spacing: 0.08em; text-transform: uppercase;
   font-weight: 700;
   z-index: 50;
@@ -884,35 +875,35 @@ a { color: inherit; }
   z-index: 60;
   box-shadow: 4px 4px 0 var(--ink);
   display: none;
-  font-size: var(--fs-meta);
+  font-size: var(--fs-mono-sm);
   max-height: calc(100vh - 120px);
   overflow: auto;
 }
 .tweaks-panel.is-open { display: block; }
 .tweaks-h {
   display: flex; justify-content: space-between; align-items: center;
-  padding: 8px 12px;
+  padding: var(--space-2) var(--space-3);
   border-bottom: 1.5px solid var(--ink);
   background: var(--ink); color: var(--paper);
-  font-size: var(--fs-micro);
+  font-size: var(--fs-mono-xs);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 800;
 }
 .tweaks-h .x { color: var(--paper); font-weight: 800; }
 .tweaks-section {
-  padding: 10px 12px 12px;
+  padding: 10px var(--space-3) var(--space-3);
   border-bottom: 1px solid var(--rule-3);
 }
 .tweaks-section h4 {
-  margin: 0 0 6px;
-  font-size: var(--fs-micro);
+  margin: 0 0 var(--space-app-1-5);
+  font-size: var(--fs-mono-xs);
   text-transform: uppercase; letter-spacing: 0.08em;
   color: var(--ink-3);
   font-weight: 700;
 }
-.tweak-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 6px; padding: 3px 0; }
-.tweak-row label { color: var(--ink-2); font-size: var(--fs-meta); }
+.tweak-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--space-app-1-5); padding: 3px 0; }
+.tweak-row label { color: var(--ink-2); font-size: var(--fs-mono-sm); }
 .tweak-row input[type="range"] { width: 100%; }
 .tweak-row .val { font-variant-numeric: tabular-nums; font-weight: 700; min-width: 38px; text-align: right; }
 
@@ -922,8 +913,8 @@ a { color: inherit; }
 }
 .tweak-radio button {
   flex: 1;
-  font-size: var(--fs-micro);
-  padding: 4px 6px;
+  font-size: var(--fs-mono-xs);
+  padding: var(--space-1) var(--space-app-1-5);
   border-right: 1px solid var(--ink);
   text-transform: uppercase; letter-spacing: 0.04em;
   font-weight: 600;
@@ -934,9 +925,9 @@ a { color: inherit; }
 
 .tweak-toggle {
   border: 1px solid var(--ink);
-  padding: 4px 10px;
-  text-transform: uppercase; letter-spacing: 0.06em;
-  font-weight: 700; font-size: var(--fs-micro);
+  padding: var(--space-1) 10px;
+  text-transform: uppercase; letter-spacing: var(--ls-app-wide);
+  font-weight: 700; font-size: var(--fs-mono-xs);
 }
 .tweak-toggle[aria-pressed="true"] { background: var(--ink); color: var(--paper); }
 
@@ -945,8 +936,6 @@ body.density-comfortable { --pad-pane: 18px; --pad-row: 8px; --gap-col: 18px; }
 body.density-standard    { /* defaults */ }
 body.density-tight       { --pad-pane: 12px; --pad-row: 4px; --gap-col: 10px; --fs-body: 12px; --fs-meta: 10.5px; --fs-micro: 9.5px; }
 body.density-court-filing{
-  --pad-pane: 10px; --pad-row: 3px; --gap-col: 8px;
-  --fs-body: 11.5px; --fs-meta: 10px; --fs-micro: 9px;
   --lh-body: 1.32;
 }
 
@@ -1032,7 +1021,7 @@ body.theme-dark html { background: var(--bg); }
 /* ── Misc ──────────────────────────────────────────────────────────── */
 .kbd {
   border: 1px solid var(--rule-3);
-  padding: 0 4px;
+  padding: 0 var(--space-1);
   font-size: 9px;
   letter-spacing: 0.04em;
   color: var(--ink-2);
@@ -1101,7 +1090,7 @@ body.theme-dark html { background: var(--bg); }
   <div class="queue">
     <div style="padding: 12px 22px; border-bottom: 1.5px solid var(--rule); background: var(--paper-2);">
       <div style="font-size: 17px; letter-spacing: 0.04em; font-weight: 700;">SUBJECT QUEUE · TIER-SORTED</div>
-      <div style="font-size: var(--fs-meta); color: var(--ink-2); margin-top: 4px; max-width: 90ch;">
+      <div style="font-size: var(--fs-mono-sm); color: var(--ink-2); margin-top: 4px; max-width: 90ch;">
         Sorted by escalation tier descending, then signal density, then time-since-last-read.
         Audit log column is non-collapsible. Click pseudonym to load dossier.
       </div>
@@ -1132,7 +1121,7 @@ body.theme-dark html { background: var(--bg); }
   <div class="timeline-wrap">
     <div class="timeline-controls">
       <div>
-        <span style="font-size:var(--fs-meta); font-weight:700; letter-spacing:0.04em;">SUBJECT</span>
+        <span style="font-size:var(--fs-mono-sm); font-weight:700; letter-spacing:0.04em;">SUBJECT</span>
         <select id="tl-subject" style="font: inherit; border: 1px solid var(--ink); padding: 2px 6px; background: var(--paper); margin-left: 8px;"></select>
       </div>
       <div class="legend">
@@ -1205,7 +1194,7 @@ body.theme-dark html { background: var(--bg); }
       <button data-val="prominent" aria-pressed="true">PROMINENT</button>
       <button data-val="louder">LOUDER THAN TIER</button>
     </div>
-    <div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:6px; line-height:1.4;">
+    <div style="font-size:var(--fs-mono-xs); color:var(--ink-3); margin-top:6px; line-height:1.4;">
       Alt-hypothesis is the inverse-bias check baked into the schema.
       Default raises it above body-text weight; LOUDER THAN TIER routes
       the dossier eye to the alt-hypothesis before the tier badge.
@@ -1219,7 +1208,7 @@ body.theme-dark html { background: var(--bg); }
       <button data-val="tier">TIER VALUE</button>
       <button data-val="flags">FLAG NAMES</button>
     </div>
-    <div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:6px; line-height:1.4;">
+    <div style="font-size:var(--fs-mono-xs); color:var(--ink-3); margin-top:6px; line-height:1.4;">
       The single accent is oxidised navy (#1c3a5e) — defends against the
       "red = threat / kill chain" register. Reserved for the WPA banner
       because the WPA-track availability is the move that survives the
@@ -1233,7 +1222,7 @@ body.theme-dark html { background: var(--bg); }
       <button data-val="equal" aria-pressed="true">EQUAL COLUMNS</button>
       <button data-val="third-axis">THIRD-AXIS OFFSET</button>
     </div>
-    <div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:6px; line-height:1.4;">
+    <div style="font-size:var(--fs-mono-xs); color:var(--ink-3); margin-top:6px; line-height:1.4;">
       THIRD-AXIS OFFSET narrows ops_misjudgment and shifts it onto a
       dashed rule, expressing the doctrine's structural role:
       "the read that keeps the system honest."
@@ -1265,7 +1254,7 @@ body.theme-dark html { background: var(--bg); }
       <button data-val="light" aria-pressed="true">LIGHT (default)</button>
       <button data-val="dark">DARK</button>
     </div>
-    <div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:6px; line-height:1.4;">
+    <div style="font-size:var(--fs-mono-xs); color:var(--ink-3); margin-top:6px; line-height:1.4;">
       Dark holds the institutional register (paper→ink inverted, no neon,
       same chrome). Use only inside lights-out SCIFs.
     </div>
@@ -1689,7 +1678,7 @@ body.theme-dark html { background: var(--bg); }
         <div class="pane-h">
           <div>
             <div class="pane-doctrine">${DOCTRINE_LABELS[p.doctrine]}</div>
-            <div style="font-size:var(--fs-micro); color:var(--ink-3); letter-spacing:0.04em; margin-top:1px;">${DOCTRINE_NOTES[p.doctrine]}</div>
+            <div style="font-size:var(--fs-mono-xs); color:var(--ink-3); letter-spacing:0.04em; margin-top:1px;">${DOCTRINE_NOTES[p.doctrine]}</div>
           </div>
           <div class="pane-sev">${p.severity}</div>
           <div class="pane-version">
@@ -1772,7 +1761,7 @@ body.theme-dark html { background: var(--bg); }
               <div class="tier-value">
                 <span>${d.tier}</span><span class="slash">/</span><span class="doctrine">${d.tier_doctrine}</span>
               </div>
-              ${d.tier_secondary ? `<div style="font-size:var(--fs-micro); color:var(--ink-3); margin-top:4px; letter-spacing:0.04em;">CONCURRENT · ${d.tier_secondary}</div>` : ''}
+              ${d.tier_secondary ? `<div style="font-size:var(--fs-mono-xs); color:var(--ink-3); margin-top:4px; letter-spacing:0.04em;">CONCURRENT · ${d.tier_secondary}</div>` : ''}
             </div>
             <div class="tier-meta">
               <b>3-DOCTRINE READ</b>
@@ -1848,7 +1837,7 @@ body.theme-dark html { background: var(--bg); }
         <tr data-subject="${s}" class="${s===CURRENT?'is-current':''}">
           <td class="col-pseudo">${d.pseudo}</td>
           <td>${d.clearance}</td>
-          <td>${d.role}<br/><span style="color:var(--ink-3); font-size:var(--fs-micro);">${d.org_unit}</span></td>
+          <td>${d.role}<br/><span style="color:var(--ink-3); font-size:var(--fs-mono-xs);">${d.org_unit}</span></td>
           <td>${d.baseline_start}</td>
           <td>${d.window}</td>
           <td class="col-density"><span class="density-bar" style="width:${Math.min(density*6,80)}px;"></span>${density}</td>
@@ -1933,7 +1922,7 @@ body.theme-dark html { background: var(--bg); }
           ${winBand}
           ${rowsHTML}
         </div>
-        <div style="margin-top: 22px; font-size: var(--fs-micro); color: var(--ink-3); letter-spacing: 0.04em; max-width: 80ch;">
+        <div style="margin-top: 22px; font-size: var(--fs-mono-xs); color: var(--ink-3); letter-spacing: 0.04em; max-width: 80ch;">
           PERIMETER ENCODING — INTERNAL: solid square. EXTERNAL: hollow square. FLAG FIRE: hatched square.
           No color used. Severity is encoded by perimeter and by tradecraft-flag concentration in time, not by hue.
         </div>
