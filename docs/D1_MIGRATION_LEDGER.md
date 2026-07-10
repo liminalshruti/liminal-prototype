@@ -35,3 +35,36 @@ Pass B pixel-diff vs baseline: 02/03/05/09 = 0.000%; 10-today 0.81%; 11-govern 4
 
 Candidate for a founder micro-tier call if these recur widely: a `--radius` at ~10px and
 an `--ls` at ~.10em would absorb the most common strandeds. Low priority.
+
+## Phases 2–5 — per-surface binding ✅
+
+**Policy refinement (important):** the shared shell (Phase 1) safely took exact **+ snap**
+binds (verified across all consumers). A trial snap pass on the cuts' **own** inline
+styles **clipped cut 08's left rail** — dense, fine-tuned per-cut layouts don't tolerate
+cumulative ≤2px snaps. So per-surface binding is **exact-only**; off-scale per-cut values
+stay raw (documented). This keeps the highest-leverage layer fully normalized while
+preserving hand-tuned cut layouts.
+
+| Surface group | Bind | Verification |
+|---|---|---|
+| 15 cuts (own inline `<style>`) | exact | 0.000% on all deterministic cuts; 00/custody/embeds identity-by-construction + visual |
+| `index.html`, `team-drift`, 3 embeds | exact | 0.000% (det) / identity (non-det) |
+| `cuts/onboarding/onboarding.css`, `lib/brand-upgrade.css` | exact | 0.000% via consumer render |
+| `molehunt/index.html` (Phase 5) | de-fork local scale → canon + exact (space/radius/tracking) | 0.000% |
+
+**molehunt specifics:** local parallel `--fs-*` scale repointed to canon (`--fs-micro`→
+`--fs-mono-xs`, `--fs-meta`→`--fs-mono-sm`, `--fs-h`→`--fs-mono-lg`, `--fs-tier`→`--fs-2xl`;
+`--pad-pane`→`--space-4`); dead `--u/--pad-row/--gap-col` removed. **font-size axis not
+auto-bound** — molehunt carries 3 contested `--fs-body` definitions (base + 2 density
+variants), so `14px→var(--fs-body)` is unreliable; the repoint already canonizes its type
+scale, ~13 raw `font-size` px remain as documented exceptions.
+
+## Deliberately deferred (documented)
+- **Per-cut off-scale snaps** — kept raw to protect hand-tuned layouts (see policy above).
+  Revisit per-surface with individual visual verification if full snap coverage is wanted.
+- **rem-routed type** in cuts 00/03/10/11 — their px/radius/tracking are exact-bound; the
+  rem type system is a consistent relative scale, left as-is (rem ≠ raw px).
+
+## Tooling (reusable, in `scratchpad/d1/`)
+`bind.mjs` — property-aware CSS→token binder (exact/snap passes, per-axis filter, HTML
+`<style>`-scoped). `pngdiff.mjs` — pure-Node PNG pixel-diff (zlib only, no deps).
