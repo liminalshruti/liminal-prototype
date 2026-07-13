@@ -12,7 +12,7 @@
   Altitude   · L1-founder
   Surface    · desktop
   Framing    · wedge
-  Maturity   · live
+  Maturity   · prototype (deterministic fixture)
   Coordinate per TAXONOMY.md v2 · owns the Re-enter stage; correctly distinct. This
   cut already states the backbone loop explicitly — the one cut that was already
   thinking in coordinates.
@@ -145,6 +145,12 @@
     align-items: start;
   }
   .tdy-col { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  /* phone: the two-column body stacks (drift-matrix row 2 — this cut had
+     no breakpoints at all) */
+  @media (max-width: 760px) {
+    .tdy-cols { grid-template-columns: 1fr; }
+  }
 
   .tdy-section-label {
     font-family: var(--mono, "Geist Mono", monospace);
@@ -604,5 +610,7 @@
 </script>
 
 <script src="../lib/surface-nav.js"></script>
+<!-- shared ↺ restart chip · drift-matrix row 3 -->
+<script src="../lib/demo-restart.js" defer></script>
 </body>
 </html>

@@ -618,7 +618,10 @@
     0%, 100% { opacity: 0.5; transform: scaleX(0.92); }
     50%      { opacity: 0.9; transform: scaleX(1); }
   }
-  /* reader chips · small agent-initials in the upper-right margin */
+  /* reader chips · small agent-initials in the upper-right margin
+     (rules live in cut-shell-registers.css since the split refactor) */
+
+  /* ════════════════════════════════════════════════════════════════════════
      CONVERGED CHROME · index-cut style · canonical (Phase 1, 2026-06-17)
      ────────────────────────────────────────────────────────────────────────
      The shell chrome the founder likes — promoted from the index cuts
@@ -1661,4 +1664,53 @@
     transition-duration: .01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ══════════════════════════════════════════════════════════════════════
+   PHONE LAYER · shared ≤760px behavior for the .shell/.mid skeleton
+   (promoted from cut 11's demo-lock mobile block, 2026-07-13 — see
+   docs/CUT_DRIFT_MATRIX_2026-07-13.md row 2. Forwarded investor links get
+   opened on phones; the desktop instrument must degrade to a readable
+   single column, never to sideways clipping.)
+   Binds only to cuts using the shared skeleton (.shell > .rb-top / .mid
+   [rail-l · work · rail-r] / .rb-bot); inert elsewhere. Cut-specific inner
+   grids (recon strips, agent grids) stack via per-cut rules.
+   ════════════════════════════════════════════════════════════════════ */
+@media (max-width: 760px) {
+  /* the shell is usually a flex item: min-width:auto inflates it to the
+     title bar's min-content width and the frame slides off-canvas.
+     Descendant selectors (.shell .mid) are deliberate: cuts declare their
+     desktop grids in inline <style> blocks that load AFTER this sheet, and
+     a media query adds no specificity — 0,2,0 must beat the cut's 0,1,0. */
+  .shell { min-width: 0; max-width: 97vw; }
+  .shell .rb-top, .rb-top { flex-wrap: wrap; row-gap: 6px; }
+  .shell .rb-bot, .rb-bot { overflow-x: auto; }
+  /* minmax(0,1fr): a bare 1fr keeps its auto minimum and wide evidence
+     tables blow the center column out past the viewport */
+  .shell .mid { grid-template-columns: 0px minmax(0, 1fr) 0px; }
+  .shell .rail-l, .shell .rail-r { opacity: 0; pointer-events: none; }
+  .shell .work { overflow-x: auto; min-width: 0; }
+}
+
+/* ── demo-restart chip · shared affordance injected by lib/demo-restart.js
+   (drift-matrix row 3: only cut 11 had a visible reset; every demo surface
+   gets the same ↺ grammar). Cuts wire window.__demoReset for a stateful
+   reset; the default is an honest reload. ── */
+.demo-restart {
+  cursor: pointer;
+  margin-left: auto;
+  font: 8px/1 var(--mono, ui-monospace, monospace);
+  letter-spacing: var(--ls-mono-sm, .08em);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  background: none;
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-2, 3px);
+  padding: var(--space-1, 4px) var(--space-2, 8px);
+  align-self: center;
+  transition: color .15s, border-color .15s;
+}
+.demo-restart:hover, .demo-restart:focus-visible {
+  color: var(--text-soft, var(--text-mid));
+  border-color: var(--text-soft, var(--text-mid));
 }

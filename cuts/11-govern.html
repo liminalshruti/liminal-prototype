@@ -454,16 +454,9 @@ body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:colum
    pane owns the width. Wide evidence tables scroll inside their own pane
    rather than clipping — the page never pans sideways. */
 @media (max-width:760px){
-  /* the shell is a flex item: min-width:auto inflates it to the title bar's
-     ~655px min-content and the whole frame slides off-canvas. Pin it. */
-  .shell{min-width:0;max-width:97vw}
-  .rb-top{flex-wrap:wrap;row-gap:6px}
-  .rb-bot{overflow-x:auto}
-  /* minmax(0,1fr): a bare 1fr keeps its auto minimum and the evidence table's
-     min-content width (~655px) would blow the column out past the viewport */
-  .mid{grid-template-columns:0px minmax(0,1fr) 0px}
-  .rail-l,.rail-r{opacity:0;pointer-events:none}
-  .work{overflow-x:auto;min-width:0}
+  /* generic .shell/.mid phone behavior now lives in cut-shell-base.css
+     (shared phone layer, promoted from this cut 2026-07-13); what remains
+     here is cut-11-specific inner-grid stacking */
   .tabs{overflow-x:auto;max-width:56vw}
   .recon{grid-template-columns:1fr}
   .agents{grid-template-columns:1fr}
@@ -651,12 +644,12 @@ const SUBJECTS={
 const sigHTML=s=>`<div class="sig ${s.state}" data-sig="${s.id}"><div class="src">${s.src}<span class="act">${s.state==='tray'?'harden ↑':'on slate'}</span></div><div class="nm">${s.nm}</div><div class="rows">${s.rows}</div></div>`;
 function renderSignals(){
   const tray=SIGNALS.filter(s=>s.state==='tray'), slate=SIGNALS.filter(s=>s.state!=='tray');
-  $('#signals').innerHTML=`<div class="rl-h">Tray · your work surfaces<span class="live">live</span></div><div class="rl-sub">each tile is a window from your work · you control what hardens onto the slate</div><div class="rl-grp">Slate · being read</div>${slate.map(sigHTML).join('')}${tray.length?`<div class="rl-grp">Tray · diffuse</div>${tray.map(sigHTML).join('')}`:''}`;
+  $('#signals').innerHTML=`<div class="rl-h">Tray · your work surfaces<span class="live">reading</span></div><div class="rl-sub">each tile is a window from your work · you control what hardens onto the slate</div><div class="rl-grp">Slate · being read</div>${slate.map(sigHTML).join('')}${tray.length?`<div class="rl-grp">Tray · diffuse</div>${tray.map(sigHTML).join('')}`:''}`;
 }
 
 // the ORBITAL agency rail (spend-subjected, canon-clean) ----------------------
 function renderAgency(){
-  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · 8 bounded + reviewer</span><span class="live">live</span></div>
+  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · 8 bounded + reviewer</span><span class="live">reading</span></div>
   <div class="orbital-rail"><svg class="orbital-svg" viewBox="0 0 280 320" preserveAspectRatio="xMidYMid meet">
     <g class="refusal-arrows">
       <path id="arrow-execcomms" class="refusal-arrow outreach" d="M 140 88 Q 220 160 140 232"/>
@@ -850,7 +843,7 @@ function renderSubjectLoop(){
 }
 function renderSubjectAgency(){
   const S=SUBJECTS[SUBJECT];
-  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · ${S.product.split('·')[0].trim()}</span><span class="live">live</span></div>
+  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · ${S.product.split('·')[0].trim()}</span><span class="live">reading</span></div>
     <div style="padding:10px 15px;display:flex;flex-direction:column;gap:9px">
     ${S.registers.map((nm,i)=>`<div style="border:1px solid var(--card-border);border-radius:6px;padding:10px 12px;background:var(--frame-bg-2)">
       <div style="font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--${REGCLS[i]==='synthesis'?'depth':REGCLS[i]==='outreach'?'connection':REGCLS[i]})">${nm}</div>
