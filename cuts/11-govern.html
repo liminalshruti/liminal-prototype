@@ -6,13 +6,13 @@
 <!-- brand ◇ favicon (data-URI) · kills the dev-console 404 on screen-share -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 <!--
-  Cut 11 · Govern · the real AI-Spend Governance loop (v2)
+  Cut 11 · Govern · the AI-Spend Governance loop (v2)
   ──────────────────────────────────────────────────────────────────────
   Loop-stage · full-loop · Altitude · L1→L2 · Surface · desktop
-  Framing · wedge→infra (AI-spend) · Maturity · live
+  Framing · wedge→infra (AI-spend) · Maturity · prototype (deterministic fixture)
   ──────────────────────────────────────────────────────────────────────
-  PORTED from the shipped Govern cockpit (liminal-govern/app) + RECONCILED with cut 11's
-  loved prototype interactions. Real verified figures ($13,045→$4,500 · naïve $446→verified $284; E14/PR-103 dropped $162
+  PORTED from the Govern cockpit build (liminal-govern/app) + RECONCILED with cut 11's
+  loved prototype interactions. Fixture figures from the recorded liminal-govern run ($13,045→$4,500 · naïve $446→verified $284; E14/PR-103 dropped $162
   adversarial catch). Restores: the 4-register read + the CORRECTION FLOW (correction is the
   primary act), the OKR allocation bar, the OG Today + Mirror surfaces, and the
   ORBITAL agency rail (8 bounded + adversarial reviewer, per liminal-govern canon;
@@ -307,6 +307,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 /* ── run-badge · marks a real-pipeline run vs the inline demo ── */
 .run-badge{margin-left: auto;font:8px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: var(--space-1) var(--space-2);align-self:center}
 .run-badge.on{color:var(--connection);border-color:var(--connection)}
+button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}button.run-badge.reset:hover{color:var(--text-soft);border-color:var(--text-soft)}
 
 /* ── OKR surface (reuses .today shell) ── */
 .okrs{display:flex;flex-direction:column;gap: 18px;margin: var(--space-app-1-5) 0 18px}
@@ -460,6 +461,7 @@ body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:colum
       <button class="tab" data-go="registry"><span class="k">6</span>Registry</button>
       <button class="tab" data-go="log"><span class="k">7</span>Log</button>
       <span class="run-badge" id="run-badge">demo</span>
+      <button class="run-badge reset" id="reset-demo" title="Restart the demo from a clean opening state (also ⌥R)">↺ restart</button>
     </div>
     <div class="cmdk" id="cmdk-btn"><span>⌘K</span></div>
     <div class="rel"><span class="lbl">rel</span>
@@ -1006,7 +1008,7 @@ function renderReport(){
   body.dataset.surface='report';
   const r=REPORT;
   if(!r){
-    $('#work').innerHTML=`<div class="today"><div class="greet">Spend-ROI report</div><h1>No ratified run yet.</h1><p class="lede">Run the loop and ratify a decision · the report is generated from the finding + the signed decision, and cites its sources. ${RUN_MODE==='demo'?'(Open with <code>?run=govern-run.json</code> to see a real pipeline report.)':''}</p><button class="tcard decide" data-go="loop"><div class="tk">Go to the loop</div><h3>Sense → read → ratify</h3></button></div>`;
+    $('#work').innerHTML=`<div class="today"><div class="greet">Spend-ROI report</div><h1>No ratified run yet.</h1><p class="lede">Run the loop and ratify a decision · the report is generated from the finding + the signed decision, and cites its sources. ${RUN_MODE==='demo'?'(Open with <code>?run=govern-run.json</code> to see a recorded pipeline report · deterministic fixture.)':''}</p><button class="tcard decide" data-go="loop"><div class="tk">Go to the loop</div><h3>Sense → read → ratify</h3></button></div>`;
     return;
   }
   const pct=r.spend?.pct||{};
@@ -1014,7 +1016,7 @@ function renderReport(){
   const fp=(r.false_positives_removed||[]).map(f=>`<li><b>${f.event}</b> · ${f.reason}</li>`).join('');
   const under=(r.under_allocated||[]).map(u=>`<li>${u.objective}: ${u.actual_pct}% actual vs ${u.target_pct}% target</li>`).join('');
   $('#work').innerHTML=`<div class="mirror">
-    <div class="greet">Spend-ROI report · ${r.period||'2026-06'} · ${r.persona||'Rhea'} · ${RUN_MODE} run</div>
+    <div class="greet">Spend-ROI report · ${r.period||'2026-06'} · ${r.persona||'Rhea'} · ${runLabel()}</div>
     <h1>Spend, against the OKRs you set.</h1>
     <p class="lede">${r.business_impact||''}</p>
     <div class="mstats">
@@ -1106,12 +1108,12 @@ function renderRegistry(){
   const list=REGISTRY_DATA||AGENTS;
   const cards=list.map(agentCardHTML).join('');
   const verifiable=!!REGISTRY_DATA;
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> · a real survived/landed score plus an integrity hash. ${verifiable?'Verified agents carry registry attestation (proven at Berlin on Algorand TestNet; product anchoring optional/roadmap); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
+  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> · a survived/landed score plus an integrity hash. ${verifiable?'Verified agents carry registry attestation (receipt: demonstrated at Berlin on Algorand TestNet · product anchoring is roadmap); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
 }
 function renderLog(){
   body.dataset.surface='log';
   const rows=LOG.map(e=>`<tr><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td class="num">${e[3]}</td><td class="num">${e[4]}</td></tr>`).join('');
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · decision log</div><h1>Decision log</h1><p class="lede">Append-only trail. Every surviving finding entered the chain; the ratified policy is a new linked entry; the refuted claim is recorded, never silently dropped. Real SHA-256 anchors, hash-linked.</p><table class="tbl"><thead><tr><th>#</th><th>Kind</th><th>Entry</th><th>packet_hash</th><th>prev_hash</th></tr></thead><tbody>${rows}</tbody></table><p class="lede" style="font:11px/1.5 var(--mono);color:var(--text-mute)">${LOG.filter(e=>e[0]!=='—').length} anchored · 1 refuted${signed?' · 1 ratified this session':''} · ${corrections} correction${corrections!==1?'s':''} signed.</p></div>`;
+  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · decision log</div><h1>Decision log</h1><p class="lede">Append-only trail. Every surviving finding entered the chain; the ratified policy is a new linked entry; the refuted claim is recorded, never silently dropped. Hash-linked, append-only · anchors shown are illustrative (deterministic fixture); the product chain anchors with SHA-256.</p><table class="tbl"><thead><tr><th>#</th><th>Kind</th><th>Entry</th><th>packet_hash</th><th>prev_hash</th></tr></thead><tbody>${rows}</tbody></table><p class="lede" style="font:11px/1.5 var(--mono);color:var(--text-mute)">${LOG.filter(e=>e[0]!=='—').length} anchored · 1 refuted${signed?' · 1 ratified this session':''} · ${corrections} correction${corrections!==1?'s':''} signed.</p></div>`;
 }
 
 // ── correction flow (restored) ──────────────────────────────────────────────
@@ -1142,7 +1144,7 @@ function signFindingCorrection(fid,btn){
   const h=(0x7d4b+corrections).toString(16);
   logChain('correction · '+kind+' · '+fid+' · re-anchored','corr');
   card.classList.add('corrected');
-  card.querySelector('.fc-done').innerHTML=`✓ correction appended &amp; re-anchored · <span class="mono">${kind}</span> · sha256 ${h}…a${corrections}9 · <span style="color:var(--good)">chain verified</span>`;
+  card.querySelector('.fc-done').innerHTML=`✓ correction appended &amp; re-anchored · <span class="mono">${kind}</span> · anchor ${h}…a${corrections}9 · <span style="color:var(--good)">chain linked</span>`;
   const cc=$('#corrcount'); if(cc) cc.textContent=corrections+' correction'+(corrections>1?'s':'')+' · this is YOUR read now';
   const pre=$('.db.sign .pre'); if(pre) pre.textContent='correct →';
   toast('Correction signed · '+kind+' · new linked entry, chain stays verifiable ✓');
@@ -1182,13 +1184,14 @@ function initEngine(){
 
 // ── ratify → mint canonical artifact (corrections shape it) ─────────────────
 function mintArtifact(){
+  if(signed){toast('Already ratified this session · ↺ restart to run again');return;}
   signed=true; const aw=$('#artwrap'); if(!aw)return;
   const corrLine = corrections? `<span class="corr" style="color:var(--coherence,#7AA9FF)">Operator made ${corrections} correction${corrections>1?'s':''} to the read before sealing · this reflects the corrected judgment.</span> ` : '';
   const artifactHTML=`<div class="artifact"><div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
     <div class="abody"><p class="adec">Opus 4.8 cannot be used for calendar management or routine admin work.</p>
     <p class="arat">${corrLine}Calendar/admin usage does not map to the approved OKRs, and a registry-verified lower-cost agent (CalendarOps, ~10% of Opus) covers it. E14 is product engineering (PR-103) and is NOT reclassified.</p>
     <div class="apol"><span class="pc al">allow · product_dev</span><span class="pc al">allow · security_hardening</span><span class="pc al">allow · architecture_review</span><span class="pc dn">deny · calendar_management</span><span class="pc dn">deny · routine_admin</span><span class="pc dn">deny · generic_summarization</span></div>
-    <div class="arec"><span class="hl">anchored</span><span class="hs">sha256: 7d4b…a284 · local-first chain · entry ${6+corrections}/${6+corrections}</span><span class="ok">chain verified</span></div></div></div>
+    <div class="arec"><span class="hl">anchored</span><span class="hs">anchor 7d4b…a284 · local-first chain · entry ${6+corrections}/${6+corrections}</span><span class="ok">chain linked</span></div></div></div>
     <div class="calib-cta"><button data-go="mirror">◍ see how your judgment is calibrating →</button></div>`;
   aw.innerHTML=artifactHTML;
 
@@ -1232,6 +1235,7 @@ document.addEventListener('click',e=>{
   const fk=e.target.closest('[data-fckind]'); if(fk){const box=fk.closest('.fc-kinds');box.querySelectorAll('.fc-kind').forEach(x=>x.classList.toggle('on',x===fk));return;}
   const fcs=e.target.closest('[data-fcsave]'); if(fcs){signFindingCorrection(fcs.dataset.fcsave,fcs);return;}
   const act=e.target.closest('[data-act]'); if(act){if(act.dataset.act==='sign')mintArtifact();else toast('Deferred 30 days · returns in Today');return;}
+  if(e.target.closest('#reset-demo')){resetDemo();return;}
   if(e.target.closest('#cmdk-btn')){togglePalette(true);return;}
   if(e.target.id==='palette'){togglePalette(false);return;}
   const pr=e.target.closest('.pal-row'); if(pr){pr.dataset.act?doPalAct(pr.dataset.act):go(pr.dataset.goto);togglePalette(false);return;}
@@ -1265,6 +1269,8 @@ let OKR={product_pct:60,security_pct:40,objectives:[
   {name:'Improve security hardening',allocation:0.4,key_results:['Complete penetration testing and remediate P0/P1 issues']},
 ]};
 let REPORT=null, RUN_MODE='demo', REGISTRY_DATA=null, AGENT_FIT=null;
+const RUN_LABELS={demo:'demo',demonstration:'demonstration run',recorded:'recorded run · fixture'};
+function runLabel(){return RUN_LABELS[RUN_MODE]||RUN_LABELS.recorded;}
 
 async function initGovernData(){
   const run=new URLSearchParams(location.search).get('run');
@@ -1284,8 +1290,10 @@ async function initGovernData(){
       if(d.REGISTRY)REGISTRY_DATA=d.REGISTRY; if(d.AGENT_FIT)AGENT_FIT=d.AGENT_FIT;
       // hero swap-in-loop: replace the Outreach read's swap with the real marketplace comparison
       if(AGENT_FIT&&READS.outreach)READS.outreach.html='Drafted · the registry has a better-fit verified agent for this task <span class="cite" data-cite="registry">agent-registry</span>. Ready to ratify the routing rule.'+swapHTML(AGENT_FIT);
-      RUN_MODE=d.meta?.mode==='demonstration'?'demonstration':(d.meta?.mode==='live'?'live':'real');
-      const badge=$('#run-badge'); if(badge){badge.textContent=RUN_MODE==='demonstration'?'demonstration run':(RUN_MODE==='live'?'live run':'real run');badge.classList.add('on');}
+      RUN_MODE=d.meta?.mode==='demonstration'?'demonstration':'recorded';
+      // claim register: every ?run= payload is a recorded artifact — the badge may never
+      // render "live"/"real" regardless of what the fixture's meta.mode claims.
+      const badge=$('#run-badge'); if(badge){badge.textContent=runLabel();badge.classList.add('on');}
     }catch(err){
       console.warn('[govern] ?run load failed, using demo fixtures:',err);
     }
