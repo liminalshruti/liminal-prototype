@@ -116,7 +116,7 @@ Honest line between what runs today and what is built-but-not-yet-wired or roadm
 ## Team
 
 - **Shruti Rajagopal** — Founder, CEO. UC Berkeley (Cognitive Science + CS). PM at Asana, Cloudflare, Robinhood, Ancestry. Background in Jungian psychology and somatic practice.
-- **Sean Nejad** — CTO. Security and trust-boundary architecture. 11-year collaborator.
+- **Sean Nejad** — Co-founder, Engineering. Security and trust-boundary architecture. 11-year collaborator.
 
 ## Run locally
 
