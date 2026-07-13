@@ -11,9 +11,13 @@
    No DOM changes; re-levels via the existing grid + type. Fully reversible. */
 
 /* ── 1 · re-proportion the grid: center read dominates, rails recede ── */
-body.demo-calm .mid {
-  grid-template-columns: 248px minmax(0, 1fr) 280px;
-  gap: 0;
+/* desktop-only: on phones the cuts' own <=760px layout collapses the rails,
+   and this higher-specificity rule must not re-impose the fixed columns */
+@media (min-width: 761px) {
+  body.demo-calm .mid {
+    grid-template-columns: 248px minmax(0, 1fr) 280px;
+    gap: 0;
+  }
 }
 /* the side rails become ambient context: dimmed until you look at them */
 body.demo-calm .rail-l,
