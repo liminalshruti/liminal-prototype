@@ -1,6 +1,6 @@
 # Liminal Agents — prototype
 
-**Live demos: <https://liminalshruti.github.io/liminal-prototype/>**
+**Public demos: <https://liminalshruti.github.io/liminal-prototype/>**
 
 This is the public prototype surface for **Liminal** — judgment infrastructure for founders running multi-agent systems.
 
@@ -9,7 +9,7 @@ The core claim: when anyone can build, the bottleneck moves from output to **jud
 ## The product loop
 
 1. **Tray** — drag a window, doc, transcript, or session in. No pipes. No integrations. The Tray is the substrate the operator's other tools enter.
-2. **Bounded agents** — twelve specialists read what's there. They disagree. Out-of-lane agents refuse and name the right one.
+2. **Bounded agents** — bounded specialists read what's there. They disagree. Out-of-lane agents refuse and name the right one. (Register-named, not count-named — the canon parks the agent-count question deliberately.)
 3. **Correction** — when you push back, the semantic delta becomes first-party data.
 4. **Vault** — local-first. Every session, every correction, canonically hashed and searchable. The record is the moat. (Encryption-at-rest and packet signing are implemented in the `agents-v1` substrate library; wiring them into the shipping Tauri vault is on the near-term roadmap — see "Status: what's shipping vs. designed" below.)
 5. **Next move** — one signed packet. One thing the founder can stand behind.
@@ -100,7 +100,7 @@ Honest line between what runs today and what is built-but-not-yet-wired or roadm
 
 | Capability | Status |
 | --- | --- |
-| Bounded agents · refusal-as-output | **Shipping** — runs live in the cuts; the custody kernel (cut 09) recomputes the full loop in-browser each run. |
+| Bounded agents · refusal-as-output | **Shipping (in-browser)** — the custody kernel (cut 09) recomputes the full loop client-side each run; the other cuts choreograph the same loop over deterministic fixtures (labeled in-surface). |
 | Packet contract · canonical hashing | **Shipping** — implemented and tested in the `agents-v1` substrate (golden-test pinned); consumed by `liminal-desktop` for hashing. |
 | Canonical token lockstep | **Shipping** — single token vocabulary. Desktop's linked CSS in exact sync (2026-06-11, Panda codegen). This prototype re-synced to canon 2026-06-16 (was 171 vars behind) + now has `tokens:sync`/`tokens:check` + an opt-in pre-push hook (`scripts/tokens/pre-push-check.sh`) so drift is caught locally before it ships. (CI guard skipped: canon is a private sibling repo — cross-repo CI checkout needs a secret; local guard chosen instead.) Symlink ruled out (cross-repo symlink dangles on Pages deploy); flat-copy + sync-discipline is the mechanism. |
 | Vault encryption-at-rest · packet signing | **Designed, not yet wired** — implemented in the `agents-v1` library (SQLCipher v4 + keyguard); the shipping Tauri vault currently opens plaintext SQLite. Wiring is near-term. |
