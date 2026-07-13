@@ -644,12 +644,12 @@ const SUBJECTS={
 const sigHTML=s=>`<div class="sig ${s.state}" data-sig="${s.id}"><div class="src">${s.src}<span class="act">${s.state==='tray'?'harden ↑':'on slate'}</span></div><div class="nm">${s.nm}</div><div class="rows">${s.rows}</div></div>`;
 function renderSignals(){
   const tray=SIGNALS.filter(s=>s.state==='tray'), slate=SIGNALS.filter(s=>s.state!=='tray');
-  $('#signals').innerHTML=`<div class="rl-h">Tray · your work surfaces<span class="live">live</span></div><div class="rl-sub">each tile is a window from your work · you control what hardens onto the slate</div><div class="rl-grp">Slate · being read</div>${slate.map(sigHTML).join('')}${tray.length?`<div class="rl-grp">Tray · diffuse</div>${tray.map(sigHTML).join('')}`:''}`;
+  $('#signals').innerHTML=`<div class="rl-h">Tray · your work surfaces<span class="live">reading</span></div><div class="rl-sub">each tile is a window from your work · you control what hardens onto the slate</div><div class="rl-grp">Slate · being read</div>${slate.map(sigHTML).join('')}${tray.length?`<div class="rl-grp">Tray · diffuse</div>${tray.map(sigHTML).join('')}`:''}`;
 }
 
 // the ORBITAL agency rail (spend-subjected, canon-clean) ----------------------
 function renderAgency(){
-  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · 8 bounded + reviewer</span><span class="live">live</span></div>
+  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · 8 bounded + reviewer</span><span class="live">reading</span></div>
   <div class="orbital-rail"><svg class="orbital-svg" viewBox="0 0 280 320" preserveAspectRatio="xMidYMid meet">
     <g class="refusal-arrows">
       <path id="arrow-execcomms" class="refusal-arrow outreach" d="M 140 88 Q 220 160 140 232"/>
@@ -843,7 +843,7 @@ function renderSubjectLoop(){
 }
 function renderSubjectAgency(){
   const S=SUBJECTS[SUBJECT];
-  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · ${S.product.split('·')[0].trim()}</span><span class="live">live</span></div>
+  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · ${S.product.split('·')[0].trim()}</span><span class="live">reading</span></div>
     <div style="padding:10px 15px;display:flex;flex-direction:column;gap:9px">
     ${S.registers.map((nm,i)=>`<div style="border:1px solid var(--card-border);border-radius:6px;padding:10px 12px;background:var(--frame-bg-2)">
       <div style="font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--${REGCLS[i]==='synthesis'?'depth':REGCLS[i]==='outreach'?'connection':REGCLS[i]})">${nm}</div>

@@ -618,7 +618,10 @@
     0%, 100% { opacity: 0.5; transform: scaleX(0.92); }
     50%      { opacity: 0.9; transform: scaleX(1); }
   }
-  /* reader chips · small agent-initials in the upper-right margin */
+  /* reader chips · small agent-initials in the upper-right margin
+     (rules live in cut-shell-registers.css since the split refactor) */
+
+  /* ════════════════════════════════════════════════════════════════════════
      CONVERGED CHROME · index-cut style · canonical (Phase 1, 2026-06-17)
      ────────────────────────────────────────────────────────────────────────
      The shell chrome the founder likes — promoted from the index cuts
