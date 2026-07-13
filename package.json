@@ -9,7 +9,12 @@
     "start": "node server.mjs",
     "build:kernel": "bun build ../liminal-test/src/browser.ts --target=browser --format=esm --outfile=lib/osint-kernel.bundle.js",
     "tokens:sync": "node scripts/tokens/sync-upstream.mjs",
-    "tokens:check": "node scripts/tokens/sync-upstream.mjs --check"
+    "tokens:check": "node scripts/tokens/sync-upstream.mjs --check",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1"
+  }
 }

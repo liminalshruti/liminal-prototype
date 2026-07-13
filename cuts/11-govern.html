@@ -1184,8 +1184,13 @@ function initEngine(){
 
 // ── ratify → mint canonical artifact (corrections shape it) ─────────────────
 function mintArtifact(){
-  if(signed){toast('Already ratified this session · ↺ restart to run again');return;}
-  signed=true; const aw=$('#artwrap'); if(!aw)return;
+  const aw=$('#artwrap'); if(!aw)return;
+  /* three cases: first mint (log + toast), re-render after tab-hop (rebuild the
+     artifact, no new chain entry — pre-guard this path DUPLICATED the ratified
+     entry on every revisit), and a genuine second ratify attempt (guard toast) */
+  const rerender=signed;
+  if(signed&&aw.querySelector('.artifact')){toast('Already ratified this session · ↺ restart to run again');return;}
+  signed=true;
   const corrLine = corrections? `<span class="corr" style="color:var(--coherence,#7AA9FF)">Operator made ${corrections} correction${corrections>1?'s':''} to the read before sealing · this reflects the corrected judgment.</span> ` : '';
   const artifactHTML=`<div class="artifact"><div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
     <div class="abody"><p class="adec">Opus 4.8 cannot be used for calendar management or routine admin work.</p>
@@ -1203,10 +1208,12 @@ function mintArtifact(){
   }
 
   const sb=$('.db.sign'); if(sb) sb.style.display='none';
-  logChain('ratified · policy anchored · chain verified','corr');
-  $('#duebadge').style.display='none';
-  toast('Sealed & handed off · reversible by correction (append-only) · see it in Today');
-  aw.scrollIntoView({behavior:'smooth',block:'nearest'});
+  if(!rerender){
+    logChain('ratified · policy anchored · chain linked','corr');
+    $('#duebadge').style.display='none';
+    toast('Sealed & handed off · reversible by correction (append-only) · see it in Today');
+    aw.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
 }
 
 // ── routing ─────────────────────────────────────────────────────────────────
@@ -1234,11 +1241,13 @@ document.addEventListener('click',e=>{
   const fct=e.target.closest('[data-fcorrect]'); if(fct){fct.closest('.finding').classList.toggle('correcting');return;}
   const fk=e.target.closest('[data-fckind]'); if(fk){const box=fk.closest('.fc-kinds');box.querySelectorAll('.fc-kind').forEach(x=>x.classList.toggle('on',x===fk));return;}
   const fcs=e.target.closest('[data-fcsave]'); if(fcs){signFindingCorrection(fcs.dataset.fcsave,fcs);return;}
+  /* palette rows carry data-act too — they must be handled (and the palette
+     closed) BEFORE the generic [data-act] branch, or the palette sticks open */
+  const pr=e.target.closest('.pal-row'); if(pr){pr.dataset.act?doPalAct(pr.dataset.act):go(pr.dataset.goto);togglePalette(false);return;}
   const act=e.target.closest('[data-act]'); if(act){if(act.dataset.act==='sign')mintArtifact();else toast('Deferred 30 days · returns in Today');return;}
   if(e.target.closest('#reset-demo')){resetDemo();return;}
   if(e.target.closest('#cmdk-btn')){togglePalette(true);return;}
   if(e.target.id==='palette'){togglePalette(false);return;}
-  const pr=e.target.closest('.pal-row'); if(pr){pr.dataset.act?doPalAct(pr.dataset.act):go(pr.dataset.goto);togglePalette(false);return;}
   const rel=e.target.closest('[data-rel]'); if(rel){body.dataset.relationship=rel.dataset.rel;$$('.rel button').forEach(x=>x.classList.toggle('on',x===rel));return;}
 });
 
