@@ -146,6 +146,12 @@
   }
   .tdy-col { display: flex; flex-direction: column; gap: 1.5rem; }
 
+  /* phone: the two-column body stacks (drift-matrix row 2 — this cut had
+     no breakpoints at all) */
+  @media (max-width: 760px) {
+    .tdy-cols { grid-template-columns: 1fr; }
+  }
+
   .tdy-section-label {
     font-family: var(--mono, "Geist Mono", monospace);
     font-size: var(--fs-mono-xs);
@@ -604,5 +610,7 @@
 </script>
 
 <script src="../lib/surface-nav.js"></script>
+<!-- shared ↺ restart chip · drift-matrix row 3 -->
+<script src="../lib/demo-restart.js" defer></script>
 </body>
 </html>
