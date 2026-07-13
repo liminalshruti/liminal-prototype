@@ -64,7 +64,7 @@
   p { text-wrap: pretty; }
 
   .stage { min-height: 100vh; display: flex; flex-direction: column; align-items: center;
-           padding: clamp(20px, 5vw, 56px) 16px; }
+           padding: clamp(20px, 5vw, 56px) var(--space-4); }
   .term {
     width: min(900px, 100%);
     background: var(--frame-bg, #0C0C0F);
@@ -75,36 +75,36 @@
   }
 
   /* ── titlebar ── */
-  .tb { display: flex; align-items: center; gap: 12px; padding: 11px 16px;
+  .tb { display: flex; align-items: center; gap: var(--space-3); padding: 11px var(--space-4);
         border-bottom: 1px solid var(--card-border); background: var(--frame-bg-2, rgba(255,255,255,.015)); }
   .tb .lights { display: flex; gap: 7px; }
   .tb .lights i { width: 11px; height: 11px; border-radius: 50%; display: block; }
   .tb .r { background: #FF5F57; } .tb .y { background: #FEBC2E; } .tb .g { background: #28C840; }
-  .tb .who { font-family: var(--mono); font-size: 11px; color: var(--text-dim); letter-spacing: .04em; }
+  .tb .who { font-family: var(--mono); font-size: var(--fs-mono-sm); color: var(--text-dim); letter-spacing: .04em; }
   .tb .who b { color: var(--text-mid); font-weight: 500; }
-  .tb .surface { margin-left: auto; font-family: var(--mono); font-size: 10px; letter-spacing: .14em;
+  .tb .surface { margin-left: auto; font-family: var(--mono); font-size: var(--fs-mono-xs); letter-spacing: var(--ls-app-wider);
                  text-transform: uppercase; color: var(--text-faint);
-                 border: 1px solid var(--card-border); border-radius: 4px; padding: 3px 8px; }
+                 border: 1px solid var(--card-border); border-radius: var(--radius-3); padding: 3px var(--space-2); }
 
   /* ── the scrolling session body ── */
-  .body { padding: 22px clamp(16px, 3vw, 30px) 26px; font-family: var(--mono); font-size: 13px;
+  .body { padding: var(--space-5) clamp(var(--space-4), 3vw, 30px) 26px; font-family: var(--mono); font-size: var(--fs-mono-lg);
           line-height: 1.62; color: var(--text-mid); }
 
   /* a beat = one command + its output, revealed in sequence */
   .beat { opacity: 0; transform: translateY(8px);
           animation: rise 520ms var(--ease-out-quint, cubic-bezier(.22,1,.36,1)) both; }
   @keyframes rise { to { opacity: 1; transform: none; } }
-  .beat + .beat { margin-top: 26px; padding-top: 24px; border-top: 1px dashed var(--card-border); }
+  .beat + .beat { margin-top: 26px; padding-top: var(--space-app-5); border-top: 1px dashed var(--card-border); }
 
-  .beat-eyebrow { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-faint);
-                  display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .beat-eyebrow { font-size: var(--fs-eyebrow); letter-spacing: var(--ls-mono); text-transform: uppercase; color: var(--text-faint);
+                  display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); }
   .beat-eyebrow .n { color: var(--clarity); }
   .beat-eyebrow .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--clarity);
                        box-shadow: 0 0 10px var(--clarity-glow-soft, transparent); }
 
   .prompt { color: var(--text-faint); }
   .prompt .cmd { color: var(--clarity); }
-  .sysline { color: var(--text-faint); font-size: 12px; }
+  .sysline { color: var(--text-faint); font-size: var(--fs-mono); }
   .sysline em { color: var(--text-dim); font-style: normal; }
 
   /* enable beat */
@@ -115,66 +115,66 @@
   .enable .v.ok { color: var(--diligence, var(--clarity)); }
 
   /* swarm beat — agents posting candidates by lane */
-  .swarm { margin-top: 12px; display: flex; flex-direction: column; gap: 14px; }
-  .agent-post { border-left: 2px solid var(--card-border); padding: 2px 0 2px 14px; }
+  .swarm { margin-top: var(--space-3); display: flex; flex-direction: column; gap: 14px; }
+  .agent-post { border-left: 2px solid var(--card-border); padding: var(--space-app-0-5) 0 var(--space-app-0-5) 14px; }
   .agent-post.analyst { border-color: var(--diligence, var(--clarity)); }
   .agent-post.sdr     { border-color: var(--outreach, var(--connection, var(--clarity))); }
   .agent-post.auditor { border-color: var(--judgment); }
   .ap-hd { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-  .ap-name { font-size: 12px; font-weight: 500; letter-spacing: .04em; }
+  .ap-name { font-size: var(--fs-mono); font-weight: 500; letter-spacing: .04em; }
   .agent-post.analyst .ap-name { color: var(--diligence, var(--clarity)); }
   .agent-post.sdr     .ap-name { color: var(--outreach, var(--connection, var(--clarity))); }
   .agent-post.auditor .ap-name { color: var(--judgment); }
-  .ap-lane { font-size: 9px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); }
-  .ap-src  { font-size: 10px; color: var(--text-faint); margin-left: auto; }
-  .ap-cand { margin-top: 6px; font-family: var(--serif); font-size: 13.5px; line-height: 1.5; color: var(--text-mid); }
+  .ap-lane { font-size: var(--fs-eyebrow); letter-spacing: var(--ls-app-wider); text-transform: uppercase; color: var(--text-faint); }
+  .ap-src  { font-size: var(--fs-mono-xs); color: var(--text-faint); margin-left: auto; }
+  .ap-cand { margin-top: var(--space-app-1-5); font-family: var(--serif); font-size: var(--fs-sm); line-height: 1.5; color: var(--text-mid); }
   .ap-pending .ap-cand { color: var(--text-faint); font-style: italic; }
 
   /* try-liminal beat — three reads, refusals verbatim */
-  .reads { margin-top: 12px; display: flex; flex-direction: column; gap: 12px; }
-  .read { border-left: 2px solid var(--card-border); padding: 2px 0 2px 14px; }
+  .reads { margin-top: var(--space-3); display: flex; flex-direction: column; gap: var(--space-3); }
+  .read { border-left: 2px solid var(--card-border); padding: var(--space-app-0-5) 0 var(--space-app-0-5) 14px; }
   .read.inlane  { border-color: var(--diligence, var(--clarity)); }
   .read.refused { border-color: var(--judgment); }
   .rd-hd { display: flex; align-items: baseline; gap: 9px; }
-  .rd-name { font-size: 12px; font-weight: 500; letter-spacing: .04em; color: var(--text); }
-  .rd-tag { font-size: 9px; letter-spacing: .12em; text-transform: uppercase;
-            border: 1px solid var(--card-border); border-radius: 3px; padding: 2px 6px; color: var(--text-faint); }
+  .rd-name { font-size: var(--fs-mono); font-weight: 500; letter-spacing: .04em; color: var(--text); }
+  .rd-tag { font-size: var(--fs-eyebrow); letter-spacing: .12em; text-transform: uppercase;
+            border: 1px solid var(--card-border); border-radius: var(--radius-2); padding: var(--space-app-0-5) var(--space-app-1-5); color: var(--text-faint); }
   .read.inlane  .rd-tag { color: var(--diligence, var(--clarity)); border-color: var(--diligence, var(--clarity)); }
   .read.refused .rd-tag { color: var(--judgment); border-color: var(--judgment); }
-  .rd-body { margin-top: 6px; font-family: var(--serif); font-size: 13.5px; line-height: 1.52; color: var(--text-mid); }
-  .rd-body .refuse-line { display: block; font-family: var(--mono); font-size: 12px; color: var(--judgment); }
+  .rd-body { margin-top: var(--space-app-1-5); font-family: var(--serif); font-size: var(--fs-sm); line-height: 1.52; color: var(--text-mid); }
+  .rd-body .refuse-line { display: block; font-family: var(--mono); font-size: var(--fs-mono); color: var(--judgment); }
   .rd-body .refuse-why { color: var(--text-dim); }
 
   /* the correction capture */
-  .correct { margin-top: 16px; background: var(--diligence-bg, rgba(255,255,255,.02));
-             border: 1px solid var(--card-border); border-radius: 6px; padding: 13px 15px; }
-  .correct .q { font-size: 12px; color: var(--text-dim); }
-  .correct .a { margin-top: 8px; font-family: var(--serif); font-size: 13.5px; color: var(--text); }
-  .correct .tag { margin-top: 10px; display: inline-flex; align-items: baseline; gap: 8px;
-                  font-size: 10px; letter-spacing: .08em; }
-  .correct .tag .lbl { color: var(--text-faint); text-transform: uppercase; letter-spacing: .14em; }
+  .correct { margin-top: var(--space-4); background: var(--diligence-bg, rgba(255,255,255,.02));
+             border: 1px solid var(--card-border); border-radius: var(--radius-4); padding: 13px 15px; }
+  .correct .q { font-size: var(--fs-mono); color: var(--text-dim); }
+  .correct .a { margin-top: var(--space-2); font-family: var(--serif); font-size: var(--fs-sm); color: var(--text); }
+  .correct .tag { margin-top: 10px; display: inline-flex; align-items: baseline; gap: var(--space-2);
+                  font-size: var(--fs-mono-xs); letter-spacing: .08em; }
+  .correct .tag .lbl { color: var(--text-faint); text-transform: uppercase; letter-spacing: var(--ls-app-wider); }
   .correct .tag .chip { color: var(--diligence, var(--clarity)); border: 1px solid var(--diligence, var(--clarity));
-                        border-radius: 3px; padding: 2px 7px; }
+                        border-radius: var(--radius-2); padding: var(--space-app-0-5) 7px; }
   .correct .seal { margin-top: 11px; padding-top: 10px; border-top: 1px dashed var(--card-border);
-                   font-size: 11px; color: var(--text-dim); }
+                   font-size: var(--fs-mono-sm); color: var(--text-dim); }
   .correct .seal b { color: var(--text-mid); font-weight: 500; }
 
   /* install beat — the close line */
-  .install { margin-top: 12px; }
-  .install .line { font-family: var(--serif); font-size: 14px; line-height: 1.55; color: var(--text); }
-  .install .offer { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; }
-  .install .pill { font-family: var(--mono); font-size: 11px; color: var(--text-mid);
-                   border: 1px solid var(--card-border); border-radius: 5px; padding: 7px 12px; }
+  .install { margin-top: var(--space-3); }
+  .install .line { font-family: var(--serif); font-size: var(--fs-body); line-height: 1.55; color: var(--text); }
+  .install .offer { margin-top: var(--space-3); display: flex; flex-wrap: wrap; gap: 10px; }
+  .install .pill { font-family: var(--mono); font-size: var(--fs-mono-sm); color: var(--text-mid);
+                   border: 1px solid var(--card-border); border-radius: 5px; padding: 7px var(--space-3); }
   .install .pill b { color: var(--clarity); font-weight: 500; }
-  .install .footnote { margin-top: 12px; font-size: 11px; color: var(--text-faint); }
+  .install .footnote { margin-top: var(--space-3); font-size: var(--fs-mono-sm); color: var(--text-faint); }
 
   /* fixture-mode honesty banner */
-  .modeline { margin-top: 14px; font-size: 11px; color: var(--text-faint); }
+  .modeline { margin-top: 14px; font-size: var(--fs-mono-sm); color: var(--text-faint); }
   .modeline b { color: var(--text-dim); font-weight: 500; }
 
   @media (max-width: 600px) {
     .ap-src { margin-left: 0; width: 100%; }
-    .body { font-size: 12px; }
+    .body { font-size: var(--fs-mono); }
   }
   @media (prefers-reduced-motion: reduce) {
     body { transition: none; }
