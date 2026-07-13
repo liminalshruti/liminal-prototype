@@ -6,13 +6,13 @@
 <!-- brand ◇ favicon (data-URI) · kills the dev-console 404 on screen-share -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 <!--
-  Cut 11 · Govern · the real AI-Spend Governance loop (v2)
+  Cut 11 · Govern · the AI-Spend Governance loop (v2)
   ──────────────────────────────────────────────────────────────────────
   Loop-stage · full-loop · Altitude · L1→L2 · Surface · desktop
-  Framing · wedge→infra (AI-spend) · Maturity · live
+  Framing · wedge→infra (AI-spend) · Maturity · prototype (deterministic fixture)
   ──────────────────────────────────────────────────────────────────────
-  PORTED from the shipped Govern cockpit (liminal-govern/app) + RECONCILED with cut 11's
-  loved prototype interactions. Real verified figures ($13,045→$4,500 · naïve $446→verified $284; E14/PR-103 dropped $162
+  PORTED from the Govern cockpit build (liminal-govern/app) + RECONCILED with cut 11's
+  loved prototype interactions. Fixture figures from the recorded liminal-govern run ($13,045→$4,500 · naïve $446→verified $284; E14/PR-103 dropped $162
   adversarial catch). Restores: the 4-register read + the CORRECTION FLOW (correction is the
   primary act), the OKR allocation bar, the OG Today + Mirror surfaces, and the
   ORBITAL agency rail (8 bounded + adversarial reviewer, per liminal-govern canon;
@@ -50,7 +50,7 @@ body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-fo
 .tabs{display:flex;gap: var(--space-app-0-5);margin: 0 auto}
 .tab{font:9px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid transparent;border-radius: var(--radius-3);padding: var(--space-app-1-5) 11px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap: 7px}
 .tab:hover{color:var(--text);background:var(--hover)}.tab.on{color:var(--text);background:var(--hover);border-color:var(--card-border)}
-.tab .k{font-size: 8px;color:var(--text-mute);border:1px solid var(--card-border);border-radius: var(--radius-1);padding: 0 var(--space-1)}
+.tab .k{font-size: 8px;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-1);padding: 0 var(--space-1)}
 .tab .badge{background:var(--watch);color:var(--bg);border-radius: 8px;font-size: 8px;padding: 1px 5px;letter-spacing: 0}
 .cmdk{font:9px/1 var(--mono);letter-spacing: .1em;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-3);padding: var(--space-app-1-5) 9px;cursor:pointer;display:flex;gap: var(--space-app-1-5);align-items:center}
 .cmdk:hover{color:var(--text-mid);border-color:var(--text-faint)}
@@ -72,8 +72,8 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .rail-l{background:var(--frame-bg-2);border-right:1px solid var(--frame-border);padding: 13px 0;overflow-y:auto}
 .rl-h{display:flex;align-items:center;gap: 7px;padding: 0 15px var(--space-2);font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint)}
 .rl-h .live{display:inline-flex;align-items:center;gap: 5px;color:var(--signal);margin-left: auto}.rl-h .live::before{content:"";width:6px;height:6px;border-radius: 50%;background:var(--signal);animation:pl 1.1s var(--ease) infinite}
-.rl-sub{padding: 0 15px 9px;font:8px/1.4 var(--mono);letter-spacing: .08em;color:var(--text-mute);border-bottom:1px solid var(--frame-border);margin-bottom: var(--space-2)}
-.rl-grp{padding: 9px 15px var(--space-1);font:8px/1 var(--mono);letter-spacing: var(--ls-mono);text-transform:uppercase;color:var(--text-mute)}
+.rl-sub{padding: 0 15px 9px;font:8px/1.4 var(--mono);letter-spacing: .08em;color:var(--text-faint);border-bottom:1px solid var(--frame-border);margin-bottom: var(--space-2)}
+.rl-grp{padding: 9px 15px var(--space-1);font:8px/1 var(--mono);letter-spacing: var(--ls-mono);text-transform:uppercase;color:var(--text-faint)}
 /* the tile · cut-01 .tile shape */
 .sig{position:relative;margin: var(--space-app-1-5) 9px var(--space-app-1-5) var(--space-5);border:1px solid var(--card-border);border-radius: var(--radius-3);background:var(--frame-bg-2);cursor:pointer;overflow:hidden;transition:border-color .22s var(--ease),transform .28s var(--ease),box-shadow .28s var(--ease),opacity .22s}
 /* seated nib · the tab linking the tile to the rail (cut 01) */
@@ -100,7 +100,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .pad{padding: var(--space-5) var(--space-6);display:flex;flex-direction:column;gap: var(--space-4)}
 .invoke{display:flex;align-items:baseline;gap: 10px;font:10px/1 var(--mono);letter-spacing: var(--ls-app-wide);color:var(--text-faint);border-bottom:1px solid var(--card-border);padding-bottom: var(--space-3)}
 .invoke b{color:var(--diligence);letter-spacing: .12em;text-transform:uppercase}
-.invoke .invoke-q{margin-left: auto;color:var(--text-mute);letter-spacing: .04em}.invoke .invoke-q b{color:var(--text-mid);text-transform:none;letter-spacing: var(--ls-app-loose)}
+.invoke .invoke-q{margin-left: auto;color:var(--text-faint);letter-spacing: .04em}.invoke .invoke-q b{color:var(--text-mid);text-transform:none;letter-spacing: var(--ls-app-loose)}
 
 /* ── SUBJECT SWITCHER (converged from cut 00) · the loop's subject is a parameter ── */
 .subjects{display:flex;gap: 3px;margin: 0 0 14px;background:var(--frame-bg);border:1px solid var(--card-border);border-radius: var(--radius-4);padding: 3px;width:fit-content}
@@ -134,7 +134,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .sense-h{display:flex;align-items:baseline;gap: 10px}
 .sense-h .anum{font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);color:var(--diligence);border:1px solid var(--diligence-edge);border-radius: var(--radius-2);padding: 3px var(--space-app-1-5)}
 .sense-h .atitle{font:500 16px/1.2 var(--display);color:var(--text)}
-.sense-h .asub{margin-left: auto;font:9px/1 var(--mono);color:var(--text-mute)}
+.sense-h .asub{margin-left: auto;font:9px/1 var(--mono);color:var(--text-faint)}
 .tbl{width:100%;border-collapse:collapse;font:11px/1.5 var(--mono);border:1px solid var(--card-border);border-radius: 7px;overflow:hidden}
 .tbl th{text-align:left;padding: var(--space-2) 11px;font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);background:var(--frame-bg-3);border-bottom:1px solid var(--frame-border)}
 .tbl td{padding: 7px 11px;color:var(--text-dim);border-bottom:1px solid var(--frame-border)}
@@ -150,7 +150,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .reg{padding: 14px 0;border-bottom:1px solid rgba(255,255,255,.03);position:relative;opacity:0;transform:translateY(5px);animation:rin .5s var(--ease) forwards}
 .reg .rh{display:flex;align-items:baseline;gap: 10px}
 .reg .rname{font:10px/1 var(--mono);letter-spacing: var(--ls-mono-lg);text-transform:uppercase}
-.reg .rt{font:9px/1 var(--mono);color:var(--text-mute);margin-left: auto}
+.reg .rt{font:9px/1 var(--mono);color:var(--text-faint);margin-left: auto}
 .reg .amend{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 3px 7px;cursor:pointer;opacity:0;transition:.15s}
 .reg:hover .amend{opacity:1}.reg .amend:hover{color:var(--diligence);border-color:var(--diligence)}
 .reg .rbody{margin-top: 9px;font:14px/1.55 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid)}
@@ -165,14 +165,16 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .reg-edit .er{display:flex;gap: var(--space-2);align-items:center}
 .reg-edit .save{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius: var(--radius-2);padding: 7px var(--space-3);cursor:pointer}
 .reg-edit .cancel{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);background:transparent;border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 7px var(--space-3);cursor:pointer}
-.reg-edit .hint{margin-left: auto;font:8px/1.4 var(--mono);color:var(--text-mute);letter-spacing: var(--ls-app-wide);max-width:30ch;text-align:right}
+.reg-edit .hint{margin-left: auto;font:8px/1.4 var(--mono);color:var(--text-faint);letter-spacing: var(--ls-app-wide);max-width:30ch;text-align:right}
 .cite{font:9px/1 var(--mono);letter-spacing: .04em;color:var(--depth);border:1px solid var(--depth-edge);border-radius: var(--radius-2);padding: var(--space-app-0-5) var(--space-app-1-5);margin-left: var(--space-1);cursor:pointer;transition:.15s;white-space:nowrap}
 .cite:hover{background:var(--depth-bg)}
 
 /* OKR allocation bar (restored) · canon tokens only */
 .allocbar{margin-top: 11px;height:26px;border-radius: var(--radius-3);overflow:hidden;display:flex;border:1px solid var(--card-border);position:relative;max-width:400px}
-.allocbar .p{background:var(--diligence);display:flex;align-items:center;padding-left: 10px;font:9px/1 var(--mono);color:#fff;letter-spacing: .08em}
-.allocbar .s{background:var(--depth);display:flex;align-items:center;padding-left: 10px;font:9px/1 var(--mono);color:#fff;letter-spacing: .08em;position:relative}
+/* labels ride a darker stop of the same register hue — white at 9px needs
+   4.5:1 and the mid stops only give ~3.9 (diligence) / ~4.0 (depth) */
+.allocbar .p{background:color-mix(in oklch,var(--diligence) 72%,black);display:flex;align-items:center;padding-left: 10px;font:9px/1 var(--mono);color:#fff;letter-spacing: .08em}
+.allocbar .s{background:color-mix(in oklch,var(--depth) 72%,black);display:flex;align-items:center;padding-left: 10px;font:9px/1 var(--mono);color:#fff;letter-spacing: .08em;position:relative}
 .allocbar .ghost{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--alarm);box-shadow:0 0 0 1px var(--alarm)}
 .allocbar .ghost::after{content:"actual 24%";position:absolute;top:-15px;left:-25px;font:8px/1 var(--mono);color:var(--alarm);white-space:nowrap}
 
@@ -197,7 +199,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .recon .rc .l{font:8px/1 var(--mono);letter-spacing: .1em;text-transform:uppercase;color:var(--text-faint)}
 .recon .rc .v{margin-top: var(--space-app-1-5);font:600 19px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
 .recon .rc.drop .v{color:var(--alarm)}.recon .rc.verified .v{color:var(--good)}.recon .rc.naive .v{color:var(--text-faint)}
-.recon .rc .op{position:absolute;left:-9px;top:50%;transform:translateY(-50%);font:13px/1 var(--mono);color:var(--text-mute)}
+.recon .rc .op{position:absolute;left:-9px;top:50%;transform:translateY(-50%);font:13px/1 var(--mono);color:var(--text-faint)}
 
 /* FINDING · clickable provenance artifact (THE hero interaction) */
 .finding{border:1px solid var(--card-border);border-radius: 7px;background:var(--frame-bg-2);overflow:hidden;margin-bottom: 9px}
@@ -210,7 +212,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .finding-head .bdg.good{color:var(--good)}.finding-head .bdg.bad{color:var(--alarm)}.finding-head .bdg.acc{color:var(--diligence)}
 .finding-head .ftitle{font:500 13.5px/1.3 var(--sans);color:var(--text)}.finding.dropped .ftitle{color:var(--text-faint);text-decoration:line-through;text-decoration-color:var(--alarm)}
 .finding-head .fsave{font:600 16px/1 var(--mono);color:var(--good);font-variant-numeric:tabular-nums;white-space:nowrap}
-.finding-head .chev{font:10px/1 var(--mono);color:var(--text-mute);transition:transform .2s;margin-top: var(--space-app-0-5)}
+.finding-head .chev{font:10px/1 var(--mono);color:var(--text-faint);transition:transform .2s;margin-top: var(--space-app-0-5)}
 .finding.open .chev{transform:rotate(90deg)}
 .finding-route{margin: 0 13px 9px;padding: 7px 10px;background:var(--diligence-bg);border:1px solid var(--diligence-edge);border-radius: var(--radius-3);font:10px/1.4 var(--mono);color:var(--text-mid)}
 .finding-route .chip{color:var(--connection);border:1px solid var(--connection);border-radius: var(--radius-2);padding: 1px 5px;margin: 0 3px}
@@ -255,7 +257,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .savings{display:flex;align-items:baseline;gap: 9px;margin-top: 11px;font:11px/1 var(--mono)}
 .savings .was{color:var(--text-faint);text-decoration:line-through;text-decoration-color:var(--alarm)}
 .savings .now{font:600 19px/1 var(--mono);color:var(--good);font-variant-numeric:tabular-nums}
-.savings .lbl{color:var(--text-mute);letter-spacing: .04em}
+.savings .lbl{color:var(--text-faint);letter-spacing: .04em}
 
 /* ratify */
 .policy{border:1px solid var(--diligence-edge);border-radius: 8px;padding: var(--space-4) 18px;background:linear-gradient(180deg,var(--diligence-bg),transparent)}
@@ -278,7 +280,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .tcard{display:block;width:100%;text-align:left;border:1px solid var(--card-border);border-radius: 8px;background:var(--frame-bg-2);padding: var(--space-4) 18px;margin-bottom: var(--space-3);cursor:pointer;transition:.15s;color:inherit}
 .tcard:hover{border-color:var(--text-faint);background:var(--frame-bg-3)}
 .tcard .tk{display:flex;align-items:center;gap: var(--space-2);font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase}
-.tcard .tk .meta{margin-left: auto;color:var(--text-mute);letter-spacing: .08em}
+.tcard .tk .meta{margin-left: auto;color:var(--text-faint);letter-spacing: .08em}
 .tcard.decide .tk{color:var(--watch)}.tcard.outcome .tk{color:var(--connection)}.tcard.mirror .tk{color:var(--diligence)}
 .tcard h3{margin: var(--space-2) 0 var(--space-1);font:500 17px/1.2 var(--display);color:var(--text)}
 .tcard p{margin: 0;font:13.5px/1.5 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim)}
@@ -307,6 +309,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 /* ── run-badge · marks a real-pipeline run vs the inline demo ── */
 .run-badge{margin-left: auto;font:8px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: var(--space-1) var(--space-2);align-self:center}
 .run-badge.on{color:var(--connection);border-color:var(--connection)}
+button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}button.run-badge.reset:hover{color:var(--text-soft);border-color:var(--text-soft)}
 
 /* ── OKR surface (reuses .today shell) ── */
 .okrs{display:flex;flex-direction:column;gap: 18px;margin: var(--space-app-1-5) 0 18px}
@@ -337,7 +340,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .agent .bdg.ok{color:var(--good)}.agent .bdg.warn{color:var(--watch)}.agent .bdg.cost{color:var(--diligence)}
 .agent .lanes{display:flex;flex-wrap:wrap;gap: 5px;margin-top: 9px}
 .agent .lane{font:8px/1 var(--mono);color:var(--text-dim);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 3px var(--space-app-1-5)}
-.agent .prov{margin-top: 9px;padding-top: var(--space-2);border-top:1px solid var(--frame-border);font:8.5px/1.4 var(--mono);color:var(--text-mute)}
+.agent .prov{margin-top: 9px;padding-top: var(--space-2);border-top:1px solid var(--frame-border);font:8.5px/1.4 var(--mono);color:var(--text-faint)}
 .agent .prov .phash{color:var(--diligence)}
 
 /* ── rich registry agent cards (real reputation + proof) ── */
@@ -362,7 +365,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .mside .mcost{font:11px/1 var(--mono);color:var(--text)}
 .mside .mrep{font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--good)}
 .mside .mlanes{display:flex;flex-wrap:wrap;gap: var(--space-1);margin-top: var(--space-app-0-5)}
-.mside .mproof{margin-top: auto;padding-top: 7px;font:8px/1.4 var(--mono);color:var(--text-mute)}
+.mside .mproof{margin-top: auto;padding-top: 7px;font:8px/1.4 var(--mono);color:var(--text-faint)}
 .marrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap: var(--space-1);font:15px/1 var(--mono);color:var(--text-faint);border-left:1px solid var(--frame-border);border-right:1px solid var(--frame-border)}
 .marrow .msave{font:8px/1 var(--mono);color:var(--good);letter-spacing: .04em}
 
@@ -394,7 +397,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .orbital-coverage .ce{color:var(--text-mid)}
 
 /* ── BOTTOM RIBBON · chain ── */
-.ev{display:flex;gap: var(--space-app-1-5);align-items:baseline;flex-shrink:0}.ev .t{color:var(--text-mute)}.ev .e{color:var(--text-mid)}
+.ev{display:flex;gap: var(--space-app-1-5);align-items:baseline;flex-shrink:0}.ev .t{color:var(--text-faint)}.ev .e{color:var(--text-mid)}
 .ev.ref .e{color:var(--judgment)}.ev.corr .e{color:var(--diligence)}.ev.fresh{animation:fr 1.6s var(--ease)}
 
 /* ⌘K palette + toast */
@@ -404,7 +407,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .pal-box input{width:100%;background:transparent;border:0;outline:0;padding: 15px 18px;color:var(--text);font:14px/1 var(--mono);border-bottom:1px solid var(--frame-border)}
 .pal-box input::placeholder{color:var(--text-faint)}
 .pal-row{display:flex;align-items:center;gap: var(--space-3);padding: 11px var(--space-4);cursor:pointer;font:11px/1 var(--mono);color:var(--text-mid)}
-.pal-row:hover,.pal-row.sel{background:var(--hover);color:var(--text)}.pal-row .pk{margin-left: auto;font-size: var(--fs-eyebrow);color:var(--text-mute);border:1px solid var(--card-border);border-radius: var(--radius-1);padding: 1px 5px}
+.pal-row:hover,.pal-row.sel{background:var(--hover);color:var(--text)}.pal-row .pk{margin-left: auto;font-size: var(--fs-eyebrow);color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-1);padding: 1px 5px}
 .toast{position:absolute;bottom:48px;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;background:var(--frame-bg);border:1px solid var(--diligence);border-radius: var(--radius-4);padding: 9px 14px;font:10px/1.3 var(--mono);color:var(--text);box-shadow:0 12px 30px rgba(0,0,0,.5);z-index:40;transition:opacity .2s,transform .2s;letter-spacing: .04em;display:flex;gap: var(--space-2);align-items:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast .d{color:var(--diligence)}
 
@@ -444,6 +447,30 @@ body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:colum
 .run-badge:not(.on){opacity:.4;transition:opacity .2s}.run-badge:hover{opacity:1}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.reg{opacity:1;transform:none}}
+
+/* ── phone layout · forwarded links get opened on phones ─────────────────────
+   The desktop shell is a fixed 280px/1fr/320px instrument; below 760px the
+   rails collapse (same move the today/log surfaces already make) and the work
+   pane owns the width. Wide evidence tables scroll inside their own pane
+   rather than clipping — the page never pans sideways. */
+@media (max-width:760px){
+  /* the shell is a flex item: min-width:auto inflates it to the title bar's
+     ~655px min-content and the whole frame slides off-canvas. Pin it. */
+  .shell{min-width:0;max-width:97vw}
+  .rb-top{flex-wrap:wrap;row-gap:6px}
+  .rb-bot{overflow-x:auto}
+  /* minmax(0,1fr): a bare 1fr keeps its auto minimum and the evidence table's
+     min-content width (~655px) would blow the column out past the viewport */
+  .mid{grid-template-columns:0px minmax(0,1fr) 0px}
+  .rail-l,.rail-r{opacity:0;pointer-events:none}
+  .work{overflow-x:auto;min-width:0}
+  .tabs{overflow-x:auto;max-width:56vw}
+  .recon{grid-template-columns:1fr}
+  .agents{grid-template-columns:1fr}
+  .mstats{grid-template-columns:1fr}
+  .swap,.mswap-grid{grid-template-columns:1fr;max-width:none}
+  .swap > *:nth-child(2),.mswap-grid > *:nth-child(2){display:none}
+}
 </style>
 </head>
 <body data-beat="3">
@@ -460,6 +487,7 @@ body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:colum
       <button class="tab" data-go="registry"><span class="k">6</span>Registry</button>
       <button class="tab" data-go="log"><span class="k">7</span>Log</button>
       <span class="run-badge" id="run-badge">demo</span>
+      <button class="run-badge reset" id="reset-demo" title="Restart the demo from a clean opening state (also ⌥R)">↺ restart</button>
     </div>
     <div class="cmdk" id="cmdk-btn"><span>⌘K</span></div>
     <div class="rel"><span class="lbl">rel</span>
@@ -889,7 +917,7 @@ function renderToday(){
         <!-- Needs a decision -->
         <div>
           <div style="font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.85rem;display:flex;justify-content:space-between">
-            <span>Needs a decision</span><span style="color:var(--text-mute);font-size:8px">held 2 days · re-read 04:12</span>
+            <span>Needs a decision</span><span style="color:var(--text-faint);font-size:8px">held 2 days · re-read 04:12</span>
           </div>
           <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.6rem 1.7rem">
             <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap">
@@ -910,7 +938,7 @@ function renderToday(){
         <!-- Re-surfaced overnight -->
         <div>
           <div style="font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.85rem;display:flex;justify-content:space-between">
-            <span>Re-surfaced overnight</span><span style="color:var(--text-mute);font-size:8px">2 held reads · no decision due</span>
+            <span>Re-surfaced overnight</span><span style="color:var(--text-faint);font-size:8px">2 held reads · no decision due</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:0.7rem">
             <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:7px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:0.4rem">
@@ -938,7 +966,7 @@ function renderToday(){
         <!-- Close the loop (outcome sealing) -->
         <div>
           <div style="font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.85rem;display:flex;justify-content:space-between">
-            <span>Close the loop</span><span style="color:var(--text-mute);font-size:8px">outcome due · 27 days ago</span>
+            <span>Close the loop</span><span style="color:var(--text-faint);font-size:8px">outcome due · 27 days ago</span>
           </div>
           <div id="tdy-loop" style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.6rem 1.7rem">
             <div style="font:500 1.3rem var(--display);line-height:1.25;color:var(--text);letter-spacing:-.01em;margin-bottom:0.7rem">You held the seed round to chase a cleaner close.</div>
@@ -1006,7 +1034,7 @@ function renderReport(){
   body.dataset.surface='report';
   const r=REPORT;
   if(!r){
-    $('#work').innerHTML=`<div class="today"><div class="greet">Spend-ROI report</div><h1>No ratified run yet.</h1><p class="lede">Run the loop and ratify a decision · the report is generated from the finding + the signed decision, and cites its sources. ${RUN_MODE==='demo'?'(Open with <code>?run=govern-run.json</code> to see a real pipeline report.)':''}</p><button class="tcard decide" data-go="loop"><div class="tk">Go to the loop</div><h3>Sense → read → ratify</h3></button></div>`;
+    $('#work').innerHTML=`<div class="today"><div class="greet">Spend-ROI report</div><h1>No ratified run yet.</h1><p class="lede">Run the loop and ratify a decision · the report is generated from the finding + the signed decision, and cites its sources. ${RUN_MODE==='demo'?'(Open with <code>?run=govern-run.json</code> to see a recorded pipeline report · deterministic fixture.)':''}</p><button class="tcard decide" data-go="loop"><div class="tk">Go to the loop</div><h3>Sense → read → ratify</h3></button></div>`;
     return;
   }
   const pct=r.spend?.pct||{};
@@ -1014,7 +1042,7 @@ function renderReport(){
   const fp=(r.false_positives_removed||[]).map(f=>`<li><b>${f.event}</b> · ${f.reason}</li>`).join('');
   const under=(r.under_allocated||[]).map(u=>`<li>${u.objective}: ${u.actual_pct}% actual vs ${u.target_pct}% target</li>`).join('');
   $('#work').innerHTML=`<div class="mirror">
-    <div class="greet">Spend-ROI report · ${r.period||'2026-06'} · ${r.persona||'Rhea'} · ${RUN_MODE} run</div>
+    <div class="greet">Spend-ROI report · ${r.period||'2026-06'} · ${r.persona||'Rhea'} · ${runLabel()}</div>
     <h1>Spend, against the OKRs you set.</h1>
     <p class="lede">${r.business_impact||''}</p>
     <div class="mstats">
@@ -1106,12 +1134,12 @@ function renderRegistry(){
   const list=REGISTRY_DATA||AGENTS;
   const cards=list.map(agentCardHTML).join('');
   const verifiable=!!REGISTRY_DATA;
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> · a real survived/landed score plus an integrity hash. ${verifiable?'Verified agents carry registry attestation (proven at Berlin on Algorand TestNet; product anchoring optional/roadmap); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
+  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> · a survived/landed score plus an integrity hash. ${verifiable?'Verified agents carry registry attestation (receipt: demonstrated at Berlin on Algorand TestNet · product anchoring is roadmap); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
 }
 function renderLog(){
   body.dataset.surface='log';
   const rows=LOG.map(e=>`<tr><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td class="num">${e[3]}</td><td class="num">${e[4]}</td></tr>`).join('');
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · decision log</div><h1>Decision log</h1><p class="lede">Append-only trail. Every surviving finding entered the chain; the ratified policy is a new linked entry; the refuted claim is recorded, never silently dropped. Real SHA-256 anchors, hash-linked.</p><table class="tbl"><thead><tr><th>#</th><th>Kind</th><th>Entry</th><th>packet_hash</th><th>prev_hash</th></tr></thead><tbody>${rows}</tbody></table><p class="lede" style="font:11px/1.5 var(--mono);color:var(--text-mute)">${LOG.filter(e=>e[0]!=='—').length} anchored · 1 refuted${signed?' · 1 ratified this session':''} · ${corrections} correction${corrections!==1?'s':''} signed.</p></div>`;
+  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · decision log</div><h1>Decision log</h1><p class="lede">Append-only trail. Every surviving finding entered the chain; the ratified policy is a new linked entry; the refuted claim is recorded, never silently dropped. Hash-linked, append-only · anchors shown are illustrative (deterministic fixture); the product chain anchors with SHA-256.</p><table class="tbl"><thead><tr><th>#</th><th>Kind</th><th>Entry</th><th>packet_hash</th><th>prev_hash</th></tr></thead><tbody>${rows}</tbody></table><p class="lede" style="font:11px/1.5 var(--mono);color:var(--text-faint)">${LOG.filter(e=>e[0]!=='—').length} anchored · 1 refuted${signed?' · 1 ratified this session':''} · ${corrections} correction${corrections!==1?'s':''} signed.</p></div>`;
 }
 
 // ── correction flow (restored) ──────────────────────────────────────────────
@@ -1142,7 +1170,7 @@ function signFindingCorrection(fid,btn){
   const h=(0x7d4b+corrections).toString(16);
   logChain('correction · '+kind+' · '+fid+' · re-anchored','corr');
   card.classList.add('corrected');
-  card.querySelector('.fc-done').innerHTML=`✓ correction appended &amp; re-anchored · <span class="mono">${kind}</span> · sha256 ${h}…a${corrections}9 · <span style="color:var(--good)">chain verified</span>`;
+  card.querySelector('.fc-done').innerHTML=`✓ correction appended &amp; re-anchored · <span class="mono">${kind}</span> · anchor ${h}…a${corrections}9 · <span style="color:var(--good)">chain linked</span>`;
   const cc=$('#corrcount'); if(cc) cc.textContent=corrections+' correction'+(corrections>1?'s':'')+' · this is YOUR read now';
   const pre=$('.db.sign .pre'); if(pre) pre.textContent='correct →';
   toast('Correction signed · '+kind+' · new linked entry, chain stays verifiable ✓');
@@ -1182,13 +1210,19 @@ function initEngine(){
 
 // ── ratify → mint canonical artifact (corrections shape it) ─────────────────
 function mintArtifact(){
-  signed=true; const aw=$('#artwrap'); if(!aw)return;
+  const aw=$('#artwrap'); if(!aw)return;
+  /* three cases: first mint (log + toast), re-render after tab-hop (rebuild the
+     artifact, no new chain entry — pre-guard this path DUPLICATED the ratified
+     entry on every revisit), and a genuine second ratify attempt (guard toast) */
+  const rerender=signed;
+  if(signed&&aw.querySelector('.artifact')){toast('Already ratified this session · ↺ restart to run again');return;}
+  signed=true;
   const corrLine = corrections? `<span class="corr" style="color:var(--coherence,#7AA9FF)">Operator made ${corrections} correction${corrections>1?'s':''} to the read before sealing · this reflects the corrected judgment.</span> ` : '';
   const artifactHTML=`<div class="artifact"><div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
     <div class="abody"><p class="adec">Opus 4.8 cannot be used for calendar management or routine admin work.</p>
     <p class="arat">${corrLine}Calendar/admin usage does not map to the approved OKRs, and a registry-verified lower-cost agent (CalendarOps, ~10% of Opus) covers it. E14 is product engineering (PR-103) and is NOT reclassified.</p>
     <div class="apol"><span class="pc al">allow · product_dev</span><span class="pc al">allow · security_hardening</span><span class="pc al">allow · architecture_review</span><span class="pc dn">deny · calendar_management</span><span class="pc dn">deny · routine_admin</span><span class="pc dn">deny · generic_summarization</span></div>
-    <div class="arec"><span class="hl">anchored</span><span class="hs">sha256: 7d4b…a284 · local-first chain · entry ${6+corrections}/${6+corrections}</span><span class="ok">chain verified</span></div></div></div>
+    <div class="arec"><span class="hl">anchored</span><span class="hs">anchor 7d4b…a284 · local-first chain · entry ${6+corrections}/${6+corrections}</span><span class="ok">chain linked</span></div></div></div>
     <div class="calib-cta"><button data-go="mirror">◍ see how your judgment is calibrating →</button></div>`;
   aw.innerHTML=artifactHTML;
 
@@ -1200,10 +1234,12 @@ function mintArtifact(){
   }
 
   const sb=$('.db.sign'); if(sb) sb.style.display='none';
-  logChain('ratified · policy anchored · chain verified','corr');
-  $('#duebadge').style.display='none';
-  toast('Sealed & handed off · reversible by correction (append-only) · see it in Today');
-  aw.scrollIntoView({behavior:'smooth',block:'nearest'});
+  if(!rerender){
+    logChain('ratified · policy anchored · chain linked','corr');
+    $('#duebadge').style.display='none';
+    toast('Sealed & handed off · reversible by correction (append-only) · see it in Today');
+    aw.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
 }
 
 // ── routing ─────────────────────────────────────────────────────────────────
@@ -1231,10 +1267,13 @@ document.addEventListener('click',e=>{
   const fct=e.target.closest('[data-fcorrect]'); if(fct){fct.closest('.finding').classList.toggle('correcting');return;}
   const fk=e.target.closest('[data-fckind]'); if(fk){const box=fk.closest('.fc-kinds');box.querySelectorAll('.fc-kind').forEach(x=>x.classList.toggle('on',x===fk));return;}
   const fcs=e.target.closest('[data-fcsave]'); if(fcs){signFindingCorrection(fcs.dataset.fcsave,fcs);return;}
+  /* palette rows carry data-act too — they must be handled (and the palette
+     closed) BEFORE the generic [data-act] branch, or the palette sticks open */
+  const pr=e.target.closest('.pal-row'); if(pr){pr.dataset.act?doPalAct(pr.dataset.act):go(pr.dataset.goto);togglePalette(false);return;}
   const act=e.target.closest('[data-act]'); if(act){if(act.dataset.act==='sign')mintArtifact();else toast('Deferred 30 days · returns in Today');return;}
+  if(e.target.closest('#reset-demo')){resetDemo();return;}
   if(e.target.closest('#cmdk-btn')){togglePalette(true);return;}
   if(e.target.id==='palette'){togglePalette(false);return;}
-  const pr=e.target.closest('.pal-row'); if(pr){pr.dataset.act?doPalAct(pr.dataset.act):go(pr.dataset.goto);togglePalette(false);return;}
   const rel=e.target.closest('[data-rel]'); if(rel){body.dataset.relationship=rel.dataset.rel;$$('.rel button').forEach(x=>x.classList.toggle('on',x===rel));return;}
 });
 
@@ -1265,6 +1304,8 @@ let OKR={product_pct:60,security_pct:40,objectives:[
   {name:'Improve security hardening',allocation:0.4,key_results:['Complete penetration testing and remediate P0/P1 issues']},
 ]};
 let REPORT=null, RUN_MODE='demo', REGISTRY_DATA=null, AGENT_FIT=null;
+const RUN_LABELS={demo:'demo',demonstration:'demonstration run',recorded:'recorded run · fixture'};
+function runLabel(){return RUN_LABELS[RUN_MODE]||RUN_LABELS.recorded;}
 
 async function initGovernData(){
   const run=new URLSearchParams(location.search).get('run');
@@ -1284,8 +1325,10 @@ async function initGovernData(){
       if(d.REGISTRY)REGISTRY_DATA=d.REGISTRY; if(d.AGENT_FIT)AGENT_FIT=d.AGENT_FIT;
       // hero swap-in-loop: replace the Outreach read's swap with the real marketplace comparison
       if(AGENT_FIT&&READS.outreach)READS.outreach.html='Drafted · the registry has a better-fit verified agent for this task <span class="cite" data-cite="registry">agent-registry</span>. Ready to ratify the routing rule.'+swapHTML(AGENT_FIT);
-      RUN_MODE=d.meta?.mode==='demonstration'?'demonstration':(d.meta?.mode==='live'?'live':'real');
-      const badge=$('#run-badge'); if(badge){badge.textContent=RUN_MODE==='demonstration'?'demonstration run':(RUN_MODE==='live'?'live run':'real run');badge.classList.add('on');}
+      RUN_MODE=d.meta?.mode==='demonstration'?'demonstration':'recorded';
+      // claim register: every ?run= payload is a recorded artifact — the badge may never
+      // render "live"/"real" regardless of what the fixture's meta.mode claims.
+      const badge=$('#run-badge'); if(badge){badge.textContent=runLabel();badge.classList.add('on');}
     }catch(err){
       console.warn('[govern] ?run load failed, using demo fixtures:',err);
     }

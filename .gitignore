@@ -29,3 +29,8 @@ _p2-*.png
 _p4-*.png
 _frontdoor-*.png
 .superpowers/
+
+# playwright
+test-results/
+playwright-report/
+package-lock.json

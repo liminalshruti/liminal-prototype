@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Liminal · Local-first control plane for human-AI work</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 
 <!-- Front door · C-led + A-catalog (2026-07-02)
      The hero IS the product's core mechanic: a live orbital where the registers
@@ -44,7 +45,7 @@
   .thesis .kick{font-family:var(--mono);font-size: var(--fs-mono-xs);letter-spacing: .22em;text-transform:uppercase;color:var(--clarity);margin-bottom: 20px}
   .thesis h1{font-family:var(--display);font-weight:400;font-size: clamp(var(--fs-check),4.2vw,52px);line-height:1.02;letter-spacing: var(--ls-app-neutral)}
   .thesis p{font-family:var(--sans);font-size: clamp(var(--fs-body),1.5vw,var(--fs-app-lg));line-height:1.6;color:var(--text-dim);margin-top: 18px;max-width:40ch}
-  .thesis .cta{display:inline-flex;align-items:center;gap: 9px;margin-top: 26px;text-decoration:none;font-family:var(--mono);font-size: var(--fs-mono-xs);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text);border:1px solid var(--hair-2);border-radius: var(--radius-pill);padding: 11px 18px;transition:border-color .18s,background .18s}
+  .thesis .cta{display:inline-flex;align-items:center;gap: 9px;margin-top: 26px;text-decoration:none;font-family:var(--mono);font-size: var(--fs-mono-xs);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text);border:1px solid var(--hair-2);border-radius: var(--radius-pill);padding: 11px 18px;min-height:44px;transition:border-color .18s,background .18s}
   .thesis .cta:hover{border-color:var(--clarity);background:color-mix(in oklch,var(--clarity) 12%,transparent)}
   .thesis .cta .a{color:var(--clarity)}
 
@@ -99,10 +100,24 @@
     .reading{animation:none;opacity:1}
     .orbit-wrap{transform:none!important}
   }
+  /* orientation strip · 10-second read for a cold visitor */
+  .orient{max-width:1116px;margin:0 auto 6vh;display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--hair);border:1px solid var(--hair);border-radius:9px;overflow:hidden}
+  @media (max-width:1180px){.orient{margin-left:32px;margin-right:32px}}
+  .o-cell{background:var(--frame-bg);padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px}
+  .o-k{font-family:var(--mono);font-size:var(--fs-mono-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--text-faint)}
+  .o-v{font-size:13.5px;line-height:1.55;color:var(--text-mid)}
+  .claim-chip{font-family:var(--mono);font-size:var(--fs-mono-xs);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--hair-2);border-radius:4px;padding:2px 6px;margin-left:8px;vertical-align:1px}
   @media (max-width:860px){
+    .orient{grid-template-columns:1fr 1fr}
     .hero{grid-template-columns:1fr;gap: 26px;min-height:auto;padding-top: 6vh;padding-bottom: 9vh}
     .orbit-wrap{width:min(74vw,420px);order:2}
     .top .meta{display:none}
+  }
+  @media (max-width:600px){
+    /* metas wrap under the title — the nowrap right column was pushing the
+       page into 45px of horizontal scroll on phones */
+    .row{grid-template-columns:16px 1fr;row-gap: 5px}
+    .row .meta{grid-column:2;justify-self:start;text-align:left;white-space:normal}
   }
 </style>
 </head>
@@ -116,8 +131,8 @@
   <div class="thesis">
     <div class="kick">A read, running</div>
     <h1>Bounded agents read it. They disagree. You decide.</h1>
-    <p>Watch one read run: the registers deliberate, one refuses out-of-lane, the rest converge — and the verdict seals to the vault twice over, the packet landing before the read is acknowledged. That loop is the whole product.</p>
-    <a class="cta" href="cuts/01-slate-tray.html">Enter the wedge <span class="a">→</span></a>
+    <p>Watch one read run: four bounded agents deliberate, one refuses out-of-lane, you decide. The decision seals into an inspectable, local record. That loop is the whole product.</p>
+    <a class="cta" href="cuts/01-slate-tray.html">See the judgment loop <span class="a">→</span></a>
   </div>
 
   <div class="orbit-wrap" id="wrap">
@@ -141,14 +156,27 @@
   </div>
 </section>
 
+<section class="orient reveal">
+  <div class="o-cell"><span class="o-k">Who it's for</span><span class="o-v">Teams accountable for AI-assisted decisions: founders first, then owners of frontier-model spend.</span></div>
+  <div class="o-cell"><span class="o-k">The problem</span><span class="o-v">Agents produce answers. Nobody governs what was trusted, corrected, or refused. Nobody can prove it later.</span></div>
+  <div class="o-cell"><span class="o-k">The mechanic</span><span class="o-v">Bounded agents read; they disagree or refuse; the accountable human decides; the record seals and stays inspectable.</span></div>
+  <div class="o-cell"><span class="o-k">What's real here</span><span class="o-v">Prototype choreography over deterministic fixtures. Receipts labeled where earned. Vault writes are real, device-local. Roadmap is marked.</span></div>
+</section>
+
 <section class="catalog">
-  <div class="cat-head reveal"><span class="t">The catalog</span><span class="c">12 surfaces</span></div>
   <a class="lead-card reveal" href="cuts/01-slate-tray.html">
-    <span class="lc-tag">Start here · founders enter first</span>
-    <div class="lc-title">The slate &amp; tray — the wedge</div>
+    <span class="lc-tag">Start here · the judgment loop <span class="claim-chip">prototype · fixture</span></span>
+    <div class="lc-title">The slate &amp; tray — the core mechanic</div>
     <p class="lc-desc">Drag a Slack thread, a doc, a transcript into the tray. Bounded agents read it, disagree, and stage one next move. You correct the read; the vault keeps the record.</p>
     <span class="lc-go">→</span>
   </a>
+  <a class="lead-card reveal" href="cuts/11-govern.html?subject=spend&amp;beat=loop&amp;run=govern-run.json">
+    <span class="lc-tag">The commercial wedge <span class="claim-chip">prototype · deterministic fixture · receipts labeled</span></span>
+    <div class="lc-title">Govern — Opus 4.8 spend against company goals</div>
+    <p class="lc-desc">A recorded governance run: four registers read the fleet's spend, one refuses out-of-lane, the operator corrects a finding and ratifies policy; the result seals to an append-only decision log.</p>
+    <span class="lc-go">→</span>
+  </a>
+  <div class="cat-head reveal"><span class="t">Explore the prototype</span><span class="c">12 surfaces</span></div>
   <div class="idx reveal">
     <a class="row" href="cuts/06-margin-read.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Margin-read — the founder's hand</span><span class="d">The re-entry loop, narrated in the founder's own hand over the live UI.</span></span><span class="meta">explainer</span></a>
     <a class="row" href="cuts/00-agency.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Agency — the subject is a parameter</span><span class="d">The proof it's infrastructure: one loop, pointed at spend, custody, OSINT, a contradiction.</span></span><span class="meta">substrate</span></a>
@@ -157,10 +185,10 @@
     <a class="row" href="cuts/09-osint-custody.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">OSINT Custody — concept cut</span><span class="d">INGEST→READ→GUARD→REVIEW→VAULT, the custody flow as design concept. The guard refuses the intent claim.</span></span><span class="meta">archived concept</span></a>
     <a class="row" href="cuts/08-liminal-custody.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">Liminal Custody — defense surface</span><span class="d">Same architecture under maximum constraint. NatSec, top 16 of 102 finalists (200 teams at start), in 48 hours.</span></span><span class="meta">natsec</span></a>
     <a class="row" href="cuts/03-calibration.html"><span class="dot" style="background:var(--synthesis)"></span><span class="body"><span class="t">Calibration — the moat, made visible</span><span class="d">12 weeks × 4 registers. Corrections compound into a record that reads as pattern.</span></span><span class="meta">record</span></a>
-    <a class="row" href="cuts/thread/index.html"><span class="dot" style="background:var(--outreach)"></span><span class="body"><span class="t">The thread — diffuse context</span><span class="d">Connect Gmail + Calendar; see your open loops in five minutes, each with a receipt.</span></span><span class="meta">staged</span></a>
+    <a class="row" href="cuts/thread/index.html"><span class="dot" style="background:var(--outreach)"></span><span class="body"><span class="t">The thread — diffuse context</span><span class="d">Gmail + Calendar as diffuse context: open loops surfaced in five minutes, each with a receipt.</span></span><span class="meta">design intent</span></a>
     <a class="row" href="team-drift/index.html"><span class="dot" style="background:var(--judgment)"></span><span class="body"><span class="t">Team Drift — coherence as a pipe</span><span class="d">Governance as a pipe, not a flag. The correction-stream substrate, turned on the team.</span></span><span class="meta">telemetry</span></a>
     <a class="row" href="molehunt/index.html"><span class="dot" style="background:var(--alarm)"></span><span class="body"><span class="t">Molehunt — analyst console</span><span class="d">High-assurance counterintelligence: statutory gate, append-only chain-of-custody.</span></span><span class="meta">counterintel</span></a>
-    <a class="row" href="embed-slate-tray-demo.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Slate &amp; Tray — live composition</span><span class="d">Drag any window in. The agents read what's there. No pipes, no integrations.</span></span><span class="meta">composition</span></a>
+    <a class="row" href="embed-slate-tray-demo.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Slate &amp; Tray — composition demo</span><span class="d">Drag any window in. The agents read what's there. No pipes, no integrations.</span></span><span class="meta">composition</span></a>
     <a class="row" href="embed-vault-demo.html"><span class="dot" style="background:var(--diligence)"></span><span class="body"><span class="t">Vault + Agents — four-register read</span><span class="d">Bounded agents across four registers. Each reads one surface, refuses the rest.</span></span><span class="meta">vault</span></a>
   </div>
 </section>
@@ -206,10 +234,10 @@
     const steps=[
       {t:400, f:()=>{set('scanning','the tray composes what’s there');glyphs.forEach(x=>x.classList.add('reading'));}},
       {t:1800,f:()=>set('reading','four registers take the read')},
-      {t:3200,f:()=>{set('refusal','Skeptic: “not my ground — ask Diligence”');refuse.style.opacity=.9;const j=glyphs.find(x=>x.dataset.k==='judgment');j.classList.remove('reading');j.style.opacity=.28;}},
+      {t:3200,f:()=>{set('refusal','Skeptic: “not my ground · ask Diligence”');refuse.style.opacity=.9;const j=glyphs.find(x=>x.dataset.k==='judgment');j.classList.remove('reading');j.style.opacity=.28;}},
       {t:4800,f:()=>{set('converging','the read resolves');glyphs.forEach(x=>{x.classList.remove('reading');x.style.opacity=1;});}},
       // ── canon C1, split into two beats ──
-      {t:5900,f:()=>{set('sealed · vault','the packet lands — instantly');artifactInstant();}},   // beat 1 · transaction (no anim)
+      {t:5900,f:()=>{set('sealed · vault','the packet lands instantly');artifactInstant();}},   // beat 1 · transaction (no anim)
       {t:6550,f:()=>{set('acknowledged','the read is witnessed');glowCeremony();}},                // beat 2 · ceremony (glow rises)
       {t:8400,f:()=>{artifact.classList.remove('show');refuse.style.opacity=0;gset(0);orb.setAttribute('stroke','var(--text-dim)');diamond.setAttribute('fill','var(--text-mid)');glyphs.forEach(x=>{x.style.opacity='';});}}
     ];

@@ -248,7 +248,7 @@ em, strong,
   font-weight: 300 !important;
   font-style: normal !important;
   font-size: var(--text-sm) !important;
-  color: rgba(242,240,236,0.4) !important;
+  color: rgba(242,240,236,0.55) !important;
   letter-spacing: var(--tracking-body) !important;
 }
 .entry-prompt {
@@ -257,7 +257,7 @@ em, strong,
   font-weight: 400 !important;
   letter-spacing: var(--tracking-widest) !important;
   text-transform: uppercase !important;
-  color: rgba(242,240,236,0.3) !important;
+  color: rgba(242,240,236,0.5) !important;
   margin-top: 18px !important;
   margin-bottom: 14px !important;
 }
@@ -281,7 +281,7 @@ em, strong,
   font-weight: 400 !important;
   letter-spacing: var(--tracking-wider) !important;
   text-transform: uppercase !important;
-  color: rgba(242,240,236,0.35) !important;
+  color: rgba(242,240,236,0.55) !important;
   margin-bottom: var(--space-app-1-5) !important;
 }
 .ed-title {
@@ -297,7 +297,7 @@ em, strong,
   font-family: "PerfectlyNineties", Georgia, serif !important;
   font-weight: 300 !important;
   font-size: var(--text-sm) !important;
-  color: rgba(242,240,236,0.4) !important;
+  color: rgba(242,240,236,0.62) !important;
   line-height: var(--leading-normal) !important;
 }
 .entry-skip {
@@ -305,7 +305,7 @@ em, strong,
   font-size: var(--text-2xs) !important;
   font-weight: 400 !important;
   letter-spacing: var(--tracking-wide) !important;
-  color: rgba(242,240,236,0.2) !important;
+  color: rgba(242,240,236,0.55) !important;
   text-transform: uppercase !important;
   margin-top: var(--space-2) !important;
 }

@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 
 <!--
-  Cut 01 · Three-surface slate · the canonical live build
+  Cut 01 · Three-surface slate · the canonical build (prototype · fixture-seeded, vault device-local)
   ──────────────────────────────────────────────────────────────────────
   Loop-stage · Capture → Read → Decide
   Altitude   · L1-founder
@@ -900,12 +900,13 @@
           </div>
           <div class="da-foot">
             <div class="da-hash">
-              <span class="da-hash-label">SHA-256</span>
+              <span class="da-hash-label">Anchor</span>
               <code id="da-hash">·</code>
             </div>
             <div class="da-handoff">
               <button class="dispo-btn da-handoff-btn" id="da-handoff">Hand off ›</button>
               <button class="dispo-btn da-handoff-btn" id="da-share">Share with subject</button>
+              <a class="dispo-btn da-handoff-btn" id="da-govern-next" href="11-govern.html?subject=spend&amp;beat=loop&amp;run=govern-run.json">Next · govern spend ›</a>
             </div>
           </div>
         </div>
@@ -1302,7 +1303,7 @@
      disposition buttons to call applyBeat("SEALING") instead of inline handlers.
      This is a pure re-plumbing: visible behavior remains identical. */
   (async () => {
-    const { initLoopEngine, applyBeat } = await import("../lib/loop.js");
+    const { initLoopEngine } = await import("../lib/loop.js");
 
     /* cut 01 configuration (from RUN_B_COHERENCE_FINDINGS):
        - subject: pattern (orbital + tray→slate grammar)
@@ -1330,25 +1331,13 @@
       }
     });
 
-    /* Rewire dispo-primary to fire SEALING beat instead of inline handler */
-    const dispoPrimary = document.getElementById("dispo-primary");
-    if (dispoPrimary) {
-      dispoPrimary.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        applyBeat("SEALING");
-      });
-    }
-
-    /* Rewire dispo-defer (deferred to Phase B — not needed for Phase A proof) */
-    const dispoDefer = document.getElementById("dispo-defer");
-    if (dispoDefer) {
-      dispoDefer.addEventListener("click", (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        /* applyBeat("DEFERRING") — Phase B */
-      });
-    }
+    /* Disposition buttons are owned by slate.js (wired in boot.js): Confirm and
+       Defer each append audit, persist to the vault store, and materialize the
+       artifact. The earlier Phase-A rewire added a SECOND listener on Confirm
+       (applyBeat("SEALING")) alongside slate.js's — every sign wrote the vault
+       twice and appended two audit rows. Single ownership restored; the Run-B
+       C1 seal (rise · 520ms) is carried by the artifact-arrive keyframe in
+       cut-shell-products.css, not by the engine path. */
   })();
 </script>
 
