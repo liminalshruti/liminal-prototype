@@ -233,7 +233,8 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .fc-toggle{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 5px 9px;cursor:pointer;background:transparent}
 .fc-toggle:hover{color:var(--diligence);border-color:var(--diligence)}
 .fc-box{display:none;margin-top: 9px}.finding.correcting .fc-box{display:block}
-.fc-kinds{display:flex;gap: var(--space-app-1-5);margin-bottom: var(--space-2)}
+.fc-kinds{display:flex;gap: var(--space-app-1-5);margin-bottom: var(--space-app-1-5)}
+.fc-gloss{font:9px/1.5 var(--mono);letter-spacing: .04em;color:var(--text-faint);margin-bottom: var(--space-2)}
 .fc-kind{font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 5px var(--space-2);cursor:pointer;background:transparent}
 .fc-kind.on{color:#fff;background:var(--diligence);border-color:var(--diligence)}
 .fc-box textarea{width:100%;background:var(--frame-bg);border:1px solid var(--card-border);border-radius: var(--radius-3);color:var(--text);font:11px/1.5 var(--sans);padding: var(--space-2) 10px;resize:vertical;min-height:46px}
@@ -709,6 +710,15 @@ function renderChain(){
 
 // FINDING · clickable provenance artifact: head → expand → cited rows + receipt → correct
 const KINDS=['inner','outer','cross','emergence'];
+/* correction_kind glosses · canon-faithful per founder-brain
+   liminal-ip/06-evidence/INVENTIONS.md §8 (PPA #5 vocabulary — the labels are
+   load-bearing IP and never renamed; the gloss is for the first-time viewer) */
+const KIND_GLOSS={
+  inner:'the read itself was wrong · bad inference from the evidence',
+  outer:'the operational facts were wrong · wrong data or scope',
+  cross:'the gap between reads was misread',
+  emergence:'you’re naming a frame no read held · the highest-value correction'
+};
 function findingHTML(f){
   const gov=f.kind==='governance';
   const badge=f.dropped?'<span class="bdg bad dot">refuted &amp; dropped</span>':gov?'<span class="bdg acc dot">governance · no-surveillance</span>':'<span class="bdg good dot">agent-fit</span>';
@@ -719,7 +729,8 @@ function findingHTML(f){
   const correctBlock=f.dropped?'':`<div class="finding-correct">
       <button class="fc-toggle" data-fcorrect="${f.id}">Correct this finding →</button>
       <div class="fc-box">
-        <div class="fc-kinds">${KINDS.map((k,i)=>`<button class="fc-kind ${i===2?'on':''}" data-fckind="${k}">${k}</button>`).join('')}</div>
+        <div class="fc-kinds">${KINDS.map((k,i)=>`<button class="fc-kind ${i===2?'on':''}" data-fckind="${k}" title="${KIND_GLOSS[k]}">${k}</button>`).join('')}</div>
+        <div class="fc-gloss" id="fc-gloss-${f.id}">${KIND_GLOSS.cross}</div>
         <textarea placeholder="What did this finding get wrong?"></textarea>
         <div class="er"><button class="save" data-fcsave="${f.id}">Sign correction →</button></div>
       </div>
@@ -1216,7 +1227,7 @@ function mintArtifact(){
     <p class="arat">${corrLine}Calendar/admin usage does not map to the approved OKRs, and a registry-verified lower-cost agent (CalendarOps, ~10% of Opus) covers it. E14 is product engineering (PR-103) and is NOT reclassified.</p>
     <div class="apol"><span class="pc al">allow · product_dev</span><span class="pc al">allow · security_hardening</span><span class="pc al">allow · architecture_review</span><span class="pc dn">deny · calendar_management</span><span class="pc dn">deny · routine_admin</span><span class="pc dn">deny · generic_summarization</span></div>
     <div class="arec"><span class="hl">anchored</span><span class="hs">anchor 7d4b…a284 · local-first chain · entry ${6+corrections}/${6+corrections}</span><span class="ok">chain linked</span></div></div></div>
-    <div class="calib-cta"><button data-go="mirror">◍ see how your judgment is calibrating →</button></div>`;
+    <div class="calib-cta"><button data-go="log">⛓ view the decision log · your correction is in the chain →</button> <button data-go="mirror">◍ see how your judgment is calibrating →</button></div>`;
   aw.innerHTML=artifactHTML;
 
   /* apply choreography: bifurcated seal (instant artifact + glow) */
@@ -1258,7 +1269,8 @@ document.addEventListener('click',e=>{
   // FINDING interactions (the hero): expand → evidence+receipt; correct (typed)
   const fx=e.target.closest('[data-fexpand]'); if(fx){fx.closest('.finding').classList.toggle('open');return;}
   const fct=e.target.closest('[data-fcorrect]'); if(fct){fct.closest('.finding').classList.toggle('correcting');return;}
-  const fk=e.target.closest('[data-fckind]'); if(fk){const box=fk.closest('.fc-kinds');box.querySelectorAll('.fc-kind').forEach(x=>x.classList.toggle('on',x===fk));return;}
+  const fk=e.target.closest('[data-fckind]'); if(fk){const box=fk.closest('.fc-kinds');box.querySelectorAll('.fc-kind').forEach(x=>x.classList.toggle('on',x===fk));
+    const gloss=box.parentElement.querySelector('.fc-gloss'); if(gloss)gloss.textContent=KIND_GLOSS[fk.dataset.fckind]||'';return;}
   const fcs=e.target.closest('[data-fcsave]'); if(fcs){signFindingCorrection(fcs.dataset.fcsave,fcs);return;}
   /* palette rows carry data-act too — they must be handled (and the palette
      closed) BEFORE the generic [data-act] branch, or the palette sticks open */
