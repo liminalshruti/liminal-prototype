@@ -1580,7 +1580,7 @@
         <section class="rail-section">
           <div class="section-head">
             <span class="section-label">Signal sources</span>
-            <span class="section-meta" id="source-meta">4 feeds live</span>
+            <span class="section-meta" id="source-meta">4 feeds recorded</span>
           </div>
           <div class="source-list" id="source-list"></div>
         </section>
@@ -2557,7 +2557,7 @@
 
   function renderSources() {
     const list = sourceStates[state.step];
-    els["source-meta"].textContent = state.step >= 3 ? "integrity contested" : "4 feeds live";
+    els["source-meta"].textContent = state.step >= 3 ? "integrity contested" : "4 feeds recorded";
     els["source-list"].innerHTML = list.map((item) => `
       <div class="source-item ${item.alert ? "source-alert" : ""}">
         <div class="source-glyph">${item.glyph}</div>
