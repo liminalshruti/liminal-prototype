@@ -1573,14 +1573,14 @@
             <span class="section-meta">PS1 primary</span>
           </div>
           <p class="scenario-blurb">
-            <strong>Maritime watch officer, U.S. 5th Fleet.</strong> One vessel goes dark in the chokepoint. A second identity appears nearby. The system preserves custody hypotheses and refuses intent until the evidence chain clears.
+            <strong>Major-incident lead, healthcare IT ops.</strong> An AI triage agent auto-escalates a patient-transport outage to Sev-1 off a single signal. The system preserves the competing reads and refuses to confirm severity until a human validates the patient-impact claim.
           </p>
         </section>
 
         <section class="rail-section">
           <div class="section-head">
             <span class="section-label">Signal sources</span>
-            <span class="section-meta" id="source-meta">4 feeds live</span>
+            <span class="section-meta" id="source-meta">4 feeds recorded</span>
           </div>
           <div class="source-list" id="source-list"></div>
         </section>
@@ -1630,7 +1630,7 @@
         </section>
 
         <div class="rail-footer">
-          <p><strong>Maven is the foundation.</strong> This prototype owns the substrate layer beneath it: contested signals, structural refusal, and review memory before command action.</p>
+          <p><strong>Your incident and ITSM stack is the foundation.</strong> This prototype owns the substrate layer beneath it: contested signals, structural refusal, and review memory before the human confirms the call.</p>
         </div>
       </aside>
 
@@ -1640,7 +1640,7 @@
             <div class="eyebrow">Substrate / Stage viewport / Working panel / Command line</div>
             <h1 class="center-title" id="center-title"></h1>
             <p class="center-subtitle" id="center-subtitle"></p>
-            <div class="thesis-line">The same capture · read · refuse · correct · sign loop — at scale — under maximum constraint: overload, ambiguity, accountability. <b>This is the depth proof: if the loop holds here, it holds anywhere. Do not automate the moral lever; equip the operator at it.</b></div>
+            <div class="thesis-line">The same capture · read · refuse · correct · sign loop — under real constraint: alert overload, ambiguous signals, and someone accountable in an audit. <b>The AI proposes; the human decides; the record proves who was in command. Do not automate the accountable call; equip the operator making it.</b></div>
           </div>
           <div class="hero-stats" id="hero-stats"></div>
         </div>
@@ -1820,24 +1820,24 @@
   const beatMeta = [
     {
       id: 1,
-      name: "Dark gap",
-      short: "gap detected",
-      note: "AIS custody begins before any command action.",
-      toast: ["Beat 1 loaded", "Dark gap opened. The system preserves the signal instead of deciding intent."]
+      name: "Auto-escalation",
+      short: "AI escalates",
+      note: "Custody begins before the severity call is confirmed.",
+      toast: ["Beat 1 loaded", "The AI escalated to Sev-1. The system preserves the signal instead of confirming severity."]
     },
     {
       id: 2,
-      name: "Identity churn",
-      short: "new identity nearby",
-      note: "A second MMSI emerges inside kinematic continuity.",
-      toast: ["Beat 2 loaded", "Identity churn surfaced. Competing custody hypotheses are now preserved."]
+      name: "Contested reads",
+      short: "signals disagree",
+      note: "A second read surfaces inside the same incident window.",
+      toast: ["Beat 2 loaded", "Reads disagree. Competing severity hypotheses are now preserved."]
     },
     {
       id: 3,
       name: "Structural refusal",
       short: "guard fires",
-      note: "Signal integrity is contested. Intent cannot pass.",
-      toast: ["Beat 3 loaded", "Intent refused because the structural guard fired on contested evidence."]
+      note: "Patient-impact is unvalidated. Severity cannot be confirmed.",
+      toast: ["Beat 3 loaded", "Severity refused because the structural guard fired on unvalidated impact."]
     },
     {
       id: 4,
@@ -1862,7 +1862,7 @@
       route: "Hormuz eastbound",
       baseSummary: "Original identity goes dark. Nearby identity emerges with kinematic continuity but insufficient corroboration.",
       location: "26.5N / 56.1E",
-      risk: "Command too early risks acting on a spoofed or re-flagged vessel.",
+      risk: "Confirming severity too early risks acting on an unvalidated or misclassified alert.",
       mapLabel: "CASE-014 / contested reappearance",
       range: "Range 14nm",
       latency: "Latency 2.3s",
@@ -2557,7 +2557,7 @@
 
   function renderSources() {
     const list = sourceStates[state.step];
-    els["source-meta"].textContent = state.step >= 3 ? "integrity contested" : "4 feeds live";
+    els["source-meta"].textContent = state.step >= 3 ? "integrity contested" : "4 feeds recorded";
     els["source-list"].innerHTML = list.map((item) => `
       <div class="source-item ${item.alert ? "source-alert" : ""}">
         <div class="source-glyph">${item.glyph}</div>
