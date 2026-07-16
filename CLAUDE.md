@@ -20,3 +20,13 @@ The **public demo surface + design-system reference**. Live demos at `liminalshr
 
 - **`~/liminal/founder-brain/`** — canon. Read `meta/SHARED_CONTEXT.md` + `meta/CORPUS_MAP.md` first. **`REPOS.md`** = repo inventory ("public demo surface").
 - **`~/liminal/liminal-creative/`** — brand canon + the eventual token upstream.
+
+## Commands (verified against package.json 2026-07-15)
+
+```bash
+npm install           # deps
+npm run dev           # local server (node server.mjs) — cuts served from cuts/*.html
+npm run tokens:check  # verify design-tokens sync vs upstream (liminal-creative)
+npm run tokens:sync   # pull upstream tokens (Step-8 interim: THIS repo's tokens file is the practical source; canonicalization deferred — keep cuts consuming tokens, never hardcode)
+```
+Deploy: GitHub Pages serves `main` at liminalshruti.github.io/liminal-prototype — merging to main IS the deploy.
