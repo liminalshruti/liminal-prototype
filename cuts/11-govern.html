@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="../design-system/components/framing.css">
 <!-- Shared design system (converged): chrome + canonical .artifact from cut-shell.css. -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/cut-shell-products.css">
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 <style>
 @font-face{font-family:"Nineties Headliner";src:url("../fonts/nineties-headliner.otf") format("opentype");font-weight:400;font-display:swap}
@@ -807,6 +808,49 @@ function renderLoop(){
     <div class="seam">Spend is the wedge · the one read a CFO pays for today. But the loop · sense · read · refuse · correct · ratify · is the judgment layer, pointed at a budget first. <b>The subject is the agent fleet and the spend · never the people. Governance without surveillance.</b> <b>The read is the model's until you change it.</b></div>
     <div>
       <div class="sense-h"><span class="anum">01 · SENSE</span><span class="atitle">This month, the fleet spent ${usd(SPEND_TOTAL)}.</span><span class="asub">15 vendors</span></div>
+      <!-- earned-delta metrics + burn · signal-atlas primitives (v07 fold, 2026-07-29)
+           · the metric is ink; only measured deltas earn chroma · fixture budget $12k/mo -->
+      <div class="p-metrics" style="margin:10px 0 14px">
+        <div class="p-metric">
+          <div class="p-metric__k">monthly spend</div>
+          <div class="p-metric__v">${usd(SPEND_TOTAL)}</div>
+          <div class="p-metric__d p-metric__d--over">+${usd(SPEND_TOTAL-12000)} over $12k budget</div>
+        </div>
+        <div class="p-metric">
+          <div class="p-metric__k">opus cohort</div>
+          <div class="p-metric__v">${usd(OPUS_TOTAL)}</div>
+          <div class="p-metric__d">${COHORT} engineers · no cap set</div>
+        </div>
+        <div class="p-metric">
+          <div class="p-metric__k">per-eng verified</div>
+          <div class="p-metric__v">${usd(VERIFIED)}</div>
+          <div class="p-metric__d p-metric__d--under">-${usd(CLAIMED-VERIFIED)} vs naive claim</div>
+        </div>
+        <div class="p-metric">
+          <div class="p-metric__k">vendors</div>
+          <div class="p-metric__v">15</div>
+          <div class="p-metric__d">flat month over month</div>
+        </div>
+      </div>
+      <div class="p-burn" style="margin:0 0 16px">
+        <div class="p-burn__head"><span>burn · 12 wks · recorded fixture</span><span>budget $3k / wk</span></div>
+        <div class="p-burn__plot">
+          <div class="p-burn__budget"><span>budget</span></div>
+          <div class="p-burn__bar" style="height:38%"></div>
+          <div class="p-burn__bar" style="height:42%"></div>
+          <div class="p-burn__bar" style="height:40%"></div>
+          <div class="p-burn__bar" style="height:47%"></div>
+          <div class="p-burn__bar" style="height:52%"></div>
+          <div class="p-burn__bar" style="height:49%"></div>
+          <div class="p-burn__bar" style="height:58%"></div>
+          <div class="p-burn__bar" style="height:63%"></div>
+          <div class="p-burn__bar p-burn__bar--breach" style="height:74%"></div>
+          <div class="p-burn__bar" style="height:65%"></div>
+          <div class="p-burn__bar p-burn__bar--breach" style="height:79%"></div>
+          <div class="p-burn__bar p-burn__bar--breach" style="height:83%"></div>
+        </div>
+        <div class="p-burn__weeks"><span>w1</span><span>w2</span><span>w3</span><span>w4</span><span>w5</span><span>w6</span><span>w7</span><span>w8</span><span>w9</span><span>w10</span><span>w11</span><span>w12</span></div>
+      </div>
       <table class="tbl" style="margin-top:10px"><thead><tr><th>Vendor</th><th>Plan</th><th>Seats</th><th>Monthly</th></tr></thead><tbody>${vendorRows}<tr class="total"><td colspan="3">Total</td><td class="num">${usd(SPEND_TOTAL)}</td></tr></tbody></table>
       <div style="margin:11px 0 7px;font:13px/1.5 var(--serif,Georgia,serif);color:var(--text-mid)">Narrowed to the Opus cohort · <span style="color:var(--text)">${usd(OPUS_TOTAL)}</span> running everything for ${COHORT} engineers. The <span style="color:var(--alarm)">calendar/admin</span> rows are a frontier model doing routine work:</div>
       <div class="stream">${usageRows}</div>
