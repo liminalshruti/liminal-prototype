@@ -1,0 +1,374 @@
+/* divergence.css · the DECIDING beat's pane · where the reads split
+ * ════════════════════════════════════════════════════════════════════
+ *
+ * Companion to lib/divergence.js. Loaded standalone by cut 01 alongside
+ * surface-nav.css / brand-upgrade.css (the established per-feature idiom) rather
+ * than folded into cut-shell.css, because this is Decide-stage-specific and must
+ * not cascade into cuts that never fire the DECIDING beat.
+ *
+ * RULE 1 COMPLIANCE (cuts/CONTRIBUTING.md) · canon only, zero hardcoded hex.
+ * Polarity maps onto existing semantic tokens — no new canonical hues:
+ *   CONTRADICTS → --alarm    (same token cut 02 uses for .contradiction__eyebrow)
+ *   WEAKENS     → --watch
+ *   SUPPORTS    → --signal
+ *   verdict chrome → --judgment / --judgment-edge / --judgment-bg
+ *
+ * The prototype colors this pane descends from (#ef6a5d / #5ae08a / #a98bff) map
+ * to --surge-500 / --connection-500 / --clarity-200; #55d7ff has NO canonical
+ * equivalent and is deliberately not introduced.
+ */
+
+.divergence-pane[hidden] { display: none; }
+
+.dvg {
+  border-top: 1px solid var(--frame-border);
+  border-bottom: 1px solid var(--frame-border);
+  padding: 12px 0 14px;
+  animation: dvg-arrive var(--tx-settle, 0.32s) ease-out both;
+
+  /* CONTAINER, not viewport. The shell's centre pane is ~434px at a 1440px
+     window (.main is 280px | 1fr | 320px plus chrome), so a viewport media
+     query never fires and three side-by-side columns collapse to ~136px —
+     claims wrap to 15 characters a line. The pane must respond to the space it
+     actually has, in the catalog iframe and standalone alike. */
+  container-type: inline-size;
+  container-name: dvg;
+}
+
+/* ─── header ─────────────────────────────────────────────────────────── */
+
+.dvg-h {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  margin-bottom: 10px;
+}
+
+.dvg-h-glyph { color: var(--judgment); font-size: 13px; }
+
+.dvg-tag {
+  margin-left: auto;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--judgment);
+  background: var(--judgment-bg);
+  border: 1px solid var(--judgment-edge);
+  border-radius: 3px;
+  padding: 2px 7px;
+  text-transform: none;
+}
+
+/* ─── shared ground · the emergence affordance ───────────────────────── */
+
+.dvg-ground {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  background: var(--frame-bg-2);
+  border: 1px dashed var(--card-border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 4px;
+  cursor: pointer;
+  transition: border-color var(--tx-settle, 0.32s) ease,
+              background var(--tx-settle, 0.32s) ease;
+}
+
+.dvg-ground:hover,
+.dvg-ground:focus-visible {
+  border-color: var(--judgment-edge);
+  background: var(--judgment-bg);
+  outline: none;
+}
+
+.dvg-ground-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  white-space: nowrap;
+}
+
+.dvg-ground-body { font-size: 12px; color: var(--text-mid); }
+
+.dvg-ground-hint {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-faint);
+  opacity: 0;
+  transition: opacity var(--tx-settle, 0.32s) ease;
+  white-space: nowrap;
+}
+
+.dvg-ground:hover .dvg-ground-hint,
+.dvg-ground:focus-visible .dvg-ground-hint { opacity: 1; }
+
+/* ─── columns · one per read, never merged ───────────────────────────── */
+
+.dvg-body { position: relative; }
+
+.dvg-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--dvg-cols, 3), 1fr);
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+
+.dvg-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  border-radius: 6px;
+  padding: 10px 12px 12px;
+}
+
+/* A refused read is the read, not an empty slot — typed chrome, full weight. */
+.dvg-col.is-refused { border-color: var(--alarm-edge); background: var(--alarm-soft); }
+
+.dvg-agent {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--frame-border);
+}
+
+.dvg-agent-name {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text);
+}
+
+.dvg-reg {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+.dvg-reg[data-reg="diligence"] { color: var(--diligence); }
+.dvg-reg[data-reg="synthesis"] { color: var(--synthesis); }
+.dvg-reg[data-reg="judgment"]  { color: var(--judgment); }
+.dvg-reg[data-reg="outreach"]  { color: var(--outreach); }
+
+.dvg-claim-text {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--text);
+  margin: 0;
+}
+
+.dvg-claim {
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 2px 4px;
+  margin: 0 -4px;
+  transition: background var(--tx-settle, 0.32s) ease,
+              box-shadow var(--tx-settle, 0.32s) ease;
+}
+
+.dvg-claim:hover,
+.dvg-claim:focus-visible {
+  background: var(--judgment-bg);
+  box-shadow: inset 2px 0 0 0 var(--judgment);
+  outline: none;
+}
+
+/* ─── refusal · typed, per refusal_kind (migration 004) ──────────────── */
+
+.dvg-refusal { display: flex; flex-direction: column; gap: 4px; }
+
+.dvg-refusal-kind {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--alarm);
+}
+
+.dvg-refusal[data-refusal-kind="scope"]     .dvg-refusal-kind { color: var(--watch); }
+.dvg-refusal[data-refusal-kind="substrate"] .dvg-refusal-kind { color: var(--text-dim); }
+.dvg-refusal[data-refusal-kind="lane"]      .dvg-refusal-kind { color: var(--depth); }
+
+/* ─── confidence · band, not false precision ─────────────────────────── */
+
+.dvg-conf { display: flex; align-items: center; gap: 6px; margin-top: auto; }
+
+.dvg-conf-track {
+  flex: 1;
+  height: 2px;
+  background: var(--frame-border);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.dvg-conf-fill { display: block; height: 100%; background: var(--text-dim); }
+
+.dvg-conf[data-band="high"] .dvg-conf-fill { background: var(--signal); }
+.dvg-conf[data-band="mid"]  .dvg-conf-fill { background: var(--watch); }
+.dvg-conf[data-band="low"]  .dvg-conf-fill { background: var(--alarm); }
+
+.dvg-conf-num {
+  font-size: 10px;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── next move ──────────────────────────────────────────────────────── */
+
+.dvg-move {
+  font-size: 11px;
+  color: var(--text-mid);
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+  padding: 3px 4px;
+  margin: 0 -4px;
+  transition: background var(--tx-settle, 0.32s) ease;
+}
+
+.dvg-move:hover,
+.dvg-move:focus-visible { background: var(--judgment-bg); outline: none; }
+
+.dvg-move-bullet { color: var(--signal); }
+
+.dvg-move.is-null {
+  color: var(--text-faint);
+  cursor: default;
+  justify-content: center;
+}
+
+.dvg-move.is-null:hover { background: none; }
+
+/* ─── the edge · disagreement as topology, not prose ─────────────────── */
+
+/* Percentage viewBox with preserveAspectRatio="none" — the curve stretches to
+   whatever the grid is, so no measurement, no ResizeObserver, and it survives
+   iframe embedding and a flat screenshot. */
+.dvg-edge-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.dvg-edge {
+  fill: none;
+  stroke-width: 0.4;
+  stroke-dasharray: 1.6 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.dvg-edge--contradicts { stroke: var(--alarm); }
+.dvg-edge--weakens     { stroke: var(--watch); }
+.dvg-edge--supports    { stroke: var(--signal); }
+
+.dvg-edge-node--contradicts { fill: var(--alarm); }
+.dvg-edge-node--weakens     { fill: var(--watch); }
+.dvg-edge-node--supports    { fill: var(--signal); }
+
+.dvg-edge-caption {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--frame-bg-2);
+  border: 1px solid var(--card-border);
+  cursor: pointer;
+  transition: border-color var(--tx-settle, 0.32s) ease;
+}
+
+.dvg-edge-caption[data-polarity="contradicts"] { border-left: 2px solid var(--alarm); }
+.dvg-edge-caption[data-polarity="weakens"]     { border-left: 2px solid var(--watch); }
+.dvg-edge-caption[data-polarity="supports"]    { border-left: 2px solid var(--signal); }
+
+.dvg-edge-caption:hover,
+.dvg-edge-caption:focus-visible { border-color: var(--judgment-edge); outline: none; }
+
+.dvg-edge-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.dvg-edge-label--contradicts { color: var(--alarm); }
+.dvg-edge-label--weakens     { color: var(--watch); }
+.dvg-edge-label--supports    { color: var(--signal); }
+
+.dvg-edge-note { font-size: 11px; color: var(--text-mid); }
+
+.dvg-edge-hint {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-faint);
+  opacity: 0;
+  transition: opacity var(--tx-settle, 0.32s) ease;
+  white-space: nowrap;
+}
+
+.dvg-edge-caption:hover .dvg-edge-hint,
+.dvg-edge-caption:focus-visible .dvg-edge-hint { opacity: 1; }
+
+/* ─── corrected state · the founder's hand, visible ──────────────────── */
+
+.is-corrected {
+  box-shadow: inset 2px 0 0 0 var(--judgment) !important;
+  background: var(--judgment-bg) !important;
+}
+
+/* ─── motion ─────────────────────────────────────────────────────────── */
+
+@keyframes dvg-arrive {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* The pane must be fully legible with motion off — nothing here is
+   motion-dependent, so reduced-motion simply lands it instantly. */
+@media (prefers-reduced-motion: reduce) {
+  .dvg { animation: none; }
+  .dvg-ground,
+  .dvg-claim,
+  .dvg-move,
+  .dvg-edge-caption,
+  .dvg-ground-hint,
+  .dvg-edge-hint { transition: none; }
+}
+
+/* ─── narrow container · reads stack as rows ─────────────────────────────
+   Below ~560px of pane width there is not enough room for a legible claim in a
+   column, so the reads stack full-width. The SVG curve retires (it only means
+   anything across columns) but .dvg-edge-caption stays — polarity survives the
+   layout change, which is the part that must never be lost. Its note is phrased
+   with agent names, not column numbers, so it reads correctly stacked. */
+
+@container dvg (max-width: 560px) {
+  .dvg-grid { grid-template-columns: 1fr; }
+  .dvg-edge-layer { display: none; }
+  .dvg-col { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .dvg-agent { flex: 0 0 100%; }
+  .dvg-claim, .dvg-refusal { flex: 1 1 100%; }
+  .dvg-conf { flex: 0 0 90px; }
+  .dvg-move { flex: 1 1 auto; }
+}
+
+/* No container-query support · fall back to stacking at narrow viewports so the
+   pane is never worse than the pre-container behaviour. */
+@supports not (container-type: inline-size) {
+  @media (max-width: 720px) {
+    .dvg-grid { grid-template-columns: 1fr; }
+    .dvg-edge-layer { display: none; }
+  }
+}

@@ -19,6 +19,15 @@
   (Personal/Team/Business below are register variants WITHIN this surface, not
   separate altitudes · they're the surface's own internal switch.)
   ──────────────────────────────────────────────────────────────────────
+  DECIDING beat wired · 2026-07-29 (rule 3 amendment, coordinate unchanged)
+  The Decide stage above was previously carried by one synthesized #brief-body
+  plus a single margin voice — the reads arrived merged, which under-represents
+  the claim that three reads never merge. lib/loop.js has always DECLARED a
+  DECIDING beat between READING and SEALING; nothing ever rendered into it.
+  It now hosts #divergence-pane (lib/divergence.js + lib/divergence.css): the
+  split shown before the seal, where click position determines correction_kind
+  (inner · cross · emergence). Not a new coordinate — the declared stage, filled.
+  ──────────────────────────────────────────────────────────────────────
   Personal · Team · Business · operator-subject relationships
   slate · tray · vault · 13 agents in 4 registers (incl. Witness)
   ──────────────────────────────────────────────────────────────────────
@@ -53,6 +62,7 @@
 <link rel="stylesheet" href="../lib/surface-nav.css">
 <link rel="stylesheet" href="../lib/cut-shell-products.css">
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
+<link rel="stylesheet" href="../lib/divergence.css">
 
 <style>
   /* per-cut polish · v0.8.3 P1 fix #3 · agency hover affordance
@@ -917,6 +927,11 @@
             <span class="vc-label">Vault · calibration</span>
             <span class="vc-text" id="vault-calib-text">·</span>
           </div>
+          <!-- DECIDING beat · the split, shown before the seal. Rendered by
+               lib/divergence.js when the engine fires DECIDING; the first Confirm
+               press opens it, the second seals through it. Empty until then. -->
+          <div class="divergence-pane" id="divergence-pane" hidden
+               data-annotation="divergence-pane"></div>
           <div class="disposition" id="disposition">
             <button class="dispo-btn is-primary" id="dispo-primary">Confirm</button>
             <button class="dispo-btn is-defer" id="dispo-defer">Defer 7d</button>
