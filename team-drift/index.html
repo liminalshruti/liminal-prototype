@@ -36,12 +36,17 @@
     /* Telemetry-choreography register · data-semantic states (NOT the 12-wheel).
        drift/good/queued encode telemetry, repointed to canon's CURRENT semantics
        (was pinned to pre-migration retired hexes). */
-    --drift:      var(--alarm);          /* was #F04040 */
-    --drift-bg:   var(--stability-bg);   /* was rgba(240,64,64,0.06) */
-    --drift-soft: var(--stability-edge); /* was rgba(240,64,64,0.32) */
+    /* State chrome per design-system/atlas/state-atlas.html (2026-07-29):
+       primitive states bind to the FOUR agent registers only. Drift =
+       out-of-pattern, surfaced for correction = judgment; queued =
+       staged, awaiting operator = diligence. alarm/watch/amber are
+       register-identity hues, not state hues. */
+    --drift:      var(--judgment);       /* was var(--alarm) */
+    --drift-bg:   var(--judgment-bg);    /* was var(--stability-bg) */
+    --drift-soft: var(--judgment-edge);  /* was var(--stability-edge) */
 
-    /* --good inherits canon (--connection green) · was #45C9A3 */
-    --queued:     var(--amber);          /* was #F5A524 */
+    /* --good inherits canon (--connection green) = the atlas 'filled' hue */
+    --queued:     var(--diligence);      /* was var(--amber) */
 
     /* --display / --serif inherit brand-upgrade.css (NinetiesHeadliner / PerfectlyNineties) */
     --sans:    "Geist", system-ui, -apple-system, sans-serif;
