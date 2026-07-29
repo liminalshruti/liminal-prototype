@@ -16,16 +16,11 @@
 <link rel="stylesheet" href="lib/brand-upgrade.css">
 
 <style>
-  :root {
-    /* Refreshed to canon 2026-07-29 (state-atlas v0.3 classification):
-       these are agent-identity + lifecycle hues, so they bind to the four
-       registers. The May-12 local inventions (#7aa9ff/#e0996b/#c084fc/
-       #6ec3a8) predated the canon lock. */
-    --color-coherence:  var(--diligence);   /* Analyst · staged/read lane */
-    --color-correction: var(--judgment);    /* Auditor · corrected class */
-    --color-emergence:  var(--synthesis);   /* emergent pattern · woven */
-    --color-resolved:   var(--outreach);    /* filled/resolved */
-  }
+  /* No local palette. The desktop tray-loop vocabulary is canon §18
+     (PRODUCT SEMANTICS, design-tokens.css): --coherence (Analyst),
+     --correction (Auditor), --emergence (moat metric), --resolved
+     (signed). This specimen's May-12 values were upstreamed into §18 on
+     2026-06-11; consuming the canonical vars directly closes the fork. */
 
   html, body {
     margin: 0;
@@ -155,7 +150,7 @@
     padding: 20px 22px;
   }
   .stat-card.emergence {
-    border-color: var(--color-emergence);
+    border-color: var(--emergence);
     box-shadow: 0 0 28px rgba(192, 132, 252, 0.07);
   }
   .stat-number {
@@ -166,7 +161,7 @@
     color: var(--text);
     margin-bottom: 6px;
   }
-  .stat-card.emergence .stat-number { color: var(--color-emergence); }
+  .stat-card.emergence .stat-number { color: var(--emergence); }
   .stat-card .stat-meta {
     font-family: "Geist Mono", ui-monospace, monospace;
     font-size: 10px;
@@ -196,7 +191,7 @@
     color: var(--text);
   }
   .breakdown-row.is-emergence .label,
-  .breakdown-row.is-emergence .count { color: var(--color-emergence); }
+  .breakdown-row.is-emergence .count { color: var(--emergence); }
   .breakdown-row .bar {
     height: 3px;
     background: rgba(255,255,255,0.05);
@@ -207,10 +202,10 @@
   .breakdown-row .bar-fill {
     position: absolute;
     inset: 0;
-    background: var(--color-coherence);
+    background: var(--coherence);
     border-radius: 2px;
   }
-  .breakdown-row .bar-fill.is-emergence { background: var(--color-emergence); }
+  .breakdown-row .bar-fill.is-emergence { background: var(--emergence); }
   .breakdown-row .count { text-align: right; }
 
   .packets-list { padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06); }
@@ -260,12 +255,12 @@
     color: rgba(242,240,236,0.6);
     border: 1px solid rgba(255,255,255,0.06);
   }
-  .packet-chip.analyst { color: var(--color-coherence); border-color: var(--diligence-edge); }
-  .packet-chip.auditor { color: var(--color-correction); border-color: var(--judgment-edge); }
+  .packet-chip.analyst { color: var(--coherence); border-color: var(--coherence-edge); }
+  .packet-chip.auditor { color: var(--correction); border-color: var(--correction-edge); }
   .packet-chip.emergence {
-    color: var(--color-emergence);
-    background: var(--synthesis-bg);
-    border-color: var(--synthesis-edge);
+    color: var(--emergence);
+    background: var(--emergence-bg);
+    border-color: var(--emergence-edge);
   }
 
   .tray-body {
@@ -348,9 +343,9 @@
     line-height: 1.4;
   }
   .pen-hint .label { flex-shrink: 0; letter-spacing: 0.08em; }
-  .pen-hint .label.analyst { color: var(--color-coherence); }
-  .pen-hint .label.auditor { color: var(--color-correction); }
-  .pen-hint .label.exploring { color: var(--color-coherence); animation: penPulse 1.6s ease-in-out infinite; }
+  .pen-hint .label.analyst { color: var(--coherence); }
+  .pen-hint .label.auditor { color: var(--correction); }
+  .pen-hint .label.exploring { color: var(--coherence); animation: penPulse 1.6s ease-in-out infinite; }
   @keyframes penPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
   .candidate-actions {
@@ -372,9 +367,9 @@
   }
   .candidate-text-btn:hover { color: rgba(242,240,236,0.7); }
   .pull-to-slate-btn {
-    background: var(--color-coherence);
+    background: var(--coherence);
     color: #0A0A0B;
-    border: 1px solid var(--color-coherence);
+    border: 1px solid var(--coherence);
     padding: 5px 12px;
     border-radius: 4px;
     font-family: "Geist Mono", ui-monospace, monospace;
@@ -398,8 +393,8 @@
     transition: all 150ms ease;
   }
   .drop-zone:hover {
-    border-color: var(--color-coherence);
-    background: color-mix(in oklch, var(--diligence) 3%, transparent);
+    border-color: var(--coherence);
+    background: var(--coherence-bg);
   }
   .drop-zone .plus {
     font-family: "PerfectlyNineties", Georgia, serif;
@@ -441,7 +436,7 @@
     letter-spacing: 0.06em;
   }
   .runtime-badge.live { color: rgba(242,240,236,0.65); }
-  .runtime-badge .diamond { color: var(--color-coherence); margin-right: 4px; }
+  .runtime-badge .diamond { color: var(--coherence); margin-right: 4px; }
   .unlinked-suffix {
     font-family: "Geist Mono", ui-monospace, monospace;
     font-size: 10px;
@@ -496,8 +491,8 @@
     flex-direction: column;
     gap: 14px;
   }
-  .agent-card.analyst { border-left: 3px solid var(--color-coherence); }
-  .agent-card.auditor { border-left: 3px solid var(--color-correction); }
+  .agent-card.analyst { border-left: 3px solid var(--coherence); }
+  .agent-card.auditor { border-left: 3px solid var(--correction); }
   .agent-head {
     display: flex;
     justify-content: space-between;
@@ -511,8 +506,8 @@
     text-transform: uppercase;
     font-weight: 500;
   }
-  .agent-card.analyst .agent-archetype { color: var(--color-coherence); }
-  .agent-card.auditor .agent-archetype { color: var(--color-correction); }
+  .agent-card.analyst .agent-archetype { color: var(--coherence); }
+  .agent-card.auditor .agent-archetype { color: var(--correction); }
   .agent-meta {
     font-family: "Geist Mono", ui-monospace, monospace;
     font-size: 9.5px;
@@ -550,7 +545,7 @@
     margin-top: 28px;
     padding: 22px 24px 28px;
     border-top: 1px solid rgba(255,255,255,0.06);
-    border-left: 2px solid var(--color-coherence);
+    border-left: 2px solid var(--coherence);
   }
   .correction-region .your-read {
     font-family: "Geist Mono", ui-monospace, monospace;
@@ -584,20 +579,20 @@
   }
   .pill:hover { border-color: rgba(255,255,255,0.25); }
   .pill.selected {
-    background: var(--color-coherence);
-    border-color: var(--color-coherence);
+    background: var(--coherence);
+    border-color: var(--coherence);
     color: #0A0A0B;
   }
   .pill.emergence {
-    border-color: var(--color-emergence);
-    color: var(--color-emergence);
-    box-shadow: 0 0 12px color-mix(in oklch, var(--synthesis) 12%, transparent);
+    border-color: var(--emergence);
+    color: var(--emergence);
+    box-shadow: 0 0 12px var(--emergence-glow);
   }
-  .pill.emergence:hover { box-shadow: 0 0 16px color-mix(in oklch, var(--synthesis) 22%, transparent); }
+  .pill.emergence:hover { box-shadow: 0 0 16px var(--emergence-glow); }
   .pill.emergence.selected {
-    background: var(--color-emergence);
+    background: var(--emergence);
     color: #0A0A0B;
-    box-shadow: 0 0 20px color-mix(in oklch, var(--synthesis) 32%, transparent);
+    box-shadow: 0 0 20px var(--emergence-soft);
   }
   .correction-textarea {
     width: 100%;
@@ -613,7 +608,7 @@
     min-height: 96px;
     outline: none;
   }
-  .correction-textarea:focus { border-color: var(--color-coherence); }
+  .correction-textarea:focus { border-color: var(--coherence); }
   .correction-cta {
     margin-top: 22px;
     display: flex;
@@ -628,9 +623,9 @@
     letter-spacing: 0.06em;
   }
   .btn-primary {
-    background: var(--color-coherence);
+    background: var(--coherence);
     color: #0A0A0B;
-    border: 1px solid var(--color-coherence);
+    border: 1px solid var(--coherence);
     padding: 10px 24px;
     border-radius: 4px;
     font-family: "PerfectlyNineties", Georgia, serif;
@@ -657,7 +652,7 @@
     margin-bottom: 18px;
   }
   .signed-stamp {
-    background: var(--color-resolved);
+    background: var(--resolved);
     color: #0A0A0B;
     font-family: "Geist Mono", ui-monospace, monospace;
     font-size: 10px;
@@ -749,7 +744,7 @@
   }
   .audit-chips { display: flex; gap: 10px; align-items: center; }
   .chip { color: rgba(242,240,236,0.55); font-size: 13px; cursor: default; }
-  .chip.emergence { color: var(--color-emergence); }
+  .chip.emergence { color: var(--emergence); }
   .chip.dim { color: rgba(255,255,255,0.1); }
   .audit-tail {
     font-family: "Geist Mono", ui-monospace, monospace;
@@ -782,8 +777,8 @@
     margin-bottom: 8px;
   }
   .loop-node.tray .glyph { color: rgba(242,240,236,0.5); transform: rotate(-1.5deg); }
-  .loop-node.slate .glyph { color: var(--color-coherence); }
-  .loop-node.vault .glyph { color: var(--color-emergence); }
+  .loop-node.slate .glyph { color: var(--coherence); }
+  .loop-node.vault .glyph { color: var(--emergence); }
   .loop-node .name {
     font-family: "NinetiesHeadliner", Georgia, serif;
     font-weight: 700;
@@ -944,7 +939,7 @@
               </div>
             </div>
             <footer class="tray-footer">
-              <span><span class="diamond" style="color: var(--color-coherence); font-family: 'PerfectlyNineties', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents idle</span>
+              <span><span class="diamond" style="color: var(--coherence); font-family: 'PerfectlyNineties', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents idle</span>
               <span class="rescan">↻ rescan</span>
             </footer>
           </div>
@@ -975,7 +970,7 @@
                 <h1 class="slate-title" style="font-family: 'NinetiesHeadliner', Georgia, serif; font-weight: 700; font-size: 26px; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin-bottom: 12px;">Pull a candidate from the tray to begin a read.</h1>
                 <p class="slate-subtitle" style="font-family: 'PerfectlyNineties', Georgia, serif; font-style: italic; font-size: 15px; font-weight: 300; color: rgba(242,240,236,0.55); max-width: 480px; margin: 0 auto; line-height: 1.5;">The tray window is docked at right. Click "pull to slate" on any candidate to start the deliberation loop.</p>
                 <p style="margin-top: 28px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; color: rgba(242,240,236,0.4); letter-spacing: 0.08em;">
-                  <span style="color: var(--color-coherence); font-family: 'PerfectlyNineties', Georgia, serif; font-size: 12px; margin-right: 4px;">◇</span> agents in pen: 2 · exploring 3 candidates
+                  <span style="color: var(--coherence); font-family: 'PerfectlyNineties', Georgia, serif; font-size: 12px; margin-right: 4px;">◇</span> agents in pen: 2 · exploring 3 candidates
                 </p>
               </header>
             </section>
@@ -1050,7 +1045,7 @@
               </div>
             </div>
             <footer class="tray-footer">
-              <span><span class="diamond" style="color: var(--color-coherence); font-family: 'PerfectlyNineties', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents in pen: 2</span>
+              <span><span class="diamond" style="color: var(--coherence); font-family: 'PerfectlyNineties', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents in pen: 2</span>
               <span class="rescan">↻ rescan</span>
             </footer>
           </div>
@@ -1191,7 +1186,7 @@
       <hr class="packet-divider">
       <div class="packet-section-su">
         <div class="packet-section-su-label">Disposition</div>
-        <div class="packet-section-su-body">Auditor's read accepted · tagged <strong style="color: var(--color-emergence);">★ emergence</strong></div>
+        <div class="packet-section-su-body">Auditor's read accepted · tagged <strong style="color: var(--emergence);">★ emergence</strong></div>
       </div>
       <div class="packet-section-su">
         <div class="packet-section-su-label">Committed to vault</div>
