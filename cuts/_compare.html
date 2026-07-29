@@ -243,7 +243,7 @@ function fillPicker(sel) {
       o.value = it.file;
       const coord = [it.alt, it.framing, it.stage].filter(Boolean).join(' · ');
       const num = it.num ? it.num + ' · ' : '';
-      o.textContent = coord ? `${num}${it.name}  —  ${coord}` : `${num}${it.name}`;
+      o.textContent = coord ? `${num}${it.name}  ·  ${coord}` : `${num}${it.name}`;
       og.appendChild(o);
     }
     sel.appendChild(og);
@@ -266,7 +266,7 @@ function renderDiff(a, b) {
   if (!a || !b) { diff.innerHTML = '<span class="diff-note">pick A and B to see the coordinate delta</span>'; return; }
   let differCount = 0;
   for (const ax of AXES) {
-    const va = a[ax.key] || '—', vb = b[ax.key] || '—';
+    const va = a[ax.key] || '·', vb = b[ax.key] || '·';
     const differs = va !== vb;
     if (differs) differCount++;
     const wrap = document.createElement('span');
@@ -278,8 +278,8 @@ function renderDiff(a, b) {
   const note = document.createElement('span');
   note.className = 'diff-note';
   note.textContent = differCount
-    ? `${differCount} ${differCount > 1 ? 'axes' : 'axis'} differ — that's what you're comparing along`
-    : 'same coordinate — pure shell/version comparison';
+    ? `${differCount} ${differCount > 1 ? 'axes' : 'axis'} differ: that's what you're comparing along`
+    : 'same coordinate · pure shell/version comparison';
   diff.appendChild(note);
 }
 

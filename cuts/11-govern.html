@@ -541,12 +541,12 @@ let USAGE=[
 ];
 let AGENTS=[
   {name:'Claude Opus 4.8',type:'frontier_model',badges:[['ok','verified'],['warn','high cost']],lanes:['product_dev','security_hardening','architecture_review']},
-  {name:'CalendarOps Agent',type:'internal_agent',badges:[['ok','verified'],['cost','low · ~10% of Opus']],lanes:['calendar_management','scheduling'],prov:'registry-verified (trustless agent registry · design concept — on-chain optional/roadmap) · internal-platform'},
+  {name:'CalendarOps Agent',type:'internal_agent',badges:[['ok','verified'],['cost','low · ~10% of Opus']],lanes:['calendar_management','scheduling'],prov:'registry-verified (trustless agent registry · design concept: on-chain optional/roadmap) · internal-platform'},
   {name:'DigestBot',type:'internal_agent · claude-haiku-4-5',badges:[['ok','verified'],['cost','low · ~5% of Opus']],lanes:['summarization','digests'],prov:'registry-verified'},
   {name:'Analyst (bounded)',type:'internal_agent',badges:[['ok','verified']],lanes:['diligence','analysis']},
 ];
 let SIGNALS=[
-  {id:'usage',src:'Usage events',nm:'$4,500 Opus · 7 engineers',state:'slate',rows:'E01–E21 · 5 categories · 2026-06'},
+  {id:'usage',src:'Usage events',nm:'$4,500 Opus · 7 engineers',state:'slate',rows:'E01-E21 · 5 categories · 2026-06'},
   {id:'okr',src:'OKR baseline',nm:'60% product / 40% security',state:'slate',rows:'O1 product 0.6 · O2 security 0.4'},
   {id:'pr',src:'PR evidence',nm:'PR-103 · Mara',state:'slate',rows:'“calendar-sync feature” · workstream=product · linked E14'},
   {id:'registry',src:'Agent registry',nm:'CalendarOps · verified',state:'slate',rows:'registry-verified · ~10% of Opus · scoped: calendar'},
@@ -576,13 +576,13 @@ let FINDINGS=[
   {id:'F-BBX',kind:'governance',cat:'pen-test team',who:'2nd team',title:'Pen-test fleet is a black box · observe the setup, never read the work',save:0,
    route:false,
    drop:'Diligence refused to read the team\'s work · setup only. It audits how the fleet is configured, never the contents. High spend, output unverifiable: observe + tune the agent setup, without reading their logs. Observability without snooping · the boundary that lets you govern a team you can\'t surveil.',
-   events:[['—','2026-06','2nd team','pen-test fleet · agent setup audited, contents never read','black-box']],
+   events:[['·','2026-06','2nd team','pen-test fleet · agent setup audited, contents never read','black-box']],
    receipt:{ph:'a90c12…77fe',pp:'b81e4f2c07…3d9a',anchor:'local · setup-only · no content read',vstate:'✓ governed without surveillance',ok:true}},
   {id:'F-E14',kind:'refuted',cat:'calendar_admin',who:'Mara',title:'E14: Google Calendar sync feature (misclassified)',save:0,
    dropped:true,
    drop:'Verifier dropped this claim. PR-103 shows this is a shipped product feature (Google Calendar API + UI), not calendar admin. The $180 cannot be reallocated.',
    events:[['E14','2026-06-04','Mara','calendar-sync feature: Google Calendar API + UI',180]],
-   receipt:{ph:'—',pp:'—',anchor:'dropped · not anchored',vstate:'✗ dropped · E14 refuted',ok:false}},
+   receipt:{ph:'·',pp:'·',anchor:'dropped · not anchored',vstate:'✗ dropped · E14 refuted',ok:false}},
 ];
 let CHAIN=[
   ['t0','15-vendor spend · $13,045/mo',''],['t1','narrowed · Opus $4,500 · 7 eng',''],
@@ -592,13 +592,13 @@ let LOG=[
   ['0','● finding','Figma: downsize from 15 to 6 seats','f1a2…','0000…'],
   ['1','● finding','Vercel: downsize from 12 to 4 seats','c3d4…','f1a2…'],
   ['2','● ratification','Opus 4.8 ≠ calendar management · route to CalendarOps','7d4b…','c3d4…'],
-  ['—','✗ refuted','E14 refuted · PR-103 proves product feature ($162, not anchored)','—','—'],
+  ['·','✗ refuted','E14 refuted · PR-103 proves product feature ($162, not anchored)','·','·'],
 ];
 
 // ── SUBJECT-PARAMETRIC LOOP (ported + converged from cut 00-agency) ──────────────
 // The Loop's SUBJECT is a switch: spend is the deep native render (above); the other
 // four subjects re-skin the Loop center using cut-00's per-subject panes. Same loop,
-// any subject · "you're watching the control plane, not a spend tool." Spend = default.
+// any subject · "you're watching the judgment layer, not a spend tool." Spend = default.
 const SUBJECT_ORDER=['spend','pattern','notice','custody','osint'];
 let SUBJECT='spend';
 const SUBJECTS={
@@ -839,7 +839,7 @@ function renderSubjectLoop(){
   $('#work').innerHTML=`<div class="pad">
     ${subjectBar()}
     <div class="invoke"><b>/agency invoked</b><span>reading · ${S.product}</span></div>
-    <div class="seam">Switch the subject above · the four registers re-skin, but the loop never changes: sense · read · refuse · correct · ratify. <b>Spend is the door a CFO pays for today. The loop below is the same on any subject · you're watching the control plane for founders running multi-agent systems, not a single tool.</b></div>
+    <div class="seam">Switch the subject above · the four registers re-skin, but the loop never changes: sense · read · refuse · correct · ratify. <b>Spend is the door a CFO pays for today. The loop below is the same on any subject · you're watching judgment infrastructure for founders directing AI agents, not a single tool.</b></div>
     <div class="subj-head"><span class="sk">${S.sk}</span><h2>${S.title}</h2></div>
     <div class="sense-h"><span class="anum">01 · EVIDENCE</span><span class="atitle">${S.evidence.h.replace('Evidence · ','')}</span><span class="asub">${S.evidence.tag}</span></div>
     <div class="evidence-pane" id="evidence-pane"><div class="evidence"><div class="ev-h">${S.evidence.h}<span class="tag">${S.evidence.tag}</span></div><div class="ev-body">${S.evidence.body}</div></div></div>
@@ -929,7 +929,7 @@ function renderToday(){
               <span style="font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,210,74,0.3);color:var(--agency-500,#FFD24A)">Almost ready</span>
             </div>
             <div style="font:500 italic 1.7rem var(--display);color:var(--wholeness-500,#E90095);letter-spacing:-.01em;margin-bottom:0.7rem">NOT READY · 4 fixes</div>
-            <p style="font:0.92rem/1.6 var(--sans);color:var(--text-mid);margin-bottom:1.1rem">The <b style="color:var(--text);font-weight:500">Judgment</b> register refused to ship. Three corrections plus one defer stand between you and a yes — the head-of-eng call is the blocker the agents converged on.</p>
+            <p style="font:0.92rem/1.6 var(--sans);color:var(--text-mid);margin-bottom:1.1rem">The <b style="color:var(--text);font-weight:500">Judgment</b> register refused to ship. Three corrections plus one defer stand between you and a yes. The head-of-eng call is the blocker the agents converged on.</p>
             <div style="font:9.5px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);margin-bottom:1.2rem"><span style="color:var(--text-soft)">read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
             <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
               <button style="font:11px/1 var(--mono);letter-spacing:.04em;padding:9px 16px;border-radius:6px;border:1px solid var(--card-border);background:var(--card-border);color:var(--text-mid);cursor:pointer;transition:all 140ms" onclick="this.closest('.work').querySelector('[data-go=loop]')&&this.closest('.work').querySelector('[data-go=loop]').click()">Open the read →</button>
@@ -951,7 +951,7 @@ function renderToday(){
                 <span style="font:500 1.05rem var(--display);color:var(--text)">Eng hire · candidate B</span>
                 <span style="margin-left:auto;font:9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)">held 6d</span>
               </div>
-              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Sent a technical write-up unprompted. Synthesis flips its read: the Judgment register placed this third — pattern, just one counter-example.</p>
+              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Sent a technical write-up unprompted. Synthesis flips its read: the Judgment register placed this third. Pattern: just one counter-example.</p>
             </div>
             <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:7px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:0.4rem">
               <div style="display:flex;align-items:center;gap:0.55rem">
@@ -959,7 +959,7 @@ function renderToday(){
                 <span style="font:500 1.05rem var(--display);color:var(--text)">Design system · v2 migration</span>
                 <span style="margin-left:auto;font:9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)">held 9d</span>
               </div>
-              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Strategist surfaced a third option overnight — ship v1, run v2 in parallel two weeks. Maia's review supports it.</p>
+              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Strategist surfaced a third option overnight: ship v1, run v2 in parallel two weeks. Maia's review supports it.</p>
             </div>
           </div>
         </div>
@@ -977,15 +977,15 @@ function renderToday(){
             <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin-bottom:1.3rem">How did that land? <em style="font-style:italic;color:var(--text-mid)">Your answer is what makes the vault's calibration real.</em></p>
 
             <div id="tdy-outcomes" style="display:flex;flex-direction:column;gap:0.5rem">
-              <button class="tdy-outcome good" data-outcome="Resolved well — right call" data-disp="resolved-well" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Resolved well <span style="color:var(--text-faint);font-size:0.8rem">— right call</span></button>
-              <button class="tdy-outcome" data-outcome="Mixed — would adjust" data-disp="mixed" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Mixed <span style="color:var(--text-faint);font-size:0.8rem">— would adjust</span></button>
-              <button class="tdy-outcome warn" data-outcome="Regret it — wrong call" data-disp="regret" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Regret it <span style="color:var(--text-faint);font-size:0.8rem">— wrong call</span></button>
+              <button class="tdy-outcome good" data-outcome="Resolved well · right call" data-disp="resolved-well" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Resolved well <span style="color:var(--text-faint);font-size:0.8rem">· right call</span></button>
+              <button class="tdy-outcome" data-outcome="Mixed · would adjust" data-disp="mixed" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Mixed <span style="color:var(--text-faint);font-size:0.8rem">· would adjust</span></button>
+              <button class="tdy-outcome warn" data-outcome="Regret it · wrong call" data-disp="regret" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Regret it <span style="color:var(--text-faint);font-size:0.8rem">· wrong call</span></button>
               <button class="tdy-outcome" data-outcome="Still open" data-disp="open" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Still open</button>
             </div>
 
             <div id="tdy-sealed" style="display:none;flex-direction:column;gap:0.6rem;animation:tdy-rise 360ms var(--ease-out) both">
               <div style="font:10.5px/1 var(--mono);letter-spacing:.05em;color:var(--text-soft);display:flex;align-items:center;gap:0.5rem"><span style="color:var(--connection,#3EE878)">●</span> outcome recorded · sealed to vault</div>
-              <div id="tdy-sealed-verdict" style="font:italic 1.05rem var(--display);color:var(--text)">Resolved well — right call</div>
+              <div id="tdy-sealed-verdict" style="font:italic 1.05rem var(--display);color:var(--text)">Resolved well · right call</div>
               <div id="tdy-sealed-hash" style="font:9.5px/1 var(--mono);letter-spacing:.08em;color:var(--text-faint)">seal 9f4c · 7e21 · 0d8a · b3f0 · device-local</div>
             </div>
 
@@ -999,7 +999,7 @@ function renderToday(){
         <!-- Mirror note -->
         <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.4rem 1.6rem">
           <div style="font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--agency-500,#FFD24A);margin-bottom:0.7rem">◍ Mirror · a quiet note</div>
-          <p style="font:1.05rem/1.5 var(--display);color:var(--text-mid);margin:0">You tend to decide funding calls when depleted. Last two nights averaged 5h. The agents are reading you rested today — <em style="font-style:italic;color:var(--diligence,#8E66FB)">maybe let them.</em></p>
+          <p style="font:1.05rem/1.5 var(--display);color:var(--text-mid);margin:0">You tend to decide funding calls when depleted. Last two nights averaged 5h. The agents are reading you rested today. <em style="font-style:italic;color:var(--diligence,#8E66FB)">Maybe let them.</em></p>
         </div>
       </div>
     </div>
@@ -1050,7 +1050,7 @@ function renderReport(){
     <h1>Spend, against the OKRs you set.</h1>
     <p class="lede">${r.business_impact||''}</p>
     <div class="mstats">
-      <div class="mstat"><div class="v">${r.spend?.aligned_pct??'—'}%</div><div class="l">OKR-aligned</div></div>
+      <div class="mstat"><div class="v">${r.spend?.aligned_pct??'·'}%</div><div class="l">OKR-aligned</div></div>
       <div class="mstat"><div class="v">$${(r.expected_savings?.monthly??0).toLocaleString()}</div><div class="l">verified savings/mo</div></div>
       <div class="mstat"><div class="v">$${(r.expected_savings?.annual??0).toLocaleString()}</div><div class="l">/yr via ${r.expected_savings?.via||'agent'}</div></div>
     </div>
@@ -1063,8 +1063,8 @@ function renderReport(){
     ${under?`<div class="mnote"><span class="k">under-allocated</span><ul>${under}</ul></div>`:''}
     ${fp?`<div class="mnote"><span class="k">false positives removed (not reclassified)</span><ul>${fp}</ul></div>`:''}
     <div class="mnote"><span class="k">provenance · this report cites its sources</span>
-      <p>Decision <code>${(r.decision_id||'—').slice(0,8)}</code> · hash <code>${r.decision_hash||'—'}</code><br>
-      Cited events: ${(r.cited_events||[]).join(', ')||'—'}${r.cited_prs?.length?` · ${r.cited_prs.join(', ')}`:''}<br>
+      <p>Decision <code>${(r.decision_id||'·').slice(0,8)}</code> · hash <code>${r.decision_hash||'·'}</code><br>
+      Cited events: ${(r.cited_events||[]).join(', ')||'·'}${r.cited_prs?.length?` · ${r.cited_prs.join(', ')}`:''}<br>
       <em>${r.decision||''}</em></p></div>
   </div>`;
 }
@@ -1118,7 +1118,7 @@ function agentCardHTML(a){
     const score=a.reputation.score;
     const scoreCls=score>=90?'ok':score>=75?'cost':'warn';
     return `<div class="agent rich">
-      <div class="ar-top"><div class="an">${a.name}</div><div class="rep ${scoreCls}" title="reputation · ${a.reputation.reads} reads · ${a.reputation.corrections} corrections">${score==null?'—':score}<span class="rl">rep</span></div></div>
+      <div class="ar-top"><div class="an">${a.name}</div><div class="rep ${scoreCls}" title="reputation · ${a.reputation.reads} reads · ${a.reputation.corrections} corrections">${score==null?'·':score}<span class="rl">rep</span></div></div>
       <div class="at">${a.type} · ${a.publisher}</div>
       <div class="claim">${a.claim||''}</div>
       <div class="badges">
@@ -1127,7 +1127,7 @@ function agentCardHTML(a){
         ${a.proof?.attested?'<span class="bdg ok">attested</span>':''}
       </div>
       <div class="lanes">${(a.lanes||[]).map(l=>`<span class="lane">${l.replace(/_/g,' ')}</span>`).join('')}</div>
-      <div class="prov">${a.proof?.attested?'⛓ '+a.proof.anchor:'frontier model · not registry-published'} · proof <span class="phash">${a.proof?.integrity_hash||'—'}</span></div>
+      <div class="prov">${a.proof?.attested?'⛓ '+a.proof.anchor:'frontier model · not registry-published'} · proof <span class="phash">${a.proof?.integrity_hash||'·'}</span></div>
     </div>`;
   }
   // fixture fallback (demo mode)
@@ -1143,7 +1143,7 @@ function renderRegistry(){
 function renderLog(){
   body.dataset.surface='log';
   const rows=LOG.map(e=>`<tr><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td class="num">${e[3]}</td><td class="num">${e[4]}</td></tr>`).join('');
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · decision log</div><h1>Decision log</h1><p class="lede">Append-only trail. Every surviving finding entered the chain; the ratified policy is a new linked entry; the refuted claim is recorded, never silently dropped. Hash-linked, append-only · anchors shown are illustrative (deterministic fixture); the product chain anchors with SHA-256.</p><table class="tbl"><thead><tr><th>#</th><th>Kind</th><th>Entry</th><th>packet_hash</th><th>prev_hash</th></tr></thead><tbody>${rows}</tbody></table><p class="lede" style="font:11px/1.5 var(--mono);color:var(--text-faint)">${LOG.filter(e=>e[0]!=='—').length} anchored · 1 refuted${signed?' · 1 ratified this session':''} · ${corrections} correction${corrections!==1?'s':''} signed.</p></div>`;
+  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · decision log</div><h1>Decision log</h1><p class="lede">Append-only trail. Every surviving finding entered the chain; the ratified policy is a new linked entry; the refuted claim is recorded, never silently dropped. Hash-linked, append-only · anchors shown are illustrative (deterministic fixture); the product chain anchors with SHA-256.</p><table class="tbl"><thead><tr><th>#</th><th>Kind</th><th>Entry</th><th>packet_hash</th><th>prev_hash</th></tr></thead><tbody>${rows}</tbody></table><p class="lede" style="font:11px/1.5 var(--mono);color:var(--text-faint)">${LOG.filter(e=>e[0]!=='·').length} anchored · 1 refuted${signed?' · 1 ratified this session':''} · ${corrections} correction${corrections!==1?'s':''} signed.</p></div>`;
 }
 
 // ── correction flow (restored) ──────────────────────────────────────────────

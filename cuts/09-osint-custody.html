@@ -399,22 +399,22 @@
         <div class="case-eyebrow" id="caseEyebrow">CASE C1 · awaiting deliberation</div>
         <h1 class="case-title" id="caseTitle"></h1>
         <p class="case-sub" id="caseSub"></p>
-        <div class="thesis-line">The same capture · read · refuse · correct · sign loop — at the high-stakes altitude. Everything below is computed in your browser by a frozen kernel bundle (<span style="font-family:var(--mono)">osint-kernel.bundle.js</span>), recomputed each load. <b>This is the depth proof with a working engine: not a mockup of the loop, the loop itself — pointed at an intelligence claim.</b> <span style="opacity:0.7">The bundle is a recorded artifact; its source is not currently rebuildable in-workspace.</span></div>
+        <div class="thesis-line">The same capture · read · refuse · correct · sign loop · at the high-stakes altitude. Everything below is computed in your browser by a frozen kernel bundle (<span style="font-family:var(--mono)">osint-kernel.bundle.js</span>), recomputed each load. <b>This is the depth proof with a working engine: not a mockup of the loop, the loop itself · pointed at an intelligence claim.</b> <span style="opacity:0.7">The bundle is a recorded artifact; its source is not currently rebuildable in-workspace.</span></div>
 
         <div class="metric-band">
-          <div class="metric"><div class="metric-k" id="m1k">Signal integrity</div><div class="metric-v" id="m1v">—</div></div>
-          <div class="metric"><div class="metric-k" id="m2k">Lead hypothesis</div><div class="metric-v" id="m2v">—</div></div>
-          <div class="metric"><div class="metric-k" id="m3k">Doctrine</div><div class="metric-v" id="m3v">—</div></div>
+          <div class="metric"><div class="metric-k" id="m1k">Signal integrity</div><div class="metric-v" id="m1v">·</div></div>
+          <div class="metric"><div class="metric-k" id="m2k">Lead hypothesis</div><div class="metric-v" id="m2v">·</div></div>
+          <div class="metric"><div class="metric-k" id="m3k">Doctrine</div><div class="metric-v" id="m3v">·</div></div>
         </div>
 
         <div class="sec-h" id="readsHead">Bounded specialist reads <span class="hint" id="readsHint">stateless · each sees only this bundle (I2)</span></div>
-        <div class="reads" id="reads"><div class="empty">Run the loop — the kernel fans out to six bounded specialists.</div></div>
+        <div class="reads" id="reads"><div class="empty">Run the loop. The kernel fans out to six bounded specialists.</div></div>
 
         <div class="sec-h" id="hypHead">Competing hypotheses</div>
-        <div id="hyps"><div class="empty muted">—</div></div>
+        <div id="hyps"><div class="empty muted">·</div></div>
 
         <div class="sec-h" id="actHead">Recommended next move <span class="hint" id="actHint">ranked</span></div>
-        <div class="actions" id="actions"><div class="empty muted">—</div></div>
+        <div class="actions" id="actions"><div class="empty muted">·</div></div>
 
         <div class="brief">
           <div class="brief-h" id="briefH">Operator review · durable doctrine</div>
@@ -446,7 +446,7 @@
     </div>
 
     <footer class="frame-foot">
-      <span id="footRead">READ —</span>
+      <span id="footRead">READ ·</span>
       <span id="footEvents"><b>0</b> events</span>
       <span class="spacer"></span>
       <span id="footEngine">kernel · frozen bundle, runs in-page (source not in-workspace)</span>
@@ -475,7 +475,7 @@
       chyron: 'LIMINAL · <b>CUSTODY</b> · CASE alara_01 · 5TH FLEET · 0200Z · WATCH-1',
       classification: "UNCLASSIFIED · OSINT · public-domain sources",
       c1Title: "Identity churn across a dark gap",
-      c1Sub: "An AIS track goes dark in the Strait of Hormuz; a second identity surfaces inside the Kalman-predicted ellipse. Six bounded specialists read the bundle — the structural guard decides what may be claimed.",
+      c1Sub: "An AIS track goes dark in the Strait of Hormuz; a second identity surfaces inside the Kalman-predicted ellipse. Six bounded specialists read the bundle. The structural guard decides what may be claimed.",
       c2Title: "A second dark-gap case arrives",
       c2Sub: "Structurally similar identity churn. The doctrine the operator just signed re-ranks the recommendation before any human looks.",
       readsHead: "Bounded specialist reads", readsHint: "stateless · each sees only this bundle (I2)",
@@ -490,14 +490,14 @@
       classification: "PROPOSAL · DARPA DISCORD (Ender’s Foundry) · substrate stress-case · not a GTM pivot",
       c1Title: "Diversify the sim prime’s candidate tactics",
       c1Sub: "P1 ingest → P2 bounded diversification + red-team. The same stateless guard that refuses an unsupported intent claim is what makes the tactics portfolio poison-resistant: agents read only the current world-state + candidate set, never the ontology.",
-      c2Title: "A second engagement — commander doctrine applies",
+      c2Title: "A second engagement. Commander doctrine applies",
       c2Sub: "P5 adapt: the commander’s prior correction, captured as durable judgment, re-ranks the course-of-action portfolio for the next engagement.",
       readsHead: "Diversification + red-team agents", readsHint: "P2 · stateless · poison-resistant (I2 fence)",
       hypHead: "Candidate tactics (diverse)", actHead: "Recommended course of action",
       briefH: "Commander correction · captured as durable judgment",
       m1k: "Source integrity", m2k: "Lead tactic", m3k: "Doctrine",
       dispoH: "COA committed · provenance anchored",
-      prov: "<b>Provenance:</b> signed disposition + signal provenance batched to an Algorand Merkle root per epoch — third-party-verifiable, tamper-evident audit (DISCORD trust/audit req)."
+      prov: "<b>Provenance:</b> signed disposition + signal provenance batched to an Algorand Merkle root per epoch. Third-party-verifiable, tamper-evident audit (DISCORD trust/audit req)."
     }
   };
 
@@ -590,7 +590,7 @@
     $("m1v").textContent = integ;
     $("m1v").className = "metric-v " + integ;
     const lead = c.hypotheses[0];
-    $("m2v").textContent = lead ? Math.round(lead.posterior * 100) + "%" : "—";
+    $("m2v").textContent = lead ? Math.round(lead.posterior * 100) + "%" : "·";
     $("m3v").textContent = doctrine;
   }
 
@@ -706,20 +706,20 @@
     clearTimers();
     beat = 0; lastC1 = null; session = null;
     $("obsList").innerHTML = "";
-    $("reads").innerHTML = `<div class="empty">Run the loop — the kernel fans out to six bounded specialists.</div>`;
-    $("hyps").innerHTML = `<div class="empty muted">—</div>`;
-    $("actions").innerHTML = `<div class="empty muted">—</div>`;
+    $("reads").innerHTML = `<div class="empty">Run the loop. The kernel fans out to six bounded specialists.</div>`;
+    $("hyps").innerHTML = `<div class="empty muted">·</div>`;
+    $("actions").innerHTML = `<div class="empty muted">·</div>`;
     $("caseEyebrow").textContent = "CASE C1 · awaiting deliberation";
     $("caseTitle").textContent = REG[reg].c1Title;
     $("caseSub").textContent = REG[reg].c1Sub;
-    $("m1v").textContent = "—"; $("m1v").className = "metric-v";
-    $("m2v").textContent = "—"; $("m3v").textContent = "—";
+    $("m1v").textContent = "·"; $("m1v").className = "metric-v";
+    $("m2v").textContent = "·"; $("m3v").textContent = "·";
     $("rule").classList.remove("active"); $("ruleMeta").textContent = "unsigned";
     $("dispo").classList.remove("in");
     $("spineNodes").textContent = "0"; $("spineEdges").textContent = "0";
     $("applies").innerHTML = "projection of the correction log · never an input to a specialist (I2)";
     $("audit").innerHTML = `<li class="muted">append-only · I1</li>`;
-    $("footEvents").innerHTML = `<b>0</b> events`; $("footRead").textContent = "READ —";
+    $("footEvents").innerHTML = `<b>0</b> events`; $("footRead").textContent = "READ ·";
     $("vaultPill").textContent = "VAULT · 0 SEALED"; $("vaultPill").classList.remove("sealed");
     setBeatTag("idle");
     $("btnRun").disabled = false; $("btnStep").disabled = false; $("btnReset").disabled = true;
@@ -747,7 +747,7 @@
       const a = await res.json();
       const k = a.kafka || {}, alg = a.algorand || {}, ont = a.ontology || {};
       const rows = [];
-      rows.push(`<div class="infra-row"><span class="k">kafka</span><span>${k.topic ?? "—"}</span></div>`);
+      rows.push(`<div class="infra-row"><span class="k">kafka</span><span>${k.topic ?? "·"}</span></div>`);
       rows.push(`<div class="infra-row"><span class="k">stream</span><span>produced ${k.produced ?? 0} · consumed ${k.consumed ?? 0} · <span class="${k.round_trip ? "infra-ok" : "infra-warn"}">${k.round_trip ? "round-trip ✓" : "pending"}</span></span></div>`);
       if (ont.store) rows.push(`<div class="infra-row"><span class="k">ontology</span><span>${ont.store} · ${ont.nodes ?? 0} nodes / ${ont.edges ?? 0} edges</span></div>`);
       if (alg.txid) {
@@ -760,7 +760,7 @@
         rows.push(`<div class="infra-row"><span class="k">txid</span>${publicChain ? `<a href="${alg.explorer}" target="_blank" rel="noopener">${alg.txid}</a>` : `<span class="txid-static">${alg.txid}</span>`}</div>`);
         $("footEngine").textContent = `kernel runs in-page (frozen bundle) · Kafka + Algorand ${alg.network} provenance is a recorded snapshot`;
       } else {
-        rows.push(`<div class="infra-row"><span class="k">algorand</span><span class="infra-warn">testnet account unfunded — anchor pending</span></div>`);
+        rows.push(`<div class="infra-row"><span class="k">algorand</span><span class="infra-warn">testnet account unfunded. Anchor pending</span></div>`);
         $("footEngine").textContent = "kernel · frozen bundle (runs in-page) · Kafka live · Algorand pending fund";
       }
       const host = $("infra");

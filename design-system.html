@@ -1752,7 +1752,7 @@
       <span class="right"><strong>spec v0.3.7</strong>tokens · design-tokens.css</span>
     </div>
     <h1>The <span class="h1-mark">canon.</span></h1>
-    <p class="lede">Every screen in every product cut reads from these tokens. Edit a value here and the change cascades to every importing surface — <em>instantly, no save, no refresh.</em> <span class="pin">The design system is the product's control surface, not a description of it.</span></p>
+    <p class="lede">Every screen in every product cut reads from these tokens. Edit a value here and the change cascades to every importing surface. <em>Instantly, no save, no refresh.</em> <span class="pin">The design system is the product's control surface, not a description of it.</span></p>
   </header>
 
   <!-- ─── P0 #2 · summary card · what you're getting ────────────── -->
@@ -1802,8 +1802,8 @@
 
   <!-- ─── marginalia · hand-written notes · anchored to sections via JS ─── -->
   <div class="marginalia"         data-anchor="summary"      data-side="right" data-offset="20">this is what you're getting. one page · one canon · live edits. <span class="arrow">↘</span></div>
-  <div class="marginalia is-pink" data-anchor="brand-3"      data-side="left"  data-offset="60">brand 3 locked apr 15 — clarity / wholeness / vitality. nothing else competes. <span class="arrow">↗</span></div>
-  <div class="marginalia"         data-anchor="tokens"       data-side="right" data-offset="40">12 hues at 30° intervals. 7 carry meaning. 5 are ornaments — variety only. <span class="arrow">↙</span></div>
+  <div class="marginalia is-pink" data-anchor="brand-3"      data-side="left"  data-offset="60">brand 3 locked apr 15. clarity / wholeness / vitality. nothing else competes. <span class="arrow">↗</span></div>
+  <div class="marginalia"         data-anchor="tokens"       data-side="right" data-offset="40">12 hues at 30° intervals. 7 carry meaning. 5 are ornaments. variety only. <span class="arrow">↙</span></div>
   <div class="marginalia is-pink" data-anchor="registers"    data-side="left"  data-offset="20">every register-word names what the color does. component CSS speaks register. <span class="arrow">↗</span></div>
   <div class="marginalia"         data-anchor="tonal-scales" data-side="right" data-offset="40">120 stops. each hue gets 10. 500 is always the wheel value. <span class="arrow">↙</span></div>
   <div class="marginalia is-pink" data-anchor="ui-bindings"  data-side="left"  data-offset="40">surfaces named by purpose · routed to wheel stops. rebind once, retune everywhere. <span class="arrow">↗</span></div>
@@ -1867,7 +1867,7 @@
       <span class="rule"></span>
     </div>
     <h2><span class="glyph">◇</span>The 12-wheel</h2>
-    <p class="section-lede">The canonical color canon · locked 2026-04-07 in <code>liminal-creative/color-lab/src/lib/palettes/liminal-12-wheel.ts</code> · slate pigment retune 2026-04-15. Twelve hues at 30° intervals around the wheel. Seven anchored to factor identities — they carry semantic load. Five reserved as ornaments — variety only, never meaning.</p>
+    <p class="section-lede">The canonical color canon · locked 2026-04-07 in <code>liminal-creative/color-lab/src/lib/palettes/liminal-12-wheel.ts</code> · slate pigment retune 2026-04-15. Twelve hues at 30° intervals around the wheel. Seven anchored to factor identities. They carry semantic load. Five reserved as ornaments. variety only, never meaning.</p>
 
     <div class="wheel-stage">
       <svg class="wheel-svg" id="wheelSvg" viewBox="0 0 360 360" aria-label="Liminal 12-wheel">
@@ -1915,7 +1915,7 @@
       <span class="rule"></span>
     </div>
     <h2><span class="glyph">◇</span>Twelve registers</h2>
-    <p class="section-lede">Every wheel hue carries a register-word naming what it does in product UI. Component CSS can address by register (semantic) <em>or</em> by factor/ornament (canonical). Both resolve to the same hue. Four registers are <strong style="color: var(--accent);">locked v0.2</strong> · the eight new in v0.3.7 extend the vocabulary to cover the full desktop-app state space — alarm, surge, watch, signal, ambient, depth, liminal, vital.</p>
+    <p class="section-lede">Every wheel hue carries a register-word naming what it does in product UI. Component CSS can address by register (semantic) <em>or</em> by factor/ornament (canonical). Both resolve to the same hue. Four registers are <strong style="color: var(--accent);">locked v0.2</strong> · the eight new in v0.3.7 extend the vocabulary to cover the full desktop-app state space. alarm, surge, watch, signal, ambient, depth, liminal, vital.</p>
     <div class="token-grid" id="tokenGrid-register">
       <div class="tg-head">register · degree → hue · what it does</div><div class="tg-head">swatch</div><div class="tg-head">value</div><div class="tg-head">reset</div>
     </div>
@@ -1933,7 +1933,7 @@
     </div>
     <h2><span class="glyph">◇</span>Tonal scales</h2>
     <p class="section-lede">
-      Every non-neutral color in the desktop app derives from one of these 12 hues. Each hue gets a 10-stop tonal scale (<code>50</code> through <code>900</code>) — backgrounds at the low end, fills + borders in the middle, text + emphasis at the high end. <code>500</code> is always the canonical wheel value. Liminal-named aliases (<code>-faint</code>, <code>-bg</code>, <code>-tint</code>, <code>-soft</code>, <code>-edge</code>, <code>-glow</code>, <code>-strong</code>) point to specific stops · component CSS reads either form, both resolve to the same hex.
+      Every non-neutral color in the desktop app derives from one of these 12 hues. Each hue gets a 10-stop tonal scale (<code>50</code> through <code>900</code>). Backgrounds at the low end, fills + borders in the middle, text + emphasis at the high end. <code>500</code> is always the canonical wheel value. Liminal-named aliases (<code>-faint</code>, <code>-bg</code>, <code>-tint</code>, <code>-soft</code>, <code>-edge</code>, <code>-glow</code>, <code>-strong</code>) point to specific stops · component CSS reads either form, both resolve to the same hex.
     </p>
     <p class="section-lede" style="font-style: italic; color: var(--text-faint);">
       Pigment-aware: opaque hues use linear scales, luminous hues keep saturation in mid-stops (the glow), translucent hues get richer wash variants. Click any stop to jump to its row in the editor.
@@ -1972,7 +1972,7 @@
     </div>
     <h2><span class="glyph">◇</span>Gradient grammar</h2>
     <p class="section-lede">
-      Adjacent on the wheel = allowed (smooth pigment migration). Diametric blends are reserved for specific brand moments. Random cross-wheel blends are <em>not</em> in the system. The brand spectrum (gold → orange → pink → magenta → violet) spans the brand 3 plus their adjacent ornaments — used only for state-rendered ambient orbs/washes per Brand OS Canon v4 Layer C.
+      Adjacent on the wheel = allowed (smooth pigment migration). Diametric blends are reserved for specific brand moments. Random cross-wheel blends are <em>not</em> in the system. The brand spectrum (gold → orange → pink → magenta → violet) spans the brand 3 plus their adjacent ornaments. Used only for state-rendered ambient orbs/washes per Brand OS Canon v4 Layer C.
     </p>
 
     <div class="gradient-gallery" id="gradientGallery"></div>
@@ -2019,7 +2019,7 @@
 
   <section class="ds-section" id="substrates">
     <h2>Substrates · light theme reserved</h2>
-    <p class="section-lede">The 12-wheel pairs with a cream/ink substrate for the "anointed-desk" register (per Apr 25 9:27 PM positioning). Cream now ships as a 10-stop scale matching the hue scales — <code>--cream-50</code> for paper highlight, <code>--cream-900</code> for maximum contrast on cream. Reserved · no surface ships against these yet · documented for the v1.0+ Tauri client and the Personal product surface.</p>
+    <p class="section-lede">The 12-wheel pairs with a cream/ink substrate for the "anointed-desk" register (per Apr 25 9:27 PM positioning). Cream now ships as a 10-stop scale matching the hue scales. <code>--cream-50</code> for paper highlight, <code>--cream-900</code> for maximum contrast on cream. Reserved · no surface ships against these yet · documented for the v1.0+ Tauri client and the Personal product surface.</p>
 
     <div class="cream-strip" id="creamStrip"></div>
 
@@ -2388,7 +2388,7 @@
 
   <section class="ds-section">
     <h2>Selection controls</h2>
-    <p class="section-lede">Checkbox, radio, switch, slider — the primitives a Tauri app needs that v0.2 didn't catalogue.</p>
+    <p class="section-lede">Checkbox, radio, switch, slider. the primitives a Tauri app needs that v0.2 didn't catalogue.</p>
     <div class="state-gallery" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
       <div class="state-card"><div class="state-label">checkbox · unchecked</div><div class="demo"><label class="ck"><input type="checkbox"><span class="ck-box"></span>seal correction to vault</label></div></div>
       <div class="state-card"><div class="state-label">checkbox · checked</div><div class="demo"><label class="ck"><input type="checkbox" checked><span class="ck-box"></span>require human-in-loop</label></div></div>
@@ -2636,7 +2636,7 @@
 
   <section class="ds-section">
     <h2>Sparkline · dual-line gap</h2>
-    <p class="section-lede">From Devon DRIFT — internal-vs-external assertion divergence. Two paths, gap filled in judgment-faint. Used wherever a one-line trend tells the story.</p>
+    <p class="section-lede">From Devon DRIFT. internal-vs-external assertion divergence. Two paths, gap filled in judgment-faint. Used wherever a one-line trend tells the story.</p>
     <div class="preview-grid">
       <div class="preview-card">
         <div class="pv-tag">sparkline · 21d window</div>
@@ -2721,7 +2721,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
 
     <h3>Color-blind safe pairings</h3>
     <p class="section-lede" style="margin: var(--space-4) 0;">
-      Status colors that depend on hue alone fail for users with deuteranopia, protanopia, or tritanopia. <em>Never use color as the only signal.</em> Pair every status color with a glyph (◇ pill, ✓ check, ⌀ refusal) or a text label. The system already does this — banners always carry a glyph, agent cards always carry a state-label.
+      Status colors that depend on hue alone fail for users with deuteranopia, protanopia, or tritanopia. <em>Never use color as the only signal.</em> Pair every status color with a glyph (◇ pill, ✓ check, ⌀ refusal) or a text label. The system already does this. banners always carry a glyph, agent cards always carry a state-label.
     </p>
 
     <h3>Contrast tokens · for overrides</h3>
@@ -2769,7 +2769,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       <strong>liminal · design system</strong> · spec v0.3.7 · canon locked 2026-04-15 · last edited 2026-04-28<br>
       tokens · design-tokens.css · single source · imported across every product surface
     </div>
-    <div class="colophon-hand">— SR</div>
+    <div class="colophon-hand">- SR</div>
 
     <details class="changelog">
       <summary>changelog · 5 entries</summary>
@@ -3575,7 +3575,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     // hue + stop, hex, ratio-on-dark, ratio-on-cream, recommendation
     { name: 'clarity-500',    hex: '#8E66FB', dark: 6.62, cream: 4.56, body: 'agent reads · accent labels · brand primary' },
     { name: 'clarity-700',    hex: '#553AB1', dark: 3.21, cream: 9.39, body: 'text-on-cream · primary in light theme' },
-    { name: 'clarity-300',    hex: 'rgba(142,102,251,0.26)', dark: 2.84, cream: '–', body: 'fill background · backdrops · NOT for text' },
+    { name: 'clarity-300',    hex: 'rgba(142,102,251,0.26)', dark: 2.84, cream: 'N/A', body: 'fill background · backdrops · NOT for text' },
     { name: 'wholeness-500',  hex: '#E90095', dark: 6.18, cream: 4.93, body: 'verdict · brand secondary · Liminal Pink' },
     { name: 'wholeness-700',  hex: '#94005C', dark: 2.81, cream: 11.27, body: 'text-on-cream · pink emphasis' },
     { name: 'vitality-500',   hex: '#FF9549', dark: 9.51, cream: 3.04, body: 'CTA accent on dark · NOT body text on cream' },
@@ -3598,7 +3598,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
   ];
 
   function ratioCell(r) {
-    if (r === '–') return '<span style="color: var(--text-mute);">—</span>';
+    if (r === 'N/A') return '<span style="color: var(--text-mute);">N/A</span>';
     const passAA = r >= 4.5;
     const passAALarge = r >= 3.0;
     const color = passAA ? 'var(--connection)' : (passAALarge ? 'var(--watch)' : 'var(--alarm)');
