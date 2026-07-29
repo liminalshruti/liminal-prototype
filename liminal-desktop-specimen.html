@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Liminal · Desktop App Specimen · 2026-05-12</title>
+<title>Liminal · Desktop App Specimen</title>
 
 <!-- Same font stack as cut 01 speedrun -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- ACTUAL brand canon — same 3 CSS files cut 01 speedrun loads -->
 <link rel="stylesheet" href="design-system/tokens/design-tokens.css">
@@ -17,10 +17,14 @@
 
 <style>
   :root {
-    --color-coherence:  #7aa9ff;
-    --color-correction: #e0996b;
-    --color-emergence:  #c084fc;
-    --color-resolved:   #6ec3a8;
+    /* Refreshed to canon 2026-07-29 (state-atlas v0.3 classification):
+       these are agent-identity + lifecycle hues, so they bind to the four
+       registers. The May-12 local inventions (#7aa9ff/#e0996b/#c084fc/
+       #6ec3a8) predated the canon lock. */
+    --color-coherence:  var(--diligence);   /* Analyst · staged/read lane */
+    --color-correction: var(--judgment);    /* Auditor · corrected class */
+    --color-emergence:  var(--synthesis);   /* emergent pattern · woven */
+    --color-resolved:   var(--outreach);    /* filled/resolved */
   }
 
   html, body {
@@ -68,7 +72,7 @@
     margin-bottom: 8px;
   }
   .spec-header-title {
-    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-family: "NinetiesHeadliner", Georgia, serif;
     font-weight: 700;
     font-size: 56px;
     line-height: 1.04;
@@ -77,7 +81,7 @@
     margin: 0 0 12px;
   }
   .spec-header-subtitle {
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-style: italic;
     font-weight: 400;
     font-size: 19px;
@@ -106,7 +110,7 @@
     background: rgba(255,255,255,0.06);
   }
   .spec-caption {
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-style: italic;
     font-size: 16px;
     color: rgba(242,240,236,0.55);
@@ -132,7 +136,7 @@
 
   .vault-page { padding: 32px 40px; color: var(--text, #f2f0ec); }
   .vault-h1 {
-    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-family: "NinetiesHeadliner", Georgia, serif;
     font-weight: 700;
     font-size: 32px;
     margin: 0 0 24px;
@@ -155,7 +159,7 @@
     box-shadow: 0 0 28px rgba(192, 132, 252, 0.07);
   }
   .stat-number {
-    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-family: "NinetiesHeadliner", Georgia, serif;
     font-weight: 700;
     font-size: 38px;
     line-height: 1;
@@ -236,7 +240,7 @@
   .packet-title .excerpt {
     display: block;
     margin-top: 2px;
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-style: italic;
     font-weight: 300;
     font-size: 12.5px;
@@ -256,12 +260,12 @@
     color: rgba(242,240,236,0.6);
     border: 1px solid rgba(255,255,255,0.06);
   }
-  .packet-chip.analyst { color: var(--color-coherence); border-color: rgba(122,169,255,0.25); }
-  .packet-chip.auditor { color: var(--color-correction); border-color: rgba(224,153,107,0.3); }
+  .packet-chip.analyst { color: var(--color-coherence); border-color: var(--diligence-edge); }
+  .packet-chip.auditor { color: var(--color-correction); border-color: var(--judgment-edge); }
   .packet-chip.emergence {
     color: var(--color-emergence);
-    background: rgba(192,132,252,0.08);
-    border-color: rgba(192,132,252,0.3);
+    background: var(--synthesis-bg);
+    border-color: var(--synthesis-edge);
   }
 
   .tray-body {
@@ -294,7 +298,7 @@
   .candidate-card:hover { border-color: rgba(255,255,255,0.12); }
   .candidate-title-row { display: flex; align-items: center; gap: 8px; }
   .candidate-title-row .glyph {
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-size: 14px;
     color: var(--text);
     transform: translateY(-1px);
@@ -316,7 +320,7 @@
     letter-spacing: 0.04em;
   }
   .candidate-excerpt {
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-style: italic;
     font-weight: 300;
     font-size: 13px;
@@ -395,10 +399,10 @@
   }
   .drop-zone:hover {
     border-color: var(--color-coherence);
-    background: rgba(122,169,255,0.025);
+    background: color-mix(in oklch, var(--diligence) 3%, transparent);
   }
   .drop-zone .plus {
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-size: 18px;
     color: rgba(242,240,236,0.45);
   }
@@ -456,7 +460,7 @@
     border-bottom: 1px solid rgba(255,255,255,0.06);
   }
   .substrate-node .glyph {
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-size: 18px;
     color: var(--text);
     line-height: 1;
@@ -587,13 +591,13 @@
   .pill.emergence {
     border-color: var(--color-emergence);
     color: var(--color-emergence);
-    box-shadow: 0 0 12px rgba(192,132,252,0.12);
+    box-shadow: 0 0 12px color-mix(in oklch, var(--synthesis) 12%, transparent);
   }
-  .pill.emergence:hover { box-shadow: 0 0 16px rgba(192,132,252,0.22); }
+  .pill.emergence:hover { box-shadow: 0 0 16px color-mix(in oklch, var(--synthesis) 22%, transparent); }
   .pill.emergence.selected {
     background: var(--color-emergence);
     color: #0A0A0B;
-    box-shadow: 0 0 20px rgba(192,132,252,0.32);
+    box-shadow: 0 0 20px color-mix(in oklch, var(--synthesis) 32%, transparent);
   }
   .correction-textarea {
     width: 100%;
@@ -629,7 +633,7 @@
     border: 1px solid var(--color-coherence);
     padding: 10px 24px;
     border-radius: 4px;
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-weight: 500;
     font-size: 14px;
     cursor: pointer;
@@ -664,7 +668,7 @@
     border-radius: 3px;
   }
   .packet-summary-title {
-    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-family: "NinetiesHeadliner", Georgia, serif;
     font-weight: 700;
     font-size: 17px;
     color: var(--text);
@@ -772,7 +776,7 @@
     text-align: center;
   }
   .loop-node .glyph {
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-size: 56px;
     line-height: 1;
     margin-bottom: 8px;
@@ -781,7 +785,7 @@
   .loop-node.slate .glyph { color: var(--color-coherence); }
   .loop-node.vault .glyph { color: var(--color-emergence); }
   .loop-node .name {
-    font-family: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+    font-family: "NinetiesHeadliner", Georgia, serif;
     font-weight: 700;
     font-size: 22px;
     color: var(--text);
@@ -794,7 +798,7 @@
     color: rgba(242,240,236,0.4);
   }
   .loop-node .desc {
-    font-family: "PerfectlyNineties", "Newsreader", Georgia, serif;
+    font-family: "PerfectlyNineties", Georgia, serif;
     font-style: italic;
     font-weight: 300;
     font-size: 13px;
@@ -847,9 +851,9 @@
 <div class="specimen-page">
 
   <header class="spec-header reveal reveal-1">
-    <div class="spec-header-eyebrow">Visual Specimen · 2026-05-12 · Liminal Desktop · Tray-Slate-Vault</div>
-    <h1 class="spec-header-title">A founder OS where AI agents disagree, deliberate, and prompt you.</h1>
-    <p class="spec-header-subtitle">Rendered against the real brand canon — same fonts, same tokens, same cut 01 speedrun chrome — adapted to the May 12 desktop ship.</p>
+    <div class="spec-header-eyebrow">Visual Specimen · refreshed 2026-07-29 · Liminal Desktop · Tray-Slate-Vault</div>
+    <h1 class="spec-header-title">A founder OS where bounded agents disagree, deliberate, and prompt you.</h1>
+    <p class="spec-header-subtitle">Rendered against the real brand canon: same fonts, same tokens, same cut 01 speedrun chrome. Refreshed to the current direction 2026-07-29.</p>
   </header>
 
   <section class="spec-section reveal reveal-2">
@@ -882,7 +886,7 @@
 
   <section class="spec-section reveal reveal-3">
     <div class="spec-label">II · First launch · Slate empty + Tray floating (pre-link)</div>
-    <p class="spec-caption">User hasn't started. Slate shows wedge + single CTA. Tray sits floating to the right — visible, unlinked (dashed border + tilt), ready to receive candidates without commitment.</p>
+    <p class="spec-caption">User hasn't started. Slate shows wedge + single CTA. Tray sits floating to the right, visible but unlinked (dashed border + tilt), ready to receive candidates without commitment.</p>
 
     <div class="twin">
       <div class="stage">
@@ -899,9 +903,9 @@
           <main class="main" style="grid-template-columns: 1fr !important;">
             <section class="slate-area" style="grid-column: 1 / -1;">
               <header class="slate-header" style="text-align: center; padding-top: 64px; padding-bottom: 24px;">
-                <div style="font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 44px; color: rgba(242,240,236,0.55); transform: rotate(-1.5deg); display: inline-block; margin-bottom: 18px;">◇</div>
-                <h1 class="slate-title" style="font-family: 'NinetiesHeadliner', 'Newsreader', Georgia, serif; font-weight: 700; font-size: 32px; letter-spacing: -0.03em; line-height: 1.15; color: var(--text); margin-bottom: 14px;">Liminal — gives form to inner life.</h1>
-                <p class="slate-subtitle" style="font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-style: italic; font-size: 17px; font-weight: 300; color: rgba(242,240,236,0.55); max-width: 540px; margin: 0 auto; line-height: 1.5;">A founder OS for state, deliberation, and the record of how you disagree with what AI reads of you.</p>
+                <div style="font-family: 'PerfectlyNineties', Georgia, serif; font-size: 44px; color: rgba(242,240,236,0.55); transform: rotate(-1.5deg); display: inline-block; margin-bottom: 18px;">◇</div>
+                <h1 class="slate-title" style="font-family: 'NinetiesHeadliner', Georgia, serif; font-weight: 700; font-size: 32px; letter-spacing: -0.03em; line-height: 1.15; color: var(--text); margin-bottom: 14px;">Liminal · gives form to inner life.</h1>
+                <p class="slate-subtitle" style="font-family: 'PerfectlyNineties', Georgia, serif; font-style: italic; font-size: 17px; font-weight: 300; color: rgba(242,240,236,0.55); max-width: 540px; margin: 0 auto; line-height: 1.5;">A founder OS for state, deliberation, and the record of how you disagree with what AI reads of you.</p>
               </header>
 
               <div class="slate-canvas" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; min-height: 240px;">
@@ -940,7 +944,7 @@
               </div>
             </div>
             <footer class="tray-footer">
-              <span><span class="diamond" style="color: var(--color-coherence); font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents idle</span>
+              <span><span class="diamond" style="color: var(--color-coherence); font-family: 'PerfectlyNineties', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents idle</span>
               <span class="rescan">↻ rescan</span>
             </footer>
           </div>
@@ -951,7 +955,7 @@
 
   <section class="spec-section reveal reveal-4">
     <div class="spec-label">III · Tray populated · Agents exploring in the pen</div>
-    <p class="spec-caption">Three candidates dropped. Agents lightly scanned each — one-line hints surface per archetype. Nothing yet signed. The user decides what comes to slate.</p>
+    <p class="spec-caption">Three candidates dropped. Agents lightly scanned each; one-line hints surface per archetype. Nothing yet signed. The user decides what comes to slate.</p>
 
     <div class="twin">
       <div class="stage">
@@ -967,11 +971,11 @@
           <main class="main" style="grid-template-columns: 1fr !important;">
             <section class="slate-area" style="grid-column: 1 / -1;">
               <header class="slate-header" style="text-align: center; padding-top: 56px; padding-bottom: 24px;">
-                <div style="font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 38px; color: rgba(242,240,236,0.55); transform: rotate(-1.5deg); display: inline-block; margin-bottom: 18px;">◇</div>
-                <h1 class="slate-title" style="font-family: 'NinetiesHeadliner', 'Newsreader', Georgia, serif; font-weight: 700; font-size: 26px; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin-bottom: 12px;">Pull a candidate from the tray to begin a read.</h1>
-                <p class="slate-subtitle" style="font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-style: italic; font-size: 15px; font-weight: 300; color: rgba(242,240,236,0.55); max-width: 480px; margin: 0 auto; line-height: 1.5;">The tray window is docked at right. Click "pull to slate" on any candidate to start the deliberation loop.</p>
+                <div style="font-family: 'PerfectlyNineties', Georgia, serif; font-size: 38px; color: rgba(242,240,236,0.55); transform: rotate(-1.5deg); display: inline-block; margin-bottom: 18px;">◇</div>
+                <h1 class="slate-title" style="font-family: 'NinetiesHeadliner', Georgia, serif; font-weight: 700; font-size: 26px; line-height: 1.2; letter-spacing: -0.02em; color: var(--text); margin-bottom: 12px;">Pull a candidate from the tray to begin a read.</h1>
+                <p class="slate-subtitle" style="font-family: 'PerfectlyNineties', Georgia, serif; font-style: italic; font-size: 15px; font-weight: 300; color: rgba(242,240,236,0.55); max-width: 480px; margin: 0 auto; line-height: 1.5;">The tray window is docked at right. Click "pull to slate" on any candidate to start the deliberation loop.</p>
                 <p style="margin-top: 28px; font-family: 'Geist Mono', ui-monospace, monospace; font-size: 11px; color: rgba(242,240,236,0.4); letter-spacing: 0.08em;">
-                  <span style="color: var(--color-coherence); font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 12px; margin-right: 4px;">◇</span> agents in pen: 2 · exploring 3 candidates
+                  <span style="color: var(--color-coherence); font-family: 'PerfectlyNineties', Georgia, serif; font-size: 12px; margin-right: 4px;">◇</span> agents in pen: 2 · exploring 3 candidates
                 </p>
               </header>
             </section>
@@ -1046,7 +1050,7 @@
               </div>
             </div>
             <footer class="tray-footer">
-              <span><span class="diamond" style="color: var(--color-coherence); font-family: 'PerfectlyNineties', 'Newsreader', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents in pen: 2</span>
+              <span><span class="diamond" style="color: var(--color-coherence); font-family: 'PerfectlyNineties', Georgia, serif; font-size: 12px;">◇</span>&nbsp;&nbsp;agents in pen: 2</span>
               <span class="rescan">↻ rescan</span>
             </footer>
           </div>
@@ -1105,7 +1109,7 @@
               </div>
               <div class="agent-section refusal">
                 <div class="agent-section-label">Refused</div>
-                <p class="agent-section-body">I will not decide whether to take this hire. The values question — what work-style commitments you can live with — is yours.</p>
+                <p class="agent-section-body">I will not decide whether to take this hire. The values question, what work-style commitments you can live with, is yours.</p>
               </div>
             </article>
 
@@ -1145,7 +1149,7 @@
             </div>
             <div class="correction-field">
               <div class="correction-field-label">What did they miss?</div>
-              <textarea class="correction-textarea" placeholder="Required (≥20 chars to sign)">Analyst was right that the comp + culture questions are decoupled, but underweighted that I genuinely cannot run async-only on this role — my CTO model only works because Sean and I are 11 years deep.</textarea>
+              <textarea class="correction-textarea" placeholder="Required (≥20 chars to sign)">Analyst was right that the comp + culture questions are decoupled, but underweighted that I genuinely cannot run async-only on this role: my CTO model only works because Sean and I are 11 years deep.</textarea>
             </div>
             <div class="correction-field">
               <div class="correction-field-label">Tag this correction (optional)</div>
@@ -1199,7 +1203,7 @@
       </div>
       <div class="packet-section-su">
         <div class="packet-section-su-label">User correction</div>
-        <div class="packet-section-su-body">Analyst was right that the comp + culture questions are decoupled, but underweighted that I genuinely cannot run async-only on this role — my CTO model only works because Sean and I are 11 years deep.</div>
+        <div class="packet-section-su-body">Analyst was right that the comp + culture questions are decoupled, but underweighted that I genuinely cannot run async-only on this role: my CTO model only works because Sean and I are 11 years deep.</div>
       </div>
       <div class="packet-foot-su">
         <div class="sha-row"><strong>SHA-256</strong> 7a3f9e2c4d8b…</div>
@@ -1210,7 +1214,7 @@
 
   <section class="spec-section reveal reveal-7">
     <div class="spec-label">VI · Vault · The wedge claim made visible</div>
-    <p class="spec-caption">Three packets in, the moat begins to show. Emergence is the load-bearing metric — visually distinguished even at zero. Audit ribbon carries continuous signal.</p>
+    <p class="spec-caption">Three packets in, the moat begins to show. Emergence is the load-bearing metric, visually distinguished even at zero. Audit ribbon carries continuous signal.</p>
 
     <div class="stage">
       <div class="frame">
