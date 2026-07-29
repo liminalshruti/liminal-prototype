@@ -42,6 +42,7 @@
 <!-- cascade bridge · frame chrome + prototype vocabulary -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
 <link rel="stylesheet" href="../lib/surface-nav.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
   /* Initial-paint suppression (canon pattern from cut 01/03 polish pass).
@@ -434,6 +435,9 @@
   .tdy-btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
   @media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important} body{transition:none} .tdy-btn{transition:background .15s,color .15s} .tdy-btn:hover{transform:none} }
 </style>
+
+<!-- harden · JS-off failsafe for the opacity:0 boot gate · body shows regardless -->
+<noscript><style>body{opacity:1 !important;animation:none !important;}</style></noscript>
 </head>
 <body data-product="personal">
 

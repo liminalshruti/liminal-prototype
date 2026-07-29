@@ -47,6 +47,7 @@
 <!-- shared desktop-app shell · import, then override with per-cut styles -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
 <link rel="stylesheet" href="../lib/surface-nav.css">
+<link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
   /* v0.8.5 P3 — initial paint suppression (F5 from cut01 polish pass).
@@ -522,6 +523,9 @@
   .cal-drill-close:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
   @media (prefers-reduced-motion: reduce){ body{transition:none} .cal-drill-close{transition:background .15s,color .15s} .cal-drill-close:hover{transform:none} }
 </style>
+
+<!-- harden · JS-off failsafe for the opacity:0 boot gate · body shows regardless -->
+<noscript><style>body{opacity:1 !important;animation:none !important;}</style></noscript>
 </head>
 <body data-product="personal">
 
