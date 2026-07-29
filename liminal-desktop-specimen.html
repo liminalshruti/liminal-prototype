@@ -255,12 +255,12 @@
     color: rgba(242,240,236,0.6);
     border: 1px solid rgba(255,255,255,0.06);
   }
-  .packet-chip.analyst { color: var(--coherence); border-color: var(--coherence-soft); }
-  .packet-chip.auditor { color: var(--correction); border-color: var(--correction-soft); }
+  .packet-chip.analyst { color: var(--coherence); border-color: var(--coherence-edge); }
+  .packet-chip.auditor { color: var(--correction); border-color: var(--correction-edge); }
   .packet-chip.emergence {
     color: var(--emergence);
     background: var(--emergence-bg);
-    border-color: var(--emergence-soft);
+    border-color: var(--emergence-edge);
   }
 
   .tray-body {
@@ -592,7 +592,7 @@
   .pill.emergence.selected {
     background: var(--emergence);
     color: #0A0A0B;
-    box-shadow: 0 0 20px var(--emergence-edge);
+    box-shadow: 0 0 20px var(--emergence-soft);
   }
   .correction-textarea {
     width: 100%;
