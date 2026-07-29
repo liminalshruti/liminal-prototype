@@ -720,6 +720,9 @@
     .metric-cell:first-child { border-top: none; }
   }
 
+  button.vault-pill { font: inherit; text-align: inherit; cursor: pointer; }
+  #vault-lattice { min-width: 420px; }
+
   /* team-drift fold (2026-07-29) · roster telemetry + daemon strip in the
      team rail. Drift state carries the WORD, not just the hue (a11y). */
   .subject-telemetry {
@@ -837,9 +840,10 @@
         <span class="crumb-sep" id="crumb-sep" hidden>·</span>
         <span class="breadcrumb" id="breadcrumb"></span>
       </div>
-      <div class="vault-pill" id="vault-pill" data-annotation="vault-pill">
-        <span class="diamond">◇</span>vault: <strong id="vault-count">·</strong>
-      </div>
+      <button class="vault-pill" id="vault-pill" data-annotation="vault-pill" type="button"
+              aria-haspopup="dialog" aria-label="Open the vault lattice">
+        <span class="diamond" id="vault-glyph">◇</span>vault: <strong id="vault-count">·</strong>
+      </button>
     </header>
 
     <!-- product/surface row -->
@@ -1103,6 +1107,28 @@
   </div>
 
 </div><!-- /.stage -->
+
+<!-- vault lattice modal · atlas Vault primitive (p-vault, lib/cut-shell-products.css)
+     · states per the atlas row: empty ◇ · seeded ◯ · dense ● · gapped -->
+<div class="modal-overlay" id="vault-modal-overlay">
+  <div class="modal" id="vault-modal" role="dialog" aria-label="Vault lattice">
+    <div class="modal-head">
+      <h2 class="modal-title">Vault · the moat, local</h2>
+      <span class="modal-tag" id="vault-modal-state">·</span>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label" id="vault-modal-eyebrow">·</div>
+      <div id="vault-lattice" class="p-vault" aria-label="12 weeks by 4 registers, one lit cell per signed packet"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">What this is</div>
+      <div class="modal-content">12 weeks × 4 registers · one lit cell per signed packet · a dashed cell is a gap the audit keeps visible. Fixture-seeded baseline plus this session's packets · device-local (IndexedDB) · never leaves this machine.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="dispo-btn" id="vault-modal-close">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- preview subject view modal -->
 <div class="modal-overlay" id="modal-overlay">

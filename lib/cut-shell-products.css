@@ -872,3 +872,67 @@
      Net: 165 lines removed · cut 01 slate-tray and cut 03 calibration
      grid both render correctly at expected viewports again.
      ════════════════════════════════════════════════════════════════ */
+
+  /* ════════════════════════════════════════════════════════════════
+     VAULT PRIMITIVE · promoted from design-system/atlas/state-atlas.html
+     (2026-07-29, per the promotion path: locked moves graduate from the
+     specimen to lib). The 12-week × 4-register lattice · the moat made
+     visible. States per the atlas Vault row: empty ◇ · seeded ◯ · dense ●
+     · gapped (cell--miss). The atlas consumes THIS copy; do not fork.
+     ════════════════════════════════════════════════════════════════ */
+  .px-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .px-eyebrow .reg { color: var(--text-mid); }
+  .p-vault {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 160px;
+  }
+  .p-vault__rail {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 6px;
+    align-items: center;
+  }
+  .p-vault__rail-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-align: right;
+  }
+  .p-vault__rail--diligence .p-vault__rail-label { color: var(--diligence); }
+  .p-vault__rail--judgment  .p-vault__rail-label { color: var(--judgment); }
+  .p-vault__rail--synthesis .p-vault__rail-label { color: var(--synthesis); }
+  .p-vault__rail--outreach  .p-vault__rail-label { color: var(--outreach); }
+  .p-vault__cells {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+  }
+  .p-vault__cell {
+    aspect-ratio: 1;
+    background: var(--frame-bg-3);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 1px;
+  }
+  .p-vault__cell--lit-d    { background: var(--diligence-soft); border-color: var(--diligence-edge); }
+  .p-vault__cell--lit-d-s  { background: var(--diligence); }
+  .p-vault__cell--lit-j    { background: var(--judgment-soft); border-color: var(--judgment-edge); }
+  .p-vault__cell--lit-j-s  { background: var(--judgment); }
+  .p-vault__cell--lit-s    { background: var(--synthesis-soft); border-color: var(--synthesis-edge); }
+  .p-vault__cell--lit-s-s  { background: var(--synthesis); }
+  .p-vault__cell--lit-o    { background: var(--outreach-soft); border-color: var(--outreach-edge); }
+  .p-vault__cell--lit-o-s  { background: var(--outreach); }
+  .p-vault__cell--miss     { background: transparent; border: 1px dashed var(--wholeness-edge); }
