@@ -104,3 +104,19 @@ export const TEAM_TILES_FOR_SUBJECT = {
     { id: "janice_emails",      label: "Email thread · ✗",         source: "gmail",   icon: "◇", requires_level: 2, kind: "content", refused_reason: "Janice opted into meeting-summaries-only" },
   ],
 };
+
+// ─── Team telemetry · the drift daemon + governance trail (fold of the
+//     team-drift console into the demo, 2026-07-29). Same fixture numbers as
+//     team-drift/index.html so the two surfaces corroborate each other. ───
+export const TEAM_DAEMON = {
+  status: "running",
+  sources: 5,
+  baseline_days: 21,
+  coherence_checks: 247,
+};
+
+export const TEAM_GOVERNANCE_LOG = [
+  { t: "09:42", agent: "Cartographer", line: "drift window opened on Devon · pattern nodes · 1 anomaly" },
+  { t: "09:44", agent: "Risk",         line: "soft signal · governance-grade · not a personnel verdict" },
+  { t: "09:55", agent: "Compliance",   line: "consent class held · pattern-baseline only · no content reads" },
+];

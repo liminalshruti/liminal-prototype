@@ -190,8 +190,9 @@
   }
   .sparkline-meta .delta { color: var(--judgment); }
 
-  /* synthesis · the brief that renders below the slate */
-  .brief-area {
+  /* synthesis · the brief that renders below the slate
+     (.brief-area's body lives in cut-shell-products.css; a past edit left a
+     headless opener here that broke the parse · removed 2026-07-29) */
   .rail-right {
     border-left: 1px solid var(--frame-border);
     background: var(--frame-bg-2);
@@ -329,3 +330,8 @@
   }
 
   /* ─── tray · attached to desktop frame's right edge ─────────────
+     File was truncated here by a past edit (the tray section's rules are
+     gone; an unclosed comment banner was all that remained, which invalidated
+     everything after it for any consumer). Tray styling lives in
+     cut-shell.css / brand-upgrade.css today. Comment closed 2026-07-29 so the
+     sheet parses. ─────────────────────────────────────────────────── */

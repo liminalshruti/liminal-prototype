@@ -44,6 +44,19 @@ PR #235 set: every poster paints in a full-page capture, no lazy gates.
 
 ## Founder decisions required (not resolved here)
 
+0. **The v0 repo is ARCHIVED (new fact, 2026-07-29).** GitHub archived
+   liminal-space-v0 at 2026-07-28T22:14:42Z, one second after the last
+   landing-fix push: the repo is read-only, so no branch, PR, or git-driven
+   Vercel preview can reach it. The port IS implemented and verified: local
+   branch `feat/frontdoor-synthesis-port` in the v0 worktree
+   (`.claude/worktrees/frontdoor-port-2026-07-29`), production build passes,
+   JS-on and no-JS renders verified at 1440/390. To mint the preview, either
+   (a) unarchive the repo (Settings, one click) and the branch pushes + PRs
+   normally, or (b) run `vercel login` on this machine and the worktree
+   deploys a preview directly, no git needed. Both are your call: the archive
+   looks deliberate, and unarchiving vs. finally cutting the domain over to a
+   non-archived repo is exactly decision #1 below.
+
 1. **Port target.** The domain is served by the archived `liminal-space-v0`
    while the Astro `liminal-site` (built for this domain; cutover doc
    2026-05-30) sits unused. Port the synthesis into v0's LiminalLanding

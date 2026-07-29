@@ -79,7 +79,11 @@
   /* Font stacks — canonical Liminal three-font system */
   --font-display:  "NinetiesHeadliner", Georgia, serif;
   --font-serif:    "PerfectlyNineties", Georgia, serif;
-  --font-mono:     "Cougar", "Space Mono", "SF Mono", ui-monospace, monospace;
+  /* mono led with "Cougar" (never @font-face'd anywhere · a ghost family
+     that silently dropped every surface to system fallback and contradicted
+     the spec table above). Rebound 2026-07-29; reordered to canon §5 (Space Mono first,
+     Geist Mono fallback) same day when §5 caught up to the stack change. */
+  --font-mono:     "Space Mono", "Geist Mono", "SF Mono", ui-monospace, monospace;
   --font-sans:     "PerfectlyNineties", Georgia, serif;
 
   /* Cut-shell compat aliases */
@@ -118,25 +122,11 @@
   --tracking-wider:    0.16em;
   --tracking-widest:   0.22em;
 
-  /* Backgrounds — warm black axis */
-  --bg:           #08080a;
-  --frame-bg:     #0c0c0f;
-  --frame-bg-2:   #0a0a0d;
-  --frame-bg-3:   #111116;
-  --frame-border: #1c1c22;
-  --card-border:  #202026;
-  --card-border-2:#28282e;
-
-  /* Ink scale — reconciled to canon (liminal-creative/tokens/design-tokens.css).
-     Was a warmer-but-off-canon axis (#F2F0EC/#C4C0B8/#847F79/#504C47) that shadowed the
-     canonical tokens because this file loads last. KEEP IN LOCKSTEP WITH CANON — this
-     file cascades after the synced token file, so a stale value here silently masks it.
-     2026-06-19 a11y pass 2: --text-faint #6B6862 (3.56:1, sub-AA for body text) → #807D78
-     (4.76:1 on --frame-bg) to match canon. */
-  --text:       #F4F2EE;
-  --text-mid:   #C9C5BD;
-  --text-dim:   #8A8780;
-  --text-faint: #807D78;
+  /* Backgrounds + ink scale: REMOVED 2026-07-29 (single-ink-source ruling).
+     Surfaces + ink render straight from the canonical token file
+     (design-system/tokens/design-tokens.css), which every consumer links
+     first. This file no longer shadows canon; the README lockstep caveat
+     is closed by construction, not by sync discipline. */
 
   /* ── 12-wheel register colors ─────────────────────
      4 agent registers only. No orange/yellow/coral/teal.

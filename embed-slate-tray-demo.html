@@ -11,6 +11,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-system/tokens/design-tokens.css">
 
 <style>
   @font-face { font-family: "Nineties Headliner"; src: url("fonts/nineties-headliner.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
@@ -32,37 +33,12 @@
    *   17–18s: hold + restart
    * ═══════════════════════════════════════════════════════════════════ */
   :root {
-    --bg: #0A0A0B;
-    --frame-bg: #0E0E11;
-    --frame-bg-2: #0C0C0F;
-    --frame-border: #1F1F23;
-    --card-border: #232327;
-    --card-border-2: #2A2A2F;
-    --clarity: #8e66fb;
-    --clarity-soft: rgba(142,102,251,0.4);
-    --clarity-glow: rgba(142,102,251,0.5);
-    --wholeness: #e90095;
-    --wholeness-soft: rgba(233,0,149,0.4);
-    --connection: #31e682;
-    --connection-soft: rgba(49,230,130,0.4);
-    --connection-glow: rgba(49,230,130,0.5);
-    --expression: #ff9549;
-    --cerulean: #197eeb;
-    --cerulean-soft: rgba(25,126,235,0.4);
-    --pink: #e90095;
-    --amber: #f5a524;
-    --good: #31e682;
-    --red: #f04040;
-    --text: #E8E8EA;
-    --text-mid: #B0B0B6;
-    --text-dim: #7A7A82;
-    --text-faint: #4A4A52;
-    --display: "Nineties Headliner", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
-    --serif: "Newsreader", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
+    /* Surfaces, ink, and register hues come straight from canon tokens +
+       brand-upgrade (single-ink-source ruling 2026-07-29). Local vars are
+       only what canon does not own for this embed. */
     --sans: "Geist", system-ui, sans-serif;
     --mono: "Geist Mono", ui-monospace, monospace;
-    --hand: "Caveat", cursive;
-    --ls-mono: 0.14em;
+    --ls-mono: 0.14em;  /* embed-tight mono tracking (canon default .18em) */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -566,7 +542,7 @@
           <div class="signals">
             <div class="signal" data-read="1">
               <div class="signal-app"><span>granola</span><span class="v">14:02 · 38m</span></div>
-              <div class="signal-text">Coffee w/ Maya — <em>"let me know when there's a deck I can show Saanvi."</em></div>
+              <div class="signal-text">Coffee w/ Maya: <em>"let me know when there's a deck I can show Saanvi."</em></div>
               <div class="signal-catch">→ implicit deadline · saanvi-tier intro</div>
             </div>
             <div class="signal" data-read="2">
@@ -618,7 +594,7 @@
             <div class="slate-tiles">
               <div class="tile">
                 <span class="tile-app"><span>slack</span><span class="v">14:23 · pinned</span></span>
-                <span class="tile-name">#fundraise — <em>thread w/ Maya re: saanvi intro</em></span>
+                <span class="tile-name">#fundraise · <em>thread w/ Maya re: saanvi intro</em></span>
                 <span class="tile-meta">last reply: 2m ago</span>
               </div>
               <div class="tile">
@@ -647,7 +623,7 @@
               <span>Brief · agents read the composition</span>
             </div>
             <p class="brief-body">
-              <em>The intro is not blocked by the deck — it's blocked by one cover slide and a 30-minute hold you haven't confirmed.</em> Architect proposes: send the deck as-is to Maya, sealing Tuesday 09:30 as the meeting. Witness flags: this same blur cost you the Saanvi window twice in Q1. Cartographer refused to read the cap-table — out of jurisdiction — routing to Counsel.
+              <em>The intro is not blocked by the deck. It's blocked by one cover slide and a 30-minute hold you haven't confirmed.</em> Architect proposes: send the deck as-is to Maya, sealing Tuesday 09:30 as the meeting. Witness flags: this same blur cost you the Saanvi window twice in Q1. Cartographer refused to read the cap-table. Out of jurisdiction. Routing to Counsel.
             </p>
             <div class="brief-disposition">
               <span>disposition →</span>
@@ -682,23 +658,23 @@
 
       <div class="tray-body">
         <div class="tray-caption">
-          Your work surfaces. Each tile is a window from your own work — Granola, Slack, Linear, Obsidian, calendar, git. Liminal reads what you compose · stored locally · no one else sees this read.
+          Your work surfaces. Each tile is a window from your own work: Granola, Slack, Linear, Obsidian, calendar, git. Liminal reads what you compose · stored locally · no one else sees this read.
         </div>
 
         <div class="tray-tiles">
           <div class="tray-tile">
             <span class="tt-app"><span>slack</span><span class="v">14:23 · pinned</span></span>
-            <span class="tt-name">#fundraise — Maya re: saanvi</span>
+            <span class="tt-name">#fundraise · Maya re: saanvi</span>
             <span class="tt-meta">live · 2m ago</span>
           </div>
           <div class="tray-tile">
             <span class="tt-app"><span>granola</span><span class="v">38m · last week</span></span>
-            <span class="tt-name">Coffee w/ Maya — deck mention</span>
+            <span class="tt-name">Coffee w/ Maya · deck mention</span>
             <span class="tt-meta">transcript pinned</span>
           </div>
           <div class="tray-tile">
             <span class="tt-app"><span>obsidian</span><span class="v">deck/v3.md</span></span>
-            <span class="tt-name">Deck v3 — cover still missing</span>
+            <span class="tt-name">Deck v3 · cover still missing</span>
             <span class="tt-meta">live</span>
           </div>
           <div class="tray-tile">

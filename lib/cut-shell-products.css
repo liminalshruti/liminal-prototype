@@ -118,7 +118,11 @@
   .cls-toggle:hover { background: var(--outreach-bg); color: #FFF; }
   .cls-toggle .cls-tog-glyph { display: inline-block; transition: transform 220ms; }
   .classification.is-expanded .cls-tog-glyph { transform: rotate(180deg); }
-  /* glossary · revealed on expand · plain-language line per token */
+  /* brief area · the brief that renders below the slate
+     (selector line was lost in a past edit, orphaning these declarations and
+     breaking the parse · restored 2026-07-29; registers.css carried the
+     matching headless opener) */
+  .brief-area {
     border-top: 1px solid var(--frame-border);
     padding: var(--space-5) 32px;
     background: var(--frame-bg-2);
@@ -718,11 +722,13 @@
   .modal-chain .ce-event.refused { color: var(--judgment); }
   .modal-actions { display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4); }
 
-  /* version pin · bottom-left of viewport · subtle */
+  /* ════════════════════════════════════════════════════════════════
      ENTRY OVERLAY · three doors · per UI_GAP_SPEC §2.4
      · first-session only · dismisses on click · routes to (surface, context)
      · the wedge sentence holds the masthead · Founder/Operator/Creative ICPs
      · Founder=Team-Devon, Operator=Personal-self_baseline, Creative=Personal-Field_Studio
+     (banner's opening comment marker was lost in a past edit, which made the
+     parser swallow .entry-overlay and orphaned this sheet · repaired 2026-07-29)
      ════════════════════════════════════════════════════════════════ */
   .entry-overlay {
     position: fixed; inset: 0; z-index: 250;
@@ -866,3 +872,98 @@
      Net: 165 lines removed · cut 01 slate-tray and cut 03 calibration
      grid both render correctly at expected viewports again.
      ════════════════════════════════════════════════════════════════ */
+
+  /* ════════════════════════════════════════════════════════════════
+     VAULT PRIMITIVE · promoted from design-system/atlas/state-atlas.html
+     (2026-07-29, per the promotion path: locked moves graduate from the
+     specimen to lib). The 12-week × 4-register lattice · the moat made
+     visible. States per the atlas Vault row: empty ◇ · seeded ◯ · dense ●
+     · gapped (cell--miss). The atlas consumes THIS copy; do not fork.
+     ════════════════════════════════════════════════════════════════ */
+  .px-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .px-eyebrow .reg { color: var(--text-mid); }
+  .p-vault {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 160px;
+  }
+  .p-vault__rail {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 6px;
+    align-items: center;
+  }
+  .p-vault__rail-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-align: right;
+  }
+  .p-vault__rail--diligence .p-vault__rail-label { color: var(--diligence); }
+  .p-vault__rail--judgment  .p-vault__rail-label { color: var(--judgment); }
+  .p-vault__rail--synthesis .p-vault__rail-label { color: var(--synthesis); }
+  .p-vault__rail--outreach  .p-vault__rail-label { color: var(--outreach); }
+  .p-vault__cells {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2px;
+  }
+  .p-vault__cell {
+    aspect-ratio: 1;
+    background: var(--frame-bg-3);
+    border: 1px solid rgba(255,255,255,0.04);
+    border-radius: 1px;
+  }
+  .p-vault__cell--lit-d    { background: var(--diligence-soft); border-color: var(--diligence-edge); }
+  .p-vault__cell--lit-d-s  { background: var(--diligence); }
+  .p-vault__cell--lit-j    { background: var(--judgment-soft); border-color: var(--judgment-edge); }
+  .p-vault__cell--lit-j-s  { background: var(--judgment); }
+  .p-vault__cell--lit-s    { background: var(--synthesis-soft); border-color: var(--synthesis-edge); }
+  .p-vault__cell--lit-s-s  { background: var(--synthesis); }
+  .p-vault__cell--lit-o    { background: var(--outreach-soft); border-color: var(--outreach-edge); }
+  .p-vault__cell--lit-o-s  { background: var(--outreach); }
+  .p-vault__cell--miss     { background: transparent; border: 1px dashed var(--wholeness-edge); }
+
+  /* ════════════════════════════════════════════════════════════════
+     SIGNAL PRIMITIVES · promoted from design-system/atlas/signal-atlas.html
+     (2026-07-29). Earned-delta metric row + burn bars. The law travels
+     with them: the metric is ink; only a measured delta earns chroma
+     (adverse -> alarm, favorable -> resolved/good, no target -> ink);
+     burn is BARS not curves; only breach weeks earn severity.
+     The signal atlas consumes THIS copy; do not fork.
+     ════════════════════════════════════════════════════════════════ */
+  /* specimen 01 · metric row with earned deltas */
+  .p-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--frame-border); border: 1px solid var(--frame-border); border-radius: 5px; overflow: hidden; }
+  .p-metric { background: var(--frame-bg); padding: 16px 18px; }
+  .p-metric__k { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-faint); letter-spacing: var(--tracking-wide); text-transform: uppercase; margin-bottom: 8px; }
+  .p-metric__v { font-family: var(--font-display); font-size: 26px; font-weight: 700; letter-spacing: var(--tracking-snug); line-height: 1; color: var(--text); }
+  .p-metric__d { font-family: var(--font-mono); font-size: 10px; margin-top: 6px; letter-spacing: 0.04em; color: var(--text-dim); }
+  /* earned: the delta hue is derived from a measured over/under */
+  .p-metric__d--over  { color: var(--stability); }
+  .p-metric__d--under { color: var(--resolved); }
+  .p-metric--breach .p-metric__v { color: var(--stability); }
+  .spec-note { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint); margin-top: 12px; }
+  .spec-note b { color: var(--text-dim); font-weight: 400; }
+
+  /* specimen 02 · burn bars */
+  .p-burn { border: 1px solid var(--frame-border); border-radius: 5px; background: var(--frame-bg); padding: 18px; }
+  .p-burn__head { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint); margin-bottom: 14px; }
+  .p-burn__plot { position: relative; display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; align-items: end; height: 120px; }
+  .p-burn__bar { background: var(--frame-bg-3); border: 1px solid rgba(255,255,255,0.05); border-radius: 2px 2px 0 0; }
+  .p-burn__bar--breach { background: var(--stability-200); border-color: var(--stability); }
+  .p-burn__budget { position: absolute; left: 0; right: 0; top: 28%; border-top: 1px dashed var(--text-mute); }
+  .p-burn__budget span { position: absolute; right: 0; top: -16px; font-family: var(--font-mono); font-size: 9px; letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint); }
+  .p-burn__weeks { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; margin-top: 8px; font-family: var(--font-mono); font-size: 8px; color: var(--text-mute); text-align: center; letter-spacing: 0.08em; }

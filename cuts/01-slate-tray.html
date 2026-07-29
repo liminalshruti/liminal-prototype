@@ -51,6 +51,7 @@
      + audit ribbon + classification + marginalia + boot animations -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
 <link rel="stylesheet" href="../lib/surface-nav.css">
+<link rel="stylesheet" href="../lib/cut-shell-products.css">
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
@@ -719,6 +720,54 @@
     .metric-cell:first-child { border-top: none; }
   }
 
+  button.vault-pill { font: inherit; text-align: inherit; cursor: pointer; }
+  #vault-lattice { min-width: 420px; }
+
+  /* team-drift fold (2026-07-29) · roster telemetry + daemon strip in the
+     team rail. Drift state carries the WORD, not just the hue (a11y). */
+  .subject-telemetry {
+    font-family: var(--mono); font-size: var(--fs-eyebrow);
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--text-faint); margin-top: 5px;
+  }
+  .subject-telemetry.is-drifting { color: var(--judgment); } /* state-atlas: out-of-pattern = judgment, never alarm */
+  .rail-daemon {
+    margin-top: var(--space-5); padding-top: var(--space-4);
+    border-top: 1px solid var(--frame-border);
+    display: flex; flex-direction: column; gap: var(--space-2);
+  }
+  .rail-daemon .rd-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--mono); font-size: var(--fs-eyebrow);
+    letter-spacing: var(--ls-mono); text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .rail-daemon .rd-state { color: var(--outreach); letter-spacing: .12em; }
+  .rail-daemon .rd-line {
+    font-family: var(--mono); font-size: var(--fs-mono-xs);
+    color: var(--text-dim); line-height: 1.5;
+  }
+  .rail-daemon .rd-govlog {
+    margin-top: var(--space-2); display: flex; flex-direction: column; gap: 7px;
+    border-top: 1px dashed var(--frame-border); padding-top: var(--space-3);
+  }
+  .rail-daemon .rd-gl-row {
+    display: grid; grid-template-columns: 34px 1fr; gap: 2px 10px;
+    font-family: var(--mono); font-size: var(--fs-mono-xs); line-height: 1.45;
+  }
+  .rail-daemon .rd-gl-t { color: var(--text-faint); }
+  .rail-daemon .rd-gl-a { color: var(--text-mid); }
+  .rail-daemon .rd-gl-l { grid-column: 2; color: var(--text-dim); }
+  .rail-daemon .rd-open {
+    margin-top: var(--space-2); align-self: flex-start;
+    font-family: var(--mono); font-size: var(--fs-eyebrow);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-mid); text-decoration: none;
+    border: 1px solid var(--frame-border); border-radius: 5px;
+    padding: 7px 11px; transition: border-color .18s, color .18s;
+  }
+  .rail-daemon .rd-open:hover { border-color: var(--judgment); color: var(--text); }
+
   /* Touch targets · gate on coarse pointer so desktop density is untouched.
      Audit found dispo-btn 54×30 (brand-upgrade caps it at 36 · still short),
      tray-pill 18×40, notes/kbd-hint ~27px tall. 44px is the floor. */
@@ -734,15 +783,6 @@
   }
 </style>
 
-<style>
-  /* entry overlay · base positioning. The sheet that defines this base
-     (lib/cut-shell-products.css) is not linked by this cut, so the overlay
-     was rendering as an in-flow static block shoved behind the beat shell
-     with its copy clipped off-canvas (cold-open regression, caught
-     2026-07-28). brand-upgrade.css keeps the veil/card paint overrides. */
-  #entry-overlay { position: fixed; inset: 0; z-index: 250; display: flex; align-items: center; justify-content: center; padding: var(--space-app-5, 24px); background: rgba(8,8,10,0.9); overflow-y: auto; }
-  #entry-overlay[hidden] { display: none !important; }
-</style>
 
 <!-- harden · JS-off failsafe for the opacity:0 reveal gate · body shows regardless -->
 <noscript><style>body{opacity:1 !important;animation:none !important;}</style></noscript>
@@ -800,9 +840,10 @@
         <span class="crumb-sep" id="crumb-sep" hidden>·</span>
         <span class="breadcrumb" id="breadcrumb"></span>
       </div>
-      <div class="vault-pill" id="vault-pill" data-annotation="vault-pill">
-        <span class="diamond">◇</span>vault: <strong id="vault-count">·</strong>
-      </div>
+      <button class="vault-pill" id="vault-pill" data-annotation="vault-pill" type="button"
+              aria-haspopup="dialog" aria-label="Open the vault lattice">
+        <span class="diamond" id="vault-glyph">◇</span>vault: <strong id="vault-count">·</strong>
+      </button>
     </header>
 
     <!-- product/surface row -->
@@ -916,6 +957,7 @@
             <div class="da-handoff">
               <button class="dispo-btn da-handoff-btn" id="da-handoff">Hand off ›</button>
               <button class="dispo-btn da-handoff-btn" id="da-share">Share with subject</button>
+              <a class="dispo-btn da-handoff-btn" id="da-telemetry" href="../team-drift/index.html" style="display:none">Open team telemetry ›</a>
               <a class="dispo-btn da-handoff-btn" id="da-govern-next" href="11-govern.html?subject=spend&amp;beat=loop&amp;run=govern-run.json">Next · govern spend ›</a>
             </div>
           </div>
@@ -1065,6 +1107,28 @@
   </div>
 
 </div><!-- /.stage -->
+
+<!-- vault lattice modal · atlas Vault primitive (p-vault, lib/cut-shell-products.css)
+     · states per the atlas row: empty ◇ · seeded ◯ · dense ● · gapped -->
+<div class="modal-overlay" id="vault-modal-overlay">
+  <div class="modal" id="vault-modal" role="dialog" aria-label="Vault lattice">
+    <div class="modal-head">
+      <h2 class="modal-title">Vault · the moat, local</h2>
+      <span class="modal-tag" id="vault-modal-state">·</span>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label" id="vault-modal-eyebrow">·</div>
+      <div id="vault-lattice" class="p-vault" aria-label="12 weeks by 4 registers, one lit cell per signed packet"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">What this is</div>
+      <div class="modal-content">12 weeks × 4 registers · one lit cell per signed packet · a dashed cell is a gap the audit keeps visible. Fixture-seeded baseline plus this session's packets · device-local (IndexedDB) · never leaves this machine.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="dispo-btn" id="vault-modal-close">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- preview subject view modal -->
 <div class="modal-overlay" id="modal-overlay">
@@ -1420,7 +1484,7 @@
       const d = document.createElement('div');
       d.className = 'audit-disclosure';
       d.setAttribute('role', 'button'); d.setAttribute('tabindex', '0'); d.setAttribute('aria-expanded', 'false');
-      d.innerHTML = `<span class="ad-plus">+</span><span>Proof · audit chain</span><span class="ad-meta">3 drops · today 15:25–15:27</span>`;
+      d.innerHTML = `<span class="ad-plus">+</span><span>Proof · audit chain</span><span class="ad-meta">3 drops · today 15:25-15:27</span>`;
       audit.hidden = true;
       audit.parentNode.insertBefore(d, audit);
       const toggle = () => {

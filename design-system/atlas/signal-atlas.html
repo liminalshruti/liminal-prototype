@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signal Atlas · Liminal · v0.1</title>
+
+<!--
+  Signal Atlas · v0.1 · 2026-07-29
+  ──────────────────────────────────────────────────────────────────────
+  Harvested from the liminal-v07 exploration (weekly agent spend review,
+  founder Downloads, 2026-07-29). What is canonized here is the LAW and
+  the tier, not the exploration's literals: v07's Space Grotesk and its
+  orb hex values stay behind; its chromatic discipline comes through,
+  mapped onto canon hues.
+
+  THE FRONTIER RULE (the law this page renders):
+    · base UI is ink. The substrate carries no chroma.
+    · chroma is SIGNAL, and signal is EARNED: a hue may appear only
+      where it is derived from measured data (a delta, a state, a
+      severity, a register attribution).
+    · decoration never earns color. If you cannot name the measurement
+      behind a hue, the hue is a lie on a forensic surface.
+
+  Pairs with the State Atlas (lifecycle states · severity lane): states
+  and severity are the two sanctioned KINDS of earned signal; this page
+  adds the third, measured deltas, and names the full signal tier.
+
+  Imports (order matters): tokens → cut-shell → cut-shell-products →
+  brand-upgrade. No local token values.
+  ──────────────────────────────────────────────────────────────────────
+-->
+
+<link rel="stylesheet" href="../tokens/design-tokens.css">
+<link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="../../lib/cut-shell-products.css">
+<link rel="stylesheet" href="../../lib/brand-upgrade.css">
+
+<style>
+  body[data-page="signal-atlas"] {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-serif, "PerfectlyNineties", Georgia, serif);
+    font-weight: 300;
+    margin: 0;
+    min-height: 100vh;
+    letter-spacing: var(--tracking-body, -0.005em);
+    position: relative;
+  }
+  body[data-page="signal-atlas"]::before {
+    content: "";
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.014) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.014) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .atlas { position: relative; z-index: 1; max-width: 1720px; margin: 0 auto; padding: 56px 44px 96px; }
+
+  .atlas__crown {
+    display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: end;
+    padding-bottom: 28px; border-bottom: 1px solid var(--frame-border); margin-bottom: 48px;
+  }
+  .atlas__crest {
+    font-family: var(--font-mono); font-size: var(--text-2xs); font-weight: 400;
+    color: var(--text-dim); letter-spacing: var(--tracking-widest); text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .atlas__crest .reg { color: var(--diligence); }
+  .atlas__title {
+    font-family: var(--font-display, "NinetiesHeadliner", Georgia, serif);
+    font-size: clamp(48px, 6vw, 88px); font-weight: 700;
+    line-height: var(--leading-tight, 0.9); letter-spacing: var(--tracking-tight, -0.04em);
+    color: var(--text); margin: 0;
+  }
+  .atlas__lede {
+    font-family: var(--font-serif); font-weight: 300;
+    font-size: var(--text-md); line-height: var(--leading-relaxed, 1.65);
+    color: var(--text-mid); max-width: 640px; margin-top: 18px;
+  }
+  .atlas__lede strong { font-weight: 600; color: var(--text); }
+  .atlas__meta {
+    font-family: var(--font-mono); font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-wide); text-transform: uppercase;
+    color: var(--text-dim); text-align: right; line-height: 1.95; min-width: 220px;
+  }
+  .atlas__meta .k { color: var(--text-faint); margin-right: 8px; }
+  .atlas__meta .v { color: var(--text-mid); }
+  .atlas__meta a { color: var(--text-mid); text-decoration: none; border-bottom: 1px solid var(--frame-border); }
+  .atlas__meta a:hover { color: var(--text); }
+
+  /* the law · three-cell strip, state-atlas legend grammar */
+  .law {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
+    border-top: 1px solid var(--frame-border); border-bottom: 1px solid var(--frame-border);
+    margin-bottom: 48px;
+  }
+  .law-cell { padding: 14px 16px; border-right: 1px solid var(--frame-border); display: flex; flex-direction: column; gap: 4px; }
+  .law-cell:last-child { border-right: none; }
+  .law-cell__name {
+    font-family: var(--font-mono); font-size: var(--text-2xs);
+    letter-spacing: var(--tracking-widest); text-transform: uppercase; font-weight: 400;
+  }
+  .law--substrate .law-cell__name { color: var(--text-faint); }
+  .law--signal    .law-cell__name { color: var(--diligence); }
+  .law--rule      .law-cell__name { color: var(--text-mid); }
+  .law-cell__defn { font-family: var(--font-serif); font-weight: 300; font-size: var(--text-sm); color: var(--text-dim); line-height: 1.5; }
+  .law--rule .law-cell__defn { color: var(--text-mid); }
+
+  .row { margin-bottom: 56px; }
+  .row__head { display: grid; grid-template-columns: 44px 220px 1fr auto; gap: 24px; align-items: baseline; padding-bottom: 16px; border-bottom: 1px solid var(--frame-border); margin-bottom: 24px; }
+  .row__num { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-faint); letter-spacing: var(--tracking-widest); }
+  .row__name { font-family: var(--font-display); font-size: 28px; font-weight: 700; letter-spacing: var(--tracking-snug); margin: 0; }
+  .row__defn { font-family: var(--font-serif); font-weight: 300; font-size: var(--text-sm); color: var(--text-dim); line-height: 1.55; max-width: 640px; }
+  .row__defn strong { font-weight: 600; color: var(--text-mid); }
+
+  /* signal-tier table */
+  .tier { border: 1px solid var(--frame-border); border-radius: 5px; overflow: hidden; }
+  .tier-row { display: grid; grid-template-columns: 130px 170px 1fr 210px; gap: 16px; align-items: center; padding: 11px 16px; border-bottom: 1px solid var(--frame-border); }
+  .tier-row:last-child { border-bottom: none; }
+  .tier-row--head { background: var(--frame-bg); font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint); }
+  .tier-swatch { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-mid); }
+  .tier-swatch i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .tier-kind { font-family: var(--font-mono); font-size: var(--text-2xs); letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-dim); }
+  .tier-earn { font-family: var(--font-serif); font-weight: 300; font-size: var(--text-sm); color: var(--text-dim); line-height: 1.45; }
+  .tier-token { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--text-mid); letter-spacing: 0.04em; }
+
+  /* .p-metric lives in lib/cut-shell-products.css (promoted 2026-07-29) */
+  /* .p-burn lives in lib/cut-shell-products.css (promoted 2026-07-29) */
+</style>
+</head>
+<body data-page="signal-atlas" data-product="personal">
+
+<div class="atlas">
+
+  <header class="atlas__crown">
+    <div>
+      <div class="atlas__crest"><span class="reg">◇</span>&nbsp; Liminal &nbsp;·&nbsp; design system &nbsp;·&nbsp; atlas &nbsp;·&nbsp; v0.1</div>
+      <h1 class="atlas__title">Signal&nbsp;Atlas</h1>
+      <p class="atlas__lede">
+        The chromatic law of the system: <strong>the substrate is ink; chroma is
+        signal; signal is earned.</strong> A hue may appear only where it is derived
+        from measured data. On a forensic surface, unearned color is a false claim.
+      </p>
+    </div>
+    <div class="atlas__meta">
+      <div><span class="k">status</span><span class="v">v0.1 · ratifying</span></div>
+      <div><span class="k">owner</span><span class="v">design canon</span></div>
+      <div><span class="k">pairs</span><span class="v"><a href="state-atlas.html">state atlas</a></span></div>
+      <div><span class="k">source</span><span class="v">liminal-v07 harvest</span></div>
+      <div><span class="k">captured</span><span class="v">2026·07·29</span></div>
+    </div>
+  </header>
+
+  <div class="law">
+    <div class="law-cell law--substrate">
+      <div class="law-cell__name">substrate</div>
+      <div class="law-cell__defn">ink and surface tokens only · zero chroma · chrome, panels, rules, and resting type never carry a hue</div>
+    </div>
+    <div class="law-cell law--signal">
+      <div class="law-cell__name">signal</div>
+      <div class="law-cell__defn">the only place chroma appears · every hue names its measurement: a state, a severity, a register attribution, or a measured delta</div>
+    </div>
+    <div class="law-cell law--rule">
+      <div class="law-cell__name">the rule</div>
+      <div class="law-cell__defn">if you cannot name the measurement behind a hue, the hue does not ship · decoration never earns color</div>
+    </div>
+  </div>
+
+  <!-- ROW 01 · the signal tier -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">01</div>
+      <h2 class="row__name">The signal tier</h2>
+      <p class="row__defn">Every sanctioned signal hue, what kind of measurement earns it, and the canon token that carries it. The v07 exploration's orb spectrum maps onto canon; <strong>no new hex values enter the system.</strong></p>
+    </header>
+    <div class="tier">
+      <div class="tier-row tier-row--head"><span>signal</span><span>kind</span><span>earned by</span><span>canon token</span></div>
+      <div class="tier-row"><span class="tier-swatch"><i style="background:var(--diligence)"></i>diligence</span><span class="tier-kind">register</span><span class="tier-earn">an agent in the diligence lane produced this read · staged and prepped states</span><span class="tier-token">--diligence (--clarity)</span></div>
+      <div class="tier-row"><span class="tier-swatch"><i style="background:var(--judgment)"></i>judgment</span><span class="tier-kind">register · state</span><span class="tier-earn">a judgment-lane read · corrected and refused lifecycle states · out-of-pattern data</span><span class="tier-token">--judgment (--wholeness)</span></div>
+      <div class="tier-row"><span class="tier-swatch"><i style="background:var(--synthesis)"></i>synthesis</span><span class="tier-kind">register · state</span><span class="tier-earn">a synthesis-lane read · stale and held states · secondary hypotheses</span><span class="tier-token">--synthesis (--cerulean)</span></div>
+      <div class="tier-row"><span class="tier-swatch"><i style="background:var(--outreach)"></i>outreach</span><span class="tier-kind">register · state</span><span class="tier-earn">an outreach-lane read · filled and live states · a favorable measured delta (under budget)</span><span class="tier-token">--outreach (--connection)</span></div>
+      <div class="tier-row"><span class="tier-swatch"><i style="background:var(--alarm)"></i>alarm</span><span class="tier-kind">severity · delta</span><span class="tier-earn">evidence-level severity (state atlas v0.3) · an adverse measured delta: breach, overrun, refuted finding</span><span class="tier-token">--alarm (--stability)</span></div>
+      <div class="tier-row"><span class="tier-swatch"><i style="background:var(--watch)"></i>watch</span><span class="tier-kind">severity</span><span class="tier-earn">watch-grade evidence · uncertain signal pending corroboration</span><span class="tier-token">--watch</span></div>
+      <div class="tier-row"><span class="tier-swatch"><i style="background:var(--resolved)"></i>resolved</span><span class="tier-kind">product state</span><span class="tier-earn">committed and signed (desktop tray-loop layer, tokens §18) · a favorable delta on desktop surfaces</span><span class="tier-token">--resolved (§18)</span></div>
+      <div class="tier-row"><span class="tier-swatch"><i style="background:var(--gold)"></i>gold</span><span class="tier-kind">emphasis</span><span class="tier-earn">selected and signed emphasis on desktop surfaces (§18) · never a data encoding</span><span class="tier-token">--gold (§18)</span></div>
+      <div class="tier-row"><span class="tier-swatch"><i style="background:var(--vitality)"></i>vitality</span><span class="tier-kind">accent</span><span class="tier-earn">brand accent (12-wheel) · never a data encoding · v07's orb-orange resolves here</span><span class="tier-token">--vitality</span></div>
+    </div>
+    <p class="spec-note">v07 orb mapping · <b>violet→diligence · magenta→judgment · sage→resolved · gold→gold · orange→vitality · coral→alarm · pink→judgment-soft</b> · the exploration's hexes are retired at the door</p>
+  </section>
+
+  <!-- ROW 02 · metric with earned delta -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">02</div>
+      <h2 class="row__name">Metric · earned delta</h2>
+      <p class="row__defn">The metric itself is ink. Only the <strong>delta</strong> carries chroma, because only the delta is a measurement against a target: adverse deltas take alarm, favorable take resolved. A breach promotes severity into the value itself.</p>
+    </header>
+    <div class="p-metrics">
+      <div class="p-metric">
+        <div class="p-metric__k">weekly spend</div>
+        <div class="p-metric__v">$13,045</div>
+        <div class="p-metric__d p-metric__d--over">+$1,220 over target</div>
+      </div>
+      <div class="p-metric">
+        <div class="p-metric__k">per-agent median</div>
+        <div class="p-metric__v">$284</div>
+        <div class="p-metric__d p-metric__d--under">-$41 under target</div>
+      </div>
+      <div class="p-metric">
+        <div class="p-metric__k">reads signed</div>
+        <div class="p-metric__v">44</div>
+        <div class="p-metric__d">no target set · ink</div>
+      </div>
+      <div class="p-metric p-metric--breach">
+        <div class="p-metric__k">frontier share</div>
+        <div class="p-metric__v">61%</div>
+        <div class="p-metric__d p-metric__d--over">policy cap 40% · breach</div>
+      </div>
+    </div>
+    <p class="spec-note">the third metric has <b>no target</b>, so its delta line stays ink · that restraint is the law working</p>
+  </section>
+
+  <!-- ROW 03 · burn bars -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">03</div>
+      <h2 class="row__name">Burn · bars, not curves</h2>
+      <p class="row__defn">Weekly spend is discrete; <strong>a smooth curve would claim a continuity the data does not have.</strong> Bars stay ink; only the weeks that breach the budget rule earn severity. The budget line is substrate: it is policy, not measurement.</p>
+    </header>
+    <div class="p-burn">
+      <div class="p-burn__head"><span>burn · 12 wks</span><span>budget $12k / wk</span></div>
+      <div class="p-burn__plot">
+        <div class="p-burn__budget"><span>budget</span></div>
+        <div class="p-burn__bar" style="height:34%"></div>
+        <div class="p-burn__bar" style="height:41%"></div>
+        <div class="p-burn__bar" style="height:38%"></div>
+        <div class="p-burn__bar" style="height:52%"></div>
+        <div class="p-burn__bar" style="height:47%"></div>
+        <div class="p-burn__bar" style="height:60%"></div>
+        <div class="p-burn__bar" style="height:55%"></div>
+        <div class="p-burn__bar" style="height:63%"></div>
+        <div class="p-burn__bar" style="height:68%"></div>
+        <div class="p-burn__bar p-burn__bar--breach" style="height:76%"></div>
+        <div class="p-burn__bar" style="height:66%"></div>
+        <div class="p-burn__bar p-burn__bar--breach" style="height:81%"></div>
+      </div>
+      <div class="p-burn__weeks"><span>w1</span><span>w2</span><span>w3</span><span>w4</span><span>w5</span><span>w6</span><span>w7</span><span>w8</span><span>w9</span><span>w10</span><span>w11</span><span>w12</span></div>
+    </div>
+    <p class="spec-note">breach weeks earn <b>--alarm</b> per the severity lane · every other bar is substrate</p>
+  </section>
+
+</div>
+</body>
+</html>
