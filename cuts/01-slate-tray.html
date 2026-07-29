@@ -51,6 +51,7 @@
      + audit ribbon + classification + marginalia + boot animations -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
 <link rel="stylesheet" href="../lib/surface-nav.css">
+<link rel="stylesheet" href="../lib/cut-shell-products.css">
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
@@ -734,15 +735,6 @@
   }
 </style>
 
-<style>
-  /* entry overlay · base positioning. The sheet that defines this base
-     (lib/cut-shell-products.css) is not linked by this cut, so the overlay
-     was rendering as an in-flow static block shoved behind the beat shell
-     with its copy clipped off-canvas (cold-open regression, caught
-     2026-07-28). brand-upgrade.css keeps the veil/card paint overrides. */
-  #entry-overlay { position: fixed; inset: 0; z-index: 250; display: flex; align-items: center; justify-content: center; padding: var(--space-app-5, 24px); background: rgba(8,8,10,0.9); overflow-y: auto; }
-  #entry-overlay[hidden] { display: none !important; }
-</style>
 
 <!-- harden · JS-off failsafe for the opacity:0 reveal gate · body shows regardless -->
 <noscript><style>body{opacity:1 !important;animation:none !important;}</style></noscript>

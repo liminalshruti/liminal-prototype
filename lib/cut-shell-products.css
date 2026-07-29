@@ -118,7 +118,11 @@
   .cls-toggle:hover { background: var(--outreach-bg); color: #FFF; }
   .cls-toggle .cls-tog-glyph { display: inline-block; transition: transform 220ms; }
   .classification.is-expanded .cls-tog-glyph { transform: rotate(180deg); }
-  /* glossary · revealed on expand · plain-language line per token */
+  /* brief area · the brief that renders below the slate
+     (selector line was lost in a past edit, orphaning these declarations and
+     breaking the parse · restored 2026-07-29; registers.css carried the
+     matching headless opener) */
+  .brief-area {
     border-top: 1px solid var(--frame-border);
     padding: var(--space-5) 32px;
     background: var(--frame-bg-2);
@@ -718,11 +722,13 @@
   .modal-chain .ce-event.refused { color: var(--judgment); }
   .modal-actions { display: flex; gap: var(--space-2); justify-content: flex-end; margin-top: var(--space-4); }
 
-  /* version pin · bottom-left of viewport · subtle */
+  /* ════════════════════════════════════════════════════════════════
      ENTRY OVERLAY · three doors · per UI_GAP_SPEC §2.4
      · first-session only · dismisses on click · routes to (surface, context)
      · the wedge sentence holds the masthead · Founder/Operator/Creative ICPs
      · Founder=Team-Devon, Operator=Personal-self_baseline, Creative=Personal-Field_Studio
+     (banner's opening comment marker was lost in a past edit, which made the
+     parser swallow .entry-overlay and orphaned this sheet · repaired 2026-07-29)
      ════════════════════════════════════════════════════════════════ */
   .entry-overlay {
     position: fixed; inset: 0; z-index: 250;

@@ -27,8 +27,8 @@
   @font-face { font-family:'PerfectlyNineties'; src:url('fonts/PerfectlyNineties-Semibold.otf') format('opentype'); font-weight:600; font-display:swap; }
 
   :root{
-    --bg:#08080A; --frame-bg:#0E0E11; --frame-bg-2:#0C0C0F; --hair:#1C1C22; --hair-2:#2A2A30;
-    --text:#EDEDEF; --text-mid:#B0B0B6; --text-dim:#7C7A74; --text-faint:#56544E;
+    /* surfaces + ink come straight from canon tokens (single-ink-source, 2026-07-29) */
+    --hair: var(--frame-border); --hair-2: var(--card-border-2);
     --display:"NinetiesHeadliner",Georgia,serif; --sans:"PerfectlyNineties",Georgia,serif; --mono:"Geist Mono","SF Mono",monospace;
   }
   *,*::before,*::after{box-sizing:border-box;margin: 0;padding: 0}
