@@ -539,7 +539,7 @@
   }
   .leverage-meta .v { color: var(--text-dim); }
   .leverage-meta .v.good { color: var(--good); }
-  .leverage-meta .v.amber { color: var(--amber); }
+  .leverage-meta .v.amber { color: var(--judgment); } /* state-atlas: attention = judgment, amber is not a state hue */
 
   /* THE ACTION — actually-execute block */
   .action {
@@ -574,7 +574,7 @@
   }
   @keyframes stageRoll {
     0%, 35% { background: rgba(255,255,255,0.04); color: var(--text-faint); border-color: var(--card-border); }
-    38%, 60% { background: rgba(245,165,36,0.14); color: var(--amber); border-color: rgba(245,165,36,0.3); }
+    38%, 60% { background: rgba(232,0,106,0.12); color: var(--judgment); border-color: rgba(232,0,106,0.3); }
     63%, 88% { background: rgba(142,102,251,0.14); color: var(--clarity); border-color: rgba(142,102,251,0.4); }
     91%, 100% { background: rgba(69,201,163,0.14); color: var(--good); border-color: rgba(69,201,163,0.3); }
   }
