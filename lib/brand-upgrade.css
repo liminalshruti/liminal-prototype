@@ -79,7 +79,10 @@
   /* Font stacks — canonical Liminal three-font system */
   --font-display:  "NinetiesHeadliner", Georgia, serif;
   --font-serif:    "PerfectlyNineties", Georgia, serif;
-  --font-mono:     "Cougar", "Space Mono", "SF Mono", ui-monospace, monospace;
+  /* mono led with "Cougar" (never @font-face'd anywhere · a ghost family
+     that silently dropped every surface to system fallback and contradicted
+     the spec table above). Rebound to the locked stack 2026-07-29. */
+  --font-mono:     "Geist Mono", "Space Mono", "SF Mono", ui-monospace, monospace;
   --font-sans:     "PerfectlyNineties", Georgia, serif;
 
   /* Cut-shell compat aliases */

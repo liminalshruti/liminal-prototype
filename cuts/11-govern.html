@@ -187,62 +187,66 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 
 /* the catch (E14/PR-103) · hero beat */
 
-/* ── the weekly review ritual · v07 fold (2026-07-29) · spine + panes ── */
+/* ── the weekly review ritual · v07 fold (2026-07-29) · spine + panes ──
+   Type system = cut 01's canon exactly: NinetiesHeadliner 700 titles on the
+   --text-* scale, PerfectlyNineties body, Geist Mono labels at --text-2xs.
+   No raw px type, no sans titles (retyped 2026-07-29 after founder catch). */
 .ritual{display:grid;grid-template-columns:188px minmax(0,1fr);gap:0;border:1px solid var(--card-border);border-radius:var(--radius-3);overflow:hidden;background:var(--frame-bg)}
 .spine7{border-right:1px solid var(--card-border);background:var(--frame-bg-2);padding:14px 0;display:flex;flex-direction:column}
-.spine7 .sp-head{font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);padding:0 16px 12px;border-bottom:1px solid var(--card-border);margin-bottom:6px}
+.spine7 .sp-head{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--text-faint);padding:0 16px 12px;border-bottom:1px solid var(--card-border);margin-bottom:6px}
 .step7{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:10px 16px;cursor:pointer;transition:background .15s;align-items:start;border:0;background:transparent;text-align:left;width:100%}
 .step7:hover{background:var(--frame-bg-3)}
-.step7 .n7{font:10px/1.6 var(--mono);color:var(--text-mute)}
-.step7 .l7{font:12px/1.3 var(--sans);color:var(--text-dim)}
-.step7 .s7{font:9px/1.5 var(--mono);letter-spacing:.06em;color:var(--text-faint);margin-top:2px}
+.step7 .n7{font-family:var(--mono);font-size:var(--text-2xs);line-height:1.8;color:var(--text-mute)}
+.step7 .l7{font-family:var(--display);font-weight:700;font-size:var(--text-sm);letter-spacing:var(--tracking-normal);color:var(--text-dim)}
+.step7 .s7{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-wide);color:var(--text-faint);margin-top:2px}
 .step7.is-done .n7{color:var(--outreach)}
 .step7.is-done .l7{color:var(--text-mid)}
 .step7.is-active{background:var(--frame-bg-3);box-shadow:inset 2px 0 0 var(--diligence)}
 .step7.is-active .n7{color:var(--diligence)}
 .step7.is-active .l7{color:var(--text)}
-.spine7 .sp-foot{margin-top:auto;padding:12px 16px 2px;border-top:1px solid var(--card-border);font:9px/1.9 var(--mono);letter-spacing:.05em;color:var(--text-faint)}
-.spine7 .sp-foot b{color:var(--text-dim);font-weight:400}
+.spine7 .sp-foot{margin-top:auto;padding:12px 16px 2px;border-top:1px solid var(--card-border);font-family:var(--mono);font-size:var(--text-2xs);line-height:1.9;letter-spacing:var(--tracking-wide);color:var(--text-faint)}
+.spine7 .sp-foot b{color:var(--text-dim);font-weight:var(--fw-regular,400)}
 .panes7{padding:16px 18px;min-width:0}
 .pane7{display:none}
 .pane7.on{display:block}
 .pane7 .btnrow7{display:flex;gap:9px;align-items:center;margin-top:16px}
-.pane7 .btnrow7 .note7{font:9px/1.4 var(--mono);letter-spacing:.06em;color:var(--text-faint)}
+.pane7 .btnrow7 .note7{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-wide);color:var(--text-faint)}
 .case7{border:1px solid var(--alarm-edge);background:var(--alarm-bg);border-radius:var(--radius-3);padding:13px 15px;margin:10px 0 14px}
-.case7 .ck{display:flex;justify-content:space-between;font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--alarm)}
-.case7 .ct{font:600 15px/1.35 var(--sans);color:var(--text);margin:7px 0 5px}
-.case7 .cb{font:12.5px/1.55 var(--serif,Georgia,serif);color:var(--text-mid)}
-.case7 .cb b{color:var(--text);font-weight:500}
+.case7 .ck{display:flex;justify-content:space-between;font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--alarm)}
+.case7 .ct{font-family:var(--display);font-weight:700;font-size:var(--text-md);line-height:var(--leading-snug,1.2);letter-spacing:var(--tracking-normal);color:var(--text);margin:7px 0 5px}
+.case7 .cb{font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)}
+.case7 .cb b{color:var(--text);font-weight:600}
 .split7{border:1px solid var(--judgment-edge);background:var(--judgment-bg);border-radius:var(--radius-3);padding:12px 15px;margin:12px 0 4px}
-.split7 .sk{font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--judgment);margin-bottom:6px}
-.split7 .sb{font:12.5px/1.55 var(--serif,Georgia,serif);color:var(--text-mid)}
-.split7 .sb b{color:var(--text);font-weight:500}
+.split7 .sk{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--judgment);margin-bottom:6px}
+.split7 .sb{font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)}
+.split7 .sb b{color:var(--text);font-weight:600}
 .policy7{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:11px 4px;border-bottom:1px solid var(--card-border)}
 .policy7:last-of-type{border-bottom:none}
 .pw7{width:30px;height:16px;border-radius:9px;border:1px solid var(--card-border-2);background:var(--frame-bg-3);position:relative;cursor:pointer;transition:background .18s,border-color .18s}
 .pw7 i{position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--text-faint);transition:left .18s,background .18s}
 .policy7.on .pw7{background:color-mix(in oklch,var(--outreach) 22%,var(--frame-bg-3));border-color:var(--outreach)}
 .policy7.on .pw7 i{left:16px;background:var(--outreach)}
-.policy7 .pt7{font:500 12.5px/1.4 var(--sans);color:var(--text)}
-.policy7 .pd7{font:11px/1.45 var(--serif,Georgia,serif);color:var(--text-dim)}
-.policy7 .pe7{font:10px/1.4 var(--mono);letter-spacing:.05em;color:var(--text-dim);white-space:nowrap}
+.policy7 .pt7{font-family:var(--display);font-weight:700;font-size:var(--text-base);letter-spacing:var(--tracking-normal);color:var(--text)}
+.policy7 .pd7{font-family:var(--serif);font-weight:300;font-size:var(--text-xs);line-height:1.5;color:var(--text-dim)}
+.policy7 .pe7{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-wide);color:var(--text-dim);white-space:nowrap}
 .policy7.on .pe7{color:var(--outreach)}
 .ruling7{border:1px solid var(--outreach-soft);background:var(--outreach-bg);border-radius:var(--radius-3);padding:12px 15px;margin:14px 0 6px}
-.ruling7 .rk{display:flex;justify-content:space-between;font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--outreach)}
-.ruling7 .rt7{font:600 14px/1.35 var(--sans);color:var(--text);margin:6px 0 4px}
-.ruling7 .rb7{font:12.5px/1.55 var(--serif,Georgia,serif);color:var(--text-mid)}
+.ruling7 .rk{display:flex;justify-content:space-between;font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--outreach)}
+.ruling7 .rt7{font-family:var(--display);font-weight:700;font-size:var(--text-md);letter-spacing:var(--tracking-normal);color:var(--text);margin:6px 0 4px}
+.ruling7 .rb7{font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)}
+.ruling7 .rb7 b{color:var(--text);font-weight:600}
 .ledger7{border:1px solid var(--card-border);border-radius:var(--radius-3);overflow:hidden;margin-top:8px}
 .lrow7{display:grid;grid-template-columns:86px 1fr 74px;gap:12px;padding:10px 13px;border-bottom:1px solid var(--card-border);align-items:start}
 .lrow7:last-child{border-bottom:none}
-.lrow7 .lt{font:9px/1.6 var(--mono);color:var(--text-faint)}
-.lrow7 .lt b{color:var(--text-dim);font-weight:400;display:block}
-.lrow7 .lk{font:9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px;color:var(--text-dim)}
+.lrow7 .lt{font-family:var(--mono);font-size:var(--text-2xs);line-height:1.6;color:var(--text-faint)}
+.lrow7 .lt b{color:var(--text-dim);font-weight:var(--fw-regular,400);display:block}
+.lrow7 .lk{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;margin-bottom:3px;color:var(--text-dim)}
 .lrow7 .lk.ref{color:var(--judgment)}.lrow7 .lk.sev{color:var(--alarm)}.lrow7 .lk.rat{color:var(--outreach)}.lrow7 .lk.cor{color:var(--diligence)}
-.lrow7 .lb{font:12px/1.5 var(--serif,Georgia,serif);color:var(--text-mid)}
-.lrow7 .lb b{color:var(--text);font-weight:500}
-.lrow7 .lh{font:8.5px/1.5 var(--mono);color:var(--text-mute);text-align:right}
-.owner7{display:flex;flex-wrap:wrap;gap:8px 22px;font:10px/1.5 var(--mono);letter-spacing:.06em;color:var(--text-dim);border:1px solid var(--card-border);border-radius:var(--radius-3);padding:10px 13px;margin:8px 0 12px}
-.owner7 b{color:var(--text-mid);font-weight:400}
+.lrow7 .lb{font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.5;color:var(--text-mid)}
+.lrow7 .lb b{color:var(--text);font-weight:600}
+.lrow7 .lh{font-family:var(--mono);font-size:var(--text-2xs);line-height:1.5;color:var(--text-mute);text-align:right}
+.owner7{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-wide);color:var(--text-dim);border:1px solid var(--card-border);border-radius:var(--radius-3);padding:10px 13px;margin:8px 0 12px}
+.owner7 b{color:var(--text-mid);font-weight:var(--fw-regular,400)}
 .urow.flagged{cursor:pointer}
 .catch{border-left:2px solid var(--alarm);background:var(--alarm-bg);border-radius: 0 5px 5px 0;padding: 11px 14px;margin-top: 10px}
 .catch .ch{display:flex;align-items:center;gap: var(--space-2);font:9px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--alarm)}
@@ -909,7 +913,7 @@ function renderLoop(){
       <section class="pane7 ${STEP===2?'on':''}">
         <div class="sense-h"><span class="anum">02 · COMPOSE</span><span class="atitle">Compose what the agents read.</span><span class="asub">tray → slate</span></div>
         <div class="stream">${slateRows}</div>
-        <div style="margin:9px 0 5px;font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)">tray · diffuse · not read until hardened</div>
+        <div style="margin:9px 0 5px;font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--text-faint)">tray · diffuse · not read until hardened</div>
         <div class="stream">${trayRows}</div>
         <div class="btnrow7"><button class="db sign" data-goto7="3" data-adv7="2">Run the read →</button><span class="note7">the agents read the composition, not a feed</span></div>
       </section>
@@ -930,7 +934,7 @@ function renderLoop(){
           <div class="p-burn__weeks"><span>w1</span><span>w2</span><span>w3</span><span>w4</span><span>w5</span><span>w6</span><span>w7</span><span>w8</span><span>w9</span><span>w10</span><span>w11</span><span>w12</span></div>
         </div>
         <table class="tbl" style="margin-top:10px"><thead><tr><th>Vendor</th><th>Plan</th><th>Seats</th><th>Monthly</th></tr></thead><tbody>${vendorRows}<tr class="total"><td colspan="3">Total</td><td class="num">${usd(SPEND_TOTAL)}</td></tr></tbody></table>
-        <div style="margin:11px 0 7px;font:13px/1.5 var(--serif,Georgia,serif);color:var(--text-mid)">Narrowed to the Opus cohort · <span style="color:var(--text)">${usd(OPUS_TOTAL)}</span> running everything for ${COHORT} engineers. The <span style="color:var(--alarm)">flagged rows</span> are a frontier model doing routine work · that is the case worth opening:</div>
+        <div style="margin:11px 0 7px;font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)">Narrowed to the Opus cohort · <span style="color:var(--text)">${usd(OPUS_TOTAL)}</span> running everything for ${COHORT} engineers. The <span style="color:var(--alarm)">flagged rows</span> are a frontier model doing routine work · that is the case worth opening:</div>
         <div class="stream">${usageRows}</div>
         <div class="btnrow7"><button class="db sign" data-goto7="4" data-adv7="3">Open the case →</button><span class="note7">any flagged row opens the case</span></div>
       </section>
@@ -956,7 +960,7 @@ function renderLoop(){
 
       <section class="pane7 ${STEP===5?'on':''}">
         <div class="sense-h"><span class="anum">05 · RULING</span><span class="atitle">What changes on Monday.</span><span class="asub">writes to the chain</span></div>
-        <div style="font:12.5px/1.55 var(--serif,Georgia,serif);color:var(--text-mid);margin:2px 0 8px">A ruling that does not change a policy is a note. <b style="color:var(--text);font-weight:500">Every switch here writes to the chain with the case that produced it.</b></div>
+        <div style="font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid);margin:2px 0 8px">A ruling that does not change a policy is a note. <b style="color:var(--text);font-weight:500">Every switch here writes to the chain with the case that produced it.</b></div>
         ${policyRows}
         <div class="ruling7">
           <div class="rk"><span>ruling</span><span id="ruling-count">${POLICIES.filter(x=>x.on).length} of 4 enabled</span></div>
@@ -973,7 +977,7 @@ function renderLoop(){
 
       <section class="pane7 ${STEP===6?'on':''}">
         <div class="sense-h"><span class="anum">06 · AUDIT</span><span class="atitle">What fed the ruling, in order.</span><span class="asub">provenance · fixture hashes</span></div>
-        <div style="font:12.5px/1.55 var(--serif,Georgia,serif);color:var(--text-mid);margin:2px 0 4px">Every read names the context that produced it. Every correction names the read it corrected. <b style="color:var(--text);font-weight:500">The chain is what makes the ruling defensible to someone who was not in the room.</b></div>
+        <div style="font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid);margin:2px 0 4px">Every read names the context that produced it. Every correction names the read it corrected. <b style="color:var(--text);font-weight:500">The chain is what makes the ruling defensible to someone who was not in the room.</b></div>
         <div class="ledger7">
           <div class="lrow7"><div class="lt"><b>jun 30</b>09:02</div><div><div class="lk">ingest · runtime</div><div class="lb">Usage events captured · <b>E01-E21 · ${usd(OPUS_TOTAL)} · ${COHORT} engineers</b> · 5 categories.</div></div><div class="lh">ev 0<br>sig f1a2</div></div>
           <div class="lrow7"><div class="lt"><b>jun 30</b>09:11</div><div><div class="lk sev">flag · scope</div><div class="lb">$495/mo of frontier spend on routine work · <b>11% of cohort</b> · case gc-2026-06-A opened.</div></div><div class="lh">ev 1<br>sig c3d4</div></div>
@@ -993,7 +997,7 @@ function renderLoop(){
           <div class="p-metric"><div class="p-metric__k">verified realizable</div><div class="p-metric__v">${usd(RECON.verified)}</div><div class="p-metric__d p-metric__d--under">survives scrutiny · anchored</div></div>
           <div class="p-metric"><div class="p-metric__k">next review</div><div class="p-metric__v">2026-07</div><div class="p-metric__d">reads route-adherence vs this ruling</div></div>
         </div>
-        <div style="margin-top:12px;font:12.5px/1.55 var(--serif,Georgia,serif);color:var(--text-mid)">The ruling is the baseline now. <b style="color:var(--text);font-weight:500">July's read is calibrated against gc-2026-06-A</b> · did the routing hold, did the claim stay honest, does the cap still wait. The loop ends where next month's decision starts.</div>
+        <div style="margin-top:12px;font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)">The ruling is the baseline now. <b style="color:var(--text);font-weight:500">July's read is calibrated against gc-2026-06-A</b> · did the routing hold, did the claim stay honest, does the cap still wait. The loop ends where next month's decision starts.</div>
         <div class="btnrow7"><button class="db" data-goto7="3">Back to activity</button><span class="note7">the review is a loop, not a report</span></div>
       </section>
 
