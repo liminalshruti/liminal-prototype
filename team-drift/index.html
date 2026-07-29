@@ -39,8 +39,10 @@
     /* State chrome per design-system/atlas/state-atlas.html (2026-07-29):
        primitive states bind to the FOUR agent registers only. Drift =
        out-of-pattern, surfaced for correction = judgment; queued =
-       staged, awaiting operator = diligence. alarm/watch/amber are
-       register-identity hues, not state hues. */
+       staged, awaiting operator = diligence. Per the v0.3 severity lane,
+       alarm/watch are EVIDENCE-severity hues, never lifecycle-state hues:
+       drift here is a lifecycle state (surfaced for correction), so it
+       stays judgment. */
     --drift:      var(--judgment);       /* was var(--alarm) */
     --drift-bg:   var(--judgment-bg);    /* was var(--stability-bg) */
     --drift-soft: var(--judgment-edge);  /* was var(--stability-edge) */
