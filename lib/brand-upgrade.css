@@ -81,8 +81,9 @@
   --font-serif:    "PerfectlyNineties", Georgia, serif;
   /* mono led with "Cougar" (never @font-face'd anywhere · a ghost family
      that silently dropped every surface to system fallback and contradicted
-     the spec table above). Rebound to the locked stack 2026-07-29. */
-  --font-mono:     "Geist Mono", "Space Mono", "SF Mono", ui-monospace, monospace;
+     the spec table above). Rebound 2026-07-29; reordered to canon §5 (Space Mono first,
+     Geist Mono fallback) same day when §5 caught up to the stack change. */
+  --font-mono:     "Space Mono", "Geist Mono", "SF Mono", ui-monospace, monospace;
   --font-sans:     "PerfectlyNineties", Georgia, serif;
 
   /* Cut-shell compat aliases */

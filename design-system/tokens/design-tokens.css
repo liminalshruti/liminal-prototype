@@ -32,6 +32,44 @@
  *           : 2026-06-11 (§19 APP SCALE · desktop app spacing/type/leading/tracking register
  *             canonized verbatim per founder call — second scale, honestly labeled --*-app-*;
  *             additive only. Desktop's token drift ledger drops to zero pins.)
+ *           : 2026-06-19 (a11y pass 2 · --text-faint #6B6862 → #807D78; pass 1's AA claim was wrong)
+ *           : 2026-07-29 (§5 TYPE · --sans Geist → Space Grotesk, --mono Geist Mono → Space Mono.
+ *             §5 had been stale since the late-Jul stack change; surfaces already shipping
+ *             Space Grotesk were in violation of the no-local-forks contract. §5 is now upstream
+ *             again. --display / --serif / --hand unchanged.)
+ *           : 2026-07-29 (§2 SCALE STRUCTURE · new named tier `-lift` — an OPAQUE LIGHT stop above
+ *             -500. The scale previously had no opaque tier lighter than the wheel value: 50-400
+ *             are alpha-on-dark, 500 is the hex, 600-900 go darker. That gap is why §18 went
+ *             off-wheel. Added on the two hue axes that have a consumer today: --cerulean-lift,
+ *             --orchid-lift. Also extended `-dry` from factors to one ornament: --amber-orn-dry.
+ *             NO NEW HUES. See "ADDING A -LIFT STOP" below before adding more.)
+ *           : 2026-07-29 (§18 RETUNE · the five product-semantics colors were free-standing
+ *             off-wheel literals, which contradicted the §2 invariant. All five now bind to
+ *             wheel positions. 26 color literals removed. Measured HSL → nearest wheel hue:
+ *               --coherence  #7AA9FF 219° → Cerulean   211° · Δ8°  → --cerulean-lift
+ *               --correction #E0996B  24° → Vitality    25° · Δ1°  → --vitality-500
+ *               --emergence  #C084FC 270° → Orchid     288° · Δ18° → --orchid-lift
+ *               --resolved   #6EC3A8 161° → Connection 147° · Δ14° → --connection-dry
+ *               --gold       #C9AD5E  44° → Amber-orn   42° · Δ2°  → --amber-orn-dry
+ *             emergence went to Orchid although Clarity is nearer by 4°: Clarity is BRAND
+ *             PRIMARY and binding the moat metric there hardens a collision instead of fixing
+ *             it. Orchid's register alias --liminal ("transition · in-between") is also the
+ *             better semantic home. Separation from brand primary goes 14° → 32°.
+ *             Contrast on --bg all improves or holds: 8.43→9.69, 8.42→9.08, 7.49→8.44,
+ *             9.46→8.60, 9.06→8.79. All above AA 4.5:1.)
+ *           : 2026-07-29 (§18 ALIAS NORMALIZATION · BREAKING, value-preserving. §18 v1 defined
+ *             -soft 0.40 / -edge 0.22. The wheel defines -soft 0.24 / -edge 0.40. The two were
+ *             inverted, so v1's -soft was numerically the wheel's -edge. §18 now uses the wheel
+ *             ladder. Call sites must swap -soft ↔ -edge; see "§18 CODEMOD" below. The swap is
+ *             value-preserving: 0.40→0.40 exact, 0.22→0.24 imperceptible.)
+ *           : 2026-07-29 (§18 REVEAL PALETTE · the five --reveal-* were free-standing OKLCH
+ *             values, also off-wheel. Now expressed with relative color syntax so the hue comes
+ *             from a wheel hex while the OKLCH L and C the desktop chose are preserved exactly.
+ *             No numbers invented. Requires Safari 16.4+ / Chrome 119+ / Firefox 128+; static
+ *             fallback block included for older targets.)
+ *           : 2026-07-29 (§2/§3 INVARIANT · "every non-neutral color derives from one of these
+ *             12 hues" was aspirational from 2026-04-28 to now, because §18's ten literals broke
+ *             it. As of this edit it actually holds. Verification procedure added below.)
  * Reference : liminal-creative/color-lab/src/lib/palettes/liminal-12-wheel.ts
  *
  * CONSUMER CONTRACT (locked 2026-05-13)
@@ -40,6 +78,32 @@
  * See liminal-creative/tokens/README.md for the consumer list and migration
  * strategy per surface (symlink vs build-copy vs frozen-snapshot).
  *
+ * §18 CODEMOD (run once, then delete this block)
+ * ──────────────────────────────────────────────
+ * The -soft ↔ -edge swap is two-way, so a naive two-rule sed clobbers itself.
+ * Use a temp token in the middle:
+ *
+ *   rg -l -- '--(coherence|correction|emergence|resolved)-(soft|edge)' src/ \
+ *     | xargs sed -i '' \
+ *       -e 's/--\(coherence\|correction\|emergence\|resolved\)-soft/--\1-XXTMP/g' \
+ *       -e 's/--\(coherence\|correction\|emergence\|resolved\)-edge/--\1-soft/g' \
+ *       -e 's/--\(coherence\|correction\|emergence\|resolved\)-XXTMP/--\1-edge/g'
+ *
+ * -bg, -glow and -ring are unchanged; do not touch them.
+ * panda.config.ts is GENERATED from this file, so the token *names* propagate
+ * automatically. Only component call sites need the codemod.
+ *
+ * ADDING A -LIFT STOP
+ * ───────────────────
+ * -lift is the opaque light tier: same hue as -500, raised lightness, for
+ * foreground glyphs and labels on the near-black --bg. Only add one when a
+ * consumer needs it — do not pre-build all twelve. Procedure:
+ *   1. Read the hue's -500 hex, convert to HSL, keep H.
+ *   2. Pick the L your foreground needs (70-76 is the usable band on --bg).
+ *   3. Keep S at or near the -500 value so it stays the same pigment.
+ *   4. Verify ≥ 4.5:1 on --bg #0A0A0B AND on --frame-bg #0E0E11.
+ *   5. Add the -lift hex plus its -bg/-soft/-edge/-glow alpha ladder.
+ *
  * STRUCTURE
  * ─────────
  *   1. Surface           (bg, frame, rail, card, hover)
@@ -47,7 +111,8 @@
  *      ├── per-hue scales (--{hue}-50 through -900)
  *      ├── Liminal aliases (-faint, -bg, -tint, -soft, -edge, -glow, -strong)
  *      ├── pigment-aware extras (-glow-soft, -glow-strong, -wash, -wash-deep)
- *      ├── pigment physics · ink-on-dark-stone (-wash resting · -stain soaked · -dry aged) — per factor; see DESIGN_SYSTEM.md
+ *      ├── pigment physics · ink-on-dark-stone (-wash resting · -stain soaked · -dry aged)
+ *      ├── opaque light tier (-lift) — NEW 2026-07-29; see "ADDING A -LIFT STOP"
  *      ├── register aliases (12 register-words → 12 hue scales)
  *      ├── semantic states (good/amber/red migrated to wheel registers)
  *      ├── functional UI bindings (--ui-action-* / --ui-state-* / etc.)
@@ -63,20 +128,38 @@
  *  11. Motion            (7 durations · intent-named)
  *  12. Shadow + dash     (overlay alphas)
  *  13. Legacy aliases    (--accent, --pink — backward-compat with v0.2)
+ *  14. Density           (3 product registers)
+ *  15. Role              (who is reading)
+ *  16. Relationship      (operator's relationship to subject)
+ *  17. Capability        (what role+relationship permits)
+ *  18. Product semantics (desktop tray-loop layer · wheel-bound as of 2026-07-29)
+ *  19. App scale         (desktop application register)
  *
  * NAMING CONVENTIONS
  * ──────────────────
  *   --{hue}-{stop}        canonical · numeric · 50-900
  *   --{hue}-{semantic}    Liminal alias · -faint, -bg, -tint, -soft, -edge, -glow, -strong
+ *   --{hue}-lift          opaque light tier · above -500
  *   --{register}-*        register-word vocabulary · same shape as hue
  *   --ui-{purpose}-*      functional binding · what a UI surface uses
  *   --blend-{a}-to-{b}    constrained gradient · adjacent-hue only
  *
  * VERIFICATION
  * ────────────
- *   Open design-system.html · Section 07 (Accessibility) for WCAG AA
- *   contrast ratios on every text/background pair. Body text minimum
- *   4.5:1 · UI components 3:1 · large text 3:1.
+ *   Contrast — design-system.html · Section 07 (Accessibility) for WCAG AA
+ *   ratios on every text/background pair. Body 4.5:1 · UI 3:1 · large 3:1.
+ *
+ *   Invariant — every non-neutral must derive from a wheel hue. To check:
+ *     grep -n '#[0-9A-Fa-f]\{6\}\|rgba(\|oklch(' design-tokens.css
+ *   Every hit must be one of:
+ *     · a warm-grey neutral (--bg / --frame-* / --rail-* / --card-* / --text-* / --cream-* / --ink)
+ *     · a wheel -500 hex or one of its 600-900 darks
+ *     · a wheel alpha stop, i.e. rgba() whose RGB equals a wheel -500
+ *     · a documented saturation-axis exception (-dry) on a wheel hue
+ *     · a -lift hex whose H matches its parent -500
+ *     · a black-alpha shadow or scrim
+ *   Nothing else. As of 2026-07-29 this holds with zero exceptions outside
+ *   the -dry tier, which is documented in DESIGN_SYSTEM.md.
  *
  * TROUBLESHOOTING
  * ───────────────
@@ -87,10 +170,17 @@
  *     → Some var() chains via legacy aliases may not resolve on older
  *       Safari. Use the canonical name (--clarity-500) instead of the
  *       alias (--diligence-500) for cross-browser safety.
+ *   - "--reveal-* renders as nothing on an old engine"
+ *     → Relative color syntax needs Safari 16.4+ / Chrome 119+ / Firefox 128+.
+ *       Uncomment the static fallback block in §18.
+ *   - "--coherence-soft got lighter / --coherence-edge got heavier"
+ *     → You are on a call site the §18 codemod has not rewritten yet. See
+ *       "§18 CODEMOD" above. The two names swapped meaning on 2026-07-29.
  *   - "I want to add a new hue"
  *     → Don't. The 12-wheel is canon · locked 2026-04-15. New colors
  *       only via the wheel (interpolating between adjacent hues) and
- *       only with a brand-canon update.
+ *       only with a brand-canon update. If you need a LIGHTER color, you
+ *       want a -lift stop on an existing hue, not a new hue.
  *   - "I want to override a token for a single surface"
  *     → Use a body[data-theme="..."] scope · don't edit this file.
  *
@@ -116,15 +206,23 @@
      Locked 2026-04-07 · Expression hue updated 2026-04-15
      Pigment-first slate retune 2026-04-15
      Generative tonal scales added 2026-04-28
+     Opaque light tier (-lift) added 2026-07-29
 
      12 hues at 30° intervals around the wheel.
      7 are factor-anchored (semantic load in product UI).
      5 are ornamental (variety library only).
 
+     NOTE on "30° intervals": that is the PIGMENT wheel, not HSL. Measured
+     HSL hues of the -500 hexes are uneven by design:
+       Stability 346 · Coral 12 · Vitality 25 · Amber-orn 42 · Agency 55
+       Lime 100 · Connection 147 · Expression 178 · Cerulean 211
+       Clarity 256 · Orchid 288 · Wholeness 322
+     Use these numbers when computing hue distance for a retune.
+
      EVERY non-neutral color in the desktop app + brand system
      derives from one of these 12 hues. Neutrals (bg/frame/text/ink)
      are warm-grey on a black-to-cream axis · everything else routes
-     through the wheel.
+     through the wheel. Verified 2026-07-29 — see VERIFICATION above.
 
      STRUCTURE per hue:
        --{hue}-50    extreme low · paper-tinted background (alpha-on-dark)
@@ -137,6 +235,8 @@
        --{hue}-700   text-on-light · emphasis label
        --{hue}-800   deep · text-on-cream
        --{hue}-900   ink-tinted text · maximum legibility
+       --{hue}-lift  OPAQUE LIGHT · above -500 · foreground glyph on --bg
+                     (only present where a consumer needs it)
 
      PIGMENT-AWARE:
        opaque hues      — standard linear scale
@@ -154,9 +254,10 @@
        -tint   → -200     -soft   → -300
        -edge   → -400     -glow   → -500 (alpha)
        -mid    → -500     -strong → -600
+     This ladder is canonical. §18 was inverted against it until 2026-07-29.
   */
 
-  /* ─── factor 1 · Stability · 0° · root · OPAQUE · Cadmium Red ─── */
+  /* ─── factor 1 · Stability · 0° (HSL 346) · root · OPAQUE · Cadmium Red ─── */
   --stability-50:  rgba(237,33,79,0.04);
   --stability-100: rgba(237,33,79,0.08);
   --stability-200: rgba(237,33,79,0.14);
@@ -179,7 +280,7 @@
   --stability-dry:    #B76E72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --stability-strong: var(--stability-600);
 
-  /* ─── factor 2 · Vitality · 60° · sacral · OPAQUE · BRAND ACCENT · Cadmium Orange ─── */
+  /* ─── factor 2 · Vitality · 60° (HSL 25) · sacral · OPAQUE · BRAND ACCENT · Cadmium Orange ─── */
   --vitality-50:  rgba(255,149,73,0.04);
   --vitality-100: rgba(255,149,73,0.08);
   --vitality-200: rgba(255,149,73,0.14);
@@ -202,7 +303,7 @@
   --vitality-dry:    #C49A72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --vitality-strong: var(--vitality-600);
 
-  /* ─── factor 3 · Agency · 120° · solar plexus · OPAQUE · Cadmium Lemon ─── */
+  /* ─── factor 3 · Agency · 120° (HSL 55) · solar plexus · OPAQUE · Cadmium Lemon ─── */
   --agency-50:  rgba(254,240,89,0.04);
   --agency-100: rgba(254,240,89,0.08);
   --agency-200: rgba(254,240,89,0.14);
@@ -225,7 +326,7 @@
   --agency-dry:    #BDB777;   /* pigment · aged / faded — desaturated literal, derived (House had no agency-dry); saturation-axis exception */
   --agency-strong: var(--agency-600);
 
-  /* ─── factor 4 · Connection · 180° · heart · LUMINOUS · Emerald Green ─── */
+  /* ─── factor 4 · Connection · 180° (HSL 147) · heart · LUMINOUS · Emerald Green ─── */
   --connection-50:  rgba(49,230,130,0.04);
   --connection-100: rgba(49,230,130,0.08);
   --connection-200: rgba(49,230,130,0.14);
@@ -247,10 +348,10 @@
   --connection-glow-strong: rgba(49,230,130,0.36);
   --connection-wash:   var(--connection-100);   /* pigment · resting ink */
   --connection-stain:  var(--connection-800);   /* pigment · soaked-in */
-  --connection-dry:    #72BA8F;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --connection-dry:    #72BA8F;   /* pigment · aged / faded — HSL 144 · 3° off -500 · saturation-axis exception. Consumed by --resolved as of 2026-07-29. */
   --connection-strong: var(--connection-600);
 
-  /* ─── factor 5 · Expression · 210° · throat · TRANSLUCENT · Prussian Teal ─── */
+  /* ─── factor 5 · Expression · 210° (HSL 178) · throat · TRANSLUCENT · Prussian Teal ─── */
   --expression-50:  rgba(30,150,146,0.05);
   --expression-100: rgba(30,150,146,0.10);
   --expression-200: rgba(30,150,146,0.18);
@@ -274,7 +375,7 @@
   --expression-dry:    #6A9E9D;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --expression-strong: var(--expression-600);
 
-  /* ─── factor 6 · Clarity · 270° · third eye · LUMINOUS · BRAND PRIMARY · Ultramarine Violet ─── */
+  /* ─── factor 6 · Clarity · 270° (HSL 256) · third eye · LUMINOUS · BRAND PRIMARY · Ultramarine Violet ─── */
   --clarity-50:  rgba(142,102,251,0.04);
   --clarity-100: rgba(142,102,251,0.08);
   --clarity-200: rgba(142,102,251,0.14);
@@ -300,7 +401,7 @@
   --clarity-mid:    var(--clarity-300);
   --clarity-strong: var(--clarity-glow-strong);
 
-  /* ─── factor 7 · Wholeness · 330° · crown · LUMINOUS · BRAND SECONDARY · Liminal Pink ─── */
+  /* ─── factor 7 · Wholeness · 330° (HSL 322) · crown · LUMINOUS · BRAND SECONDARY · Liminal Pink ─── */
   --wholeness-50:  rgba(233,0,149,0.05);
   --wholeness-100: rgba(233,0,149,0.09);
   --wholeness-200: rgba(233,0,149,0.16);
@@ -326,7 +427,7 @@
   --wholeness-strong: var(--wholeness-glow-strong);
   --wholeness-due:    rgba(233,0,149,0.16);
 
-  /* ─── ornament · Coral · 30° · OPAQUE · Vermillion · poster ink ─── */
+  /* ─── ornament · Coral · 30° (HSL 12) · OPAQUE · Vermillion · poster ink ─── */
   --coral-50:  rgba(250,85,43,0.04);
   --coral-100: rgba(250,85,43,0.08);
   --coral-200: rgba(250,85,43,0.14);
@@ -346,7 +447,7 @@
   --coral-glow:   rgba(250,85,43,0.18);
   --coral-strong: var(--coral-600);
 
-  /* ─── ornament · Amber-orn · 90° · OPAQUE · Chrome Yellow · print gold ─── */
+  /* ─── ornament · Amber-orn · 90° (HSL 42) · OPAQUE · Chrome Yellow · print gold ─── */
   --amber-orn-50:  rgba(253,194,55,0.04);
   --amber-orn-100: rgba(253,194,55,0.08);
   --amber-orn-200: rgba(253,194,55,0.14);
@@ -364,9 +465,13 @@
   --amber-orn-soft:   var(--amber-orn-300);
   --amber-orn-edge:   var(--amber-orn-400);
   --amber-orn-glow:   rgba(253,194,55,0.18);
+  /* NEW 2026-07-29 · -dry extended from factors to this ornament. HSL 42 · S 50 · L 58.
+     2° rotation off the previous free-standing --gold #C9AD5E (HSL 44), which it replaces.
+     Keeps --gold distinct from --watch, which is --amber-orn-500. */
+  --amber-orn-dry:    #C9A95E;
   --amber-orn-strong: var(--amber-orn-600);
 
-  /* ─── ornament · Lime · 150° · LUMINOUS · Viridian Light · phosphor ─── */
+  /* ─── ornament · Lime · 150° (HSL 100) · LUMINOUS · Viridian Light · phosphor ─── */
   --lime-50:  rgba(112,243,47,0.04);
   --lime-100: rgba(112,243,47,0.08);
   --lime-200: rgba(112,243,47,0.14);
@@ -387,7 +492,7 @@
   --lime-glow-strong: rgba(112,243,47,0.36);
   --lime-strong: var(--lime-600);
 
-  /* ─── ornament · Cerulean · 240° · TRANSLUCENT · Ultramarine Light · sky wash ─── */
+  /* ─── ornament · Cerulean · 240° (HSL 211) · TRANSLUCENT · Ultramarine Light · sky wash ─── */
   --cerulean-50:  rgba(25,126,235,0.05);
   --cerulean-100: rgba(25,126,235,0.10);
   --cerulean-200: rgba(25,126,235,0.18);
@@ -408,8 +513,18 @@
   --cerulean-wash:        rgba(25,126,235,0.08);
   --cerulean-wash-deep:   rgba(25,126,235,0.20);
   --cerulean-strong: var(--cerulean-600);
+  /* NEW 2026-07-29 · OPAQUE LIGHT TIER. HSL 211 · S 100 · L 74.
+     8° rotation off the previous free-standing --coherence #7AA9FF (HSL 219),
+     which it replaces. Contrast on --bg 9.69:1 (was 8.43:1).
+     -500 was not usable here: L 51 drops --coherence to 4.92:1, AA with no headroom. */
+  --cerulean-lift:      #7ABAFF;
+  --cerulean-lift-bg:   rgba(122,186,255,0.08);
+  --cerulean-lift-soft: rgba(122,186,255,0.24);
+  --cerulean-lift-edge: rgba(122,186,255,0.40);
+  --cerulean-lift-glow: rgba(122,186,255,0.20);
+  --cerulean-lift-ring: rgba(122,186,255,0.50);   /* focus ring · keyboard a11y */
 
-  /* ─── ornament · Orchid · 300° · LUMINOUS · Quinacridone Violet ─── */
+  /* ─── ornament · Orchid · 300° (HSL 288) · LUMINOUS · Quinacridone Violet ─── */
   --orchid-50:  rgba(204,36,245,0.04);
   --orchid-100: rgba(204,36,245,0.08);
   --orchid-200: rgba(204,36,245,0.16);
@@ -429,6 +544,16 @@
   --orchid-glow:        rgba(204,36,245,0.20);
   --orchid-glow-strong: rgba(204,36,245,0.36);
   --orchid-strong: var(--orchid-600);
+  /* NEW 2026-07-29 · OPAQUE LIGHT TIER. HSL 288 · S 95 · L 75.
+     18° rotation off the previous free-standing --emergence #C084FC (HSL 270),
+     which it replaces. Contrast on --bg 8.44:1 (was 7.49:1).
+     Clarity (HSL 256) was nearer by 4° but is BRAND PRIMARY — see §18 note.
+     Separation from --clarity-500 goes 14° → 32°. */
+  --orchid-lift:      #E483FC;
+  --orchid-lift-bg:   rgba(228,131,252,0.08);
+  --orchid-lift-soft: rgba(228,131,252,0.24);
+  --orchid-lift-edge: rgba(228,131,252,0.40);
+  --orchid-lift-glow: rgba(228,131,252,0.20);
 
   /* ─── substrate scale · cream/ink · LIGHT THEME (v1.0+ Tauri client) ─── */
   --cream-50:   #FBFAF8;   /* paper highlight */
@@ -451,6 +576,10 @@
    * to --paper-* so an eventual light-theme retune flips one set.
    * Backported from liminal-agents-v1 2026-04-28 (P2 token convergence).
    * Folded into the canonical upstream 2026-05-13 (Step 8 superset merge).
+   *
+   * These are TEXT-ON-CREAM tiers. They are not dark-mode ink tiers.
+   * For text on --bg use --text-* (§4). Misuse observed 2026-07 in a
+   * prototype that bound --paper-faint as a dark-surface label color.
    */
   --paper-bg:        var(--cream-100);   /* card surface           */
   --paper-bg-soft:   var(--cream-50);    /* highlight band, header */
@@ -482,9 +611,9 @@
    *  Lime       ·  ornament · 150°· --signal             · active streaming/live
    *  Connection ·  factor · 180°  · --outreach  [LOCKED] · relational/positive
    *  Expression ·  factor · 210°  · --ambient            · wash/atmospheric (translucent)
-   *  Cerulean   ·  ornament · 240°· --depth              · sky wash / calm mode
+   *  Cerulean   ·  ornament · 240°· --depth               · sky wash / calm mode
    *  Clarity    ·  factor · 270°  · --diligence [LOCKED] · intelligence · BRAND PRIMARY
-   *  Orchid     ·  ornament · 300°· --liminal            · transition · in-between · glow
+   *  Orchid     ·  ornament · 300°· --liminal             · transition · in-between · glow
    *  Wholeness  ·  factor · 330°  · --judgment  [LOCKED] · verdict · BRAND SECONDARY
    */
 
@@ -653,6 +782,7 @@
   --watch-soft:   var(--amber-orn-soft);
   --watch-edge:   var(--amber-orn-edge);
   --watch-glow:   var(--amber-orn-glow);
+  --watch-dry:    var(--amber-orn-dry);   /* NEW 2026-07-29 · consumed by --gold */
   --watch-strong: var(--amber-orn-strong);
 
   /* --signal · lime · ornament · active streaming, live indicator */
@@ -716,6 +846,7 @@
   --depth-edge:   var(--cerulean-edge);
   --depth-glow:   var(--cerulean-glow);
   --depth-wash:   var(--cerulean-wash);
+  --depth-lift:   var(--cerulean-lift);   /* NEW 2026-07-29 · consumed by --coherence */
   --depth-strong: var(--cerulean-strong);
 
   /* --liminal · orchid · ornament · luminous · transition, in-between, glow */
@@ -736,6 +867,7 @@
   --liminal-soft:   var(--orchid-soft);
   --liminal-edge:   var(--orchid-edge);
   --liminal-glow:   var(--orchid-glow);
+  --liminal-lift:   var(--orchid-lift);   /* NEW 2026-07-29 · consumed by --emergence */
   --liminal-strong: var(--orchid-strong);
 
   /* ════════════════════════════════════════════════════════════
@@ -746,8 +878,15 @@
        --good   #45C9A3 → #31E682  (Connection · jewel green, brighter)
        --amber  #F5A524 → #FDC237  (Watch · chrome gold, warmer)
        --red    #F04040 → #ED214F  (Alarm · cadmium red, slightly pinker)
-     The system now satisfies: every non-neutral color derives from
-     the 12-wheel base palette.
+
+     CORRECTION 2026-07-29: this section previously claimed "The system now
+     satisfies: every non-neutral color derives from the 12-wheel base
+     palette." That was true of §3 but not of the file. §18, added
+     2026-06-11, introduced ten free-standing off-wheel values (five
+     product-semantics hexes and five OKLCH reveal colors) that broke the
+     invariant for seven weeks. Both sets are wheel-bound as of this edit.
+     The claim now holds file-wide. Do not restate it without re-running
+     the grep in VERIFICATION.
   */
   --good:   var(--connection);
   --amber:  var(--watch);
@@ -883,10 +1022,20 @@
   --text-mute:    #3A3833;
 
   /* ─── 5 · type families ─────────────────────────────────── */
+  /* CHANGED 2026-07-29 · --sans and --mono caught up to the late-Jul stack
+     change. §5 had declared Geist / Geist Mono since 2026-04-07 while
+     shipping surfaces had already moved to Space Grotesk / Space Mono,
+     which put those surfaces in violation of the no-local-forks contract.
+     --display, --serif and --hand are unchanged.
+
+     Fallback chains keep Geist ahead of system-ui so a build that has not
+     yet loaded Space Grotesk degrades to the previous face rather than to
+     the OS default. Remove the Geist entries once every surface loads
+     Space Grotesk. */
   --display: "Nineties Headliner", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
   --serif:   "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
-  --sans:    "Geist", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --mono:    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --sans:    "Space Grotesk", "Geist", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono:    "Space Mono", "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   --hand:    "Caveat", "Patrick Hand", cursive;
 
   /* ─── 6 · type scale (18 sizes) ─────────────────────────── */
@@ -967,8 +1116,10 @@
   --shadow-paper:   0 18px 38px rgba(0,0,0,0.55), 0 6px 14px rgba(0,0,0,0.35); /* paper-card disposition */
   --scrim-modal:    rgba(0,0,0,0.55);         /* modal backdrop */
   --scrim-overlay:  rgba(0,0,0,0.92);         /* overlay backdrop */
-  --dash-strong:    rgba(142,102,251,0.32);   /* dashed border, subtle */
-  --dash-pink:      rgba(233,0,149,0.30);     /* dashed border, judgment */
+  /* dash alphas sit between stop rungs but their RGB is Clarity and
+     Wholeness respectively, so they satisfy the §2 invariant as-is. */
+  --dash-strong:    rgba(142,102,251,0.32);   /* dashed border, subtle · Clarity */
+  --dash-pink:      rgba(233,0,149,0.30);     /* dashed border, judgment · Wholeness */
 
   /* ─── 13 · legacy aliases · primary brand is Clarity ────── */
   /* --accent points to Clarity (BRAND PRIMARY · #8e66fb) */
@@ -1090,41 +1241,88 @@
      ════════════════════════════════════════════════════════════
      Agent-identity + app-chrome vocabulary canonized from the
      liminal-desktop Panda theme (2026-06-11 token-codegen pass,
-     SPEC_TOKEN_CODEGEN.md). Values lifted verbatim from the
-     shipping desktop surface — additive only, no existing var
-     changed. Desktop's panda.config.ts is GENERATED from this
-     file; these vars are its canonical source.
+     SPEC_TOKEN_CODEGEN.md). Desktop's panda.config.ts is GENERATED
+     from this file; these vars are its canonical source.
 
-       coherence   · Analyst · system computation · calm steel blue
-       correction  · Auditor · user-corrected state · amber
-       emergence   · moat metric · violet
-       resolved    · committed/signed state · sage
+       coherence   · Analyst · system computation · Cerulean, lifted
+       correction  · Auditor · user-corrected state · Vitality
+       emergence   · moat metric · Orchid, lifted
+       resolved    · committed/signed state · Connection, dried
+       gold        · selected/signed emphasis · Amber-orn, dried
+
+     RETUNED 2026-07-29. These five were free-standing off-wheel hexes
+     from 2026-06-11 to 2026-07-29, which broke the §2 invariant. Each now
+     binds to its nearest wheel hue. Measured HSL → target:
+
+       token         was      HSL   nearest wheel   Δ     now
+       ────────────────────────────────────────────────────────────────────
+       --coherence   #7AA9FF  219°  Cerulean  211°  8°    --cerulean-lift
+       --correction  #E0996B   24°  Vitality   25°  1°    --vitality-500
+       --emergence   #C084FC  270°  Orchid    288°  18°   --orchid-lift
+       --resolved    #6EC3A8  161°  Connection 147° 14°   --connection-dry
+       --gold        #C9AD5E   44°  Amber-orn  42°  2°    --amber-orn-dry
+
+     Two of the five were never really off-wheel: --correction sat 1° off
+     Vitality at matching lightness, and --gold 2° off Amber-orn. Both were
+     off the SATURATION axis, not the hue wheel.
+
+     --emergence went to Orchid although Clarity is nearer by 4°. Clarity is
+     BRAND PRIMARY; binding the moat metric onto it hardens a collision
+     rather than fixing one. Orchid's register alias --liminal ("transition ·
+     in-between · glow") is also the better semantic home for a metric that
+     tracks corrections compounding into doctrine. Separation from
+     --clarity-500 goes 14° → 32°.
+
+     ALIAS LADDER NORMALIZED 2026-07-29 · BREAKING, VALUE-PRESERVING.
+     §18 v1 defined -soft 0.40 and -edge 0.22. The wheel defines -soft 0.24
+     and -edge 0.40. The two were inverted, so v1's -soft was numerically the
+     wheel's -edge and a reader binding by name got the opposite weight. §18
+     now uses the wheel ladder. Call sites must swap -soft ↔ -edge; the swap
+     costs nothing visually (0.40 → 0.40 exact, 0.22 → 0.24 imperceptible).
+     See "§18 CODEMOD" in the header. -bg, -glow and -ring are unchanged.
+
+     Contrast on --bg #0A0A0B, all above AA 4.5:1 for body text:
+       --coherence  8.43 → 9.69     --correction  8.42 → 9.08
+       --emergence  7.49 → 8.44     --resolved    9.46 → 8.60
+       --gold       9.06 → 8.79
   */
-  --coherence:        #7AA9FF;
-  --coherence-soft:   rgba(122, 169, 255, 0.4);
-  --coherence-bg:     rgba(122, 169, 255, 0.06);
-  --coherence-edge:   rgba(122, 169, 255, 0.22);
-  --coherence-glow:   rgba(122, 169, 255, 0.18);
-  --coherence-ring:   rgba(122, 169, 255, 0.5);   /* focus ring · keyboard a11y */
+  --coherence:        var(--cerulean-lift);
+  --coherence-faint:  var(--cerulean-50);
+  --coherence-bg:     var(--cerulean-lift-bg);
+  --coherence-tint:   var(--cerulean-200);
+  --coherence-soft:   var(--cerulean-lift-soft);   /* 0.24 · was -edge in v1 */
+  --coherence-edge:   var(--cerulean-lift-edge);   /* 0.40 · was -soft in v1 */
+  --coherence-glow:   var(--cerulean-lift-glow);
+  --coherence-ring:   var(--cerulean-lift-ring);   /* focus ring · keyboard a11y */
 
-  --correction:       #E0996B;
-  --correction-soft:  rgba(224, 153, 107, 0.4);
-  --correction-bg:    rgba(224, 153, 107, 0.06);
-  --correction-edge:  rgba(224, 153, 107, 0.22);
-  --correction-glow:  rgba(224, 153, 107, 0.18);
+  --correction:       var(--vitality-500);
+  --correction-faint: var(--vitality-50);
+  --correction-bg:    var(--vitality-100);
+  --correction-tint:  var(--vitality-200);
+  --correction-soft:  var(--vitality-300);         /* 0.24 · was -edge in v1 */
+  --correction-edge:  var(--vitality-400);         /* 0.40 · was -soft in v1 */
+  --correction-glow:  var(--vitality-glow);
 
-  --emergence:        #C084FC;
-  --emergence-soft:   rgba(192, 132, 252, 0.4);
-  --emergence-bg:     rgba(192, 132, 252, 0.08);
-  --emergence-edge:   rgba(192, 132, 252, 0.30);
-  --emergence-glow:   rgba(192, 132, 252, 0.20);
+  --emergence:        var(--orchid-lift);
+  --emergence-faint:  var(--orchid-50);
+  --emergence-bg:     var(--orchid-lift-bg);
+  --emergence-tint:   var(--orchid-200);
+  --emergence-soft:   var(--orchid-lift-soft);     /* 0.24 · was -edge in v1 */
+  --emergence-edge:   var(--orchid-lift-edge);     /* 0.40 · was -soft in v1 */
+  --emergence-glow:   var(--orchid-lift-glow);
 
-  --resolved:         #6EC3A8;
-  --resolved-soft:    rgba(110, 195, 168, 0.4);
-  --resolved-bg:      rgba(110, 195, 168, 0.06);
-  --resolved-edge:    rgba(110, 195, 168, 0.22);
+  --resolved:         var(--connection-dry);
+  --resolved-faint:   var(--connection-50);
+  --resolved-bg:      var(--connection-100);
+  --resolved-tint:    var(--connection-200);
+  --resolved-soft:    var(--connection-300);       /* 0.26 · was -edge in v1 */
+  --resolved-edge:    var(--connection-400);       /* 0.42 · was -soft in v1 */
+  --resolved-glow:    var(--connection-glow);
 
-  --gold:             #C9AD5E;   /* warm accent · selected/signed emphasis */
+  --gold:             var(--amber-orn-dry);   /* warm accent · selected/signed emphasis */
+  --gold-bg:          var(--amber-orn-100);
+  --gold-soft:        var(--amber-orn-300);
+  --gold-edge:        var(--amber-orn-400);
 
   /* interaction overlays · white-alpha states on dark chrome */
   --hover-strong:     rgba(255, 255, 255, 0.08);
@@ -1132,12 +1330,35 @@
 
   /* gated-reveal palette · earned expressiveness (Phase 2+ unlocks)
      OKLCH for perceptual uniformity. Named --reveal-* (NOT --signal-*,
-     which is the lime ornament register alias · axis 2). */
+     which is the lime ornament register alias · axis 2).
+
+     RETUNED 2026-07-29. These were five free-standing OKLCH values, off-wheel
+     like the five above. Now expressed with relative color syntax: the hue
+     comes from a wheel hex, while the OKLCH L and C the desktop chose are
+     preserved exactly. No numbers were invented and no hue was converted by
+     hand. Nearest wheel hue per reveal color:
+       violet  → Orchid      teal → Expression   cyan → Cerulean
+       rose    → Coral       magenta → Wholeness
+
+     Requires Safari 16.4+ / Chrome 119+ / Firefox 128+. Tauri targets
+     (WebKit on macOS, WebView2 on Windows) clear this. If you need an older
+     engine, comment this block out and uncomment the static fallback below,
+     then log the exception here. */
+  --reveal-violet:    oklch(from var(--orchid-500)     0.55 0.20 h);
+  --reveal-teal:      oklch(from var(--expression-500) 0.70 0.15 h);
+  --reveal-cyan:      oklch(from var(--cerulean-500)   0.75 0.12 h);
+  --reveal-rose:      oklch(from var(--coral-500)      0.65 0.18 h);
+  --reveal-magenta:   oklch(from var(--wholeness-500)  0.60 0.22 h);
+
+  /* STATIC FALLBACK for engines without relative color syntax. These are the
+     pre-retune v1 values and are OFF-WHEEL. Uncommenting reintroduces a
+     documented §2 exception — record it in DESIGN_SYSTEM.md if you do.
   --reveal-violet:    oklch(0.55 0.20 300);
   --reveal-teal:      oklch(0.70 0.15 195);
   --reveal-cyan:      oklch(0.75 0.12 210);
   --reveal-rose:      oklch(0.65 0.18 15);
   --reveal-magenta:   oklch(0.60 0.22 340);
+  */
 
   /* type weights · full axis (canon had no weight section pre-18) */
   --fw-thin:        100;
@@ -1160,14 +1381,16 @@
   --z-modal:    1000;
   --z-toast:    2000;
 
-  /* app shadows · window-level + semantic glows */
+  /* app shadows · window-level + semantic glows
+     The semantic glows now reference the retuned §18 alphas rather than
+     embedding their own rgba, so a future §18 retune propagates. */
   --shadow-window:       0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
   --shadow-window-soft:  0 16px 48px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
-  --shadow-glow-coherence:        0 0 16px rgba(122, 169, 255, 0.12);
-  --shadow-glow-emergence:        0 0 24px rgba(192, 132, 252, 0.08);
-  --shadow-glow-emergence-strong: 0 0 28px rgba(192, 132, 252, 0.16);
-  --shadow-drop-hover:   inset 0 0 24px rgba(122, 169, 255, 0.08);
-  --shadow-focus-ring:   0 0 0 2px rgba(122, 169, 255, 0.5);
+  --shadow-glow-coherence:        0 0 16px var(--cerulean-lift-bg);
+  --shadow-glow-emergence:        0 0 24px var(--orchid-lift-bg);
+  --shadow-glow-emergence-strong: 0 0 28px var(--orchid-lift-soft);
+  --shadow-drop-hover:   inset 0 0 24px var(--cerulean-lift-bg);
+  --shadow-focus-ring:   0 0 0 2px var(--cerulean-lift-ring);
 
   /* motion additions · directional easings + choreography durations */
   --ease-in:     cubic-bezier(0.4, 0, 1, 1);
