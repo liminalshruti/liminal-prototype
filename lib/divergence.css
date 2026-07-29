@@ -1,21 +1,28 @@
 /* divergence.css · the DECIDING beat's pane · where the reads split
  * ════════════════════════════════════════════════════════════════════
  *
- * Companion to lib/divergence.js. Loaded standalone by cut 01 alongside
- * surface-nav.css / brand-upgrade.css (the established per-feature idiom) rather
- * than folded into cut-shell.css, because this is Decide-stage-specific and must
- * not cascade into cuts that never fire the DECIDING beat.
+ * Companion to lib/divergence.js, which renders the graph-spine ontology
+ * (lib/spine.js, ported from liminal-natsec/graph-spine).
+ *
+ * LAYOUT MODEL · depth is VERTICAL, divergence is HORIZONTAL.
+ * Each read is a column carrying its provenance chain top-to-bottom
+ * (observation → anomaly → hypothesis → claim → actionOption) with the typed
+ * edge and its confidence rendered BETWEEN nodes. Horizontal room is the scarce
+ * axis — the shell's centre pane is ~434px — so the ontology's depth spends
+ * vertical space, which is free.
+ *
+ * Loaded standalone by cut 01 alongside surface-nav.css / brand-upgrade.css (the
+ * established per-feature idiom) rather than folded into cut-shell.css, because
+ * this is Decide-stage-specific and must not cascade into cuts that never fire
+ * the DECIDING beat.
  *
  * RULE 1 COMPLIANCE (cuts/CONTRIBUTING.md) · canon only, zero hardcoded hex.
- * Polarity maps onto existing semantic tokens — no new canonical hues:
- *   CONTRADICTS → --alarm    (same token cut 02 uses for .contradiction__eyebrow)
+ * Edge polarity maps onto existing semantic tokens — no new canonical hues:
+ *   CONTRADICTS → --alarm   (the token cut 02 uses for .contradiction__eyebrow)
  *   WEAKENS     → --watch
  *   SUPPORTS    → --signal
+ *   neutral     → --text-dim   (DERIVED_FROM · OBSERVED_AS · TRIGGERS · …)
  *   verdict chrome → --judgment / --judgment-edge / --judgment-bg
- *
- * The prototype colors this pane descends from (#ef6a5d / #5ae08a / #a98bff) map
- * to --surge-500 / --connection-500 / --clarity-200; #55d7ff has NO canonical
- * equivalent and is deliberately not introduced.
  */
 
 .divergence-pane[hidden] { display: none; }
@@ -26,11 +33,10 @@
   padding: 12px 0 14px;
   animation: dvg-arrive var(--tx-settle, 0.32s) ease-out both;
 
-  /* CONTAINER, not viewport. The shell's centre pane is ~434px at a 1440px
-     window (.main is 280px | 1fr | 320px plus chrome), so a viewport media
-     query never fires and three side-by-side columns collapse to ~136px —
-     claims wrap to 15 characters a line. The pane must respond to the space it
-     actually has, in the catalog iframe and standalone alike. */
+  /* CONTAINER, not viewport. The centre pane is ~434px at a 1440px window
+     (.main is 280px | 1fr | 320px plus chrome), so a viewport media query never
+     fires and side-by-side columns collapse to ~136px. The pane must respond to
+     the space it actually has, in the catalog and standalone alike. */
   container-type: inline-size;
   container-name: dvg;
 }
@@ -62,7 +68,7 @@
   text-transform: none;
 }
 
-/* ─── shared ground · the emergence affordance ───────────────────────── */
+/* ─── case root · the emergence affordance ───────────────────────────── */
 
 .dvg-ground {
   display: flex;
@@ -72,7 +78,7 @@
   border: 1px dashed var(--card-border);
   border-radius: 6px;
   padding: 8px 12px;
-  margin-bottom: 4px;
+  margin-bottom: 8px;
   cursor: pointer;
   transition: border-color var(--tx-settle, 0.32s) ease,
               background var(--tx-settle, 0.32s) ease;
@@ -85,7 +91,8 @@
   outline: none;
 }
 
-.dvg-ground-label {
+.dvg-ground-label,
+.dvg-rule-label {
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -95,7 +102,8 @@
 
 .dvg-ground-body { font-size: 12px; color: var(--text-mid); }
 
-.dvg-ground-hint {
+.dvg-ground-hint,
+.dvg-edge-hint {
   margin-left: auto;
   font-size: 10px;
   color: var(--text-faint);
@@ -105,18 +113,16 @@
 }
 
 .dvg-ground:hover .dvg-ground-hint,
-.dvg-ground:focus-visible .dvg-ground-hint { opacity: 1; }
+.dvg-ground:focus-visible .dvg-ground-hint,
+.dvg-edge-caption:hover .dvg-edge-hint,
+.dvg-edge-caption:focus-visible .dvg-edge-hint { opacity: 1; }
 
 /* ─── columns · one per read, never merged ───────────────────────────── */
-
-.dvg-body { position: relative; }
 
 .dvg-grid {
   display: grid;
   grid-template-columns: repeat(var(--dvg-cols, 3), 1fr);
   gap: 10px;
-  position: relative;
-  z-index: 1;
 }
 
 .dvg-col {
@@ -140,11 +146,7 @@
   border-bottom: 1px solid var(--frame-border);
 }
 
-.dvg-agent-name {
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  color: var(--text);
-}
+.dvg-agent-name { font-size: 11px; letter-spacing: 0.04em; color: var(--text); }
 
 .dvg-reg {
   font-size: 9px;
@@ -158,123 +160,123 @@
 .dvg-reg[data-reg="judgment"]  { color: var(--judgment); }
 .dvg-reg[data-reg="outreach"]  { color: var(--outreach); }
 
-.dvg-claim-text {
-  font-size: 12px;
-  line-height: 1.45;
-  color: var(--text);
-  margin: 0;
+/* ─── the chain · provenance depth, rendered downward ────────────────── */
+
+/* The nodes bleed 6px outward so their hover background reaches the card edge.
+   The chain absorbs that bleed (pad in, pull out by the same amount) — without
+   this the children are 12px wider than the chain and it overflows. */
+.dvg-chain {
+  display: flex;
+  flex-direction: column;
+  padding-inline: 6px;
+  margin-inline: -6px;
 }
 
-.dvg-claim {
-  cursor: pointer;
+.dvg-node {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 5px 6px;
+  margin: 0 -6px;
   border-radius: 4px;
-  padding: 2px 4px;
-  margin: 0 -4px;
+  cursor: pointer;
   transition: background var(--tx-settle, 0.32s) ease,
               box-shadow var(--tx-settle, 0.32s) ease;
 }
 
-.dvg-claim:hover,
-.dvg-claim:focus-visible {
+.dvg-node:hover,
+.dvg-node:focus-visible {
   background: var(--judgment-bg);
   box-shadow: inset 2px 0 0 0 var(--judgment);
   outline: none;
 }
 
-/* ─── refusal · typed, per refusal_kind (migration 004) ──────────────── */
+.dvg-node-type {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
 
-.dvg-refusal { display: flex; flex-direction: column; gap: 4px; }
+/* The four judgment-bearing node types carry archetype metadata upstream
+   (archetypes.ts ARCHETYPE_ENABLED_TYPES) — they read louder than raw
+   perception, which is the ontology's own hierarchy showing through. */
+.dvg-node[data-node-type="claim"]              .dvg-node-type { color: var(--judgment); }
+.dvg-node[data-node-type="actionOption"]       .dvg-node-type { color: var(--signal); }
+.dvg-node[data-node-type="anomaly"]            .dvg-node-type { color: var(--watch); }
+.dvg-node[data-node-type="reviewRule"]         .dvg-node-type { color: var(--judgment); }
+.dvg-node[data-node-type="sourceIntegrityCheck"] .dvg-node-type { color: var(--alarm); }
 
-.dvg-refusal-kind {
+.dvg-node-title {
+  font-size: 11.5px;
+  line-height: 1.4;
+  color: var(--text);
+}
+
+.dvg-node[data-node-type="observation"] .dvg-node-title { color: var(--text-mid); }
+
+/* ─── the typed edge between two nodes ───────────────────────────────── */
+
+.dvg-edge-step {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0 2px 8px;
+  margin-left: 3px;
+  border-left: 1px solid var(--frame-border);
+  min-height: 16px;
+}
+
+.dvg-edge-step--supports    { border-left-color: var(--signal); }
+.dvg-edge-step--weakens     { border-left-color: var(--watch); }
+.dvg-edge-step--contradicts { border-left-color: var(--alarm); }
+
+.dvg-edge-type {
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
+
+.dvg-edge-step--supports    .dvg-edge-type { color: var(--signal); }
+.dvg-edge-step--weakens     .dvg-edge-type { color: var(--watch); }
+.dvg-edge-step--contradicts .dvg-edge-type { color: var(--alarm); }
+
+/* Confidence lives on the EDGE, per graph-spine's EdgeProvenance — a belief is
+   only as strong as the link carrying it. */
+.dvg-edge-conf {
+  font-size: 9px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-faint);
+}
+
+.dvg-edge-conf[data-band="high"] { color: var(--signal); }
+.dvg-edge-conf[data-band="mid"]  { color: var(--watch); }
+.dvg-edge-conf[data-band="low"]  { color: var(--alarm); }
+
+/* ─── terminal · refusal stated as geometry ──────────────────────────── */
+
+.dvg-terminal {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px dashed var(--alarm-edge);
+}
+
+.dvg-terminal-kind {
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--alarm);
 }
 
-.dvg-refusal[data-refusal-kind="scope"]     .dvg-refusal-kind { color: var(--watch); }
-.dvg-refusal[data-refusal-kind="substrate"] .dvg-refusal-kind { color: var(--text-dim); }
-.dvg-refusal[data-refusal-kind="lane"]      .dvg-refusal-kind { color: var(--depth); }
+.dvg-terminal[data-refusal-kind="scope"]     .dvg-terminal-kind { color: var(--watch); }
+.dvg-terminal[data-refusal-kind="substrate"] .dvg-terminal-kind { color: var(--text-dim); }
+.dvg-terminal[data-refusal-kind="lane"]      .dvg-terminal-kind { color: var(--depth); }
 
-/* ─── confidence · band, not false precision ─────────────────────────── */
+.dvg-terminal-note { font-size: 10px; color: var(--text-faint); line-height: 1.35; }
 
-.dvg-conf { display: flex; align-items: center; gap: 6px; margin-top: auto; }
-
-.dvg-conf-track {
-  flex: 1;
-  height: 2px;
-  background: var(--frame-border);
-  border-radius: 1px;
-  overflow: hidden;
-}
-
-.dvg-conf-fill { display: block; height: 100%; background: var(--text-dim); }
-
-.dvg-conf[data-band="high"] .dvg-conf-fill { background: var(--signal); }
-.dvg-conf[data-band="mid"]  .dvg-conf-fill { background: var(--watch); }
-.dvg-conf[data-band="low"]  .dvg-conf-fill { background: var(--alarm); }
-
-.dvg-conf-num {
-  font-size: 10px;
-  color: var(--text-faint);
-  font-variant-numeric: tabular-nums;
-}
-
-/* ─── next move ──────────────────────────────────────────────────────── */
-
-.dvg-move {
-  font-size: 11px;
-  color: var(--text-mid);
-  display: flex;
-  gap: 5px;
-  cursor: pointer;
-  border-radius: 4px;
-  padding: 3px 4px;
-  margin: 0 -4px;
-  transition: background var(--tx-settle, 0.32s) ease;
-}
-
-.dvg-move:hover,
-.dvg-move:focus-visible { background: var(--judgment-bg); outline: none; }
-
-.dvg-move-bullet { color: var(--signal); }
-
-.dvg-move.is-null {
-  color: var(--text-faint);
-  cursor: default;
-  justify-content: center;
-}
-
-.dvg-move.is-null:hover { background: none; }
-
-/* ─── the edge · disagreement as topology, not prose ─────────────────── */
-
-/* Percentage viewBox with preserveAspectRatio="none" — the curve stretches to
-   whatever the grid is, so no measurement, no ResizeObserver, and it survives
-   iframe embedding and a flat screenshot. */
-.dvg-edge-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.dvg-edge {
-  fill: none;
-  stroke-width: 0.4;
-  stroke-dasharray: 1.6 1.4;
-  vector-effect: non-scaling-stroke;
-}
-
-.dvg-edge--contradicts { stroke: var(--alarm); }
-.dvg-edge--weakens     { stroke: var(--watch); }
-.dvg-edge--supports    { stroke: var(--signal); }
-
-.dvg-edge-node--contradicts { fill: var(--alarm); }
-.dvg-edge-node--weakens     { fill: var(--watch); }
-.dvg-edge-node--supports    { fill: var(--signal); }
+/* ─── the divergence edge · disagreement across columns ──────────────── */
 
 .dvg-edge-caption {
   display: flex;
@@ -309,17 +311,27 @@
 
 .dvg-edge-note { font-size: 11px; color: var(--text-mid); }
 
-.dvg-edge-hint {
-  margin-left: auto;
-  font-size: 10px;
-  color: var(--text-faint);
-  opacity: 0;
-  transition: opacity var(--tx-settle, 0.32s) ease;
-  white-space: nowrap;
+/* ─── carried review rule · memory reaching into this case ───────────── */
+
+.dvg-rule {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: var(--judgment-bg);
+  border: 1px solid var(--judgment-edge);
+  cursor: pointer;
+  transition: border-color var(--tx-settle, 0.32s) ease;
 }
 
-.dvg-edge-caption:hover .dvg-edge-hint,
-.dvg-edge-caption:focus-visible .dvg-edge-hint { opacity: 1; }
+.dvg-rule:hover,
+.dvg-rule:focus-visible { border-color: var(--judgment); outline: none; }
+
+.dvg-rule-title { font-size: 11px; color: var(--text); }
+.dvg-rule-note  { font-size: 10px; color: var(--text-faint); }
 
 /* ─── corrected state · the founder's hand, visible ──────────────────── */
 
@@ -335,33 +347,77 @@
   to   { opacity: 1; transform: none; }
 }
 
-/* The pane must be fully legible with motion off — nothing here is
-   motion-dependent, so reduced-motion simply lands it instantly. */
+/* Nothing here is motion-dependent — reduced motion simply lands it instantly. */
 @media (prefers-reduced-motion: reduce) {
   .dvg { animation: none; }
   .dvg-ground,
-  .dvg-claim,
-  .dvg-move,
+  .dvg-node,
   .dvg-edge-caption,
+  .dvg-rule,
   .dvg-ground-hint,
   .dvg-edge-hint { transition: none; }
 }
 
 /* ─── narrow container · reads stack as rows ─────────────────────────────
-   Below ~560px of pane width there is not enough room for a legible claim in a
-   column, so the reads stack full-width. The SVG curve retires (it only means
-   anything across columns) but .dvg-edge-caption stays — polarity survives the
-   layout change, which is the part that must never be lost. Its note is phrased
-   with agent names, not column numbers, so it reads correctly stacked. */
+   Below ~560px of pane width there is not room for a legible chain in a column,
+   so the reads stack full-width. Chains stay vertical — that is the ontology's
+   depth and it is never traded away; only the columns' side-by-side comparison
+   is. Polarity and confidence survive the layout change intact. */
 
 @container dvg (max-width: 560px) {
   .dvg-grid { grid-template-columns: 1fr; }
-  .dvg-edge-layer { display: none; }
-  .dvg-col { flex-direction: row; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
-  .dvg-agent { flex: 0 0 100%; }
-  .dvg-claim, .dvg-refusal { flex: 1 1 100%; }
-  .dvg-conf { flex: 0 0 90px; }
-  .dvg-move { flex: 1 1 auto; }
+
+  /* Collapsed by default: three full chains stacked run past 1000px, which
+     destroys the at-a-glance comparison the pane exists for. Show the claim and
+     the action it triggers; hide the ground it was built from until asked. The
+     edge hides with the node it leads to (data-edge-to) so nothing dangles. */
+  .dvg-col:not(.is-open):not(.is-refused) .dvg-node[data-node-type="observation"],
+  .dvg-col:not(.is-open):not(.is-refused) .dvg-node[data-node-type="anomaly"],
+  .dvg-col:not(.is-open):not(.is-refused) .dvg-node[data-node-type="hypothesis"],
+  .dvg-col:not(.is-open):not(.is-refused) .dvg-edge-step[data-edge-to="anomaly"],
+  .dvg-col:not(.is-open):not(.is-refused) .dvg-edge-step[data-edge-to="hypothesis"],
+  .dvg-col:not(.is-open):not(.is-refused) .dvg-edge-step[data-edge-to="claim"] {
+    display: none;
+  }
+
+  /* .dvg-col qualifier is load-bearing: the base `.dvg-expand{display:none}`
+     rule is declared LATER in this file, so an unqualified selector here loses
+     the source-order tie and the button never appears. */
+  .dvg-col .dvg-expand { display: block; }
+}
+
+/* ─── provenance expander · narrow mode only ─────────────────────────── */
+
+.dvg-expand {
+  display: none; /* columnar mode shows the whole chain already */
+  margin-top: 6px;
+  padding: 4px 6px;
+  font: inherit;
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  background: transparent;
+  border: 1px solid var(--frame-border);
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--tx-settle, 0.32s) ease, color var(--tx-settle, 0.32s) ease;
+}
+
+.dvg-expand:hover,
+.dvg-expand:focus-visible {
+  color: var(--text-mid);
+  border-color: var(--judgment-edge);
+  outline: none;
+}
+
+.dvg-expand .dvg-expand-close { display: none; }
+.dvg-col.is-open .dvg-expand .dvg-expand-open { display: none; }
+.dvg-col.is-open .dvg-expand .dvg-expand-close { display: inline; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dvg-expand { transition: none; }
 }
 
 /* No container-query support · fall back to stacking at narrow viewports so the
@@ -369,6 +425,5 @@
 @supports not (container-type: inline-size) {
   @media (max-width: 720px) {
     .dvg-grid { grid-template-columns: 1fr; }
-    .dvg-edge-layer { display: none; }
   }
 }

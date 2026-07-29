@@ -37,7 +37,17 @@ test("confirm seals once, count stays monotonic, handoff to govern shows", async
 
   // the three reads never merge · one is a typed refusal, not an empty slot
   await expect(pane.locator(".dvg-col.is-refused")).toHaveCount(1);
-  await expect(pane.locator(".dvg-refusal-kind")).toContainText("refused");
+  await expect(pane.locator(".dvg-terminal-kind")).toContainText("refused");
+
+  // the ontology is real, not decorative: typed nodes and typed edges with
+  // confidence on the EDGE (graph-spine EdgeProvenance), and every read's chain
+  // walks the canonical spine
+  await expect(pane.locator('.dvg-node[data-node-type="claim"]')).toHaveCount(3);
+  await expect(pane.locator('.dvg-node[data-node-type="actionOption"]')).toHaveCount(2);
+  // the claim→action edge stays visible in the collapsed (stacked) state
+  await expect(
+    pane.locator('.dvg-edge-step[data-edge-to="actionOption"] .dvg-edge-type').first()
+  ).toHaveText("TRIGGERS");
 
   // SECOND press · seals through the split
   await confirm.click();
@@ -86,17 +96,118 @@ test("correction kind is derived from position, not self-reported", async ({
   const ribbon = page.locator(".audit-ribbon");
   await expect(ribbon).toContainText("divergence · 3 reads");
 
-  await pane.locator('[data-node="claim"]').first().click();
+  // inner · a claim that belongs to exactly one read's trace
+  await pane.locator('[data-spine-id="claim:a"]').click();
   await expect(ribbon).toContainText("correction · inner");
 
+  // cross · the divergence edge spans two claims in two different traces
   await pane.locator('[data-node="edge"]').click();
   await expect(ribbon).toContainText("correction · cross");
 
+  // cross, again by geometry alone · a SHARED observation genuinely belongs to
+  // two reads, so position — not a hardcoded rule — makes it cross.
+  // Observations are collapsed by default in the stacked shell, so open the
+  // provenance first; the correction semantics are independent of visibility.
+  await pane.locator(".dvg-expand").first().click();
+  await pane.locator('[data-spine-id="obs:comp"]').first().click();
+  await expect(ribbon).toContainText("correction · cross");
+
+  // emergence · the case root sits outside every trace (traceBack stops at
+  // observation), so correcting it is ground no read produced
   await pane.locator('[data-node="ground"]').click();
   await expect(ribbon).toContainText("correction · emergence");
 
   // still unsealed · correcting is not deciding
   await expect(page.locator("#dispo-artifact")).toBeHidden();
+});
+
+// In the shell the pane is ~434px wide, so it stacks — and three full provenance
+// chains stacked run past 1000px, which destroys the at-a-glance comparison the
+// pane exists for. Collapsed-by-default keeps it scannable; the depth is one
+// press away. Expanding is navigation and must NOT write a correction row.
+test("stacked chains collapse by default and expand on request", async ({ page }) => {
+  await page.goto(CUT_01_CANONICAL);
+  await skipEntryOverlay(page);
+  await page.locator("#dispo-primary").click();
+
+  const pane = page.locator("#divergence-pane");
+  await expect(pane).toBeVisible();
+
+  // refused columns are short enough to never collapse → 2 expanders, not 3
+  const expanders = pane.locator(".dvg-expand");
+  await expect(expanders).toHaveCount(2);
+  await expect(expanders.first()).toBeVisible();
+
+  // collapsed: claim + action per unrefused read, plus the refused read's two
+  const visibleNodes = pane.locator(".dvg-node:visible");
+  await expect(visibleNodes).toHaveCount(6);
+
+  // no edge may dangle above a hidden node
+  await expect(pane.locator('.dvg-edge-step[data-edge-to="hypothesis"]:visible')).toHaveCount(0);
+
+  const ribbonBefore = await page.locator(".audit-ribbon").textContent();
+  await expanders.first().click();
+  await expect(expanders.first()).toHaveAttribute("aria-expanded", "true");
+  await expect(visibleNodes).toHaveCount(9);
+  await expect(pane.locator('.dvg-node[data-node-type="observation"]:visible')).toHaveCount(1);
+
+  // navigation, not correction
+  expect(await page.locator(".audit-ribbon").textContent()).toBe(ribbonBefore);
+  await expect(pane.locator(".dvg-expand.is-corrected")).toHaveCount(0);
+});
+
+// The pane's claim is that the rendered path is real structure, not a drawing.
+// That rests on the ported graph-spine validators actually biting: a dangling
+// edge, an unknown node type, or a missing provenance must throw at construction
+// rather than render as a plausible-looking line.
+test("spine schema rejects dishonest graphs", async ({ page }) => {
+  await page.goto(CUT_01_CANONICAL);
+  await skipEntryOverlay(page);
+
+  const results = await page.evaluate(async () => {
+    const { Graph } = await import("/lib/spine.js");
+    const ok = (fn) => { try { fn(); return "no-throw"; } catch (e) { return e.message; } };
+    const good = {
+      created_at: "2026-07-29T12:00:00.000Z",
+      created_by: "system",
+      source_node_ids: ["n1"],
+    };
+    return {
+      danglingEdge: ok(() => new Graph(
+        [{ id: "n1", type: "claim", title: "a" }],
+        [{ id: "e1", type: "SUPPORTS", from: "n1", to: "nope", provenance: good }],
+      )),
+      unknownNodeType: ok(() => new Graph([{ id: "n1", type: "vessel", title: "a" }])),
+      unknownEdgeType: ok(() => new Graph(
+        [{ id: "n1", type: "claim", title: "a" }, { id: "n2", type: "claim", title: "b" }],
+        [{ id: "e1", type: "VIBES", from: "n1", to: "n2", provenance: good }],
+      )),
+      missingProvenance: ok(() => new Graph(
+        [{ id: "n1", type: "claim", title: "a" }, { id: "n2", type: "claim", title: "b" }],
+        [{ id: "e1", type: "SUPPORTS", from: "n1", to: "n2" }],
+      )),
+      confidenceOutOfRange: ok(() => new Graph(
+        [{ id: "n1", type: "claim", title: "a" }, { id: "n2", type: "claim", title: "b" }],
+        [{ id: "e1", type: "SUPPORTS", from: "n1", to: "n2",
+           provenance: { ...good, confidence: 1.4 } }],
+      )),
+      // and the real scenario graph must build clean for every product
+      scenariosBuild: await (async () => {
+        const d = await import("/lib/divergence.js");
+        return ["personal", "team", "business", "sam-seed"]
+          .map((id) => ok(() => d.buildScenarioGraph(id)));
+      })(),
+    };
+  });
+
+  expect(results.danglingEdge).toMatch(/does not exist/);
+  expect(results.unknownNodeType).toMatch(/Unsupported node type/);
+  expect(results.unknownEdgeType).toMatch(/Unsupported edge type/);
+  expect(results.missingProvenance).toMatch(/provenance is required/);
+  expect(results.confidenceOutOfRange).toMatch(/between 0 and 1/);
+  expect(results.scenariosBuild).toEqual([
+    "no-throw", "no-throw", "no-throw", "no-throw",
+  ]);
 });
 
 // The gate must re-arm after a seal. IDLE resets it, but the re-enter affordance
