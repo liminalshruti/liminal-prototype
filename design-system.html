@@ -8,7 +8,12 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Space Grotesk + Space Mono are canon §5 as of 2026-07-29; Geist stays loaded
+     because §5's fallback chain still names it (drop it once every surface has
+     moved). Without these two families the new §5 was inert here: --sans and
+     --mono fell straight through to the Geist fallback, so the page rendered
+     the old stack while claiming the new one. -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- shared canon · imported by every product surface -->
 <link rel="stylesheet" href="design-system/tokens/design-tokens.css">
