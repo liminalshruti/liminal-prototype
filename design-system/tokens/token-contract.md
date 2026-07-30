@@ -75,7 +75,7 @@ The full set of functional bindings:
 
 ### 2 · Register vocabulary (for brand moments)
 
-For *explicit brand moments* — the colophon, the wheel, the brand 3 triptych, the Liminal Pink moments — use the register words. These are the 12 register-words mapped 1:1 to the 12-wheel:
+For *explicit brand moments* — the colophon, the wheel, the brand 4 panel (pink / purple / blue / green · founder ruling 2026-07-29), the Liminal Pink moments — use the register words. These are the 12 register-words mapped 1:1 to the 12-wheel:
 
 ```css
 /* CORRECT for explicit brand moments */

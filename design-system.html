@@ -564,7 +564,8 @@
   /* ─── brand-3 triptych ─── */
   .brand-3 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    /* BRAND 4 · 2026-07-29 · was repeat(3, 1fr) */
+    grid-template-columns: repeat(4, 1fr);
     gap: 0;
     margin: var(--space-6) 0 var(--space-7);
     border: 1px solid var(--frame-border);
@@ -579,6 +580,13 @@
     transition: background var(--tx-base);
   }
   .brand-3-pane:last-child { border-right: 0; }
+  /* BRAND 4 · four panes need to fold on narrow viewports; at 3 they did not.
+     2×2 keeps each swatch wide enough to read as a brand colour. */
+  @media (max-width: 900px) {
+    .brand-3 { grid-template-columns: repeat(2, 1fr); }
+    .brand-3-pane:nth-child(2) { border-right: 0; }
+    .brand-3-pane:nth-child(-n+2) { border-bottom: 1px solid var(--frame-border); }
+  }
   .brand-3-pane .b3-role {
     font: var(--fs-eyebrow)/1 var(--mono);
     letter-spacing: var(--ls-mono);
@@ -634,9 +642,11 @@
     letter-spacing: var(--ls-mono-sm);
     text-transform: uppercase;
   }
-  .brand-3-pane[data-key="primary"] .b3-swatch   { background: var(--clarity); }
-  .brand-3-pane[data-key="secondary"] .b3-swatch { background: var(--wholeness); }
-  .brand-3-pane[data-key="accent"] .b3-swatch    { background: var(--vitality); }
+  /* BRAND 4 · 2026-07-29 · pink leads; the accent pane is gone (orange retired) */
+  .brand-3-pane[data-key="primary"] .b3-swatch { background: var(--wholeness); }
+  .brand-3-pane[data-key="second"]  .b3-swatch { background: var(--clarity); }
+  .brand-3-pane[data-key="third"]   .b3-swatch { background: var(--cerulean); }
+  .brand-3-pane[data-key="fourth"]  .b3-swatch { background: var(--connection); }
 
   /* ─── 12-wheel SVG ─── */
   .wheel-stage {
@@ -1815,7 +1825,7 @@
         <li class="ds-nav-group">
           <div class="ds-nav-group-label">canon</div>
           <a href="#summary"><span class="nv-num">·</span><span class="nv-lbl">summary</span></a>
-          <a href="#brand-3"><span class="nv-num">01</span><span class="nv-lbl">brand 3</span></a>
+          <a href="#brand-3"><span class="nv-num">01</span><span class="nv-lbl">brand 4</span></a>
           <a href="#tokens"><span class="nv-num">02</span><span class="nv-lbl">12-wheel</span></a>
           <a href="#registers"><span class="nv-num">03</span><span class="nv-lbl">12 registers</span></a>
           <a href="#tonal-scales"><span class="nv-num">04</span><span class="nv-lbl">tonal scales</span></a>
@@ -1925,7 +1935,7 @@
 
   <!-- ─── marginalia · hand-written notes · anchored to sections via JS ─── -->
   <div class="marginalia"         data-anchor="summary"      data-side="right" data-offset="20">this is what you're getting. one page · one canon · live edits. <span class="arrow">↘</span></div>
-  <div class="marginalia is-pink" data-anchor="brand-3"      data-side="left"  data-offset="60">brand 3 locked apr 15. clarity / wholeness / vitality. nothing else competes. <span class="arrow">↗</span></div>
+  <div class="marginalia is-pink" data-anchor="brand-3"      data-side="left"  data-offset="60">brand 4 ruled jul 29, not locked. pink leads: wholeness / clarity / cerulean / connection. orange retired. <span class="arrow">↗</span></div>
   <div class="marginalia"         data-anchor="tokens"       data-side="right" data-offset="40">12 hues at 30° intervals. 7 carry meaning. 5 are ornaments. variety only. <span class="arrow">↙</span></div>
   <div class="marginalia is-pink" data-anchor="registers"    data-side="left"  data-offset="20">every register-word names what the color does. component CSS speaks register. <span class="arrow">↗</span></div>
   <div class="marginalia"         data-anchor="tonal-scales" data-side="right" data-offset="40">120 stops. each hue gets 10. 500 is always the wheel value. <span class="arrow">↙</span></div>
@@ -1945,36 +1955,44 @@
   <section class="ds-section is-foundation" style="margin-top: var(--space-9);" id="brand-3">
     <div class="section-eyebrow">
       <span class="num">01</span>
-      <span>brand · primary triple · locked 2026-04-15</span>
+      <span>brand · four colours, pink-led · founder ruling 2026-07-29 · not locked</span>
       <span class="rule"></span>
     </div>
-    <h2><span class="glyph">◇</span>Brand 3</h2>
-    <p class="section-lede">Three colors carry the brand. Primary holds intelligence and insight. Secondary holds verdict and the moat. Accent holds will and the move. Nothing else competes for the eye.</p>
+    <h2><span class="glyph">◇</span>Brand 4</h2>
+    <p class="section-lede">Four colors carry the brand, and pink leads. Primary holds verdict and the moat. Second holds intelligence and insight. Third holds pattern and emergence. Fourth holds the relational and the outward. They are the cool half of the wheel, and they are exactly the four agent registers &mdash; brand and register vocabulary are one system, not two. Nothing else competes for the eye. Orange and yellow keep their ramps and lose their brand role.</p>
 
     <div class="brand-3">
       <div class="brand-3-pane" data-key="primary">
         <span class="b3-pigment"><span class="glyph">◆</span>luminous</span>
-        <div class="b3-role">primary · third eye · 270°</div>
-        <div class="b3-swatch"></div>
-        <div class="b3-name">Clarity</div>
-        <div class="b3-token">--clarity</div>
-        <div class="b3-hex">#8e66fb · ultramarine violet</div>
-      </div>
-      <div class="brand-3-pane" data-key="secondary">
-        <span class="b3-pigment"><span class="glyph">◆</span>luminous</span>
-        <div class="b3-role">secondary · crown · 330°</div>
+        <div class="b3-role">primary · crown · 330° · --judgment</div>
         <div class="b3-swatch"></div>
         <div class="b3-name">Wholeness</div>
         <div class="b3-token">--wholeness · "Liminal Pink"</div>
         <div class="b3-hex">#e90095 · quinacridone magenta</div>
       </div>
-      <div class="brand-3-pane" data-key="accent">
-        <span class="b3-pigment"><span class="glyph">▣</span>opaque</span>
-        <div class="b3-role">accent · sacral · 60°</div>
+      <div class="brand-3-pane" data-key="second">
+        <span class="b3-pigment"><span class="glyph">◆</span>luminous</span>
+        <div class="b3-role">second · third eye · 270° · --diligence</div>
         <div class="b3-swatch"></div>
-        <div class="b3-name">Vitality</div>
-        <div class="b3-token">--vitality</div>
-        <div class="b3-hex">#ff9549 · cadmium orange</div>
+        <div class="b3-name">Clarity</div>
+        <div class="b3-token">--clarity</div>
+        <div class="b3-hex">#8e66fb · ultramarine violet</div>
+      </div>
+      <div class="brand-3-pane" data-key="third">
+        <span class="b3-pigment"><span class="glyph">◈</span>translucent · ornament</span>
+        <div class="b3-role">third · 240° · --synthesis</div>
+        <div class="b3-swatch"></div>
+        <div class="b3-name">Cerulean</div>
+        <div class="b3-token">--cerulean</div>
+        <div class="b3-hex">#197eeb · ultramarine light</div>
+      </div>
+      <div class="brand-3-pane" data-key="fourth">
+        <span class="b3-pigment"><span class="glyph">▣</span>opaque</span>
+        <div class="b3-role">fourth · heart · 180° · --outreach</div>
+        <div class="b3-swatch"></div>
+        <div class="b3-name">Connection</div>
+        <div class="b3-token">--connection</div>
+        <div class="b3-hex">#31e682 · green</div>
       </div>
     </div>
   </section>
@@ -3636,10 +3654,14 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       { name: '--ui-link-hover',   purpose: 'link · hovered',         route: 'clarity-700' },
       { name: '--ui-link-visited', purpose: 'link · visited',         route: 'liminal-500' },
     ]},
-    { title: 'brand · primary / secondary / accent', tokens: [
-      { name: '--ui-brand-primary',   purpose: 'brand primary surface',   route: 'clarity-500' },
-      { name: '--ui-brand-secondary', purpose: 'brand secondary surface', route: 'wholeness-500' },
-      { name: '--ui-brand-accent',    purpose: 'brand accent surface',    route: 'vitality-500' },
+    /* BRAND 4 · 2026-07-29 · pink-led four colours. --ui-brand-accent was removed
+       from both token files (Brand 4 has no separate accent) — this table listed a
+       token that no longer exists and painted retired orange as "brand accent". */
+    { title: 'brand · primary / second / third / fourth', tokens: [
+      { name: '--ui-brand-primary',   purpose: 'brand primary surface · pink',   route: 'wholeness-500' },
+      { name: '--ui-brand-secondary', purpose: 'brand second surface · purple',  route: 'clarity-500' },
+      { name: '--ui-brand-third',     purpose: 'brand third surface · blue',     route: 'cerulean-500' },
+      { name: '--ui-brand-fourth',    purpose: 'brand fourth surface · green',   route: 'connection-500' },
     ]},
     { title: 'ambient · Layer C · state-rendered surfaces only', tokens: [
       { name: '--ui-ambient-wash',  purpose: 'ambient wash · soft',  route: 'expression-wash' },

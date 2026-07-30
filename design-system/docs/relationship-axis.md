@@ -176,7 +176,7 @@ This is the canon. The build inherits it.
 
 ## What this preserves from prior canon
 
-- 12-wheel · all 12 hues stable · brand 3 locked
+- 12-wheel · all 12 hues stable · brand 4 ruled 2026-07-29 (pink-led, four colours, NOT locked)
 - 12-register vocabulary · all stable
 - Two-product fork → now refined to three-product fork (Personal · Team · Business)
 - Decision 11 runtime taxonomy (decider · ingester · 3 deliberators) — the runtime is relationship-agnostic; surface is relationship-typed
