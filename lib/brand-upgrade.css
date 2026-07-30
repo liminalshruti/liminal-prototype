@@ -447,14 +447,14 @@ em, strong,
 
 /* Convergence → magenta */
 .center-orb.convergent {
-  fill: rgba(232,0,106,0.12) !important;
-  stroke: rgba(232,0,106,0.45) !important;
+  fill: rgba(233,0,149,0.12) !important;
+  stroke: rgba(233,0,149,0.45) !important;
 }
 .center-orb.sealed {
-  fill: rgba(232,0,106,0.22) !important;
-  stroke: rgba(232,0,106,0.75) !important;
+  fill: rgba(233,0,149,0.22) !important;
+  stroke: rgba(233,0,149,0.75) !important;
   stroke-width: 1.5 !important;
-  filter: drop-shadow(0 0 10px rgba(232,0,106,0.4)) !important;
+  filter: drop-shadow(0 0 10px rgba(233,0,149,0.4)) !important;
 }
 
 /* Refusal arrows — neutral */
