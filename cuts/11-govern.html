@@ -1371,6 +1371,12 @@ function logChain(text,cls){CHAIN.push(['t'+(5+corrections),text,cls,'new']);ren
 const CHAIN0=CHAIN.slice(0,5).map(e=>e.slice(0,3));
 function resetDemo(){
   corrections=0; signed=false;
+  // the 7-step ritual is part of the demo state, so restart has to rewind it
+  // too — must match the declaration at the top (`let STEP=3, STEP_DONE=...`).
+  // #66 introduced the ritual but not this line, so ↺ left the walk wherever
+  // the viewer had got to while the toast claimed a clean opening state: a
+  // second run-through opened mid-ritual with steps still marked done.
+  STEP=3; STEP_DONE=new Set([1,2]);
   CHAIN=CHAIN0.map(e=>e.slice());
   SIGNALS.forEach(s=>{ if(s.id==='tickets'||s.id==='model') s.state='tray'; });
   body.dataset.relationship='operator';
