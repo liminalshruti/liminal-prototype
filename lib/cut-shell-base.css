@@ -71,11 +71,22 @@
        Fallback hexes refreshed to canon -500 values 2026-07-29: --outreach was
        #3EE878 and --synthesis #FFD24A, both retired by the 2026-04-28 wheel
        migration (Connection is #31E682, Agency #FEF059). They only fire when
-       canon is absent, but a stale fallback is a wrong answer waiting. */
+       canon is absent, but a stale fallback is a wrong answer waiting.
+
+       CAUTION — this block names the SOURCE HUE, so it overrides canon's
+       register→hue MAPPING, not just its values. "canon owns the values" above
+       is true and misleading: var(--agency, …) defers to canon for what agency
+       IS, while hardcoding that synthesis MEANS agency. Canon is the authority
+       on the mapping, and this block silently outranked it — for 16 shell cuts,
+       every one of them served yellow while canon said blue.
+       Measured 2026-07-29 on cut 01: --synthesis resolved #FEF059 with canon
+       already rebound to cerulean. If you change a register→hue binding in
+       design-tokens.css, change it HERE TOO or the cuts will not move. */
     --diligence:    var(--clarity,     #8E66FB);
     --judgment:     var(--wholeness,   #E90095);
     --outreach:     var(--connection,  #31E682);
-    --synthesis:    var(--agency,      #FEF059);
+    /* BRAND 4 · 2026-07-29 · was var(--agency, #FEF059) — see CAUTION above. */
+    --synthesis:    var(--cerulean,    #197EEB);
 
     /* semantic states · canon owns.
        --good and --red USED TO read var(--good, …) / var(--red, …) — self-
@@ -102,9 +113,15 @@
     --outreach-soft:  var(--connection-soft, rgba(62,232,120,0.40));
     --outreach-bg:    var(--connection-bg,   rgba(62,232,120,0.06));
     --outreach-edge:  var(--connection-edge, rgba(62,232,120,0.22));
-    --synthesis-soft: var(--agency-soft,     rgba(255,210,74,0.40));
-    --synthesis-bg:   var(--agency-bg,       rgba(255,210,74,0.06));
-    --synthesis-edge: var(--agency-edge,     rgba(255,210,74,0.22));
+    /* BRAND 4 · 2026-07-29 · were var(--agency-*, rgba(255,210,74,…)) — the same
+       mapping override as the base hue above, and the fallbacks were doubly
+       stale: rgba(255,210,74) is #FFD24A, retired by the 2026-04-28 wheel
+       migration and never refreshed here when the base fallback was. Left
+       unfixed, Team mode rendered blue with yellow halos, because --p-accent-soft
+       /-bg/-edge all route through these. */
+    --synthesis-soft: var(--cerulean-soft,   rgba(25,126,235,0.28));
+    --synthesis-bg:   var(--cerulean-bg,     rgba(25,126,235,0.10));
+    --synthesis-edge: var(--cerulean-edge,   rgba(25,126,235,0.42));
 
     /* per-product accent · default Personal · overridden per body[data-product] below */
     --p-accent:      var(--diligence);
