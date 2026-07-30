@@ -1202,15 +1202,38 @@
      Each relationship has an edge-accent for the surface frame and a
      refusal-copy register for relationship-specific gate explanations.
   */
-  --ui-relationship-edge-self:                  var(--clarity-edge);
-  --ui-relationship-edge-cofounder-mutual:      var(--clarity-edge);
-  --ui-relationship-edge-direct-report:         var(--synthesis-edge);
-  --ui-relationship-edge-advisor:               var(--ambient-edge);
-  --ui-relationship-edge-institutional-subject: var(--outreach-edge);
-  --ui-relationship-edge-self-as-subject:       var(--liminal-edge);
-  --ui-relationship-edge-peer:                  var(--text-mute);
-  --ui-relationship-edge-oversight:             var(--depth-edge);
-  --ui-relationship-edge-public:                var(--alarm-edge);
+  /* ONE HUE PER RELATIONSHIP · founder ruling 2026-07-29.
+   * Nine values, nine distinct wheel hues — the edge is how a surface tells you
+   * who is reading it, so two relationships sharing a hue means the frame can't
+   * answer that question. Two collisions were resolved:
+   *
+   *   cofounder-mutual  was --clarity-edge, identical to `self`. Now Vitality.
+   *                     Both are symmetric readings, which is presumably why
+   *                     they were paired — but a joint vault is not a private
+   *                     one, and the frame has to say so. Vitality is the
+   *                     "move forward" register (brand accent): a co-founding
+   *                     read is generative, not a verdict.
+   *   peer              was --text-mute, a neutral and not a wheel hue at all.
+   *                     Now Amber-orn (--watch, "caution / monitoring") — a
+   *                     sanitized third-party view IS a watched, limited
+   *                     surface, and saying so in chroma beats saying it in
+   *                     absence. NOTE: the old neutral encoded "sanitized =
+   *                     colorless", which was defensible; this ruling trades
+   *                     that reading for legibility across the nine.
+   *
+   * Unassigned and available if a tenth value is canonized (see the open
+   * question about data-relationship="operator"): Judgment/Wholeness,
+   * Surge/Coral, Signal/Lime.
+   */
+  --ui-relationship-edge-self:                  var(--clarity-edge);      /* Clarity    · 270° · brand primary */
+  --ui-relationship-edge-cofounder-mutual:      var(--vital-edge);        /* Vitality   ·  60° · brand accent  */
+  --ui-relationship-edge-direct-report:         var(--synthesis-edge);    /* Agency     · 120° */
+  --ui-relationship-edge-advisor:               var(--ambient-edge);      /* Expression · 210° */
+  --ui-relationship-edge-institutional-subject: var(--outreach-edge);     /* Connection · 180° */
+  --ui-relationship-edge-self-as-subject:       var(--liminal-edge);      /* Orchid     · 300° */
+  --ui-relationship-edge-peer:                  var(--watch-edge);        /* Amber-orn  ·  90° */
+  --ui-relationship-edge-oversight:             var(--depth-edge);        /* Cerulean   · 240° */
+  --ui-relationship-edge-public:                var(--alarm-edge);        /* Stability  ·   0° */
 
   /* ════════════════════════════════════════════════════════════
      17 · CAPABILITY · what role+relationship permits
