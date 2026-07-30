@@ -156,7 +156,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .reg:hover .amend{opacity:1}.reg .amend:hover{color:var(--diligence);border-color:var(--diligence)}
 .reg .rbody{margin-top: 9px;font:14px/1.55 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid)}
 .reg .rbody .hl{color:var(--text)}
-.reg.diligence .rname{color:var(--diligence)}.reg.synthesis .rname{color:var(--depth)}.reg.judgment .rname{color:var(--judgment)}.reg.outreach .rname{color:var(--connection)}
+.reg.diligence .rname{color:var(--diligence)}.reg.synthesis .rname{color:var(--synthesis)}.reg.judgment .rname{color:var(--judgment)}.reg.outreach .rname{color:var(--connection)}
 .reg.corrected{background:linear-gradient(90deg,var(--diligence-bg),transparent 60%)}
 .reg .cmark{display:none;font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--diligence);margin-left: var(--space-2)}
 .reg.corrected .cmark{display:inline}
@@ -440,9 +440,9 @@ button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}bu
 .orbital-rail{position:relative;width:100%;aspect-ratio:1/1.15;margin: calc(var(--space-app-1-5) * var(--density-scale)) auto calc(var(--space-2) * var(--density-scale));padding: 0 10px}
 .orbital-svg{width:100%;height:100%;display:block;overflow:visible}
 .reg-plate{fill:rgba(255,255,255,.025);stroke:var(--frame-border);stroke-width:1}
-.reg-plate.diligence{stroke:var(--diligence)}.reg-plate.outreach{stroke:var(--outreach)}.reg-plate.synthesis{stroke:var(--depth)}.reg-plate.judgment{stroke:var(--judgment)}
+.reg-plate.diligence{stroke:var(--diligence)}.reg-plate.outreach{stroke:var(--outreach)}.reg-plate.synthesis{stroke:var(--synthesis)}.reg-plate.judgment{stroke:var(--judgment)}
 .reg-label{font-family:var(--mono);font-size: 8px;letter-spacing: var(--ls-mono-sm);text-transform:uppercase;text-anchor:middle;dominant-baseline:middle}
-.reg-label.diligence{fill:var(--diligence)}.reg-label.outreach{fill:var(--outreach)}.reg-label.synthesis{fill:var(--depth)}.reg-label.judgment{fill:var(--judgment)}
+.reg-label.diligence{fill:var(--diligence)}.reg-label.outreach{fill:var(--outreach)}.reg-label.synthesis{fill:var(--synthesis)}.reg-label.judgment{fill:var(--judgment)}
 .agent-slot{font-family:var(--mono);font-size: 7px;letter-spacing: var(--ls-app-loose);text-anchor:middle;dominant-baseline:middle;fill:rgba(255,255,255,.5);transition:fill .2s}
 .agent-glyph{font-family:var(--mono);font-size: var(--fs-eyebrow);text-anchor:middle;dominant-baseline:middle;transition:fill .2s,opacity .4s}
 .agent-glyph.queued{fill:rgba(255,255,255,.22)}
@@ -1265,7 +1265,7 @@ function renderMirror(){
     <p class="lede">Not what you decided · how you decide. The correction stream is first-party data about your judgment itself; this is it, reflected back. <em>This</em> is the layer that compounds · the spend cockpit was just where you entered it.</p>
     <div class="mstats"><div class="mstat"><div class="v">47</div><div class="l">decisions ratified</div></div><div class="mstat"><div class="v">128</div><div class="l">corrections made</div></div><div class="mstat"><div class="v">2.7×</div><div class="l">corrections per read ↑</div></div></div>
     <div class="mbars"><h3>Where your corrections land (by register)</h3>
-      <div class="mbar"><span class="lb">Synthesis · framing</span><div class="track"><div class="fill" style="width:54%;background:var(--depth)"></div></div><span class="pct">54%</span></div>
+      <div class="mbar"><span class="lb">Synthesis · framing</span><div class="track"><div class="fill" style="width:54%;background:var(--synthesis)"></div></div><span class="pct">54%</span></div>
       <div class="mbar"><span class="lb">Judgment · verdict</span><div class="track"><div class="fill" style="width:23%;background:var(--judgment)"></div></div><span class="pct">23%</span></div>
       <div class="mbar"><span class="lb">Outreach · the move</span><div class="track"><div class="fill" style="width:15%;background:var(--connection)"></div></div><span class="pct">15%</span></div>
       <div class="mbar"><span class="lb">Diligence · facts</span><div class="track"><div class="fill" style="width:8%;background:var(--diligence)"></div></div><span class="pct">8%</span></div></div>

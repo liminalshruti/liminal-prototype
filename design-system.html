@@ -3135,7 +3135,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       { name: '--signal',    label: '--signal ·   150° → lime ·        [ornament · live indicator only] streaming' },
       { name: '--outreach',  label: '--outreach · 180° → connection · [factor · LOCKED v0.2] relational' },
       { name: '--ambient',   label: '--ambient ·  210° → expression ·  [factor · translucent] atmospheric wash' },
-      { name: '--depth',     label: '--depth ·    240° → cerulean ·    [ornament · calm mode only] sky wash' },
+      { name: '--depth',     label: '--depth ·    210° → expression ·  [factor · calm mode only] sky wash' },
       { name: '--diligence', label: '--diligence · 270° → clarity ·   [factor · LOCKED v0.2 · BRAND PRIMARY] intelligence' },
       { name: '--liminal',   label: '--liminal ·  300° → orchid ·      [ornament · in-between only] transition glow' },
       { name: '--judgment',  label: '--judgment · 330° → wholeness ·  [factor · LOCKED v0.2 · BRAND SECONDARY] verdict' },
@@ -3702,8 +3702,8 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     { token: '--blend-vital-to-surge',        a: 'vital 60°',       b: 'surge 30°',      note: 'brand accent → high-energy' },
     { token: '--blend-connection-to-signal',  a: 'connection 180°', b: 'signal 150°',    note: 'positive → live streaming' },
     { token: '--blend-connection-to-ambient', a: 'connection 180°', b: 'ambient 210°',   note: 'positive → atmospheric wash' },
-    { token: '--blend-ambient-to-depth',      a: 'ambient 210°',    b: 'depth 240°',     note: 'translucent → translucent · the calm fade' },
-    { token: '--blend-depth-to-clarity',      a: 'depth 240°',      b: 'clarity 270°',   note: 'sky → intelligence' },
+    { token: '--blend-ambient-to-depth',      a: 'ambient 210°',    b: 'depth 210°',     note: 'SAME HUE since 2026-07-29 · a tonal ramp, not a blend' },
+    { token: '--blend-depth-to-clarity',      a: 'depth 210°',      b: 'clarity 270°',   note: 'teal → intelligence' },
     { token: '--blend-stability-to-surge',    a: 'stability 0°',    b: 'surge 30°',      note: 'critical edge → high-energy' },
     { token: '--blend-orchid-to-wholeness',   a: 'orchid 300°',     b: 'wholeness 330°', note: 'transition → moat' },
   ];
@@ -3795,8 +3795,8 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       'alarm-500': '#ED214F',
       'watch-100': 'rgba(253,194,55,0.08)', 'watch-400': 'rgba(253,194,55,0.40)',
       'watch-500': '#FDC237',
-      'depth-100': 'rgba(25,126,235,0.10)', 'depth-400': 'rgba(25,126,235,0.42)',
-      'depth-500': '#197EEB',
+      'depth-100': 'rgba(30,150,146,0.10)', 'depth-400': 'rgba(30,150,146,0.42)',
+      'depth-500': '#1E9692',
       'signal-500': '#70F32F',
       'liminal-500': '#CC24F5',
       'expression-wash': 'rgba(30,150,146,0.08)',
@@ -3903,7 +3903,15 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     { name: 'watch-500',      hex: '#FDC237', dark: 13.06, cream: 2.21, body: 'monitoring · drift · status pill on dark' },
     { name: 'watch-700',      hex: '#A87B17', dark: 5.93, cream: 4.88, body: 'watch text on cream' },
     { name: 'expression-500', hex: '#1E9692', dark: 6.36, cream: 4.79, body: 'wash register · ambient surfaces · readable both' },
-    { name: 'depth-500',      hex: '#197EEB', dark: 5.86, cream: 5.20, body: 'info state · sky wash' },
+    // depth moved onto Expression 2026-07-29, so this row and expression-500
+    // are now the SAME hex. These two ratios are computed, not inherited:
+    // #1E9692 on #0A0A0B = 5.50, on cream #F3F1EF = 3.20 (WCAG relative
+    // luminance). FLAG: the expression-500 row directly above claims 6.36/4.79
+    // for that identical hex, which is not reachable against any ground — pure
+    // black tops out at 5.83 — so the older numbers in this table look wrong
+    // and want their own verification pass. Not corrected here: that is a
+    // separate change and the table is load-bearing for a11y decisions.
+    { name: 'depth-500',      hex: '#1E9692', dark: 5.50, cream: 3.20, body: 'info state · sky wash · same hue as expression since Brand 4' },
     { name: 'liminal-500',    hex: '#CC24F5', dark: 6.21, cream: 4.91, body: 'transition · in-between · visited link' },
     { name: 'signal-500',     hex: '#70F32F', dark: 14.41, cream: 2.01, body: 'live indicator · status pill on dark · NEVER body text on cream' },
     { name: 'text',           hex: '#F4F2EE', dark: 19.22, cream: 1.16, body: 'body text on dark · primary' },
@@ -4031,7 +4039,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     [150, 'signal',    'lime',       0, 'active · streaming · live'],
     [180, 'outreach',  'connection', 1, 'relational · positive'],
     [210, 'ambient',   'expression', 1, 'wash · atmospheric'],
-    [240, 'depth',     'cerulean',   0, 'sky wash · calm mode'],
+    [210, 'depth',     'expression', 0, 'sky wash · calm mode'],
     [270, 'diligence', 'clarity',    1, 'intelligence · brand primary'],
     [300, 'liminal',   'orchid',     0, 'transition · the in-between'],
     [330, 'judgment',  'wholeness',  1, 'verdict · brand secondary'],
