@@ -1024,14 +1024,20 @@
   --blend-stability-to-surge:    linear-gradient(120deg, var(--stability-400), var(--surge-300));
   --blend-orchid-to-wholeness:   linear-gradient(120deg, var(--orchid-400), var(--wholeness-300));
 
-  /* allowed · brand 3 spectrum · the "ambient state field" gradient */
-  /* gold → orange → pink → magenta → violet · per Brand OS Canon v4 */
+  /* allowed · brand spectrum · the "ambient state field" gradient.
+     BRAND 4 · 2026-07-29 · founder ruling: pink → violet → blue → green.
+     Was gold → orange → pink → magenta → violet, which ran through --vitality
+     (orange, ruled out of the brand) and --surge. Now the four Brand 4 hues in
+     brand order 1→2→3→4: Wholeness, Clarity, Cerulean, Connection.
+     Uniform -400 stops (all four are rgba …,0.42): this token is an ambient WASH,
+     never a saturated decorative fill, so translucent stops are the correct
+     register — and the old form mixed 0.42 with 0.28, weighting stops unevenly for
+     no stated reason. Even quarters, uniform alpha. */
   --brand-spectrum: linear-gradient(120deg,
-    var(--vitality-400) 0%,
-    var(--surge-300)    25%,
-    var(--wholeness-400) 55%,
-    var(--liminal-300)  80%,
-    var(--clarity-400)  100%);
+    var(--wholeness-400)   0%,
+    var(--clarity-400)    33%,
+    var(--cerulean-400)   67%,
+    var(--connection-400) 100%);
 
   /* allowed · ambient atmosphere · for Layer C state-rendered orbs/washes */
   --brand-ambient-orb: radial-gradient(ellipse at 30% 30%,
