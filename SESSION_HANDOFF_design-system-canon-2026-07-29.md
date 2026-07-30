@@ -36,10 +36,9 @@ use that as the reference. These two are the last remaining call sites in the re
   carries the retired v0.2 hexes (`:2094-2096`, `:2558-2560`), its own `--display/
   --serif/--sans/--mono` block (`:890-893`), and 5 phantom `--fg-N` refs. It reads as
   live code in every grep and will keep generating false findings. Delete or archive.
-- **Atlas pages load no webfont link at all.** `design-system/atlas/*.html` import
-  tokens → cut-shell → cut-shell-products → brand-upgrade, but nothing fetches a
-  family, so `--mono` falls to system `ui-monospace`. `design-system.html` and the
-  specimen were fixed in `a11ddcf`; the atlases still need it.
+- ~~**Atlas pages load no webfont link at all.**~~ **CLOSED** in `dd3200b` — both
+  atlases now load Space Grotesk + Space Mono; verified `document.fonts.check`
+  passes and `.atlas__crest` resolves to Space Mono rather than the OS default.
 - **The type-SIZE vocabularies are still split.** `lib/brand-upgrade.css` defines
   `--text-*` / `--tracking-*` / `--leading-*` in parallel with canon's `--fs-*` /
   `--ls-*` / `--lh-*`. The *face* names were converged in `66b86d9`, but the sizes
@@ -73,7 +72,27 @@ fetch before editing.
 | `9c4ada8` | `--good`/`--red` were invalid on every cut |
 | `83d4995` | brand-upgrade's wheel fork stripped — one register system again |
 | `a42bddc` | CLAUDE.md type stack superseded |
+| `b5bbabb` | density wired — 1,010 spacing declarations across lib/ + 15 cuts |
+| `39a0509` | register attributes moved off `<html>`, where nothing matched them |
+| `4fb7375` | gallery updated — new §14 Density section, type labels corrected, changelog, v0.3.8 |
+| `dd3200b` | both atlases load their webfonts |
 | liminal-creative `71d7fcf` | canon back-port; both mirrored files verified byte-identical |
+
+### Density (the April deferral, shipped)
+
+`--density-scale` had existed in canon since §14 and reached no surface: 4 component
+files consumed it, `lib/` and `cuts/` consumed it zero times, so `data-density` did
+nothing visible. Wired to `calc(var(--space-N) * var(--density-scale))` on padding /
+margin / gap only — type and radius never scale, per the token contract. Measured on
+`cuts/00-agency.html`: 17.6 / 16 / 13.6px across anointed / shared / analyst, with
+font-size flat at 13.5px.
+
+**Still open here:** `data-relationship="operator"` is declared on 4 surfaces but is
+not one of canon's nine values, so `--ui-relationship-edge` computes to unset on those
+pages (the `:not([data-relationship])` fallback can't fire — the attribute is present).
+Needs a founder call: map `operator` onto an existing value, or add a tenth.
+Also: hardcoded px inside otherwise-scaled declarations (`padding: 0 15px calc(…)`)
+scale on one axis only. Tokenize before density can feel clean rather than merely present.
 
 ### The two that weren't on the plan
 
