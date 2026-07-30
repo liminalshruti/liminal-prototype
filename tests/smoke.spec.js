@@ -54,7 +54,12 @@ test("cut 11 missing fixture falls back to inline demo", async ({ page }) => {
   // fallback keeps the badge in demo mode and still renders the loop + refusal
   await expect(page.locator("#run-badge")).toHaveText("demo");
   await expect(page.locator("body")).toHaveAttribute("data-surface", "loop");
-  await expect(page.getByText(/refused/i).first()).toBeVisible();
+  // a VISIBLE refusal, not merely the first in DOM order. #66's 7-step ritual
+  // keeps six `/refused/i` matches in the document at once and shows only the
+  // `.pane7.on` one, so `.first()` was picking text out of an inactive pane —
+  // it passed before only because the loop used to be one flat surface.
+  await expect(page.getByText(/refused/i).filter({ visible: true }).first())
+    .toBeVisible();
 });
 
 // ── .p-read · the shared read primitive (adopted 2026-07-29) ──────────────
@@ -66,12 +71,24 @@ test("cut 11 missing fixture falls back to inline demo", async ({ page }) => {
 const P_READ_SURFACES = [
   { name: "cut 06", url: "/cuts/06-margin-read.html" },
   { name: "cut 10", url: "/cuts/10-today.html" },
+  // cut 11's reads live at step 4 of the ritual and the cut opens at step 3, so
+  // this surface needs revealing before the primitive is on screen. Everything
+  // asserted below is identical once it is.
+  {
+    name: "cut 11",
+    url: CUT_11_CANONICAL,
+    reveal: async (page) => page.getByText("Open the case →").click(),
+  },
 ];
 
 for (const s of P_READ_SURFACES) {
   test(`${s.name} consumes the .p-read primitive`, async ({ page }) => {
     await page.goto(s.url, { waitUntil: "load" });
     await page.waitForTimeout(500);
+    if (s.reveal) {
+      await s.reveal(page);
+      await page.waitForTimeout(700);
+    }
 
     const read = page.locator(".p-read").first();
     await expect(read).toBeVisible();

@@ -9,6 +9,16 @@ async function runGoldenPath(page, { correct }) {
   await expect(page.locator("body")).toHaveAttribute("data-surface", "loop");
   await expect(page.locator("#run-badge")).toHaveText("demonstration run");
 
+  // 1b. open the case — the reads live at step 4 of the ritual, and the cut
+  //     opens at step 3 (`let STEP=3`). Before #66 the whole loop was flat and
+  //     the judgment hero was on screen at load; #66 wrapped it in the 7-step
+  //     `.pane7` ritual, where only `.pane7.on` is displayed. So the path has to
+  //     walk to the case rather than assume it. Deliberately the in-flow
+  //     affordance, not the step-rail shortcut: the golden path asserts the
+  //     journey a viewer actually takes.
+  await page.getByText("Open the case →").click();
+  await expect(page.locator(".reg.judgment")).toBeVisible();
+
   // 2. dissent: the diligence refusal is visible in the judgment hero
   await expect(page.getByText(/refused to read the team's work/i)).toBeVisible();
 
@@ -25,8 +35,18 @@ async function runGoldenPath(page, { correct }) {
     await expect(page.getByText(/correction appended/i)).toBeVisible();
   }
 
+  // 4b. rule → enforcement: the ratify action lives on step 5, one past the
+  //     reads. Same #66 cause as 1b — what used to be one flat surface is now
+  //     a walk, so the path takes the step instead of assuming it.
+  await page.getByRole("button", { name: "Rule → enforcement" }).click();
+
   // 5. ratify
-  await page.locator('.db.sign').click();
+  // `.db.sign` alone is no longer unique: #66 gave the five ritual advance
+  // buttons ("Open the case →", "Rule → enforcement", …) the same class, so the
+  // bare selector now resolves to 6 elements. `[data-act="sign"]` is the actual
+  // ratify ACTION — the nav buttons carry data-goto7/data-adv7 instead.
+  const signBtn = page.locator('.db.sign[data-act="sign"]');
+  await signBtn.click();
   const artifact = page.locator(".artifact");
   await expect(artifact).toBeVisible();
   await expect(artifact).toContainText(
@@ -39,7 +59,7 @@ async function runGoldenPath(page, { correct }) {
   }
 
   // 6a. the pointer path to a second ratify is closed: Sign hides itself
-  await expect(page.locator('.db.sign')).toBeHidden();
+  await expect(signBtn).toBeHidden();
 
   // 6b. tab-hop re-entry restores the artifact WITHOUT duplicating the
   //     ratified chain entry (regression: it used to append one per revisit)

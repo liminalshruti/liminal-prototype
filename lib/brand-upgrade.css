@@ -184,7 +184,25 @@
 /* ══════════════════════════════════════════════════════
    GLOBAL EMPHASIS RULE — weight not italic
    em/strong always → PerfectlyNineties semibold, no slant
-   ══════════════════════════════════════════════════════ */
+   ══════════════════════════════════════════════════════
+   COLOUR CLAUSE REMOVED 2026-07-29 (founder ruling).
+   The canon this rule enforces is about SLANT: "weight is the emphasis axis,
+   no italic for product emphasis." Nothing in it says emphasis must be
+   text-coloured. But the rule also carried `color: var(--text) !important`,
+   and because brand-upgrade.css loads LAST on every cut that includes it, that
+   one line silently flattened six deliberate em colours that no one could see
+   were dead — the authors had written them and moved on:
+
+     cuts/onboarding/onboarding.css:142   .display em        var(--clarity)
+     cuts/onboarding/onboarding.css:151   .lede em           var(--text)
+     lib/cut-shell-products.css:138       .brief-body em     var(--text-mid)
+     lib/cut-shell-products.css:343       .da-text em        rgba(42,40,32,.75)
+     lib/cut-shell-products.css:709       .modal-content em  var(--text)
+     lib/cut-shell-base.css:1510          .tp-title em       (Brand 4 accent)
+
+   Dropping the clause restores all six with no change to the slant discipline,
+   which the three surviving declarations still enforce globally. A rule should
+   only be as wide as its rationale. */
 em, strong,
 .brief-body em, .brief-body strong,
 .move-body em, .panel-body em,
@@ -192,7 +210,6 @@ em, strong,
   font-family: "PerfectlyNineties", Georgia, serif !important;
   font-weight: 600 !important;
   font-style: normal !important;
-  color: var(--text) !important;
 }
 
 /* ══════════════════════════════════════════════════════

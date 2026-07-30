@@ -702,25 +702,27 @@
   --ambient-strong: var(--expression-strong);
 
   /* --depth · cerulean · ornament · translucent · sky wash, calm-mode */
-  --depth-50:   var(--cerulean-50);
-  --depth-100:  var(--cerulean-100);
-  --depth-200:  var(--cerulean-200);
-  --depth-300:  var(--cerulean-300);
-  --depth-400:  var(--cerulean-400);
-  --depth-500:  var(--cerulean-500);
-  --depth-600:  var(--cerulean-600);
-  --depth-700:  var(--cerulean-700);
-  --depth-800:  var(--cerulean-800);
-  --depth-900:  var(--cerulean-900);
-  --depth:      var(--cerulean);
-  --depth-faint:  var(--cerulean-faint);
-  --depth-bg:     var(--cerulean-bg);
-  --depth-tint:   var(--cerulean-tint);
-  --depth-soft:   var(--cerulean-soft);
-  --depth-edge:   var(--cerulean-edge);
-  --depth-glow:   var(--cerulean-glow);
-  --depth-wash:   var(--cerulean-wash);
-  --depth-strong: var(--cerulean-strong);
+  /* --depth moved cerulean -> EXPRESSION teal 2026-07-29 (Brand 4 follow-up).
+     This is a LOCAL COPY of canon's alias block; canon leads, this follows. */
+  --depth-50:   var(--expression-50);
+  --depth-100:  var(--expression-100);
+  --depth-200:  var(--expression-200);
+  --depth-300:  var(--expression-300);
+  --depth-400:  var(--expression-400);
+  --depth-500:  var(--expression-500);
+  --depth-600:  var(--expression-600);
+  --depth-700:  var(--expression-700);
+  --depth-800:  var(--expression-800);
+  --depth-900:  var(--expression-900);
+  --depth:      var(--expression);
+  --depth-faint:  var(--expression-faint);
+  --depth-bg:     var(--expression-bg);
+  --depth-tint:   var(--expression-tint);
+  --depth-soft:   var(--expression-soft);
+  --depth-edge:   var(--expression-edge);
+  --depth-glow:   var(--expression-glow);
+  --depth-wash:   var(--expression-wash);
+  --depth-strong: var(--expression-strong);
 
   /* --liminal · orchid · ornament · luminous · transition, in-between, glow */
   --liminal-50:   var(--orchid-50);
@@ -842,6 +844,12 @@
   --blend-vital-to-surge:        linear-gradient(120deg, var(--vital-300), var(--surge-300));
   --blend-connection-to-signal:  linear-gradient(120deg, var(--connection-400), var(--signal-300));
   --blend-connection-to-ambient: linear-gradient(120deg, var(--connection-400), var(--ambient-300));
+  /* NOTE 2026-07-29: --depth moved onto Expression, which --ambient already
+     uses, so this "blend" is now a same-hue TONAL ramp (expression-400 ->
+     expression-300), not a hue blend. Kept because it still reads as a
+     legitimate soft wash and nothing depends on it being two-hue, but the
+     NAME now over-promises. Retire it or repoint it if the gradients
+     gallery needs a genuine second hue here. */
   --blend-ambient-to-depth:      linear-gradient(120deg, var(--ambient-400), var(--depth-300));
   --blend-depth-to-clarity:      linear-gradient(120deg, var(--depth-400), var(--clarity-300));
   --blend-stability-to-surge:    linear-gradient(120deg, var(--stability-400), var(--surge-300));

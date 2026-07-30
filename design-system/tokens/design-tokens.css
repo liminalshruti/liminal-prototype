@@ -524,7 +524,7 @@
   --lime-glow-strong: rgba(112,243,47,0.36);
   --lime-strong: var(--lime-600);
 
-  /* ─── ornament · Cerulean · 240° (HSL 211) · TRANSLUCENT · BRAND 4 THIRD (also --depth) · Ultramarine Light · sky wash ─── */
+  /* ─── ornament · Cerulean · 240° (HSL 211) · TRANSLUCENT · BRAND 4 THIRD · Ultramarine Light · sky wash ─── */
   --cerulean-50:  rgba(25,126,235,0.05);
   --cerulean-100: rgba(25,126,235,0.10);
   --cerulean-200: rgba(25,126,235,0.18);
@@ -645,8 +645,8 @@
    *  Agency     ·  factor · 120°  · (no register)        · RETIRED from brand 2026-07-29
    *  Lime       ·  ornament · 150°· --signal             · active streaming/live
    *  Connection ·  factor · 180°  · --outreach  [LOCKED] · relational/positive · BRAND 4 FOURTH
-   *  Expression ·  factor · 210°  · --ambient            · wash/atmospheric (translucent)
-   *  Cerulean   ·  ornament · 240°· --depth + --synthesis · sky wash · BRAND 4 THIRD
+   *  Expression ·  factor · 210°  · --ambient + --depth  · wash/atmospheric (translucent)
+   *  Cerulean   ·  ornament · 240°· --synthesis           · BRAND 4 THIRD (--depth moved off 07-29)
    *  Clarity    ·  factor · 270°  · --diligence [LOCKED] · intelligence · BRAND 4 SECOND
    *  Orchid     ·  ornament · 300°· --liminal             · transition · in-between · glow
    *  Wholeness  ·  factor · 330°  · --judgment  [LOCKED] · verdict · BRAND 4 PRIMARY
@@ -862,27 +862,36 @@
   --ambient-wash-deep: var(--expression-wash-deep);
   --ambient-strong: var(--expression-strong);
 
-  /* --depth · cerulean · ornament · translucent · sky wash, calm-mode */
-  --depth-50:   var(--cerulean-50);
-  --depth-100:  var(--cerulean-100);
-  --depth-200:  var(--cerulean-200);
-  --depth-300:  var(--cerulean-300);
-  --depth-400:  var(--cerulean-400);
-  --depth-500:  var(--cerulean-500);
-  --depth-600:  var(--cerulean-600);
-  --depth-700:  var(--cerulean-700);
-  --depth-800:  var(--cerulean-800);
-  --depth-900:  var(--cerulean-900);
-  --depth:      var(--cerulean);
-  --depth-faint:  var(--cerulean-faint);
-  --depth-bg:     var(--cerulean-bg);
-  --depth-tint:   var(--cerulean-tint);
-  --depth-soft:   var(--cerulean-soft);
-  --depth-edge:   var(--cerulean-edge);
-  --depth-glow:   var(--cerulean-glow);
-  --depth-wash:   var(--cerulean-wash);
-  --depth-lift:   var(--cerulean-lift);   /* NEW 2026-07-29 · consumed by --coherence */
-  --depth-strong: var(--cerulean-strong);
+  /* --depth · EXPRESSION teal · factor · translucent · sky wash, calm-mode
+   * BRAND 4 follow-up, 2026-07-29 (founder ruling): moved off Cerulean.
+   * Cerulean became --synthesis and now carries brand load, and a hue holding a
+   * brand role cannot also be the neutral atmospheric wash. Expression is the
+   * right home rather than a free slot: it is the DARKEST of the 12 (L 35%) and
+   * the only other TRANSLUCENT factor, so it is the most recessive hue on the
+   * wheel — which is what depth means. It shares Expression with --ambient, but
+   * both are wash registers on a NON-brand hue, so no brand colour does chrome
+   * duty any more. That was the actual complaint.
+   * Canon: founder-brain/decisions/2026-07-29-brand-4-pink-led.md */
+  --depth-50:   var(--expression-50);
+  --depth-100:  var(--expression-100);
+  --depth-200:  var(--expression-200);
+  --depth-300:  var(--expression-300);
+  --depth-400:  var(--expression-400);
+  --depth-500:  var(--expression-500);
+  --depth-600:  var(--expression-600);
+  --depth-700:  var(--expression-700);
+  --depth-800:  var(--expression-800);
+  --depth-900:  var(--expression-900);
+  --depth:      var(--expression);
+  --depth-faint:  var(--expression-faint);
+  --depth-bg:     var(--expression-bg);
+  --depth-tint:   var(--expression-tint);
+  --depth-soft:   var(--expression-soft);
+  --depth-edge:   var(--expression-edge);
+  --depth-glow:   var(--expression-glow);
+  --depth-wash:   var(--expression-wash);
+  --depth-lift:   var(--expression-lift);   /* NEW 2026-07-29 · consumed by --coherence */
+  --depth-strong: var(--expression-strong);
 
   /* --liminal · orchid · ornament · luminous · transition, in-between, glow */
   --liminal-50:   var(--orchid-50);
@@ -1032,6 +1041,12 @@
   --blend-vital-to-surge:        linear-gradient(120deg, var(--vital-300), var(--surge-300));
   --blend-connection-to-signal:  linear-gradient(120deg, var(--connection-400), var(--signal-300));
   --blend-connection-to-ambient: linear-gradient(120deg, var(--connection-400), var(--ambient-300));
+  /* NOTE 2026-07-29: --depth moved onto Expression, which --ambient already
+     uses, so this "blend" is now a same-hue TONAL ramp (expression-400 ->
+     expression-300), not a hue blend. Kept because it still reads as a
+     legitimate soft wash and nothing depends on it being two-hue, but the
+     NAME now over-promises. Retire it or repoint it if the gradients
+     gallery needs a genuine second hue here. */
   --blend-ambient-to-depth:      linear-gradient(120deg, var(--ambient-400), var(--depth-300));
   --blend-depth-to-clarity:      linear-gradient(120deg, var(--depth-400), var(--clarity-300));
   --blend-stability-to-surge:    linear-gradient(120deg, var(--stability-400), var(--surge-300));
