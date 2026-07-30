@@ -162,7 +162,7 @@
   .agent-glyph {
     transition: fill 200ms ease, opacity 400ms ease;
   }
-  .agent-glyph.queued   { fill: rgba(255, 255, 255, 0.22); }
+  .agent-glyph.queued   { fill: var(--liminal-soft); }  /* in-between, not absent */
   .agent-glyph.reading  { fill: var(--text); animation: pulse-glyph 4.2s ease-in-out infinite; }
   .agent-glyph.complete { fill: rgba(91, 193, 141, 0.85); }
   .agent-glyph.refused  { fill: rgba(247, 121, 78, 0.78); }

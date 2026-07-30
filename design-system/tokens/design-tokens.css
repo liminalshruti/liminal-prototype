@@ -51,10 +51,13 @@
  *               --emergence  #C084FC 270° → Orchid     288° · Δ18° → --orchid-lift
  *               --resolved   #6EC3A8 161° → Connection 147° · Δ14° → --connection-dry
  *               --gold       #C9AD5E  44° → Amber-orn   42° · Δ2°  → --amber-orn-dry
- *             emergence went to Orchid although Clarity is nearer by 4°: Clarity is BRAND
- *             PRIMARY and binding the moat metric there hardens a collision instead of fixing
- *             it. Orchid's register alias --liminal ("transition · in-between") is also the
- *             better semantic home. Separation from brand primary goes 14° → 32°.
+ *             emergence went to Orchid although Clarity is nearer by 4°: Clarity is a BRAND
+ *             hue and binding the moat metric there hardens a collision instead of fixing
+ *             it. (Clarity was brand PRIMARY when decided; Brand 4 2026-07-29 makes it
+ *             second and Wholeness primary. Conclusion unchanged — Clarity is still brand.
+ *             The 32° figure below is measured against the OLD primary, not recomputed.) Orchid's register alias --liminal ("transition · in-between") is also the
+ *             better semantic home. Separation from the then-brand-primary (Clarity)
+ *             goes 14° → 32°.
  *             Contrast on --bg all improves or holds: 8.43→9.69, 8.42→9.08, 7.49→8.44,
  *             9.46→8.60, 9.06→8.79. All above AA 4.5:1.)
  *           : 2026-07-29 (§18 ALIAS NORMALIZATION · BREAKING, value-preserving. §18 v1 defined
@@ -244,10 +247,33 @@
                           plus explicit -glow-soft / -glow-strong
        translucent hues — wash variants richer; mid-stops softer
 
-     BRAND 3 (locked 2026-04-15):
-       primary   = --clarity (Ultramarine Violet · #8e66fb)
-       secondary = --wholeness (Liminal Pink · #e90095)
-       accent    = --vitality (Cadmium Orange · #ff9549)
+     BRAND 4 (founder ruling 2026-07-29 · NOT locked):
+       1 primary = --wholeness  (Liminal Pink       · #e90095)
+       2 second  = --clarity    (Ultramarine Violet · #8e66fb)
+       3 third   = --cerulean   (Cerulean Blue      · #197eeb)
+       4 fourth  = --connection (Connection Green   · #31e682)
+
+       Four colours, pink-led. Coherent as a system: these are the COOL HALF of
+       the wheel; the warm half drops out of the brand entirely.
+
+       RETIRED from the brand — still wheel hues with full ramps, they simply
+       hold no brand or register role:
+         --vitality (Cadmium Orange #ff9549) — was the Brand-3 accent
+         --agency   (Cadmium Lemon  #fef059) — was bound to --synthesis
+
+       SUPERSEDES "BRAND 3 (locked 2026-04-15)". The founder ruled Brand 3 is NOT
+       locked — do not re-add a lock date here without a dated ruling.
+
+       The --synthesis rebind (agency yellow → cerulean blue) is not new: it was
+       recorded in liminal-desktop/docs/audits/2026-07-03/UI_IMPROVEMENT_AUDIT
+       and brand-upgrade.css implemented it, but canon never absorbed it and #67
+       then removed the implementation as drift. This closes that loop.
+
+       Severity is NOT brand: --watch stays amber-orn #fdc237 and --alarm stays
+       stability #ed214f. "No orange in the brand" and "amber means caution" are
+       different lanes, per the v0.3 severity lane.
+
+       Full ruling: founder-brain/decisions/2026-07-29-brand-4-pink-led.md
 
      LIMINAL ALIASES per hue (point at specific stops · ergonomic for component CSS):
        -faint  → -50      -bg     → -100
@@ -280,7 +306,7 @@
   --stability-dry:    #B76E72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --stability-strong: var(--stability-600);
 
-  /* ─── factor 2 · Vitality · 60° (HSL 25) · sacral · OPAQUE · BRAND ACCENT · Cadmium Orange ─── */
+  /* ─── factor 2 · Vitality · 60° (HSL 25) · sacral · OPAQUE · RETIRED FROM BRAND 2026-07-29 · Cadmium Orange ─── */
   --vitality-50:  rgba(255,149,73,0.04);
   --vitality-100: rgba(255,149,73,0.08);
   --vitality-200: rgba(255,149,73,0.14);
@@ -303,7 +329,7 @@
   --vitality-dry:    #C49A72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --vitality-strong: var(--vitality-600);
 
-  /* ─── factor 3 · Agency · 120° (HSL 55) · solar plexus · OPAQUE · Cadmium Lemon ─── */
+  /* ─── factor 3 · Agency · 120° (HSL 55) · solar plexus · OPAQUE · RETIRED FROM BRAND 2026-07-29 (was --synthesis) · Cadmium Lemon ─── */
   --agency-50:  rgba(254,240,89,0.04);
   --agency-100: rgba(254,240,89,0.08);
   --agency-200: rgba(254,240,89,0.14);
@@ -326,7 +352,7 @@
   --agency-dry:    #BDB777;   /* pigment · aged / faded — desaturated literal, derived (House had no agency-dry); saturation-axis exception */
   --agency-strong: var(--agency-600);
 
-  /* ─── factor 4 · Connection · 180° (HSL 147) · heart · LUMINOUS · Emerald Green ─── */
+  /* ─── factor 4 · Connection · 180° (HSL 147) · heart · LUMINOUS · BRAND 4 FOURTH · Emerald Green ─── */
   --connection-50:  rgba(49,230,130,0.04);
   --connection-100: rgba(49,230,130,0.08);
   --connection-200: rgba(49,230,130,0.14);
@@ -375,7 +401,7 @@
   --expression-dry:    #6A9E9D;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --expression-strong: var(--expression-600);
 
-  /* ─── factor 6 · Clarity · 270° (HSL 256) · third eye · LUMINOUS · BRAND PRIMARY · Ultramarine Violet ─── */
+  /* ─── factor 6 · Clarity · 270° (HSL 256) · third eye · LUMINOUS · BRAND 4 SECOND · Ultramarine Violet ─── */
   --clarity-50:  rgba(142,102,251,0.04);
   --clarity-100: rgba(142,102,251,0.08);
   --clarity-200: rgba(142,102,251,0.14);
@@ -401,7 +427,7 @@
   --clarity-mid:    var(--clarity-300);
   --clarity-strong: var(--clarity-glow-strong);
 
-  /* ─── factor 7 · Wholeness · 330° (HSL 322) · crown · LUMINOUS · BRAND SECONDARY · Liminal Pink ─── */
+  /* ─── factor 7 · Wholeness · 330° (HSL 322) · crown · LUMINOUS · BRAND 4 PRIMARY · Liminal Pink ─── */
   --wholeness-50:  rgba(233,0,149,0.05);
   --wholeness-100: rgba(233,0,149,0.09);
   --wholeness-200: rgba(233,0,149,0.16);
@@ -417,6 +443,12 @@
   --wholeness-bg:     var(--wholeness-100);
   --wholeness-tint:   var(--wholeness-200);
   --wholeness-soft:   var(--wholeness-300);
+  /* -mid added 2026-07-29 with BRAND 4: --accent-mid needs it now that accent
+     leads with Wholeness. Mirrors --clarity-mid, which points at -300 — NOT the
+     -500 the alias ladder at §"LIMINAL ALIASES per hue" documents. That ladder
+     mismatch is pre-existing and shared with Clarity; matched here deliberately so
+     --accent-mid keeps its exact prior weight and only its hue changes. */
+  --wholeness-mid:    var(--wholeness-300);
   --wholeness-edge:   var(--wholeness-400);
   --wholeness-glow:        rgba(233,0,149,0.20);
   --wholeness-glow-soft:   rgba(233,0,149,0.10);
@@ -492,7 +524,7 @@
   --lime-glow-strong: rgba(112,243,47,0.36);
   --lime-strong: var(--lime-600);
 
-  /* ─── ornament · Cerulean · 240° (HSL 211) · TRANSLUCENT · Ultramarine Light · sky wash ─── */
+  /* ─── ornament · Cerulean · 240° (HSL 211) · TRANSLUCENT · BRAND 4 THIRD · Ultramarine Light · sky wash ─── */
   --cerulean-50:  rgba(25,126,235,0.05);
   --cerulean-100: rgba(25,126,235,0.10);
   --cerulean-200: rgba(25,126,235,0.18);
@@ -547,7 +579,10 @@
   /* NEW 2026-07-29 · OPAQUE LIGHT TIER. HSL 288 · S 95 · L 75.
      18° rotation off the previous free-standing --emergence #C084FC (HSL 270),
      which it replaces. Contrast on --bg 8.44:1 (was 7.49:1).
-     Clarity (HSL 256) was nearer by 4° but is BRAND PRIMARY — see §18 note.
+     Clarity (HSL 256) was nearer by 4° but is a BRAND hue — see §18 note.
+     (It was brand PRIMARY when this was decided; Brand 4 makes it second. The
+     routing conclusion is unchanged; the separation figure below is measured
+     against the OLD primary and has not been recomputed for Wholeness.)
      Separation from --clarity-500 goes 14° → 32°. */
   --orchid-lift:      #E483FC;
   --orchid-lift-bg:   rgba(228,131,252,0.08);
@@ -605,16 +640,16 @@
    *  ─────────────────────────────────────────────────────────────────────
    *  Stability  ·  factor · 0°    · --alarm              · critical/error
    *  Coral      ·  ornament · 30° · --surge              · high-energy attention
-   *  Vitality   ·  factor · 60°   · --vital              · brand accent · the move forward
+   *  Vitality   ·  factor · 60°   · --vital              · RETIRED from brand · the move forward
    *  Amber-orn  ·  ornament · 90° · --watch              · caution/monitoring (≠ --amber state)
-   *  Agency     ·  factor · 120°  · --synthesis [LOCKED] · pattern/will/attention
+   *  Agency     ·  factor · 120°  · (no register)        · RETIRED from brand 2026-07-29
    *  Lime       ·  ornament · 150°· --signal             · active streaming/live
-   *  Connection ·  factor · 180°  · --outreach  [LOCKED] · relational/positive
-   *  Expression ·  factor · 210°  · --ambient            · wash/atmospheric (translucent)
-   *  Cerulean   ·  ornament · 240°· --depth               · sky wash / calm mode
-   *  Clarity    ·  factor · 270°  · --diligence [LOCKED] · intelligence · BRAND PRIMARY
+   *  Connection ·  factor · 180°  · --outreach  [LOCKED] · relational/positive · BRAND 4 FOURTH
+   *  Expression ·  factor · 210°  · --ambient + --depth  · wash/atmospheric (translucent)
+   *  Cerulean   ·  ornament · 240°· --synthesis           · BRAND 4 THIRD (--depth moved off 07-29)
+   *  Clarity    ·  factor · 270°  · --diligence [LOCKED] · intelligence · BRAND 4 SECOND
    *  Orchid     ·  ornament · 300°· --liminal             · transition · in-between · glow
-   *  Wholeness  ·  factor · 330°  · --judgment  [LOCKED] · verdict · BRAND SECONDARY
+   *  Wholeness  ·  factor · 330°  · --judgment  [LOCKED] · verdict · BRAND 4 PRIMARY
    */
 
   /* Register aliases now point at scale stops (not raw alphas) so when
@@ -683,24 +718,24 @@
   --judgment-strong: var(--wholeness-strong);
   --judgment-due:    var(--wholeness-due);
 
-  --synthesis-50:   var(--agency-50);
-  --synthesis-100:  var(--agency-100);
-  --synthesis-200:  var(--agency-200);
-  --synthesis-300:  var(--agency-300);
-  --synthesis-400:  var(--agency-400);
-  --synthesis-500:  var(--agency-500);
-  --synthesis-600:  var(--agency-600);
-  --synthesis-700:  var(--agency-700);
-  --synthesis-800:  var(--agency-800);
-  --synthesis-900:  var(--agency-900);
-  --synthesis:      var(--agency);
-  --synthesis-faint:  var(--agency-faint);
-  --synthesis-bg:     var(--agency-bg);
-  --synthesis-tint:   var(--agency-tint);
-  --synthesis-soft:   var(--agency-soft);
-  --synthesis-edge:   var(--agency-edge);
-  --synthesis-glow:   var(--agency-glow);
-  --synthesis-strong: var(--agency-strong);
+  --synthesis-50:   var(--cerulean-50);
+  --synthesis-100:  var(--cerulean-100);
+  --synthesis-200:  var(--cerulean-200);
+  --synthesis-300:  var(--cerulean-300);
+  --synthesis-400:  var(--cerulean-400);
+  --synthesis-500:  var(--cerulean-500);
+  --synthesis-600:  var(--cerulean-600);
+  --synthesis-700:  var(--cerulean-700);
+  --synthesis-800:  var(--cerulean-800);
+  --synthesis-900:  var(--cerulean-900);
+  --synthesis:      var(--cerulean);
+  --synthesis-faint:  var(--cerulean-faint);
+  --synthesis-bg:     var(--cerulean-bg);
+  --synthesis-tint:   var(--cerulean-tint);
+  --synthesis-soft:   var(--cerulean-soft);
+  --synthesis-edge:   var(--cerulean-edge);
+  --synthesis-glow:   var(--cerulean-glow);
+  --synthesis-strong: var(--cerulean-strong);
 
   /* ─── 8 NEW v0.3.7 registers (extend the vocabulary) ─────── */
 
@@ -744,7 +779,7 @@
   --surge-glow:   var(--coral-glow);
   --surge-strong: var(--coral-strong);
 
-  /* --vital · vitality · sacral · BRAND ACCENT · creativity, new, the move */
+  /* --vital · vitality · sacral · RETIRED FROM BRAND 2026-07-29 · creativity, new, the move */
   --vital-50:   var(--vitality-50);
   --vital-100:  var(--vitality-100);
   --vital-200:  var(--vitality-200);
@@ -827,27 +862,36 @@
   --ambient-wash-deep: var(--expression-wash-deep);
   --ambient-strong: var(--expression-strong);
 
-  /* --depth · cerulean · ornament · translucent · sky wash, calm-mode */
-  --depth-50:   var(--cerulean-50);
-  --depth-100:  var(--cerulean-100);
-  --depth-200:  var(--cerulean-200);
-  --depth-300:  var(--cerulean-300);
-  --depth-400:  var(--cerulean-400);
-  --depth-500:  var(--cerulean-500);
-  --depth-600:  var(--cerulean-600);
-  --depth-700:  var(--cerulean-700);
-  --depth-800:  var(--cerulean-800);
-  --depth-900:  var(--cerulean-900);
-  --depth:      var(--cerulean);
-  --depth-faint:  var(--cerulean-faint);
-  --depth-bg:     var(--cerulean-bg);
-  --depth-tint:   var(--cerulean-tint);
-  --depth-soft:   var(--cerulean-soft);
-  --depth-edge:   var(--cerulean-edge);
-  --depth-glow:   var(--cerulean-glow);
-  --depth-wash:   var(--cerulean-wash);
-  --depth-lift:   var(--cerulean-lift);   /* NEW 2026-07-29 · consumed by --coherence */
-  --depth-strong: var(--cerulean-strong);
+  /* --depth · EXPRESSION teal · factor · translucent · sky wash, calm-mode
+   * BRAND 4 follow-up, 2026-07-29 (founder ruling): moved off Cerulean.
+   * Cerulean became --synthesis and now carries brand load, and a hue holding a
+   * brand role cannot also be the neutral atmospheric wash. Expression is the
+   * right home rather than a free slot: it is the DARKEST of the 12 (L 35%) and
+   * the only other TRANSLUCENT factor, so it is the most recessive hue on the
+   * wheel — which is what depth means. It shares Expression with --ambient, but
+   * both are wash registers on a NON-brand hue, so no brand colour does chrome
+   * duty any more. That was the actual complaint.
+   * Canon: founder-brain/decisions/2026-07-29-brand-4-pink-led.md */
+  --depth-50:   var(--expression-50);
+  --depth-100:  var(--expression-100);
+  --depth-200:  var(--expression-200);
+  --depth-300:  var(--expression-300);
+  --depth-400:  var(--expression-400);
+  --depth-500:  var(--expression-500);
+  --depth-600:  var(--expression-600);
+  --depth-700:  var(--expression-700);
+  --depth-800:  var(--expression-800);
+  --depth-900:  var(--expression-900);
+  --depth:      var(--expression);
+  --depth-faint:  var(--expression-faint);
+  --depth-bg:     var(--expression-bg);
+  --depth-tint:   var(--expression-tint);
+  --depth-soft:   var(--expression-soft);
+  --depth-edge:   var(--expression-edge);
+  --depth-glow:   var(--expression-glow);
+  --depth-wash:   var(--expression-wash);
+  --depth-lift:   var(--expression-lift);   /* NEW 2026-07-29 · consumed by --coherence */
+  --depth-strong: var(--expression-strong);
 
   /* --liminal · orchid · ornament · luminous · transition, in-between, glow */
   --liminal-50:   var(--orchid-50);
@@ -902,11 +946,24 @@
   */
 
   /* action · primary · brand 3 primary · Clarity violet */
-  --ui-action-primary:        var(--clarity-500);
-  --ui-action-primary-hover:  var(--clarity-200);
-  --ui-action-primary-active: var(--clarity-600);
-  --ui-action-primary-bg:     var(--clarity-100);
-  --ui-action-primary-border: var(--clarity-400);
+  /* BRAND 4 · 2026-07-29 · founder ruling: the primary action follows the brand
+     primary. Was the Clarity ramp.
+     Contrast, measured in situ on cut 04 rather than assumed — buttons.css paints
+     this with color:, not as a fill, so it is TEXT: against the frame ground
+     #0E0E11, pink #E90095 gives 4.496:1 where Clarity violet gave 4.996:1. That
+     puts it 0.004 under WCAG AA's 4.5:1 for normal-size text. Darkening is worse
+     (-600 is 3.20:1) and there is no lighter OPAQUE pink in the ramp: -50..-400 are
+     alpha and -600+ darken, so -500 is the lightest solid stop.
+     RESOLVED by size, not by tinting the pink (founder call): .btn-primary is now
+     19px/700, which WCAG classes as large-scale text, dropping the threshold to
+     3.0:1 — pink clears it with room. The colour token is therefore correct as-is;
+     the accessibility fix lives in components/buttons.css. Do not "fix" this by
+     lightening the pink without re-reading that rule. */
+  --ui-action-primary:        var(--wholeness-500);
+  --ui-action-primary-hover:  var(--wholeness-200);
+  --ui-action-primary-active: var(--wholeness-600);
+  --ui-action-primary-bg:     var(--wholeness-100);
+  --ui-action-primary-border: var(--wholeness-400);
 
   /* action · secondary · neutral chrome */
   --ui-action-secondary:        var(--text-mid);
@@ -949,10 +1006,17 @@
   --ui-link-hover:    var(--clarity-700);
   --ui-link-visited:  var(--liminal-500);
 
-  /* surface · brand moments */
-  --ui-brand-primary:   var(--clarity-500);
-  --ui-brand-secondary: var(--wholeness-500);
-  --ui-brand-accent:    var(--vitality-500);
+  /* surface · brand moments · BRAND 4 (2026-07-29) · pink-led, four colours.
+     Rebound from the Brand-3 triple, which encoded clarity-primary /
+     wholeness-secondary / vitality-accent. Zero call sites in this repo at the
+     time of the change, so this is a declaration fix, not a visual one.
+     --ui-brand-accent is REMOVED rather than re-pointed: Brand 4 has no separate
+     accent, and a token named "brand accent" still resolving to retired orange is
+     precisely the stale claim that reverted the --synthesis rebind once already. */
+  --ui-brand-primary:   var(--wholeness-500);   /* pink   */
+  --ui-brand-secondary: var(--clarity-500);     /* purple */
+  --ui-brand-third:     var(--cerulean-500);    /* blue   */
+  --ui-brand-fourth:    var(--connection-500);  /* green  */
 
   /* surface · ambient · for dreamlike ambient state field (Layer C) */
   --ui-ambient-wash:   var(--ambient-wash);
@@ -977,19 +1041,31 @@
   --blend-vital-to-surge:        linear-gradient(120deg, var(--vital-300), var(--surge-300));
   --blend-connection-to-signal:  linear-gradient(120deg, var(--connection-400), var(--signal-300));
   --blend-connection-to-ambient: linear-gradient(120deg, var(--connection-400), var(--ambient-300));
+  /* NOTE 2026-07-29: --depth moved onto Expression, which --ambient already
+     uses, so this "blend" is now a same-hue TONAL ramp (expression-400 ->
+     expression-300), not a hue blend. Kept because it still reads as a
+     legitimate soft wash and nothing depends on it being two-hue, but the
+     NAME now over-promises. Retire it or repoint it if the gradients
+     gallery needs a genuine second hue here. */
   --blend-ambient-to-depth:      linear-gradient(120deg, var(--ambient-400), var(--depth-300));
   --blend-depth-to-clarity:      linear-gradient(120deg, var(--depth-400), var(--clarity-300));
   --blend-stability-to-surge:    linear-gradient(120deg, var(--stability-400), var(--surge-300));
   --blend-orchid-to-wholeness:   linear-gradient(120deg, var(--orchid-400), var(--wholeness-300));
 
-  /* allowed · brand 3 spectrum · the "ambient state field" gradient */
-  /* gold → orange → pink → magenta → violet · per Brand OS Canon v4 */
+  /* allowed · brand spectrum · the "ambient state field" gradient.
+     BRAND 4 · 2026-07-29 · founder ruling: pink → violet → blue → green.
+     Was gold → orange → pink → magenta → violet, which ran through --vitality
+     (orange, ruled out of the brand) and --surge. Now the four Brand 4 hues in
+     brand order 1→2→3→4: Wholeness, Clarity, Cerulean, Connection.
+     Uniform -400 stops (all four are rgba …,0.42): this token is an ambient WASH,
+     never a saturated decorative fill, so translucent stops are the correct
+     register — and the old form mixed 0.42 with 0.28, weighting stops unevenly for
+     no stated reason. Even quarters, uniform alpha. */
   --brand-spectrum: linear-gradient(120deg,
-    var(--vitality-400) 0%,
-    var(--surge-300)    25%,
-    var(--wholeness-400) 55%,
-    var(--liminal-300)  80%,
-    var(--clarity-400)  100%);
+    var(--wholeness-400)   0%,
+    var(--clarity-400)    33%,
+    var(--cerulean-400)   67%,
+    var(--connection-400) 100%);
 
   /* allowed · ambient atmosphere · for Layer C state-rendered orbs/washes */
   --brand-ambient-orb: radial-gradient(ellipse at 30% 30%,
@@ -1121,19 +1197,21 @@
   --dash-strong:    rgba(142,102,251,0.32);   /* dashed border, subtle · Clarity */
   --dash-pink:      rgba(233,0,149,0.30);     /* dashed border, judgment · Wholeness */
 
-  /* ─── 13 · legacy aliases · primary brand is Clarity ────── */
-  /* --accent points to Clarity (BRAND PRIMARY · #8e66fb) */
-  /* --pink points to Wholeness (BRAND SECONDARY · Liminal Pink #e90095) */
-  /* For Vitality (BRAND ACCENT · #ff9549) use --vitality directly */
-  --accent:        var(--clarity);
-  --accent-soft:   var(--clarity-soft);
-  --accent-bg:     var(--clarity-bg);
-  --accent-glow:   var(--clarity-glow);
-  --accent-faint:  var(--clarity-faint);
-  --accent-tint:   var(--clarity-tint);
-  --accent-edge:   var(--clarity-edge);
-  --accent-mid:    var(--clarity-mid);
-  --accent-strong: var(--clarity-strong);
+  /* ─── 13 · legacy aliases · brand primary is Wholeness ──── */
+  /* BRAND 4 · 2026-07-29 · pink leads (was Clarity-led under Brand 3).
+     --accent → Wholeness (BRAND PRIMARY · Liminal Pink #e90095)
+     --pink   → Wholeness too; same hue, kept for the liminal-space-v0 spelling.
+     Clarity is BRAND SECOND — use --clarity directly.
+     Vitality is RETIRED from the brand; --vitality remains a wheel hue only. */
+  --accent:        var(--wholeness);
+  --accent-soft:   var(--wholeness-soft);
+  --accent-bg:     var(--wholeness-bg);
+  --accent-glow:   var(--wholeness-glow);
+  --accent-faint:  var(--wholeness-faint);
+  --accent-tint:   var(--wholeness-tint);
+  --accent-edge:   var(--wholeness-edge);
+  --accent-mid:    var(--wholeness-mid);
+  --accent-strong: var(--wholeness-strong);
   --pink:          var(--wholeness);
   --pink-bg:       var(--wholeness-bg);
   --pink-faint:    var(--wholeness-faint);
@@ -1210,7 +1288,8 @@
    *                     Vitality. Both are symmetric readings, which is
    *                     presumably why they were paired — but a joint vault is
    *                     not a private one, and the frame has to say so.
-   *                     Vitality is the "move forward" register (brand accent):
+   *                     Vitality is the "move forward" register (RETIRED from brand
+   *                     2026-07-29; still the move-forward semantic):
    *                     a co-founding read is generative, not a verdict.
    *
    *   peer              STAYS NEUTRAL (--text-mute). This is the exception, and
@@ -1231,8 +1310,8 @@
    * the open question about data-relationship="operator"): Judgment/Wholeness
    * 330°, Amber-orn/Watch 90°, Surge/Coral 30°, Signal/Lime 150°.
    */
-  --ui-relationship-edge-self:                  var(--clarity-edge);      /* Clarity    · 270° · brand primary */
-  --ui-relationship-edge-cofounder-mutual:      var(--vital-edge);        /* Vitality   ·  60° · brand accent  */
+  --ui-relationship-edge-self:                  var(--clarity-edge);      /* Clarity    · 270° · brand 4 second */
+  --ui-relationship-edge-cofounder-mutual:      var(--vital-edge);        /* Vitality   ·  60° · retired from brand */
   --ui-relationship-edge-direct-report:         var(--synthesis-edge);    /* Agency     · 120° */
   --ui-relationship-edge-advisor:               var(--ambient-edge);      /* Expression · 210° */
   --ui-relationship-edge-institutional-subject: var(--outreach-edge);     /* Connection · 180° */
@@ -1295,9 +1374,11 @@
      Vitality at matching lightness, and --gold 2° off Amber-orn. Both were
      off the SATURATION axis, not the hue wheel.
 
-     --emergence went to Orchid although Clarity is nearer by 4°. Clarity is
-     BRAND PRIMARY; binding the moat metric onto it hardens a collision
-     rather than fixing one. Orchid's register alias --liminal ("transition ·
+     --emergence went to Orchid although Clarity is nearer by 4°. Clarity is a
+     BRAND hue; binding the moat metric onto it hardens a collision rather than
+     fixing one. (Brand 4, 2026-07-29: Clarity is second, Wholeness primary. The
+     conclusion holds — it is still a brand hue. The separation figure below is
+     against the old primary and has not been recomputed.) Orchid's register alias --liminal ("transition ·
      in-between · glow") is also the better semantic home for a metric that
      tracks corrections compounding into doctrine. Separation from
      --clarity-500 goes 14° → 32°.

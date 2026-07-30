@@ -148,15 +148,24 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .urow.flagged{border-color:var(--alarm-edge);background:var(--alarm-bg)}.urow.flagged .cat{color:var(--alarm)}
 
 /* ── the 4-register READ (restored, with correction flow) ── */
-.reg{padding: 14px 0;border-bottom:1px solid rgba(255,255,255,.03);position:relative;opacity:0;transform:translateY(5px);animation:rin .5s var(--ease) forwards}
-.reg .rh{display:flex;align-items:baseline;gap: 10px}
+/* .reg now COMPOSES .p-read (lib/cut-shell-products.css): the box, the register
+   left-edge and the head come from the primitive. What stays here is the part
+   the primitive has no opinion about — the staggered entrance and the
+   positioning context the amend affordance needs. The `reg` class itself must
+   remain: the delegated handler resolves targets with closest('.reg'). */
+.reg{position:relative;opacity:0;transform:translateY(5px);animation:rin .5s var(--ease) forwards;margin-bottom:10px}
+.reg .rh{align-items:baseline}  /* p-read__head supplies display/gap/type */
 .reg .rname{font:10px/1 var(--mono);letter-spacing: var(--ls-mono-lg);text-transform:uppercase}
 .reg .rt{font:9px/1 var(--mono);color:var(--text-faint);margin-left: auto}
 .reg .amend{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 3px 7px;cursor:pointer;opacity:0;transition:.15s}
 .reg:hover .amend{opacity:1}.reg .amend:hover{color:var(--diligence);border-color:var(--diligence)}
 .reg .rbody{margin-top: 9px;font:14px/1.55 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid)}
 .reg .rbody .hl{color:var(--text)}
-.reg.diligence .rname{color:var(--diligence)}.reg.synthesis .rname{color:var(--depth)}.reg.judgment .rname{color:var(--judgment)}.reg.outreach .rname{color:var(--connection)}
+/* register colour deleted 2026-07-30 — .p-read--<register> > .p-read__head now
+   supplies it. The old local rules also disagreed with canon: outreach was
+   painted var(--connection) rather than var(--outreach). Same hue today, but it
+   addressed the FACTOR where every sibling addressed the REGISTER, so a future
+   register remap would have silently skipped this one row. */
 .reg.corrected{background:linear-gradient(90deg,var(--diligence-bg),transparent 60%)}
 .reg .cmark{display:none;font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--diligence);margin-left: var(--space-2)}
 .reg.corrected .cmark{display:inline}
@@ -164,8 +173,8 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .reg.editing .reg-edit{display:flex;flex-direction:column}
 .reg-edit textarea{width:100%;background:var(--frame-bg);border:1px solid var(--card-border);border-radius: var(--radius-3);color:var(--text);font:12px/1.5 var(--sans);padding: calc(var(--space-2) * var(--density-scale)) 10px;resize:vertical;min-height:54px}
 .reg-edit .er{display:flex;gap: calc(var(--space-2) * var(--density-scale));align-items:center}
-.reg-edit .save{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius: var(--radius-2);padding: 7px calc(var(--space-3) * var(--density-scale));cursor:pointer}
-.reg-edit .cancel{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);background:transparent;border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 7px calc(var(--space-3) * var(--density-scale));cursor:pointer}
+.reg-edit .rsave{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius: var(--radius-2);padding: 7px calc(var(--space-3) * var(--density-scale));cursor:pointer}
+.reg-edit .rcancel{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);background:transparent;border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 7px calc(var(--space-3) * var(--density-scale));cursor:pointer}
 .reg-edit .hint{margin-left: auto;font:8px/1.4 var(--mono);color:var(--text-faint);letter-spacing: var(--ls-app-wide);max-width:30ch;text-align:right}
 .cite{font:9px/1 var(--mono);letter-spacing: .04em;color:var(--depth);border:1px solid var(--depth-edge);border-radius: var(--radius-2);padding: calc(var(--space-app-0-5) * var(--density-scale)) calc(var(--space-app-1-5) * var(--density-scale));margin-left: calc(var(--space-1) * var(--density-scale));cursor:pointer;transition:.15s;white-space:nowrap}
 .cite:hover{background:var(--depth-bg)}
@@ -440,12 +449,12 @@ button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}bu
 .orbital-rail{position:relative;width:100%;aspect-ratio:1/1.15;margin: calc(var(--space-app-1-5) * var(--density-scale)) auto calc(var(--space-2) * var(--density-scale));padding: 0 10px}
 .orbital-svg{width:100%;height:100%;display:block;overflow:visible}
 .reg-plate{fill:rgba(255,255,255,.025);stroke:var(--frame-border);stroke-width:1}
-.reg-plate.diligence{stroke:var(--diligence)}.reg-plate.outreach{stroke:var(--outreach)}.reg-plate.synthesis{stroke:var(--depth)}.reg-plate.judgment{stroke:var(--judgment)}
+.reg-plate.diligence{stroke:var(--diligence)}.reg-plate.outreach{stroke:var(--outreach)}.reg-plate.synthesis{stroke:var(--synthesis)}.reg-plate.judgment{stroke:var(--judgment)}
 .reg-label{font-family:var(--mono);font-size: 8px;letter-spacing: var(--ls-mono-sm);text-transform:uppercase;text-anchor:middle;dominant-baseline:middle}
-.reg-label.diligence{fill:var(--diligence)}.reg-label.outreach{fill:var(--outreach)}.reg-label.synthesis{fill:var(--depth)}.reg-label.judgment{fill:var(--judgment)}
+.reg-label.diligence{fill:var(--diligence)}.reg-label.outreach{fill:var(--outreach)}.reg-label.synthesis{fill:var(--synthesis)}.reg-label.judgment{fill:var(--judgment)}
 .agent-slot{font-family:var(--mono);font-size: 7px;letter-spacing: var(--ls-app-loose);text-anchor:middle;dominant-baseline:middle;fill:rgba(255,255,255,.5);transition:fill .2s}
 .agent-glyph{font-family:var(--mono);font-size: var(--fs-eyebrow);text-anchor:middle;dominant-baseline:middle;transition:fill .2s,opacity .4s}
-.agent-glyph.queued{fill:rgba(255,255,255,.22)}
+.agent-glyph.queued{fill:var(--liminal-soft)}
 .agent-glyph.reading{fill:var(--text);animation:pulse-glyph 4.2s ease-in-out infinite}
 .agent-glyph.complete{fill:var(--connection)}
 .agent-glyph.refused{fill:var(--judgment)}
@@ -843,8 +852,8 @@ function judgmentHTML(){
 }
 function regHTML(reg,name,r,delay){
   const bodyHtml=r.html==='__JUDGMENT__'?judgmentHTML():r.html;
-  return `<div class="reg ${reg}" data-reg="${reg}" style="animation-delay:${delay}s">
-    <div class="rh"><span class="rname">${name}</span><span class="cmark">· corrected</span><span class="rt">${r.rt}</span><span class="amend" data-amendreg="${reg}">Amend read</span></div>
+  return `<div class="p-read p-read--${reg} reg ${reg}" data-reg="${reg}" style="animation-delay:${delay}s">
+    <div class="p-read__head rh"><span class="rname">${name}</span><span class="cmark">· corrected</span><span class="rt">${r.rt}</span><span class="amend" data-amendreg="${reg}">Amend read</span></div>
     <div class="rbody">${bodyHtml}</div>
     <div class="reg-edit"><textarea></textarea><div class="er"><button class="rsave" data-savereg="${reg}">Save correction</button><button class="rcancel">Cancel</button><span class="hint">your correction appends to the chain · never overwrites. signing seals YOUR judgment.</span></div></div></div>`;
 }
@@ -1265,7 +1274,7 @@ function renderMirror(){
     <p class="lede">Not what you decided · how you decide. The correction stream is first-party data about your judgment itself; this is it, reflected back. <em>This</em> is the layer that compounds · the spend cockpit was just where you entered it.</p>
     <div class="mstats"><div class="mstat"><div class="v">47</div><div class="l">decisions ratified</div></div><div class="mstat"><div class="v">128</div><div class="l">corrections made</div></div><div class="mstat"><div class="v">2.7×</div><div class="l">corrections per read ↑</div></div></div>
     <div class="mbars"><h3>Where your corrections land (by register)</h3>
-      <div class="mbar"><span class="lb">Synthesis · framing</span><div class="track"><div class="fill" style="width:54%;background:var(--depth)"></div></div><span class="pct">54%</span></div>
+      <div class="mbar"><span class="lb">Synthesis · framing</span><div class="track"><div class="fill" style="width:54%;background:var(--synthesis)"></div></div><span class="pct">54%</span></div>
       <div class="mbar"><span class="lb">Judgment · verdict</span><div class="track"><div class="fill" style="width:23%;background:var(--judgment)"></div></div><span class="pct">23%</span></div>
       <div class="mbar"><span class="lb">Outreach · the move</span><div class="track"><div class="fill" style="width:15%;background:var(--connection)"></div></div><span class="pct">15%</span></div>
       <div class="mbar"><span class="lb">Diligence · facts</span><div class="track"><div class="fill" style="width:8%;background:var(--diligence)"></div></div><span class="pct">8%</span></div></div>
@@ -1371,6 +1380,12 @@ function logChain(text,cls){CHAIN.push(['t'+(5+corrections),text,cls,'new']);ren
 const CHAIN0=CHAIN.slice(0,5).map(e=>e.slice(0,3));
 function resetDemo(){
   corrections=0; signed=false;
+  // the 7-step ritual is part of the demo state, so restart has to rewind it
+  // too — must match the declaration at the top (`let STEP=3, STEP_DONE=...`).
+  // #66 introduced the ritual but not this line, so ↺ left the walk wherever
+  // the viewer had got to while the toast claimed a clean opening state: a
+  // second run-through opened mid-ritual with steps still marked done.
+  STEP=3; STEP_DONE=new Set([1,2]);
   CHAIN=CHAIN0.map(e=>e.slice());
   SIGNALS.forEach(s=>{ if(s.id==='tickets'||s.id==='model') s.state='tray'; });
   body.dataset.relationship='operator';
