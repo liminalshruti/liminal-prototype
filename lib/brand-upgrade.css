@@ -208,7 +208,7 @@ em, strong,
   border: 1px solid rgba(255,255,255,0.07) !important;
   border-radius: 8px !important;
   box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset !important;
-  padding: var(--space-7) 40px var(--space-6) !important;
+  padding: calc(var(--space-7) * var(--density-scale)) 40px calc(var(--space-6) * var(--density-scale)) !important;
   max-width: 640px !important;
 }
 .entry-wedge {
@@ -219,7 +219,7 @@ em, strong,
   letter-spacing: var(--tracking-snug) !important;
   color: var(--text) !important;
   font-style: normal !important;
-  margin: 0 auto var(--space-2) !important;
+  margin: 0 auto calc(var(--space-2) * var(--density-scale)) !important;
 }
 .entry-card .entry-brand {
   font-family: "PerfectlyNineties", Georgia, serif !important;
@@ -240,7 +240,7 @@ em, strong,
   margin-bottom: 14px !important;
 }
 .entry-doors {
-  margin-bottom: var(--space-3) !important;
+  margin-bottom: calc(var(--space-3) * var(--density-scale)) !important;
 }
 .entry-door {
   background: #141418 !important;
@@ -260,7 +260,7 @@ em, strong,
   letter-spacing: var(--tracking-wider) !important;
   text-transform: uppercase !important;
   color: rgba(242,240,236,0.55) !important;
-  margin-bottom: var(--space-app-1-5) !important;
+  margin-bottom: calc(var(--space-app-1-5) * var(--density-scale)) !important;
 }
 .ed-title {
   font-family: "NinetiesHeadliner", Georgia, serif !important;
@@ -269,7 +269,7 @@ em, strong,
   font-size: var(--text-base) !important;
   letter-spacing: var(--tracking-normal) !important;
   color: var(--text) !important;
-  margin-bottom: var(--space-app-1-5) !important;
+  margin-bottom: calc(var(--space-app-1-5) * var(--density-scale)) !important;
 }
 .ed-helper {
   font-family: "PerfectlyNineties", Georgia, serif !important;
@@ -285,7 +285,7 @@ em, strong,
   letter-spacing: var(--tracking-wide) !important;
   color: rgba(242,240,236,0.55) !important;
   text-transform: uppercase !important;
-  margin-top: var(--space-2) !important;
+  margin-top: calc(var(--space-2) * var(--density-scale)) !important;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -636,7 +636,7 @@ body[data-product="business"] {
   /* Brief disposition wraps */
   .brief-disposition {
     flex-wrap: wrap !important;
-    gap: var(--space-2) !important;
+    gap: calc(var(--space-2) * var(--density-scale)) !important;
   }
   /* Tray pill still accessible */
   .tray-pop {
@@ -682,13 +682,13 @@ body[data-product="business"] {
   .slate-area {
     width: 100% !important;
     min-width: 0 !important;
-    padding: var(--space-3) var(--space-4) !important;
+    padding: calc(var(--space-3) * var(--density-scale)) calc(var(--space-4) * var(--density-scale)) !important;
   }
 
   /* Titlebar — compress */
   .titlebar {
-    padding-left: var(--space-3) !important;
-    padding-right: var(--space-3) !important;
+    padding-left: calc(var(--space-3) * var(--density-scale)) !important;
+    padding-right: calc(var(--space-3) * var(--density-scale)) !important;
   }
   .breadcrumb { max-width: 160px !important; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; }
 
@@ -707,23 +707,23 @@ body[data-product="business"] {
 
   /* Brief — full width */
   .brief-area {
-    padding: var(--space-4) !important;
+    padding: calc(var(--space-4) * var(--density-scale)) !important;
   }
   .brief-body { font-size: 0.82rem !important; line-height: 1.6 !important; }
 
   /* Footer — hide secondary stats */
   .footer-stats { display: none !important; }
-  .bottom-bar, .stat-strip { font-size: 0.45rem !important; gap: var(--space-3) !important; }
+  .bottom-bar, .stat-strip { font-size: 0.45rem !important; gap: calc(var(--space-3) * var(--density-scale)) !important; }
 
   /* Touch targets */
   .dispo-btn {
     min-height: 36px !important;
-    padding: var(--space-2) 14px !important;
+    padding: calc(var(--space-2) * var(--density-scale)) 14px !important;
   }
 
   /* Entry overlay — full screen at mobile */
   .entry-card {
-    padding: 32px var(--space-app-5) var(--space-6) !important;
+    padding: 32px calc(var(--space-app-5) * var(--density-scale)) calc(var(--space-6) * var(--density-scale)) !important;
     max-width: 100vw !important;
     border-radius: 0 !important;
     margin: 0 !important;
