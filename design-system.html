@@ -1737,6 +1737,7 @@
           <div class="ds-nav-group-label">type · space · motion</div>
           <a href="#type"><span class="nv-num">·</span><span class="nv-lbl">type</span></a>
           <a href="#spacing"><span class="nv-num">·</span><span class="nv-lbl">spacing · radius</span></a>
+          <a href="#density"><span class="nv-num">·</span><span class="nv-lbl">density</span></a>
           <a href="#motion"><span class="nv-num">·</span><span class="nv-lbl">motion</span></a>
         </li>
         <li class="ds-nav-group">
@@ -1759,7 +1760,7 @@
   <header class="ds-masthead">
     <div class="ds-masthead-eyebrow">
       <span class="left"><span class="glyph">◇</span>LIMINAL · DESIGN SYSTEM</span>
-      <span class="right"><strong>spec v0.3.7</strong>tokens · design-tokens.css</span>
+      <span class="right"><strong>spec v0.3.8</strong>tokens · design-tokens.css</span>
     </div>
     <h1>The <span class="h1-mark">canon.</span></h1>
     <p class="lede">Every screen in every product cut reads from these tokens. Edit a value here and the change cascades to every importing surface. <em>Instantly, no save, no refresh.</em> <span class="pin">The design system is the product's control surface, not a description of it.</span></p>
@@ -2157,11 +2158,11 @@
         <div style="font-family: var(--serif); font-size: 28px; line-height: 1.2; letter-spacing: -0.012em;">three bounded specialists read the same task and <em style="font-style: italic;">disagree</em>.</div>
       </div>
       <div class="family-row">
-        <div class="family-meta"><div class="family-name">--sans</div><div class="family-id">Geist</div></div>
+        <div class="family-meta"><div class="family-name">--sans</div><div class="family-id">Space Grotesk</div></div>
         <div style="font-family: var(--sans); font-size: 18px; color: var(--text); letter-spacing: -0.005em;">workspace · liminal agents · v0.3.7</div>
       </div>
       <div class="family-row">
-        <div class="family-meta"><div class="family-name">--mono</div><div class="family-id">Geist Mono</div></div>
+        <div class="family-meta"><div class="family-name">--mono</div><div class="family-id">Space Mono</div></div>
         <div style="font-family: var(--mono); font-size: 16px; color: var(--text); letter-spacing: 0;">/agency competitive teardown of granola.ai</div>
       </div>
       <div class="family-row">
@@ -2200,6 +2201,57 @@
     <p class="section-lede">Ten steps from <code>--space-1</code> (4px) to <code>--space-10</code> (96px). Most surfaces breathe at <code>--space-5</code> through <code>--space-7</code>.</p>
     <div class="token-grid" id="tokenGrid-spacing">
       <div class="tg-head">name</div><div class="tg-head">scale</div><div class="tg-head">value</div><div class="tg-head">reset</div>
+    </div>
+  </section>
+
+  <section class="ds-section" id="density">
+    <h2>Density · three product registers</h2>
+    <p class="section-lede">One spacing scale, three readings of it. <code>--density-scale</code> multiplies every spacing token so the same components compress for an institutional console or open up for a personal read. Set it with <code>data-density</code> — or let <code>data-product</code> imply it — <strong>on <code>&lt;body&gt;</code></strong>, which is where canon's selectors match.</p>
+    <p class="section-lede" style="color: var(--text-dim);">The rule is narrow on purpose: <strong>only spacing scales.</strong> Type sizes and radii never do — a dense surface is a tighter grid, not smaller text. Shipped 2026-07-29; the tokens had existed since April but reached no surface, so every register rendered identically.</p>
+
+    <div class="state-gallery" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="state-card" style="--density-scale: 1.1;">
+        <div class="state-label">anointed · 1.10 · personal</div>
+        <div class="demo">
+          <div style="border: 1px solid var(--card-border); border-radius: var(--radius-3); padding: calc(var(--space-4) * var(--density-scale)); display: grid; gap: calc(var(--space-2) * var(--density-scale));">
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--diligence); letter-spacing: var(--ls-mono); text-transform: uppercase;">self · read</div>
+            <div style="font: var(--fs-sm)/1.45 var(--serif); color: var(--text);">The operator is the subject. Space is permission to dwell.</div>
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--text-faint);">--space-4 → 17.6px</div>
+          </div>
+        </div>
+      </div>
+      <div class="state-card" style="--density-scale: 1.0;">
+        <div class="state-label">shared · 1.00 · team</div>
+        <div class="demo">
+          <div style="border: 1px solid var(--card-border); border-radius: var(--radius-3); padding: calc(var(--space-4) * var(--density-scale)); display: grid; gap: calc(var(--space-2) * var(--density-scale));">
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--synthesis); letter-spacing: var(--ls-mono); text-transform: uppercase;">peer · read</div>
+            <div style="font: var(--fs-sm)/1.45 var(--serif); color: var(--text);">The neutral register. Everything else is measured against this one.</div>
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--text-faint);">--space-4 → 16px</div>
+          </div>
+        </div>
+      </div>
+      <div class="state-card" style="--density-scale: 0.85;">
+        <div class="state-label">analyst · 0.85 · business</div>
+        <div class="demo">
+          <div style="border: 1px solid var(--card-border); border-radius: var(--radius-3); padding: calc(var(--space-4) * var(--density-scale)); display: grid; gap: calc(var(--space-2) * var(--density-scale));">
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--outreach); letter-spacing: var(--ls-mono); text-transform: uppercase;">institutional · read</div>
+            <div style="font: var(--fs-sm)/1.45 var(--serif); color: var(--text);">Console-grade. More rows on screen; the operator is auditing, not dwelling.</div>
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--text-faint);">--space-4 → 13.6px</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-deferred" style="border-color: var(--card-border);">
+      <strong>Apply to this page</strong>
+      <p style="font: var(--fs-sm)/1.5 var(--serif); color: var(--text-dim); margin: 0 0 var(--space-3);">Sets <code>data-density</code> on <code>&lt;body&gt;</code>. Every component on this page reflows — that is the axis doing its job, not a preview.</p>
+      <div style="display: flex; gap: var(--space-2); flex-wrap: wrap;" id="densitySwitch">
+        <button data-d="anointed">anointed · 1.10</button>
+        <button data-d="shared">shared · 1.00</button>
+        <button data-d="analyst">analyst · 0.85</button>
+        <button data-d="">reset · inherit</button>
+      </div>
+      <div style="font: var(--fs-mono-xs) var(--mono); color: var(--text-faint); margin-top: var(--space-3);" id="densityReadout">--density-scale · <span style="color: var(--text-mid);">1</span></div>
     </div>
   </section>
 
@@ -2752,7 +2804,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       <span class="stamp">deferred · v1.0+</span>
       <strong>The component shelf for the desktop client</strong>
       <ul>
-        <li><b>Density modes</b> · <span style="color: var(--text-faint); font-style: italic;">S</span> · body-class toggle: comfortable / compact / dense · <span style="color: var(--text-mute);">depends: spacing scale (already shipped)</span></li>
+        <li style="opacity: 0.55;"><b style="text-decoration: line-through; text-decoration-color: var(--outreach);">Density modes</b> · <span style="color: var(--outreach); font-style: normal;">SHIPPED 2026-07-29</span> · see §14 above · <span style="color: var(--text-mute);">the dependency really was met — nothing needed building, 1,010 spacing declarations needed connecting</span></li>
         <li><b>Light theme</b> · <span style="color: var(--text-faint); font-style: italic;">L</span> · cream substrate scale already shipped · component CSS needs <code>body[data-theme="light"]</code> overrides · <span style="color: var(--text-mute);">depends: cream scale ✓ · contrast tokens</span></li>
         <li><b>Command palette</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · ⌘K formal pattern · /agency typing prompt is the analog · <span style="color: var(--text-mute);">depends: keyboard shortcuts subsystem</span></li>
         <li><b>Table</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · tabular data · audit log + alerts list · sortable headers + selection states · <span style="color: var(--text-mute);">depends: nothing</span></li>
@@ -2776,14 +2828,17 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     <div class="colophon-mark">◇</div>
     <div class="colophon-line">give form to inner life.</div>
     <div class="colophon-meta">
-      <strong>liminal · design system</strong> · spec v0.3.7 · canon locked 2026-04-15 · last edited 2026-04-28<br>
+      <strong>liminal · design system</strong> · spec v0.3.8 · 12-wheel canon locked 2026-04-15 · last edited 2026-07-29<br>
       tokens · design-tokens.css · single source · imported across every product surface
     </div>
     <div class="colophon-hand">- SR</div>
 
     <details class="changelog">
-      <summary>changelog · 5 entries</summary>
+      <summary>changelog · 8 entries</summary>
       <ol>
+        <li><span class="cl-date">2026-07-29</span><span><b>v0.3.8 · density wired</b>the April "Density modes" deferral shipped · <code>--density-scale</code> existed in canon since §14 but reached no surface · 1,010 spacing declarations across lib/ and 15 cuts now read <code>calc(var(--space-N) * var(--density-scale))</code> · anointed 1.10 · shared 1.00 · analyst 0.85 · only spacing scales, never type or radius</span></li>
+        <li><span class="cl-date">2026-07-29</span><span><b>one register system</b>the cuts had been running a forked wheel — wholeness #E8006A vs canon #E90095, synthesis bound to cerulean BLUE vs canon Agency yellow, and a divergent alpha ladder — because lib/brand-upgrade.css loaded after canon and won. Fork removed; canon inherits. Also: <code>--sans</code> resolved to a SERIF, and a self-referencing "bridge to canon" left the cuts rendering in Times</span></li>
+        <li><span class="cl-date">2026-07-29</span><span><b>§5 type · §2 -lift tier · §18 wheel-bound</b><code>--sans</code> Geist → Space Grotesk · <code>--mono</code> Geist Mono → Space Mono · new opaque light tier above -500 (<code>--cerulean-lift</code>, <code>--orchid-lift</code>, <code>--amber-orn-dry</code>) · the five §18 product-semantics colors were free-standing off-wheel literals that broke the §2 invariant for seven weeks — all now bind to wheel positions</span></li>
         <li><span class="cl-date">2026-04-28</span><span><b>v0.3.7</b>generative base · 12 hue × 10 stops · functional UI bindings · gradient grammar · semantic states migrated to wheel · accessibility documentation added · sticky nav · summary card</span></li>
         <li><span class="cl-date">2026-04-28</span><span><b>v0.3.6</b>12-register vocabulary · 8 new register words extending v0.2's 4 · alarm · surge · vital · watch · signal · ambient · depth · liminal</span></li>
         <li><span class="cl-date">2026-04-15</span><span><b>brand 3 lock</b>clarity (primary) · wholeness (secondary) · vitality (accent) · slate pigment retune across all 12 hues</span></li>
@@ -3701,6 +3756,38 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     });
     typeGrid.parentNode.insertBefore(stack, typeGrid);
   }
+})();
+</script>
+
+<!-- ════════════════════════════════════════════════════════════════
+     DENSITY SWITCH · sets data-density on <body> · §14
+     Reads the resolved --density-scale back off body rather than echoing
+     the button's own label, so the readout reports what the cascade
+     actually produced. If canon's selectors ever stop matching, this
+     readout is what will say so.
+     ════════════════════════════════════════════════════════════════ -->
+<script>
+(() => {
+  const sw = document.getElementById('densitySwitch');
+  const out = document.getElementById('densityReadout');
+  if (!sw || !out) return;
+  const report = () => {
+    const v = getComputedStyle(document.body).getPropertyValue('--density-scale').trim() || '(unset)';
+    const d = document.body.getAttribute('data-density') || 'inherited';
+    out.innerHTML = '--density-scale · <span style="color: var(--text-mid);">' + v + '</span>'
+                  + ' · <span style="color: var(--text-faint);">data-density: ' + d + '</span>';
+  };
+  sw.addEventListener('click', e => {
+    const b = e.target.closest('button[data-d]');
+    if (!b) return;
+    const d = b.getAttribute('data-d');
+    if (d) document.body.setAttribute('data-density', d);
+    else document.body.removeAttribute('data-density');
+    [...sw.querySelectorAll('button')].forEach(x =>
+      x.style.borderColor = (x === b) ? 'var(--diligence-edge)' : '');
+    report();
+  });
+  report();
 })();
 </script>
 
