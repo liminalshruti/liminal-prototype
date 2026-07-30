@@ -141,70 +141,45 @@
      first. This file no longer shadows canon; the README lockstep caveat
      is closed by construction, not by sync discipline. */
 
-  /* ── 12-wheel register colors ─────────────────────
-     4 agent registers only. No orange/yellow/coral/teal.
-     Diligence = clarity violet  · Judgment = wholeness magenta
-     Synthesis = cerulean blue   · Outreach = connection green
-  ─────────────────────────────────────────────────── */
-  --clarity:      #8E66FB;
-  --clarity-soft: rgba(142,102,251,0.35);
-  --clarity-bg:   rgba(142,102,251,0.07);
-  --clarity-edge: rgba(142,102,251,0.22);
-
-  --wholeness:      #E8006A;
-  --wholeness-soft: rgba(232,0,106,0.35);
-  --wholeness-bg:   rgba(232,0,106,0.07);
-  --wholeness-edge: rgba(232,0,106,0.22);
-
-  --cerulean:      #197EEB;
-  --cerulean-soft: rgba(25,126,235,0.35);
-  --cerulean-bg:   rgba(25,126,235,0.07);
-  --cerulean-edge: rgba(25,126,235,0.22);
-
-  --connection:      #31E682;
-  --connection-soft: rgba(49,230,130,0.35);
-  --connection-bg:   rgba(49,230,130,0.07);
-  --connection-edge: rgba(49,230,130,0.22);
-
-  /* liminal-space-v0 compat aliases — same values, different names */
+  /* ── 12-wheel register colors · FORK REMOVED 2026-07-29 ───────────────────
+   *
+   * This block used to redeclare four wheel hues and their alpha ladders, and
+   * to rebind the register words. Loading after design-tokens.css, it won —
+   * so the cuts ran a different register system than the design system
+   * documents, which is what "it doesn't look like the same app" was.
+   *
+   * What diverged:
+   *   --wholeness  #E8006A  vs canon #E90095 — BRAND SECONDARY, forked
+   *   --synthesis  bound to cerulean BLUE  vs canon Agency YELLOW #FEF059
+   *   alpha ladder -soft .35 / -bg .07 / -edge .22
+   *                vs canon -soft .24-.28 / -bg .08 / -edge .40-.42
+   *   body --accent #E8006A pink vs canon --accent = var(--clarity) violet
+   * (--clarity #8E66FB, --cerulean #197EEB and --connection #31E682 already
+   * matched canon exactly — they were redundant, not wrong.)
+   *
+   * Canon defines every one of these at :root, with the full 10-stop scale
+   * rather than four hand-picked alphas. Deleting the block lets them inherit.
+   * Founder ruling 2026-07-29: canon wins, same as the type stack.
+   *
+   * Only the liminal-space-v0 compat names survive, because canon has no
+   * opinion about them. --magenta* is unused today but kept as the documented
+   * v0 spelling; --violet has 3 live call sites.
+   */
   --magenta:        var(--wholeness);
   --magenta-soft:   var(--wholeness-soft);
   --magenta-bg:     var(--wholeness-bg);
   --violet:         var(--clarity);
   --violet-soft:    var(--clarity-soft);
-
-  /* Register → role bindings */
-  --diligence:      var(--clarity);
-  --diligence-soft: var(--clarity-soft);
-  --diligence-bg:   var(--clarity-bg);
-  --diligence-edge: var(--clarity-edge);
-
-  --judgment:       var(--wholeness);
-  --judgment-soft:  var(--wholeness-soft);
-  --judgment-bg:    var(--wholeness-bg);
-  --judgment-edge:  var(--wholeness-edge);
-
-  --synthesis:      var(--cerulean);
-  --synthesis-soft: var(--cerulean-soft);
-  --synthesis-bg:   var(--cerulean-bg);
-  --synthesis-edge: var(--cerulean-edge);
-
-  --outreach:       var(--connection);
-  --outreach-soft:  var(--connection-soft);
-  --outreach-bg:    var(--connection-bg);
-  --outreach-edge:  var(--connection-edge);
 }
 
-/* body-level accent — wins over per-file :root overrides */
-body {
-  --accent:      #E8006A;
-  --accent-soft: rgba(232,0,106,0.35);
-  --accent-bg:   rgba(232,0,106,0.07);
-  --accent-edge: rgba(232,0,106,0.22);
-  --accent-glow: 0 0 20px rgba(232,0,106,0.4);
-  --pink:        #E8006A;
-  --clarity:     #8E66FB;
-}
+/* body-level accent block REMOVED 2026-07-29 along with the fork above.
+ * It set --accent/--pink to #E8006A and, being body-scoped, beat every :root
+ * declaration including canon's. Canon binds --accent to Clarity (violet) and
+ * --pink to Wholeness; those now apply.
+ * --accent-glow is not re-declared: this file defined it as a box-shadow
+ * (0 0 20px rgba(...)) while canon defines it as a COLOR (var(--clarity-glow)).
+ * Two incompatible types under one name. It has zero call sites, so canon's
+ * definition simply stands. */
 
 /* ══════════════════════════════════════════════════════
    GLOBAL EMPHASIS RULE — weight not italic
