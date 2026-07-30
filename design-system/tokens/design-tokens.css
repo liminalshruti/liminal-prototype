@@ -937,11 +937,24 @@
   */
 
   /* action · primary · brand 3 primary · Clarity violet */
-  --ui-action-primary:        var(--clarity-500);
-  --ui-action-primary-hover:  var(--clarity-200);
-  --ui-action-primary-active: var(--clarity-600);
-  --ui-action-primary-bg:     var(--clarity-100);
-  --ui-action-primary-border: var(--clarity-400);
+  /* BRAND 4 · 2026-07-29 · founder ruling: the primary action follows the brand
+     primary. Was the Clarity ramp.
+     Contrast, measured in situ on cut 04 rather than assumed — buttons.css paints
+     this with color:, not as a fill, so it is TEXT: against the frame ground
+     #0E0E11, pink #E90095 gives 4.496:1 where Clarity violet gave 4.996:1. That
+     puts it 0.004 under WCAG AA's 4.5:1 for normal-size text. Darkening is worse
+     (-600 is 3.20:1) and there is no lighter OPAQUE pink in the ramp: -50..-400 are
+     alpha and -600+ darken, so -500 is the lightest solid stop.
+     RESOLVED by size, not by tinting the pink (founder call): .btn-primary is now
+     19px/700, which WCAG classes as large-scale text, dropping the threshold to
+     3.0:1 — pink clears it with room. The colour token is therefore correct as-is;
+     the accessibility fix lives in components/buttons.css. Do not "fix" this by
+     lightening the pink without re-reading that rule. */
+  --ui-action-primary:        var(--wholeness-500);
+  --ui-action-primary-hover:  var(--wholeness-200);
+  --ui-action-primary-active: var(--wholeness-600);
+  --ui-action-primary-bg:     var(--wholeness-100);
+  --ui-action-primary-border: var(--wholeness-400);
 
   /* action · secondary · neutral chrome */
   --ui-action-secondary:        var(--text-mid);

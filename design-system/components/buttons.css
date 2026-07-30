@@ -51,7 +51,7 @@
  *   public                  | refused surface · button does not render
  *
  * Do not
- *   - reference --clarity-500 or other hue tokens directly · use --ui-action-primary
+ *   - reference --wholeness-500 or other hue tokens directly · use --ui-action-primary
  *   - use --accent (legacy alias) · use --ui-action-primary
  *   - use color-only state changes for critical actions · pair with text or glyph
  *   - use raw hex values
@@ -102,6 +102,23 @@
   border-bottom: 1px solid var(--ui-action-primary-border);
   border-radius: 0;
   padding: calc(var(--space-2) * var(--density-scale)) 0;
+  /* BRAND 4 · 2026-07-29 · founder ruling, accessibility half.
+     The primary action follows the brand primary, so this label is now Wholeness
+     pink #E90095. Measured in situ on cut 04: pink gives 4.496:1 against the frame
+     ground #0E0E11, where Clarity violet gave 4.996:1 — i.e. the brand ruling puts
+     the label 0.004 UNDER WCAG AA's 4.5:1 for normal-size text.
+     The founder chose to fix it by size rather than by tinting the pink. At
+     >=18.66px with weight >=700, WCAG classes text as large-scale and the threshold
+     drops to 3.0:1, which pink clears with room. --fs-lg is 19px, just over that
+     line, so the scale already had the step and no new token is needed.
+     Longhands, not the `font:` shorthand: .btn sets font via shorthand above, and
+     re-declaring it here would reset family/line-height and has bitten this repo
+     before (shorthand + var() can serialize empty in the CSSOM).
+     Scoped to .btn-primary deliberately: secondary and destructive labels are not
+     pink and do not have the problem, so they keep the 11px terminal register. */
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: var(--ls-mono);
 }
 .btn-primary:hover {
   color: var(--text);

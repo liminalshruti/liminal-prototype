@@ -3613,11 +3613,13 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
   // ─── Functional UI bindings ─────────────────────────────────
   const UI_GROUPS = [
     { title: 'action · primary / secondary / destructive', tokens: [
-      { name: '--ui-action-primary',          purpose: 'primary CTA fill',        route: 'clarity-500' },
-      { name: '--ui-action-primary-hover',    purpose: 'primary CTA hover',       route: 'clarity-200' },
-      { name: '--ui-action-primary-active',   purpose: 'primary CTA pressed',     route: 'clarity-600' },
-      { name: '--ui-action-primary-bg',       purpose: 'primary CTA backdrop',    route: 'clarity-100' },
-      { name: '--ui-action-primary-border',   purpose: 'primary CTA border',      route: 'clarity-400' },
+      /* BRAND 4 · 2026-07-29 · primary action follows the brand primary (pink).
+         'fill' corrected to 'label' — buttons.css paints this with color:, not background. */
+      { name: '--ui-action-primary',          purpose: 'primary CTA label',       route: 'wholeness-500' },
+      { name: '--ui-action-primary-hover',    purpose: 'primary CTA hover',       route: 'wholeness-200' },
+      { name: '--ui-action-primary-active',   purpose: 'primary CTA pressed',     route: 'wholeness-600' },
+      { name: '--ui-action-primary-bg',       purpose: 'primary CTA backdrop',    route: 'wholeness-100' },
+      { name: '--ui-action-primary-border',   purpose: 'primary CTA border',      route: 'wholeness-400' },
       { name: '--ui-action-secondary',        purpose: 'secondary CTA text',      route: 'text-mid' },
       { name: '--ui-action-secondary-hover',  purpose: 'secondary CTA hover',     route: 'text' },
       { name: '--ui-action-secondary-bg',     purpose: 'secondary CTA backdrop',  route: 'frame-bg-2' },

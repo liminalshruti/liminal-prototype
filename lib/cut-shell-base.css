@@ -1554,7 +1554,15 @@
   }
   .tp-title em {
     font-style: italic;
-    color: #FEF059;
+    /* BRAND 4 · 2026-07-29 · founder ruling · was the literal #FEF059 (agency
+       yellow), off-brand once yellow left the palette. Now the brand primary via
+       token, so it follows canon instead of pinning a hex.
+       Note on semantics: this <em> holds the AGENT NAME ("How was <em>Analyst</em>'s
+       read off?"), so it is an identity marker. It was register-agnostic before
+       (every agent got the same yellow) and stays register-agnostic now. Tinting it
+       per-agent register would be richer, but that needs the register at render time
+       in slate.js — a separate change, not a colour fix. */
+    color: var(--accent);
   }
   .tp-close {
     position: absolute;
