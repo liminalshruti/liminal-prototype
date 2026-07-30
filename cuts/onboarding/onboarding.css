@@ -222,6 +222,21 @@ button { cursor: pointer; font-family: inherit; }
 .btn-primary {
   color: var(--accent);
   border-bottom-color: var(--accent-soft);
+  /* BRAND 4 · 2026-07-29 · accessibility half of the founder ruling.
+     --accent moved Clarity violet → Wholeness pink, so this label went from
+     4.996:1 to 4.496:1 against the frame ground #0E0E11 — measured in situ here,
+     not computed from an assumed background. That is 0.004 under WCAG AA's 4.5:1
+     for normal-size text at .btn's 11px.
+     Founder chose to fix it by size, not by tinting the pink. At >=18.66px with
+     weight >=700 WCAG classes text as large-scale and the threshold drops to
+     3.0:1, which pink clears with room. --fs-lg is 19px, just over the line, so
+     the scale already had the step.
+     Scoped to .btn-primary: .btn-ghost and the rest are not pink and keep the
+     11px terminal register. Longhands rather than the `font:` shorthand, which
+     with var() serializes empty in the CSSOM and has hidden rules here before. */
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  letter-spacing: var(--ls-mono);
 }
 .btn-primary:hover {
   color: var(--text);

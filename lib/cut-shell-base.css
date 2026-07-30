@@ -71,11 +71,22 @@
        Fallback hexes refreshed to canon -500 values 2026-07-29: --outreach was
        #3EE878 and --synthesis #FFD24A, both retired by the 2026-04-28 wheel
        migration (Connection is #31E682, Agency #FEF059). They only fire when
-       canon is absent, but a stale fallback is a wrong answer waiting. */
+       canon is absent, but a stale fallback is a wrong answer waiting.
+
+       CAUTION — this block names the SOURCE HUE, so it overrides canon's
+       register→hue MAPPING, not just its values. "canon owns the values" above
+       is true and misleading: var(--agency, …) defers to canon for what agency
+       IS, while hardcoding that synthesis MEANS agency. Canon is the authority
+       on the mapping, and this block silently outranked it — for 16 shell cuts,
+       every one of them served yellow while canon said blue.
+       Measured 2026-07-29 on cut 01: --synthesis resolved #FEF059 with canon
+       already rebound to cerulean. If you change a register→hue binding in
+       design-tokens.css, change it HERE TOO or the cuts will not move. */
     --diligence:    var(--clarity,     #8E66FB);
     --judgment:     var(--wholeness,   #E90095);
     --outreach:     var(--connection,  #31E682);
-    --synthesis:    var(--agency,      #FEF059);
+    /* BRAND 4 · 2026-07-29 · was var(--agency, #FEF059) — see CAUTION above. */
+    --synthesis:    var(--cerulean,    #197EEB);
 
     /* semantic states · canon owns.
        --good and --red USED TO read var(--good, …) / var(--red, …) — self-
@@ -102,9 +113,15 @@
     --outreach-soft:  var(--connection-soft, rgba(62,232,120,0.40));
     --outreach-bg:    var(--connection-bg,   rgba(62,232,120,0.06));
     --outreach-edge:  var(--connection-edge, rgba(62,232,120,0.22));
-    --synthesis-soft: var(--agency-soft,     rgba(255,210,74,0.40));
-    --synthesis-bg:   var(--agency-bg,       rgba(255,210,74,0.06));
-    --synthesis-edge: var(--agency-edge,     rgba(255,210,74,0.22));
+    /* BRAND 4 · 2026-07-29 · were var(--agency-*, rgba(255,210,74,…)) — the same
+       mapping override as the base hue above, and the fallbacks were doubly
+       stale: rgba(255,210,74) is #FFD24A, retired by the 2026-04-28 wheel
+       migration and never refreshed here when the base fallback was. Left
+       unfixed, Team mode rendered blue with yellow halos, because --p-accent-soft
+       /-bg/-edge all route through these. */
+    --synthesis-soft: var(--cerulean-soft,   rgba(25,126,235,0.28));
+    --synthesis-bg:   var(--cerulean-bg,     rgba(25,126,235,0.10));
+    --synthesis-edge: var(--cerulean-edge,   rgba(25,126,235,0.42));
 
     /* per-product accent · default Personal · overridden per body[data-product] below */
     --p-accent:      var(--diligence);
@@ -1535,9 +1552,37 @@
     letter-spacing: var(--ls-app-normal);
     line-height: 1.3;
   }
+  /* This <em> holds the AGENT NAME — "How was <em>Analyst</em>'s read off?" — in the
+     9-tag correction picker, so it is an identity marker, not decoration.
+
+     font-style: italic REMOVED 2026-07-29. It contradicted ratified canon: commit
+     236e728 (2026-05-07, "full 16-weight PerfectlyNineties") established "No italic
+     — weight is the emphasis axis throughout" and "em/strong → font-weight 600,
+     font-style normal globally", enforced by lib/brand-upgrade.css's global
+     `em, strong { … !important }` rule. So this declaration had been dead for ~3
+     months on all 16 cuts that load brand-upgrade.css. Deleting it rather than
+     leaving it overridden: a declaration that never applies is a lie about intent.
+
+     color was the literal #FEF059 (Agency yellow) — retired from the brand by the
+     Brand 4 ruling, and equally dead for the same 3 months, so the yellow never
+     actually rendered. Rebound to the brand primary rather than deleted, because it
+     is the correct value under either regime: today the global rule's
+     `color: var(--text) !important` keeps it INERT (measured: this em computes
+     var(--text) white, weight 600, PerfectlyNineties), and if that colour clause is
+     ever narrowed — see the open question below — pink is what should appear.
+
+     OPEN, founder call, deliberately not taken here: the global rule's stated
+     rationale is entirely about SLANT, yet it also forces
+     `color: var(--text) !important`, which silently flattens 8 deliberate em colours
+     across 5 files — including .brief-body .brief-opener em → var(--p-accent), a
+     register accent, and .display em → var(--clarity). Verified live on cut 04:
+     .display em is written italic+clarity and renders white/normal/600. Narrowing
+     the clause to font-style/family/weight would restore all 8. That is a visual
+     change across 16 cuts, so it is flagged, not made. The other 8 declarations are
+     left in place on purpose: they encode intent a narrowing would revive, and
+     deleting them would destroy it. */
   .tp-title em {
-    font-style: italic;
-    color: #FEF059;
+    color: var(--accent);
   }
   .tp-close {
     position: absolute;
