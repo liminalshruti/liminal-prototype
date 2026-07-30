@@ -36,14 +36,37 @@
   CONTRACT
   · Tokens come from design-system/tokens/design-tokens.css · DO NOT redefine.
   · Type stack is canon: Geist · Geist Mono · Caveat (the marginalia hand).
-    NO Newsreader (that is the documented cut-shell font drift).
-  · Self-contained: scoped per-cut CSS + one inline reveal engine. No heavy
-    lib/*.js dependency, so it renders standalone and inside the catalog iframe.
   · The staged-reveal engine is bespoke (lib/marginalia.js is all-at-once);
     it reuses the .ed-note visual register and the ⌘N / ✎ toggle convention.
   ──────────────────────────────────────────────────────────────────────
+  .p-read ADOPTED · 2026-07-29 (founder-adopted; coordinate unchanged)
+
+  This cut's held-read card was the best brief design in the repo and was
+  trapped in this file. It is now the shared `.p-read` primitive in
+  lib/cut-shell-products.css, and this cut CONSUMES it — one copy, no fork.
+  Cut 10 rendered the identical fixture under .tdy-* names; it converged too.
+
+  Two corrections this made, recorded so they are not re-litigated:
+
+  1. The old contract said "Self-contained … NO Newsreader (that is the
+     documented cut-shell font drift)". That reason was STALE:
+     lib/cut-shell-base.css:119 repudiates Newsreader as "an off-canon fork"
+     and defines --serif/--hand identically to canon. The drift was fixed.
+     This cut still does NOT link cut-shell.css (its own layout is bespoke) —
+     it links lib/cut-shell-products.css ALONE, which carries the component
+     primitives and no body/layout rules. Precedent: cuts/04-onboarding.html.
+
+  2. This cut's verdict + refusal glyph used --alarm. Per the v0.3 severity
+     lane (founder ruling 2026-07-29) a refusal is a LIFECYCLE state and uses
+     the four registers only — "a refused agent and a flagged anomaly never
+     share a hue". Cut 10, the atlas .p-refusal, and cut 12's refused badge
+     all already bound --judgment; this cut was the outlier. The primitive
+     carries --judgment, so the drift is corrected at the source.
+  ──────────────────────────────────────────────────────────────────────
 -->
 
+<!-- brand ◇ favicon (data-URI) · kills the dev-console 404 on screen-share -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
@@ -51,9 +74,16 @@
 <!-- canon · DO NOT REDEFINE TOKENS -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
 
+<!-- component primitives ONLY (.p-read lives here) · deliberately NOT
+     cut-shell.css: this cut owns its own page layout and products carries no
+     body/layout rules. Same pattern as cuts/04-onboarding.html. -->
+<link rel="stylesheet" href="../lib/cut-shell-products.css">
+
 <style>
   /* ════════════════════════════════════════════════════════════════
-     Cut 06 · margin-read · per-cut layout only · no token redefines
+     Cut 06 · margin-read · per-cut LAYOUT only
+     The held-read card is not here — it is `.p-read` in
+     lib/cut-shell-products.css. Do not re-add a local copy.
      ════════════════════════════════════════════════════════════════ */
 
   *, *::before, *::after { box-sizing: border-box; }
@@ -215,76 +245,13 @@
   }
   .sec-label .meta { font-size: var(--fs-mono-xs); color: var(--text-faint); letter-spacing: var(--ls-mono-sm); }
 
-  /* ── the held read (Read + Decide + the refusal) ───────────────── */
-  .read {
-    border: 1px solid var(--card-border);
-    border-radius: var(--radius-3, 8px);
-    background: var(--frame-bg-2);
-    padding: 18px;
-  }
-  .read-tags { display: flex; gap: calc(var(--space-2) * var(--density-scale)); flex-wrap: wrap; margin-bottom: calc(var(--space-3) * var(--density-scale)); }
-  .tag {
-    font: var(--fs-mono-xs)/1 var(--mono);
-    letter-spacing: var(--ls-mono-sm);
-    text-transform: uppercase;
-    padding: calc(var(--space-1) * var(--density-scale)) 9px;
-    border-radius: var(--radius-pill);
-    border: 1px solid var(--frame-border);
-    color: var(--text-dim);
-    background: var(--frame-bg);
-  }
-  .tag.lane   { color: var(--judgment); border-color: color-mix(in oklab, var(--judgment) 40%, transparent); }
-  .tag.almost { color: var(--watch);    border-color: color-mix(in oklab, var(--watch) 40%, transparent); }
-  .verdict {
-    font: var(--fs-mono-sm)/1 var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--alarm);
-    margin-bottom: 10px;
-    font-weight: 500;
-  }
-  .read-body { color: var(--text-mid); font-size: var(--fs-body); line-height: 1.6; margin: 0 0 14px; }
-  .read-body b { color: var(--text); font-weight: 600; }
-
-  /* the refusal line — the architectural signature, made legible */
-  .refusal {
-    display: flex; gap: 10px; align-items: flex-start;
-    padding: 11px 13px;
-    border: 1px solid color-mix(in oklab, var(--outreach) 32%, var(--frame-border));
-    border-radius: var(--radius-2, var(--radius-4));
-    background: color-mix(in oklab, var(--outreach) 7%, var(--frame-bg));
-    margin-bottom: 14px;
-  }
-  .refusal .x { color: var(--alarm); font-family: var(--mono); flex-shrink: 0; line-height: 1.5; }
-  .refusal-text { font-size: var(--fs-mono-lg); color: var(--text-mid); line-height: 1.55; }
-  .refusal-text b { color: var(--outreach); font-weight: 600; }
-
-  .receipt {
-    font: var(--fs-mono-xs)/1.55 var(--mono);
-    color: var(--text-faint);
-    letter-spacing: var(--ls-app-loose);
-    padding-top: 11px;
-    border-top: 1px dashed var(--frame-border);
-    word-break: break-word;
-  }
-  .receipt .k { color: var(--text-dim); }
-
-  .actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
-  .btn {
-    font: var(--fs-mono-sm)/1 var(--mono);
-    letter-spacing: var(--ls-mono-sm);
-    text-transform: uppercase;
-    padding: 9px 14px;
-    border-radius: var(--radius-2, var(--radius-4));
-    border: 1px solid var(--card-border);
-    background: var(--frame-bg);
-    color: var(--text-dim);
-    cursor: pointer;
-    transition: color 180ms var(--ease, ease), border-color 180ms var(--ease, ease), background 180ms var(--ease, ease);
-  }
-  .btn:hover { color: var(--text); border-color: var(--signal); }
-  .btn:focus-visible { outline: 2px solid var(--ui-focus-ring); outline-offset: 2px; }
-  .btn.primary { color: var(--signal); border-color: color-mix(in oklab, var(--signal) 50%, var(--card-border)); }
-  .btn.primary:hover { background: color-mix(in oklab, var(--signal) 12%, var(--frame-bg)); }
+  /* ── the held read ───────────────────────────────────────────────
+     FOLDED OUT 2026-07-29. The card, tags, verdict, refusal box, receipt
+     and action row now live in `.p-read` (lib/cut-shell-products.css),
+     linked above. ~70 lines removed from this file; cut 10 dropped its
+     parallel `.tdy-*` copy of the same design in the same pass.
+     Do not re-add local rules here — edit the primitive.
+     ──────────────────────────────────────────────────────────────── */
 
   /* ── correction record (Record / the moat) ────────────────────── */
   .corr {
@@ -522,25 +489,29 @@
         <div class="col">
           <div>
             <div class="sec-label"><span>Needs a decision</span><span class="meta">held 2 days · re-read 04:12</span></div>
-            <div class="read dimmable" data-annotation="read">
-              <div class="read-tags">
-                <span class="tag lane">Founding round</span>
-                <span class="tag almost">Almost ready</span>
+            <!-- .p-read · the shared primitive. --judgment because the Judgment
+                 register led this read; the refusal box's outreach tint names
+                 WHO handed the work back. data-annotation + .dimmable are the
+                 reveal engine's hooks and must stay on these two elements. -->
+            <div class="p-read p-read--judgment dimmable" data-annotation="read">
+              <div class="p-read__tags">
+                <span class="p-read__tag p-read__tag--judgment">Founding round</span>
+                <span class="p-read__tag">Almost ready</span>
               </div>
-              <div class="verdict">NOT READY · 4 fixes</div>
-              <p class="read-body">The <b>Judgment</b> register led the read; the head-of-eng call is the blocker the agents converged on. Three corrections plus one defer stand between you and a yes.</p>
+              <div class="p-read__verdict">NOT READY · 4 fixes</div>
+              <p class="p-read__body">The <b>Judgment</b> register led the read; the head-of-eng call is the blocker the agents converged on. Three corrections plus one defer stand between you and a yes.</p>
 
-              <div class="refusal dimmable" data-annotation="refusal">
-                <span class="x">✕</span>
-                <span class=”refusal-text”>Outreach refused: <b>”drafting the investor email isn't my ground. That's a Judgment call you haven't sealed yet.”</b> Handed back, not around.</span>
+              <div class="p-read__refusal dimmable" data-annotation="refusal">
+                <span class="p-read__refusal-glyph">✕</span>
+                <span class="p-read__refusal-why">Outreach refused: <b>&ldquo;drafting the investor email isn't my ground. That's a Judgment call you haven't sealed yet.&rdquo;</b> Handed back, not around.</span>
               </div>
 
-              <div class="receipt"><span class="k">read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
+              <div class="p-read__receipt"><span class="p-read__receipt-k">read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
 
-              <div class="actions">
-                <button class="btn primary">Open the read →</button>
-                <button class="btn">Sign &amp; hand off</button>
-                <button class="btn">Defer 2d</button>
+              <div class="p-read__actions">
+                <button class="p-read__btn p-read__btn--primary">Open the read →</button>
+                <button class="p-read__btn">Sign &amp; hand off</button>
+                <button class="p-read__btn">Defer 2d</button>
               </div>
             </div>
           </div>

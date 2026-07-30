@@ -17,6 +17,25 @@
   cut already states the backbone loop explicitly — the one cut that was already
   thinking in coordinates.
   ────────────────────────────────────────────────────────────────
+  CONVERGED onto .p-read · 2026-07-29 (founder-adopted; coordinate unchanged)
+
+  This cut and cuts/06-margin-read.html were a FORK, not two designs: the same
+  held-read fixture, the same "NOT READY · 4 fixes" verdict, the same lane/almost
+  tag modifiers, and a byte-identical receipt string — rendered under .tdy-* here
+  and .read/.tag/.verdict there. Cut 06's own contract admits the lineage
+  ("modeled on cut 10-today, the proven Re-enter render").
+
+  Both now consume `.p-read` from lib/cut-shell-products.css (reaching this cut
+  via cut-shell.css, which it already linked). The held read is `.p-read`; the
+  re-surfaced cards are `.p-read--compact`. The Re-enter furniture stays local
+  and is NOT part of the read: .tdy-outcome* · .tdy-sealed* · .tdy-cal* ·
+  .tdy-loop* · .tdy-section-label · .tdy-resurfaced · .tdy-dot.
+
+  Row model note: the primitive also carries Quoted / Situation / Hidden risk /
+  Next move rows (donated by cut 12), which are liminal-desktop's shipped
+  `agent_reads` columns. This cut's held read is a synthesized summary and does
+  not use them; a read that breaks down per-field should.
+  ────────────────────────────────────────────────────────────────
   Liminal's backbone loop is Capture → Read → Decide → Record → Re-enter.
   Cuts 00/01 own Capture/Read/Decide; embed-vault + cut 03 own Record.
   Re-enter was the one missing segment — this cut renders it.
@@ -33,6 +52,8 @@
   never count-named (the 12-vs-13 agent question is parked, not decided).
 -->
 
+<!-- brand ◇ favicon (data-URI) · kills the dev-console 404 on screen-share -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
@@ -167,110 +188,32 @@
   .tdy-section-label .meta { color: var(--text-faint, #4A4A52); }
 
   /* ── the held read that needs a decision (left hero card) ── */
-  .tdy-decision {
-    background: var(--paper-lift);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.6rem 1.7rem;
-    position: relative;
-  }
-  .tdy-tags { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
-  .tdy-tag {
-    font-family: var(--mono, "Geist Mono", monospace);
-    font-size: var(--fs-eyebrow);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 3px calc(var(--space-2) * var(--density-scale));
-    border-radius: var(--radius-3);
-    border: 1px solid var(--border);
-    color: var(--text-soft);
-  }
-  .tdy-tag.lane { color: var(--ink-clarity); border-color: rgba(142,102,251,0.3); }
-  .tdy-tag.almost { color: var(--ink-amber); border-color: rgba(255,210,74,0.3); }
+  /* ── the held read ───────────────────────────────────────────────
+     FOLDED OUT 2026-07-29. .tdy-decision / .tdy-tags / .tdy-tag /
+     .tdy-verdict / .tdy-decision-body / .tdy-receipt / .tdy-actions /
+     .tdy-btn were a parallel copy of cut 06's held-read card under a
+     different vocabulary — same fixture, same receipt string, same
+     lane/almost modifiers. They are now `.p-read` in
+     lib/cut-shell-products.css (already linked via cut-shell.css).
+     ~68 lines removed here; cut 06 dropped its copy in the same pass.
+     Do not re-add local rules — edit the primitive.
 
-  .tdy-verdict {
-    font-family: var(--display, Georgia, serif);
-    font-weight: 500;
-    font-style: italic;
-    font-size: 1.7rem;
-    color: var(--ink-warn);
-    letter-spacing: var(--ls-app-normal);
-    margin-bottom: 0.7rem;
-  }
-  .tdy-decision-body {
-    font-family: var(--sans, "Geist", system-ui, sans-serif);
-    font-size: 0.92rem;
-    line-height: 1.6;
-    color: var(--text-mid);
-    margin-bottom: 1.1rem;
-  }
-  .tdy-decision-body b { color: var(--text); font-weight: 500; }
-
-  .tdy-receipt {
-    font-family: var(--mono, "Geist Mono", monospace);
-    font-size: 9.5px;
-    letter-spacing: var(--ls-app-wide);
-    color: var(--text-faint, #4A4A52);
-    margin-bottom: 1.2rem;
-  }
-  .tdy-receipt span { color: var(--text-soft); }
-
-  .tdy-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
-  .tdy-btn {
-    font-family: var(--mono, "Geist Mono", monospace);
-    font-size: var(--fs-mono-sm);
-    letter-spacing: 0.04em;
-    padding: 9px calc(var(--space-4) * var(--density-scale));
-    border-radius: var(--radius-4);
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--text-mid);
-    cursor: pointer;
-    transition: all 140ms var(--easing);
-  }
-  .tdy-btn:hover { background: var(--paper-soft); color: var(--text); }
-  .tdy-btn.primary {
-    background: var(--ink-clarity);
-    border-color: var(--ink-clarity);
-    color: var(--paper); /* canon: no pure #fff; cream reads on violet button (DESIGN_SYSTEM_RECONCILIATION_PLAN §4 fix1) */
-  }
-  .tdy-btn.primary:hover { filter: brightness(1.08); background: var(--ink-clarity); }
+     Two deltas the convergence accepted, recorded so they are not read
+     as accidents:
+     · the verdict was 1.7rem italic --display; the adopted chrome is
+       small mono. `.p-read__verdict--display` exists in the primitive if
+       the editorial voice should come back — this cut uses the default.
+     · the lane tag was --ink-clarity here and --judgment in cut 06. Neither
+       survives: "Founding round" names a SUBJECT, not a register, so under
+       the atlas rule (a hue must name its measurement) both tags are ink
+       and the card's left edge carries the register.
+     ──────────────────────────────────────────────────────────────── */
 
   /* ── re-surfaced overnight (secondary held reads) ── */
   .tdy-resurfaced { display: flex; flex-direction: column; gap: 0.7rem; }
-  .tdy-rcard {
-    background: var(--paper-lift);
-    border: 1px solid var(--border-soft);
-    border-radius: 7px;
-    padding: 1rem 1.2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    transition: border-color 140ms var(--easing);
-  }
-  .tdy-rcard:hover { border-color: var(--border); }
-  .tdy-rcard-top { display: flex; align-items: center; gap: 0.55rem; }
+  /* .tdy-rcard* FOLDED OUT 2026-07-29 → `.p-read--compact` in the primitive.
+     The dot stays local: it is a re-surfaced marker, not part of the read. */
   .tdy-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ink-good); flex-shrink: 0; }
-  .tdy-rcard-name {
-    font-family: var(--display, Georgia, serif);
-    font-weight: 500;
-    font-size: 1.05rem;
-    color: var(--text);
-  }
-  .tdy-rcard-age {
-    margin-left: auto;
-    font-family: var(--mono, "Geist Mono", monospace);
-    font-size: var(--fs-eyebrow);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-faint, #4A4A52);
-  }
-  .tdy-rcard-body {
-    font-family: var(--sans, "Geist", system-ui, sans-serif);
-    font-size: 0.85rem;
-    line-height: 1.55;
-    color: var(--text-soft);
-  }
 
   /* ── close the loop (right column hero) ── */
   .tdy-loop {
@@ -476,40 +419,44 @@
         <div class="tdy-col">
           <div>
             <div class="tdy-section-label"><span>Needs a decision</span><span class="meta">held 2 days · re-read 04:12</span></div>
-            <div class="tdy-decision">
-              <div class="tdy-tags">
-                <span class="tdy-tag lane">Founding round</span>
-                <span class="tdy-tag almost">Almost ready</span>
+            <!-- .p-read · shared primitive (lib/cut-shell-products.css).
+                 --judgment: the Judgment register is the one that refused. -->
+            <div class="p-read p-read--judgment">
+              <div class="p-read__tags">
+                <span class="p-read__tag">Founding round</span>
+                <span class="p-read__tag">Almost ready</span>
               </div>
-              <div class="tdy-verdict">NOT READY · 4 fixes</div>
-              <p class="tdy-decision-body">The <b>Judgment</b> register refused to ship. Three corrections plus one defer stand between you and a yes. The head-of-eng call is the blocker the agents converged on.</p>
-              <div class="tdy-receipt"><span>read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
-              <div class="tdy-actions">
-                <button class="tdy-btn primary">Open the read →</button>
-                <button class="tdy-btn">Sign &amp; hand off</button>
-                <button class="tdy-btn">Defer 2d</button>
+              <div class="p-read__verdict">NOT READY · 4 fixes</div>
+              <p class="p-read__body">The <b>Judgment</b> register refused to ship. Three corrections plus one defer stand between you and a yes. The head-of-eng call is the blocker the agents converged on.</p>
+              <div class="p-read__receipt"><span class="p-read__receipt-k">read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
+              <div class="p-read__actions">
+                <button class="p-read__btn p-read__btn--primary">Open the read →</button>
+                <button class="p-read__btn">Sign &amp; hand off</button>
+                <button class="p-read__btn">Defer 2d</button>
               </div>
             </div>
           </div>
 
           <div>
             <div class="tdy-section-label"><span>Re-surfaced overnight</span><span class="meta">2 held reads · no decision due</span></div>
+            <!-- .p-read--compact · a read you are returning to. Register comes
+                 from whichever register produced it, per the primitive. -->
             <div class="tdy-resurfaced">
-              <div class="tdy-rcard">
-                <div class="tdy-rcard-top">
+              <div class="p-read p-read--compact p-read--synthesis">
+                <div class="p-read__head">
                   <span class="tdy-dot"></span>
-                  <span class="tdy-rcard-name">Eng hire · candidate B</span>
-                  <span class="tdy-rcard-age">held 6d</span>
+                  Eng hire · candidate B
+                  <span class="p-read__age">held 6d</span>
                 </div>
-                <p class="tdy-rcard-body">Sent a technical write-up unprompted. Synthesis flips its read: the Judgment register placed this third. Pattern, just one counter-example.</p>
+                <p class="p-read__body">Sent a technical write-up unprompted. Synthesis flips its read: the Judgment register placed this third. Pattern, just one counter-example.</p>
               </div>
-              <div class="tdy-rcard">
-                <div class="tdy-rcard-top">
+              <div class="p-read p-read--compact p-read--synthesis">
+                <div class="p-read__head">
                   <span class="tdy-dot"></span>
-                  <span class="tdy-rcard-name">Design system · v2 migration</span>
-                  <span class="tdy-rcard-age">held 9d</span>
+                  Design system · v2 migration
+                  <span class="p-read__age">held 9d</span>
                 </div>
-                <p class="tdy-rcard-body">Strategist surfaced a third option overnight. Ship v1, run v2 in parallel two weeks. Maia's review supports it.</p>
+                <p class="p-read__body">Strategist surfaced a third option overnight. Ship v1, run v2 in parallel two weeks. Maia's review supports it.</p>
               </div>
             </div>
           </div>
