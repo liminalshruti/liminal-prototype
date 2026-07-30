@@ -79,9 +79,9 @@ See `tokens/relationship-axis.md` for the full principle.
 
 ## Canon discipline
 
-- **Don't add new hues.** The 12-wheel is canon. Locked 2026-04-15. Brand 3 (clarity, wholeness, vitality) locked the same day. New colors only via brand-canon update.
-- **Don't redefine tokens in component CSS.** Components consume tokens · they don't author tokens.
-- **Don't use raw hex in components.** Hex appears only in the canon for documentation purposes (the migration before/after, the brand 3 callout). Components use functional bindings.
+- **Don't add new hues.** The 12-wheel is canon, locked 2026-04-15. **Brand 4 (founder ruling 2026-07-29, NOT locked): pink-led, four colours — Wholeness pink primary, Clarity purple second, Cerulean blue third, Connection green fourth.** Supersedes Brand 3 (clarity / wholeness / vitality). Vitality and Agency keep their ramps and lose their brand role. New colors only via brand-canon update.
+- **Don't redefine tokens in component CSS.** Components consume tokens · they don't author tokens. **This rule has teeth: `cut-shell-base.css` re-derived the four register hues (`--synthesis: var(--agency, #FEF059)`), which silently overrode canon's register→hue *mapping* — so the Brand 4 rebind landed in canon and changed nothing on 16 of 17 cuts until the shell was fixed too. Naming a source hue in a component sheet outranks canon, even when the sheet reads like it delegates.**
+- **Don't use raw hex in components.** Hex appears only in the canon for documentation purposes (the migration before/after, the brand callout). Components use functional bindings. Fallback hexes inside `var()` count as raw hex and go stale silently — the synthesis alpha aliases carried retired `#FFD24A` for three months.
 - **Don't fork.** A consuming surface adds layout + typography overrides. It does not maintain its own copy of tokens.
 - **Don't scale type or radius.** Density only scales spacing.
 
