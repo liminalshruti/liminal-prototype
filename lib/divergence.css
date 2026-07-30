@@ -17,12 +17,36 @@
  * the DECIDING beat.
  *
  * RULE 1 COMPLIANCE (cuts/CONTRIBUTING.md) · canon only, zero hardcoded hex.
- * Edge polarity maps onto existing semantic tokens — no new canonical hues:
- *   CONTRADICTS → --alarm   (the token cut 02 uses for .contradiction__eyebrow)
- *   WEAKENS     → --watch
- *   SUPPORTS    → --signal
- *   neutral     → --text-dim   (DERIVED_FROM · OBSERVED_AS · TRIGGERS · …)
- *   verdict chrome → --judgment / --judgment-edge / --judgment-bg
+ *
+ * CHROMA DISCIPLINE · v0.3 SEVERITY LANE (founder ruling, 2026-07-29 —
+ * design-system/atlas/state-atlas.html + signal-atlas.html). Two sanctioned kinds
+ * of earned signal, and they must never be flattened:
+ *
+ *   · SEVERITY is a property of the EVIDENCE — "flagged anomaly · refuted finding
+ *     · custody alert · carried by evidence, not by the primitive". Severity uses
+ *     **--alarm / --watch only**.
+ *   · LIFECYCLE STATE uses **the four registers only**. A refused or corrected
+ *     read is a lifecycle state → the judgment register (`--judgment`, which is
+ *     `var(--wholeness)`; cf. state-atlas `.cell--refused{color:var(--wholeness)}`).
+ *
+ *   The ruling's own words: *"a refused agent and a flagged anomaly never share a
+ *   hue"* / *"never flatten severity into judgment."*
+ *
+ * Applied here:
+ *   refused read (lifecycle)      → --judgment            NOT --alarm
+ *   CONTRADICTS (refuted finding) → --alarm                evidence severity
+ *   WEAKENS (uncertain, pending)  → --watch                evidence severity
+ *   SUPPORTS (favorable delta)    → --resolved             NOT --signal
+ *   anomaly (flagged)             → --watch                evidence severity
+ *   failed sourceIntegrityCheck   → --watch                "uncertain signal
+ *                                                           pending corroboration"
+ *   everything else               → INK. Per the atlas, chroma appears only where
+ *                                   a hue names a measurement. A claim or an
+ *                                   action measures nothing on its own — its
+ *                                   EDGE carries the confidence, so the edge
+ *                                   carries the colour. This also matches
+ *                                   graph-spine, which puts confidence on the
+ *                                   edge rather than the node.
  */
 
 .divergence-pane[hidden] { display: none; }
@@ -135,8 +159,10 @@
   padding: 10px 12px 12px;
 }
 
-/* A refused read is the read, not an empty slot — typed chrome, full weight. */
-.dvg-col.is-refused { border-color: var(--alarm-edge); background: var(--alarm-soft); }
+/* A refused read is the read, not an empty slot — typed chrome, full weight.
+   Judgment register, NOT severity: a refused agent is a lifecycle state, and the
+   v0.3 ruling forbids it sharing a hue with a flagged anomaly. */
+.dvg-col.is-refused { border-color: var(--judgment-edge); background: var(--judgment-bg); }
 
 .dvg-agent {
   display: flex;
@@ -197,14 +223,17 @@
   color: var(--text-faint);
 }
 
-/* The four judgment-bearing node types carry archetype metadata upstream
-   (archetypes.ts ARCHETYPE_ENABLED_TYPES) — they read louder than raw
-   perception, which is the ontology's own hierarchy showing through. */
-.dvg-node[data-node-type="claim"]              .dvg-node-type { color: var(--judgment); }
-.dvg-node[data-node-type="actionOption"]       .dvg-node-type { color: var(--signal); }
-.dvg-node[data-node-type="anomaly"]            .dvg-node-type { color: var(--watch); }
-.dvg-node[data-node-type="reviewRule"]         .dvg-node-type { color: var(--judgment); }
-.dvg-node[data-node-type="sourceIntegrityCheck"] .dvg-node-type { color: var(--alarm); }
+/* Only nodes whose hue NAMES a measurement get chroma (severity lane v0.3).
+   · anomaly — "flagged anomaly" is domain severity, by name
+   · sourceIntegrityCheck — a provenance gap is "watch-grade evidence · uncertain
+     signal pending corroboration"
+   claim and actionOption stay INK: they measure nothing on their own. Their edge
+   carries the confidence, so the edge carries the colour — which is also where
+   graph-spine puts it (EdgeProvenance.confidence).
+   (A reviewRule never appears in a chain — traceBack does not traverse to it —
+   so its chrome lives on .dvg-rule below, not here.) */
+.dvg-node[data-node-type="anomaly"]              .dvg-node-type { color: var(--watch); }
+.dvg-node[data-node-type="sourceIntegrityCheck"] .dvg-node-type { color: var(--watch); }
 
 .dvg-node-title {
   font-size: 11.5px;
@@ -226,7 +255,7 @@
   min-height: 16px;
 }
 
-.dvg-edge-step--supports    { border-left-color: var(--signal); }
+.dvg-edge-step--supports    { border-left-color: var(--resolved); }
 .dvg-edge-step--weakens     { border-left-color: var(--watch); }
 .dvg-edge-step--contradicts { border-left-color: var(--alarm); }
 
@@ -236,7 +265,7 @@
   color: var(--text-faint);
 }
 
-.dvg-edge-step--supports    .dvg-edge-type { color: var(--signal); }
+.dvg-edge-step--supports    .dvg-edge-type { color: var(--resolved); }
 .dvg-edge-step--weakens     .dvg-edge-type { color: var(--watch); }
 .dvg-edge-step--contradicts .dvg-edge-type { color: var(--alarm); }
 
@@ -248,7 +277,7 @@
   color: var(--text-faint);
 }
 
-.dvg-edge-conf[data-band="high"] { color: var(--signal); }
+.dvg-edge-conf[data-band="high"] { color: var(--resolved); }
 .dvg-edge-conf[data-band="mid"]  { color: var(--watch); }
 .dvg-edge-conf[data-band="low"]  { color: var(--alarm); }
 
@@ -260,19 +289,20 @@
   gap: 2px;
   margin-top: auto;
   padding-top: 8px;
-  border-top: 1px dashed var(--alarm-edge);
+  border-top: 1px dashed var(--judgment-edge);
 }
 
 .dvg-terminal-kind {
   font-size: 9px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--alarm);
+  color: var(--judgment);
 }
 
-.dvg-terminal[data-refusal-kind="scope"]     .dvg-terminal-kind { color: var(--watch); }
-.dvg-terminal[data-refusal-kind="substrate"] .dvg-terminal-kind { color: var(--text-dim); }
-.dvg-terminal[data-refusal-kind="lane"]      .dvg-terminal-kind { color: var(--depth); }
+/* The four refusal_kinds are distinguished by TEXT, not by hue. Giving each its
+   own colour would either spend severity hues on a lifecycle state (forbidden by
+   the v0.3 ruling) or invent register attributions that do not exist. The kind is
+   already named in the label — "refused · substrate" — so nothing is lost. */
 
 .dvg-terminal-note { font-size: 10px; color: var(--text-faint); line-height: 1.35; }
 
@@ -293,7 +323,7 @@
 
 .dvg-edge-caption[data-polarity="contradicts"] { border-left: 2px solid var(--alarm); }
 .dvg-edge-caption[data-polarity="weakens"]     { border-left: 2px solid var(--watch); }
-.dvg-edge-caption[data-polarity="supports"]    { border-left: 2px solid var(--signal); }
+.dvg-edge-caption[data-polarity="supports"]    { border-left: 2px solid var(--resolved); }
 
 .dvg-edge-caption:hover,
 .dvg-edge-caption:focus-visible { border-color: var(--judgment-edge); outline: none; }
@@ -307,7 +337,7 @@
 
 .dvg-edge-label--contradicts { color: var(--alarm); }
 .dvg-edge-label--weakens     { color: var(--watch); }
-.dvg-edge-label--supports    { color: var(--signal); }
+.dvg-edge-label--supports    { color: var(--resolved); }
 
 .dvg-edge-note { font-size: 11px; color: var(--text-mid); }
 
