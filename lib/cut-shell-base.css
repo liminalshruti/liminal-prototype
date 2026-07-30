@@ -763,7 +763,7 @@
     100% { background: transparent; box-shadow: none; padding: 0; }
   }
 
-  /* right rail · agency console */
+  /* right rail · agency console
      Sits inside .stage, anchored to the frame's right border via
      absolute positioning · moves with the frame when stage resizes.
      Pill always visible flush against the frame edge.

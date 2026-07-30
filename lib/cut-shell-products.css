@@ -32,6 +32,7 @@
  * single-file prototype. Now shared across cuts via this file.
  */
 
+  /* classification bar · collapsed to 0 height except on the business product ·
      hover · expand toggle reveals plain-language gloss. Default is dense
      one-liner. Full glossary opens on click of the chevron. */
   .classification {
