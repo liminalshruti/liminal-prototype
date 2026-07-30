@@ -76,21 +76,34 @@
    CSS custom properties for consistent reuse:
    ══════════════════════════════════════════════════════ */
 :root {
-  /* Font stacks — canonical Liminal three-font system */
-  --font-display:  "NinetiesHeadliner", Georgia, serif;
-  --font-serif:    "PerfectlyNineties", Georgia, serif;
-  /* mono led with "Cougar" (never @font-face'd anywhere · a ghost family
-     that silently dropped every surface to system fallback and contradicted
-     the spec table above). Rebound 2026-07-29; reordered to canon §5 (Space Mono first,
-     Geist Mono fallback) same day when §5 caught up to the stack change. */
-  --font-mono:     "Space Mono", "Geist Mono", "SF Mono", ui-monospace, monospace;
-  --font-sans:     "PerfectlyNineties", Georgia, serif;
-
-  /* Cut-shell compat aliases */
-  --display: var(--font-display);
-  --serif:   var(--font-serif);
-  --mono:    var(--font-mono);
-  --sans:    var(--font-sans);
+  /* Font stacks — ALIASES ONTO CANON, direction inverted 2026-07-29.
+   *
+   * This block used to DEFINE the four faces and then redefine canon's own
+   * names (--display/--serif/--mono/--sans) to point back at them. Because
+   * this file loads after design-tokens.css on every surface that imports it,
+   * that made brand-upgrade the winner: canon §5 was overridden everywhere it
+   * mattered. --sans in particular resolved to "PerfectlyNineties" — a SERIF
+   * answering to the name "sans" — which is how one app came to render two
+   * different type systems depending on which variable a component reached for.
+   *
+   * Now the arrow points the other way. design-tokens.css §5 is the single
+   * source; these --font-* names survive only as compatibility aliases for the
+   * ~130 existing call sites (--font-mono ×76, --font-serif ×21, --font-display
+   * ×12, --font-sans ×4). Nothing here declares a family of its own.
+   *
+   * Consequence, intended and founder-ruled: every var(--sans) call site — body
+   * text across the cuts, index, embeds and onboarding — now renders Space
+   * Grotesk rather than PerfectlyNineties. That is a deliberate retype, not a
+   * regression. Surfaces that want the serif body should say --serif.
+   *
+   * (The earlier "Cougar" fix is preserved by canon: §5's --mono leads with
+   * Space Mono, then Geist Mono. Cougar was never @font-face'd anywhere and
+   * silently dropped every surface to system fallback.)
+   */
+  --font-display:  var(--display);
+  --font-serif:    var(--serif);
+  --font-mono:     var(--mono);
+  --font-sans:     var(--sans);
 
   /* Type scale — 1.250 Major Third ratio, base 16px */
   --text-2xs:  0.512rem;   /* 8.2px  — meta, footnote */

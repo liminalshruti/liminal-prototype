@@ -113,18 +113,30 @@
     --text-dim:   #8A8780;
     --text-faint: #807D78;   /* synced 2026-06-19 · a11y pass 2 · was #6B6862 (3.56:1, sub-AA for body) */
 
-    /* type families · bridge to canon (same pattern as the register hues
-       above): canon wins when design-tokens.css is imported, the fallback
-       only fires when cut-shell.css is loaded standalone. Fallbacks now name
-       the canon families — NOT Newsreader, which was an off-canon fork that
-       silently shadowed canon and only rendered correctly because brand-
-       upgrade.css re-overrode it later. Removing the fork drops the load-
-       order dependency and the 2026-05-14 type-lock violation. */
-    --display: var(--display, "Nineties Headliner", "Perfectly Nineties", "Iowan Old Style", Georgia, serif);
-    --serif:   var(--serif,   "Perfectly Nineties", "Iowan Old Style", Georgia, serif);
-    --sans:    var(--sans,    "Geist", system-ui, -apple-system, BlinkMacSystemFont, sans-serif);
-    --mono:    var(--mono,    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace);
-    --hand:    var(--hand,    "Caveat", "Patrick Hand", cursive);
+    /* type families · REMOVED 2026-07-29.
+     *
+     * This block tried to "bridge to canon" with --sans: var(--sans, fallback),
+     * intending "keep canon's value if design-tokens.css is loaded, otherwise
+     * use the fallback." That idiom does not work. A custom property whose
+     * value references ITSELF is a dependency cycle, and per css-variables-1 §3
+     * every property in a cycle computes to the guaranteed-invalid value — the
+     * fallback is never consulted. So these five lines did the exact opposite
+     * of their intent: they DESTROYED canon's good :root values.
+     *
+     * Measured on cuts/00-agency.html before removal: --display, --serif,
+     * --sans and --mono all resolved to empty, and body's computed font-family
+     * was "Times" — the browser default. The cuts only ever looked right
+     * because brand-upgrade.css loads afterward and redefined the same four
+     * names non-cyclically, silently repairing the damage. That is the same
+     * load-order dependency the comment here claimed to have removed.
+     *
+     * Canon defines all five at :root in design-tokens.css §5. Every page that
+     * loads cut-shell also loads design-tokens (verified across the repo), so
+     * nothing needs a bridge — inheritance already does the job.
+     *
+     * Note: --good/--amber/--red at the top of this file use the same broken
+     * self-referencing idiom and are still live. Separate fix.
+     */
   }
 
   /* ────────────────────────────────────────────────────────────────────
