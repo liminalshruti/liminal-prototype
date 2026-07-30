@@ -471,7 +471,7 @@
   /* Thin packet-receipt strip below the existing prose footer */
   .frame-receipt {
     display: flex; gap: 14px; align-items: center;
-    padding: var(--space-2) var(--space-app-5);
+    padding: calc(var(--space-2) * var(--density-scale)) calc(var(--space-app-5) * var(--density-scale));
     border-top: 1px solid var(--frame-border);
     background: var(--frame-bg);
     font-family: 'Geist Mono', ui-monospace, monospace;

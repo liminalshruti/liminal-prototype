@@ -8,7 +8,9 @@
 <!-- Same font stack as cut 01 speedrun -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Space Grotesk + Space Mono per canon §5 (2026-07-29); Geist retained as the
+     documented fallback until every surface has moved. -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- ACTUAL brand canon — same 3 CSS files cut 01 speedrun loads -->
 <link rel="stylesheet" href="design-system/tokens/design-tokens.css">
@@ -255,12 +257,12 @@
     color: rgba(242,240,236,0.6);
     border: 1px solid rgba(255,255,255,0.06);
   }
-  .packet-chip.analyst { color: var(--coherence); border-color: var(--coherence-soft); }
-  .packet-chip.auditor { color: var(--correction); border-color: var(--correction-soft); }
+  .packet-chip.analyst { color: var(--coherence); border-color: var(--coherence-edge); }
+  .packet-chip.auditor { color: var(--correction); border-color: var(--correction-edge); }
   .packet-chip.emergence {
     color: var(--emergence);
     background: var(--emergence-bg);
-    border-color: var(--emergence-soft);
+    border-color: var(--emergence-edge);
   }
 
   .tray-body {
@@ -592,7 +594,7 @@
   .pill.emergence.selected {
     background: var(--emergence);
     color: #0A0A0B;
-    box-shadow: 0 0 20px var(--emergence-edge);
+    box-shadow: 0 0 20px var(--emergence-soft);
   }
   .correction-textarea {
     width: 100%;

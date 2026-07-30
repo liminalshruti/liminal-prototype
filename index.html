@@ -17,7 +17,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="design-system/tokens/design-tokens.css">
 
 <style>
@@ -25,11 +25,22 @@
   @font-face { font-family:'PerfectlyNineties'; src:url('fonts/perfectly-nineties-light.otf') format('opentype'); font-weight:300; font-display:swap; }
   @font-face { font-family:'PerfectlyNineties'; src:url('fonts/perfectly-nineties-regular.otf') format('opentype'); font-weight:400; font-display:swap; }
   @font-face { font-family:'PerfectlyNineties'; src:url('fonts/PerfectlyNineties-Semibold.otf') format('opentype'); font-weight:600; font-display:swap; }
+  /* Canon §5 spells these WITH spaces ("Nineties Headliner" / "Perfectly Nineties");
+     this page only declared the unspaced forms, so dropping its local --display
+     override would have fallen the front-door headline through to Georgia.
+     Declared under both spellings so canon's chain resolves here. */
+  @font-face { font-family:'Nineties Headliner'; src:url('fonts/nineties-headliner.otf') format('opentype'); font-weight:700; font-display:swap; }
+  @font-face { font-family:'Perfectly Nineties'; src:url('fonts/perfectly-nineties-light.otf') format('opentype'); font-weight:300; font-display:swap; }
+  @font-face { font-family:'Perfectly Nineties'; src:url('fonts/perfectly-nineties-regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'Perfectly Nineties'; src:url('fonts/PerfectlyNineties-Semibold.otf') format('opentype'); font-weight:600; font-display:swap; }
 
   :root{
     /* surfaces + ink come straight from canon tokens (single-ink-source, 2026-07-29) */
     --hair: var(--frame-border); --hair-2: var(--card-border-2);
-    --display:"NinetiesHeadliner",Georgia,serif; --sans:"PerfectlyNineties",Georgia,serif; --mono:"Geist Mono","SF Mono",monospace;
+    /* Local type fork REMOVED 2026-07-29 (founder ruling: canon wins). This line
+       pinned --sans to a SERIF and --mono to Geist Mono, overriding canon §5 on
+       the most public page in the repo. The faces now come from
+       design-system/tokens/design-tokens.css like every other surface. */
   }
   *,*::before,*::after{box-sizing:border-box;margin: 0;padding: 0}
   html{scroll-behavior:smooth}
