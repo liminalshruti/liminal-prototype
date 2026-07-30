@@ -254,24 +254,16 @@
   .op-watch-note { font-family: var(--serif); font-size: var(--fs-sm); color: var(--text-mid); line-height: 1.6; max-width: 58ch; }
   .op-watch-note strong { color: var(--text); font-weight: 500; }
 
+  /* ── reads ───────────────────────────────────────────────────────
+     FOLDED OUT 2026-07-29. This cut DONATED the per-register row model
+     (register-coded left edge, register-named head, and the Quoted /
+     Situation / Hidden risk / Next move rows) to `.p-read` in
+     lib/cut-shell-products.css — those rows are liminal-desktop's shipped
+     `agent_reads` columns. Cut 06 donated the chrome, cut 10 the chroma.
+     This cut now consumes the primitive it seeded. The container below
+     stays local: it is page spacing, not part of a read.
+     ──────────────────────────────────────────────────────────────── */
   .op-reads { display: flex; flex-direction: column; gap: 14px; margin-bottom: calc(var(--space-5) * var(--density-scale)); }
-  .op-read { border-left: 2px solid var(--card-border-2); padding: calc(var(--space-3) * var(--density-scale)) 0 calc(var(--space-3) * var(--density-scale)) calc(var(--space-4) * var(--density-scale)); }
-  .op-read.reg-diligence { border-left-color: var(--diligence); }
-  .op-read.reg-outreach  { border-left-color: var(--outreach); }
-  .op-read.reg-judgment  { border-left-color: var(--judgment); }
-  .op-read-head { display: flex; align-items: center; gap: calc(var(--space-2) * var(--density-scale)); margin-bottom: calc(var(--space-2) * var(--density-scale)); font-family: var(--mono); font-size: 9.5px; letter-spacing: var(--ls-mono-sm); text-transform: uppercase; }
-  .op-read.reg-diligence .op-read-head { color: var(--diligence); }
-  .op-read.reg-outreach  .op-read-head { color: var(--outreach); }
-  .op-read.reg-judgment  .op-read-head { color: var(--judgment); }
-  .op-read-refused {
-    font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.1em; text-transform: uppercase;
-    padding: 1px calc(var(--space-app-1-5) * var(--density-scale)); border: 1px solid var(--judgment-edge); border-radius: var(--radius-2); color: var(--judgment);
-  }
-  .op-read-row { display: flex; gap: 10px; font-size: var(--fs-mono-lg); line-height: 1.55; margin-bottom: calc(var(--space-app-1-5) * var(--density-scale)); }
-  .op-read-row:last-child { margin-bottom: 0; }
-  .op-read-k { font-family: var(--mono); font-size: var(--fs-eyebrow); color: var(--text-faint); letter-spacing: 0.1em; text-transform: uppercase; width: 84px; flex-shrink: 0; padding-top: calc(var(--space-app-0-5) * var(--density-scale)); }
-  .op-read-v { font-family: var(--serif); color: var(--text-mid); }
-  .op-read.reg-judgment .op-read-v.op-refusal-text { color: var(--text); }
 
   .op-correction {
     border: 1px solid var(--card-border); border-radius: var(--radius-4); padding: 18px 20px; background: var(--frame-bg-2);
@@ -654,24 +646,24 @@
             </div>
 
             <div class="op-reads">
-              <div class="op-read reg-diligence">
-                <div class="op-read-head">Diligence</div>
-                <div class="op-read-row"><span class="op-read-k">Quoted</span><span class="op-read-v">"Base counter sits inside your last three hires' band. The start-date hold doesn't."</span></div>
-                <div class="op-read-row"><span class="op-read-k">Situation</span><span class="op-read-v">The gap is timing, not money. He isn't asking for more, he's asking you to move faster than this search usually allows.</span></div>
-                <div class="op-read-row"><span class="op-read-k">Hidden risk</span><span class="op-read-v">If the search reopens, six weeks go with it, and the two references who already vouched for him.</span></div>
-                <div class="op-read-row"><span class="op-read-k">Next move</span><span class="op-read-v">Match the base. Hold the start date. Name a decision date instead of an open hold.</span></div>
+              <div class="p-read p-read--diligence">
+                <div class="p-read__head">Diligence</div>
+                <div class="p-read__row"><span class="p-read__k">Quoted</span><span class="p-read__v">"Base counter sits inside your last three hires' band. The start-date hold doesn't."</span></div>
+                <div class="p-read__row"><span class="p-read__k">Situation</span><span class="p-read__v">The gap is timing, not money. He isn't asking for more, he's asking you to move faster than this search usually allows.</span></div>
+                <div class="p-read__row"><span class="p-read__k">Hidden risk</span><span class="p-read__v">If the search reopens, six weeks go with it, and the two references who already vouched for him.</span></div>
+                <div class="p-read__row"><span class="p-read__k">Next move</span><span class="p-read__v">Match the base. Hold the start date. Name a decision date instead of an open hold.</span></div>
               </div>
-              <div class="op-read reg-outreach">
-                <div class="op-read-head">Outreach</div>
-                <div class="op-read-row"><span class="op-read-k">Quoted</span><span class="op-read-v">"Recruiter flagged a second offer close. Not confirmed."</span></div>
-                <div class="op-read-row"><span class="op-read-k">Situation</span><span class="op-read-v">Nothing you've sent him raises the stakes on your side. Silence reads as slow, not careful.</span></div>
-                <div class="op-read-row"><span class="op-read-k">Hidden risk</span><span class="op-read-v">A generic counter email undercuts the personal case you made on the first call.</span></div>
-                <div class="op-read-row"><span class="op-read-k">Next move</span><span class="op-read-v">Draft goes out today. It references the first call by name.</span></div>
+              <div class="p-read p-read--outreach">
+                <div class="p-read__head">Outreach</div>
+                <div class="p-read__row"><span class="p-read__k">Quoted</span><span class="p-read__v">"Recruiter flagged a second offer close. Not confirmed."</span></div>
+                <div class="p-read__row"><span class="p-read__k">Situation</span><span class="p-read__v">Nothing you've sent him raises the stakes on your side. Silence reads as slow, not careful.</span></div>
+                <div class="p-read__row"><span class="p-read__k">Hidden risk</span><span class="p-read__v">A generic counter email undercuts the personal case you made on the first call.</span></div>
+                <div class="p-read__row"><span class="p-read__k">Next move</span><span class="p-read__v">Draft goes out today. It references the first call by name.</span></div>
               </div>
-              <div class="op-read reg-judgment">
-                <div class="op-read-head">Judgment <span class="op-read-refused">refused, out of lane</span></div>
-                <div class="op-read-row"><span class="op-read-k">Refusal</span><span class="op-read-v op-refusal-text">Reads the compensation band. Refuses to weigh in on whether Devon is the right hire. That call is yours, not a read of a thread.</span></div>
-                <div class="op-read-row"><span class="op-read-k">Next move</span><span class="op-read-v">Set the decision date today so this doesn't become a fourth slip.</span></div>
+              <div class="p-read p-read--judgment p-read--refusal">
+                <div class="p-read__head">Judgment <span class="p-read__badge">refused, out of lane</span></div>
+                <div class="p-read__row"><span class="p-read__k">Refusal</span><span class="p-read__v">Reads the compensation band. Refuses to weigh in on whether Devon is the right hire. That call is yours, not a read of a thread.</span></div>
+                <div class="p-read__row"><span class="p-read__k">Next move</span><span class="p-read__v">Set the decision date today so this doesn't become a fourth slip.</span></div>
               </div>
             </div>
 

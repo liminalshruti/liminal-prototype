@@ -1039,8 +1039,21 @@
   .p-read--synthesis { border-left-color: var(--synthesis); }
 
   /* A refused read is the read, at full weight — never an empty slot.
-     Judgment register, NOT severity. */
-  .p-read--refused { border-left-color: var(--judgment); background: var(--judgment-bg); }
+     Judgment register, NOT severity.
+
+     NAMED `--refusal`, NOT `--refused`, and that is load-bearing.
+     lib/brand-upgrade.css carries:
+       .status-badge.refused, .tag-refused, [class*="refused"], .agent-tag.refused
+         { color/background/border-color: wholeness… !important }
+     `[class*="refused"]` is a SUBSTRING wildcard with !important, so a modifier
+     named `--refused` gets all four of its borders, its background and its text
+     forcibly repainted — the primitive silently stops rendering what it
+     declares. Verified: it was overriding this rule's left-edge-only intent.
+     `--refusal` dodges the substring and also matches this primitive's own
+     element names (__refusal-glyph, __refusal-why). Do not rename it back.
+     The wildcard itself is left intact: other surfaces legitimately depend on
+     it, and narrowing a shared !important selector is its own change. */
+  .p-read--refusal { border-left-color: var(--judgment); background: var(--judgment-bg); }
 
   .p-read__head {
     display: flex;
@@ -1140,6 +1153,11 @@
   }
   .p-read__v { font-family: var(--serif); color: var(--text-mid); }
   .p-read__v b { color: var(--text); font-weight: 600; }
+
+  /* A refused read's rows carry full-strength ink: the refusal IS the payload,
+     not a dimmed aside. Preserved from cut 12, which had this as
+     `.op-read.reg-judgment .op-read-v.op-refusal-text`. */
+  .p-read--refusal .p-read__v { color: var(--text); }
 
   /* Prose body, for the synthesized/held read that has no row breakdown. */
   .p-read__body { color: var(--text-mid); font-size: var(--fs-body); line-height: 1.6; margin: 0 0 14px; }
