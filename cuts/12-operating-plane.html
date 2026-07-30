@@ -145,8 +145,8 @@
   .op-badge.st-running .op-dot { background: var(--signal); animation: op-pulse 1.6s ease-in-out infinite; }
   .op-badge.st-watch { color: var(--watch); border-color: var(--watch-edge); background: var(--watch-bg); }
   .op-badge.st-watch .op-dot { background: var(--watch); }
-  .op-badge.st-queued { color: var(--text-dim); border-color: var(--card-border); background: transparent; }
-  .op-badge.st-queued .op-dot { background: var(--text-faint); }
+  .op-badge.st-queued { color: var(--liminal); border-color: var(--liminal-edge); background: var(--liminal-bg); }
+  .op-badge.st-queued .op-dot { background: var(--liminal); }
   .op-badge.st-closed { color: var(--resolved); border-color: var(--resolved-soft); background: var(--resolved-bg); }
   .op-badge.st-closed .op-dot { background: var(--resolved); }
   .op-badge.st-blocked { color: var(--alarm); border-color: var(--alarm-edge); background: var(--alarm-bg); }
@@ -355,7 +355,7 @@
   .op-plate-label.judgment  { fill: var(--judgment); }
   .op-plate-label.synthesis { fill: var(--synthesis); }
   .op-agent-glyph { font-family: var(--mono); font-size: var(--fs-mono-sm); text-anchor: middle; }
-  .op-agent-glyph.queued   { fill: rgba(255,255,255,0.24); }
+  .op-agent-glyph.queued   { fill: var(--liminal-soft); }
   .op-agent-glyph.reading  { fill: var(--text); animation: op-pulse-glyph 2.4s ease-in-out infinite; }
   .op-agent-glyph.complete { fill: var(--resolved); }
   .op-agent-glyph.refused  { fill: var(--judgment); }
