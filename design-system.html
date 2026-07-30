@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="design-system/components/empty-loading-skeleton.css">
 <link rel="stylesheet" href="design-system/components/audit-classification.css">
 <link rel="stylesheet" href="design-system/components/product-surfaces.css">
+<link rel="stylesheet" href="design-system/components/data-table.css">
 
 <style>
   /* brand fonts · path-relative · mirrors live theliminalspace.io */
@@ -1850,6 +1851,7 @@
           <a href="#components"><span class="nv-num">·</span><span class="nv-lbl">component states</span></a>
           <a href="#desktop"><span class="nv-num">·</span><span class="nv-lbl">desktop primitives</span></a>
           <a href="#product"><span class="nv-num">·</span><span class="nv-lbl">product · v0.6</span></a>
+          <a href="#table"><span class="nv-num">·</span><span class="nv-lbl">table · evidence row</span></a>
         </li>
         <li class="ds-nav-group">
           <div class="ds-nav-group-label">contract</div>
@@ -2941,6 +2943,81 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     </p>
   </section>
 
+  <section class="ds-section" id="table">
+    <h2>Table · the evidence row</h2>
+    <p class="section-lede">The structural component the system was missing. Two surfaces were already building it by hand — the govern cockpit wrote <code>grid-template-columns</code> 19 times, and the desktop client's packet list runs 1,463 lines of row rendering. Both were making the same shape: <strong>a leading gutter, flexible content, a trailing metric</strong>. This names it once.</p>
+    <p class="section-lede" style="color: var(--text-dim);">A row here is <em>evidence</em>, not a record. It came from somewhere, it either verifies or it doesn't, and it can be <strong>refused</strong> — dropped with a stated reason — which a generic data grid has no concept of. So the receipt gutter is structural and always present: a table that can hide provenance lets an unverified row look identical to a verified one.</p>
+
+    <div class="state-gallery" style="grid-template-columns: 1fr;">
+      <div class="state-card">
+        <div class="state-label">agent-spend findings · verified · failed · refused</div>
+        <div class="demo" style="padding: var(--space-4);">
+          <table class="dt">
+            <caption>weekly review · 2026-06 · fleet Opus 4.8 + 3 agents · 12 engineers</caption>
+            <thead>
+              <tr>
+                <th scope="col">receipt</th>
+                <th scope="col" aria-sort="none">finding</th>
+                <th scope="col" data-numeric aria-sort="descending">monthly</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="dt-gutter"><span class="dt-receipt" data-receipt="verified"><span class="dt-receipt__mark">◆</span>cites 14</span></td>
+                <td>
+                  <span class="dt-claim">Opus 4.8 is answering calendar triage that a registry-verified agent handles at a tenth the cost.</span>
+                  <span class="dt-sub">routing · maia · → route to CalendarOps</span>
+                </td>
+                <td class="dt-metric" data-delta="down">−$4,180<small>saved / mo</small></td>
+              </tr>
+              <tr>
+                <td class="dt-gutter"><span class="dt-receipt" data-receipt="verified"><span class="dt-receipt__mark">◆</span>cites 6</span></td>
+                <td>
+                  <span class="dt-claim">Retrieval re-runs the same embedding pass on unchanged documents every night.</span>
+                  <span class="dt-sub">waste · devon · cache key ignores mtime</span>
+                </td>
+                <td class="dt-metric" data-delta="down">−$1,920<small>saved / mo</small></td>
+              </tr>
+              <tr>
+                <td class="dt-gutter"><span class="dt-receipt" data-receipt="failed"><span class="dt-receipt__mark">✗</span>cites 9</span></td>
+                <td>
+                  <span class="dt-claim">Auditor spend rose 3× after the July prompt change.</span>
+                  <span class="dt-sub">anomaly · auditor · cited events predate the change</span>
+                </td>
+                <td class="dt-metric" data-delta="up">+$2,340<small>unverified</small></td>
+              </tr>
+              <tr data-refused>
+                <td class="dt-gutter"><span class="dt-receipt" data-receipt="none"><span class="dt-receipt__mark">—</span>dropped</span></td>
+                <td>
+                  <span class="dt-claim">Consolidate the SDR fleet onto a single model.</span>
+                  <span class="dt-sub">consolidation · analyst</span>
+                  <span class="dt-refusal">✗ Refused — the operator corrected this read: outreach volume is seasonal, and the sample window is one month.</span>
+                </td>
+                <td class="dt-metric" data-delta="flat">$8,600<small>withdrawn</small></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="state-card">
+        <div class="state-label">empty · an invitation, not a shrug</div>
+        <div class="demo" style="padding: var(--space-4);">
+          <table class="dt">
+            <tbody>
+              <tr><td class="dt-empty" colspan="3"><b>No findings this window.</b>The fleet ran 2,140 tasks and nothing crossed a review threshold. Widen the window to compare against May.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-deferred" style="border-color: var(--card-border);">
+      <strong>Where the chroma is, and why</strong>
+      <p style="font: var(--fs-sm)/1.55 var(--serif); color: var(--text-dim); margin: 0;">Colour appears in exactly two places: the <strong>gutter</strong>, carrying a receipt state that was measured, and the <strong>metric</strong>, when the number is a measured delta. Headers, labels, claims and rules are ink. The refused row keeps its claim legible and strikes only the metric — an operator has to be able to read <em>what</em> was refused. Per the <a href="design-system/atlas/signal-atlas.html" style="color: var(--diligence);">Signal Atlas</a>: if you cannot name the measurement behind a hue, it has not earned it.</p>
+    </div>
+  </section>
+
   <section class="ds-section is-foundation" id="deferred">
     <div class="section-eyebrow">
       <span class="num">∞</span>
@@ -2956,7 +3033,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
         <li style="opacity: 0.55;"><b style="text-decoration: line-through; text-decoration-color: var(--outreach);">Density modes</b> · <span style="color: var(--outreach); font-style: normal;">SHIPPED 2026-07-29</span> · see §14 above · <span style="color: var(--text-mute);">the dependency really was met — nothing needed building, 1,010 spacing declarations needed connecting</span></li>
         <li><b>Light theme</b> · <span style="color: var(--text-faint); font-style: italic;">L</span> · cream substrate scale already shipped · component CSS needs <code>body[data-theme="light"]</code> overrides · <span style="color: var(--text-mute);">depends: cream scale ✓ · contrast tokens</span></li>
         <li><b>Command palette</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · ⌘K formal pattern · /agency typing prompt is the analog · <span style="color: var(--text-mute);">depends: keyboard shortcuts subsystem</span></li>
-        <li><b>Table</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · tabular data · audit log + alerts list · sortable headers + selection states · <span style="color: var(--text-mute);">depends: nothing</span></li>
+        <li style="opacity: 0.55;"><b style="text-decoration: line-through; text-decoration-color: var(--outreach);">Table</b> · <span style="color: var(--outreach); font-style: normal;">SHIPPED 2026-07-29</span> · see §table above · <span style="color: var(--text-mute);">it really did depend on nothing — two surfaces had already built it by hand</span></li>
         <li><b>Tree</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · vault browser · audit chain explorer · <span style="color: var(--text-mute);">depends: disclosure animation tokens</span></li>
         <li><b>Date · time picker</b> · <span style="color: var(--text-faint); font-style: italic;">L</span> · for coherence-read window selection · <span style="color: var(--text-mute);">depends: locale tokens</span></li>
         <li><b>File picker</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · vault import/export, consent flows · <span style="color: var(--text-mute);">depends: Tauri file API</span></li>
