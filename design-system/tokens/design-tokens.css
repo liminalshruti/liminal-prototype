@@ -1526,34 +1526,52 @@ body:not([data-relationship])                   { --ui-relationship-edge: var(--
 
 /* ────────────────────────────────────────────────────────────
  * baseline reset · applies wherever this file is imported
+ *
+ * LAYERED 2026-07-29 (founder ruling). Previously unlayered, which broke
+ * consumers that declare a layer order. Unlayered author CSS beats LAYERED
+ * author CSS, so this block was overriding liminal-desktop's Panda `recipes`
+ * and `utilities` layers (it declares `@layer reset, base, tokens, recipes,
+ * utilities`) — a reset silently winning over components.
+ *
+ * Safe for unlayered consumers (liminal-prototype and the cuts declare no
+ * layers): layers only reorder within the AUTHOR origin. User-agent defaults
+ * sit in a lower origin entirely, so this block still strips them exactly as
+ * before. What changes is only that an unlayered AUTHOR rule elsewhere now
+ * wins against it — which is the intended precedence for a reset.
+ *
+ * The form-control rule is FIRST inside the layer deliberately:
+ * liminal-desktop/scripts/check-ui-system.mjs asserts that shape.
  * ──────────────────────────────────────────────────────────── */
 
-*, *::before, *::after { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; min-height: 100vh; }
-html { font-synthesis: weight; font-synthesis-style: none; }
+@layer reset {
+  button, input, textarea, select {
+    font: inherit; color: inherit;
+    background: none; border: none;
+    padding: 0; margin: 0;
+  }
 
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  font-feature-settings: "ss01";
-  -webkit-font-smoothing: antialiased;
-}
-button, input, textarea, select {
-  font: inherit; color: inherit;
-  background: none; border: none;
-  padding: 0; margin: 0;
-}
-button { cursor: pointer; }
-a { color: inherit; text-decoration: none; }
-::selection { background: var(--accent-soft); color: var(--text); }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; min-height: 100vh; }
+  html { font-synthesis: weight; font-synthesis-style: none; }
 
-/* atmospheric grid · 64px lattice at low alpha */
-body::before {
-  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.014) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.014) 1px, transparent 1px);
-  background-size: 64px 64px;
-  opacity: 0.6;
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-feature-settings: "ss01";
+    -webkit-font-smoothing: antialiased;
+  }
+  button { cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--accent-soft); color: var(--text); }
+
+  /* atmospheric grid · 64px lattice at low alpha */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.014) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.014) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.6;
+  }
 }
