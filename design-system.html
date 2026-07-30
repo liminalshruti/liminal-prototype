@@ -8,7 +8,12 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Space Grotesk + Space Mono are canon §5 as of 2026-07-29; Geist stays loaded
+     because §5's fallback chain still names it (drop it once every surface has
+     moved). Without these two families the new §5 was inert here: --sans and
+     --mono fell straight through to the Geist fallback, so the page rendered
+     the old stack while claiming the new one. -->
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
 
 <!-- shared canon · imported by every product surface -->
 <link rel="stylesheet" href="design-system/tokens/design-tokens.css">
@@ -30,10 +35,10 @@
 
 <style>
   /* brand fonts · path-relative · mirrors live theliminalspace.io */
-  @font-face { font-family: "Nineties Headliner"; src: url("/fonts/nineties-headliner.otf") format("opentype"); font-display: swap; }
-  @font-face { font-family: "Perfectly Nineties"; src: url("/fonts/perfectly-nineties-light.otf") format("opentype"); font-weight: 300; font-display: swap; }
-  @font-face { font-family: "Perfectly Nineties"; src: url("/fonts/perfectly-nineties-regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
-  @font-face { font-family: "Perfectly Nineties"; src: url("/fonts/perfectly-nineties-bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+  @font-face { font-family: "Nineties Headliner"; src: url("fonts/nineties-headliner.otf") format("opentype"); font-display: swap; }
+  @font-face { font-family: "Perfectly Nineties"; src: url("fonts/perfectly-nineties-light.otf") format("opentype"); font-weight: 300; font-display: swap; }
+  @font-face { font-family: "Perfectly Nineties"; src: url("fonts/perfectly-nineties-regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+  @font-face { font-family: "Perfectly Nineties"; src: url("fonts/perfectly-nineties-bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
 
   /* ════════════════════════════════════════════════════════════════
      PAGE CHROME · the design-system surface itself
@@ -1692,6 +1697,106 @@
     text-transform: uppercase;
   }
   .gradient-card .gc-route .arrow { color: var(--text-mute); margin: 0 4px; }
+  /* ══════════════════════════════════════════════════════════════
+     THE CROWN · the wheel as thesis
+     ══════════════════════════════════════════════════════════════
+     The masthead used to open with six stat tiles (12 / 3 / 12 / 120 /
+     42 / 14). Those are counts of the system, not the system. The wheel
+     shows the one fact everything else descends from, at true angle.
+     Chroma here is earned under the Frontier Rule: each stop is a
+     register attribution, which is a sanctioned kind of signal. The
+     substrate stays ink — rim and spokes are hairlines. */
+  .canon-crown {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: var(--space-8);
+    align-items: center;
+  }
+  .canon-crown__text { min-width: 0; }
+
+  .canon-wheel { margin: 0; justify-self: end; width: 300px; }
+  .canon-wheel svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+  .cw-rim { fill: none; stroke: var(--frame-border); stroke-width: 1; }
+  .cw-rim--inner { stroke-dasharray: 2 5; opacity: 0.7; }
+
+  .cw-spoke { stroke-width: 1; opacity: 0.5; transition: opacity var(--tx-base) var(--ease); }
+  .cw-stop  { transition: r var(--tx-base) var(--ease), opacity var(--tx-base) var(--ease); }
+  .cw-stop--ornament { fill: var(--bg); stroke-width: 1.5; }
+
+  .cw-node { cursor: pointer; }
+  .cw-node:hover .cw-spoke,
+  .cw-node:focus-visible .cw-spoke { opacity: 1; }
+  .cw-node:hover .cw-stop,
+  .cw-node:focus-visible .cw-stop { r: 7; }
+  .cw-node:focus-visible { outline: none; }
+  .cw-node:focus-visible .cw-stop { stroke: var(--text); stroke-width: 2; }
+
+  .cw-core {
+    font-family: var(--display); font-size: 34px; font-weight: 700;
+    fill: var(--text-mute); letter-spacing: var(--ls-display);
+  }
+
+  .cw-caption {
+    margin-top: var(--space-3); text-align: right;
+    display: flex; flex-direction: column; gap: 3px;
+    min-height: 34px;                 /* reserve the row so hover can't reflow the hero */
+  }
+  .cw-caption__reg {
+    font: var(--fs-mono-xs) var(--mono);
+    letter-spacing: var(--ls-mono); text-transform: uppercase;
+    color: var(--text-mid);
+  }
+  .cw-caption__def {
+    font: var(--fs-xs)/1.4 var(--serif); color: var(--text-faint);
+  }
+
+  @media (max-width: 900px) {
+    .canon-crown { grid-template-columns: 1fr; gap: var(--space-5); }
+    .canon-wheel { justify-self: start; width: 220px; }
+    .cw-caption { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cw-spoke, .cw-stop { transition: none; }
+  }
+
+  /* ── the ledger · what the system contains, in spec-sheet register ── */
+  /* The masthead reserved 64px below the text for breathing room it no longer
+     needs — the wheel now occupies that band on the right, so the left column
+     was reading as a hole rather than as space. Pull the ledger up to close it. */
+  .ds-masthead:has(.canon-crown) { padding-bottom: var(--space-5); }
+
+  .canon-ledger {
+    border-top: 1px solid var(--frame-border);
+    border-bottom: 1px solid var(--frame-border);
+    margin: var(--space-2) 0 var(--space-6);
+  }
+  .cl-row {
+    display: grid;
+    grid-template-columns: 68px 130px minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: baseline;
+    padding: calc(var(--space-2) * var(--density-scale)) 0;
+    border-bottom: 1px solid var(--frame-border);
+  }
+  .cl-row:last-child { border-bottom: none; }
+  .cl-n {
+    font: var(--fs-mono-lg) var(--mono);
+    color: var(--text-mid);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .cl-k {
+    font: var(--fs-mono-xs) var(--mono);
+    letter-spacing: var(--ls-mono); text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .cl-d { font: var(--fs-sm)/1.5 var(--serif); color: var(--text-dim); }
+  @media (max-width: 720px) {
+    .cl-row { grid-template-columns: 48px 1fr; gap: var(--space-2) var(--space-3); }
+    .cl-d { grid-column: 1 / -1; }
+  }
+
 </style>
 </head>
 
@@ -1717,6 +1822,15 @@
           <a href="#gradients"><span class="nv-num">06</span><span class="nv-lbl">gradients</span></a>
         </li>
         <li class="ds-nav-group">
+          <div class="ds-nav-group-label">atlases</div>
+          <!-- Paths are relative to THIS file, which sits at the repo root — not
+               inside design-system/. They read "atlas/..." until 2026-07-29 and
+               resolved to /atlas/..., which 404s. Both atlases were unreachable
+               from the nav. -->
+          <a href="design-system/atlas/state-atlas.html"><span class="nv-num">◇</span><span class="nv-lbl">state atlas</span></a>
+          <a href="design-system/atlas/signal-atlas.html"><span class="nv-num">◇</span><span class="nv-lbl">signal atlas</span></a>
+        </li>
+        <li class="ds-nav-group">
           <div class="ds-nav-group-label">surface</div>
           <a href="#substrates"><span class="nv-num">·</span><span class="nv-lbl">substrates</span></a>
           <a href="#semantic"><span class="nv-num">·</span><span class="nv-lbl">semantic states</span></a>
@@ -1727,6 +1841,8 @@
           <div class="ds-nav-group-label">type · space · motion</div>
           <a href="#type"><span class="nv-num">·</span><span class="nv-lbl">type</span></a>
           <a href="#spacing"><span class="nv-num">·</span><span class="nv-lbl">spacing · radius</span></a>
+          <a href="#density"><span class="nv-num">·</span><span class="nv-lbl">density</span></a>
+          <a href="#relationship"><span class="nv-num">·</span><span class="nv-lbl">relationship</span></a>
           <a href="#motion"><span class="nv-num">·</span><span class="nv-lbl">motion</span></a>
         </li>
         <li class="ds-nav-group">
@@ -1749,45 +1865,50 @@
   <header class="ds-masthead">
     <div class="ds-masthead-eyebrow">
       <span class="left"><span class="glyph">◇</span>LIMINAL · DESIGN SYSTEM</span>
-      <span class="right"><strong>spec v0.3.7</strong>tokens · design-tokens.css</span>
+      <span class="right"><strong>spec v0.3.8</strong>tokens · design-tokens.css</span>
     </div>
-    <h1>The <span class="h1-mark">canon.</span></h1>
-    <p class="lede">Every screen in every product cut reads from these tokens. Edit a value here and the change cascades to every importing surface — <em>instantly, no save, no refresh.</em> <span class="pin">The design system is the product's control surface, not a description of it.</span></p>
+
+    <div class="canon-crown">
+      <div class="canon-crown__text">
+        <h1>The <span class="h1-mark">canon.</span></h1>
+        <p class="lede">Every screen in every product cut reads from these tokens. Edit a value here and the change cascades to every importing surface. <em>Instantly, no save, no refresh.</em> <span class="pin">The design system is the product's control surface, not a description of it.</span></p>
+      </div>
+
+      <!-- The wheel. Twelve hues at 30° intervals is not a diagram of the system,
+           it IS the system — every non-neutral color in every product surface
+           derives from one of these. Factors carry semantic load and get a filled
+           stop; ornaments are the variety library and get a ring. Drawn at true
+           angle, so the geometry is the information. -->
+      <figure class="canon-wheel" aria-labelledby="wheelCaption">
+        <svg viewBox="0 0 240 240" role="img" aria-label="The Liminal 12-wheel: seven factor hues and five ornament hues at 30-degree intervals">
+          <circle class="cw-rim" cx="120" cy="120" r="92"/>
+          <circle class="cw-rim cw-rim--inner" cx="120" cy="120" r="74"/>
+          <g id="cwSpokes"></g>
+          <text class="cw-core" x="120" y="126" text-anchor="middle">12</text>
+        </svg>
+        <figcaption id="wheelCaption" class="cw-caption">
+          <span class="cw-caption__reg">7 factors · 5 ornaments</span>
+          <span class="cw-caption__def">30° intervals · every non-neutral derives from one of these</span>
+        </figcaption>
+      </figure>
+    </div>
   </header>
 
   <!-- ─── P0 #2 · summary card · what you're getting ────────────── -->
+  <!-- The six stat tiles that used to live here (12 / 3 / 12 / 120 / 42 / 14,
+       each a large violet number) said the same thing the wheel above now shows,
+       and said it in the most generic form available. Kept as a ledger: same
+       facts, spec-sheet register, no hero numbers. The counts also lost their
+       chroma deliberately — an inventory count is not a measurement, so under
+       the Frontier Rule it has not earned a hue. -->
   <section id="summary" aria-label="Design system summary">
-    <div class="ds-summary">
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">12</div>
-        <div class="ds-summary-label">wheel · generative base</div>
-        <div class="ds-summary-line">7 factor hues + 5 ornament hues at 30° intervals.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">3</div>
-        <div class="ds-summary-label">brand · primary triple</div>
-        <div class="ds-summary-line">clarity · wholeness · vitality. Locked Apr 15.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">12</div>
-        <div class="ds-summary-label">register vocabulary</div>
-        <div class="ds-summary-line">one register-word per hue · component CSS speaks register.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">120</div>
-        <div class="ds-summary-label">tonal stops · 10 per hue</div>
-        <div class="ds-summary-line">backgrounds → fills → borders → text → emphasis.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">42</div>
-        <div class="ds-summary-label">functional UI bindings</div>
-        <div class="ds-summary-line">surfaces named by purpose · routed to wheel stops.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">14</div>
-        <div class="ds-summary-label">gradient grammar</div>
-        <div class="ds-summary-line">adjacent-hue blends only. The brand spectrum is the one diametric exception.</div>
-      </div>
+    <div class="canon-ledger">
+      <div class="cl-row"><span class="cl-n">12</span><span class="cl-k">hues</span><span class="cl-d">7 factors carry semantic load · 5 ornaments are the variety library</span></div>
+      <div class="cl-row"><span class="cl-n">3</span><span class="cl-k">brand</span><span class="cl-d">clarity · wholeness · vitality. Locked 2026-04-15; nothing else competes</span></div>
+      <div class="cl-row"><span class="cl-n">12</span><span class="cl-k">registers</span><span class="cl-d">one register-word per hue · component CSS speaks register, never hex</span></div>
+      <div class="cl-row"><span class="cl-n">120</span><span class="cl-k">tonal stops</span><span class="cl-d">10 per hue · backgrounds → fills → borders → text → emphasis</span></div>
+      <div class="cl-row"><span class="cl-n">42</span><span class="cl-k">UI bindings</span><span class="cl-d">surfaces named by purpose · rebind once, retune everywhere</span></div>
+      <div class="cl-row"><span class="cl-n">14</span><span class="cl-k">gradients</span><span class="cl-d">adjacent-hue blends only · the brand spectrum is the one diametric exception</span></div>
     </div>
   </section>
 
@@ -1802,8 +1923,8 @@
 
   <!-- ─── marginalia · hand-written notes · anchored to sections via JS ─── -->
   <div class="marginalia"         data-anchor="summary"      data-side="right" data-offset="20">this is what you're getting. one page · one canon · live edits. <span class="arrow">↘</span></div>
-  <div class="marginalia is-pink" data-anchor="brand-3"      data-side="left"  data-offset="60">brand 3 locked apr 15 — clarity / wholeness / vitality. nothing else competes. <span class="arrow">↗</span></div>
-  <div class="marginalia"         data-anchor="tokens"       data-side="right" data-offset="40">12 hues at 30° intervals. 7 carry meaning. 5 are ornaments — variety only. <span class="arrow">↙</span></div>
+  <div class="marginalia is-pink" data-anchor="brand-3"      data-side="left"  data-offset="60">brand 3 locked apr 15. clarity / wholeness / vitality. nothing else competes. <span class="arrow">↗</span></div>
+  <div class="marginalia"         data-anchor="tokens"       data-side="right" data-offset="40">12 hues at 30° intervals. 7 carry meaning. 5 are ornaments. variety only. <span class="arrow">↙</span></div>
   <div class="marginalia is-pink" data-anchor="registers"    data-side="left"  data-offset="20">every register-word names what the color does. component CSS speaks register. <span class="arrow">↗</span></div>
   <div class="marginalia"         data-anchor="tonal-scales" data-side="right" data-offset="40">120 stops. each hue gets 10. 500 is always the wheel value. <span class="arrow">↙</span></div>
   <div class="marginalia is-pink" data-anchor="ui-bindings"  data-side="left"  data-offset="40">surfaces named by purpose · routed to wheel stops. rebind once, retune everywhere. <span class="arrow">↗</span></div>
@@ -1867,7 +1988,7 @@
       <span class="rule"></span>
     </div>
     <h2><span class="glyph">◇</span>The 12-wheel</h2>
-    <p class="section-lede">The canonical color canon · locked 2026-04-07 in <code>liminal-creative/color-lab/src/lib/palettes/liminal-12-wheel.ts</code> · slate pigment retune 2026-04-15. Twelve hues at 30° intervals around the wheel. Seven anchored to factor identities — they carry semantic load. Five reserved as ornaments — variety only, never meaning.</p>
+    <p class="section-lede">The canonical color canon · locked 2026-04-07 in <code>liminal-creative/color-lab/src/lib/palettes/liminal-12-wheel.ts</code> · slate pigment retune 2026-04-15. Twelve hues at 30° intervals around the wheel. Seven anchored to factor identities. They carry semantic load. Five reserved as ornaments. variety only, never meaning.</p>
 
     <div class="wheel-stage">
       <svg class="wheel-svg" id="wheelSvg" viewBox="0 0 360 360" aria-label="Liminal 12-wheel">
@@ -1915,7 +2036,7 @@
       <span class="rule"></span>
     </div>
     <h2><span class="glyph">◇</span>Twelve registers</h2>
-    <p class="section-lede">Every wheel hue carries a register-word naming what it does in product UI. Component CSS can address by register (semantic) <em>or</em> by factor/ornament (canonical). Both resolve to the same hue. Four registers are <strong style="color: var(--accent);">locked v0.2</strong> · the eight new in v0.3.7 extend the vocabulary to cover the full desktop-app state space — alarm, surge, watch, signal, ambient, depth, liminal, vital.</p>
+    <p class="section-lede">Every wheel hue carries a register-word naming what it does in product UI. Component CSS can address by register (semantic) <em>or</em> by factor/ornament (canonical). Both resolve to the same hue. Four registers are <strong style="color: var(--accent);">locked v0.2</strong> · the eight new in v0.3.7 extend the vocabulary to cover the full desktop-app state space. alarm, surge, watch, signal, ambient, depth, liminal, vital.</p>
     <div class="token-grid" id="tokenGrid-register">
       <div class="tg-head">register · degree → hue · what it does</div><div class="tg-head">swatch</div><div class="tg-head">value</div><div class="tg-head">reset</div>
     </div>
@@ -1933,7 +2054,7 @@
     </div>
     <h2><span class="glyph">◇</span>Tonal scales</h2>
     <p class="section-lede">
-      Every non-neutral color in the desktop app derives from one of these 12 hues. Each hue gets a 10-stop tonal scale (<code>50</code> through <code>900</code>) — backgrounds at the low end, fills + borders in the middle, text + emphasis at the high end. <code>500</code> is always the canonical wheel value. Liminal-named aliases (<code>-faint</code>, <code>-bg</code>, <code>-tint</code>, <code>-soft</code>, <code>-edge</code>, <code>-glow</code>, <code>-strong</code>) point to specific stops · component CSS reads either form, both resolve to the same hex.
+      Every non-neutral color in the desktop app derives from one of these 12 hues. Each hue gets a 10-stop tonal scale (<code>50</code> through <code>900</code>). Backgrounds at the low end, fills + borders in the middle, text + emphasis at the high end. <code>500</code> is always the canonical wheel value. Liminal-named aliases (<code>-faint</code>, <code>-bg</code>, <code>-tint</code>, <code>-soft</code>, <code>-edge</code>, <code>-glow</code>, <code>-strong</code>) point to specific stops · component CSS reads either form, both resolve to the same hex.
     </p>
     <p class="section-lede" style="font-style: italic; color: var(--text-faint);">
       Pigment-aware: opaque hues use linear scales, luminous hues keep saturation in mid-stops (the glow), translucent hues get richer wash variants. Click any stop to jump to its row in the editor.
@@ -1972,7 +2093,7 @@
     </div>
     <h2><span class="glyph">◇</span>Gradient grammar</h2>
     <p class="section-lede">
-      Adjacent on the wheel = allowed (smooth pigment migration). Diametric blends are reserved for specific brand moments. Random cross-wheel blends are <em>not</em> in the system. The brand spectrum (gold → orange → pink → magenta → violet) spans the brand 3 plus their adjacent ornaments — used only for state-rendered ambient orbs/washes per Brand OS Canon v4 Layer C.
+      Adjacent on the wheel = allowed (smooth pigment migration). Diametric blends are reserved for specific brand moments. Random cross-wheel blends are <em>not</em> in the system. The brand spectrum (gold → orange → pink → magenta → violet) spans the brand 3 plus their adjacent ornaments. Used only for state-rendered ambient orbs/washes per Brand OS Canon v4 Layer C.
     </p>
 
     <div class="gradient-gallery" id="gradientGallery"></div>
@@ -2019,7 +2140,7 @@
 
   <section class="ds-section" id="substrates">
     <h2>Substrates · light theme reserved</h2>
-    <p class="section-lede">The 12-wheel pairs with a cream/ink substrate for the "anointed-desk" register (per Apr 25 9:27 PM positioning). Cream now ships as a 10-stop scale matching the hue scales — <code>--cream-50</code> for paper highlight, <code>--cream-900</code> for maximum contrast on cream. Reserved · no surface ships against these yet · documented for the v1.0+ Tauri client and the Personal product surface.</p>
+    <p class="section-lede">The 12-wheel pairs with a cream/ink substrate for the "anointed-desk" register (per Apr 25 9:27 PM positioning). Cream now ships as a 10-stop scale matching the hue scales. <code>--cream-50</code> for paper highlight, <code>--cream-900</code> for maximum contrast on cream. Reserved · no surface ships against these yet · documented for the v1.0+ Tauri client and the Personal product surface.</p>
 
     <div class="cream-strip" id="creamStrip"></div>
 
@@ -2147,11 +2268,11 @@
         <div style="font-family: var(--serif); font-size: 28px; line-height: 1.2; letter-spacing: -0.012em;">three bounded specialists read the same task and <em style="font-style: italic;">disagree</em>.</div>
       </div>
       <div class="family-row">
-        <div class="family-meta"><div class="family-name">--sans</div><div class="family-id">Geist</div></div>
+        <div class="family-meta"><div class="family-name">--sans</div><div class="family-id">Space Grotesk</div></div>
         <div style="font-family: var(--sans); font-size: 18px; color: var(--text); letter-spacing: -0.005em;">workspace · liminal agents · v0.3.7</div>
       </div>
       <div class="family-row">
-        <div class="family-meta"><div class="family-name">--mono</div><div class="family-id">Geist Mono</div></div>
+        <div class="family-meta"><div class="family-name">--mono</div><div class="family-id">Space Mono</div></div>
         <div style="font-family: var(--mono); font-size: 16px; color: var(--text); letter-spacing: 0;">/agency competitive teardown of granola.ai</div>
       </div>
       <div class="family-row">
@@ -2190,6 +2311,96 @@
     <p class="section-lede">Ten steps from <code>--space-1</code> (4px) to <code>--space-10</code> (96px). Most surfaces breathe at <code>--space-5</code> through <code>--space-7</code>.</p>
     <div class="token-grid" id="tokenGrid-spacing">
       <div class="tg-head">name</div><div class="tg-head">scale</div><div class="tg-head">value</div><div class="tg-head">reset</div>
+    </div>
+  </section>
+
+  <section class="ds-section" id="density">
+    <h2>Density · three product registers</h2>
+    <p class="section-lede">One spacing scale, three readings of it. <code>--density-scale</code> multiplies every spacing token so the same components compress for an institutional console or open up for a personal read. Set it with <code>data-density</code> — or let <code>data-product</code> imply it — <strong>on <code>&lt;body&gt;</code></strong>, which is where canon's selectors match.</p>
+    <p class="section-lede" style="color: var(--text-dim);">The rule is narrow on purpose: <strong>only spacing scales.</strong> Type sizes and radii never do — a dense surface is a tighter grid, not smaller text. Shipped 2026-07-29; the tokens had existed since April but reached no surface, so every register rendered identically.</p>
+
+    <div class="state-gallery" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="state-card" style="--density-scale: 1.1;">
+        <div class="state-label">anointed · 1.10 · personal</div>
+        <div class="demo">
+          <div style="border: 1px solid var(--card-border); border-radius: var(--radius-3); padding: calc(var(--space-4) * var(--density-scale)); display: grid; gap: calc(var(--space-2) * var(--density-scale));">
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--diligence); letter-spacing: var(--ls-mono); text-transform: uppercase;">self · read</div>
+            <div style="font: var(--fs-sm)/1.45 var(--serif); color: var(--text);">The operator is the subject. Space is permission to dwell.</div>
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--text-faint);">--space-4 → 17.6px</div>
+          </div>
+        </div>
+      </div>
+      <div class="state-card" style="--density-scale: 1.0;">
+        <div class="state-label">shared · 1.00 · team</div>
+        <div class="demo">
+          <div style="border: 1px solid var(--card-border); border-radius: var(--radius-3); padding: calc(var(--space-4) * var(--density-scale)); display: grid; gap: calc(var(--space-2) * var(--density-scale));">
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--synthesis); letter-spacing: var(--ls-mono); text-transform: uppercase;">peer · read</div>
+            <div style="font: var(--fs-sm)/1.45 var(--serif); color: var(--text);">The neutral register. Everything else is measured against this one.</div>
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--text-faint);">--space-4 → 16px</div>
+          </div>
+        </div>
+      </div>
+      <div class="state-card" style="--density-scale: 0.85;">
+        <div class="state-label">analyst · 0.85 · business</div>
+        <div class="demo">
+          <div style="border: 1px solid var(--card-border); border-radius: var(--radius-3); padding: calc(var(--space-4) * var(--density-scale)); display: grid; gap: calc(var(--space-2) * var(--density-scale));">
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--outreach); letter-spacing: var(--ls-mono); text-transform: uppercase;">institutional · read</div>
+            <div style="font: var(--fs-sm)/1.45 var(--serif); color: var(--text);">Console-grade. More rows on screen; the operator is auditing, not dwelling.</div>
+            <div style="font: var(--fs-mono-xs) var(--mono); color: var(--text-faint);">--space-4 → 13.6px</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ds-deferred" style="border-color: var(--card-border);">
+      <strong>Apply to this page</strong>
+      <p style="font: var(--fs-sm)/1.5 var(--serif); color: var(--text-dim); margin: 0 0 var(--space-3);">Sets <code>data-density</code> on <code>&lt;body&gt;</code>. Every component on this page reflows — that is the axis doing its job, not a preview.</p>
+      <div style="display: flex; gap: var(--space-2); flex-wrap: wrap;" id="densitySwitch">
+        <button data-d="anointed">anointed · 1.10</button>
+        <button data-d="shared">shared · 1.00</button>
+        <button data-d="analyst">analyst · 0.85</button>
+        <button data-d="">reset · inherit</button>
+      </div>
+      <div style="font: var(--fs-mono-xs) var(--mono); color: var(--text-faint); margin-top: var(--space-3);" id="densityReadout">--density-scale · <span style="color: var(--text-mid);">1</span></div>
+    </div>
+  </section>
+
+  <section class="ds-section" id="relationship">
+    <h2>Relationship · who is reading</h2>
+    <p class="section-lede">The fifth axis. The same component renders differently depending on the operator's relationship to the person being read — set <code>data-relationship</code> on <code>&lt;body&gt;</code> and the surface frame takes that relationship's edge. <strong>One hue per relationship</strong> (founder ruling 2026-07-29): the edge is how a surface tells you who is reading it, so two relationships sharing a hue would leave the frame unable to answer. <strong>With one deliberate exception</strong> — <code>peer</code> stays neutral. A third party seeing a sanitized view has no measured relation to render, and under the Signal Atlas law chroma is <em>earned</em>; a hue there would claim a measurement that doesn't exist. Eight hues, one neutral, no two alike.</p>
+
+    <div class="state-gallery" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="state-card"><div class="state-label">self · Clarity 270°</div><div class="demo">
+        <div style="border: 1px solid var(--ui-relationship-edge-self); border-radius: var(--radius-3); padding: var(--space-3); font: var(--fs-sm)/1.45 var(--serif); color: var(--text-mid);">operator equals subject <span style="color: var(--text-faint);">· Personal</span></div></div></div>
+
+      <div class="state-card"><div class="state-label">cofounder-mutual · Vitality 60°</div><div class="demo">
+        <div style="border: 1px solid var(--ui-relationship-edge-cofounder-mutual); border-radius: var(--radius-3); padding: var(--space-3); font: var(--fs-sm)/1.45 var(--serif); color: var(--text-mid);">symmetric peer <span style="color: var(--text-faint);">· joint vault</span></div></div></div>
+
+      <div class="state-card"><div class="state-label">direct-report · Agency 120°</div><div class="demo">
+        <div style="border: 1px solid var(--ui-relationship-edge-direct-report); border-radius: var(--radius-3); padding: var(--space-3); font: var(--fs-sm)/1.45 var(--serif); color: var(--text-mid);">manager → report <span style="color: var(--text-faint);">· consent-gated</span></div></div></div>
+
+      <div class="state-card"><div class="state-label">advisor · Expression 210°</div><div class="demo">
+        <div style="border: 1px solid var(--ui-relationship-edge-advisor); border-radius: var(--radius-3); padding: var(--space-3); font: var(--fs-sm)/1.45 var(--serif); color: var(--text-mid);">external observer <span style="color: var(--text-faint);">· summaries only</span></div></div></div>
+
+      <div class="state-card"><div class="state-label">institutional-subject · Connection 180°</div><div class="demo">
+        <div style="border: 1px solid var(--ui-relationship-edge-institutional-subject); border-radius: var(--radius-3); padding: var(--space-3); font: var(--fs-sm)/1.45 var(--serif); color: var(--text-mid);">analyst → cleared subject <span style="color: var(--text-faint);">· clearance-gated</span></div></div></div>
+
+      <div class="state-card"><div class="state-label">self-as-subject · Orchid 300°</div><div class="demo">
+        <div style="border: 1px solid var(--ui-relationship-edge-self-as-subject); border-radius: var(--radius-3); padding: var(--space-3); font: var(--fs-sm)/1.45 var(--serif); color: var(--text-mid);">the person being read <span style="color: var(--text-faint);">· own audit chain</span></div></div></div>
+
+      <div class="state-card"><div class="state-label">peer · neutral <span style="color: var(--text-faint); font-style: italic;">· the exception</span></div><div class="demo">
+        <div style="border: 1px solid var(--ui-relationship-edge-peer); border-radius: var(--radius-3); padding: var(--space-3); font: var(--fs-sm)/1.45 var(--serif); color: var(--text-mid);">third party, same product <span style="color: var(--text-faint);">· sanitized view · no chroma, because nothing is measured</span></div></div></div>
+
+      <div class="state-card"><div class="state-label">oversight · Cerulean 240°</div><div class="demo">
+        <div style="border: 1px solid var(--ui-relationship-edge-oversight); border-radius: var(--radius-3); padding: var(--space-3); font: var(--fs-sm)/1.45 var(--serif); color: var(--text-mid);">legal · audit · process review <span style="color: var(--text-faint);">· chain only</span></div></div></div>
+
+      <div class="state-card"><div class="state-label">public · Stability 0°</div><div class="demo">
+        <div style="border: 1px solid var(--ui-relationship-edge-public); border-radius: var(--radius-3); padding: var(--space-3); font: var(--fs-sm)/1.45 var(--serif); color: var(--text-mid);">outside consent boundary <span style="color: var(--text-faint);">· refused surface</span></div></div></div>
+    </div>
+
+    <div class="ds-deferred" style="border-color: var(--card-border);">
+      <strong>Unassigned hues</strong>
+      <p style="font: var(--fs-sm)/1.5 var(--serif); color: var(--text-dim); margin: 0;">Four wheel registers remain free for a tenth relationship: <span style="color: var(--judgment);">Judgment / Wholeness 330°</span> · <span style="color: var(--watch);">Watch / Amber-orn 90°</span> · <span style="color: var(--surge);">Surge / Coral 30°</span> · <span style="color: var(--signal);">Signal / Lime 150°</span>. Open question: <code>data-relationship="operator"</code> is declared on two cuts but is not one of the nine — it names only the reader, not a relation, so it may belong on the §15 <em>role</em> axis instead.</p>
     </div>
   </section>
 
@@ -2388,7 +2599,7 @@
 
   <section class="ds-section">
     <h2>Selection controls</h2>
-    <p class="section-lede">Checkbox, radio, switch, slider — the primitives a Tauri app needs that v0.2 didn't catalogue.</p>
+    <p class="section-lede">Checkbox, radio, switch, slider. the primitives a Tauri app needs that v0.2 didn't catalogue.</p>
     <div class="state-gallery" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
       <div class="state-card"><div class="state-label">checkbox · unchecked</div><div class="demo"><label class="ck"><input type="checkbox"><span class="ck-box"></span>seal correction to vault</label></div></div>
       <div class="state-card"><div class="state-label">checkbox · checked</div><div class="demo"><label class="ck"><input type="checkbox" checked><span class="ck-box"></span>require human-in-loop</label></div></div>
@@ -2636,7 +2847,7 @@
 
   <section class="ds-section">
     <h2>Sparkline · dual-line gap</h2>
-    <p class="section-lede">From Devon DRIFT — internal-vs-external assertion divergence. Two paths, gap filled in judgment-faint. Used wherever a one-line trend tells the story.</p>
+    <p class="section-lede">From Devon DRIFT. internal-vs-external assertion divergence. Two paths, gap filled in judgment-faint. Used wherever a one-line trend tells the story.</p>
     <div class="preview-grid">
       <div class="preview-card">
         <div class="pv-tag">sparkline · 21d window</div>
@@ -2721,7 +2932,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
 
     <h3>Color-blind safe pairings</h3>
     <p class="section-lede" style="margin: var(--space-4) 0;">
-      Status colors that depend on hue alone fail for users with deuteranopia, protanopia, or tritanopia. <em>Never use color as the only signal.</em> Pair every status color with a glyph (◇ pill, ✓ check, ⌀ refusal) or a text label. The system already does this — banners always carry a glyph, agent cards always carry a state-label.
+      Status colors that depend on hue alone fail for users with deuteranopia, protanopia, or tritanopia. <em>Never use color as the only signal.</em> Pair every status color with a glyph (◇ pill, ✓ check, ⌀ refusal) or a text label. The system already does this. banners always carry a glyph, agent cards always carry a state-label.
     </p>
 
     <h3>Contrast tokens · for overrides</h3>
@@ -2742,7 +2953,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       <span class="stamp">deferred · v1.0+</span>
       <strong>The component shelf for the desktop client</strong>
       <ul>
-        <li><b>Density modes</b> · <span style="color: var(--text-faint); font-style: italic;">S</span> · body-class toggle: comfortable / compact / dense · <span style="color: var(--text-mute);">depends: spacing scale (already shipped)</span></li>
+        <li style="opacity: 0.55;"><b style="text-decoration: line-through; text-decoration-color: var(--outreach);">Density modes</b> · <span style="color: var(--outreach); font-style: normal;">SHIPPED 2026-07-29</span> · see §14 above · <span style="color: var(--text-mute);">the dependency really was met — nothing needed building, 1,010 spacing declarations needed connecting</span></li>
         <li><b>Light theme</b> · <span style="color: var(--text-faint); font-style: italic;">L</span> · cream substrate scale already shipped · component CSS needs <code>body[data-theme="light"]</code> overrides · <span style="color: var(--text-mute);">depends: cream scale ✓ · contrast tokens</span></li>
         <li><b>Command palette</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · ⌘K formal pattern · /agency typing prompt is the analog · <span style="color: var(--text-mute);">depends: keyboard shortcuts subsystem</span></li>
         <li><b>Table</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · tabular data · audit log + alerts list · sortable headers + selection states · <span style="color: var(--text-mute);">depends: nothing</span></li>
@@ -2766,14 +2977,17 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     <div class="colophon-mark">◇</div>
     <div class="colophon-line">give form to inner life.</div>
     <div class="colophon-meta">
-      <strong>liminal · design system</strong> · spec v0.3.7 · canon locked 2026-04-15 · last edited 2026-04-28<br>
+      <strong>liminal · design system</strong> · spec v0.3.8 · 12-wheel canon locked 2026-04-15 · last edited 2026-07-29<br>
       tokens · design-tokens.css · single source · imported across every product surface
     </div>
-    <div class="colophon-hand">— SR</div>
+    <div class="colophon-hand">- SR</div>
 
     <details class="changelog">
-      <summary>changelog · 5 entries</summary>
+      <summary>changelog · 8 entries</summary>
       <ol>
+        <li><span class="cl-date">2026-07-29</span><span><b>v0.3.8 · density wired</b>the April "Density modes" deferral shipped · <code>--density-scale</code> existed in canon since §14 but reached no surface · 1,010 spacing declarations across lib/ and 15 cuts now read <code>calc(var(--space-N) * var(--density-scale))</code> · anointed 1.10 · shared 1.00 · analyst 0.85 · only spacing scales, never type or radius</span></li>
+        <li><span class="cl-date">2026-07-29</span><span><b>one register system</b>the cuts had been running a forked wheel — wholeness #E8006A vs canon #E90095, synthesis bound to cerulean BLUE vs canon Agency yellow, and a divergent alpha ladder — because lib/brand-upgrade.css loaded after canon and won. Fork removed; canon inherits. Also: <code>--sans</code> resolved to a SERIF, and a self-referencing "bridge to canon" left the cuts rendering in Times</span></li>
+        <li><span class="cl-date">2026-07-29</span><span><b>§5 type · §2 -lift tier · §18 wheel-bound</b><code>--sans</code> Geist → Space Grotesk · <code>--mono</code> Geist Mono → Space Mono · new opaque light tier above -500 (<code>--cerulean-lift</code>, <code>--orchid-lift</code>, <code>--amber-orn-dry</code>) · the five §18 product-semantics colors were free-standing off-wheel literals that broke the §2 invariant for seven weeks — all now bind to wheel positions</span></li>
         <li><span class="cl-date">2026-04-28</span><span><b>v0.3.7</b>generative base · 12 hue × 10 stops · functional UI bindings · gradient grammar · semantic states migrated to wheel · accessibility documentation added · sticky nav · summary card</span></li>
         <li><span class="cl-date">2026-04-28</span><span><b>v0.3.6</b>12-register vocabulary · 8 new register words extending v0.2's 4 · alarm · surge · vital · watch · signal · ambient · depth · liminal</span></li>
         <li><span class="cl-date">2026-04-15</span><span><b>brand 3 lock</b>clarity (primary) · wholeness (secondary) · vitality (accent) · slate pigment retune across all 12 hues</span></li>
@@ -3575,7 +3789,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     // hue + stop, hex, ratio-on-dark, ratio-on-cream, recommendation
     { name: 'clarity-500',    hex: '#8E66FB', dark: 6.62, cream: 4.56, body: 'agent reads · accent labels · brand primary' },
     { name: 'clarity-700',    hex: '#553AB1', dark: 3.21, cream: 9.39, body: 'text-on-cream · primary in light theme' },
-    { name: 'clarity-300',    hex: 'rgba(142,102,251,0.26)', dark: 2.84, cream: '–', body: 'fill background · backdrops · NOT for text' },
+    { name: 'clarity-300',    hex: 'rgba(142,102,251,0.26)', dark: 2.84, cream: 'N/A', body: 'fill background · backdrops · NOT for text' },
     { name: 'wholeness-500',  hex: '#E90095', dark: 6.18, cream: 4.93, body: 'verdict · brand secondary · Liminal Pink' },
     { name: 'wholeness-700',  hex: '#94005C', dark: 2.81, cream: 11.27, body: 'text-on-cream · pink emphasis' },
     { name: 'vitality-500',   hex: '#FF9549', dark: 9.51, cream: 3.04, body: 'CTA accent on dark · NOT body text on cream' },
@@ -3598,7 +3812,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
   ];
 
   function ratioCell(r) {
-    if (r === '–') return '<span style="color: var(--text-mute);">—</span>';
+    if (r === 'N/A') return '<span style="color: var(--text-mute);">N/A</span>';
     const passAA = r >= 4.5;
     const passAALarge = r >= 3.0;
     const color = passAA ? 'var(--connection)' : (passAALarge ? 'var(--watch)' : 'var(--alarm)');
@@ -3691,6 +3905,119 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     });
     typeGrid.parentNode.insertBefore(stack, typeGrid);
   }
+})();
+</script>
+
+<!-- ════════════════════════════════════════════════════════════════
+     THE WHEEL · renders the 12 hues at their true pigment-wheel angle
+     Factors get a filled stop, ornaments a ring — so the drawing says
+     "7 carry semantic load, 5 are the variety library" without a legend.
+     Angles are canon (design-tokens.css §2), not evenly-spaced guesses.
+     ════════════════════════════════════════════════════════════════ -->
+<script>
+(() => {
+  const g = document.getElementById('cwSpokes');
+  if (!g) return;
+  const NS = 'http://www.w3.org/2000/svg';
+  // deg · register word · hue token · factor? · what it does
+  const WHEEL = [
+    [  0, 'alarm',     'stability',  1, 'critical · foundation breach'],
+    [ 30, 'surge',     'coral',      0, 'high-energy attention'],
+    [ 60, 'vital',     'vitality',   1, 'the move forward · brand accent'],
+    [ 90, 'watch',     'amber-orn',  0, 'caution · monitoring'],
+    [120, 'synthesis', 'agency',     1, 'pattern · will · attention'],
+    [150, 'signal',    'lime',       0, 'active · streaming · live'],
+    [180, 'outreach',  'connection', 1, 'relational · positive'],
+    [210, 'ambient',   'expression', 1, 'wash · atmospheric'],
+    [240, 'depth',     'cerulean',   0, 'sky wash · calm mode'],
+    [270, 'diligence', 'clarity',    1, 'intelligence · brand primary'],
+    [300, 'liminal',   'orchid',     0, 'transition · the in-between'],
+    [330, 'judgment',  'wholeness',  1, 'verdict · brand secondary'],
+  ];
+  const C = 120, R_IN = 34;
+  const cap = document.querySelector('.cw-caption__reg');
+  const def = document.querySelector('.cw-caption__def');
+  const restore = () => {
+    cap.textContent = '7 factors · 5 ornaments';
+    def.textContent = '30° intervals · every non-neutral derives from one of these';
+  };
+
+  WHEEL.forEach(([deg, reg, hue, isFactor, does]) => {
+    const r = isFactor ? 92 : 74;
+    const rad = deg * Math.PI / 180;
+    const x = C + r * Math.sin(rad), y = C - r * Math.cos(rad);
+    const xi = C + R_IN * Math.sin(rad), yi = C - R_IN * Math.cos(rad);
+    const color = `var(--${hue}-500)`;
+
+    const node = document.createElementNS(NS, 'a');
+    node.setAttribute('class', 'cw-node');
+    node.setAttribute('href', '#registers');
+    node.setAttribute('tabindex', '0');
+
+    const t = document.createElementNS(NS, 'title');
+    t.textContent = `${reg} · ${hue} · ${deg}° · ${does}`;
+    node.appendChild(t);
+
+    const line = document.createElementNS(NS, 'line');
+    line.setAttribute('class', 'cw-spoke');
+    line.setAttribute('x1', xi.toFixed(2)); line.setAttribute('y1', yi.toFixed(2));
+    line.setAttribute('x2', x.toFixed(2));  line.setAttribute('y2', y.toFixed(2));
+    line.setAttribute('stroke', color);
+    node.appendChild(line);
+
+    const dot = document.createElementNS(NS, 'circle');
+    dot.setAttribute('class', 'cw-stop' + (isFactor ? '' : ' cw-stop--ornament'));
+    dot.setAttribute('cx', x.toFixed(2)); dot.setAttribute('cy', y.toFixed(2));
+    dot.setAttribute('r', isFactor ? 5.5 : 4.5);
+    if (isFactor) dot.setAttribute('fill', color);
+    else dot.setAttribute('stroke', color);
+    node.appendChild(dot);
+
+    const show = () => {
+      cap.textContent = `--${reg} · ${hue} · ${deg}°`;
+      cap.style.color = color;
+      def.textContent = (isFactor ? 'factor · ' : 'ornament · ') + does;
+    };
+    const hide = () => { cap.style.color = ''; restore(); };
+    node.addEventListener('mouseenter', show);
+    node.addEventListener('mouseleave', hide);
+    node.addEventListener('focus', show);
+    node.addEventListener('blur', hide);
+
+    g.appendChild(node);
+  });
+})();
+</script>
+
+<!-- ════════════════════════════════════════════════════════════════
+     DENSITY SWITCH · sets data-density on <body> · §14
+     Reads the resolved --density-scale back off body rather than echoing
+     the button's own label, so the readout reports what the cascade
+     actually produced. If canon's selectors ever stop matching, this
+     readout is what will say so.
+     ════════════════════════════════════════════════════════════════ -->
+<script>
+(() => {
+  const sw = document.getElementById('densitySwitch');
+  const out = document.getElementById('densityReadout');
+  if (!sw || !out) return;
+  const report = () => {
+    const v = getComputedStyle(document.body).getPropertyValue('--density-scale').trim() || '(unset)';
+    const d = document.body.getAttribute('data-density') || 'inherited';
+    out.innerHTML = '--density-scale · <span style="color: var(--text-mid);">' + v + '</span>'
+                  + ' · <span style="color: var(--text-faint);">data-density: ' + d + '</span>';
+  };
+  sw.addEventListener('click', e => {
+    const b = e.target.closest('button[data-d]');
+    if (!b) return;
+    const d = b.getAttribute('data-d');
+    if (d) document.body.setAttribute('data-density', d);
+    else document.body.removeAttribute('data-density');
+    [...sw.querySelectorAll('button')].forEach(x =>
+      x.style.borderColor = (x === b) ? 'var(--diligence-edge)' : '');
+    report();
+  });
+  report();
 })();
 </script>
 

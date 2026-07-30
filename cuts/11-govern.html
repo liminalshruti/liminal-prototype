@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-product="business" data-density="analyst" data-relationship="operator" data-surface="today">
+<html lang="en" data-surface="today">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cut 11 · Govern · the AI-Spend loop · Liminal</title>
@@ -30,6 +30,7 @@
 <link rel="stylesheet" href="../design-system/components/framing.css">
 <!-- Shared design system (converged): chrome + canonical .artifact from cut-shell.css. -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
+<link rel="stylesheet" href="../lib/cut-shell-products.css">
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 <style>
 @font-face{font-family:"Nineties Headliner";src:url("../fonts/nineties-headliner.otf") format("opentype");font-weight:400;font-display:swap}
@@ -47,12 +48,12 @@ body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-fo
 /* CHROME (.shell/.rb-top/.traffic/.brand/.rb-bot) inherited from converged cut-shell.css. */
 
 /* ── top-bar tabs ── */
-.tabs{display:flex;gap: var(--space-app-0-5);margin: 0 auto}
-.tab{font:9px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid transparent;border-radius: var(--radius-3);padding: var(--space-app-1-5) 11px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap: 7px}
+.tabs{display:flex;gap: calc(var(--space-app-0-5) * var(--density-scale));margin: 0 auto}
+.tab{font:9px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid transparent;border-radius: var(--radius-3);padding: calc(var(--space-app-1-5) * var(--density-scale)) 11px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap: 7px}
 .tab:hover{color:var(--text);background:var(--hover)}.tab.on{color:var(--text);background:var(--hover);border-color:var(--card-border)}
 .tab .k{font-size: 8px;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-1);padding: 0 var(--space-1)}
 .tab .badge{background:var(--watch);color:var(--bg);border-radius: 8px;font-size: 8px;padding: 1px 5px;letter-spacing: 0}
-.cmdk{font:9px/1 var(--mono);letter-spacing: .1em;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-3);padding: var(--space-app-1-5) 9px;cursor:pointer;display:flex;gap: var(--space-app-1-5);align-items:center}
+.cmdk{font:9px/1 var(--mono);letter-spacing: .1em;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-3);padding: calc(var(--space-app-1-5) * var(--density-scale)) 9px;cursor:pointer;display:flex;gap: calc(var(--space-app-1-5) * var(--density-scale));align-items:center}
 .cmdk:hover{color:var(--text-mid);border-color:var(--text-faint)}
 .rel{display:flex;align-items:center;gap: 5px}.rel .lbl{color:var(--text-faint);font-size: 8px;letter-spacing: var(--ls-app-wider);text-transform:uppercase}
 .rel button{font:8px/1 var(--mono);letter-spacing: .1em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 5px 7px;cursor:pointer;transition:.15s}
@@ -70,41 +71,41 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
    The tile look: macOS title-bar w/ traffic-dots + source · display-font title ·
    seated-nib rail connector · dashed/diffuse tray, solid slate. ── */
 .rail-l{background:var(--frame-bg-2);border-right:1px solid var(--frame-border);padding: 13px 0;overflow-y:auto}
-.rl-h{display:flex;align-items:center;gap: 7px;padding: 0 15px var(--space-2);font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint)}
+.rl-h{display:flex;align-items:center;gap: 7px;padding: 0 15px calc(var(--space-2) * var(--density-scale));font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint)}
 .rl-h .live{display:inline-flex;align-items:center;gap: 5px;color:var(--signal);margin-left: auto}.rl-h .live::before{content:"";width:6px;height:6px;border-radius: 50%;background:var(--signal);animation:pl 1.1s var(--ease) infinite}
 .rl-sub{padding: 0 15px 9px;font:8px/1.4 var(--mono);letter-spacing: .08em;color:var(--text-faint);border-bottom:1px solid var(--frame-border);margin-bottom: var(--space-2)}
-.rl-grp{padding: 9px 15px var(--space-1);font:8px/1 var(--mono);letter-spacing: var(--ls-mono);text-transform:uppercase;color:var(--text-faint)}
+.rl-grp{padding: 9px 15px calc(var(--space-1) * var(--density-scale));font:8px/1 var(--mono);letter-spacing: var(--ls-mono);text-transform:uppercase;color:var(--text-faint)}
 /* the tile · cut-01 .tile shape */
-.sig{position:relative;margin: var(--space-app-1-5) 9px var(--space-app-1-5) var(--space-5);border:1px solid var(--card-border);border-radius: var(--radius-3);background:var(--frame-bg-2);cursor:pointer;overflow:hidden;transition:border-color .22s var(--ease),transform .28s var(--ease),box-shadow .28s var(--ease),opacity .22s}
+.sig{position:relative;margin: calc(var(--space-app-1-5) * var(--density-scale)) 9px calc(var(--space-app-1-5) * var(--density-scale)) calc(var(--space-5) * var(--density-scale));border:1px solid var(--card-border);border-radius: var(--radius-3);background:var(--frame-bg-2);cursor:pointer;overflow:hidden;transition:border-color .22s var(--ease),transform .28s var(--ease),box-shadow .28s var(--ease),opacity .22s}
 /* seated nib · the tab linking the tile to the rail (cut 01) */
 .sig::before{content:"";position:absolute;top:15px;left:-13px;width:12px;height:1px;background:var(--card-border-2,var(--card-border))}
 .sig::after{content:"";position:absolute;top:13px;left:-17px;width:5px;height:5px;border-radius: 50%;background:var(--frame-bg);border:1px solid var(--card-border-2,var(--card-border));transition:background .22s,border-color .22s,box-shadow .22s}
 .sig:hover{border-color:var(--diligence);transform:translateX(-3px);box-shadow:-6px 6px 20px rgba(0,0,0,.42),0 0 24px var(--diligence-bg);z-index:4}
 .sig:hover::after{background:var(--diligence);border-color:var(--diligence);box-shadow:0 0 8px var(--diligence)}
 /* the title-bar · macOS traffic-lights + source eyebrow (cut 01 .tile-bar) */
-.sig .src{display:flex;align-items:center;gap: var(--space-2);padding: var(--space-app-1-5) 10px;background:rgba(255,255,255,.025);border-bottom:1px solid var(--card-border);font:8px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;color:var(--text-faint)}
+.sig .src{display:flex;align-items:center;gap: calc(var(--space-2) * var(--density-scale));padding: calc(var(--space-app-1-5) * var(--density-scale)) 10px;background:rgba(255,255,255,.025);border-bottom:1px solid var(--card-border);font:8px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;color:var(--text-faint)}
 .sig .src::before{content:"";flex-shrink:0;width:23px;height:7px;border-radius: 10px;
   background:radial-gradient(circle 3.5px at 3.5px 3.5px,rgba(255,255,255,.18) 0 3.5px,transparent 0),radial-gradient(circle 3.5px at 11.5px 3.5px,rgba(255,255,255,.18) 0 3.5px,transparent 0),radial-gradient(circle 3.5px at 19.5px 3.5px,rgba(255,255,255,.18) 0 3.5px,transparent 0)}
 /* the title · display font (cut 01 .tile-label) */
-.sig .nm{padding: 7px var(--space-3) var(--space-2);font:12.5px/1.25 var(--display,"Nineties Headliner",Georgia,serif);letter-spacing: -.005em;color:var(--text)}
+.sig .nm{padding: 7px calc(var(--space-3) * var(--density-scale)) calc(var(--space-2) * var(--density-scale));font:12.5px/1.25 var(--display,"Nineties Headliner",Georgia,serif);letter-spacing: -.005em;color:var(--text)}
 /* tray · diffuse · dashed (cut 01 idiom) · the harden affordance lives in the bar */
 .sig.tray{border-style:dashed;opacity:.82}.sig.tray .src{color:var(--watch)}.sig.tray .act{color:var(--watch)}
 .sig .act{margin-left: auto;flex-shrink:0;font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint)}
 .sig.slate .act{color:var(--good)}
 .sig.cited{border-color:var(--diligence)}.sig.cited .src{background:var(--diligence-bg);color:var(--diligence)}.sig.cited .src::before{background:radial-gradient(circle 3.5px at 3.5px 3.5px,var(--diligence) 0 3.5px,transparent 0),radial-gradient(circle 3.5px at 11.5px 3.5px,var(--diligence) 0 3.5px,transparent 0),radial-gradient(circle 3.5px at 19.5px 3.5px,var(--diligence) 0 3.5px,transparent 0)}.sig.cited .nm{color:var(--text)}
-.sig .rows{padding: 0 var(--space-3) 9px;font:9px/1.5 var(--mono);color:var(--text-faint);display:none}
+.sig .rows{padding: 0 calc(var(--space-3) * var(--density-scale)) 9px;font:9px/1.5 var(--mono);color:var(--text-faint);display:none}
 .sig.open .rows{display:block}
 
 /* ── CENTER ── */
 .work{padding: 0;overflow-y:auto;position:relative}
-.pad{padding: var(--space-5) var(--space-6);display:flex;flex-direction:column;gap: var(--space-4)}
+.pad{padding: calc(var(--space-5) * var(--density-scale)) calc(var(--space-6) * var(--density-scale));display:flex;flex-direction:column;gap: var(--space-4)}
 .invoke{display:flex;align-items:baseline;gap: 10px;font:10px/1 var(--mono);letter-spacing: var(--ls-app-wide);color:var(--text-faint);border-bottom:1px solid var(--card-border);padding-bottom: var(--space-3)}
 .invoke b{color:var(--diligence);letter-spacing: .12em;text-transform:uppercase}
 .invoke .invoke-q{margin-left: auto;color:var(--text-faint);letter-spacing: .04em}.invoke .invoke-q b{color:var(--text-mid);text-transform:none;letter-spacing: var(--ls-app-loose)}
 
 /* ── SUBJECT SWITCHER (converged from cut 00) · the loop's subject is a parameter ── */
 .subjects{display:flex;gap: 3px;margin: 0 0 14px;background:var(--frame-bg);border:1px solid var(--card-border);border-radius: var(--radius-4);padding: 3px;width:fit-content}
-.subj{font:9px/1 var(--mono);letter-spacing: .1em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:0;border-radius: var(--radius-3);padding: 7px var(--space-3);cursor:pointer;transition:.15s;white-space:nowrap}
+.subj{font:9px/1 var(--mono);letter-spacing: .1em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:0;border-radius: var(--radius-3);padding: 7px calc(var(--space-3) * var(--density-scale));cursor:pointer;transition:.15s;white-space:nowrap}
 .subj:hover{color:var(--text)}.subj.on{color:var(--bg);background:var(--diligence)}
 .subj .deep{font-size: 7px;letter-spacing: var(--ls-app-wider);opacity:.6;margin-left: 5px}
 /* per-subject read head (non-spend subjects reuse this; spend keeps its native sense-h) */
@@ -115,7 +116,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .map-legend{display:flex;gap: 18px;margin-top: 9px;font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--text-faint)}
 .map-legend i{display:inline-block;width:8px;height:8px;border-radius: 50%;margin-right: 5px;vertical-align:middle}
 .layers{display:flex;flex-direction:column;gap: var(--space-app-1-5)}
-.layer{display:flex;gap: var(--space-3);align-items:baseline;padding: var(--space-2) 11px;border:1px solid var(--card-border);border-radius: 5px;background:var(--frame-bg)}
+.layer{display:flex;gap: calc(var(--space-3) * var(--density-scale));align-items:baseline;padding: calc(var(--space-2) * var(--density-scale)) 11px;border:1px solid var(--card-border);border-radius: 5px;background:var(--frame-bg)}
 .layer.counter{border-color:var(--alarm-edge);background:var(--alarm-bg)}
 .layer .ln{font:8px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;color:var(--text-faint);min-width:54px}
 .layer .lc{font:11px/1.4 var(--mono);color:var(--text-mid)}.layer.counter .lc{color:var(--alarm)}
@@ -123,7 +124,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .hyp-bar{display:flex;height:14px;border-radius: var(--radius-2);overflow:hidden;border:1px solid var(--card-border)}
 .hyp-bar .h1{flex:62;background:var(--good)}.hyp-bar .h2{flex:26;background:var(--watch)}.hyp-bar .h3{flex:12;background:var(--alarm)}
 .atrail{display:flex;flex-direction:column;gap: 5px}
-.arow{display:grid;grid-template-columns:54px 1fr auto;gap: var(--space-3);align-items:center;padding: var(--space-2) 11px;border:1px solid var(--card-border);border-radius: 5px;background:var(--frame-bg);font:10px/1.3 var(--mono)}
+.arow{display:grid;grid-template-columns:54px 1fr auto;gap: calc(var(--space-3) * var(--density-scale));align-items:center;padding: calc(var(--space-2) * var(--density-scale)) 11px;border:1px solid var(--card-border);border-radius: 5px;background:var(--frame-bg);font:10px/1.3 var(--mono)}
 .arow .ak{color:var(--text-faint);letter-spacing: .12em}.arow .ae{color:var(--text-mid)}.arow .av{color:var(--text-faint);letter-spacing: .08em;text-transform:uppercase;font-size: 8px}
 .arow.match{border-color:var(--connection-edge,var(--connection))}.arow.match .av{color:var(--connection,var(--good))}
 .arow.contra{border-color:var(--alarm-edge);background:var(--alarm-bg)}.arow.contra .av{color:var(--alarm)}
@@ -136,12 +137,12 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .sense-h .atitle{font:500 16px/1.2 var(--display);color:var(--text)}
 .sense-h .asub{margin-left: auto;font:9px/1 var(--mono);color:var(--text-faint)}
 .tbl{width:100%;border-collapse:collapse;font:11px/1.5 var(--mono);border:1px solid var(--card-border);border-radius: 7px;overflow:hidden}
-.tbl th{text-align:left;padding: var(--space-2) 11px;font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);background:var(--frame-bg-3);border-bottom:1px solid var(--frame-border)}
+.tbl th{text-align:left;padding: calc(var(--space-2) * var(--density-scale)) 11px;font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);background:var(--frame-bg-3);border-bottom:1px solid var(--frame-border)}
 .tbl td{padding: 7px 11px;color:var(--text-dim);border-bottom:1px solid var(--frame-border)}
 .tbl tr:last-child td{border-bottom:0}.tbl td.num{text-align:right;font-variant-numeric:tabular-nums}
 .tbl tr.flag td{background:var(--alarm-bg)}.tbl tr.flag td:first-child{color:var(--alarm)}
 .tbl tr.total td{font-weight:600;color:var(--text);background:var(--frame-bg-3)}
-.stream{display:flex;flex-direction:column;gap: var(--space-app-0-5);font:10.5px/1 var(--mono)}
+.stream{display:flex;flex-direction:column;gap: calc(var(--space-app-0-5) * var(--density-scale));font:10.5px/1 var(--mono)}
 .urow{display:grid;grid-template-columns:1fr auto auto;gap: 14px;align-items:center;padding: 7px 11px;border:1px solid var(--card-border);border-radius: var(--radius-3);background:var(--frame-bg-2)}
 .urow .cat{color:var(--text-faint);font-size: var(--fs-eyebrow)}.urow .cost{color:var(--text-mid);font-variant-numeric:tabular-nums}
 .urow.flagged{border-color:var(--alarm-edge);background:var(--alarm-bg)}.urow.flagged .cat{color:var(--alarm)}
@@ -161,12 +162,12 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .reg.corrected .cmark{display:inline}
 .reg-edit{display:none;margin-top: 9px;gap: var(--space-2)}
 .reg.editing .reg-edit{display:flex;flex-direction:column}
-.reg-edit textarea{width:100%;background:var(--frame-bg);border:1px solid var(--card-border);border-radius: var(--radius-3);color:var(--text);font:12px/1.5 var(--sans);padding: var(--space-2) 10px;resize:vertical;min-height:54px}
-.reg-edit .er{display:flex;gap: var(--space-2);align-items:center}
-.reg-edit .save{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius: var(--radius-2);padding: 7px var(--space-3);cursor:pointer}
-.reg-edit .cancel{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);background:transparent;border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 7px var(--space-3);cursor:pointer}
+.reg-edit textarea{width:100%;background:var(--frame-bg);border:1px solid var(--card-border);border-radius: var(--radius-3);color:var(--text);font:12px/1.5 var(--sans);padding: calc(var(--space-2) * var(--density-scale)) 10px;resize:vertical;min-height:54px}
+.reg-edit .er{display:flex;gap: calc(var(--space-2) * var(--density-scale));align-items:center}
+.reg-edit .save{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius: var(--radius-2);padding: 7px calc(var(--space-3) * var(--density-scale));cursor:pointer}
+.reg-edit .cancel{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);background:transparent;border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 7px calc(var(--space-3) * var(--density-scale));cursor:pointer}
 .reg-edit .hint{margin-left: auto;font:8px/1.4 var(--mono);color:var(--text-faint);letter-spacing: var(--ls-app-wide);max-width:30ch;text-align:right}
-.cite{font:9px/1 var(--mono);letter-spacing: .04em;color:var(--depth);border:1px solid var(--depth-edge);border-radius: var(--radius-2);padding: var(--space-app-0-5) var(--space-app-1-5);margin-left: var(--space-1);cursor:pointer;transition:.15s;white-space:nowrap}
+.cite{font:9px/1 var(--mono);letter-spacing: .04em;color:var(--depth);border:1px solid var(--depth-edge);border-radius: var(--radius-2);padding: calc(var(--space-app-0-5) * var(--density-scale)) calc(var(--space-app-1-5) * var(--density-scale));margin-left: calc(var(--space-1) * var(--density-scale));cursor:pointer;transition:.15s;white-space:nowrap}
 .cite:hover{background:var(--depth-bg)}
 
 /* OKR allocation bar (restored) · canon tokens only */
@@ -179,15 +180,77 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .allocbar .ghost::after{content:"actual 24%";position:absolute;top:-15px;left:-25px;font:8px/1 var(--mono);color:var(--alarm);white-space:nowrap}
 
 /* verdict + refusal */
-.verdict{display:inline-flex;align-items:center;gap: 9px;margin-top: var(--space-1);font:11px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;color:var(--alarm);border:1px solid var(--alarm-edge);background:var(--alarm-bg);padding: 7px var(--space-3);border-radius: var(--radius-3)}
-.refusal{display:flex;gap: 9px;align-items:flex-start;margin: 10px 0 0;padding: var(--space-2) var(--space-3);border-left:2px solid var(--judgment);background:var(--judgment-bg);border-radius: 0 var(--radius-3) var(--radius-3) 0}
+.verdict{display:inline-flex;align-items:center;gap: 9px;margin-top: calc(var(--space-1) * var(--density-scale));font:11px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;color:var(--alarm);border:1px solid var(--alarm-edge);background:var(--alarm-bg);padding: 7px calc(var(--space-3) * var(--density-scale));border-radius: var(--radius-3)}
+.refusal{display:flex;gap: 9px;align-items:flex-start;margin: 10px 0 0;padding: calc(var(--space-2) * var(--density-scale)) calc(var(--space-3) * var(--density-scale));border-left:2px solid var(--judgment);background:var(--judgment-bg);border-radius: 0 var(--radius-3) var(--radius-3) 0}
 .refusal .ico{color:var(--judgment);font:600 12px/1.3 var(--mono)}
 .refusal .tx{font:11px/1.45 var(--mono);color:var(--text-mid)}.refusal .tx b{color:var(--judgment);font-weight:500}
 
 /* the catch (E14/PR-103) · hero beat */
+
+/* ── the weekly review ritual · v07 fold (2026-07-29) · spine + panes ──
+   Type system = cut 01's canon exactly: NinetiesHeadliner 700 titles on the
+   --text-* scale, PerfectlyNineties body, Geist Mono labels at --text-2xs.
+   No raw px type, no sans titles (retyped 2026-07-29 after founder catch). */
+.ritual{display:grid;grid-template-columns:188px minmax(0,1fr);gap:0;border:1px solid var(--card-border);border-radius:var(--radius-3);overflow:hidden;background:var(--frame-bg)}
+.spine7{border-right:1px solid var(--card-border);background:var(--frame-bg-2);padding:14px 0;display:flex;flex-direction:column}
+.spine7 .sp-head{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--text-faint);padding:0 16px 12px;border-bottom:1px solid var(--card-border);margin-bottom:6px}
+.step7{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:10px 16px;cursor:pointer;transition:background .15s;align-items:start;border:0;background:transparent;text-align:left;width:100%}
+.step7:hover{background:var(--frame-bg-3)}
+.step7 .n7{font-family:var(--mono);font-size:var(--text-2xs);line-height:1.8;color:var(--text-mute)}
+.step7 .l7{font-family:var(--display);font-weight:700;font-size:var(--text-sm);letter-spacing:var(--tracking-normal);color:var(--text-dim)}
+.step7 .s7{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-wide);color:var(--text-faint);margin-top:2px}
+.step7.is-done .n7{color:var(--outreach)}
+.step7.is-done .l7{color:var(--text-mid)}
+.step7.is-active{background:var(--frame-bg-3);box-shadow:inset 2px 0 0 var(--diligence)}
+.step7.is-active .n7{color:var(--diligence)}
+.step7.is-active .l7{color:var(--text)}
+.spine7 .sp-foot{margin-top:auto;padding:12px 16px 2px;border-top:1px solid var(--card-border);font-family:var(--mono);font-size:var(--text-2xs);line-height:1.9;letter-spacing:var(--tracking-wide);color:var(--text-faint)}
+.spine7 .sp-foot b{color:var(--text-dim);font-weight:var(--fw-regular,400)}
+.panes7{padding:16px 18px;min-width:0}
+.pane7{display:none}
+.pane7.on{display:block}
+.pane7 .btnrow7{display:flex;gap:9px;align-items:center;margin-top:16px}
+.pane7 .btnrow7 .note7{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-wide);color:var(--text-faint)}
+.case7{border:1px solid var(--alarm-edge);background:var(--alarm-bg);border-radius:var(--radius-3);padding:13px 15px;margin:10px 0 14px}
+.case7 .ck{display:flex;justify-content:space-between;font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--alarm)}
+.case7 .ct{font-family:var(--display);font-weight:700;font-size:var(--text-md);line-height:var(--leading-snug,1.2);letter-spacing:var(--tracking-normal);color:var(--text);margin:7px 0 5px}
+.case7 .cb{font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)}
+.case7 .cb b{color:var(--text);font-weight:600}
+.split7{border:1px solid var(--judgment-edge);background:var(--judgment-bg);border-radius:var(--radius-3);padding:12px 15px;margin:12px 0 4px}
+.split7 .sk{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--judgment);margin-bottom:6px}
+.split7 .sb{font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)}
+.split7 .sb b{color:var(--text);font-weight:600}
+.policy7{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:11px 4px;border-bottom:1px solid var(--card-border)}
+.policy7:last-of-type{border-bottom:none}
+.pw7{width:30px;height:16px;border-radius:9px;border:1px solid var(--card-border-2);background:var(--frame-bg-3);position:relative;cursor:pointer;transition:background .18s,border-color .18s}
+.pw7 i{position:absolute;top:2px;left:2px;width:10px;height:10px;border-radius:50%;background:var(--text-faint);transition:left .18s,background .18s}
+.policy7.on .pw7{background:color-mix(in oklch,var(--outreach) 22%,var(--frame-bg-3));border-color:var(--outreach)}
+.policy7.on .pw7 i{left:16px;background:var(--outreach)}
+.policy7 .pt7{font-family:var(--display);font-weight:700;font-size:var(--text-base);letter-spacing:var(--tracking-normal);color:var(--text)}
+.policy7 .pd7{font-family:var(--serif);font-weight:300;font-size:var(--text-xs);line-height:1.5;color:var(--text-dim)}
+.policy7 .pe7{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-wide);color:var(--text-dim);white-space:nowrap}
+.policy7.on .pe7{color:var(--outreach)}
+.ruling7{border:1px solid var(--outreach-soft);background:var(--outreach-bg);border-radius:var(--radius-3);padding:12px 15px;margin:14px 0 6px}
+.ruling7 .rk{display:flex;justify-content:space-between;font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--outreach)}
+.ruling7 .rt7{font-family:var(--display);font-weight:700;font-size:var(--text-md);letter-spacing:var(--tracking-normal);color:var(--text);margin:6px 0 4px}
+.ruling7 .rb7{font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)}
+.ruling7 .rb7 b{color:var(--text);font-weight:600}
+.ledger7{border:1px solid var(--card-border);border-radius:var(--radius-3);overflow:hidden;margin-top:8px}
+.lrow7{display:grid;grid-template-columns:86px 1fr 74px;gap:12px;padding:10px 13px;border-bottom:1px solid var(--card-border);align-items:start}
+.lrow7:last-child{border-bottom:none}
+.lrow7 .lt{font-family:var(--mono);font-size:var(--text-2xs);line-height:1.6;color:var(--text-faint)}
+.lrow7 .lt b{color:var(--text-dim);font-weight:var(--fw-regular,400);display:block}
+.lrow7 .lk{font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;margin-bottom:3px;color:var(--text-dim)}
+.lrow7 .lk.ref{color:var(--judgment)}.lrow7 .lk.sev{color:var(--alarm)}.lrow7 .lk.rat{color:var(--outreach)}.lrow7 .lk.cor{color:var(--diligence)}
+.lrow7 .lb{font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.5;color:var(--text-mid)}
+.lrow7 .lb b{color:var(--text);font-weight:600}
+.lrow7 .lh{font-family:var(--mono);font-size:var(--text-2xs);line-height:1.5;color:var(--text-mute);text-align:right}
+.owner7{display:flex;flex-wrap:wrap;gap:8px 22px;font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-wide);color:var(--text-dim);border:1px solid var(--card-border);border-radius:var(--radius-3);padding:10px 13px;margin:8px 0 12px}
+.owner7 b{color:var(--text-mid);font-weight:var(--fw-regular,400)}
+.urow.flagged{cursor:pointer}
 .catch{border-left:2px solid var(--alarm);background:var(--alarm-bg);border-radius: 0 5px 5px 0;padding: 11px 14px;margin-top: 10px}
-.catch .ch{display:flex;align-items:center;gap: var(--space-2);font:9px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--alarm)}
-.catch .cb{margin-top: var(--space-2);font:12.5px/1.55 var(--sans);color:var(--text-mid)}.catch .cb b{color:var(--text);font-weight:500}.catch .cb s{color:var(--text-faint);text-decoration-color:var(--alarm)}
+.catch .ch{display:flex;align-items:center;gap: calc(var(--space-2) * var(--density-scale));font:9px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--alarm)}
+.catch .cb{margin-top: calc(var(--space-2) * var(--density-scale));font:12.5px/1.55 var(--sans);color:var(--text-mid)}.catch .cb b{color:var(--text);font-weight:500}.catch .cb s{color:var(--text-faint);text-decoration-color:var(--alarm)}
 .catch .moral{margin-top: 9px;font:11px/1.5 var(--serif,Georgia,serif);font-style:italic;color:var(--text-dim)}
 .verifier{display:inline-flex;align-items:center;gap: 7px;font:9px/1 var(--mono);letter-spacing: var(--ls-app-wide);color:var(--judgment);margin: var(--space-2) 0}
 .verifier::before{content:"";width:7px;height:7px;border-radius: 50%;background:var(--judgment);animation:pulse 1.4s infinite}
@@ -195,18 +258,18 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 
 /* reconciliation strip (the visible subtraction · "judges reward this") */
 .recon{display:grid;grid-template-columns:repeat(3,1fr);gap: 10px;margin: 10px 0}
-.recon .rc{border:1px solid var(--card-border);border-radius: var(--radius-4);padding: 10px var(--space-3);background:var(--frame-bg-2);position:relative}
+.recon .rc{border:1px solid var(--card-border);border-radius: var(--radius-4);padding: 10px calc(var(--space-3) * var(--density-scale));background:var(--frame-bg-2);position:relative}
 .recon .rc .l{font:8px/1 var(--mono);letter-spacing: .1em;text-transform:uppercase;color:var(--text-faint)}
-.recon .rc .v{margin-top: var(--space-app-1-5);font:600 19px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
+.recon .rc .v{margin-top: calc(var(--space-app-1-5) * var(--density-scale));font:600 19px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
 .recon .rc.drop .v{color:var(--alarm)}.recon .rc.verified .v{color:var(--good)}.recon .rc.naive .v{color:var(--text-faint)}
 .recon .rc .op{position:absolute;left:-9px;top:50%;transform:translateY(-50%);font:13px/1 var(--mono);color:var(--text-faint)}
 
 /* FINDING · clickable provenance artifact (THE hero interaction) */
 .finding{border:1px solid var(--card-border);border-radius: 7px;background:var(--frame-bg-2);overflow:hidden;margin-bottom: 9px}
 .finding.dropped{opacity:.78;border-left:3px solid var(--alarm)}
-.finding-head{display:flex;align-items:flex-start;gap: var(--space-2);padding: 11px 13px;cursor:pointer}
+.finding-head{display:flex;align-items:flex-start;gap: calc(var(--space-2) * var(--density-scale));padding: 11px 13px;cursor:pointer}
 .finding-head .meta{flex:1;min-width:0}
-.finding-head .badges{display:flex;flex-wrap:wrap;gap: var(--space-app-1-5);margin-bottom: var(--space-app-1-5)}
+.finding-head .badges{display:flex;flex-wrap:wrap;gap: calc(var(--space-app-1-5) * var(--density-scale));margin-bottom: var(--space-app-1-5)}
 .finding-head .bdg{display:inline-flex;align-items:center;gap: 5px;font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 3px var(--space-app-1-5)}
 .finding-head .bdg.dot::before{content:"";width:6px;height:6px;border-radius: 50%;background:currentColor}
 .finding-head .bdg.good{color:var(--good)}.finding-head .bdg.bad{color:var(--alarm)}.finding-head .bdg.acc{color:var(--diligence)}
@@ -219,12 +282,12 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .finding-body{display:none;border-top:1px dashed var(--card-border)}
 .finding.open .finding-body{display:block}
 .ev-table{width:100%;border-collapse:collapse;font:9.5px/1.4 var(--mono)}
-.ev-table caption{text-align:left;padding: var(--space-2) 13px var(--space-1);font:8px/1 var(--mono);letter-spacing: .1em;text-transform:uppercase;color:var(--text-faint)}
+.ev-table caption{text-align:left;padding: calc(var(--space-2) * var(--density-scale)) 13px calc(var(--space-1) * var(--density-scale));font:8px/1 var(--mono);letter-spacing: .1em;text-transform:uppercase;color:var(--text-faint)}
 .ev-table td,.ev-table th{padding: 5px 13px;text-align:left;color:var(--text-dim);border-bottom:1px solid var(--frame-border)}
 .ev-table th{font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--text-faint)}
 .ev-table td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--text-mid)}
 .ev-table tr:last-child td{border-bottom:0}
-.receipt{display:flex;flex-wrap:wrap;gap: var(--space-app-1-5) 18px;padding: 9px 13px;background:var(--frame-bg-3);border-top:1px solid var(--frame-border);font:9px/1.4 var(--mono);color:var(--text-dim)}
+.receipt{display:flex;flex-wrap:wrap;gap: calc(var(--space-app-1-5) * var(--density-scale)) 18px;padding: 9px 13px;background:var(--frame-bg-3);border-top:1px solid var(--frame-border);font:9px/1.4 var(--mono);color:var(--text-dim)}
 .receipt .k{color:var(--text-faint);letter-spacing: .08em;text-transform:uppercase;margin-right: 5px}
 .receipt .full{flex-basis:100%}
 .receipt .vbadge{display:inline-flex;align-items:center;gap: 5px;color:var(--good);letter-spacing: var(--ls-app-wide)}.receipt .vbadge::before{content:"";width:6px;height:6px;border-radius: 50%;background:var(--good)}
@@ -233,14 +296,14 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .fc-toggle{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 5px 9px;cursor:pointer;background:transparent}
 .fc-toggle:hover{color:var(--diligence);border-color:var(--diligence)}
 .fc-box{display:none;margin-top: 9px}.finding.correcting .fc-box{display:block}
-.fc-kinds{display:flex;gap: var(--space-app-1-5);margin-bottom: var(--space-app-1-5)}
+.fc-kinds{display:flex;gap: calc(var(--space-app-1-5) * var(--density-scale));margin-bottom: var(--space-app-1-5)}
 .fc-gloss{font:9px/1.5 var(--mono);letter-spacing: .04em;color:var(--text-faint);margin-bottom: var(--space-2)}
-.fc-kind{font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 5px var(--space-2);cursor:pointer;background:transparent}
+.fc-kind{font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 5px calc(var(--space-2) * var(--density-scale));cursor:pointer;background:transparent}
 .fc-kind.on{color:#fff;background:var(--diligence);border-color:var(--diligence)}
-.fc-box textarea{width:100%;background:var(--frame-bg);border:1px solid var(--card-border);border-radius: var(--radius-3);color:var(--text);font:11px/1.5 var(--sans);padding: var(--space-2) 10px;resize:vertical;min-height:46px}
-.fc-box .er{display:flex;gap: var(--space-2);align-items:center;margin-top: var(--space-2)}
-.fc-box .save{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius: var(--radius-2);padding: 7px var(--space-3);cursor:pointer}
-.fc-done{display:none;margin-top: var(--space-2);font:9px/1.4 var(--mono);color:var(--good)}.finding.corrected .fc-done{display:block}.finding.corrected .fc-box{display:none}
+.fc-box textarea{width:100%;background:var(--frame-bg);border:1px solid var(--card-border);border-radius: var(--radius-3);color:var(--text);font:11px/1.5 var(--sans);padding: calc(var(--space-2) * var(--density-scale)) 10px;resize:vertical;min-height:46px}
+.fc-box .er{display:flex;gap: calc(var(--space-2) * var(--density-scale));align-items:center;margin-top: var(--space-2)}
+.fc-box .save{font:8px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius: var(--radius-2);padding: 7px calc(var(--space-3) * var(--density-scale));cursor:pointer}
+.fc-done{display:none;margin-top: calc(var(--space-2) * var(--density-scale));font:9px/1.4 var(--mono);color:var(--good)}.finding.corrected .fc-done{display:block}.finding.corrected .fc-box{display:none}
 /* chain-integrity badge (stays green through corrections) */
 .chain-integ{display:inline-flex;align-items:center;gap: 5px;font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--good);margin-left: auto;flex-shrink:0}
 .chain-integ::before{content:"";width:6px;height:6px;border-radius: 50%;background:var(--good);box-shadow:0 0 6px var(--good)}
@@ -250,7 +313,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .swap .side{padding: 11px 13px;border:1px solid var(--card-border);border-radius: 5px;background:var(--frame-bg-2)}
 .swap .side.cur{border-color:var(--alarm-edge)}.swap .side.sug{border-color:var(--connection);background:linear-gradient(180deg,var(--connection-bg),transparent)}
 .swap .ro{font:8px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint)}
-.swap .ag{margin: var(--space-app-1-5) 0 0;font:13px/1.2 var(--sans);color:var(--text);font-weight:500}
+.swap .ag{margin: calc(var(--space-app-1-5) * var(--density-scale)) 0 0;font:13px/1.2 var(--sans);color:var(--text);font-weight:500}
 .swap .co{margin-top: 3px;font:9px/1.2 var(--mono);color:var(--text-dim)}
 .swap .bd{display:inline-flex;align-items:center;gap: 5px;margin-top: 9px;font:8px/1 var(--mono);letter-spacing: .1em;text-transform:uppercase}.swap .bd::before{content:"";width:6px;height:6px;border-radius: 50%;background:currentColor}
 .swap .cur .bd{color:var(--alarm)}.swap .sug .bd{color:var(--connection)}
@@ -261,60 +324,60 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .savings .lbl{color:var(--text-faint);letter-spacing: .04em}
 
 /* ratify */
-.policy{border:1px solid var(--diligence-edge);border-radius: 8px;padding: var(--space-4) 18px;background:linear-gradient(180deg,var(--diligence-bg),transparent)}
+.policy{border:1px solid var(--diligence-edge);border-radius: 8px;padding: calc(var(--space-4) * var(--density-scale)) 18px;background:linear-gradient(180deg,var(--diligence-bg),transparent)}
 .policy .pt{font:500 19px/1.3 var(--display);color:var(--text)}
-.policy .ps{margin-top: var(--space-2);font:11px/1.5 var(--mono);color:var(--good)}
-.dispo{display:flex;align-items:center;gap: 10px;margin-top: var(--space-app-1-5);flex-wrap:wrap}
+.policy .ps{margin-top: calc(var(--space-2) * var(--density-scale));font:11px/1.5 var(--mono);color:var(--good)}
+.dispo{display:flex;align-items:center;gap: 10px;margin-top: calc(var(--space-app-1-5) * var(--density-scale));flex-wrap:wrap}
 .dispo .lbl{font:9px/1.4 var(--mono);letter-spacing: var(--ls-app-wide);color:var(--text-faint);margin-right: auto;max-width:46ch}
-.db{font:10px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;padding: 9px var(--space-4);border-radius: var(--radius-2);border:1px solid var(--card-border);background:var(--hover);color:var(--text-mid);cursor:pointer}
+.db{font:10px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;padding: 9px calc(var(--space-4) * var(--density-scale));border-radius: var(--radius-2);border:1px solid var(--card-border);background:var(--hover);color:var(--text-mid);cursor:pointer}
 .db:hover{color:var(--text);border-color:var(--text-faint)}
 .db.sign{color:#fff;background:var(--judgment);border-color:var(--judgment)}.db.sign:hover{box-shadow:0 0 22px var(--judgment-glow)}
 .db.sign .pre{opacity:.7;font-size: 8px}
 .calib-cta{margin-top: 14px;text-align:center}
-.calib-cta button{font:9px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--diligence);background:transparent;border:1px solid var(--diligence-edge);border-radius: var(--radius-3);padding: var(--space-2) 14px;cursor:pointer}
+.calib-cta button{font:9px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--diligence);background:transparent;border:1px solid var(--diligence-edge);border-radius: var(--radius-3);padding: calc(var(--space-2) * var(--density-scale)) 14px;cursor:pointer}
 
 /* ── Today surface (OG, restored) ── */
 .today{max-width:600px;margin: 0 auto;padding: 40px 30px}
 .today .greet{font:9px/1 var(--mono);letter-spacing: var(--ls-mono-lg);text-transform:uppercase;color:var(--text-faint)}
-.today h1{margin: 10px 0 var(--space-app-1-5);font:400 30px/1.15 var(--display);color:var(--text)}
+.today h1{margin: 10px 0 calc(var(--space-app-1-5) * var(--density-scale));font:400 30px/1.15 var(--display);color:var(--text)}
 .today .lede{margin: 0 0 26px;font:16px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim)}
-.tcard{display:block;width:100%;text-align:left;border:1px solid var(--card-border);border-radius: 8px;background:var(--frame-bg-2);padding: var(--space-4) 18px;margin-bottom: var(--space-3);cursor:pointer;transition:.15s;color:inherit}
+.tcard{display:block;width:100%;text-align:left;border:1px solid var(--card-border);border-radius: 8px;background:var(--frame-bg-2);padding: calc(var(--space-4) * var(--density-scale)) 18px;margin-bottom: calc(var(--space-3) * var(--density-scale));cursor:pointer;transition:.15s;color:inherit}
 .tcard:hover{border-color:var(--text-faint);background:var(--frame-bg-3)}
-.tcard .tk{display:flex;align-items:center;gap: var(--space-2);font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase}
+.tcard .tk{display:flex;align-items:center;gap: calc(var(--space-2) * var(--density-scale));font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase}
 .tcard .tk .meta{margin-left: auto;color:var(--text-faint);letter-spacing: .08em}
 .tcard.decide .tk{color:var(--watch)}.tcard.outcome .tk{color:var(--connection)}.tcard.mirror .tk{color:var(--diligence)}
-.tcard h3{margin: var(--space-2) 0 var(--space-1);font:500 17px/1.2 var(--display);color:var(--text)}
+.tcard h3{margin: calc(var(--space-2) * var(--density-scale)) 0 calc(var(--space-1) * var(--density-scale));font:500 17px/1.2 var(--display);color:var(--text)}
 .tcard p{margin: 0;font:13.5px/1.5 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim)}
-.tcard .verdict-mini{margin-top: var(--space-2);display:inline-block;font:9px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--alarm);border:1px solid var(--alarm-edge);background:var(--alarm-bg);padding: var(--space-1) var(--space-2);border-radius: var(--radius-2)}
+.tcard .verdict-mini{margin-top: calc(var(--space-2) * var(--density-scale));display:inline-block;font:9px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--alarm);border:1px solid var(--alarm-edge);background:var(--alarm-bg);padding: calc(var(--space-1) * var(--density-scale)) calc(var(--space-2) * var(--density-scale));border-radius: var(--radius-2)}
 
 /* ── Mirror surface (OG, restored) ── */
 .mirror{max-width:640px;margin: 0 auto;padding: var(--space-7) 30px}
 .mirror .greet{font:9px/1 var(--mono);letter-spacing: var(--ls-mono-lg);text-transform:uppercase;color:var(--text-faint)}
-.mirror h1{margin: 10px 0 var(--space-app-1-5);font:400 28px/1.15 var(--display);color:var(--text)}
+.mirror h1{margin: 10px 0 calc(var(--space-app-1-5) * var(--density-scale));font:400 28px/1.15 var(--display);color:var(--text)}
 .mirror .lede{margin: 0 0 26px;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim);max-width:58ch}
-.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap: var(--space-3);margin-bottom: var(--space-app-5)}
+.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap: calc(var(--space-3) * var(--density-scale));margin-bottom: var(--space-app-5)}
 .mstat{border:1px solid var(--card-border);border-radius: 7px;padding: 14px;background:var(--frame-bg-2)}
 .mstat .v{font:600 24px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
-.mstat .l{margin-top: var(--space-app-1-5);font:9px/1.3 var(--mono);letter-spacing: .1em;text-transform:uppercase;color:var(--text-faint)}
-.mbars{border:1px solid var(--card-border);border-radius: 7px;padding: var(--space-4) 18px;background:var(--frame-bg-2);margin-bottom: 20px}
+.mstat .l{margin-top: calc(var(--space-app-1-5) * var(--density-scale));font:9px/1.3 var(--mono);letter-spacing: .1em;text-transform:uppercase;color:var(--text-faint)}
+.mbars{border:1px solid var(--card-border);border-radius: 7px;padding: calc(var(--space-4) * var(--density-scale)) 18px;background:var(--frame-bg-2);margin-bottom: 20px}
 .mbars h3{margin: 0 0 14px;font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-mid)}
-.mbar{display:grid;grid-template-columns:130px 1fr 40px;align-items:center;gap: var(--space-3);margin-bottom: 9px;font:10px/1 var(--mono)}
+.mbar{display:grid;grid-template-columns:130px 1fr 40px;align-items:center;gap: calc(var(--space-3) * var(--density-scale));margin-bottom: 9px;font:10px/1 var(--mono)}
 .mbar .lb{color:var(--text-dim)}.mbar .track{height:8px;background:var(--frame-bg-3);border-radius: var(--radius-3);overflow:hidden}
 .mbar .fill{height:100%;border-radius: var(--radius-3)}.mbar .pct{color:var(--text-faint);text-align:right;font-variant-numeric:tabular-nums}
-.mnote{border-left:2px solid var(--diligence);padding: var(--space-1) 0 var(--space-1) var(--space-4);margin-top: var(--space-2)}
+.mnote{border-left:2px solid var(--diligence);padding: calc(var(--space-1) * var(--density-scale)) 0 calc(var(--space-1) * var(--density-scale)) calc(var(--space-4) * var(--density-scale));margin-top: var(--space-2)}
 .mnote .k{font:8px/1 var(--mono);letter-spacing: var(--ls-mono);text-transform:uppercase;color:var(--diligence)}
-.mnote p{margin: var(--space-2) 0 0;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid);font-style:italic}
-.mnote ul{margin: var(--space-2) 0 0;padding-left: 18px;font:13px/1.6 var(--sans);color:var(--text-mid)}
+.mnote p{margin: calc(var(--space-2) * var(--density-scale)) 0 0;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid);font-style:italic}
+.mnote ul{margin: calc(var(--space-2) * var(--density-scale)) 0 0;padding-left: 18px;font:13px/1.6 var(--sans);color:var(--text-mid)}
 .mnote code{font:11px/1 var(--mono);color:var(--text);background:var(--frame-bg-3);padding: 1px 5px;border-radius: var(--radius-2)}
 
 /* ── run-badge · marks a real-pipeline run vs the inline demo ── */
-.run-badge{margin-left: auto;font:8px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: var(--space-1) var(--space-2);align-self:center}
+.run-badge{margin-left: auto;font:8px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: calc(var(--space-1) * var(--density-scale)) calc(var(--space-2) * var(--density-scale));align-self:center}
 .run-badge.on{color:var(--connection);border-color:var(--connection)}
 button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}button.run-badge.reset:hover{color:var(--text-soft);border-color:var(--text-soft)}
 
 /* ── OKR surface (reuses .today shell) ── */
 .okrs{display:flex;flex-direction:column;gap: 18px;margin: var(--space-app-1-5) 0 18px}
-.okr-obj{border:1px solid var(--card-border);border-radius: 8px;padding: var(--space-4) 18px;background:var(--frame-bg-2)}
+.okr-obj{border:1px solid var(--card-border);border-radius: 8px;padding: calc(var(--space-4) * var(--density-scale)) 18px;background:var(--frame-bg-2)}
 .okr-head{display:flex;align-items:baseline;gap: 10px;margin-bottom: 10px}
 .okr-head .okr-n{font:9px/1 var(--mono);letter-spacing: .1em;color:var(--depth)}
 .okr-head .okr-name{font:17px/1.2 var(--display,"Nineties Headliner",Georgia,serif);color:var(--text)}
@@ -322,7 +385,7 @@ button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}bu
 .okr-obj .track{height:8px;background:var(--frame-bg-3);border-radius: var(--radius-3);overflow:hidden}
 .okr-obj .track .fill{height:100%}
 .okr-krs{margin: 10px 0 0;padding-left: 18px;font:13px/1.6 var(--sans);color:var(--text-dim)}
-.okr-foot{display:flex;align-items:center;gap: var(--space-3);margin-bottom: var(--space-5)}
+.okr-foot{display:flex;align-items:center;gap: calc(var(--space-3) * var(--density-scale));margin-bottom: var(--space-5)}
 .okr-sum{font:9px/1 var(--mono);letter-spacing: var(--ls-app-wider);text-transform:uppercase;padding: 5px 10px;border-radius: var(--radius-3);border:1px solid var(--card-border)}
 .okr-sum.ok{color:var(--connection);border-color:var(--connection)}
 .okr-sum.warn{color:var(--alarm);border-color:var(--alarm-edge,var(--alarm))}
@@ -331,17 +394,17 @@ button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}bu
 /* ── secondary screens (Registry / Decision log) ── */
 .screen{max-width:760px;margin: 0 auto;padding: 30px;display:flex;flex-direction:column;gap: var(--space-4)}
 .screen .sh{font:9px/1 var(--mono);letter-spacing: var(--ls-mono-lg);text-transform:uppercase;color:var(--text-faint)}
-.screen h1{margin: var(--space-2) 0 var(--space-1);font:400 26px/1.15 var(--display);color:var(--text)}
-.screen .lede{margin: 0 0 var(--space-2);font:14px/1.6 var(--serif,Georgia,serif);color:var(--text-dim);max-width:64ch}
+.screen h1{margin: calc(var(--space-2) * var(--density-scale)) 0 calc(var(--space-1) * var(--density-scale));font:400 26px/1.15 var(--display);color:var(--text)}
+.screen .lede{margin: 0 0 calc(var(--space-2) * var(--density-scale));font:14px/1.6 var(--serif,Georgia,serif);color:var(--text-dim);max-width:64ch}
 .agents{display:grid;grid-template-columns:1fr 1fr;gap: var(--space-3)}
-.agent{border:1px solid var(--card-border);border-radius: 8px;padding: 14px var(--space-4);background:var(--frame-bg-2)}
+.agent{border:1px solid var(--card-border);border-radius: 8px;padding: 14px calc(var(--space-4) * var(--density-scale));background:var(--frame-bg-2)}
 .agent .an{font:500 15px/1.2 var(--sans);color:var(--text)}.agent .at{margin-top: 3px;font:9px/1 var(--mono);color:var(--text-dim)}
-.agent .badges{display:flex;flex-wrap:wrap;gap: var(--space-app-1-5);margin-top: 9px}
+.agent .badges{display:flex;flex-wrap:wrap;gap: calc(var(--space-app-1-5) * var(--density-scale));margin-top: 9px}
 .agent .bdg{display:inline-flex;align-items:center;gap: 5px;font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--text-faint)}.agent .bdg::before{content:"";width:6px;height:6px;border-radius: 50%;background:currentColor}
 .agent .bdg.ok{color:var(--good)}.agent .bdg.warn{color:var(--watch)}.agent .bdg.cost{color:var(--diligence)}
 .agent .lanes{display:flex;flex-wrap:wrap;gap: 5px;margin-top: 9px}
 .agent .lane{font:8px/1 var(--mono);color:var(--text-dim);border:1px solid var(--card-border);border-radius: var(--radius-2);padding: 3px var(--space-app-1-5)}
-.agent .prov{margin-top: 9px;padding-top: var(--space-2);border-top:1px solid var(--frame-border);font:8.5px/1.4 var(--mono);color:var(--text-faint)}
+.agent .prov{margin-top: 9px;padding-top: calc(var(--space-2) * var(--density-scale));border-top:1px solid var(--frame-border);font:8.5px/1.4 var(--mono);color:var(--text-faint)}
 .agent .prov .phash{color:var(--diligence)}
 
 /* ── rich registry agent cards (real reputation + proof) ── */
@@ -353,7 +416,7 @@ button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}bu
 .agent .claim{font:12px/1.5 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim);font-style:italic}
 
 /* ── the agent-fit marketplace swap (hero beat in the loop) ── */
-.mswap{margin-top: var(--space-3);border:1px solid var(--card-border);border-radius: 8px;background:var(--frame-bg-2);overflow:hidden}
+.mswap{margin-top: calc(var(--space-3) * var(--density-scale));border:1px solid var(--card-border);border-radius: 8px;background:var(--frame-bg-2);overflow:hidden}
 .mswap-h{padding: 9px 13px;font:10px/1.4 var(--mono);color:var(--text-dim);border-bottom:1px solid var(--frame-border);background:var(--frame-bg-3)}
 .mswap-grid{display:grid;grid-template-columns:1fr 52px 1fr;align-items:stretch;gap: 0}
 .mside{padding: 13px 15px;display:flex;flex-direction:column;gap: var(--space-app-1-5)}
@@ -362,19 +425,19 @@ button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}bu
 .mside .mname{font:500 15px/1.2 var(--sans);color:var(--text)}
 .mside.sug .mname{color:var(--good)}
 .mside .mmeta{font:8px/1.3 var(--mono);color:var(--text-dim)}
-.mside .mstatrow{display:flex;gap: var(--space-2);align-items:baseline;margin-top: var(--space-app-0-5)}
+.mside .mstatrow{display:flex;gap: calc(var(--space-2) * var(--density-scale));align-items:baseline;margin-top: var(--space-app-0-5)}
 .mside .mcost{font:11px/1 var(--mono);color:var(--text)}
 .mside .mrep{font:8px/1 var(--mono);letter-spacing: .08em;text-transform:uppercase;color:var(--good)}
-.mside .mlanes{display:flex;flex-wrap:wrap;gap: var(--space-1);margin-top: var(--space-app-0-5)}
+.mside .mlanes{display:flex;flex-wrap:wrap;gap: calc(var(--space-1) * var(--density-scale));margin-top: var(--space-app-0-5)}
 .mside .mproof{margin-top: auto;padding-top: 7px;font:8px/1.4 var(--mono);color:var(--text-faint)}
-.marrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap: var(--space-1);font:15px/1 var(--mono);color:var(--text-faint);border-left:1px solid var(--frame-border);border-right:1px solid var(--frame-border)}
+.marrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap: calc(var(--space-1) * var(--density-scale));font:15px/1 var(--mono);color:var(--text-faint);border-left:1px solid var(--frame-border);border-right:1px solid var(--frame-border)}
 .marrow .msave{font:8px/1 var(--mono);color:var(--good);letter-spacing: .04em}
 
 /* ── RIGHT RAIL · ORBITAL agency (ported from cut 01, canon-clean, spend-subjected) ── */
 .rail-r{background:var(--frame-bg-2);border-left:1px solid var(--frame-border);padding: 13px 0;overflow-y:auto}
-.rr-h{display:flex;justify-content:space-between;align-items:center;padding: 0 15px 10px;border-bottom:1px solid var(--frame-border);margin-bottom: var(--space-app-1-5);font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint)}
+.rr-h{display:flex;justify-content:space-between;align-items:center;padding: 0 15px 10px;border-bottom:1px solid var(--frame-border);margin-bottom: calc(var(--space-app-1-5) * var(--density-scale));font:9px/1 var(--mono);letter-spacing: var(--ls-mono-sm);text-transform:uppercase;color:var(--text-faint)}
 .rr-h .live{display:inline-flex;align-items:center;gap: 5px;color:var(--signal)}.rr-h .live::before{content:"";width:6px;height:6px;border-radius: 50%;background:var(--signal);animation:pl 1.1s var(--ease) infinite}
-.orbital-rail{position:relative;width:100%;aspect-ratio:1/1.15;margin: var(--space-app-1-5) auto var(--space-2);padding: 0 10px}
+.orbital-rail{position:relative;width:100%;aspect-ratio:1/1.15;margin: calc(var(--space-app-1-5) * var(--density-scale)) auto calc(var(--space-2) * var(--density-scale));padding: 0 10px}
 .orbital-svg{width:100%;height:100%;display:block;overflow:visible}
 .reg-plate{fill:rgba(255,255,255,.025);stroke:var(--frame-border);stroke-width:1}
 .reg-plate.diligence{stroke:var(--diligence)}.reg-plate.outreach{stroke:var(--outreach)}.reg-plate.synthesis{stroke:var(--depth)}.reg-plate.judgment{stroke:var(--judgment)}
@@ -398,7 +461,7 @@ button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}bu
 .orbital-coverage .ce{color:var(--text-mid)}
 
 /* ── BOTTOM RIBBON · chain ── */
-.ev{display:flex;gap: var(--space-app-1-5);align-items:baseline;flex-shrink:0}.ev .t{color:var(--text-faint)}.ev .e{color:var(--text-mid)}
+.ev{display:flex;gap: calc(var(--space-app-1-5) * var(--density-scale));align-items:baseline;flex-shrink:0}.ev .t{color:var(--text-faint)}.ev .e{color:var(--text-mid)}
 .ev.ref .e{color:var(--judgment)}.ev.corr .e{color:var(--diligence)}.ev.fresh{animation:fr 1.6s var(--ease)}
 
 /* ⌘K palette + toast */
@@ -407,9 +470,9 @@ button.run-badge.reset{cursor:pointer;background:none;color:var(--text-faint)}bu
 .pal-box{width:min(520px,92%);background:var(--frame-bg);border:1px solid var(--card-border);border-radius: 10px;box-shadow:0 40px 90px rgba(0,0,0,.7);overflow:hidden}
 .pal-box input{width:100%;background:transparent;border:0;outline:0;padding: 15px 18px;color:var(--text);font:14px/1 var(--mono);border-bottom:1px solid var(--frame-border)}
 .pal-box input::placeholder{color:var(--text-faint)}
-.pal-row{display:flex;align-items:center;gap: var(--space-3);padding: 11px var(--space-4);cursor:pointer;font:11px/1 var(--mono);color:var(--text-mid)}
+.pal-row{display:flex;align-items:center;gap: calc(var(--space-3) * var(--density-scale));padding: 11px calc(var(--space-4) * var(--density-scale));cursor:pointer;font:11px/1 var(--mono);color:var(--text-mid)}
 .pal-row:hover,.pal-row.sel{background:var(--hover);color:var(--text)}.pal-row .pk{margin-left: auto;font-size: var(--fs-eyebrow);color:var(--text-faint);border:1px solid var(--card-border);border-radius: var(--radius-1);padding: 1px 5px}
-.toast{position:absolute;bottom:48px;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;background:var(--frame-bg);border:1px solid var(--diligence);border-radius: var(--radius-4);padding: 9px 14px;font:10px/1.3 var(--mono);color:var(--text);box-shadow:0 12px 30px rgba(0,0,0,.5);z-index:40;transition:opacity .2s,transform .2s;letter-spacing: .04em;display:flex;gap: var(--space-2);align-items:center}
+.toast{position:absolute;bottom:48px;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;background:var(--frame-bg);border:1px solid var(--diligence);border-radius: var(--radius-4);padding: 9px 14px;font:10px/1.3 var(--mono);color:var(--text);box-shadow:0 12px 30px rgba(0,0,0,.5);z-index:40;transition:opacity .2s,transform .2s;letter-spacing: .04em;display:flex;gap: calc(var(--space-2) * var(--density-scale));align-items:center}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast .d{color:var(--diligence)}
 
 /* relationship states */
@@ -421,17 +484,17 @@ body[data-relationship="public"] .work>.pad,body[data-relationship="public"] .wo
 /* overlays the center column only (between the two rails) so the orbital rail stays visible */
 .refuse-frame{display:none;position:absolute;top:0;bottom:0;left:280px;right:320px;z-index:5;background:var(--frame-bg)}
 body[data-surface="today"] .refuse-frame,body[data-surface="mirror"] .refuse-frame,body[data-surface="registry"] .refuse-frame,body[data-surface="log"] .refuse-frame,body[data-surface="okr"] .refuse-frame,body[data-surface="report"] .refuse-frame{left:0;right:0}
-body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;padding: var(--space-7);gap: 0;animation:refuse-in .5s var(--ease) both}
+body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;padding: calc(var(--space-7) * var(--density-scale));gap: 0;animation:refuse-in .5s var(--ease) both}
 @keyframes refuse-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .refuse-frame .seal{width:60px;height:60px;border-radius: 50%;border:1px solid var(--judgment);display:flex;align-items:center;justify-content:center;font:300 26px/1 var(--mono);color:var(--judgment);background:var(--judgment-bg);box-shadow:0 0 0 6px color-mix(in srgb,var(--judgment) 8%,transparent);margin-bottom: var(--space-5)}
 .refuse-frame .rk{font:8px/1 var(--mono);letter-spacing: .26em;text-transform:uppercase;color:var(--judgment);margin-bottom: 14px}
 .refuse-frame h2{margin: 0;font:400 27px/1.2 var(--display);color:var(--text);max-width:18ch}
 .refuse-frame .rsub{margin: 14px 0 0;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim);max-width:42ch}
 .refuse-frame .rsub b{color:var(--text-mid);font-weight:400;font-style:italic}
-.refuse-frame .resc{margin-top: 26px;display:inline-flex;align-items:center;gap: 9px;font:9px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: 5px;padding: 10px var(--space-4);background:var(--frame-bg-2)}
+.refuse-frame .resc{margin-top: 26px;display:inline-flex;align-items:center;gap: 9px;font:9px/1 var(--mono);letter-spacing: .12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius: 5px;padding: 10px calc(var(--space-4) * var(--density-scale));background:var(--frame-bg-2)}
 .refuse-frame .resc .arr{color:var(--judgment)}
 
-@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}@keyframes fr{0%{background:var(--diligence-bg);padding: var(--space-app-0-5) var(--space-app-1-5);border-radius: var(--radius-2)}100%{background:transparent;padding: 0}}@keyframes rin{to{opacity:1;transform:none}}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}@keyframes fr{0%{background:var(--diligence-bg);padding: calc(var(--space-app-0-5) * var(--density-scale)) calc(var(--space-app-1-5) * var(--density-scale));border-radius: var(--radius-2)}100%{background:transparent;padding: 0}}@keyframes rin{to{opacity:1;transform:none}}
 
 /* ── PATH-ONLY MOTION · surface transition (the only motion not already present) ──
    Each time #work re-renders (tab change / ⌘K jump) its content fades up once.
@@ -467,7 +530,13 @@ body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:colum
 }
 </style>
 </head>
-<body data-beat="3">
+<!-- register attributes moved from <html> 2026-07-29: canon matches
+     body[data-density] / body[data-product] / body[data-relationship], so on
+     <html> they were inert. This cockpit asked for analyst density (0.85,
+     console-grade) and rendered at 1.0. data-surface stays on <html>. -->
+<body data-beat="3" data-product="business" data-density="analyst" data-relationship="operator">
+<noscript><p style="max-width:60ch;margin:18vh auto 0;padding:0 24px;font-family:Georgia,serif;font-size:15px;line-height:1.6;color:#C9C5BD;text-align:center">This surface is an interactive prototype and needs JavaScript to run its loop. The front door at <a href="../index.html" style="color:#8E66FB">the catalog</a> describes what it does.</p></noscript>
+
 <div class="shell">
   <div class="rb-top">
     <div class="traffic"><i class="r"></i><i class="y"></i><i class="g"></i></div>
@@ -541,12 +610,12 @@ let USAGE=[
 ];
 let AGENTS=[
   {name:'Claude Opus 4.8',type:'frontier_model',badges:[['ok','verified'],['warn','high cost']],lanes:['product_dev','security_hardening','architecture_review']},
-  {name:'CalendarOps Agent',type:'internal_agent',badges:[['ok','verified'],['cost','low · ~10% of Opus']],lanes:['calendar_management','scheduling'],prov:'registry-verified (trustless agent registry · design concept — on-chain optional/roadmap) · internal-platform'},
+  {name:'CalendarOps Agent',type:'internal_agent',badges:[['ok','verified'],['cost','low · ~10% of Opus']],lanes:['calendar_management','scheduling'],prov:'registry-verified (trustless agent registry · design concept: on-chain optional/roadmap) · internal-platform'},
   {name:'DigestBot',type:'internal_agent · claude-haiku-4-5',badges:[['ok','verified'],['cost','low · ~5% of Opus']],lanes:['summarization','digests'],prov:'registry-verified'},
   {name:'Analyst (bounded)',type:'internal_agent',badges:[['ok','verified']],lanes:['diligence','analysis']},
 ];
 let SIGNALS=[
-  {id:'usage',src:'Usage events',nm:'$4,500 Opus · 7 engineers',state:'slate',rows:'E01–E21 · 5 categories · 2026-06'},
+  {id:'usage',src:'Usage events',nm:'$4,500 Opus · 7 engineers',state:'slate',rows:'E01-E21 · 5 categories · 2026-06'},
   {id:'okr',src:'OKR baseline',nm:'60% product / 40% security',state:'slate',rows:'O1 product 0.6 · O2 security 0.4'},
   {id:'pr',src:'PR evidence',nm:'PR-103 · Mara',state:'slate',rows:'“calendar-sync feature” · workstream=product · linked E14'},
   {id:'registry',src:'Agent registry',nm:'CalendarOps · verified',state:'slate',rows:'registry-verified · ~10% of Opus · scoped: calendar'},
@@ -561,6 +630,13 @@ let READS={
   outreach:{rt:'+7.0s',html:'Drafted · route calendar work to a registry-verified agent <span class="cite" data-cite="registry">agent-registry</span>. Ready to ratify.<div class="swap"><div class="side cur"><span class="ro">current</span><div class="ag">Claude Opus 4.8</div><div class="co">calendar mgmt · frontier tier</div><span class="bd">out of approved scope</span></div><div class="arrow">→</div><div class="side sug"><span class="ro">route to</span><div class="ag">CalendarOps Agent</div><div class="co">~10% of Opus · scoped: calendar</div><span class="bd">registry-verified</span></div></div>'},
 };
 let corrections=0, signed=false;
+let STEP=3, STEP_DONE=new Set([1,2]);
+let POLICIES=[
+  {on:true, t:'Route calendar admin to CalendarOps', d:'registry-verified · ~10% of Opus · scoped: calendar', e:'est -$162/mo · verified'},
+  {on:true, t:'Route summarization to DigestBot', d:'claude-haiku-4-5 · ~5% of Opus', e:'est -$122/mo · verified'},
+  {on:false, t:'Monthly fleet cap $12k with operator override', d:'override logs to the chain with a reason', e:'holds a month'},
+  {on:false, t:'Notify owner at 80% of budget', d:'direct message, not a channel post', e:'no spend effect'},
+];
 // reconciliation (matches the real /findings screen · naïve → dropped → verified)
 let RECON={naive:446,dropped:162,verified:284};
 // the agent-fit findings · clickable provenance artifacts (the hero interaction)
@@ -576,13 +652,13 @@ let FINDINGS=[
   {id:'F-BBX',kind:'governance',cat:'pen-test team',who:'2nd team',title:'Pen-test fleet is a black box · observe the setup, never read the work',save:0,
    route:false,
    drop:'Diligence refused to read the team\'s work · setup only. It audits how the fleet is configured, never the contents. High spend, output unverifiable: observe + tune the agent setup, without reading their logs. Observability without snooping · the boundary that lets you govern a team you can\'t surveil.',
-   events:[['—','2026-06','2nd team','pen-test fleet · agent setup audited, contents never read','black-box']],
+   events:[['·','2026-06','2nd team','pen-test fleet · agent setup audited, contents never read','black-box']],
    receipt:{ph:'a90c12…77fe',pp:'b81e4f2c07…3d9a',anchor:'local · setup-only · no content read',vstate:'✓ governed without surveillance',ok:true}},
   {id:'F-E14',kind:'refuted',cat:'calendar_admin',who:'Mara',title:'E14: Google Calendar sync feature (misclassified)',save:0,
    dropped:true,
    drop:'Verifier dropped this claim. PR-103 shows this is a shipped product feature (Google Calendar API + UI), not calendar admin. The $180 cannot be reallocated.',
    events:[['E14','2026-06-04','Mara','calendar-sync feature: Google Calendar API + UI',180]],
-   receipt:{ph:'—',pp:'—',anchor:'dropped · not anchored',vstate:'✗ dropped · E14 refuted',ok:false}},
+   receipt:{ph:'·',pp:'·',anchor:'dropped · not anchored',vstate:'✗ dropped · E14 refuted',ok:false}},
 ];
 let CHAIN=[
   ['t0','15-vendor spend · $13,045/mo',''],['t1','narrowed · Opus $4,500 · 7 eng',''],
@@ -592,13 +668,13 @@ let LOG=[
   ['0','● finding','Figma: downsize from 15 to 6 seats','f1a2…','0000…'],
   ['1','● finding','Vercel: downsize from 12 to 4 seats','c3d4…','f1a2…'],
   ['2','● ratification','Opus 4.8 ≠ calendar management · route to CalendarOps','7d4b…','c3d4…'],
-  ['—','✗ refuted','E14 refuted · PR-103 proves product feature ($162, not anchored)','—','—'],
+  ['·','✗ refuted','E14 refuted · PR-103 proves product feature ($162, not anchored)','·','·'],
 ];
 
 // ── SUBJECT-PARAMETRIC LOOP (ported + converged from cut 00-agency) ──────────────
 // The Loop's SUBJECT is a switch: spend is the deep native render (above); the other
 // four subjects re-skin the Loop center using cut-00's per-subject panes. Same loop,
-// any subject · "you're watching the control plane, not a spend tool." Spend = default.
+// any subject · "you're watching the judgment layer, not a spend tool." Spend = default.
 const SUBJECT_ORDER=['spend','pattern','notice','custody','osint'];
 let SUBJECT='spend';
 const SUBJECTS={
@@ -794,32 +870,143 @@ function wireSubjectBar(){
     });
   });
 }
+function spine7HTML(){
+  const steps=[
+    ['1','initialize','owner named'],
+    ['2','compose','4 on slate · 2 in tray'],
+    ['3','activity','1 case flagged'],
+    ['4','the case','gc-2026-06-A'],
+    ['5','ruling',POLICIES.filter(x=>x.on).length+' of 4 on'],
+    ['6','audit','chain · '+(5+corrections+(signed?1:0))+' events'],
+    ['7','second pass','vs the naive claim'],
+  ];
+  return `<nav class="spine7"><div class="sp-head">weekly review · 7 steps</div>`+steps.map(x=>
+    `<button class="step7 ${STEP===+x[0]?'is-active':''} ${STEP_DONE.has(+x[0])?'is-done':''}" data-goto7="${x[0]}" type="button">
+      <span class="n7">${STEP_DONE.has(+x[0])&&STEP!==+x[0]?'✓':'0'+x[0]}</span>
+      <span><span class="l7">${x[1]}</span><br><span class="s7">${x[2]}</span></span></button>`).join('')+
+  `<div class="sp-foot">fleet <b>Opus 4.8 + 3 agents</b><br>seats <b>${COHORT} engineers</b><br>window <b>2026-06</b><br>vault <b>local · IndexedDB</b></div></nav>`;
+}
 function renderLoop(){
   body.dataset.surface='loop';
   if(SUBJECT!=='spend'){ renderSubjectLoop(); return; }
   const vendorRows=VENDORS.map(v=>`<tr class="${v[4]||''}"><td>${v[0]}</td><td>${v[1]}</td><td class="num">${v[2]}</td><td class="num">${usd(v[3])}</td></tr>`).join('');
-  const usageRows=USAGE.map(u=>`<div class="urow ${u[3]?'flagged':''}"><span>${u[0]}</span><span class="cat">${u[1]}</span><span class="cost">${usd(u[2])}</span></div>`).join('');
+  const usageRows=USAGE.map(u=>`<div class="urow ${u[3]?'flagged':''}" ${u[3]?'data-goto7="4" data-adv7="3" title="open the case"':''}><span>${u[0]}</span><span class="cat">${u[1]}</span><span class="cost">${usd(u[2])}</span></div>`).join('');
+  const slateRows=SIGNALS.filter(x=>x.state==='slate').map(x=>`<div class="urow"><span>${x.src} · ${x.nm}</span><span class="cat">${x.rows}</span><span class="cost" style="color:var(--outreach)">hardened</span></div>`).join('');
+  const trayRows=SIGNALS.filter(x=>x.state==='tray').map(x=>`<div class="urow"><span>${x.src} · ${x.nm}</span><span class="cat">${x.rows}</span><span class="cost">in tray</span></div>`).join('');
+  const policyRows=POLICIES.map((x,i)=>`<div class="policy7 ${x.on?'on':''}" data-pi="${i}"><button class="pw7" data-sw7="${i}" type="button" aria-pressed="${x.on}" aria-label="${x.t}"><i></i></button><div><div class="pt7">${x.t}</div><div class="pd7">${x.d}</div></div><div class="pe7">${x.e}</div></div>`).join('');
   $('#work').innerHTML=`<div class="pad">
     ${subjectBar()}
-    <div class="invoke"><b>/govern invoked</b><span>reading the agent fleet · 2026-06 · the AI-spend loop</span><span class="invoke-q">the two questions: <b>how is AI being used</b> · <b>did it move the business</b></span></div>
+    <div class="invoke"><b>/govern invoked</b><span>weekly agent spend review · 2026-06 · owner: eng lead</span><span class="invoke-q">the two questions: <b>how is AI being used</b> · <b>did it move the business</b></span></div>
     <div class="seam">Spend is the wedge · the one read a CFO pays for today. But the loop · sense · read · refuse · correct · ratify · is the judgment layer, pointed at a budget first. <b>The subject is the agent fleet and the spend · never the people. Governance without surveillance.</b> <b>The read is the model's until you change it.</b></div>
-    <div>
-      <div class="sense-h"><span class="anum">01 · SENSE</span><span class="atitle">This month, the fleet spent ${usd(SPEND_TOTAL)}.</span><span class="asub">15 vendors</span></div>
-      <table class="tbl" style="margin-top:10px"><thead><tr><th>Vendor</th><th>Plan</th><th>Seats</th><th>Monthly</th></tr></thead><tbody>${vendorRows}<tr class="total"><td colspan="3">Total</td><td class="num">${usd(SPEND_TOTAL)}</td></tr></tbody></table>
-      <div style="margin:11px 0 7px;font:13px/1.5 var(--serif,Georgia,serif);color:var(--text-mid)">Narrowed to the Opus cohort · <span style="color:var(--text)">${usd(OPUS_TOTAL)}</span> running everything for ${COHORT} engineers. The <span style="color:var(--alarm)">calendar/admin</span> rows are a frontier model doing routine work:</div>
-      <div class="stream">${usageRows}</div>
+    <div class="ritual">
+      ${spine7HTML()}
+      <div class="panes7">
+
+      <section class="pane7 ${STEP===1?'on':''}">
+        <div class="sense-h"><span class="anum">01 · INITIALIZE</span><span class="atitle">What is running, and who is accountable.</span><span class="asub">scope · fixture</span></div>
+        <div class="owner7"><span>owner <b>eng lead (fleet)</b></span><span>countersign <b>founder</b></span><span>window <b>2026-06 · monthly</b></span><span>baseline <b>2026-05 · 1 mo history</b></span><span>vault <b>device-local</b></span></div>
+        <div class="p-metrics">
+          <div class="p-metric"><div class="p-metric__k">runtimes</div><div class="p-metric__v">2</div><div class="p-metric__d">Claude Code · Cursor</div></div>
+          <div class="p-metric"><div class="p-metric__k">registry agents</div><div class="p-metric__v">4</div><div class="p-metric__d">1 frontier · 3 verified</div></div>
+          <div class="p-metric"><div class="p-metric__k">seats in scope</div><div class="p-metric__v">${COHORT}</div><div class="p-metric__d">eng org · Opus cohort</div></div>
+          <div class="p-metric"><div class="p-metric__k">okr baseline</div><div class="p-metric__v">60/40</div><div class="p-metric__d">product / security</div></div>
+        </div>
+        <div class="btnrow7"><button class="db sign" data-goto7="2" data-adv7="1">Compose the slate →</button><span class="note7">no targets set at initialize · everything stays ink</span></div>
+      </section>
+
+      <section class="pane7 ${STEP===2?'on':''}">
+        <div class="sense-h"><span class="anum">02 · COMPOSE</span><span class="atitle">Compose what the agents read.</span><span class="asub">tray → slate</span></div>
+        <div class="stream">${slateRows}</div>
+        <div style="margin:9px 0 5px;font-family:var(--mono);font-size:var(--text-2xs);letter-spacing:var(--tracking-widest);text-transform:uppercase;color:var(--text-faint)">tray · diffuse · not read until hardened</div>
+        <div class="stream">${trayRows}</div>
+        <div class="btnrow7"><button class="db sign" data-goto7="3" data-adv7="2">Run the read →</button><span class="note7">the agents read the composition, not a feed</span></div>
+      </section>
+
+      <section class="pane7 ${STEP===3?'on':''}">
+        <div class="sense-h"><span class="anum">03 · ACTIVITY</span><span class="atitle">This month, the fleet spent ${usd(SPEND_TOTAL)}.</span><span class="asub">15 vendors</span></div>
+        <div class="p-metrics" style="margin:10px 0 14px">
+          <div class="p-metric"><div class="p-metric__k">monthly spend</div><div class="p-metric__v">${usd(SPEND_TOTAL)}</div><div class="p-metric__d p-metric__d--over">+${usd(SPEND_TOTAL-12000)} over $12k budget</div></div>
+          <div class="p-metric"><div class="p-metric__k">opus cohort</div><div class="p-metric__v">${usd(OPUS_TOTAL)}</div><div class="p-metric__d">${COHORT} engineers · no cap set</div></div>
+          <div class="p-metric"><div class="p-metric__k">per-eng verified</div><div class="p-metric__v">${usd(VERIFIED)}</div><div class="p-metric__d p-metric__d--under">-${usd(CLAIMED-VERIFIED)} vs naive claim</div></div>
+          <div class="p-metric is-breach"><div class="p-metric__k">frontier on routine work</div><div class="p-metric__v">$495</div><div class="p-metric__d p-metric__d--over">11% of cohort spend</div></div>
+        </div>
+        <div class="p-burn" style="margin:0 0 16px">
+          <div class="p-burn__head"><span>burn · 12 wks · recorded fixture</span><span>budget $3k / wk</span></div>
+          <div class="p-burn__plot"><div class="p-burn__budget"><span>budget</span></div>
+            <div class="p-burn__bar" style="height:38%"></div><div class="p-burn__bar" style="height:42%"></div><div class="p-burn__bar" style="height:40%"></div><div class="p-burn__bar" style="height:47%"></div><div class="p-burn__bar" style="height:52%"></div><div class="p-burn__bar" style="height:49%"></div><div class="p-burn__bar" style="height:58%"></div><div class="p-burn__bar" style="height:63%"></div><div class="p-burn__bar p-burn__bar--breach" style="height:74%"></div><div class="p-burn__bar" style="height:65%"></div><div class="p-burn__bar p-burn__bar--breach" style="height:79%"></div><div class="p-burn__bar p-burn__bar--breach" style="height:83%"></div>
+          </div>
+          <div class="p-burn__weeks"><span>w1</span><span>w2</span><span>w3</span><span>w4</span><span>w5</span><span>w6</span><span>w7</span><span>w8</span><span>w9</span><span>w10</span><span>w11</span><span>w12</span></div>
+        </div>
+        <table class="tbl" style="margin-top:10px"><thead><tr><th>Vendor</th><th>Plan</th><th>Seats</th><th>Monthly</th></tr></thead><tbody>${vendorRows}<tr class="total"><td colspan="3">Total</td><td class="num">${usd(SPEND_TOTAL)}</td></tr></tbody></table>
+        <div style="margin:11px 0 7px;font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)">Narrowed to the Opus cohort · <span style="color:var(--text)">${usd(OPUS_TOTAL)}</span> running everything for ${COHORT} engineers. The <span style="color:var(--alarm)">flagged rows</span> are a frontier model doing routine work · that is the case worth opening:</div>
+        <div class="stream">${usageRows}</div>
+        <div class="btnrow7"><button class="db sign" data-goto7="4" data-adv7="3">Open the case →</button><span class="note7">any flagged row opens the case</span></div>
+      </section>
+
+      <section class="pane7 ${STEP===4?'on':''}">
+        <div class="sense-h"><span class="anum">04 · THE CASE</span><span class="atitle">Opus 4.8 is doing calendar admin.</span><span class="asub">gc-2026-06-A</span></div>
+        <div class="case7">
+          <div class="ck"><span>breach · scope + attribution</span><span>gc-2026-06-A · opened 2026-06-30</span></div>
+          <div class="ct">$495/mo of frontier spend on routine work · claimed savings $446/eng, verified $284</div>
+          <div class="cb">Five flagged runs put a frontier model on calendar wrangling and digests. The naive savings claim carried <b>E14 ($180)</b>, which PR-103 shows is a shipped product feature. <b>The numbers are agreed; the cause is not.</b></div>
+        </div>
+        <div class="sense-h" style="margin-top:4px"><span class="anum">·</span><span class="atitle">Four registers read the case · correct what you disagree with.</span><span class="asub">hover a read → Amend · the correction is the moat</span></div>
+        ${regHTML('diligence','Diligence',READS.diligence,.05)}
+        ${regHTML('synthesis','Synthesis',READS.synthesis,.18)}
+        ${regHTML('judgment','Judgment',READS.judgment,.31)}
+        ${regHTML('outreach','Outreach',READS.outreach,.44)}
+        <div class="split7">
+          <div class="sk">the split · this is what you rule on</div>
+          <div class="sb">The reads agree on the measurement and disagree on the cause. Diligence and Outreach say <b>route the verified lanes now</b> · the savings are real at $284. Judgment says the naive claim is inflated · <b>E14 is product work, cap the claim before you celebrate the routing</b>. Exec-comms was asked and <b>refused · out of lane</b> · the bound held. Ratifying one direction is what the chain records, and what next month's read is calibrated against.</div>
+        </div>
+        <div class="btnrow7"><button class="db sign" data-goto7="5" data-adv7="4">Rule → enforcement</button><span class="note7">hold · name · move</span></div>
+      </section>
+
+      <section class="pane7 ${STEP===5?'on':''}">
+        <div class="sense-h"><span class="anum">05 · RULING</span><span class="atitle">What changes on Monday.</span><span class="asub">writes to the chain</span></div>
+        <div style="font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid);margin:2px 0 8px">A ruling that does not change a policy is a note. <b style="color:var(--text);font-weight:500">Every switch here writes to the chain with the case that produced it.</b></div>
+        ${policyRows}
+        <div class="ruling7">
+          <div class="rk"><span>ruling</span><span id="ruling-count">${POLICIES.filter(x=>x.on).length} of 4 enabled</span></div>
+          <div class="rt7">Route the verified lanes · hold the cap</div>
+          <div class="rb7">Judgment's refute stands: E14 stays product work and the claim drops to $284. Diligence's routing ships now. <b>The cap waits a month</b>, so the routing's effect is measurable on its own.</div>
+        </div>
+        <div class="policy"><div class="pt">Opus 4.8 ≠ calendar management · route to CalendarOps.</div><div class="ps">Verified realizable savings · ${usd(VERIFIED)}/mo · registry-verified agent</div></div>
+        <div class="dispo"><span class="lbl" id="corrcount">${corrections} corrections · the read is the model's until you change it · correct first, then sign</span>
+          <button class="db" data-act="defer">Defer 30d</button>
+          <button class="db sign" data-act="sign"><span class="pre">${corrections?'correct →':''}</span> Ratify &amp; write to chain</button></div>
+        <div id="artwrap"></div>
+        <div class="btnrow7"><span class="note7">signing appends the decision to the device-local vault · then the audit trail opens</span></div>
+      </section>
+
+      <section class="pane7 ${STEP===6?'on':''}">
+        <div class="sense-h"><span class="anum">06 · AUDIT</span><span class="atitle">What fed the ruling, in order.</span><span class="asub">provenance · fixture hashes</span></div>
+        <div style="font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid);margin:2px 0 4px">Every read names the context that produced it. Every correction names the read it corrected. <b style="color:var(--text);font-weight:500">The chain is what makes the ruling defensible to someone who was not in the room.</b></div>
+        <div class="ledger7">
+          <div class="lrow7"><div class="lt"><b>jun 30</b>09:02</div><div><div class="lk">ingest · runtime</div><div class="lb">Usage events captured · <b>E01-E21 · ${usd(OPUS_TOTAL)} · ${COHORT} engineers</b> · 5 categories.</div></div><div class="lh">ev 0<br>sig f1a2</div></div>
+          <div class="lrow7"><div class="lt"><b>jun 30</b>09:11</div><div><div class="lk sev">flag · scope</div><div class="lb">$495/mo of frontier spend on routine work · <b>11% of cohort</b> · case gc-2026-06-A opened.</div></div><div class="lh">ev 1<br>sig c3d4</div></div>
+          <div class="lrow7"><div class="lt"><b>jun 30</b>09:14</div><div><div class="lk ref">refused · out of lane</div><div class="lb">Exec-comms asked for a read and <b>refused</b> · not its ground. The bound held; the refusal is on the chain.</div></div><div class="lh">ev 2<br>sig 7d4b</div></div>
+          <div class="lrow7"><div class="lt"><b>jun 30</b>09:16</div><div><div class="lk sev">refuted · adversarial</div><div class="lb">E14 refuted · <b>PR-103 proves a shipped product feature</b> · $162 removed from the claim, not anchored.</div></div><div class="lh">ev 3<br>sig b81e</div></div>
+          <div class="lrow7"><div class="lt"><b>jun 30</b>09:22</div><div><div class="lk cor">corrected · operator</div><div class="lb" id="audit-corr">${corrections?corrections+' operator correction'+(corrections>1?'s':'')+' appended · each names the read it corrected.':'No operator corrections yet · amend a read in step 04 and it lands here.'}</div></div><div class="lh">ev 4<br>sig a90c</div></div>
+          <div class="lrow7"><div class="lt"><b>jun 30</b>09:29</div><div><div class="lk rat">ratified · ruling</div><div class="lb" id="audit-rat">${signed?'<b>Route the verified lanes · hold the cap.</b> '+POLICIES.filter(x=>x.on).length+' policies to the chain · decision appended to the device-local vault.':'Awaiting ratification · rule in step 05 and the ruling seals here.'}</div></div><div class="lh">ev 5<br>sig e502</div></div>
+        </div>
+        <div class="btnrow7"><button class="db sign" data-goto7="7" data-adv7="6">Second pass →</button><span class="note7">the chain survives the person who was in the room</span></div>
+      </section>
+
+      <section class="pane7 ${STEP===7?'on':''}">
+        <div class="sense-h"><span class="anum">07 · SECOND PASS</span><span class="atitle">What next month is calibrated against.</span><span class="asub">naive → verified</span></div>
+        <div class="p-metrics">
+          <div class="p-metric"><div class="p-metric__k">naive claim</div><div class="p-metric__v">${usd(RECON.naive)}</div><div class="p-metric__d">per eng / mo · before adversarial pass</div></div>
+          <div class="p-metric"><div class="p-metric__k">refuted</div><div class="p-metric__v">-${usd(RECON.dropped)}</div><div class="p-metric__d p-metric__d--over">E14 · PR-103 · product work</div></div>
+          <div class="p-metric"><div class="p-metric__k">verified realizable</div><div class="p-metric__v">${usd(RECON.verified)}</div><div class="p-metric__d p-metric__d--under">survives scrutiny · anchored</div></div>
+          <div class="p-metric"><div class="p-metric__k">next review</div><div class="p-metric__v">2026-07</div><div class="p-metric__d">reads route-adherence vs this ruling</div></div>
+        </div>
+        <div style="margin-top:12px;font-family:var(--serif);font-weight:300;font-size:var(--text-sm);line-height:1.55;color:var(--text-mid)">The ruling is the baseline now. <b style="color:var(--text);font-weight:500">July's read is calibrated against gc-2026-06-A</b> · did the routing hold, did the claim stay honest, does the cap still wait. The loop ends where next month's decision starts.</div>
+        <div class="btnrow7"><button class="db" data-goto7="3">Back to activity</button><span class="note7">the review is a loop, not a report</span></div>
+      </section>
+
+      </div>
     </div>
-    <div class="sense-h" style="margin-top:4px"><span class="anum">02 · THE READ</span><span class="atitle">Four registers read the fleet · correct what you disagree with.</span><span class="asub">hover a read → Amend · the correction is the moat</span></div>
-    ${regHTML('diligence','Diligence',READS.diligence,.05)}
-    ${regHTML('synthesis','Synthesis',READS.synthesis,.18)}
-    ${regHTML('judgment','Judgment',READS.judgment,.31)}
-    ${regHTML('outreach','Outreach',READS.outreach,.44)}
-    <div class="sense-h" style="margin-top:4px"><span class="anum">03 · RATIFY</span><span class="atitle">You decide. The chain remembers.</span><span class="asub">operator-gated</span></div>
-    <div class="policy"><div class="pt">Opus 4.8 ≠ calendar management · route to CalendarOps.</div><div class="ps">Verified realizable savings · ${usd(VERIFIED)}/mo · registry-verified agent</div></div>
-    <div class="dispo"><span class="lbl" id="corrcount">${corrections} corrections · the read is the model's until you change it · correct first, then sign</span>
-      <button class="db" data-act="defer">Defer 30d</button>
-      <button class="db sign" data-act="sign"><span class="pre">${corrections?'correct →':''}</span> Sign &amp; hand off</button></div>
-    <div id="artwrap"></div>
   </div>`;
   renderSignals(); renderAgency(); wireSubjectBar();
   if(signed) mintArtifact();
@@ -839,7 +1026,7 @@ function renderSubjectLoop(){
   $('#work').innerHTML=`<div class="pad">
     ${subjectBar()}
     <div class="invoke"><b>/agency invoked</b><span>reading · ${S.product}</span></div>
-    <div class="seam">Switch the subject above · the four registers re-skin, but the loop never changes: sense · read · refuse · correct · ratify. <b>Spend is the door a CFO pays for today. The loop below is the same on any subject · you're watching the control plane for founders running multi-agent systems, not a single tool.</b></div>
+    <div class="seam">Switch the subject above · the four registers re-skin, but the loop never changes: sense · read · refuse · correct · ratify. <b>Spend is the door a CFO pays for today. The loop below is the same on any subject · you're watching judgment infrastructure for founders directing AI agents, not a single tool.</b></div>
     <div class="subj-head"><span class="sk">${S.sk}</span><h2>${S.title}</h2></div>
     <div class="sense-h"><span class="anum">01 · EVIDENCE</span><span class="atitle">${S.evidence.h.replace('Evidence · ','')}</span><span class="asub">${S.evidence.tag}</span></div>
     <div class="evidence-pane" id="evidence-pane"><div class="evidence"><div class="ev-h">${S.evidence.h}<span class="tag">${S.evidence.tag}</span></div><div class="ev-body">${S.evidence.body}</div></div></div>
@@ -929,7 +1116,7 @@ function renderToday(){
               <span style="font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,210,74,0.3);color:var(--agency-500,#FFD24A)">Almost ready</span>
             </div>
             <div style="font:500 italic 1.7rem var(--display);color:var(--wholeness-500,#E90095);letter-spacing:-.01em;margin-bottom:0.7rem">NOT READY · 4 fixes</div>
-            <p style="font:0.92rem/1.6 var(--sans);color:var(--text-mid);margin-bottom:1.1rem">The <b style="color:var(--text);font-weight:500">Judgment</b> register refused to ship. Three corrections plus one defer stand between you and a yes — the head-of-eng call is the blocker the agents converged on.</p>
+            <p style="font:0.92rem/1.6 var(--sans);color:var(--text-mid);margin-bottom:1.1rem">The <b style="color:var(--text);font-weight:500">Judgment</b> register refused to ship. Three corrections plus one defer stand between you and a yes. The head-of-eng call is the blocker the agents converged on.</p>
             <div style="font:9.5px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);margin-bottom:1.2rem"><span style="color:var(--text-soft)">read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
             <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
               <button style="font:11px/1 var(--mono);letter-spacing:.04em;padding:9px 16px;border-radius:6px;border:1px solid var(--card-border);background:var(--card-border);color:var(--text-mid);cursor:pointer;transition:all 140ms" onclick="this.closest('.work').querySelector('[data-go=loop]')&&this.closest('.work').querySelector('[data-go=loop]').click()">Open the read →</button>
@@ -951,7 +1138,7 @@ function renderToday(){
                 <span style="font:500 1.05rem var(--display);color:var(--text)">Eng hire · candidate B</span>
                 <span style="margin-left:auto;font:9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)">held 6d</span>
               </div>
-              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Sent a technical write-up unprompted. Synthesis flips its read: the Judgment register placed this third — pattern, just one counter-example.</p>
+              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Sent a technical write-up unprompted. Synthesis flips its read: the Judgment register placed this third. Pattern: just one counter-example.</p>
             </div>
             <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:7px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:0.4rem">
               <div style="display:flex;align-items:center;gap:0.55rem">
@@ -959,7 +1146,7 @@ function renderToday(){
                 <span style="font:500 1.05rem var(--display);color:var(--text)">Design system · v2 migration</span>
                 <span style="margin-left:auto;font:9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)">held 9d</span>
               </div>
-              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Strategist surfaced a third option overnight — ship v1, run v2 in parallel two weeks. Maia's review supports it.</p>
+              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Strategist surfaced a third option overnight: ship v1, run v2 in parallel two weeks. Maia's review supports it.</p>
             </div>
           </div>
         </div>
@@ -977,15 +1164,15 @@ function renderToday(){
             <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin-bottom:1.3rem">How did that land? <em style="font-style:italic;color:var(--text-mid)">Your answer is what makes the vault's calibration real.</em></p>
 
             <div id="tdy-outcomes" style="display:flex;flex-direction:column;gap:0.5rem">
-              <button class="tdy-outcome good" data-outcome="Resolved well — right call" data-disp="resolved-well" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Resolved well <span style="color:var(--text-faint);font-size:0.8rem">— right call</span></button>
-              <button class="tdy-outcome" data-outcome="Mixed — would adjust" data-disp="mixed" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Mixed <span style="color:var(--text-faint);font-size:0.8rem">— would adjust</span></button>
-              <button class="tdy-outcome warn" data-outcome="Regret it — wrong call" data-disp="regret" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Regret it <span style="color:var(--text-faint);font-size:0.8rem">— wrong call</span></button>
+              <button class="tdy-outcome good" data-outcome="Resolved well · right call" data-disp="resolved-well" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Resolved well <span style="color:var(--text-faint);font-size:0.8rem">· right call</span></button>
+              <button class="tdy-outcome" data-outcome="Mixed · would adjust" data-disp="mixed" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Mixed <span style="color:var(--text-faint);font-size:0.8rem">· would adjust</span></button>
+              <button class="tdy-outcome warn" data-outcome="Regret it · wrong call" data-disp="regret" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Regret it <span style="color:var(--text-faint);font-size:0.8rem">· wrong call</span></button>
               <button class="tdy-outcome" data-outcome="Still open" data-disp="open" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Still open</button>
             </div>
 
             <div id="tdy-sealed" style="display:none;flex-direction:column;gap:0.6rem;animation:tdy-rise 360ms var(--ease-out) both">
               <div style="font:10.5px/1 var(--mono);letter-spacing:.05em;color:var(--text-soft);display:flex;align-items:center;gap:0.5rem"><span style="color:var(--connection,#3EE878)">●</span> outcome recorded · sealed to vault</div>
-              <div id="tdy-sealed-verdict" style="font:italic 1.05rem var(--display);color:var(--text)">Resolved well — right call</div>
+              <div id="tdy-sealed-verdict" style="font:italic 1.05rem var(--display);color:var(--text)">Resolved well · right call</div>
               <div id="tdy-sealed-hash" style="font:9.5px/1 var(--mono);letter-spacing:.08em;color:var(--text-faint)">seal 9f4c · 7e21 · 0d8a · b3f0 · device-local</div>
             </div>
 
@@ -999,7 +1186,7 @@ function renderToday(){
         <!-- Mirror note -->
         <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.4rem 1.6rem">
           <div style="font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--agency-500,#FFD24A);margin-bottom:0.7rem">◍ Mirror · a quiet note</div>
-          <p style="font:1.05rem/1.5 var(--display);color:var(--text-mid);margin:0">You tend to decide funding calls when depleted. Last two nights averaged 5h. The agents are reading you rested today — <em style="font-style:italic;color:var(--diligence,#8E66FB)">maybe let them.</em></p>
+          <p style="font:1.05rem/1.5 var(--display);color:var(--text-mid);margin:0">You tend to decide funding calls when depleted. Last two nights averaged 5h. The agents are reading you rested today. <em style="font-style:italic;color:var(--diligence,#8E66FB)">Maybe let them.</em></p>
         </div>
       </div>
     </div>
@@ -1050,7 +1237,7 @@ function renderReport(){
     <h1>Spend, against the OKRs you set.</h1>
     <p class="lede">${r.business_impact||''}</p>
     <div class="mstats">
-      <div class="mstat"><div class="v">${r.spend?.aligned_pct??'—'}%</div><div class="l">OKR-aligned</div></div>
+      <div class="mstat"><div class="v">${r.spend?.aligned_pct??'·'}%</div><div class="l">OKR-aligned</div></div>
       <div class="mstat"><div class="v">$${(r.expected_savings?.monthly??0).toLocaleString()}</div><div class="l">verified savings/mo</div></div>
       <div class="mstat"><div class="v">$${(r.expected_savings?.annual??0).toLocaleString()}</div><div class="l">/yr via ${r.expected_savings?.via||'agent'}</div></div>
     </div>
@@ -1063,8 +1250,8 @@ function renderReport(){
     ${under?`<div class="mnote"><span class="k">under-allocated</span><ul>${under}</ul></div>`:''}
     ${fp?`<div class="mnote"><span class="k">false positives removed (not reclassified)</span><ul>${fp}</ul></div>`:''}
     <div class="mnote"><span class="k">provenance · this report cites its sources</span>
-      <p>Decision <code>${(r.decision_id||'—').slice(0,8)}</code> · hash <code>${r.decision_hash||'—'}</code><br>
-      Cited events: ${(r.cited_events||[]).join(', ')||'—'}${r.cited_prs?.length?` · ${r.cited_prs.join(', ')}`:''}<br>
+      <p>Decision <code>${(r.decision_id||'·').slice(0,8)}</code> · hash <code>${r.decision_hash||'·'}</code><br>
+      Cited events: ${(r.cited_events||[]).join(', ')||'·'}${r.cited_prs?.length?` · ${r.cited_prs.join(', ')}`:''}<br>
       <em>${r.decision||''}</em></p></div>
   </div>`;
 }
@@ -1118,7 +1305,7 @@ function agentCardHTML(a){
     const score=a.reputation.score;
     const scoreCls=score>=90?'ok':score>=75?'cost':'warn';
     return `<div class="agent rich">
-      <div class="ar-top"><div class="an">${a.name}</div><div class="rep ${scoreCls}" title="reputation · ${a.reputation.reads} reads · ${a.reputation.corrections} corrections">${score==null?'—':score}<span class="rl">rep</span></div></div>
+      <div class="ar-top"><div class="an">${a.name}</div><div class="rep ${scoreCls}" title="reputation · ${a.reputation.reads} reads · ${a.reputation.corrections} corrections">${score==null?'·':score}<span class="rl">rep</span></div></div>
       <div class="at">${a.type} · ${a.publisher}</div>
       <div class="claim">${a.claim||''}</div>
       <div class="badges">
@@ -1127,7 +1314,7 @@ function agentCardHTML(a){
         ${a.proof?.attested?'<span class="bdg ok">attested</span>':''}
       </div>
       <div class="lanes">${(a.lanes||[]).map(l=>`<span class="lane">${l.replace(/_/g,' ')}</span>`).join('')}</div>
-      <div class="prov">${a.proof?.attested?'⛓ '+a.proof.anchor:'frontier model · not registry-published'} · proof <span class="phash">${a.proof?.integrity_hash||'—'}</span></div>
+      <div class="prov">${a.proof?.attested?'⛓ '+a.proof.anchor:'frontier model · not registry-published'} · proof <span class="phash">${a.proof?.integrity_hash||'·'}</span></div>
     </div>`;
   }
   // fixture fallback (demo mode)
@@ -1143,7 +1330,7 @@ function renderRegistry(){
 function renderLog(){
   body.dataset.surface='log';
   const rows=LOG.map(e=>`<tr><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td class="num">${e[3]}</td><td class="num">${e[4]}</td></tr>`).join('');
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · decision log</div><h1>Decision log</h1><p class="lede">Append-only trail. Every surviving finding entered the chain; the ratified policy is a new linked entry; the refuted claim is recorded, never silently dropped. Hash-linked, append-only · anchors shown are illustrative (deterministic fixture); the product chain anchors with SHA-256.</p><table class="tbl"><thead><tr><th>#</th><th>Kind</th><th>Entry</th><th>packet_hash</th><th>prev_hash</th></tr></thead><tbody>${rows}</tbody></table><p class="lede" style="font:11px/1.5 var(--mono);color:var(--text-faint)">${LOG.filter(e=>e[0]!=='—').length} anchored · 1 refuted${signed?' · 1 ratified this session':''} · ${corrections} correction${corrections!==1?'s':''} signed.</p></div>`;
+  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · decision log</div><h1>Decision log</h1><p class="lede">Append-only trail. Every surviving finding entered the chain; the ratified policy is a new linked entry; the refuted claim is recorded, never silently dropped. Hash-linked, append-only · anchors shown are illustrative (deterministic fixture); the product chain anchors with SHA-256.</p><table class="tbl"><thead><tr><th>#</th><th>Kind</th><th>Entry</th><th>packet_hash</th><th>prev_hash</th></tr></thead><tbody>${rows}</tbody></table><p class="lede" style="font:11px/1.5 var(--mono);color:var(--text-faint)">${LOG.filter(e=>e[0]!=='·').length} anchored · 1 refuted${signed?' · 1 ratified this session':''} · ${corrections} correction${corrections!==1?'s':''} signed.</p></div>`;
 }
 
 // ── correction flow (restored) ──────────────────────────────────────────────
@@ -1221,6 +1408,18 @@ function mintArtifact(){
   const rerender=signed;
   if(signed&&aw.querySelector('.artifact')){toast('Already ratified this session · ↺ restart to run again');return;}
   signed=true;
+  /* REAL vault write · device-local IndexedDB (same store the slate cuts use).
+     Demo choreography elsewhere; this append is genuine. */
+  if(!rerender){
+    import('../lib/vault-store.js').then(async vs=>{
+      if(!vs.isAvailable())return;
+      await vs.init();
+      await vs.appendDecision({surface:'govern',kind:'ratify',hash:'7d4b-a284',
+        payload:{caseId:'gc-2026-06-A',ruling:'route verified lanes · hold cap',
+                 policies:POLICIES.filter(x=>x.on).map(x=>x.t),corrections}});
+      toast('Decision appended to the device-local vault · IndexedDB');
+    }).catch(()=>{});
+  }
   const corrLine = corrections? `<span class="corr" style="color:var(--coherence,#7AA9FF)">Operator made ${corrections} correction${corrections>1?'s':''} to the read before sealing · this reflects the corrected judgment.</span> ` : '';
   const artifactHTML=`<div class="artifact"><div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
     <div class="abody"><p class="adec">Opus 4.8 cannot be used for calendar management or routine admin work.</p>
@@ -1275,7 +1474,13 @@ document.addEventListener('click',e=>{
   /* palette rows carry data-act too — they must be handled (and the palette
      closed) BEFORE the generic [data-act] branch, or the palette sticks open */
   const pr=e.target.closest('.pal-row'); if(pr){pr.dataset.act?doPalAct(pr.dataset.act):go(pr.dataset.goto);togglePalette(false);return;}
-  const act=e.target.closest('[data-act]'); if(act){if(act.dataset.act==='sign')mintArtifact();else toast('Deferred 30 days · returns in Today');return;}
+  const g7=e.target.closest('[data-goto7]');
+  if(g7){ const adv=g7.getAttribute('data-adv7'); if(adv)STEP_DONE.add(+adv); STEP=+g7.getAttribute('data-goto7'); renderLoop(); return; }
+  const sw7=e.target.closest('[data-sw7]');
+  if(sw7){ const i=+sw7.getAttribute('data-sw7'); POLICIES[i].on=!POLICIES[i].on;
+    const rowEl=sw7.closest('.policy7'); rowEl.classList.toggle('on',POLICIES[i].on); sw7.setAttribute('aria-pressed',POLICIES[i].on);
+    const rc=document.getElementById('ruling-count'); if(rc)rc.textContent=POLICIES.filter(x=>x.on).length+' of 4 enabled'; return; }
+  const act=e.target.closest('[data-act]'); if(act){if(act.dataset.act==='sign'){mintArtifact();STEP_DONE.add(5);STEP=6;setTimeout(renderLoop,900);}else toast('Deferred 30 days · returns in Today');return;}
   if(e.target.closest('#reset-demo')){resetDemo();return;}
   if(e.target.closest('#cmdk-btn')){togglePalette(true);return;}
   if(e.target.id==='palette'){togglePalette(false);return;}

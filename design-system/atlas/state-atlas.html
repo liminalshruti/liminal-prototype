@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>State Atlas · Liminal · v0.1</title>
+<title>State Atlas · Liminal · v0.3</title>
 
 <!--
   State Atlas · v0.2 · 2026-05-17
@@ -17,6 +17,17 @@
   no italic anywhere (weight is the emphasis axis), canonical 4-register chrome,
   64px grid lattice atmosphere, Bloomberg-terminal chrome density.
 
+  v0.3 · 2026-07-29 · SEVERITY LANE (founder ruling). A wholesale rebind of
+  cut 11's alarm chrome onto the four registers collapsed two different
+  meanings into one hue and broke the surface's identity. The distinction is
+  now law: the SIX PRIMITIVE STATES (lifecycle of a primitive) bind to the
+  four agent registers ONLY; DOMAIN SEVERITY (a property of the EVIDENCE a
+  primitive carries: flagged anomalies, refuted findings, custody alerts)
+  is a separate lane where --alarm (severe) and --watch (held / uncertain
+  signal) are sanctioned. Never use severity hues for lifecycle states, and
+  never flatten severity into judgment: a refused agent and a flagged spend
+  anomaly must never share a hue.
+
   Imports (order matters):
     1. design-system/tokens/design-tokens.css  — atoms
     2. lib/cut-shell.css                       — shared chrome vocabulary
@@ -26,9 +37,17 @@
   ──────────────────────────────────────────────────────────────────────
 -->
 
+<!-- Webfonts. --sans and --mono are CDN families; without this link they fell
+     through to system-ui / ui-monospace and this page rendered its mono in the
+     OS default while the rest of the system used Space Mono. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <!-- canon · DO NOT REDEFINE TOKENS -->
 <link rel="stylesheet" href="../tokens/design-tokens.css">
 <link rel="stylesheet" href="../../lib/cut-shell.css">
+<link rel="stylesheet" href="../../lib/cut-shell-products.css">
 <link rel="stylesheet" href="../../lib/brand-upgrade.css">
 
 <style>
@@ -174,6 +193,18 @@
   .legend--refused   .legend-cell__name { color: var(--wholeness, #E8006A); }
   .legend--stale     .legend-cell__name { color: var(--synthesis, #197EEB); }
 
+  /* severity lane · v0.3 · domain-evidence chroma, not lifecycle state */
+  .atlas__severity {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: -36px 0 48px;
+    border-bottom: 1px solid var(--frame-border);
+  }
+  .legend--alarm .legend-cell__name { color: var(--alarm, #ED214F); }
+  .legend--watch .legend-cell__name { color: var(--watch, #F5A524); }
+  .legend-cell--law .legend-cell__defn { color: var(--text-mid); }
+
   /* ═══════════════════════════════════════════════════════
      ROW · one primitive across its state columns
      ═══════════════════════════════════════════════════════ */
@@ -294,18 +325,7 @@
      ═══════════════════════════════════════════════════════ */
 
   /* shared chrome ─ small eyebrows + meta rows used inside primitives */
-  .px-eyebrow {
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-widest);
-    text-transform: uppercase;
-    color: var(--text-faint);
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-  }
-  .px-eyebrow .reg { color: var(--text-mid); }
+  /* .px-eyebrow lives in lib/cut-shell-products.css (promoted 2026-07-29) */
   .px-row {
     display: grid;
     grid-template-columns: auto 1fr auto;
@@ -521,50 +541,7 @@
   .p-packet--stale { opacity: 0.55; }
 
   /* ─── vault (12-week × 4-register lattice) ────────── */
-  .p-vault {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    min-height: 160px;
-  }
-  .p-vault__rail {
-    display: grid;
-    grid-template-columns: 64px 1fr;
-    gap: 6px;
-    align-items: center;
-  }
-  .p-vault__rail-label {
-    font-family: var(--font-mono);
-    font-size: var(--text-2xs);
-    letter-spacing: var(--tracking-wide);
-    text-transform: uppercase;
-    color: var(--text-faint);
-    text-align: right;
-  }
-  .p-vault__rail--diligence .p-vault__rail-label { color: var(--diligence); }
-  .p-vault__rail--judgment  .p-vault__rail-label { color: var(--judgment); }
-  .p-vault__rail--synthesis .p-vault__rail-label { color: var(--synthesis); }
-  .p-vault__rail--outreach  .p-vault__rail-label { color: var(--outreach); }
-  .p-vault__cells {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 2px;
-  }
-  .p-vault__cell {
-    aspect-ratio: 1;
-    background: var(--frame-bg-3);
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius: 1px;
-  }
-  .p-vault__cell--lit-d    { background: var(--diligence-soft); border-color: var(--diligence-edge); }
-  .p-vault__cell--lit-d-s  { background: var(--diligence); }
-  .p-vault__cell--lit-j    { background: var(--judgment-soft); border-color: var(--judgment-edge); }
-  .p-vault__cell--lit-j-s  { background: var(--judgment); }
-  .p-vault__cell--lit-s    { background: var(--synthesis-soft); border-color: var(--synthesis-edge); }
-  .p-vault__cell--lit-s-s  { background: var(--synthesis); }
-  .p-vault__cell--lit-o    { background: var(--outreach-soft); border-color: var(--outreach-edge); }
-  .p-vault__cell--lit-o-s  { background: var(--outreach); }
-  .p-vault__cell--miss     { background: transparent; border: 1px dashed var(--wholeness-edge); }
+  /* .p-vault lives in lib/cut-shell-products.css (promoted 2026-07-29) */
 
   /* ─── command palette ─────────────────────────────── */
   .p-command {
@@ -724,7 +701,7 @@
        ═══════════════════════════════════════════════════════ -->
   <header class="atlas__crown">
     <div>
-      <div class="atlas__crest"><span class="reg">◇</span>&nbsp; Liminal &nbsp;·&nbsp; design system &nbsp;·&nbsp; atlas &nbsp;·&nbsp; v0.1</div>
+      <div class="atlas__crest"><span class="reg">◇</span>&nbsp; Liminal &nbsp;·&nbsp; design system &nbsp;·&nbsp; atlas &nbsp;·&nbsp; v0.3</div>
       <h1 class="atlas__title">State&nbsp;Atlas</h1>
       <p class="atlas__lede">
         Every product primitive, in every state it can legitimately be in,
@@ -734,13 +711,15 @@
       </p>
     </div>
     <div class="atlas__meta">
-      <div><span class="k">status</span><span class="v">v0.1 · refining</span></div>
+      <div><span class="k">status</span><span class="v">v0.3 · severity lane</span></div>
       <div><span class="k">owner</span><span class="v">design canon</span></div>
       <div><span class="k">pairs</span><span class="v">token contract</span></div>
+      <div><span class="k">pairs</span><span class="v"><a href="signal-atlas.html" style="color:var(--text-mid);text-decoration:none;border-bottom:1px solid var(--frame-border)">signal atlas</a></span></div>
       <div><span class="k">pairs</span><span class="v">relationship axis</span></div>
       <div><span class="k">captured</span><span class="v">2026·05·17</span></div>
       <div><span class="k">primitives</span><span class="v">6</span></div>
       <div><span class="k">states</span><span class="v">24</span></div>
+      <div><span class="k">severity</span><span class="v">2 · evidence-level</span></div>
     </div>
   </header>
 
@@ -771,6 +750,22 @@
     <div class="legend-cell legend--stale">
       <div class="legend-cell__name">stale</div>
       <div class="legend-cell__defn">past its stale-by window · still valid for audit · soft-grayed</div>
+    </div>
+  </div>
+
+  <!-- severity lane · v0.3 · a property of the EVIDENCE, never of the primitive -->
+  <div class="atlas__severity">
+    <div class="legend-cell legend--alarm">
+      <div class="legend-cell__name">severe</div>
+      <div class="legend-cell__defn">domain severity · flagged anomaly · refuted finding · custody alert · carried by evidence, not by the primitive</div>
+    </div>
+    <div class="legend-cell legend--watch">
+      <div class="legend-cell__name">held</div>
+      <div class="legend-cell__defn">watch-grade signal · uncertain · pending corroboration · evidence-level, not lifecycle</div>
+    </div>
+    <div class="legend-cell legend-cell--law">
+      <div class="legend-cell__name">the law</div>
+      <div class="legend-cell__defn">lifecycle states use the four registers only · severity uses alarm/watch only · a refused agent and a flagged anomaly never share a hue</div>
     </div>
   </div>
 

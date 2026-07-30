@@ -207,12 +207,14 @@
 </style>
 </head>
 <body>
+<noscript><p style="max-width:60ch;margin:18vh auto 0;padding:0 24px;font-family:Georgia,serif;font-size:15px;line-height:1.6;color:#C9C5BD;text-align:center">This surface is an interactive prototype and needs JavaScript to run its loop. The front door at <a href="../index.html" style="color:#8E66FB">the catalog</a> describes what it does.</p></noscript>
+
 
 <div class="mast">
   <span class="mast-title">Substrate Console</span>
   <span class="mast-sub">internal · survey + jump · not shipped</span>
 </div>
-<p class="mast-purpose">One canon, many cuts. This is where you check the system is still <em>one</em> system while it's being worked on — survey every surface for drift, then jump straight into whatever's fallen out of register. The survey is a human coherence scan, not pixel regression. <strong>Front door (decided 2026-06-16):</strong> cut-01-forward — lead with the founder loop, cut 00 behind it as the "same loop, every subject" infra proof. Flip <em>Group by → altitude</em> to see the ladder.</p>
+<p class="mast-purpose">One canon, many cuts. This is where you check the system is still <em>one</em> system while it's being worked on. Survey every surface for drift, then jump straight into whatever's fallen out of register. The survey is a human coherence scan, not pixel regression. <strong>Front door (decided 2026-06-16):</strong> cut-01-forward · lead with the founder loop, cut 00 behind it as the "same loop, every subject" infra proof. Flip <em>Group by → altitude</em> to see the ladder.</p>
 
 <div class="tree clean" id="tree">
   <span class="dot"></span>
@@ -228,7 +230,7 @@
 <!-- ════════════════ JUMP · directory ════════════════ -->
 <div class="sec-head">
   <span class="sec-name">Jump</span>
-  <span class="sec-desc">every surface in the repo — nothing forgotten</span>
+  <span class="sec-desc">every surface in the repo. Nothing forgotten</span>
   <span class="ctrl">
     Group by
     <button id="grp-nav" class="active" onclick="setGroupMode('nav')">nav-type</button>
@@ -241,7 +243,7 @@
 <!-- ════════════════ SURVEY · coherence scan ════════════════ -->
 <div class="sec-head">
   <span class="sec-name">Survey</span>
-  <span class="sec-desc">live cuts side-by-side at 1280-class width — scan for drift by eye</span>
+  <span class="sec-desc">live cuts side-by-side at 1280-class width. Scan for drift by eye</span>
   <span class="ctrl">
     <button onclick="loadAllFrames()">Load all</button>
     <button onclick="reloadFrames()">Reload loaded</button>
@@ -332,17 +334,17 @@ function renderCoherence() {
   };
   if (!clusters.length) {
     el.className = 'coherence ok';
-    el.innerHTML = `<span class="dot"></span><span>✓ no duplicate coordinates — every surface holds a distinct <span class="mono">(stage × altitude × surface)</span> (rule #5)</span>`;
+    el.innerHTML = `<span class="dot"></span><span>✓ no duplicate coordinates. Every surface holds a distinct <span class="mono">(stage × altitude × surface)</span> (rule #5)</span>`;
     return;
   }
   el.className = 'coherence flag';
   const lines = clusters.map(c =>
-    `<div class="co-row"><span class="co-coord">⊘ ${c.coord}</span> — ${c.names.map(nameLink).join(' · ')} <span class="co-tag">merge candidates · rule #5</span></div>`
+    `<div class="co-row"><span class="co-coord">⊘ ${c.coord}</span> · ${c.names.map(nameLink).join(' · ')} <span class="co-tag">merge candidates · rule #5</span></div>`
   ).join('');
   el.innerHTML = `<span class="dot"></span><div class="co-body">`+
-    `<div class="co-head">${clusters.length} duplicate-coordinate cluster${clusters.length>1?'s':''} — same loop × altitude × surface, kept as separate files</div>`+
+    `<div class="co-head">${clusters.length} duplicate-coordinate cluster${clusters.length>1?'s':''} · same loop × altitude × surface, kept as separate files</div>`+
     lines +
-    `<div class="co-note">Per <span class="mono">TAXONOMY.md</span> these are the same loop at one altitude — parameter-of-one-surface candidates, not separate products. cut 00 (L1–L4 shell) is the convergence target; it's correctly unique.</div></div>`;
+    `<div class="co-note">Per <span class="mono">TAXONOMY.md</span> these are the same loop at one altitude · parameter-of-one-surface candidates, not separate products. cut 00 (L1-L4 shell) is the convergence target; it's correctly unique.</div></div>`;
   // wire the survey-jump links
   el.querySelectorAll('a.co-jump[data-cellnum]').forEach(a =>
     a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
@@ -362,15 +364,15 @@ async function renderKernelCoherence() {
   const unread = rows.filter(r => r.shares === null);
   if (!inline.length) {
     el.className = 'coherence ok';
-    el.innerHTML = `<span class="dot"></span><span>✓ all ${rows.length} full-loop cuts run the shared kernel — no inline re-implementation</span>`;
+    el.innerHTML = `<span class="dot"></span><span>✓ all ${rows.length} full-loop cuts run the shared kernel. No inline re-implementation</span>`;
   } else {
     el.className = 'coherence flag';
     el.innerHTML = `<span class="dot"></span><div class="co-body">`+
-      `<div class="co-head">${inline.length} of ${rows.length} full-loop cuts re-implement the loop inline — product-behavior drift risk</div>`+
-      `<div class="co-row"><span class="co-coord">⛓ shares kernel</span> — ${shared.map(link).join(' · ') || '—'}</div>`+
-      `<div class="co-row"><span class="co-coord">⊘ inline loop</span> — ${inline.map(link).join(' · ')} <span class="co-tag">behavior may drift · rule #5 depth</span></div>`+
-      (unread.length ? `<div class="co-row"><span class="co-coord">? unreadable</span> — ${unread.map(link).join(' · ')}</div>` : '')+
-      `<div class="co-note">The capture→read→decide→record loop should run ONE kernel (cut 09's <span class="mono">osint-kernel.bundle.js</span>). Cuts that re-implement it can drift apart silently — the cascade catches a drifted token, nothing catches a drifted loop. Convergence target: point cut 00's SUBJECTS switch at the shared kernel.</div></div>`;
+      `<div class="co-head">${inline.length} of ${rows.length} full-loop cuts re-implement the loop inline · product-behavior drift risk</div>`+
+      `<div class="co-row"><span class="co-coord">⛓ shares kernel</span> · ${shared.map(link).join(' · ') || '·'}</div>`+
+      `<div class="co-row"><span class="co-coord">⊘ inline loop</span> · ${inline.map(link).join(' · ')} <span class="co-tag">behavior may drift · rule #5 depth</span></div>`+
+      (unread.length ? `<div class="co-row"><span class="co-coord">? unreadable</span> · ${unread.map(link).join(' · ')}</div>` : '')+
+      `<div class="co-note">The capture→read→decide→record loop should run ONE kernel (cut 09's <span class="mono">osint-kernel.bundle.js</span>). Cuts that re-implement it can drift apart silently; the cascade catches a drifted token, nothing catches a drifted loop. Convergence target: point cut 00's SUBJECTS switch at the shared kernel.</div></div>`;
   }
   el.querySelectorAll('a.co-jump[data-cellnum]').forEach(a =>
     a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
@@ -388,16 +390,16 @@ async function renderStampCoherence() {
   const broken = rows.filter(r => r.missing === null || (r.missing && r.missing.length));
   if (!broken.length) {
     el.className = 'coherence ok';
-    el.innerHTML = `<span class="dot"></span><span>✓ all ${rows.length} stamped surfaces carry a complete coordinate <span class="mono">(${STAMP_FIELDS.length} fields)</span> — contract blocks intact</span>`;
+    el.innerHTML = `<span class="dot"></span><span>✓ all ${rows.length} stamped surfaces carry a complete coordinate <span class="mono">(${STAMP_FIELDS.length} fields)</span> · contract blocks intact</span>`;
   } else {
     el.className = 'coherence flag';
     const lines = broken.map(r =>
-      `<div class="co-row"><span class="co-coord">⊘ ${link(r)}</span> — ${r.missing === null ? 'unreadable' : 'missing: ' + r.missing.join(', ')}</div>`
+      `<div class="co-row"><span class="co-coord">⊘ ${link(r)}</span> · ${r.missing === null ? 'unreadable' : 'missing: ' + r.missing.join(', ')}</div>`
     ).join('');
     el.innerHTML = `<span class="dot"></span><div class="co-body">`+
       `<div class="co-head">${broken.length} surface${broken.length>1?'s':''} with an incomplete coordinate stamp</div>`+
       lines +
-      `<div class="co-note">Per <span class="mono">CONTRIBUTING.md</span> rule #3, every cut declares all five coordinate fields. A missing stamp is invisible to the other two checks — fix the contract block.</div></div>`;
+      `<div class="co-note">Per <span class="mono">CONTRIBUTING.md</span> rule #3, every cut declares all five coordinate fields. A missing stamp is invisible to the other two checks · fix the contract block.</div></div>`;
   }
   el.querySelectorAll('a.co-jump[data-cellnum]').forEach(a =>
     a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
@@ -462,19 +464,19 @@ async function renderDesignDrift() {
   const drifted = rows.filter(r => r.unreadable || !r.importsShell || r.forkVocab.length || r.railDrift);
   if (!drifted.length) {
     el.className = 'coherence ok';
-    el.innerHTML = `<span class="dot"></span><span>✓ all ${rows.length} live cuts are on the shared design system — import <span class="mono">cut-shell.css</span>, canonical vocabulary, canonical rails</span>`;
+    el.innerHTML = `<span class="dot"></span><span>✓ all ${rows.length} live cuts are on the shared design system. Import <span class="mono">cut-shell.css</span>, canonical vocabulary, canonical rails</span>`;
   } else {
     el.className = 'coherence flag';
     const lines = drifted.map(r => {
-      if (r.unreadable) return `<div class="co-row"><span class="co-coord">? ${link(r)}</span> — unreadable</div>`;
+      if (r.unreadable) return `<div class="co-row"><span class="co-coord">? ${link(r)}</span> · unreadable</div>`;
       const flags = [];
       if (!r.importsShell) flags.push('<span class="co-coord">⊘ no cut-shell import</span>');
       if (r.forkVocab.length) flags.push(`<span class="co-coord">⊘ fork vocab</span> <span class="mono">${r.forkVocab.join(' ')}</span>`);
       if (r.railDrift) flags.push('<span class="co-coord">⊘ non-canon rails</span>');
-      return `<div class="co-row">${link(r)} — ${flags.join(' · ')}</div>`;
+      return `<div class="co-row">${link(r)} · ${flags.join(' · ')}</div>`;
     }).join('');
     el.innerHTML = `<span class="dot"></span><div class="co-body">`+
-      `<div class="co-head">${drifted.length} of ${rows.length} live cuts off the shared design system — convergence debt</div>`+
+      `<div class="co-head">${drifted.length} of ${rows.length} live cuts off the shared design system · convergence debt</div>`+
       lines +
       `<div class="co-note">Per <span class="mono">design-system/DESIGN_SYSTEM_SYSTEMATIZATION_2026-06-17.md</span>: cuts should import <span class="mono">lib/cut-shell.css</span> + <span class="mono">brand-upgrade.css</span>, use canonical chrome vocabulary, and canonical rails (280·1fr·320). Rail-width allowlist exempts intentionally-bespoke surfaces (custody, calibration, today, onboarding). Phase 1 added a converged chrome block to adopt; Phase 2 retrofits cuts onto it.</div></div>`;
   }
@@ -516,11 +518,11 @@ function renderGroup(name, desc, items, frozen) {
 
 // altitude order + descriptions (the canonical ladder — TAXONOMY.md v2)
 const ALT_ORDER = [
-  ['L1-founder',     'L1 · Founder-OS — the wedge / front door'],
+  ['L1-founder',     'L1 · Founder-OS · the wedge / front door'],
   ['L1→L2',          'L1→L2 · founder rising to the team layer'],
-  ['L2-team',        'L2 · Team / operator — expansion'],
-  ['L3-high-stakes', 'L3 · High-stakes — depth proof ("it travels")'],
-  ['L1–L4',          'L1–L4 · the parametric shell (cut 00 — spans the ladder)'],
+  ['L2-team',        'L2 · Team / operator · expansion'],
+  ['L3-high-stakes', 'L3 · High-stakes · depth proof ("it travels")'],
+  ['L1-L4',          'L1-L4 · the parametric shell (cut 00 · spans the ladder)'],
 ];
 
 function renderDirectory() {
@@ -536,7 +538,7 @@ function renderDirectory() {
     }
     // surfaces with no coordinate yet (scaffold/embeds/specimens/archive)
     const uncoorded = SURFACES.flatMap(g => g.items).filter(it => !it.alt);
-    dir.appendChild(renderGroup('— not yet placed', 'scaffold · embeds · specimens · archive (no product coordinate)', uncoorded, true));
+    dir.appendChild(renderGroup('not yet placed', 'scaffold · embeds · specimens · archive (no product coordinate)', uncoorded, true));
   }
 }
 renderDirectory();
@@ -599,7 +601,7 @@ async function refreshState() {
     } else {
       tree.className = 'tree dirty';
       const list = [...dirtyPaths].map(p => `<span class="files">${p}</span>`).join('  ');
-      text.innerHTML = `<b>${s.branch}</b> · ${dirtyPaths.size} modified ${drift?'· '+drift:''} — ${list} <span style="color:var(--text-faint)">(may be a parallel session — read, don’t fight)</span>`;
+      text.innerHTML = `<b>${s.branch}</b> · ${dirtyPaths.size} modified ${drift?'· '+drift:''} · ${list} <span style="color:var(--text-faint)">(may be a parallel session. Read, don’t fight)</span>`;
     }
   } catch (e) {
     tree.className = 'tree'; text.textContent = 'served statically · no git state';

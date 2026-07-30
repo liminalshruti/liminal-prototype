@@ -76,17 +76,34 @@
    CSS custom properties for consistent reuse:
    ══════════════════════════════════════════════════════ */
 :root {
-  /* Font stacks — canonical Liminal three-font system */
-  --font-display:  "NinetiesHeadliner", Georgia, serif;
-  --font-serif:    "PerfectlyNineties", Georgia, serif;
-  --font-mono:     "Cougar", "Space Mono", "SF Mono", ui-monospace, monospace;
-  --font-sans:     "PerfectlyNineties", Georgia, serif;
-
-  /* Cut-shell compat aliases */
-  --display: var(--font-display);
-  --serif:   var(--font-serif);
-  --mono:    var(--font-mono);
-  --sans:    var(--font-sans);
+  /* Font stacks — ALIASES ONTO CANON, direction inverted 2026-07-29.
+   *
+   * This block used to DEFINE the four faces and then redefine canon's own
+   * names (--display/--serif/--mono/--sans) to point back at them. Because
+   * this file loads after design-tokens.css on every surface that imports it,
+   * that made brand-upgrade the winner: canon §5 was overridden everywhere it
+   * mattered. --sans in particular resolved to "PerfectlyNineties" — a SERIF
+   * answering to the name "sans" — which is how one app came to render two
+   * different type systems depending on which variable a component reached for.
+   *
+   * Now the arrow points the other way. design-tokens.css §5 is the single
+   * source; these --font-* names survive only as compatibility aliases for the
+   * ~130 existing call sites (--font-mono ×76, --font-serif ×21, --font-display
+   * ×12, --font-sans ×4). Nothing here declares a family of its own.
+   *
+   * Consequence, intended and founder-ruled: every var(--sans) call site — body
+   * text across the cuts, index, embeds and onboarding — now renders Space
+   * Grotesk rather than PerfectlyNineties. That is a deliberate retype, not a
+   * regression. Surfaces that want the serif body should say --serif.
+   *
+   * (The earlier "Cougar" fix is preserved by canon: §5's --mono leads with
+   * Space Mono, then Geist Mono. Cougar was never @font-face'd anywhere and
+   * silently dropped every surface to system fallback.)
+   */
+  --font-display:  var(--display);
+  --font-serif:    var(--serif);
+  --font-mono:     var(--mono);
+  --font-sans:     var(--sans);
 
   /* Type scale — 1.250 Major Third ratio, base 16px */
   --text-2xs:  0.512rem;   /* 8.2px  — meta, footnote */
@@ -118,90 +135,51 @@
   --tracking-wider:    0.16em;
   --tracking-widest:   0.22em;
 
-  /* Backgrounds — warm black axis */
-  --bg:           #08080a;
-  --frame-bg:     #0c0c0f;
-  --frame-bg-2:   #0a0a0d;
-  --frame-bg-3:   #111116;
-  --frame-border: #1c1c22;
-  --card-border:  #202026;
-  --card-border-2:#28282e;
+  /* Backgrounds + ink scale: REMOVED 2026-07-29 (single-ink-source ruling).
+     Surfaces + ink render straight from the canonical token file
+     (design-system/tokens/design-tokens.css), which every consumer links
+     first. This file no longer shadows canon; the README lockstep caveat
+     is closed by construction, not by sync discipline. */
 
-  /* Ink scale — reconciled to canon (liminal-creative/tokens/design-tokens.css).
-     Was a warmer-but-off-canon axis (#F2F0EC/#C4C0B8/#847F79/#504C47) that shadowed the
-     canonical tokens because this file loads last. KEEP IN LOCKSTEP WITH CANON — this
-     file cascades after the synced token file, so a stale value here silently masks it.
-     2026-06-19 a11y pass 2: --text-faint #6B6862 (3.56:1, sub-AA for body text) → #807D78
-     (4.76:1 on --frame-bg) to match canon. */
-  --text:       #F4F2EE;
-  --text-mid:   #C9C5BD;
-  --text-dim:   #8A8780;
-  --text-faint: #807D78;
-
-  /* ── 12-wheel register colors ─────────────────────
-     4 agent registers only. No orange/yellow/coral/teal.
-     Diligence = clarity violet  · Judgment = wholeness magenta
-     Synthesis = cerulean blue   · Outreach = connection green
-  ─────────────────────────────────────────────────── */
-  --clarity:      #8E66FB;
-  --clarity-soft: rgba(142,102,251,0.35);
-  --clarity-bg:   rgba(142,102,251,0.07);
-  --clarity-edge: rgba(142,102,251,0.22);
-
-  --wholeness:      #E8006A;
-  --wholeness-soft: rgba(232,0,106,0.35);
-  --wholeness-bg:   rgba(232,0,106,0.07);
-  --wholeness-edge: rgba(232,0,106,0.22);
-
-  --cerulean:      #197EEB;
-  --cerulean-soft: rgba(25,126,235,0.35);
-  --cerulean-bg:   rgba(25,126,235,0.07);
-  --cerulean-edge: rgba(25,126,235,0.22);
-
-  --connection:      #31E682;
-  --connection-soft: rgba(49,230,130,0.35);
-  --connection-bg:   rgba(49,230,130,0.07);
-  --connection-edge: rgba(49,230,130,0.22);
-
-  /* liminal-space-v0 compat aliases — same values, different names */
+  /* ── 12-wheel register colors · FORK REMOVED 2026-07-29 ───────────────────
+   *
+   * This block used to redeclare four wheel hues and their alpha ladders, and
+   * to rebind the register words. Loading after design-tokens.css, it won —
+   * so the cuts ran a different register system than the design system
+   * documents, which is what "it doesn't look like the same app" was.
+   *
+   * What diverged:
+   *   --wholeness  #E8006A  vs canon #E90095 — BRAND SECONDARY, forked
+   *   --synthesis  bound to cerulean BLUE  vs canon Agency YELLOW #FEF059
+   *   alpha ladder -soft .35 / -bg .07 / -edge .22
+   *                vs canon -soft .24-.28 / -bg .08 / -edge .40-.42
+   *   body --accent #E8006A pink vs canon --accent = var(--clarity) violet
+   * (--clarity #8E66FB, --cerulean #197EEB and --connection #31E682 already
+   * matched canon exactly — they were redundant, not wrong.)
+   *
+   * Canon defines every one of these at :root, with the full 10-stop scale
+   * rather than four hand-picked alphas. Deleting the block lets them inherit.
+   * Founder ruling 2026-07-29: canon wins, same as the type stack.
+   *
+   * Only the liminal-space-v0 compat names survive, because canon has no
+   * opinion about them. --magenta* is unused today but kept as the documented
+   * v0 spelling; --violet has 3 live call sites.
+   */
   --magenta:        var(--wholeness);
   --magenta-soft:   var(--wholeness-soft);
   --magenta-bg:     var(--wholeness-bg);
   --violet:         var(--clarity);
   --violet-soft:    var(--clarity-soft);
-
-  /* Register → role bindings */
-  --diligence:      var(--clarity);
-  --diligence-soft: var(--clarity-soft);
-  --diligence-bg:   var(--clarity-bg);
-  --diligence-edge: var(--clarity-edge);
-
-  --judgment:       var(--wholeness);
-  --judgment-soft:  var(--wholeness-soft);
-  --judgment-bg:    var(--wholeness-bg);
-  --judgment-edge:  var(--wholeness-edge);
-
-  --synthesis:      var(--cerulean);
-  --synthesis-soft: var(--cerulean-soft);
-  --synthesis-bg:   var(--cerulean-bg);
-  --synthesis-edge: var(--cerulean-edge);
-
-  --outreach:       var(--connection);
-  --outreach-soft:  var(--connection-soft);
-  --outreach-bg:    var(--connection-bg);
-  --outreach-edge:  var(--connection-edge);
 }
 
-/* body-level accent — wins over per-file :root overrides */
-body {
-  --accent:      #E8006A;
-  --accent-soft: rgba(232,0,106,0.35);
-  --accent-bg:   rgba(232,0,106,0.07);
-  --accent-edge: rgba(232,0,106,0.22);
-  --accent-glow: 0 0 20px rgba(232,0,106,0.4);
-  --pink:        #E8006A;
-  --clarity:     #8E66FB;
-}
+/* body-level accent block REMOVED 2026-07-29 along with the fork above.
+ * It set --accent/--pink to #E8006A and, being body-scoped, beat every :root
+ * declaration including canon's. Canon binds --accent to Clarity (violet) and
+ * --pink to Wholeness; those now apply.
+ * --accent-glow is not re-declared: this file defined it as a box-shadow
+ * (0 0 20px rgba(...)) while canon defines it as a COLOR (var(--clarity-glow)).
+ * Two incompatible types under one name. It has zero call sites, so canon's
+ * definition simply stands. */
 
 /* ══════════════════════════════════════════════════════
    GLOBAL EMPHASIS RULE — weight not italic
@@ -230,7 +208,7 @@ em, strong,
   border: 1px solid rgba(255,255,255,0.07) !important;
   border-radius: 8px !important;
   box-shadow: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.04) inset !important;
-  padding: var(--space-7) 40px var(--space-6) !important;
+  padding: calc(var(--space-7) * var(--density-scale)) 40px calc(var(--space-6) * var(--density-scale)) !important;
   max-width: 640px !important;
 }
 .entry-wedge {
@@ -241,7 +219,7 @@ em, strong,
   letter-spacing: var(--tracking-snug) !important;
   color: var(--text) !important;
   font-style: normal !important;
-  margin: 0 auto var(--space-2) !important;
+  margin: 0 auto calc(var(--space-2) * var(--density-scale)) !important;
 }
 .entry-card .entry-brand {
   font-family: "PerfectlyNineties", Georgia, serif !important;
@@ -262,7 +240,7 @@ em, strong,
   margin-bottom: 14px !important;
 }
 .entry-doors {
-  margin-bottom: var(--space-3) !important;
+  margin-bottom: calc(var(--space-3) * var(--density-scale)) !important;
 }
 .entry-door {
   background: #141418 !important;
@@ -282,7 +260,7 @@ em, strong,
   letter-spacing: var(--tracking-wider) !important;
   text-transform: uppercase !important;
   color: rgba(242,240,236,0.55) !important;
-  margin-bottom: var(--space-app-1-5) !important;
+  margin-bottom: calc(var(--space-app-1-5) * var(--density-scale)) !important;
 }
 .ed-title {
   font-family: "NinetiesHeadliner", Georgia, serif !important;
@@ -291,7 +269,7 @@ em, strong,
   font-size: var(--text-base) !important;
   letter-spacing: var(--tracking-normal) !important;
   color: var(--text) !important;
-  margin-bottom: var(--space-app-1-5) !important;
+  margin-bottom: calc(var(--space-app-1-5) * var(--density-scale)) !important;
 }
 .ed-helper {
   font-family: "PerfectlyNineties", Georgia, serif !important;
@@ -307,7 +285,7 @@ em, strong,
   letter-spacing: var(--tracking-wide) !important;
   color: rgba(242,240,236,0.55) !important;
   text-transform: uppercase !important;
-  margin-top: var(--space-2) !important;
+  margin-top: calc(var(--space-2) * var(--density-scale)) !important;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -658,7 +636,7 @@ body[data-product="business"] {
   /* Brief disposition wraps */
   .brief-disposition {
     flex-wrap: wrap !important;
-    gap: var(--space-2) !important;
+    gap: calc(var(--space-2) * var(--density-scale)) !important;
   }
   /* Tray pill still accessible */
   .tray-pop {
@@ -704,13 +682,13 @@ body[data-product="business"] {
   .slate-area {
     width: 100% !important;
     min-width: 0 !important;
-    padding: var(--space-3) var(--space-4) !important;
+    padding: calc(var(--space-3) * var(--density-scale)) calc(var(--space-4) * var(--density-scale)) !important;
   }
 
   /* Titlebar — compress */
   .titlebar {
-    padding-left: var(--space-3) !important;
-    padding-right: var(--space-3) !important;
+    padding-left: calc(var(--space-3) * var(--density-scale)) !important;
+    padding-right: calc(var(--space-3) * var(--density-scale)) !important;
   }
   .breadcrumb { max-width: 160px !important; overflow: hidden !important; text-overflow: ellipsis !important; white-space: nowrap !important; }
 
@@ -729,23 +707,23 @@ body[data-product="business"] {
 
   /* Brief — full width */
   .brief-area {
-    padding: var(--space-4) !important;
+    padding: calc(var(--space-4) * var(--density-scale)) !important;
   }
   .brief-body { font-size: 0.82rem !important; line-height: 1.6 !important; }
 
   /* Footer — hide secondary stats */
   .footer-stats { display: none !important; }
-  .bottom-bar, .stat-strip { font-size: 0.45rem !important; gap: var(--space-3) !important; }
+  .bottom-bar, .stat-strip { font-size: 0.45rem !important; gap: calc(var(--space-3) * var(--density-scale)) !important; }
 
   /* Touch targets */
   .dispo-btn {
     min-height: 36px !important;
-    padding: var(--space-2) 14px !important;
+    padding: calc(var(--space-2) * var(--density-scale)) 14px !important;
   }
 
   /* Entry overlay — full screen at mobile */
   .entry-card {
-    padding: 32px var(--space-app-5) var(--space-6) !important;
+    padding: 32px calc(var(--space-app-5) * var(--density-scale)) calc(var(--space-6) * var(--density-scale)) !important;
     max-width: 100vw !important;
     border-radius: 0 !important;
     margin: 0 !important;

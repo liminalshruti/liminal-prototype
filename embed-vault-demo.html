@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design-system/tokens/design-tokens.css">
 
 <style>
   @font-face { font-family: "Nineties Headliner"; src: url("fonts/nineties-headliner.otf") format("opentype"); font-weight: 400; font-style: normal; font-display: swap; }
@@ -32,38 +33,12 @@
    *   16–18s: hold + restart
    * ════════════════════════════════════════════════════════════ */
   :root {
-    /* ALIGNED WITH embed-agent-hack.html · do not divulge tokens */
-    --bg: #0A0A0B;
-    --frame-bg: #0E0E11;
-    --frame-bg-2: #0C0C0F;
-    --frame-border: #1F1F23;
-    --card-border: #232327;
-    --card-border-2: #2A2A2F;
-    --clarity: #8e66fb;
-    --clarity-soft: rgba(142,102,251,0.4);
-    --clarity-glow: rgba(142,102,251,0.5);
-    --wholeness: #e90095;
-    --wholeness-soft: rgba(233,0,149,0.4);
-    --wholeness-glow: rgba(233,0,149,0.5);
-    --connection: #31e682;
-    --connection-soft: rgba(49,230,130,0.4);
-    --connection-glow: rgba(49,230,130,0.5);
-    --expression: #ff9549;
-    --cerulean: #197eeb;
-    --cerulean-soft: rgba(25,126,235,0.4);
-    --pink: #e90095;
-    --amber: #f5a524;
-    --good: #31e682;
-    --red: #f04040;
-    --text: #E8E8EA;
-    --text-mid: #B0B0B6;
-    --text-dim: #7A7A82;
-    --text-faint: #4A4A52;
-    --display: "Nineties Headliner", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
-    --serif: "Newsreader", "Perfectly Nineties", "Iowan Old Style", Georgia, serif;
+    /* Surfaces, ink, and register hues come straight from canon tokens +
+       brand-upgrade (single-ink-source ruling 2026-07-29). Local vars are
+       only what canon does not own for this embed. */
     --sans: "Geist", system-ui, sans-serif;
     --mono: "Geist Mono", ui-monospace, monospace;
-    --ls-mono: 0.14em;
+    --ls-mono: 0.14em;  /* embed-tight mono tracking (canon default .18em) */
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -524,12 +499,12 @@
             <span class="live">live</span>
           </div>
           <div class="pane-caption">
-            Drag any window into the Tray. <em>No pipes, no integrations</em> — Slack, Granola, VS Code, Notion all read by the same agents.
+            Drag any window into the Tray. <em>No pipes, no integrations</em>. Slack, Granola, VS Code, Notion all read by the same agents.
           </div>
           <div class="windows">
             <div class="win">
               <div class="app"><span>slack</span><span class="v">14:02 · 14 unread</span></div>
-              <div class="name">#fundraise — investor threads, board prep, deck v3</div>
+              <div class="name">#fundraise · investor threads, board prep, deck v3</div>
               <div class="catch">→ context cluster · investor surface</div>
             </div>
             <div class="win">
@@ -549,7 +524,7 @@
             </div>
           </div>
           <div class="pane-foot">
-            Four surfaces, one substrate. <em>The Tray IS the intake primitive</em> — drop, don't integrate.
+            Four surfaces, one substrate. <em>The Tray IS the intake primitive</em>. Drop, don't integrate.
           </div>
         </aside>
 
@@ -566,7 +541,7 @@
           <div class="reads">
             <div class="read-row">
               <div class="who"><span>Strategist</span><span class="lane">operational lane</span></div>
-              <div class="text"><em>Caught:</em> hiring plan and fundraise calendar collide week 3 — board call is Monday.</div>
+              <div class="text"><em>Caught:</em> hiring plan and fundraise calendar collide week 3. Board call is Monday.</div>
             </div>
             <div class="read-row">
               <div class="who"><span>Editor</span><span class="lane">editorial lane</span></div>
@@ -574,7 +549,7 @@
             </div>
             <div class="read-row refused">
               <div class="who"><span>Cartographer</span><span class="lane">jurisdictional refusal</span></div>
-              <div class="text"><span class="badge">REFUSED</span><em>Out of jurisdiction</em> — cap-table is Counsel's lane. Routing.</div>
+              <div class="text"><span class="badge">REFUSED</span><em>Out of jurisdiction</em>. Cap-table is Counsel's lane. Routing.</div>
             </div>
             <div class="read-row">
               <div class="who"><span>Witness</span><span class="lane">longitudinal lane</span></div>
@@ -582,7 +557,7 @@
             </div>
           </div>
           <div class="pane-foot">
-            Four reads, four registers — <em>operational, editorial, jurisdictional, longitudinal.</em> The disagreement is the data.
+            Four reads, four registers. <em>Operational, editorial, jurisdictional, longitudinal.</em> The disagreement is the data.
           </div>
         </aside>
 
@@ -594,7 +569,7 @@
             <span class="live">founder signs</span>
           </div>
           <div class="pane-caption">
-            Founder reviews each move. <em>Signs or corrects.</em> Every dispatch is a packet — single decision, audit-grade.
+            Founder reviews each move. <em>Signs or corrects.</em> Every dispatch is a packet. Single decision, audit-grade.
           </div>
           <div class="moves">
             <div class="move">
@@ -607,7 +582,7 @@
               <div class="text"><em>Collapse moat-slide v1+v2</em> into one. Frontier-banner stays.</div>
               <div class="correction">
                 <span class="label">✎ founder corrected</span>
-                <span class="strike">"the moat is the data"</span> → <em>"the moat is the correction stream — the data is the byproduct."</em> The editor read it backwards.
+                <span class="strike">"the moat is the data"</span> → <em>"the moat is the correction stream. The data is the byproduct."</em> The editor read it backwards.
               </div>
               <div class="corr-receipt">
                 <span><span class="k">correction_kind</span>read-divergence</span>
@@ -617,7 +592,7 @@
             </div>
             <div class="move">
               <div class="num">→ Move 03 · memo<span class="from">witness</span></div>
-              <div class="text"><em>Draft disagreement memo</em> before hiring loop opens — pattern compounds in vault.</div>
+              <div class="text"><em>Draft disagreement memo</em> before hiring loop opens. Pattern compounds in vault.</div>
               <div class="signed">founder signed<span>14:25</span></div>
             </div>
           </div>

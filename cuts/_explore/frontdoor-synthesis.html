@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Liminal · Keep human judgment in command</title>
+<meta name="description" content="Judgment infrastructure for founders directing AI agents. Bounded agents read the work and disagree on purpose. You say who got it right. The vault keeps the signed record.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
+
+<!-- FRONT DOOR · SYNTHESIS (2026-07-28)
+     Converges and supersedes frontdoor-a-elevated / frontdoor-b-cinematic /
+     frontdoor-c-swing (archived on archive/design-concepts-2026-07-28):
+       A · restraint     - quiet chrome, hairline discipline, type-led
+       B · editorial     - display-scale thesis, the loop as a real sequence
+       C · living motion - the orbital deliberation as the signature element
+     Port target: replaces LiminalLanding on theliminalspace.io (see
+     docs/FRONTDOOR_PORT_MAP_2026-07-28.md). Copy baseline is the veracity-
+     passed live landing (v0 bbb438212) + post-category-ruling index (e7e5386):
+     judgment-layer register, no retired control-plane framing, no em dashes
+     in external copy, receipts phrased canonically.
+     First-pass rule (Night Hack retro): the complete wedge must survive a
+     static, no-JS, full-page capture. The orbital is therefore rendered in
+     markup at its SEALED state; script animates from scratch as enhancement.
+     Consumes canon tokens directly - no local ink/surface redefinitions
+     (closes the render-layer lockstep caveat the prior concepts carried). -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
+
+<style>
+  @font-face { font-family:'NinetiesHeadliner'; src:url('../../fonts/nineties-headliner.otf') format('opentype'); font-weight:700; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('../../fonts/perfectly-nineties-light.otf') format('opentype'); font-weight:300; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('../../fonts/perfectly-nineties-regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+  @font-face { font-family:'PerfectlyNineties'; src:url('../../fonts/PerfectlyNineties-Semibold.otf') format('opentype'); font-weight:600; font-display:swap; }
+
+  :root{
+    --display:"NinetiesHeadliner",Georgia,serif;
+    --serif:"PerfectlyNineties",Georgia,serif;
+    --mono:"Geist Mono","SF Mono",monospace;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:var(--serif);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--clarity);outline-offset:3px;border-radius:2px}
+
+  .shell{max-width:1240px;margin:0 auto;padding:0 32px}
+
+  /* ── chrome ── */
+  .top{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+  .top .n{font-family:var(--display);font-size:var(--fs-md);letter-spacing:var(--ls-tight);color:var(--text);text-decoration:none}
+  .top .n b{color:var(--clarity);font-weight:700}
+  .top .open{font-family:var(--mono);font-size:var(--fs-mono-xs);letter-spacing:var(--ls-mono-sm);text-transform:uppercase;color:var(--text-mid);text-decoration:none;border:1px solid var(--frame-border);border-radius:100px;padding:10px 18px;transition:border-color .18s,color .18s}
+  .top .open:hover{border-color:var(--clarity);color:var(--text)}
+
+  /* ── hero ── */
+  .hero{display:grid;grid-template-columns:minmax(0,.94fr) minmax(0,1.06fr);gap:40px;align-items:center;min-height:calc(100vh - 84px);padding-bottom:5vh}
+  .thesis .kick{font-family:var(--mono);font-size:var(--fs-mono-xs);letter-spacing:var(--ls-mono-lg);text-transform:uppercase;color:var(--clarity);margin-bottom:22px}
+  .thesis h1{font-family:var(--display);font-weight:700;font-size:clamp(38px,4.6vw,60px);line-height:1.02;letter-spacing:var(--ls-display);max-width:14ch}
+  .thesis h1 em{display:block;font-family:var(--serif);font-weight:300;font-style:italic;font-size:.72em;line-height:1.15;letter-spacing:var(--ls-tight);color:var(--text-mid);margin-top:10px;padding-bottom:4px}
+  .thesis .lede{font-size:clamp(var(--fs-base),1.5vw,var(--fs-md));line-height:var(--lh-relaxed);color:var(--text-dim);margin-top:22px;max-width:42ch}
+  .thesis .lede b{font-weight:600;color:var(--text-mid)}
+  .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .cta{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-family:var(--mono);font-size:var(--fs-mono-xs);letter-spacing:var(--ls-mono-sm);text-transform:uppercase;border-radius:100px;padding:13px 22px;min-height:44px;transition:border-color .18s,background .18s,transform .18s}
+  .cta:active{transform:translateY(1px)}
+  .cta.primary{color:var(--bg);background:var(--text);border:1px solid var(--text)}
+  .cta.primary:hover{background:var(--text-mid);border-color:var(--text-mid)}
+  .cta.quiet{color:var(--text);border:1px solid var(--frame-border)}
+  .cta.quiet:hover{border-color:var(--clarity)}
+
+  /* the orbital · statically sealed, animated by script */
+  .orbit-wrap{position:relative;width:min(66vh,540px);aspect-ratio:1;justify-self:center}
+  svg.orbit{width:100%;height:100%;overflow:visible}
+  .orbit text{font-family:"Geist Mono",monospace}
+  .caption{position:absolute;left:50%;bottom:-54px;transform:translateX(-50%);text-align:center;width:100%;pointer-events:none}
+  .caption .phase{font-family:var(--mono);font-size:var(--fs-mono-xs);letter-spacing:var(--ls-mono-lg);text-transform:uppercase;color:var(--text-dim);min-height:14px}
+  .caption .line{font-style:italic;font-size:var(--fs-base);color:var(--text-mid);margin-top:8px;min-height:22px}
+  .artifact{position:absolute;left:50%;top:calc(50% + 88px);transform:translateX(-50%);display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--text-mid);background:var(--frame-bg-2);border:1px solid var(--frame-border);border-radius:5px;padding:7px 12px;white-space:nowrap;pointer-events:none}
+  .artifact .d{color:var(--clarity)}
+  .agent-glyph{transition:opacity .4s}
+  .refuse-line{transition:opacity .35s}
+  @keyframes pulse{0%,100%{opacity:.35}50%{opacity:1}}
+  .reading{animation:pulse 1.3s ease-in-out infinite}
+
+  /* ── the loop ── */
+  .loop{border-top:1px solid var(--frame-border);padding:10vh 0 9vh}
+  .loop h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,3vw,38px);letter-spacing:var(--ls-tighter)}
+  .beats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--frame-border);border:1px solid var(--frame-border);border-radius:9px;overflow:hidden;margin-top:42px}
+  .beat{background:var(--frame-bg);padding:26px 22px 30px;display:flex;flex-direction:column;gap:14px;transition:background .18s}
+  .beat:hover{background:var(--frame-bg-3)}
+  .beat .word{font-family:var(--display);font-weight:700;font-size:clamp(20px,2vw,26px);letter-spacing:var(--ls-tight);color:color-mix(in oklch,var(--b) 82%,var(--text))}
+  .beat p{font-size:var(--fs-sm);line-height:var(--lh-relaxed);color:var(--text-dim)}
+  .beat p i{color:var(--text-mid)}
+
+  /* ── proof ── */
+  .proof{border-top:1px solid var(--frame-border);padding:9vh 0}
+  .proof h2{font-family:var(--display);font-weight:700;font-size:clamp(26px,3vw,38px);letter-spacing:var(--ls-tighter)}
+  .proof .note{font-size:var(--fs-sm);color:var(--text-dim);margin-top:10px;max-width:58ch}
+  .shots{display:grid;grid-template-columns:1.5fr 1fr;grid-template-rows:auto auto;gap:16px;margin-top:36px}
+  .shot{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;text-decoration:none;border:1px solid var(--frame-border);border-radius:9px;padding:26px;min-height:210px;background:
+    linear-gradient(180deg,transparent 30%,color-mix(in oklch,var(--bg) 88%,transparent)),
+    radial-gradient(520px 300px at 18% 0%,color-mix(in oklch,var(--a) 14%,transparent),transparent 62%),var(--frame-bg);
+    transition:border-color .18s,transform .18s}
+  .shot:hover{border-color:color-mix(in oklch,var(--a) 55%,var(--frame-border));transform:translateY(-2px)}
+  .shot.lead{grid-row:1 / span 2;min-height:0;justify-content:flex-start}
+  .shot.lead .pic{display:block;border:1px solid var(--frame-border);border-radius:6px;overflow:hidden;margin-bottom:16px}
+  .shot.lead .pic img{display:block;width:100%;height:auto}
+  .shot .chip{position:absolute;top:20px;right:20px;font-family:var(--mono);font-size:var(--fs-eyebrow);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--frame-border);border-radius:4px;padding:3px 7px}
+  .shot .t{font-family:var(--display);font-size:clamp(19px,1.9vw,24px);letter-spacing:var(--ls-tight);color:var(--text)}
+  .shot .d{font-size:var(--fs-sm);line-height:var(--lh-normal);color:var(--text-dim);max-width:46ch}
+  .shot .go{font-family:var(--mono);font-size:var(--fs-mono-xs);color:var(--a)}
+
+  /* ── what's real ── */
+  .honest{border-top:1px solid var(--frame-border);padding:8vh 0}
+  .honest h2{font-family:var(--display);font-weight:700;font-size:clamp(22px,2.4vw,30px);letter-spacing:var(--ls-tighter);margin-bottom:30px}
+  .cells{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--frame-border);border:1px solid var(--frame-border);border-radius:9px;overflow:hidden}
+  .cell{background:var(--frame-bg);padding:20px 20px 22px;display:flex;flex-direction:column;gap:9px}
+  .cell .k{font-family:var(--mono);font-size:var(--fs-mono-xs);letter-spacing:var(--ls-mono);text-transform:uppercase;color:var(--text-faint)}
+  .cell .v{font-size:var(--fs-sm);line-height:var(--lh-relaxed);color:var(--text-mid)}
+  .receipts{display:flex;flex-wrap:wrap;gap:10px 40px;margin-top:26px;font-family:var(--mono);font-size:var(--fs-mono-sm);color:var(--text-dim)}
+  .receipts b{color:var(--text-mid);font-weight:500}
+
+  /* ── access ── */
+  .access{border-top:1px solid var(--frame-border);padding:11vh 0 12vh;text-align:center}
+  .access h2{font-family:var(--display);font-weight:700;font-size:clamp(30px,3.6vw,46px);letter-spacing:var(--ls-tighter)}
+  .access p{font-size:var(--fs-base);color:var(--text-dim);margin-top:14px}
+  .access .cta-row{justify-content:center}
+
+  footer{border-top:1px solid var(--frame-border)}
+  footer .in{max-width:1240px;margin:0 auto;padding:24px 32px;display:flex;justify-content:space-between;gap:16px;font-family:var(--mono);font-size:var(--fs-eyebrow);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
+  footer a{color:var(--text-faint);text-decoration:none}
+  footer a:hover{color:var(--text-mid)}
+
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    .reading{animation:none;opacity:1}
+  }
+  @media (max-width:960px){
+    .hero{grid-template-columns:1fr;gap:30px;min-height:auto;padding-top:4vh;padding-bottom:10vh}
+    .orbit-wrap{order:2;width:min(76vw,420px);margin-bottom:78px}
+    .beats{grid-template-columns:1fr 1fr}
+    .beat:last-child{grid-column:1 / -1}
+    .shots{grid-template-columns:1fr}
+    .shot.lead{grid-row:auto}
+    .cells{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:600px){
+    .shell{padding:0 20px}
+    .beats,.cells{grid-template-columns:1fr}
+    .beat:last-child{grid-column:auto}
+    .top .open{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="shell top">
+  <a class="n" href="#top">◇ <b>Liminal</b></a>
+  <a class="open" href="../01-slate-tray.html">Open the live product →</a>
+</header>
+
+<main id="top">
+  <section class="shell hero">
+    <div class="thesis">
+      <p class="kick">Judgment infrastructure for founders directing AI agents</p>
+      <h1>Keep human judgment in command<em>as agents accelerate execution.</em></h1>
+      <p class="lede">Drop in a session. Bounded agents read it and <b>disagree on purpose</b>. You say who got it right. The vault keeps the signed record of how the call was made.</p>
+      <div class="cta-row">
+        <a class="cta primary" href="../01-slate-tray.html">Open the live product →</a>
+        <a class="cta quiet" href="#access">Get early access</a>
+      </div>
+    </div>
+
+    <!-- The signature: the product's own deliberation loop. Rendered sealed in
+         markup so a static capture carries the whole story; script re-runs the
+         cycle live. Not an illustration of the product; the product's actual
+         core visualization, one click from the real thing. -->
+    <div class="orbit-wrap" id="wrap">
+      <svg class="orbit" viewBox="0 0 400 400" role="img" aria-label="Four bounded agents around a decision: Diligence, Judgment, Synthesis, and Outreach deliberate a read. Judgment refuses out of lane. The verdict seals to the vault.">
+        <circle cx="200" cy="200" r="150" fill="none" stroke="var(--frame-border)" stroke-width="1"/>
+        <circle cx="200" cy="200" r="96" fill="none" stroke="var(--frame-border)" stroke-width="1" stroke-dasharray="2 5"/>
+        <line id="refuseLine" class="refuse-line" x1="330" y1="200" x2="228" y2="200" stroke="var(--judgment)" stroke-width="1.4" stroke-dasharray="3 4" opacity=".85"/>
+        <g id="regs">
+          <circle class="agent-glyph" data-k="diligence" cx="200" cy="50"  r="6.5" fill="var(--diligence)"/>
+          <text x="200" y="28"  text-anchor="middle" font-size="8"   letter-spacing="1.4" fill="var(--text-faint)">DILIGENCE</text>
+          <text x="200" y="40"  text-anchor="middle" font-size="7.5" fill="var(--text-dim)">Auditor</text>
+          <circle class="agent-glyph" data-k="judgment" cx="350" cy="200" r="6.5" fill="var(--judgment)"/>
+          <text x="364" y="197" text-anchor="start" font-size="8"   letter-spacing="1.4" fill="var(--text-faint)">JUDGMENT</text>
+          <text x="364" y="209" text-anchor="start" font-size="7.5" fill="var(--text-dim)">Skeptic</text>
+          <circle class="agent-glyph" data-k="synthesis" cx="200" cy="350" r="6.5" fill="var(--synthesis)"/>
+          <text x="200" y="372" text-anchor="middle" font-size="8"   letter-spacing="1.4" fill="var(--text-faint)">SYNTHESIS</text>
+          <text x="200" y="384" text-anchor="middle" font-size="7.5" fill="var(--text-dim)">Weaver</text>
+          <circle class="agent-glyph" data-k="outreach" cx="50"  cy="200" r="6.5" fill="var(--outreach)"/>
+          <text x="36"  y="197" text-anchor="end" font-size="8"   letter-spacing="1.4" fill="var(--text-faint)">OUTREACH</text>
+          <text x="36"  y="209" text-anchor="end" font-size="7.5" fill="var(--text-dim)">Envoy</text>
+        </g>
+        <radialGradient id="core" cx="50%" cy="50%" r="50%">
+          <stop id="c0" offset="0%" stop-color="var(--clarity)" stop-opacity=".5"/>
+          <stop id="c1" offset="100%" stop-color="var(--clarity)" stop-opacity="0"/>
+        </radialGradient>
+        <circle id="glow" cx="200" cy="200" r="46" fill="url(#core)"/>
+        <circle id="orb" cx="200" cy="200" r="15" fill="var(--frame-bg)" stroke="var(--clarity)" stroke-width="1.4" style="transition:stroke .5s"/>
+        <text id="diamond" x="200" y="205" text-anchor="middle" font-size="15" fill="var(--clarity)" style="transition:fill .5s">◇</text>
+      </svg>
+      <div class="artifact" id="artifact"><span class="d">◇</span> sealed · packet in the vault</div>
+      <div class="caption"><div class="phase" id="phase">sealed</div><div class="line" id="line">the record stays inspectable</div></div>
+    </div>
+  </section>
+
+  <section class="shell loop">
+    <h2>One loop. Your judgment is the interface.</h2>
+    <div class="beats">
+      <div class="beat" style="--b:var(--diligence)"><span class="word">TRAY</span><p>Drop in a session, a thread, a doc. The tray composes what's there. No pipes, no integrations.</p></div>
+      <div class="beat" style="--b:var(--judgment)"><span class="word">READ</span><p>Bounded agents read it and disagree on purpose. Out of lane, they refuse: <i>not my ground, ask Diligence.</i></p></div>
+      <div class="beat" style="--b:var(--synthesis)"><span class="word">CORRECT</span><p>You say who got it right. The delta is first-party data: how you decide, captured at the moment of judgment.</p></div>
+      <div class="beat" style="--b:var(--clarity)"><span class="word">SEAL</span><p>The decision seals into a signed, inspectable record. Local-first, on your device.</p></div>
+      <div class="beat" style="--b:var(--outreach)"><span class="word">RETURN</span><p>Tomorrow it comes back re-read. The loop ends where your next decision starts.</p></div>
+    </div>
+  </section>
+
+  <section class="shell proof">
+    <h2>Open it where it runs</h2>
+    <p class="note">These are the live prototype surfaces, not mockups. Choreography runs on deterministic fixtures; receipts are labeled where earned; vault writes are real and device-local.</p>
+    <div class="shots">
+      <a class="shot lead" href="../01-slate-tray.html" style="--a:var(--diligence)">
+        <!-- Committed 2x poster of the real surface (not a mockup): paints on
+             first render, one click from the live thing. Same pattern the
+             production landing adopted 2026-07-28 after lazy iframes rendered
+             as empty boxes in captures. -->
+        <span class="pic"><img src="assets/poster-slate.png" alt="The slate and tray surface running a 90-day pattern check: agents' reads with a margin note, the agency rail live, the vault pill in the titlebar." width="2880" height="1800" loading="eager" fetchpriority="high"></span>
+        <span class="chip">prototype · fixture</span>
+        <span class="t">The slate &amp; tray</span>
+        <span class="d">The core mechanic. Drag a thread, a doc, a transcript into the tray. Bounded agents read it, disagree, and stage one next move. You correct the read; the vault keeps the record.</span>
+        <span class="go">open →</span>
+      </a>
+      <a class="shot" href="../11-govern.html?subject=spend&amp;beat=loop&amp;run=govern-run.json" style="--a:var(--judgment)">
+        <span class="chip">recorded run · receipts labeled</span>
+        <span class="t">Govern</span>
+        <span class="d">Four registers read the fleet's model spend against company goals. One refuses out of lane; the operator corrects and ratifies policy.</span>
+        <span class="go">open →</span>
+      </a>
+      <a class="shot" href="../../embed-vault-demo.html" style="--a:var(--outreach)">
+        <span class="chip">prototype</span>
+        <span class="t">Vault + agents</span>
+        <span class="d">Four registers, one surface each. Every read that seals stays searchable, with the corrections that shaped it.</span>
+        <span class="go">open →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="shell honest">
+    <h2>What's real here</h2>
+    <div class="cells">
+      <div class="cell"><span class="k">Who it's for</span><span class="v">Teams accountable for AI-assisted decisions: founders first, then owners of frontier-model spend.</span></div>
+      <div class="cell"><span class="k">The problem</span><span class="v">Agents produce answers. Nobody governs what was trusted, corrected, or refused. Nobody can prove it later.</span></div>
+      <div class="cell"><span class="k">The mechanic</span><span class="v">Bounded agents read; they disagree or refuse; the accountable human decides; the record seals and stays inspectable.</span></div>
+      <div class="cell"><span class="k">The status</span><span class="v">Prototype choreography over deterministic fixtures. Receipts labeled where earned. Vault writes are real, device-local. Roadmap is marked.</span></div>
+    </div>
+    <div class="receipts">
+      <span><b>NatSec hackathon</b> · top 16 of 102 finalists (200 teams at start)</span>
+      <span><b>AI Agent Economy hackathon</b> · judged "most original architectural idea"</span>
+    </div>
+  </section>
+
+  <section class="shell access" id="access">
+    <h2>The pilot is invite-only.</h2>
+    <p>A close ring of operators, onboarded one at a time.</p>
+    <div class="cta-row">
+      <a class="cta primary" href="https://theliminalspace.io/pilot">Get early access</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="in">
+    <span>Liminal · theliminalspace.io · 2026</span>
+    <a href="../../index.html">Explore the full prototype →</a>
+  </div>
+</footer>
+
+<script>
+  /* The orbital ships sealed (static truth). With script + motion allowed, it
+     re-runs the deliberation live: scan, read, refuse, converge, seal. */
+  (function(){
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce)return;
+    const phase=document.getElementById('phase'),line=document.getElementById('line'),
+          orb=document.getElementById('orb'),diamond=document.getElementById('diamond'),
+          refuse=document.getElementById('refuseLine'),artifact=document.getElementById('artifact'),
+          glyphs=[...document.querySelectorAll('.agent-glyph')],
+          c0=document.getElementById('c0'),c1=document.getElementById('c1');
+    const set=(p,l)=>{phase.textContent=p;line.textContent=l;};
+    const gset=o=>{c0.setAttribute('stop-opacity',o);c1.setAttribute('stop-opacity',0);};
+    const unseal=()=>{artifact.style.opacity=0;refuse.style.opacity=0;gset(0);
+      orb.setAttribute('stroke','var(--text-dim)');diamond.setAttribute('fill','var(--text-mid)');};
+    const steps=[
+      {t:400, f:()=>{unseal();set('scanning','the tray composes what’s there');glyphs.forEach(x=>x.classList.add('reading'));}},
+      {t:1800,f:()=>set('reading','four registers take the read')},
+      {t:3200,f:()=>{set('refusal','Skeptic: “not my ground · ask Diligence”');refuse.style.opacity=.9;const j=glyphs.find(x=>x.dataset.k==='judgment');j.classList.remove('reading');j.style.opacity=.28;}},
+      {t:4800,f:()=>{set('converging','the read resolves');glyphs.forEach(x=>{x.classList.remove('reading');x.style.opacity=1;});}},
+      {t:5900,f:()=>{set('sealed · vault','the packet lands instantly');artifact.style.opacity=1;}},
+      {t:6550,f:()=>{set('acknowledged','the read is witnessed');orb.setAttribute('stroke','var(--clarity)');diamond.setAttribute('fill','var(--clarity)');gset(.5);}}
+    ];
+    let timers=[],running=false;
+    function cycle(){timers.forEach(clearTimeout);timers=steps.map(s=>setTimeout(s.f,s.t));timers.push(setTimeout(cycle,8900));}
+    new IntersectionObserver((es)=>{es.forEach(e=>{
+      if(e.isIntersecting&&!running){running=true;cycle();}
+      else if(!e.isIntersecting&&running){running=false;timers.forEach(clearTimeout);}
+    })},{threshold:.35}).observe(document.getElementById('wrap'));
+  })();
+</script>
+</body>
+</html>

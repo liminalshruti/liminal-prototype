@@ -51,6 +51,7 @@
      + audit ribbon + classification + marginalia + boot animations -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
 <link rel="stylesheet" href="../lib/surface-nav.css">
+<link rel="stylesheet" href="../lib/cut-shell-products.css">
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
@@ -88,7 +89,7 @@
   .orbital-glyph {
     display: inline-block;
     width: 14px; height: 14px;
-    margin-right: var(--space-app-1-5);
+    margin-right: calc(var(--space-app-1-5) * var(--density-scale));
     vertical-align: middle;
     color: var(--text-mid);
   }
@@ -98,7 +99,7 @@
     position: relative;
     width: 100%;
     aspect-ratio: 1 / 1.15;
-    margin: var(--space-2) auto 14px;
+    margin: calc(var(--space-2) * var(--density-scale)) auto 14px;
     padding: 0 10px;
   }
   .orbital-svg { width: 100%; height: 100%; display: block; overflow: visible; }
@@ -246,8 +247,8 @@
     color: var(--text-faint);
     text-transform: none;
     letter-spacing: var(--ls-app-loose);
-    margin-top: var(--space-app-1-5);
-    padding: 0 var(--space-2);
+    margin-top: calc(var(--space-app-1-5) * var(--density-scale));
+    padding: 0 calc(var(--space-2) * var(--density-scale));
     line-height: 1.4;
   }
 
@@ -272,7 +273,7 @@
     font-weight: 500 !important;
     letter-spacing: var(--ls-tight) !important;
     line-height: 1.05;
-    margin-bottom: var(--space-2);
+    margin-bottom: calc(var(--space-2) * var(--density-scale));
   }
   .slate-subtitle { font-size: var(--fs-base) !important; opacity: 0.88; }
   .rail-header, .rail-right-header,
@@ -292,10 +293,10 @@
   .brief-area {
     border-top: none !important;
     border-bottom: 1px solid var(--frame-border);
-    padding-top: var(--space-3) !important;
+    padding-top: calc(var(--space-3) * var(--density-scale)) !important;
     padding-bottom: 14px !important;
   }
-  .slate-area > .slate-canvas { padding-top: var(--space-3) !important; min-height: 240px !important; }
+  .slate-area > .slate-canvas { padding-top: calc(var(--space-3) * var(--density-scale)) !important; min-height: 240px !important; }
 
   /* 3. Tray quieter */
   .tray-panel { background-color: color-mix(in oklch, var(--frame-bg) 92%, transparent) !important; }
@@ -309,7 +310,7 @@
     font-size: var(--fs-mono-sm) !important;
     line-height: 1.65 !important;
     margin-top: 0 !important;
-    padding-top: var(--space-1);
+    padding-top: calc(var(--space-1) * var(--density-scale));
   }
   .orbital-coverage .coverage-emphasis { color: var(--text) !important; }
   .orbital-coverage .coverage-emphasis strong,
@@ -361,7 +362,7 @@
     letter-spacing: 0.1em;
     color: var(--p-accent);
     opacity: 0.72;
-    margin-left: var(--space-1);
+    margin-left: calc(var(--space-1) * var(--density-scale));
   }
 
   /* v0.9.1 · metric-band · audit disclosure · frame-receipt */
@@ -372,17 +373,17 @@
     border-bottom: 1px solid var(--frame-border);
     background: var(--frame-bg);
   }
-  .metric-cell { padding: 10px var(--space-app-5) var(--space-3); border-right: 1px solid var(--frame-border); }
+  .metric-cell { padding: 10px calc(var(--space-app-5) * var(--density-scale)) calc(var(--space-3) * var(--density-scale)); border-right: 1px solid var(--frame-border); }
   .metric-cell:last-child { border-right: none; }
   .metric-label {
     font-family: var(--mono); font-size: var(--fs-eyebrow);
     color: var(--text-faint); letter-spacing: var(--ls-mono);
-    text-transform: uppercase; margin-bottom: var(--space-1);
+    text-transform: uppercase; margin-bottom: calc(var(--space-1) * var(--density-scale));
   }
   .metric-number {
     font-family: var(--display); font-size: var(--fs-app-h1);
     color: var(--text); font-weight: 500;
-    letter-spacing: var(--ls-app-neutral); line-height: 1.1; margin-bottom: var(--space-app-0-5);
+    letter-spacing: var(--ls-app-neutral); line-height: 1.1; margin-bottom: calc(var(--space-app-0-5) * var(--density-scale));
   }
   .metric-caption {
     font-family: var(--serif); font-size: var(--fs-mono-sm);
@@ -397,7 +398,7 @@
   .slate-area > .audit-ribbon > .ar-label { display: none !important; }
   .audit-disclosure {
     display: flex; align-items: center; gap: 10px;
-    padding: var(--space-3) 32px;
+    padding: calc(var(--space-3) * var(--density-scale)) 32px;
     font-family: var(--mono); font-size: var(--fs-mono-xs);
     color: var(--text-faint); letter-spacing: var(--ls-app-wider);
     text-transform: uppercase;
@@ -424,7 +425,7 @@
   .slate-area > .audit-ribbon[hidden] { display: none !important; }
   .frame-receipt {
     border-top: 1px solid var(--frame-border);
-    padding: 7px var(--space-app-5);
+    padding: 7px calc(var(--space-app-5) * var(--density-scale));
     background: var(--frame-bg);
     font-family: var(--mono); font-size: 9.5px;
     color: var(--text-faint); letter-spacing: 0.12em;
@@ -458,9 +459,9 @@
      so nothing leaks to other cuts or the shared cut-shell rules. */
   #entry-overlay .entry-register {
     display: inline-flex;
-    gap: var(--space-app-0-5);
-    margin: 0 auto var(--space-5);
-    padding: var(--space-app-0-5);
+    gap: calc(var(--space-app-0-5) * var(--density-scale));
+    margin: 0 auto calc(var(--space-5) * var(--density-scale));
+    padding: calc(var(--space-app-0-5) * var(--density-scale));
     border: 1px solid var(--card-border);
     border-radius: var(--radius-pill);
     font-family: var(--mono);
@@ -474,7 +475,7 @@
     font-size: var(--fs-eyebrow);
     letter-spacing: var(--ls-mono);
     text-transform: uppercase;
-    padding: var(--space-app-1-5) 14px;
+    padding: calc(var(--space-app-1-5) * var(--density-scale)) 14px;
     border-radius: var(--radius-pill);
     cursor: pointer;
     transition: background 160ms ease, color 160ms ease;
@@ -496,7 +497,7 @@
     line-height: 1.5;
     color: var(--text-mid, rgba(242,240,236,0.66));
     max-width: 52ch;
-    margin: 0 auto var(--space-1);
+    margin: 0 auto calc(var(--space-1) * var(--density-scale));
     text-wrap: pretty;
   }
   #entry-overlay .entry-card.is-speedrun .entry-register { order: 0; }
@@ -516,7 +517,7 @@
     font-style: italic;
     font-size: 0.85em;
     opacity: 0.72;
-    margin-bottom: var(--space-app-5);
+    margin-bottom: calc(var(--space-app-5) * var(--density-scale));
   }
   #entry-overlay .entry-card.is-speedrun .entry-prompt   { order: 3; }
   #entry-overlay .entry-card.is-speedrun .entry-doors    { order: 4; }
@@ -537,12 +538,12 @@
   #entry-overlay .entry-doors {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-3);
+    gap: calc(var(--space-3) * var(--density-scale));
   }
   /* Personal leads · spans the row · weightier */
   #entry-overlay .entry-door[data-product="personal"] {
     grid-column: 1 / -1;
-    padding: var(--space-5) var(--space-5) 20px;
+    padding: calc(var(--space-5) * var(--density-scale)) calc(var(--space-5) * var(--density-scale)) 20px;
     background: color-mix(in oklch, var(--frame-bg-3) 86%, var(--diligence-bg) 14%);
     border-color: color-mix(in oklch, var(--card-border-2) 70%, var(--diligence) 30%);
   }
@@ -709,7 +710,7 @@
     .slate-area > .metric-band { grid-template-columns: 1fr 1fr !important; }
     .metric-cell:last-child { grid-column: 1 / -1; border-right: none; border-top: 1px solid var(--frame-border); }
     .metric-cell:nth-child(2) { border-right: none; }
-    .metric-cell { padding: 10px 18px var(--space-3); }
+    .metric-cell { padding: 10px 18px calc(var(--space-3) * var(--density-scale)); }
     /* sub-360px the two-col band itself gets tight → single column */
     .product-tab .pt-shape { display: none !important; }
   }
@@ -718,6 +719,54 @@
     .metric-cell { border-right: none; border-top: 1px solid var(--frame-border); }
     .metric-cell:first-child { border-top: none; }
   }
+
+  button.vault-pill { font: inherit; text-align: inherit; cursor: pointer; }
+  #vault-lattice { min-width: 420px; }
+
+  /* team-drift fold (2026-07-29) · roster telemetry + daemon strip in the
+     team rail. Drift state carries the WORD, not just the hue (a11y). */
+  .subject-telemetry {
+    font-family: var(--mono); font-size: var(--fs-eyebrow);
+    letter-spacing: .1em; text-transform: uppercase;
+    color: var(--text-faint); margin-top: 5px;
+  }
+  .subject-telemetry.is-drifting { color: var(--judgment); } /* state-atlas: out-of-pattern = judgment, never alarm */
+  .rail-daemon {
+    margin-top: calc(var(--space-5) * var(--density-scale)); padding-top: calc(var(--space-4) * var(--density-scale));
+    border-top: 1px solid var(--frame-border);
+    display: flex; flex-direction: column; gap: calc(var(--space-2) * var(--density-scale));
+  }
+  .rail-daemon .rd-head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: var(--mono); font-size: var(--fs-eyebrow);
+    letter-spacing: var(--ls-mono); text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .rail-daemon .rd-state { color: var(--outreach); letter-spacing: .12em; }
+  .rail-daemon .rd-line {
+    font-family: var(--mono); font-size: var(--fs-mono-xs);
+    color: var(--text-dim); line-height: 1.5;
+  }
+  .rail-daemon .rd-govlog {
+    margin-top: calc(var(--space-2) * var(--density-scale)); display: flex; flex-direction: column; gap: 7px;
+    border-top: 1px dashed var(--frame-border); padding-top: calc(var(--space-3) * var(--density-scale));
+  }
+  .rail-daemon .rd-gl-row {
+    display: grid; grid-template-columns: 34px 1fr; gap: 2px 10px;
+    font-family: var(--mono); font-size: var(--fs-mono-xs); line-height: 1.45;
+  }
+  .rail-daemon .rd-gl-t { color: var(--text-faint); }
+  .rail-daemon .rd-gl-a { color: var(--text-mid); }
+  .rail-daemon .rd-gl-l { grid-column: 2; color: var(--text-dim); }
+  .rail-daemon .rd-open {
+    margin-top: calc(var(--space-2) * var(--density-scale)); align-self: flex-start;
+    font-family: var(--mono); font-size: var(--fs-eyebrow);
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--text-mid); text-decoration: none;
+    border: 1px solid var(--frame-border); border-radius: 5px;
+    padding: 7px 11px; transition: border-color .18s, color .18s;
+  }
+  .rail-daemon .rd-open:hover { border-color: var(--judgment); color: var(--text); }
 
   /* Touch targets · gate on coarse pointer so desktop density is untouched.
      Audit found dispo-btn 54×30 (brand-upgrade caps it at 36 · still short),
@@ -734,6 +783,7 @@
   }
 </style>
 
+
 <!-- harden · JS-off failsafe for the opacity:0 reveal gate · body shows regardless -->
 <noscript><style>body{opacity:1 !important;animation:none !important;}</style></noscript>
 
@@ -745,7 +795,7 @@
   <div class="entry-card">
     <div class="entry-brand">Liminal · gives form to inner life.</div>
     <h1 class="entry-wedge">AI gives you infinite answers. Liminal gives you a record of which ones you trusted.</h1>
-    <p class="entry-subwedge">The control plane for founders running multi-agent systems · where AI agents disagree, deliberate, and prompt you. Founders enter first; the corrections are the moat.</p>
+    <p class="entry-subwedge">Judgment infrastructure for founders directing AI agents · bounded agents disagree, deliberate, and prompt you. Founders enter first; the corrections are the moat.</p>
     <div class="entry-register" role="group" aria-label="Hero register">
       <button type="button" data-register="brand" aria-pressed="true">Brand-first</button>
       <button type="button" data-register="speedrun" aria-pressed="false">Speedrun</button>
@@ -786,13 +836,14 @@
       </div>
       <div class="title-row">
         <span class="diamond">◇</span>
-        <span class="tb-wedge">The control plane for founders running multi-agent systems · AI agents disagree, deliberate, and prompt you · The corrections are the moat.</span>
+        <span class="tb-wedge">Judgment infrastructure for founders directing AI agents · bounded agents disagree, deliberate, and prompt you · the corrections are the moat.</span>
         <span class="crumb-sep" id="crumb-sep" hidden>·</span>
         <span class="breadcrumb" id="breadcrumb"></span>
       </div>
-      <div class="vault-pill" id="vault-pill" data-annotation="vault-pill">
-        <span class="diamond">◇</span>vault: <strong id="vault-count">·</strong>
-      </div>
+      <button class="vault-pill" id="vault-pill" data-annotation="vault-pill" type="button"
+              aria-haspopup="dialog" aria-label="Open the vault lattice">
+        <span class="diamond" id="vault-glyph">◇</span>vault: <strong id="vault-count">·</strong>
+      </button>
     </header>
 
     <!-- product/surface row -->
@@ -906,6 +957,7 @@
             <div class="da-handoff">
               <button class="dispo-btn da-handoff-btn" id="da-handoff">Hand off ›</button>
               <button class="dispo-btn da-handoff-btn" id="da-share">Share with subject</button>
+              <a class="dispo-btn da-handoff-btn" id="da-telemetry" href="../team-drift/index.html" style="display:none">Open team telemetry ›</a>
               <a class="dispo-btn da-handoff-btn" id="da-govern-next" href="11-govern.html?subject=spend&amp;beat=loop&amp;run=govern-run.json">Next · govern spend ›</a>
             </div>
           </div>
@@ -1055,6 +1107,28 @@
   </div>
 
 </div><!-- /.stage -->
+
+<!-- vault lattice modal · atlas Vault primitive (p-vault, lib/cut-shell-products.css)
+     · states per the atlas row: empty ◇ · seeded ◯ · dense ● · gapped -->
+<div class="modal-overlay" id="vault-modal-overlay">
+  <div class="modal" id="vault-modal" role="dialog" aria-label="Vault lattice">
+    <div class="modal-head">
+      <h2 class="modal-title">Vault · the moat, local</h2>
+      <span class="modal-tag" id="vault-modal-state">·</span>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label" id="vault-modal-eyebrow">·</div>
+      <div id="vault-lattice" class="p-vault" aria-label="12 weeks by 4 registers, one lit cell per signed packet"></div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">What this is</div>
+      <div class="modal-content">12 weeks × 4 registers · one lit cell per signed packet · a dashed cell is a gap the audit keeps visible. Fixture-seeded baseline plus this session's packets · device-local (IndexedDB) · never leaves this machine.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="dispo-btn" id="vault-modal-close">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- preview subject view modal -->
 <div class="modal-overlay" id="modal-overlay">
@@ -1410,7 +1484,7 @@
       const d = document.createElement('div');
       d.className = 'audit-disclosure';
       d.setAttribute('role', 'button'); d.setAttribute('tabindex', '0'); d.setAttribute('aria-expanded', 'false');
-      d.innerHTML = `<span class="ad-plus">+</span><span>Proof · audit chain</span><span class="ad-meta">3 drops · today 15:25–15:27</span>`;
+      d.innerHTML = `<span class="ad-plus">+</span><span>Proof · audit chain</span><span class="ad-meta">3 drops · today 15:25-15:27</span>`;
       audit.hidden = true;
       audit.parentNode.insertBefore(d, audit);
       const toggle = () => {

@@ -65,9 +65,15 @@
 }
 
 .banner.is-accent { border-color: var(--accent-edge); background: var(--accent-bg); }
-.banner.is-good   { border-color: rgba(69,201,163,.3); background: rgba(69,201,163,.05); color: var(--good); }
-.banner.is-amber  { border-color: rgba(245,165,36,.3); background: rgba(245,165,36,.05); color: var(--amber); }
-.banner.is-red    { border-color: rgba(240,64,64,.3); background: rgba(240,64,64,.05); color: var(--red); }
+/* Semantic states read the functional UI bindings, per the token file's
+   contract ("component CSS reads these · the design system rebinds them once
+   to retune every component at scale"). These three carried rgba() computed
+   from the RETIRED v0.2 hexes — #45C9A3 / #F5A524 / #F04040 — which the
+   2026-04-28 wheel migration replaced. They were the last live call sites
+   still rendering the old palette. */
+.banner.is-good   { border-color: var(--ui-state-success-border); background: var(--ui-state-success-bg); color: var(--ui-state-success); }
+.banner.is-amber  { border-color: var(--ui-state-warning-border); background: var(--ui-state-warning-bg); color: var(--ui-state-warning); }
+.banner.is-red    { border-color: var(--ui-state-error-border);   background: var(--ui-state-error-bg);   color: var(--ui-state-error); }
 
 .banner .b-glyph { font-size: 14px; line-height: 1.2; flex-shrink: 0; }
 .banner strong { color: var(--text); font-weight: 500; margin-right: 6px; }

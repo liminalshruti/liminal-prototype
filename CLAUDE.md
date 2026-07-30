@@ -8,7 +8,9 @@ The **public demo surface + design-system reference**. Live demos at `liminalshr
 
 <!-- BANNED: "Stanford GSB MBA" / "SPC fellow" / "Liminal Space" as entity -->
 - Shruti did **NOT** attend Stanford, holds **NO** Stanford GSB MBA, is **NOT** a South Park Commons member. UC Berkeley (CogSci + CS); ex-PM Asana/Cloudflare/Robinhood/Ancestry; co-founder Sean Nejad.
-- Brand is **"Liminal"** (one word). Core sentence: "Liminal gives form to inner life." Visual register + type stack per SHARED_CONTEXT §2 (Nineties Headliner + Perfectly Nineties + Geist Mono; no Inter/Helvetica/system-ui).
+- Brand is **"Liminal"** (one word). Core sentence: "Liminal gives form to inner life." Visual register per SHARED_CONTEXT §2.
+- **Type stack (superseded 2026-07-29, founder ruling):** Nineties Headliner (display) · Perfectly Nineties (serif/body) · **Space Grotesk** (sans) · **Space Mono** (mono). Canon is `design-system/tokens/design-tokens.css` §5 — read it, don't quote this line. Geist / Geist Mono survive only as fallback entries in the §5 chains, to be dropped once every surface loads the new faces. Still banned as primary: Inter, Helvetica, system-ui.
+  - *Supersedes the "Geist Mono" lock of 2026-05-14.* `founder-brain/meta/SHARED_CONTEXT.md` §2 and `~/.claude/CLAUDE.md` still carry the old sentence and are the stale copies — correct them there; this file is downstream of that root.
 
 ## Repo scope (local — what lives here)
 

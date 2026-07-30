@@ -1104,31 +1104,11 @@
        emergence   · moat metric · violet
        resolved    · committed/signed state · sage
   */
-  --coherence:        #7AA9FF;
-  --coherence-soft:   rgba(122, 169, 255, 0.4);
-  --coherence-bg:     rgba(122, 169, 255, 0.06);
-  --coherence-edge:   rgba(122, 169, 255, 0.22);
-  --coherence-glow:   rgba(122, 169, 255, 0.18);
-  --coherence-ring:   rgba(122, 169, 255, 0.5);   /* focus ring · keyboard a11y */
-
-  --correction:       #E0996B;
-  --correction-soft:  rgba(224, 153, 107, 0.4);
-  --correction-bg:    rgba(224, 153, 107, 0.06);
-  --correction-edge:  rgba(224, 153, 107, 0.22);
-  --correction-glow:  rgba(224, 153, 107, 0.18);
-
-  --emergence:        #C084FC;
-  --emergence-soft:   rgba(192, 132, 252, 0.4);
-  --emergence-bg:     rgba(192, 132, 252, 0.08);
-  --emergence-edge:   rgba(192, 132, 252, 0.30);
-  --emergence-glow:   rgba(192, 132, 252, 0.20);
-
-  --resolved:         #6EC3A8;
-  --resolved-soft:    rgba(110, 195, 168, 0.4);
-  --resolved-bg:      rgba(110, 195, 168, 0.06);
-  --resolved-edge:    rgba(110, 195, 168, 0.22);
-
-  --gold:             #C9AD5E;   /* warm accent · selected/signed emphasis */
+  /* §18 product-semantics tokens (coherence/correction/emergence/resolved/
+     gold) are NOT defined here anymore. This block was a v1 literal fork of
+     the canon (pre-retune values + the inverted -soft/-edge ladder), which
+     the consumer contract forbids. Deleted 2026-07-29: canon design-tokens.css
+     provides the wheel-bound values and the normalized ladder. */
 
   /* interaction overlays · white-alpha states on dark chrome */
   --hover-strong:     rgba(255, 255, 255, 0.08);
