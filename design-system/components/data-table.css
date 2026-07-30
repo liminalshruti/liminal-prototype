@@ -1,0 +1,234 @@
+/* Liminal canon · data table · the evidence row
+ * ─────────────────────────────────────────────────────────────────────────
+ * The structural component the system was missing. Extracted 2026-07-29 from
+ * the two surfaces that had been hand-rolling it:
+ *
+ *   cuts/11-govern.html          19 hand-written grid-template-columns,
+ *                                the only cut carrying a <table>
+ *   liminal-desktop
+ *     src/components/vault/PacketListItem.tsx   1,463 lines of row rendering
+ *
+ * Both were building the same shape: a narrow leading gutter, flexible
+ * content, a trailing metric. cut 11 wrote it as `86px 1fr 74px`,
+ * `54px 1fr auto`, `34px 1fr auto`. This names it once.
+ *
+ * WHY THIS IS NOT A GENERIC DATA GRID
+ * A row here is evidence, not a record. Every row in this product came from
+ * somewhere and either verifies or does not, and a row may be REFUSED —
+ * dropped with a stated reason — which a generic grid has no concept of. So
+ * provenance is structural, not a column you can drop: `.dt-gutter` is always
+ * present. A table that can hide provenance lets an unverified row look
+ * identical to a verified one, which is the failure this product exists to
+ * prevent.
+ *
+ * CHROMA (Signal Atlas · chroma is earned)
+ * Colour appears in exactly two places:
+ *   1. the gutter, carrying receipt state — a measured verification result
+ *   2. the metric, when it is a measured delta
+ * Headers, labels, titles and rules are ink. If you are tempted to colour a
+ * label here, you cannot name the measurement behind it, so it has not
+ * earned the hue.
+ *
+ * DENSITY
+ * Row padding scales with --density-scale (§14), so `analyst` (0.85) turns
+ * this into a console and `anointed` (1.10) opens it up. Type never scales.
+ *
+ * SEMANTICS
+ * Built on real <table> markup, not divs: header association, row counts and
+ * caption announcement come free, and sortable headers have somewhere to
+ * live. Row groups use <tbody> so an expandable evidence body stays inside
+ * its own row group.
+ * ───────────────────────────────────────────────────────────────────────── */
+
+.dt {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-variant-numeric: tabular-nums;
+  border-top: 1px solid var(--frame-border);
+  border-bottom: 1px solid var(--frame-border);
+}
+
+.dt caption {
+  caption-side: top;
+  text-align: left;
+  font: var(--fs-mono-xs) var(--mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  padding-bottom: calc(var(--space-2) * var(--density-scale));
+}
+
+/* ── header ── ink only, never chroma ── */
+.dt thead th {
+  text-align: left;
+  font: var(--fs-mono-xs) var(--mono);
+  letter-spacing: var(--ls-mono);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  font-weight: 400;
+  padding: calc(var(--space-2) * var(--density-scale)) calc(var(--space-3) * var(--density-scale));
+  border-bottom: 1px solid var(--frame-border);
+  white-space: nowrap;
+}
+.dt thead th[data-numeric] { text-align: right; }
+
+/* sortable: the affordance is the caret, not a colour change */
+.dt thead th[aria-sort] { cursor: pointer; user-select: none; }
+.dt thead th[aria-sort]:hover { color: var(--text-mid); }
+.dt thead th[aria-sort]::after {
+  content: "";
+  display: inline-block;
+  margin-left: 6px;
+  border: 3px solid transparent;
+  vertical-align: middle;
+  opacity: 0.45;
+}
+.dt thead th[aria-sort="ascending"]::after  { border-bottom-color: currentColor; margin-bottom: 3px; opacity: 1; }
+.dt thead th[aria-sort="descending"]::after { border-top-color: currentColor; margin-top: 3px; opacity: 1; }
+
+/* ── rows ── */
+.dt tbody td {
+  padding: calc(var(--space-3) * var(--density-scale)) calc(var(--space-3) * var(--density-scale));
+  border-bottom: 1px solid var(--frame-border);
+  vertical-align: baseline;
+  color: var(--text-mid);
+  font: var(--fs-sm)/1.45 var(--serif);
+}
+.dt tbody tr:last-child td { border-bottom: none; }
+.dt tbody tr:hover td { background: var(--hover); }
+
+/* the claim is prose — a human sentence, so it is set in the serif */
+.dt .dt-claim { color: var(--text); }
+.dt .dt-sub {
+  display: block;
+  margin-top: 3px;
+  font: var(--fs-mono-xs)/1.5 var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  color: var(--text-faint);
+}
+
+/* data columns are mono + tabular so digits align down the column */
+.dt .dt-data { font: var(--fs-mono-xs) var(--mono); color: var(--text-dim); letter-spacing: var(--ls-mono-sm); }
+
+/* ══════════════════════════════════════════════════════════════════════
+   THE RECEIPT GUTTER · the signature
+   Always present. States where the row came from and whether it verifies.
+   Width is fixed so the rail reads as one continuous edge down the table
+   rather than as a ragged first column.
+   ══════════════════════════════════════════════════════════════════════ */
+.dt .dt-gutter {
+  width: 1px;                 /* shrink-to-fit; the rule below sets the real width */
+  padding-left: calc(var(--space-3) * var(--density-scale));
+  padding-right: 0;
+  white-space: nowrap;
+}
+.dt-receipt {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font: var(--fs-mono-xs) var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  text-transform: uppercase;
+  color: var(--text-faint);
+  border-left: 2px solid var(--text-mute);
+  padding-left: calc(var(--space-2) * var(--density-scale));
+  min-height: 18px;
+}
+/* The gutter always states the SAME kind of thing — how many events the row
+   cites — and the mark carries the state. A gutter that says "cites 14" on one
+   row and "receipt" on the next is naming two different categories in one
+   column, which is exactly the inconsistency this rail exists to remove. */
+.dt-receipt__mark { font-size: 10px; line-height: 1; }
+
+/* verified · the measurement passed, so the hue is earned */
+.dt-receipt[data-receipt="verified"] { border-left-color: var(--ui-state-success); color: var(--ui-state-success); }
+/* failed · a receipt that did not verify is a severity, not a lifecycle state */
+.dt-receipt[data-receipt="failed"]   { border-left-color: var(--ui-state-error);   color: var(--ui-state-error); }
+/* unverified · nothing measured yet, so no chroma — absence is the reading */
+.dt-receipt[data-receipt="none"]     { border-left-color: var(--text-mute);        color: var(--text-faint); }
+
+/* ── the metric column ── chroma only when the number is a measured delta ── */
+.dt .dt-metric {
+  text-align: right;
+  font: var(--fs-mono) var(--mono);
+  color: var(--text);
+  white-space: nowrap;
+}
+.dt .dt-metric[data-delta="down"] { color: var(--ui-state-success); }  /* spend fell   */
+.dt .dt-metric[data-delta="up"]   { color: var(--ui-state-warning); }  /* spend rose   */
+.dt .dt-metric[data-delta="flat"] { color: var(--text-dim); }          /* no movement  */
+.dt .dt-metric small {
+  display: block;
+  font: var(--fs-mono-xs) var(--mono);
+  color: var(--text-faint);
+  letter-spacing: var(--ls-mono-sm);
+  margin-top: 2px;
+}
+
+/* ── refused rows ── refusal is part of the read, not an absence ──
+   The row keeps its gutter and its claim stays legible: an operator must be
+   able to see WHAT was refused and why. Only the metric is struck, because
+   only the metric stopped being true. */
+.dt tbody tr[data-refused] td { color: var(--text-dim); }
+.dt tbody tr[data-refused] .dt-claim { color: var(--text-mid); }
+.dt tbody tr[data-refused] .dt-metric {
+  color: var(--text-faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--alarm);
+}
+.dt-refusal {
+  display: block;
+  margin-top: 5px;
+  font: var(--fs-mono-xs)/1.5 var(--mono);
+  letter-spacing: var(--ls-mono-sm);
+  color: var(--alarm);
+}
+
+/* ── selection ── */
+.dt tbody tr[aria-selected="true"] td { background: var(--ui-focus-bg); }
+.dt tbody tr[aria-selected="true"] .dt-claim { color: var(--text); }
+
+/* ── expandable evidence body ──
+   Lives in its own <tbody> so the row group stays intact for assistive tech. */
+.dt tbody[data-expanded="false"] .dt-evidence { display: none; }
+.dt .dt-evidence td {
+  background: var(--frame-bg-2);
+  padding: calc(var(--space-4) * var(--density-scale)) calc(var(--space-5) * var(--density-scale));
+  border-bottom: 1px solid var(--frame-border);
+}
+
+.dt-disclosure {
+  background: none;
+  border: 0;
+  color: var(--text-faint);
+  cursor: pointer;
+  font: var(--fs-mono-xs) var(--mono);
+  padding: 0;
+  transition: color var(--tx-fast) var(--ease), transform var(--tx-fast) var(--ease);
+}
+.dt-disclosure:hover { color: var(--text-mid); }
+.dt-disclosure[aria-expanded="true"] { transform: rotate(90deg); }
+.dt-disclosure:focus-visible { outline: 2px solid var(--ui-focus-ring); outline-offset: 2px; border-radius: var(--radius-1); }
+
+/* ── empty state ── an invitation to act, not a shrug ── */
+.dt-empty {
+  padding: calc(var(--space-7) * var(--density-scale)) calc(var(--space-4) * var(--density-scale));
+  text-align: center;
+  font: var(--fs-sm)/1.6 var(--serif);
+  color: var(--text-dim);
+}
+.dt-empty b { display: block; color: var(--text-mid); font-weight: 600; margin-bottom: 4px; }
+
+/* ── responsive ── below the fold the metric wraps under the claim rather
+   than forcing a horizontal scroll on a forensic surface ── */
+@media (max-width: 720px) {
+  .dt thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .dt tbody td { display: block; border-bottom: none; padding-top: 0; padding-bottom: 0; }
+  .dt tbody tr { display: block; border-bottom: 1px solid var(--frame-border); padding: calc(var(--space-3) * var(--density-scale)) 0; }
+  .dt .dt-metric { text-align: left; margin-top: 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dt-disclosure { transition: none; }
+}
