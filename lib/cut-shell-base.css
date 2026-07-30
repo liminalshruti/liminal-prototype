@@ -1552,16 +1552,36 @@
     letter-spacing: var(--ls-app-normal);
     line-height: 1.3;
   }
+  /* This <em> holds the AGENT NAME — "How was <em>Analyst</em>'s read off?" — in the
+     9-tag correction picker, so it is an identity marker, not decoration.
+
+     font-style: italic REMOVED 2026-07-29. It contradicted ratified canon: commit
+     236e728 (2026-05-07, "full 16-weight PerfectlyNineties") established "No italic
+     — weight is the emphasis axis throughout" and "em/strong → font-weight 600,
+     font-style normal globally", enforced by lib/brand-upgrade.css's global
+     `em, strong { … !important }` rule. So this declaration had been dead for ~3
+     months on all 16 cuts that load brand-upgrade.css. Deleting it rather than
+     leaving it overridden: a declaration that never applies is a lie about intent.
+
+     color was the literal #FEF059 (Agency yellow) — retired from the brand by the
+     Brand 4 ruling, and equally dead for the same 3 months, so the yellow never
+     actually rendered. Rebound to the brand primary rather than deleted, because it
+     is the correct value under either regime: today the global rule's
+     `color: var(--text) !important` keeps it INERT (measured: this em computes
+     var(--text) white, weight 600, PerfectlyNineties), and if that colour clause is
+     ever narrowed — see the open question below — pink is what should appear.
+
+     OPEN, founder call, deliberately not taken here: the global rule's stated
+     rationale is entirely about SLANT, yet it also forces
+     `color: var(--text) !important`, which silently flattens 8 deliberate em colours
+     across 5 files — including .brief-body .brief-opener em → var(--p-accent), a
+     register accent, and .display em → var(--clarity). Verified live on cut 04:
+     .display em is written italic+clarity and renders white/normal/600. Narrowing
+     the clause to font-style/family/weight would restore all 8. That is a visual
+     change across 16 cuts, so it is flagged, not made. The other 8 declarations are
+     left in place on purpose: they encode intent a narrowing would revive, and
+     deleting them would destroy it. */
   .tp-title em {
-    font-style: italic;
-    /* BRAND 4 · 2026-07-29 · founder ruling · was the literal #FEF059 (agency
-       yellow), off-brand once yellow left the palette. Now the brand primary via
-       token, so it follows canon instead of pinning a hex.
-       Note on semantics: this <em> holds the AGENT NAME ("How was <em>Analyst</em>'s
-       read off?"), so it is an identity marker. It was register-agnostic before
-       (every agent got the same yellow) and stays register-agnostic now. Tinting it
-       per-agent register would be richer, but that needs the register at render time
-       in slate.js — a separate change, not a colour fix. */
     color: var(--accent);
   }
   .tp-close {
