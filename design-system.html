@@ -1823,8 +1823,12 @@
         </li>
         <li class="ds-nav-group">
           <div class="ds-nav-group-label">atlases</div>
-          <a href="atlas/state-atlas.html"><span class="nv-num">◇</span><span class="nv-lbl">state atlas</span></a>
-          <a href="atlas/signal-atlas.html"><span class="nv-num">◇</span><span class="nv-lbl">signal atlas</span></a>
+          <!-- Paths are relative to THIS file, which sits at the repo root — not
+               inside design-system/. They read "atlas/..." until 2026-07-29 and
+               resolved to /atlas/..., which 404s. Both atlases were unreachable
+               from the nav. -->
+          <a href="design-system/atlas/state-atlas.html"><span class="nv-num">◇</span><span class="nv-lbl">state atlas</span></a>
+          <a href="design-system/atlas/signal-atlas.html"><span class="nv-num">◇</span><span class="nv-lbl">signal atlas</span></a>
         </li>
         <li class="ds-nav-group">
           <div class="ds-nav-group-label">surface</div>
