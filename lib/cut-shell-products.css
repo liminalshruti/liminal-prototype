@@ -968,3 +968,278 @@
   .p-burn__budget { position: absolute; left: 0; right: 0; top: 28%; border-top: 1px dashed var(--text-mute); }
   .p-burn__budget span { position: absolute; right: 0; top: -16px; font-family: var(--font-mono); font-size: 9px; letter-spacing: var(--tracking-wide); text-transform: uppercase; color: var(--text-faint); }
   .p-burn__weeks { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; margin-top: 8px; font-family: var(--font-mono); font-size: 8px; color: var(--text-mute); text-align: center; letter-spacing: 0.08em; }
+
+  /* ════════════════════════════════════════════════════════════════
+     READ PRIMITIVE · the brief · one design, four donors
+     (2026-07-29, founder-adopted from cuts/06-margin-read.html)
+     ════════════════════════════════════════════════════════════════
+
+     THE PROBLEM IT CLOSES. The same brief existed four times under four
+     vocabularies: cut 06 (.read/.tag/.verdict/.refusal), cut 10
+     (.tdy-rcard/.tdy-verdict/.tdy-receipt), cut 12 (.op-read + .reg-*),
+     cut 11/00 (.reg/.rname/.rbody). Cuts 06 and 10 were a FORK, not a
+     resemblance — identical fixture, identical receipt string, identical
+     .lane/.almost tag modifiers. This is the single copy.
+
+     WHO DONATED WHAT
+     · cut 06 — the chrome: card, tag pills, verdict line, refusal box,
+                receipt rule, action row.
+     · cut 12 — the structure: register-coded left border, register-named
+                head, and the row model below.
+     · cut 10 — the chroma (it was already right; see the law).
+
+     THE ROW MODEL IS LOAD-BEARING. Quoted · Situation · Hidden risk ·
+     Next move are not stylistic labels — they are liminal-desktop's
+     shipped `agent_reads` columns (quoted · situation · hidden_risk ·
+     next_move · refusal). A read rendered here is structurally faithful
+     to the schema, so the design and the substrate cannot drift apart.
+
+     CHROMA LAW · v0.3 SEVERITY LANE (founder ruling 2026-07-29;
+     design-system/atlas/state-atlas.html). Two sanctioned kinds of
+     earned signal, never flattened into each other:
+       refused read · refusal glyph · verdict → --judgment
+           A refusal is a LIFECYCLE state, and lifecycle states use the
+           four registers only. The ruling: "a refused agent and a
+           flagged anomaly never share a hue." The atlas .p-refusal
+           already binds --wholeness (= --judgment); cut 12's refused
+           badge already binds --judgment. Cut 06 used --alarm — it was
+           the outlier and that binding is deliberately NOT carried here.
+       which agent refused / register attribution → the register hue
+           A sanctioned hue kind, so the --outreach tint on the refusal
+           box is correct: it names WHO handed the work back.
+       readiness tags ("Almost ready") → INK
+           Also a lifecycle state. Spending --watch on it would put a
+           severity hue on a non-severity thing.
+       --alarm / --watch → NEVER in this primitive.
+           Severity is a property of the EVIDENCE, not of a read.
+
+     TOKEN FAMILY. Uses the canonical family — `--mono`, `--serif`, the
+     `--fs-` sizes, the `--ls-` tracking, the `--space-` scale — which is what
+     every consuming cut already uses. NOTE the older p- blocks above
+     reference `--font-mono`, `--text-2xs` and `--tracking-widest`, which are
+     defined in NEITHER canon nor the shell, so their typography silently
+     falls back to browser defaults. Do not copy that vocabulary.
+     (Careful with wildcards in comments here: a literal star-slash pair ends
+     the comment early and the parser then eats the next rule.)
+     ════════════════════════════════════════════════════════════════ */
+
+  .p-read {
+    border: 1px solid var(--card-border);
+    border-left: 2px solid var(--card-border-2, var(--card-border));
+    border-radius: var(--radius-3);
+    background: var(--frame-bg-2);
+    padding: 18px;
+  }
+
+  /* Register attribution — a sanctioned hue kind. The left edge says which
+     register produced this read, at a glance, without spending a word. */
+  .p-read--diligence { border-left-color: var(--diligence); }
+  .p-read--outreach  { border-left-color: var(--outreach); }
+  .p-read--judgment  { border-left-color: var(--judgment); }
+  .p-read--synthesis { border-left-color: var(--synthesis); }
+
+  /* A refused read is the read, at full weight — never an empty slot.
+     Judgment register, NOT severity.
+
+     NAMED `--refusal`, NOT `--refused`, and that is load-bearing.
+     lib/brand-upgrade.css carries:
+       .status-badge.refused, .tag-refused, [class*="refused"], .agent-tag.refused
+         { color/background/border-color: wholeness… !important }
+     `[class*="refused"]` is a SUBSTRING wildcard with !important, so a modifier
+     named `--refused` gets all four of its borders, its background and its text
+     forcibly repainted — the primitive silently stops rendering what it
+     declares. Verified: it was overriding this rule's left-edge-only intent.
+     `--refusal` dodges the substring and also matches this primitive's own
+     element names (__refusal-glyph, __refusal-why). Do not rename it back.
+     The wildcard itself is left intact: other surfaces legitimately depend on
+     it, and narrowing a shared !important selector is its own change. */
+  .p-read--refusal { border-left-color: var(--judgment); background: var(--judgment-bg); }
+
+  .p-read__head {
+    display: flex;
+    align-items: center;
+    gap: calc(var(--space-2) * var(--density-scale));
+    margin-bottom: calc(var(--space-2) * var(--density-scale));
+    font-family: var(--mono);
+    font-size: var(--fs-mono-xs);
+    letter-spacing: var(--ls-mono-sm);
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+  .p-read--diligence > .p-read__head { color: var(--diligence); }
+  .p-read--outreach  > .p-read__head { color: var(--outreach); }
+  .p-read--judgment  > .p-read__head { color: var(--judgment); }
+  .p-read--synthesis > .p-read__head { color: var(--synthesis); }
+
+  .p-read__age { margin-left: auto; color: var(--text-faint); }
+
+  .p-read__badge {
+    font-family: var(--mono);
+    font-size: var(--fs-mono-xs);
+    letter-spacing: var(--ls-app-wide);
+    text-transform: uppercase;
+    padding: 1px calc(var(--space-app-1-5) * var(--density-scale));
+    border: 1px solid var(--judgment-edge);
+    border-radius: var(--radius-2);
+    color: var(--judgment);
+  }
+
+  /* ── tags ─────────────────────────────────────────────────────── */
+
+  .p-read__tags { display: flex; gap: calc(var(--space-2) * var(--density-scale)); flex-wrap: wrap; margin-bottom: calc(var(--space-3) * var(--density-scale)); }
+
+  .p-read__tag {
+    font: var(--fs-mono-xs)/1 var(--mono);
+    letter-spacing: var(--ls-mono-sm);
+    text-transform: uppercase;
+    padding: calc(var(--space-1) * var(--density-scale)) 9px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--frame-border);
+    color: var(--text-dim);
+    background: var(--frame-bg);
+  }
+  /* Only a register attribution earns a hue; everything else is ink.
+     This also SETTLES a disagreement the fork had hidden: cut 06 coloured its
+     lane tag --judgment, cut 10 coloured the same tag --ink-clarity
+     (= diligence). Neither was right — "Founding round" names a SUBJECT, not a
+     register, and under the atlas rule a hue must name its measurement. So
+     subject and readiness tags are ink, and the card's left edge + head carry
+     the register. The modifiers below exist for tags that genuinely name one. */
+  .p-read__tag--diligence { color: var(--diligence); border-color: color-mix(in oklab, var(--diligence) 40%, transparent); }
+  .p-read__tag--outreach  { color: var(--outreach);  border-color: color-mix(in oklab, var(--outreach) 40%, transparent); }
+  .p-read__tag--judgment  { color: var(--judgment);  border-color: color-mix(in oklab, var(--judgment) 40%, transparent); }
+  .p-read__tag--synthesis { color: var(--synthesis); border-color: color-mix(in oklab, var(--synthesis) 40%, transparent); }
+
+  /* ── verdict · a disposition, i.e. a lifecycle state → judgment ── */
+
+  .p-read__verdict {
+    font: var(--fs-mono-sm)/1 var(--mono);
+    letter-spacing: var(--ls-app-wide);
+    color: var(--judgment);
+    font-weight: 500;
+    margin-bottom: 10px;
+  }
+
+  /* Cut 10 rendered its verdict as large italic display before the fold. The
+     adopted chrome is the mono form above; this modifier keeps that editorial
+     voice available rather than deleting it. Same hue either way. */
+  .p-read__verdict--display {
+    font: italic 500 var(--fs-app-lg)/1.15 var(--display);
+    letter-spacing: var(--ls-app-neutral);
+    text-transform: none;
+    margin-bottom: 0.7rem;
+  }
+
+  /* ── the row model · desktop's agent_reads columns ─────────────── */
+
+  .p-read__row {
+    display: flex;
+    gap: 10px;
+    font-size: var(--fs-mono-lg);
+    line-height: 1.55;
+    margin-bottom: calc(var(--space-app-1-5) * var(--density-scale));
+  }
+  .p-read__row:last-child { margin-bottom: 0; }
+
+  .p-read__k {
+    font-family: var(--mono);
+    font-size: var(--fs-eyebrow);
+    letter-spacing: var(--ls-app-wide);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    width: 84px;
+    flex-shrink: 0;
+    padding-top: calc(var(--space-app-0-5) * var(--density-scale));
+  }
+  .p-read__v { font-family: var(--serif); color: var(--text-mid); }
+  .p-read__v b { color: var(--text); font-weight: 600; }
+
+  /* A refused read's rows carry full-strength ink: the refusal IS the payload,
+     not a dimmed aside. Preserved from cut 12, which had this as
+     `.op-read.reg-judgment .op-read-v.op-refusal-text`. */
+  .p-read--refusal .p-read__v { color: var(--text); }
+
+  /* Prose body, for the synthesized/held read that has no row breakdown. */
+  .p-read__body { color: var(--text-mid); font-size: var(--fs-body); line-height: 1.6; margin: 0 0 14px; }
+  .p-read__body b { color: var(--text); font-weight: 600; }
+
+  /* ── refusal · the architectural signature, made legible ───────── */
+
+  .p-read__refusal {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    padding: 11px 13px;
+    border: 1px solid color-mix(in oklab, var(--outreach) 32%, var(--frame-border));
+    border-radius: var(--radius-2);
+    background: color-mix(in oklab, var(--outreach) 7%, var(--frame-bg));
+    margin-bottom: 14px;
+  }
+  /* The glyph marks the refusal itself → judgment. The box tint names the
+     refusing register → --outreach above. Two different jobs, two hues. */
+  .p-read__refusal-glyph {
+    font-family: var(--mono);
+    color: var(--judgment);
+    flex-shrink: 0;
+    line-height: 1.5;
+  }
+  .p-read__refusal-why { font-size: var(--fs-mono-lg); color: var(--text-mid); line-height: 1.55; }
+  .p-read__refusal-why b { color: var(--outreach); font-weight: 600; }
+
+  /* ── receipt ───────────────────────────────────────────────────── */
+
+  .p-read__receipt {
+    font: var(--fs-mono-xs)/1.55 var(--mono);
+    color: var(--text-faint);
+    letter-spacing: var(--ls-app-loose);
+    padding-top: 11px;
+    border-top: 1px dashed var(--frame-border);
+    word-break: break-word;
+  }
+  .p-read__receipt-k { color: var(--text-dim); }
+
+  /* ── actions ───────────────────────────────────────────────────── */
+
+  .p-read__actions { display: flex; gap: 9px; flex-wrap: wrap; margin-top: 14px; }
+
+  .p-read__btn {
+    font: var(--fs-mono-sm)/1 var(--mono);
+    letter-spacing: var(--ls-mono-sm);
+    text-transform: uppercase;
+    padding: 9px 14px;
+    border-radius: var(--radius-2);
+    border: 1px solid var(--card-border);
+    background: var(--frame-bg);
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: color 180ms var(--ease), border-color 180ms var(--ease), background 180ms var(--ease);
+  }
+  .p-read__btn:hover { color: var(--text); border-color: var(--judgment-edge); }
+  .p-read__btn:focus-visible { outline: 2px solid var(--ui-focus-ring); outline-offset: 2px; }
+  .p-read__btn--primary { color: var(--judgment); border-color: color-mix(in oklab, var(--judgment) 50%, var(--card-border)); }
+  .p-read__btn--primary:hover { background: color-mix(in oklab, var(--judgment) 12%, var(--frame-bg)); }
+
+  /* ── compact · a re-surfaced read you are returning to (cut 10) ── */
+
+  .p-read--compact { padding: calc(var(--space-3) * var(--density-scale)) 0 calc(var(--space-3) * var(--density-scale)) calc(var(--space-4) * var(--density-scale)); border: 0; border-left: 2px solid var(--card-border-2, var(--card-border)); border-radius: 0; background: none; }
+  .p-read--compact.p-read--diligence { border-left-color: var(--diligence); }
+  .p-read--compact.p-read--outreach  { border-left-color: var(--outreach); }
+  .p-read--compact.p-read--judgment  { border-left-color: var(--judgment); }
+  .p-read--compact.p-read--synthesis { border-left-color: var(--synthesis); }
+  /* Display face + 17px matches cut 10's established rcard title (it used
+     --display at 1.05rem ≈ 16.8px), so converging costs it no type change. */
+  .p-read--compact .p-read__head {
+    color: var(--text);
+    text-transform: none;
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: var(--fs-md);
+    letter-spacing: normal;
+  }
+  .p-read--compact .p-read__body { margin-bottom: 0; font-size: var(--fs-mono-lg); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .p-read__btn { transition: none; }
+  }
+
+  .p-reads { display: flex; flex-direction: column; gap: 14px; }

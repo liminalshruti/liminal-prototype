@@ -12,6 +12,12 @@ const SURFACES = [
   { name: "front door", url: "/index.html", marker: "See the judgment loop" },
   { name: "cut 01 canonical", url: CUT_01_CANONICAL, marker: null },
   { name: "cut 11 canonical", url: CUT_11_CANONICAL, marker: null },
+  // Added 2026-07-29 with the .p-read fold: both cuts render the shared read
+  // primitive, and neither had ANY coverage before. Cut 06 in particular now
+  // links lib/cut-shell-products.css for the first time — a load regression
+  // there would otherwise be invisible.
+  { name: "cut 06 margin-read", url: "/cuts/06-margin-read.html", marker: null },
+  { name: "cut 10 today", url: "/cuts/10-today.html", marker: null },
 ];
 
 for (const s of SURFACES) {
@@ -49,4 +55,70 @@ test("cut 11 missing fixture falls back to inline demo", async ({ page }) => {
   await expect(page.locator("#run-badge")).toHaveText("demo");
   await expect(page.locator("body")).toHaveAttribute("data-surface", "loop");
   await expect(page.getByText(/refused/i).first()).toBeVisible();
+});
+
+// ── .p-read · the shared read primitive (adopted 2026-07-29) ──────────────
+// Cuts 06 and 10 were a fork of one held-read design under two vocabularies.
+// These guard the fold: the primitive must actually reach both cuts, and the
+// v0.3 severity-lane chroma law must hold — a refused read is a LIFECYCLE
+// state (judgment register), never a severity hue.
+
+const P_READ_SURFACES = [
+  { name: "cut 06", url: "/cuts/06-margin-read.html" },
+  { name: "cut 10", url: "/cuts/10-today.html" },
+];
+
+for (const s of P_READ_SURFACES) {
+  test(`${s.name} consumes the .p-read primitive`, async ({ page }) => {
+    await page.goto(s.url, { waitUntil: "load" });
+    await page.waitForTimeout(500);
+
+    const read = page.locator(".p-read").first();
+    await expect(read).toBeVisible();
+
+    // the primitive's stylesheet actually reached the page — padding only
+    // exists in lib/cut-shell-products.css, never in the cuts
+    const styled = await page.evaluate(() => {
+      const el = document.querySelector(".p-read:not(.p-read--compact)");
+      return el ? getComputedStyle(el).paddingTop : null;
+    });
+    expect(styled, "primitive CSS reached the cut").toBe("18px");
+
+    // no local copy crept back in
+    const localCopy = await page.evaluate(() =>
+      [...document.querySelectorAll("style")].some((s) =>
+        /^\s*\.p-read[\s{.:-]/m.test(s.textContent || ""),
+      ),
+    );
+    expect(localCopy, "cut must not re-declare .p-read locally").toBe(false);
+  });
+}
+
+test("severity lane: a refused read never takes a severity hue", async ({ page }) => {
+  await page.goto("/design-system/atlas/state-atlas.html", { waitUntil: "load" });
+  await page.waitForTimeout(500);
+
+  // --alarm is the severity hue. It must not colour any part of a read.
+  const alarmHits = await page.evaluate(() => {
+    const alarm = getComputedStyle(document.documentElement)
+      .getPropertyValue("--alarm").trim();
+    if (!alarm) return "no --alarm token";
+    const hits = [];
+    for (const read of document.querySelectorAll(".p-read")) {
+      for (const el of [read, ...read.querySelectorAll("*")]) {
+        const cs = getComputedStyle(el);
+        for (const prop of ["color", "borderLeftColor", "backgroundColor"]) {
+          // compare as resolved rgb by round-tripping through a probe element
+          const probe = document.createElement("span");
+          probe.style.color = alarm;
+          document.body.appendChild(probe);
+          const resolved = getComputedStyle(probe).color;
+          probe.remove();
+          if (cs[prop] === resolved) hits.push(`${el.className || el.tagName}.${prop}`);
+        }
+      }
+    }
+    return hits;
+  });
+  expect(alarmHits, "severity hue inside a read").toEqual([]);
 });
