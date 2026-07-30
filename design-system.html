@@ -1697,6 +1697,106 @@
     text-transform: uppercase;
   }
   .gradient-card .gc-route .arrow { color: var(--text-mute); margin: 0 4px; }
+  /* ══════════════════════════════════════════════════════════════
+     THE CROWN · the wheel as thesis
+     ══════════════════════════════════════════════════════════════
+     The masthead used to open with six stat tiles (12 / 3 / 12 / 120 /
+     42 / 14). Those are counts of the system, not the system. The wheel
+     shows the one fact everything else descends from, at true angle.
+     Chroma here is earned under the Frontier Rule: each stop is a
+     register attribution, which is a sanctioned kind of signal. The
+     substrate stays ink — rim and spokes are hairlines. */
+  .canon-crown {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: var(--space-8);
+    align-items: center;
+  }
+  .canon-crown__text { min-width: 0; }
+
+  .canon-wheel { margin: 0; justify-self: end; width: 300px; }
+  .canon-wheel svg { width: 100%; height: auto; display: block; overflow: visible; }
+
+  .cw-rim { fill: none; stroke: var(--frame-border); stroke-width: 1; }
+  .cw-rim--inner { stroke-dasharray: 2 5; opacity: 0.7; }
+
+  .cw-spoke { stroke-width: 1; opacity: 0.5; transition: opacity var(--tx-base) var(--ease); }
+  .cw-stop  { transition: r var(--tx-base) var(--ease), opacity var(--tx-base) var(--ease); }
+  .cw-stop--ornament { fill: var(--bg); stroke-width: 1.5; }
+
+  .cw-node { cursor: pointer; }
+  .cw-node:hover .cw-spoke,
+  .cw-node:focus-visible .cw-spoke { opacity: 1; }
+  .cw-node:hover .cw-stop,
+  .cw-node:focus-visible .cw-stop { r: 7; }
+  .cw-node:focus-visible { outline: none; }
+  .cw-node:focus-visible .cw-stop { stroke: var(--text); stroke-width: 2; }
+
+  .cw-core {
+    font-family: var(--display); font-size: 34px; font-weight: 700;
+    fill: var(--text-mute); letter-spacing: var(--ls-display);
+  }
+
+  .cw-caption {
+    margin-top: var(--space-3); text-align: right;
+    display: flex; flex-direction: column; gap: 3px;
+    min-height: 34px;                 /* reserve the row so hover can't reflow the hero */
+  }
+  .cw-caption__reg {
+    font: var(--fs-mono-xs) var(--mono);
+    letter-spacing: var(--ls-mono); text-transform: uppercase;
+    color: var(--text-mid);
+  }
+  .cw-caption__def {
+    font: var(--fs-xs)/1.4 var(--serif); color: var(--text-faint);
+  }
+
+  @media (max-width: 900px) {
+    .canon-crown { grid-template-columns: 1fr; gap: var(--space-5); }
+    .canon-wheel { justify-self: start; width: 220px; }
+    .cw-caption { text-align: left; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cw-spoke, .cw-stop { transition: none; }
+  }
+
+  /* ── the ledger · what the system contains, in spec-sheet register ── */
+  /* The masthead reserved 64px below the text for breathing room it no longer
+     needs — the wheel now occupies that band on the right, so the left column
+     was reading as a hole rather than as space. Pull the ledger up to close it. */
+  .ds-masthead:has(.canon-crown) { padding-bottom: var(--space-5); }
+
+  .canon-ledger {
+    border-top: 1px solid var(--frame-border);
+    border-bottom: 1px solid var(--frame-border);
+    margin: var(--space-2) 0 var(--space-6);
+  }
+  .cl-row {
+    display: grid;
+    grid-template-columns: 68px 130px minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: baseline;
+    padding: calc(var(--space-2) * var(--density-scale)) 0;
+    border-bottom: 1px solid var(--frame-border);
+  }
+  .cl-row:last-child { border-bottom: none; }
+  .cl-n {
+    font: var(--fs-mono-lg) var(--mono);
+    color: var(--text-mid);
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .cl-k {
+    font: var(--fs-mono-xs) var(--mono);
+    letter-spacing: var(--ls-mono); text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .cl-d { font: var(--fs-sm)/1.5 var(--serif); color: var(--text-dim); }
+  @media (max-width: 720px) {
+    .cl-row { grid-template-columns: 48px 1fr; gap: var(--space-2) var(--space-3); }
+    .cl-d { grid-column: 1 / -1; }
+  }
+
 </style>
 </head>
 
@@ -1763,43 +1863,48 @@
       <span class="left"><span class="glyph">◇</span>LIMINAL · DESIGN SYSTEM</span>
       <span class="right"><strong>spec v0.3.8</strong>tokens · design-tokens.css</span>
     </div>
-    <h1>The <span class="h1-mark">canon.</span></h1>
-    <p class="lede">Every screen in every product cut reads from these tokens. Edit a value here and the change cascades to every importing surface. <em>Instantly, no save, no refresh.</em> <span class="pin">The design system is the product's control surface, not a description of it.</span></p>
+
+    <div class="canon-crown">
+      <div class="canon-crown__text">
+        <h1>The <span class="h1-mark">canon.</span></h1>
+        <p class="lede">Every screen in every product cut reads from these tokens. Edit a value here and the change cascades to every importing surface. <em>Instantly, no save, no refresh.</em> <span class="pin">The design system is the product's control surface, not a description of it.</span></p>
+      </div>
+
+      <!-- The wheel. Twelve hues at 30° intervals is not a diagram of the system,
+           it IS the system — every non-neutral color in every product surface
+           derives from one of these. Factors carry semantic load and get a filled
+           stop; ornaments are the variety library and get a ring. Drawn at true
+           angle, so the geometry is the information. -->
+      <figure class="canon-wheel" aria-labelledby="wheelCaption">
+        <svg viewBox="0 0 240 240" role="img" aria-label="The Liminal 12-wheel: seven factor hues and five ornament hues at 30-degree intervals">
+          <circle class="cw-rim" cx="120" cy="120" r="92"/>
+          <circle class="cw-rim cw-rim--inner" cx="120" cy="120" r="74"/>
+          <g id="cwSpokes"></g>
+          <text class="cw-core" x="120" y="126" text-anchor="middle">12</text>
+        </svg>
+        <figcaption id="wheelCaption" class="cw-caption">
+          <span class="cw-caption__reg">7 factors · 5 ornaments</span>
+          <span class="cw-caption__def">30° intervals · every non-neutral derives from one of these</span>
+        </figcaption>
+      </figure>
+    </div>
   </header>
 
   <!-- ─── P0 #2 · summary card · what you're getting ────────────── -->
+  <!-- The six stat tiles that used to live here (12 / 3 / 12 / 120 / 42 / 14,
+       each a large violet number) said the same thing the wheel above now shows,
+       and said it in the most generic form available. Kept as a ledger: same
+       facts, spec-sheet register, no hero numbers. The counts also lost their
+       chroma deliberately — an inventory count is not a measurement, so under
+       the Frontier Rule it has not earned a hue. -->
   <section id="summary" aria-label="Design system summary">
-    <div class="ds-summary">
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">12</div>
-        <div class="ds-summary-label">wheel · generative base</div>
-        <div class="ds-summary-line">7 factor hues + 5 ornament hues at 30° intervals.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">3</div>
-        <div class="ds-summary-label">brand · primary triple</div>
-        <div class="ds-summary-line">clarity · wholeness · vitality. Locked Apr 15.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">12</div>
-        <div class="ds-summary-label">register vocabulary</div>
-        <div class="ds-summary-line">one register-word per hue · component CSS speaks register.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">120</div>
-        <div class="ds-summary-label">tonal stops · 10 per hue</div>
-        <div class="ds-summary-line">backgrounds → fills → borders → text → emphasis.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">42</div>
-        <div class="ds-summary-label">functional UI bindings</div>
-        <div class="ds-summary-line">surfaces named by purpose · routed to wheel stops.</div>
-      </div>
-      <div class="ds-summary-cell">
-        <div class="ds-summary-num">14</div>
-        <div class="ds-summary-label">gradient grammar</div>
-        <div class="ds-summary-line">adjacent-hue blends only. The brand spectrum is the one diametric exception.</div>
-      </div>
+    <div class="canon-ledger">
+      <div class="cl-row"><span class="cl-n">12</span><span class="cl-k">hues</span><span class="cl-d">7 factors carry semantic load · 5 ornaments are the variety library</span></div>
+      <div class="cl-row"><span class="cl-n">3</span><span class="cl-k">brand</span><span class="cl-d">clarity · wholeness · vitality. Locked 2026-04-15; nothing else competes</span></div>
+      <div class="cl-row"><span class="cl-n">12</span><span class="cl-k">registers</span><span class="cl-d">one register-word per hue · component CSS speaks register, never hex</span></div>
+      <div class="cl-row"><span class="cl-n">120</span><span class="cl-k">tonal stops</span><span class="cl-d">10 per hue · backgrounds → fills → borders → text → emphasis</span></div>
+      <div class="cl-row"><span class="cl-n">42</span><span class="cl-k">UI bindings</span><span class="cl-d">surfaces named by purpose · rebind once, retune everywhere</span></div>
+      <div class="cl-row"><span class="cl-n">14</span><span class="cl-k">gradients</span><span class="cl-d">adjacent-hue blends only · the brand spectrum is the one diametric exception</span></div>
     </div>
   </section>
 
@@ -3796,6 +3901,87 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     });
     typeGrid.parentNode.insertBefore(stack, typeGrid);
   }
+})();
+</script>
+
+<!-- ════════════════════════════════════════════════════════════════
+     THE WHEEL · renders the 12 hues at their true pigment-wheel angle
+     Factors get a filled stop, ornaments a ring — so the drawing says
+     "7 carry semantic load, 5 are the variety library" without a legend.
+     Angles are canon (design-tokens.css §2), not evenly-spaced guesses.
+     ════════════════════════════════════════════════════════════════ -->
+<script>
+(() => {
+  const g = document.getElementById('cwSpokes');
+  if (!g) return;
+  const NS = 'http://www.w3.org/2000/svg';
+  // deg · register word · hue token · factor? · what it does
+  const WHEEL = [
+    [  0, 'alarm',     'stability',  1, 'critical · foundation breach'],
+    [ 30, 'surge',     'coral',      0, 'high-energy attention'],
+    [ 60, 'vital',     'vitality',   1, 'the move forward · brand accent'],
+    [ 90, 'watch',     'amber-orn',  0, 'caution · monitoring'],
+    [120, 'synthesis', 'agency',     1, 'pattern · will · attention'],
+    [150, 'signal',    'lime',       0, 'active · streaming · live'],
+    [180, 'outreach',  'connection', 1, 'relational · positive'],
+    [210, 'ambient',   'expression', 1, 'wash · atmospheric'],
+    [240, 'depth',     'cerulean',   0, 'sky wash · calm mode'],
+    [270, 'diligence', 'clarity',    1, 'intelligence · brand primary'],
+    [300, 'liminal',   'orchid',     0, 'transition · the in-between'],
+    [330, 'judgment',  'wholeness',  1, 'verdict · brand secondary'],
+  ];
+  const C = 120, R_IN = 34;
+  const cap = document.querySelector('.cw-caption__reg');
+  const def = document.querySelector('.cw-caption__def');
+  const restore = () => {
+    cap.textContent = '7 factors · 5 ornaments';
+    def.textContent = '30° intervals · every non-neutral derives from one of these';
+  };
+
+  WHEEL.forEach(([deg, reg, hue, isFactor, does]) => {
+    const r = isFactor ? 92 : 74;
+    const rad = deg * Math.PI / 180;
+    const x = C + r * Math.sin(rad), y = C - r * Math.cos(rad);
+    const xi = C + R_IN * Math.sin(rad), yi = C - R_IN * Math.cos(rad);
+    const color = `var(--${hue}-500)`;
+
+    const node = document.createElementNS(NS, 'a');
+    node.setAttribute('class', 'cw-node');
+    node.setAttribute('href', '#registers');
+    node.setAttribute('tabindex', '0');
+
+    const t = document.createElementNS(NS, 'title');
+    t.textContent = `${reg} · ${hue} · ${deg}° · ${does}`;
+    node.appendChild(t);
+
+    const line = document.createElementNS(NS, 'line');
+    line.setAttribute('class', 'cw-spoke');
+    line.setAttribute('x1', xi.toFixed(2)); line.setAttribute('y1', yi.toFixed(2));
+    line.setAttribute('x2', x.toFixed(2));  line.setAttribute('y2', y.toFixed(2));
+    line.setAttribute('stroke', color);
+    node.appendChild(line);
+
+    const dot = document.createElementNS(NS, 'circle');
+    dot.setAttribute('class', 'cw-stop' + (isFactor ? '' : ' cw-stop--ornament'));
+    dot.setAttribute('cx', x.toFixed(2)); dot.setAttribute('cy', y.toFixed(2));
+    dot.setAttribute('r', isFactor ? 5.5 : 4.5);
+    if (isFactor) dot.setAttribute('fill', color);
+    else dot.setAttribute('stroke', color);
+    node.appendChild(dot);
+
+    const show = () => {
+      cap.textContent = `--${reg} · ${hue} · ${deg}°`;
+      cap.style.color = color;
+      def.textContent = (isFactor ? 'factor · ' : 'ornament · ') + does;
+    };
+    const hide = () => { cap.style.color = ''; restore(); };
+    node.addEventListener('mouseenter', show);
+    node.addEventListener('mouseleave', hide);
+    node.addEventListener('focus', show);
+    node.addEventListener('blur', hide);
+
+    g.appendChild(node);
+  });
 })();
 </script>
 
