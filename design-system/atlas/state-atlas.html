@@ -189,8 +189,8 @@
   .legend--blank     .legend-cell__name { color: var(--text-faint); }
   .legend--prepped   .legend-cell__name { color: var(--diligence); }
   .legend--filled    .legend-cell__name { color: var(--outreach,  #31E682); }
-  .legend--corrected .legend-cell__name { color: var(--judgment,  #E8006A); }
-  .legend--refused   .legend-cell__name { color: var(--wholeness, #E8006A); }
+  .legend--corrected .legend-cell__name { color: var(--judgment,  #E90095); }
+  .legend--refused   .legend-cell__name { color: var(--wholeness, #E90095); }
   .legend--stale     .legend-cell__name { color: var(--synthesis, #197EEB); }
 
   /* severity lane · v0.3 · domain-evidence chroma, not lifecycle state */
@@ -406,7 +406,7 @@
   .p-slate__correction {
     margin-top: 12px;
     padding-top: 10px;
-    border-top: 1px solid var(--judgment-edge, rgba(232,0,106,0.22));
+    border-top: 1px solid var(--judgment-edge, rgba(233,0,149,0.42));
     font-family: var(--font-mono);
     font-size: var(--text-2xs);
     letter-spacing: var(--tracking-wide);
@@ -458,7 +458,7 @@
     color: var(--text-faint);
   }
   .p-tray__item--alarm {
-    background: var(--wholeness-bg, rgba(232,0,106,0.07));
+    background: var(--wholeness-bg, rgba(233,0,149,0.09));
     border-color: var(--wholeness);
   }
   .p-tray__item--alarm .p-tray__item-body { color: var(--wholeness); }
@@ -613,7 +613,7 @@
 
   /* ─── refusal surface ─────────────────────────────── */
   .p-refusal {
-    border: 1px solid var(--wholeness-edge, rgba(232,0,106,0.22));
+    border: 1px solid var(--wholeness-edge, rgba(233,0,149,0.42));
     background:
       radial-gradient(circle at 50% 30%, var(--wholeness-bg) 0%, transparent 70%),
       var(--frame-bg-3);
@@ -1249,6 +1249,75 @@
       </article>
 
     </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════
+       ROW 07 · READ
+       .p-read lives in lib/cut-shell-products.css (adopted 2026-07-29).
+       This atlas CONSUMES that copy — do not fork a local one.
+       ═══════════════════════════════════════════════════════ -->
+  <section class="row">
+    <header class="row__head">
+      <div class="row__num">07</div>
+      <h2 class="row__name">Read</h2>
+      <p class="row__defn"><strong>The brief.</strong> One agent's read of the substrate. Adopted from cut 06's held-read card, structured by cut 12's register rows. The rows are <em>liminal-desktop</em>'s shipped <code>agent_reads</code> columns — quoted · situation · hidden risk · next move — so the design cannot drift from the schema.</p>
+      <div class="row__count">3 states</div>
+    </header>
+    <div class="row__cells">
+
+      <article class="cell">
+        <div class="cell__caption">
+          <div class="cell__state">in lane</div>
+          <div class="cell__trigger">the register produced a read · left edge names which one</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-read p-read--diligence">
+            <div class="p-read__head">Diligence</div>
+            <div class="p-read__row"><span class="p-read__k">Quoted</span><span class="p-read__v">"Base counter sits inside your last three hires' band."</span></div>
+            <div class="p-read__row"><span class="p-read__k">Situation</span><span class="p-read__v">The gap is timing, not money.</span></div>
+            <div class="p-read__row"><span class="p-read__k">Next move</span><span class="p-read__v">Match the base. Name a decision date.</span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell cell--refused">
+        <div class="cell__caption">
+          <div class="cell__state">refused</div>
+          <div class="cell__trigger">out of lane · a LIFECYCLE state, so judgment register — never a severity hue</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-read p-read--refusal">
+            <div class="p-read__head">Judgment <span class="p-read__badge">refused, out of lane</span></div>
+            <div class="p-read__refusal">
+              <span class="p-read__refusal-glyph">✕</span>
+              <span class="p-read__refusal-why">Outreach refused: <b>&ldquo;drafting the email isn't my ground.&rdquo;</b> Handed back, not around.</span>
+            </div>
+            <div class="p-read__receipt"><span class="p-read__receipt-k">read · sr-founding-0512</span> · refused: out-of-lane → named redirect</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cell">
+        <div class="cell__caption">
+          <div class="cell__state">re-surfaced</div>
+          <div class="cell__trigger">a held read coming back · compact form, no row breakdown</div>
+        </div>
+        <div class="cell__render">
+          <div class="p-read p-read--compact p-read--synthesis">
+            <div class="p-read__head">Eng hire · candidate B<span class="p-read__age">held 6d</span></div>
+            <p class="p-read__body">Synthesis flips its read: the Judgment register placed this third.</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+    <p class="spec-note">
+      <b>Chroma law · v0.3 severity lane.</b> Refused read, refusal glyph and verdict take
+      <b>--judgment</b> (a refusal is a lifecycle state, and lifecycle states use the four
+      registers only). Register attribution takes the register hue. Subject and readiness tags
+      stay <b>ink</b> — a subject label names no measurement. <b>--alarm</b> and <b>--watch</b>
+      never appear in this primitive: severity is a property of the evidence, not of a read.
+    </p>
   </section>
 
   <!-- ═══════════════════════════════════════════════════════
