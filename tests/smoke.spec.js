@@ -71,12 +71,24 @@ test("cut 11 missing fixture falls back to inline demo", async ({ page }) => {
 const P_READ_SURFACES = [
   { name: "cut 06", url: "/cuts/06-margin-read.html" },
   { name: "cut 10", url: "/cuts/10-today.html" },
+  // cut 11's reads live at step 4 of the ritual and the cut opens at step 3, so
+  // this surface needs revealing before the primitive is on screen. Everything
+  // asserted below is identical once it is.
+  {
+    name: "cut 11",
+    url: CUT_11_CANONICAL,
+    reveal: async (page) => page.getByText("Open the case →").click(),
+  },
 ];
 
 for (const s of P_READ_SURFACES) {
   test(`${s.name} consumes the .p-read primitive`, async ({ page }) => {
     await page.goto(s.url, { waitUntil: "load" });
     await page.waitForTimeout(500);
+    if (s.reveal) {
+      await s.reveal(page);
+      await page.waitForTimeout(700);
+    }
 
     const read = page.locator(".p-read").first();
     await expect(read).toBeVisible();
