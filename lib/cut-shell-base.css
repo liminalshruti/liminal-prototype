@@ -67,16 +67,29 @@
     --card-border:  #232327;
     --card-border-2:#2A2A2F;
 
-    /* register hues · 4 of the 12-wheel · canon owns the values */
+    /* register hues · 4 of the 12-wheel · canon owns the values.
+       Fallback hexes refreshed to canon -500 values 2026-07-29: --outreach was
+       #3EE878 and --synthesis #FFD24A, both retired by the 2026-04-28 wheel
+       migration (Connection is #31E682, Agency #FEF059). They only fire when
+       canon is absent, but a stale fallback is a wrong answer waiting. */
     --diligence:    var(--clarity,     #8E66FB);
     --judgment:     var(--wholeness,   #E90095);
-    --outreach:     var(--connection,  #3EE878);
-    --synthesis:    var(--agency,      #FFD24A);
+    --outreach:     var(--connection,  #31E682);
+    --synthesis:    var(--agency,      #FEF059);
 
-    /* semantic states · canon owns */
-    --good:         var(--good,        #45C9A3);
-    --amber:        var(--amber-orn,   #F5A524);
-    --red:          var(--red,         #F04040);
+    /* semantic states · canon owns.
+       --good and --red USED TO read var(--good, …) / var(--red, …) — self-
+       references, i.e. the very "circular-ref invalidation trap" the comment
+       above warns about. Measured on cuts/00-agency.html: both computed to
+       empty, so every color: var(--good) / var(--red) on a cut silently
+       inherited instead of rendering. (--amber escaped only by accident: it
+       references --amber-orn, a different property, so no cycle.) Now each
+       points at its canon wheel register, matching §3's own definitions
+       --good: var(--connection) and --red: var(--alarm). Fallbacks refreshed
+       from the retired v0.2 hexes to the wheel values. */
+    --good:         var(--connection,  #31E682);
+    --amber:        var(--amber-orn,   #FDC237);
+    --red:          var(--alarm,       #ED214F);
 
     /* register alpha aliases · canon already provides -soft/-bg/-edge per hue
        · we re-bind to the 4-register vocabulary the prototype uses */
