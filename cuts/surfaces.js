@@ -107,10 +107,14 @@ export const SURFACES = [
     { file:'_archive/root-experiments/ontology-agent-travel-real-3d.html', name:'ontology-agent-travel-real-3d', badge:'retired', jump:'Ontology agent-travel — real 3D graphs.' },
     { file:'_archive/root-experiments/ontology-agent-travel-more-3d.html', name:'ontology-agent-travel-more-3d', badge:'retired', jump:'Ontology agent-travel — more 3D mocks.' },
   ]},
-  { grp: 'Frozen baselines', desc: 'pre-pivot reference snapshots (root _baseline/)', frozen:true, items: [
-    { file:'../_baseline/index-v02-frozen.html', repo:'_baseline/index-v02-frozen.html', name:'index-v02-frozen', badge:'retired', jump:'Frozen index · v0.2 (Liminal Agents · Space).' },
-    { file:'../_baseline/space-v1.html', repo:'_baseline/space-v1.html', name:'space-v1', badge:'retired', jump:'Space v1 baseline.' },
-  ]},
+  // 'Frozen baselines' group removed 2026-07-31 along with root _baseline/.
+  // Those two snapshots were served publicly by GitHub Pages (200 at
+  // liminalshruti.github.io/liminal-prototype/_baseline/*), which was a side
+  // effect of .nojekyll rather than a decision: without it, Jekyll excludes
+  // underscore-prefixed directories by default. server.mjs had always listed
+  // '_baseline' in SKIP_DIRS, so the repo's own dev server never served them.
+  // REPO_ATLAS.md classes the directory EXHAUST — "regenerable; archive or drop".
+  // Git history holds both files if a pre-pivot snapshot is ever wanted.
 ];
 
 // repo-relative path for a surface (for matching against /__state dirty list).
