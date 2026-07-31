@@ -38,7 +38,7 @@ session byproduct, candidate for deletion (regenerable or one-off).
 | `molehunt/` | **ARCHIVE?** | Self-contained CI analyst console. Real, but orphaned from the cut catalog — not in `index.html`. Decide: promote to a cut or archive. |
 | `team-drift/` | **ARCHIVE?** | Team-coherence telemetry surface. Same status as `molehunt/` — orphaned one-off. |
 | `_scratch/` | **EXHAUST** | Explicitly scratch. Safe to drop or `.gitignore`. |
-| `_baseline/` | **EXHAUST** | Frozen baseline captures. Regenerable; archive or drop. |
+| ~~`_baseline/`~~ | **DROPPED 2026-07-31** | Frozen baseline captures. Was EXHAUST ("archive or drop"); dropped because GitHub Pages served it publicly. In git history if a pre-pivot snapshot is ever needed. |
 | `.playwright-mcp/` | **EXHAUST** | MCP run artifacts. Should be `.gitignore`d. |
 
 ### Root files
