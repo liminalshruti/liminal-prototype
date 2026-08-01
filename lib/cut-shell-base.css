@@ -950,6 +950,17 @@
   }
 
   /* tile · live window-host · sits in the well · seated by pseudo-element */
+  /* Tiles in the tray carry role=button + tabindex (lib/tray.js) so slating is
+     reachable without a pointer. The ring is the canon focus token, whose own
+     comment names it "focus ring · keyboard a11y" — same affordance the rest of
+     the shell uses, so keyboard focus looks native rather than bolted on.
+     :focus-visible, not :focus — mouse users never see it. */
+  .tile:focus-visible {
+    outline: none;
+    border-color: var(--coherence-ring, var(--card-border-2));
+    box-shadow: var(--shadow-focus-ring);
+  }
+
   .tile {
     background: var(--frame-bg-2);
     border: 1px solid var(--card-border);

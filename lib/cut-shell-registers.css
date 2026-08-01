@@ -154,6 +154,11 @@
     line-height: 1.4;
   }
   .slated .slated-x {
+    /* Now a real <button> (was a <span> carrying a click handler): remove is
+       keyboard-operable and announced. These four lines are the UA reset that
+       buys back the span's appearance. */
+    appearance: none; border: 0; padding: 0; font: inherit;
+
     position: absolute; top: 4px; right: 6px;
     font-family: var(--mono); font-size: var(--fs-mono-lg);
     color: var(--text-faint);
@@ -167,6 +172,11 @@
     transition: color 180ms, background 180ms;
   }
   .slated .slated-x:hover { color: var(--text); background: var(--judgment-bg); }
+  .slated .slated-x:focus-visible {
+    outline: none;
+    color: var(--text);
+    box-shadow: var(--shadow-focus-ring);
+  }
 
   /* sparkline tile · Devon DRIFT primary read */
   .slated.is-sparkline {
