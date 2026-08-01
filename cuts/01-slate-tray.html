@@ -798,7 +798,11 @@
 <noscript><style>body{opacity:1 !important;animation:none !important;}</style></noscript>
 
 </head>
-<body data-product="personal" data-beat="2">
+<!-- data-density="shared" is deliberate. Without it, design-tokens.css gives any
+     data-product="personal" surface --density-scale: 1.1 — the *densest* setting —
+     which is backwards for cut 01: this is the reference render people meet once,
+     often projected or over a shoulder, so it wants neutral spacing, not compression. -->
+<body data-product="personal" data-density="shared" data-beat="2">
 
 <!-- entry overlay · three doors · per UI_GAP_SPEC §2.4 · first-session only -->
 <div class="entry-overlay" id="entry-overlay" hidden role="dialog" aria-label="Choose a scenario">
@@ -918,6 +922,15 @@
             <span class="bh-glyph">◇</span>
             <span>Brief · agents read the composition</span>
           </div>
+          <!-- DECIDING beat · the split, shown before the seal. Rendered by
+               lib/divergence.js. It sits ABOVE the synthesized brief on purpose:
+               the disagreement is the evidence, so it is what a first-time reader
+               meets first. Below the brief it fell ~34% down a 2340px scroll —
+               entirely below the fold — which buried the one thing this surface
+               exists to show. Empty until the engine renders it. -->
+          <div class="divergence-pane" id="divergence-pane" hidden
+               data-timing="reading"
+               data-annotation="divergence-pane"></div>
           <p class="brief-body" id="brief-body">·</p>
           <div class="mystic-margin" id="mystic-margin" hidden>
             <div class="mystic-attr" id="mystic-attr">CONTRARIAN · in the margin</div>
@@ -927,11 +940,6 @@
             <span class="vc-label">Vault · calibration</span>
             <span class="vc-text" id="vault-calib-text">·</span>
           </div>
-          <!-- DECIDING beat · the split, shown before the seal. Rendered by
-               lib/divergence.js when the engine fires DECIDING; the first Confirm
-               press opens it, the second seals through it. Empty until then. -->
-          <div class="divergence-pane" id="divergence-pane" hidden
-               data-annotation="divergence-pane"></div>
           <div class="disposition" id="disposition">
             <button class="dispo-btn is-primary" id="dispo-primary">Confirm</button>
             <button class="dispo-btn is-defer" id="dispo-defer">Defer 7d</button>
