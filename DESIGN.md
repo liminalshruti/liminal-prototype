@@ -35,7 +35,7 @@ typography:
     fontWeight: 300
     lineHeight: 1.18
   body:
-    fontFamily: "Geist, system-ui, sans-serif"
+    fontFamily: "Space Grotesk, Geist, system-ui, sans-serif"
     fontSize: "14px"
     fontWeight: 400
     lineHeight: 1.5
@@ -45,7 +45,7 @@ typography:
     fontWeight: 400
     lineHeight: 1.55
   label:
-    fontFamily: "Geist Mono, ui-monospace, monospace"
+    fontFamily: "Space Mono, Geist Mono, ui-monospace, monospace"
     fontSize: "10px"
     fontWeight: 400
     lineHeight: 1
@@ -126,20 +126,33 @@ Two palettes in dialectic: a near-black iridescent content layer, and ten
 named chrome hues that each carry one meaning.
 
 ### Primary
-- **Diligence Violet** (#8E66FB): the leading accent — the auditor's color.
-  Carries the brand diamond, primary highlights, focus rings, and the
-  "reading" state across cuts.
+- **Judgment Magenta** (#E90095): the brand lead (`--ui-brand-primary`, which
+  resolves to `--wholeness-500`). Holds verdict and the moat: adversarial
+  review, refusal accents, the sealed record. The color that appears when the
+  system pushes back — and the one that carries the brand.
 
 ### Secondary
-- **Judgment Magenta** (#E90095): verdicts, adversarial review, refusal
-  accents. The color that appears when the system pushes back.
-- **Depth Cerulean** (#197EEB): institutional/infra register — allocation,
+- **Diligence Violet** (#8E66FB): `--ui-brand-secondary` (`--clarity-500`).
+  Holds intelligence and insight — the auditor's color. Carries the brand
+  diamond, primary highlights, focus rings, and the "reading" state across
+  cuts.
+- **Depth Cerulean** (#197EEB): `--ui-brand-third` (`--cerulean-500`). Holds
+  pattern and emergence; the institutional/infra register — allocation,
   custody, subject switching.
 
 ### Tertiary (the remaining register chrome — use only with their meaning)
-- **Synthesis Yellow** (#FEF059), **Outreach Green** (#31E682), **Alarm Red**
-  (#ED214F), **Watch Amber** (#FDC237), **Signal Lime** (#70F32F), **Ambient
-  Teal** (#1E9692), **Liminal Orchid** (#CC24F5).
+- **Outreach Green** (#31E682) completes the brand four as
+  `--ui-brand-fourth` (`--connection-500`), holding the relational and the
+  outward.
+- **Synthesis Yellow** (#FEF059), **Alarm Red** (#ED214F), **Watch Amber**
+  (#FDC237), **Signal Lime** (#70F32F), **Ambient Teal** (#1E9692),
+  **Liminal Orchid** (#CC24F5).
+
+**The Pink-Leads Rule** (Brand 4, ruled 2026-07-29). Four colors carry the
+brand and pink leads: wholeness → clarity → cerulean → connection. Orange is
+retired; there is no separate accent slot (`--ui-brand-accent` was removed,
+not re-pointed). Any surface that leads with violet is carrying the pre-Brand-4
+hierarchy.
 
 ### Neutral
 - **Void** (#0A0A0B) page ground · **Frame** (#0E0E11) window chrome.
@@ -160,8 +173,8 @@ Judgment magenta on a decorative divider is a lie the viewer can feel.
 ## 3. Typography
 
 **Display Font:** Nineties Headliner (with Perfectly Nineties, Georgia)
-**Body Fonts:** Geist (sans, UI/body) + Perfectly Nineties (serif, reasoned prose)
-**Label/Mono Font:** Geist Mono
+**Body Fonts:** Space Grotesk (sans, UI/body) + Perfectly Nineties (serif, reasoned prose)
+**Label/Mono Font:** Space Mono
 
 **Character:** A 1990s broadsheet masthead running on lab instrumentation —
 warm authoritative serifs for what the humans and agents *say*, cold precise
@@ -172,15 +185,21 @@ mono for what the system *records*.
   and hero statements. Never exceeds the 96px landing register.
 - **Headline** (300, 27px, 1.18): the subject question — the line the eye
   lands on inside a work surface.
-- **Body** (400, 14–15px Geist, 1.5): UI copy, descriptions, ≤65–75ch.
+- **Body** (400, 14–15px Space Grotesk, 1.5): UI copy, descriptions, ≤65–75ch.
 - **Read** (400, 14–15.5px Perfectly Nineties, 1.55–1.7): agent reads and
   rationale — reasoned prose is always serif, never mono.
-- **Label** (400, 9–11px Geist Mono, 0.08–0.12em, uppercase): source tags,
+- **Label** (400, 9–11px Space Mono, 0.08–0.12em, uppercase): source tags,
   counts, audit meta. On dark, labels at this size use ink-faint or brighter.
 
 **The Three-Voices Rule.** Announcement = display serif; reasoning = body
 serif; record = mono. A mono paragraph carrying narrative is drift (the
 molehunt re-skin fixed exactly this).
+
+**The Fallbacks-Are-Not-The-Stack Rule** (ruled 2026-07-29). The sans is Space
+Grotesk and the mono is Space Mono. Geist and Geist Mono survive only as
+fallback entries in the `--sans` / `--mono` chains, to be dropped once every
+surface loads the new faces. Naming a fallback as the primary face is how the
+stack silently reverts — and it is what this file itself did until this pass.
 
 **The Title-Dash Rule.** Em-dashes are a *naming* grammar ("Govern — Opus 4.8
 spend against company goals"), not a prose cadence. Body copy uses commas,
@@ -273,6 +292,10 @@ background step.
 - **Don't** use `--text-mute` on a dark surface (The Mute-Is-Cream Rule).
 - **Don't** use Inter, Helvetica, system-ui as a primary face, or Newsreader
   / Fraunces anywhere — the stack is locked.
+- **Don't** name Geist or Geist Mono as a primary face; they are fallback
+  entries only (The Fallbacks-Are-Not-The-Stack Rule).
+- **Don't** lead a surface with Diligence Violet as though it were the brand
+  colour — pink leads (The Pink-Leads Rule, Brand 4).
 - **Don't** use `border-left` > 1px as a decorative stripe; the artifact
   card's seal edge is the one sanctioned, meaning-bearing exception.
 - **Don't** animate layout properties (padding, width) — transform and
