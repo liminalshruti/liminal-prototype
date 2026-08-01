@@ -11,7 +11,10 @@
     "tokens:sync": "node scripts/tokens/sync-upstream.mjs",
     "tokens:check": "node scripts/tokens/sync-upstream.mjs --check",
     "test": "playwright test",
-    "test:headed": "playwright test --headed"
+    "test:headed": "playwright test --headed",
+    "canon:check": "node scripts/canon/lint-canon.mjs",
+    "canon:report": "node scripts/canon/lint-canon.mjs --report",
+    "canon:update": "node scripts/canon/lint-canon.mjs --update"
   },
   "license": "MIT",
   "devDependencies": {

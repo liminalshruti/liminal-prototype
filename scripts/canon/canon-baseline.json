@@ -1,0 +1,185 @@
+{
+  "cuts/00-agency.html": {
+    "no-raw-hex": 9,
+    "no-bare-font-size": 1
+  },
+  "cuts/01-slate-tray.html": {
+    "stale-var-fallback": 9,
+    "no-bare-font-size": 5,
+    "no-raw-hex": 8
+  },
+  "cuts/02-forensic-agent.html": {
+    "no-raw-hex": 13,
+    "stale-var-fallback": 14,
+    "no-bare-font-size": 1
+  },
+  "cuts/03-calibration.html": {
+    "stale-var-fallback": 3,
+    "no-bare-font-size": 1
+  },
+  "cuts/04-onboarding.html": {
+    "no-bare-font-size": 1,
+    "no-raw-hex": 2
+  },
+  "cuts/05-plugin-seed.html": {
+    "stale-var-fallback": 1,
+    "no-raw-hex": 3
+  },
+  "cuts/06-margin-read.html": {
+    "no-raw-hex": 3,
+    "stale-var-fallback": 3
+  },
+  "cuts/08-liminal-custody.html": {
+    "no-raw-hex": 1,
+    "no-bare-font-size": 5,
+    "stale-var-fallback": 4
+  },
+  "cuts/09-osint-custody.html": {
+    "stale-var-fallback": 3,
+    "no-raw-hex": 5,
+    "no-bare-font-size": 10
+  },
+  "cuts/10-today.html": {
+    "stale-var-fallback": 7,
+    "no-bare-font-size": 2
+  },
+  "cuts/11-govern.html": {
+    "no-bare-font-size": 6,
+    "no-raw-hex": 11,
+    "stale-var-fallback": 6
+  },
+  "cuts/12-operating-plane.html": {
+    "no-bare-font-size": 13,
+    "no-raw-hex": 1,
+    "stale-var-fallback": 3
+  },
+  "cuts/_compare.html": {
+    "stale-var-fallback": 6,
+    "no-bare-font-size": 8
+  },
+  "cuts/_console.html": {
+    "stale-var-fallback": 33,
+    "no-bare-font-size": 18,
+    "no-raw-hex": 2
+  },
+  "cuts/_demo-lan-stitch.html": {
+    "no-bare-font-size": 4,
+    "stale-var-fallback": 6
+  },
+  "cuts/_demo-lan.html": {
+    "no-bare-font-size": 5,
+    "stale-var-fallback": 2
+  },
+  "cuts/_sequences.html": {
+    "no-bare-font-size": 19
+  },
+  "cuts/custody.html": {
+    "no-raw-hex": 1,
+    "no-bare-font-size": 3
+  },
+  "cuts/onboarding/onboarding.css": {
+    "no-raw-hex": 1,
+    "no-bare-font-size": 3
+  },
+  "cuts/thread/atlas.html": {
+    "no-bare-font-size": 2
+  },
+  "cuts/thread/connect.html": {
+    "no-bare-font-size": 1
+  },
+  "cuts/thread/index.html": {
+    "no-bare-font-size": 2
+  },
+  "cuts/thread/thread.css": {
+    "no-bare-font-size": 46
+  },
+  "cuts/thread/thread.html": {
+    "no-bare-font-size": 4
+  },
+  "design-system.html": {
+    "no-raw-hex": 100,
+    "no-bare-font-size": 32
+  },
+  "design-system/components/avatars-badges.css": {
+    "no-raw-hex": 3
+  },
+  "design-system/components/banners-toasts-alerts.css": {
+    "no-raw-hex": 3,
+    "no-bare-font-size": 1
+  },
+  "design-system/components/buttons.css": {
+    "no-raw-hex": 2,
+    "no-bare-font-size": 2
+  },
+  "design-system/components/data-table.css": {
+    "no-bare-font-size": 1
+  },
+  "design-system/components/empty-loading-skeleton.css": {
+    "no-bare-font-size": 1
+  },
+  "design-system/components/framing.css": {
+    "no-bare-font-size": 1
+  },
+  "design-system/ds-styles.css": {
+    "no-raw-hex": 115,
+    "no-bare-font-size": 5
+  },
+  "embed-agent-hack.html": {
+    "no-raw-hex": 3,
+    "no-bare-font-size": 11
+  },
+  "embed-slate-tray-demo.html": {
+    "no-raw-hex": 3,
+    "no-bare-font-size": 2
+  },
+  "embed-vault-demo.html": {
+    "no-raw-hex": 3,
+    "no-bare-font-size": 4
+  },
+  "index.html": {
+    "no-bare-font-size": 2
+  },
+  "lib/brand-upgrade.css": {
+    "no-raw-hex": 17,
+    "no-bare-font-size": 1
+  },
+  "lib/cut-shell-base.css": {
+    "no-raw-hex": 59
+  },
+  "lib/cut-shell-products.css": {
+    "no-raw-hex": 7,
+    "no-bare-font-size": 1
+  },
+  "lib/demo-calm.css": {
+    "no-bare-font-size": 6,
+    "stale-var-fallback": 1
+  },
+  "lib/divergence.css": {
+    "no-bare-font-size": 15
+  },
+  "lib/surface-nav.css": {
+    "no-bare-font-size": 8,
+    "stale-var-fallback": 11
+  },
+  "liminal-desktop-specimen.html": {
+    "no-bare-font-size": 73,
+    "stale-var-fallback": 2,
+    "no-raw-hex": 5
+  },
+  "molehunt/index.html": {
+    "no-bare-font-size": 17,
+    "no-raw-hex": 13
+  },
+  "nineties-headliner-specimen.html": {
+    "no-raw-hex": 5,
+    "no-bare-font-size": 17
+  },
+  "ontology-agent-travel-3d.html": {
+    "no-raw-hex": 42,
+    "no-bare-font-size": 22
+  },
+  "team-drift/index.html": {
+    "no-raw-hex": 5,
+    "no-bare-font-size": 7
+  }
+}

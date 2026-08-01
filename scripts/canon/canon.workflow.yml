@@ -1,0 +1,36 @@
+name: canon
+
+# The design system's value is its rigor, and until now that rigor lived only
+# in whoever was reviewing. This runs the ratchet on every PR so drift is
+# caught by the repo rather than by a person remembering.
+#
+# No install step on purpose: scripts/canon/lint-canon.mjs has zero
+# dependencies, matching this repo's no-build stance. The whole job is one
+# node invocation, so it stays fast enough that nobody wants to skip it.
+#
+# Deploy is untouched — GitHub Pages serves main directly, not via Actions.
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  canon-check:
+    name: no new drift
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: canon · ratchet
+        run: node scripts/canon/lint-canon.mjs
+
+      - name: canon · full report (on failure)
+        if: failure()
+        run: node scripts/canon/lint-canon.mjs --report
