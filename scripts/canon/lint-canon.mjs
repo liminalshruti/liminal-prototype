@@ -38,6 +38,15 @@ const BASELINE = join(ROOT, "scripts", "canon", "canon-baseline.json");
    the cascade flows from. Everything downstream should be var(). */
 const EXEMPT = [
   "design-system/tokens/design-tokens.css",
+  /* The semantic half of the same source (--fg-*, --surface-*, --type-*,
+     --brand-*), shipped here 2026-08-02. Exempt for the identical reason as
+     the line above: it is upstream of the cascade, not downstream of it, and
+     it arrives byte-identical from canon — a literal in it cannot be "fixed"
+     locally without forking the file the drift guard exists to keep in
+     lockstep. Its declarations do consume the wheel (`--brand-primary:
+     var(--wholeness)`); the hexes this rule sees are in trailing comments
+     documenting what those vars resolve to. */
+  "design-system/tokens/colors-and-type.css",
 ];
 
 /* Specimen and atlas pages exist to SHOW raw values; a hex in a swatch label

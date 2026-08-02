@@ -63,42 +63,38 @@ const FILES = [
     label: "design-system/tokens/design-tokens.css",
   },
   {
+    // The SEMANTIC layer — --fg-*, --surface-*, --type-*, --font-*, --brand-*.
+    // 42 tokens, verified zero overlap with design-tokens.css: the two files
+    // are complementary halves of canon, not competing copies.
+    //
+    // Added 2026-08-02. Canon has always had two token files; this repo synced
+    // only one, so every semantic token was undefined here. That is not an
+    // abstract gap — an undefined custom property fails SILENTLY to the initial
+    // value rather than erroring, so canon's framing.css (written against this
+    // layer) rendered muted metadata as full-bright body text. Measured on
+    // cuts/09-osint-custody.html before this file was shipped:
+    //
+    //   .thesis-line  ->  rgb(244,242,238)   --fg-4 undefined, inherited --text
+    //   .thesis-line  ->  rgb(138,135,128)   after this file loads
+    //
+    // ORDER MATTERS: every page that links framing.css must link this sheet
+    // FIRST. See design-system.html and cuts/{00-agency,custody,09-osint-custody}.
+    rel: "tokens/colors-and-type.css",
+    local: resolve(ROOT, "design-system/tokens/colors-and-type.css"),
+    label: "design-system/tokens/colors-and-type.css",
+  },
+  {
     rel: "tokens/components/framing.css",
     local: resolve(ROOT, "design-system/components/framing.css"),
     label: "design-system/components/framing.css",
-    // ── KNOWN RED (2026-08-02). This file's --check FAILS, and syncing it is
-    // currently WRONG. Read this before "fixing" the drift.
-    //
-    // Canon has TWO token files. This repo syncs design-tokens.css; it does
-    // NOT sync tokens/colors-and-type.css, which is where the entire semantic
-    // layer lives (--fg-*, --surface-*, --type-*, --font-*, 42 tokens, zero
-    // overlap with design-tokens.css).
-    //
-    // Canon's framing.css is written against that semantic layer. Pulled in
-    // here, --fg-1 / --fg-4 / --type-eyebrow are undefined — and an undefined
-    // custom property fails SILENTLY to the initial value rather than erroring.
-    // Measured in a real browser on cuts/09-osint-custody.html:
-    //
-    //   canon copy       .thesis-line -> rgb(244,242,238)  full-bright --text
-    //   this copy        .thesis-line -> rgb(138,135,128)  --text-dim, correct
-    //
-    // So muted metadata renders as bright body text on all four pages that
-    // link this sheet (design-system.html, cuts/00-agency, cuts/custody,
-    // cuts/09-osint-custody). The local copy is not drift — it is a deliberate
-    // translation to the tokens this repo actually has, and it is the only
-    // version that renders correctly here.
-    //
-    // The real fix is a canon decision, not a sync: either also ship
-    // colors-and-type.css to this repo and <link> it ahead of framing.css on
-    // those pages, or split canon's framing.css into a substrate-only variant.
-    // Until one of those happens the md5 model is simply wrong for this file —
-    // it asserts byte-equality between two repos that do not share the same
-    // token vocabulary.
-    //
-    // Separately: design-system/ds-styles.css already carries the canon
-    // semantic version of these same rules (~lines 1552-1594) and therefore
-    // has the same undefined tokens. No page loads both sheets, so it is
-    // latent rather than live — but it is the same bug, already committed.
+    // Consumes the semantic layer above. This entry was red from 2026-06 until
+    // 2026-08-02 and the local copy had been hand-translated to raw substrate
+    // (--text-dim for --fg-4, --fs-eyebrow/--mono for --type-eyebrow) to make
+    // it render. That translation was a correct workaround for a missing
+    // dependency, not drift — but it meant the md5 guard asserted byte-equality
+    // between two repos that did not share a token vocabulary, so the guard was
+    // structurally unable to go green. Shipping colors-and-type.css removes the
+    // reason for the fork; the byte-identical contract now actually holds.
   },
 ];
 
