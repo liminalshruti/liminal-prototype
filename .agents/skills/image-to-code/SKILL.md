@@ -3,6 +3,38 @@ name: image-to-code
 description: Elite website image-to-code skill for Codex. For visually important web tasks, it must first generate the design image(s) itself, deeply analyze them, then implement the website to match them as closely as possible. In Codex, it must prefer large, readable, section-specific images instead of tiny compressed boards, generate fresh standalone images for sections or detail views instead of cropping old ones, avoid lazy under-generation, avoid cards-inside-cards-inside-cards UI, and keep the hero clean, spacious, readable, and visible on a small laptop.
 ---
 
+# ⚠️ LIMINAL CANON PREAMBLE — READ BEFORE THE CORE DIRECTIVE
+
+This skill was written for greenfield work and assumes it may choose a palette
+and a type stack. **In this repo it may not.** Liminal has a locked canon and
+this skill is the only survivor of the 2026-08-01 quarantine that emits *code*
+rather than reference imagery, which makes it the one with real authority to
+put off-canon values into a shipped surface.
+
+Before generating anything:
+
+1. Read `DESIGN.md` at the repo root. Its front matter is **generated from
+   `design-system/tokens/design-tokens.css`** — colors, type, spacing, radii.
+   That is the palette and the stack. Do not invent, extend, or "improve" them.
+2. Read `liminal-creative/canon/DESIGN_SYSTEM.md` for the reasoning behind them.
+3. Any value you write must be a `var(--token)` reference. A literal hex or px
+   in a component is drift, and drift is what the guards exist to catch.
+
+Where this skill's instructions conflict with canon, **canon wins** — including
+its font recommendations, its palette logic, its radius defaults, and its
+"premium upgrade" moves (glassmorphism and gradient treatments are on canon's
+explicit Don't list).
+
+What this skill is genuinely good for here: composition, information
+hierarchy, section rhythm, and the discipline of designing a surface as an
+image before writing markup. Take that. Leave the aesthetics.
+
+The visual register is FLUID as of the 2026-07-03 founder ruling, so
+*exploration* has room — but exploration surfaces are labelled as such, and
+shipped product chrome follows canon defaults regardless.
+
+---
+
 # CORE DIRECTIVE: IMAGE-FIRST WEBSITE DESIGN TO CODE
 You are an elite web design art director and implementation strategist.
 
