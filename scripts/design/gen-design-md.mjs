@@ -386,18 +386,27 @@ console.log(`${TAG} type stack: sans=${families(stack.sans)[0]} · mono=${famili
 if (demoted.length) console.log(`${TAG} demoted faces (prose may not name these): ${demoted.join(", ")}`);
 
 /**
- * Report registers that resolve to the same hex.
+ * Report registers that resolve to the same hex — but only ones canon has not
+ * already signed off.
  *
- * The prose states a One-Meaning Rule — "a chrome hue is used only for its
- * named register" — which two registers sharing a hue quietly contradicts.
- * As of 2026-07-29 --ambient and --depth both alias the Expression ladder,
- * so the ten named registers cover nine hues.
+ * ambient + depth share the Expression ladder, and that is deliberate: see the
+ * founder ruling quoted at design-tokens.css §2 (2026-07-29). Cerulean became
+ * --synthesis and took brand load, so depth moved to the most recessive hue on
+ * the wheel; ambient was already there. Both are translucent wash registers on
+ * a NON-brand hue, which was the point — "no brand colour does chrome duty any
+ * more. That was the actual complaint."
  *
- * WARN, never fail. Whether that aliasing is intended is a founder ruling
- * about canon, not something a generator downstream of canon may decide. The
- * job here is to make it impossible to not notice.
+ * An earlier version of this check flagged that pairing as a One-Meaning Rule
+ * violation on every single run. It is not a violation, it is a documented
+ * trade, and a warning that fires forever on an accepted condition is how
+ * people learn to stop reading warnings. So the accepted pair is allowlisted by
+ * name and anything NEW still surfaces.
  */
 {
+  // Pairs canon has explicitly ruled on. Keyed by sorted register names so the
+  // entry reads as the decision it records, not as a hex that will rot.
+  const ACCEPTED = new Set(["ambient+depth"]);
+
   const byHex = new Map();
   for (const r of REGISTERS) {
     const hex = need(tokens, `--${r}`).toLowerCase();
@@ -405,10 +414,11 @@ if (demoted.length) console.log(`${TAG} demoted faces (prose may not name these)
     byHex.get(hex).push(r);
   }
   for (const [hex, rs] of byHex) {
-    if (rs.length > 1) {
+    if (rs.length > 1 && !ACCEPTED.has([...rs].sort().join("+"))) {
       console.warn(
-        `${TAG} WARN — registers ${rs.join(" + ")} both resolve to ${hex}. ` +
-        `The One-Meaning Rule reads as violated; confirm this aliasing is intended in canon.`
+        `${TAG} WARN — registers ${rs.join(" + ")} both resolve to ${hex}, ` +
+        `which canon has not ruled on. Either bind one elsewhere, or record the ` +
+        `decision and add "${[...rs].sort().join("+")}" to ACCEPTED here.`
       );
     }
   }

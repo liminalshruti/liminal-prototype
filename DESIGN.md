@@ -170,17 +170,18 @@ disappears. The dark faint tier is `--text-faint` (#807D78), AA-verified.
 meaning. Judgment magenta on a decorative divider is a lie the viewer can
 feel.
 
-> **Ruled 2026-08-02 — depth gets its own hue.** `--ambient` and `--depth`
-> both alias the Expression ladder today, so the ten named registers cover
-> nine hues and these two are chromatically identical. PR #75 moved depth off
-> cerulean onto Expression deliberately; that the move collided with ambient
-> was not noticed. Under the One-Meaning Rule a reader cannot tell "ambient"
-> from "depth" by looking, which is the rule failing on the register list it
-> governs.
->
-> The founder ruling is to give depth its own wheel position rather than
-> retire either name. Until that canon change lands, `design:gen` warns on
-> every run — the warning is load-bearing and should not be silenced first.
+**The One-Meaning Rule has one ruled exception.** `--ambient` and `--depth`
+both alias the Expression ladder, so the ten named registers cover nine hues
+and those two are chromatically identical. That is deliberate (founder ruling,
+2026-07-29): Cerulean became `--synthesis` and took brand load, so depth moved
+to the most recessive hue on the wheel — Expression, the darkest of the twelve
+and the only other translucent factor — where ambient already lived. Both are
+wash registers on a non-brand hue, which was the point: no brand colour does
+chrome duty any more. Two wash registers sharing a translucent hue has no
+visible consequence; a brand hue doing chrome duty did.
+
+One loose end canon flags itself: `--blend-ambient-to-depth` is now a same-hue
+tonal ramp, so its name over-promises a two-hue blend it no longer delivers.
 
 ## 3. Typography
 
