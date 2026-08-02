@@ -1,26 +1,47 @@
-# Liminal Agents — prototype
+# Liminal (public prototype)
 
-**Public demos: <https://liminalshruti.github.io/liminal-prototype/>**
+**Live demos: <https://liminalshruti.github.io/liminal-prototype/>**
 
-This is the public prototype surface for **Liminal** — judgment infrastructure for founders running multi-agent systems.
+Liminal is a local-first judgment and control layer for organizations operating with AI agents.
 
-The core claim: when anyone can build, the bottleneck moves from output to **judgment**. Liminal is the substrate where that judgment gets recorded, corrected, and compounded.
+The organizational problem: when agents produce most of the work, output stops being the bottleneck and judgment becomes it. Agent work products look finished while silently dropping load-bearing requirements, nobody can say afterwards who decided what, and the human corrections that catch these misses evaporate instead of becoming institutional memory. Liminal is an exploration of how an organization keeps five things while operating with agents: authority (a human owns the decision), provenance (every claim traces to its source), correction (human pushback is recorded as first-party data, not lost in chat scroll), institutional memory (the record compounds locally), and accountability (a tamper-evident trail of who did what).
 
-## The product loop
+## The loop
 
-1. **Tray** — drag a window, doc, transcript, or session in. No pipes. No integrations. The Tray is the substrate the operator's other tools enter.
-2. **Bounded agents** — bounded specialists read what's there. They disagree. Out-of-lane agents refuse and name the right one. (Register-named, not count-named — the canon parks the agent-count question deliberately.)
-3. **Correction** — when you push back, the semantic delta becomes first-party data.
-4. **Vault** — local-first. Every session, every correction, canonically hashed and searchable. The record is the moat. (Encryption-at-rest and packet signing are implemented in the `agents-v1` substrate library; wiring them into the shipping Tauri vault is on the near-term roadmap — see "Status: what's shipping vs. designed" below.)
-5. **Next move** — one signed packet. One thing the founder can stand behind.
+1. **Drop work in.** A window, doc, transcript, or agent session enters the Tray. No pipes, no integrations required.
+2. **Bounded agents read it.** Specialists with explicit boundaries read what is there. They disagree with each other. Out-of-lane agents refuse and name the right one; refusal is a designed output, not a failure state.
+3. **The human corrects.** When the operator pushes back on a read, the semantic delta is recorded as first-party data. The correction, not the AI's read, is the product.
+4. **The vault holds the record.** Local-first: every session and correction is canonically hashed and searchable on the operator's machine.
+5. **One accountable next move.** The loop ends in a packet a human can stand behind, and gated writes to external systems rather than silent side effects.
 
-## Why this matters
+The architectural bet: better models deepen this loop instead of eroding it. Higher-resolution reads produce more interesting disagreements, which produce richer corrections, which compound in the vault. (A bet, not a demonstrated result: the cuts below show the bounded-refusal loop running, not a weak-vs-strong-model comparison.)
 
-Frontier labs ship omniscience. Liminal ships **refusal**.
+## System context
 
-Bounded agents that say "that's not my ground, talk to the Healer" increase trust, not decrease it. Refusal as designed output is the architectural answer to the "agent hallucinates capability" problem.
+How the pieces relate across the Liminal codebase. Status per component is labeled honestly; this catalog is the public demo surface, not the product itself.
 
-The thesis: better models don't erode this — they deepen it. Higher-resolution reads should produce more interesting disagreements, which produce richer corrections, which compound in the vault. (This is the architectural bet, not yet a demonstrated result — the cuts show the bounded-refusal loop running, not a weak-vs-strong-model comparison.)
+```mermaid
+flowchart TB
+  subgraph machine["Operator's machine (local-first)"]
+    tray["Tray: work products enter"] --> agents["Bounded agents: read, disagree, refuse"]
+    agents --> corr["Human correction, recorded as data"]
+    corr --> vault[("Local vault: canonically hashed record<br/>(desktop: SQLCipher + Keychain key custody)")]
+    agents --> trail["Append-only, hash-chained audit trail"]
+  end
+  trail -. "hash-only anchoring, demonstrated on Algorand TestNet (Berlin submission)" .-> witness[("External witness")]
+  agents -- "gated external writes (dry-run staging today)" --> ext["External systems (e.g. Linear)"]
+```
+
+| Surface | What it is | Status |
+| --- | --- | --- |
+| This repo | Interactive demo cuts + the canonical design-token substrate | Public, live on GitHub Pages |
+| [liminal-engine](https://github.com/liminalshruti/liminal-engine) | The governance loop (observe, detect, correct, enforce, audit, improve) with the hash-chained audit ledger. Deep dive: [the hash-chained audit ledger](https://github.com/liminalshruti/liminal-engine/blob/main/docs/technical/hash-chained-audit-ledger.md) | Public, MIT, tested (`pnpm verify`) |
+| [algorand-berlin-2026](https://github.com/liminalshruti/algorand-berlin-2026) | Hackathon submission: agent commerce with on-chain provenance anchoring and a settlement-refusal guard | Public, archived as shipped |
+| Liminal desktop + agent substrate | The product: Tauri desktop vault and the agents-v1 substrate library | Private, in active development |
+
+## A concrete workflow you can run right now
+
+Open [cut 09, OSINT Custody](https://liminalshruti.github.io/liminal-prototype/cuts/09-osint-custody.html). The custody kernel runs the full loop live in your browser on every run: six bounded specialists read the material, a structural guard checks their output, competing hypotheses are re-ranked under review rules, and the run lands in a vault/audit view. Then open [cut 11, Govern](https://liminalshruti.github.io/liminal-prototype/cuts/11-govern.html), where correction is the primary interaction and the record reflects back. What is live computation versus deterministic fixture is labeled inside each cut; see "Status: what's shipping vs. designed" below.
 
 ## What's in this repo
 
@@ -103,12 +124,13 @@ Honest line between what runs today and what is built-but-not-yet-wired or roadm
 | Bounded agents · refusal-as-output | **Shipping (in-browser)** — the custody kernel (cut 09) recomputes the full loop client-side each run; the other cuts choreograph the same loop over deterministic fixtures (labeled in-surface). |
 | Packet contract · canonical hashing | **Shipping** — implemented and tested in the `agents-v1` substrate (golden-test pinned); consumed by `liminal-desktop` for hashing. |
 | Canonical token lockstep | **Shipping** — single token vocabulary. Desktop's linked CSS in exact sync (2026-06-11, Panda codegen). This prototype re-synced to canon 2026-06-16 (was 171 vars behind) + now has `tokens:sync`/`tokens:check` + an opt-in pre-push hook (`scripts/tokens/pre-push-check.sh`) so drift is caught locally before it ships. (CI guard skipped: canon is a private sibling repo — cross-repo CI checkout needs a secret; local guard chosen instead.) Symlink ruled out (cross-repo symlink dangles on Pages deploy); flat-copy + sync-discipline is the mechanism. |
-| Vault encryption-at-rest · packet signing | **Designed, not yet wired** — implemented in the `agents-v1` library (SQLCipher v4 + keyguard); the shipping Tauri vault currently opens plaintext SQLite. Wiring is near-term. |
+| Vault encryption-at-rest · packet signing | **Encryption shipped on desktop main (as of 2026-08):** the Tauri vault supports SQLCipher with macOS-Keychain-only key custody, and spend-governance commands fail closed if the vault file is plaintext (enforced in `require_encrypted_spend_vault`, covered by a SQLCipher integration test). Packet signing remains **designed, not yet wired** (implemented in the `agents-v1` library). |
 | On-chain provenance (cut 09) | **Recorded snapshot** — a real custody run was anchored once (localnet, 2026-05-28); a publicly-verifiable testnet anchor is roadmapped. |
 | Real model agents (desktop) | **Partial** — agent pipeline exists; desktop falls back to heuristic reads when no model client is wired. |
 
 ## Receipts
 
+- **Algorand Builders Berlin, Agentic Commerce x402 Hackathon (Jun 6-7, 2026): 1st place, Main Track 2: Infrastructure / Existing Projects.** x402 agent commerce on Algorand with hash-only on-chain provenance anchoring and a settlement-refusal guard. The submission repo is public and archived as shipped ([algorand-berlin-2026](https://github.com/liminalshruti/algorand-berlin-2026)); its `audit/LATEST.md` lists TestNet transaction ids that resolve on any Algorand explorer, and the [demo page](https://liminalshruti.github.io/algorand-berlin-2026/) is live.
 - **AI Agent Economy Hackathon (Apr 25, 2026):** Judge feedback called the *refusal-as-designed-output* framing "the most original architectural idea in the cohort."
 - **NatSec Hackathon (Cerebral Valley × Palantir × USDoD × OpenAI):** Top 16 of 102 finalists. Architecture applied to defense use case — *do not automate the moral lever, equip the human holding it.*
 - **a16z Speedrun SR007:** Applied May 6, 2026. Application ID `f952b90c-5099-4e3b-af17-555306085b7f`.
