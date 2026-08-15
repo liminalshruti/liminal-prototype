@@ -201,3 +201,13 @@ If `design-system/components/*.css` adds a new component CSS file, decide:
 
 The cascade is the discipline. The cuts are the experimentation surface. The canon
 is the contract.
+
+## The v2-vocab gate (public-repo disclosure boundary · 2026-08-14)
+
+This repo deploys from branch root: **a commit to main is a publication.** Private
+substrate schema vocabulary must never appear in any committed file. The mechanical
+gate is `scripts/v2-vocab-gate.mjs` (banned-term list lives in the script; blessed by
+founder-brain `decisions/2026-08-14-two-layer-demo-discipline.md` — additions require
+a decision addendum). Run `bash scripts/install-hooks.sh` once per clone to install it
+as a pre-commit hook; the playwright suite also runs it (`tests/vocab-gate.spec.js`).
+If the gate fires, the fix is to REMOVE the vocabulary, never to widen the exemptions.

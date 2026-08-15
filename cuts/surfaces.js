@@ -75,8 +75,9 @@ export const SURFACES = [
       alt:'L3-high-stakes', framing:'infra', stage:'full-loop',
       jump:'Counterintelligence analyst console — high-assurance, print-to-dossier.' },
     { file:'../team-drift/index.html', repo:'team-drift/index.html', name:'team-drift', badge:'live',
-      alt:'L2-team', framing:'infra', stage:'Record/correct',
-      jump:'Team coherence telemetry — governance-as-a-pipe.' },
+      alt:'L2-team', framing:'infra', stage:'Read/decide + Record/correct',
+      jump:'Claim drift + team coherence telemetry — one claim, five surfaces, three answers; governance-as-a-pipe.',
+      check:'claim-drift card leads (fictional dataset, display language only — v2-vocab-gate enforced); Devon telemetry below; correction-queued action beat renders.' },
   ]},
   { grp: 'Embeds', desc: 'embeddable composition demos', items: [
     { file:'../embed-slate-tray-demo.html', repo:'embed-slate-tray-demo.html', name:'embed-slate-tray-demo', badge:'', jump:'Slate & Tray — live composition surface.' },
