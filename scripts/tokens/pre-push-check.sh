@@ -19,3 +19,20 @@ if [ -f ../liminal-creative/tokens/design-tokens.css ]; then
 else
   echo "tokens pre-push: canon sibling absent — skipping drift check (committed copy is authoritative)" >&2
 fi
+
+# ── DESIGN.md tier ────────────────────────────────────────────────────────────
+# Runs UNCONDITIONALLY — note the missing `if canon is present` above it.
+#
+# design:check derives from this repo's own committed token copy (which the
+# check above separately proves equal to canon), so it needs no sibling and has
+# no reason to be skipped. That is the whole difference between the two tiers:
+# the token guard is opt-in and skippable, which is survivable because a drifted
+# token file is loud. The DESIGN.md tier had no guard at all, which is why canon
+# §5 moved on 2026-07-29 and every DESIGN.md kept declaring the superseded faces
+# for three months while `impeccable` read them as locked truth.
+#
+# Being hermetic also means this one can move into CI, which tokens:check cannot.
+if ! node scripts/design/gen-design-md.mjs --check; then
+  echo "✗ push blocked — DESIGN.md drifted from the token file. Run: npm run design:gen" >&2
+  exit 1
+fi
