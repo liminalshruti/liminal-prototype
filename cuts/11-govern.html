@@ -1,1314 +1,573 @@
 <!doctype html>
-<html lang="en" data-product="business" data-density="analyst" data-relationship="operator" data-surface="today">
+<html lang="en" data-step="source">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cut 11 · Govern · the AI-Spend loop · Liminal</title>
-<!-- brand ◇ favicon (data-URI) · kills the dev-console 404 on screen-share -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cut 11 · AI Spend Control Workstation · Liminal</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0b'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%238e66fb' stroke-width='1.6'/%3E%3C/svg%3E">
 <!--
-  Cut 11 · Govern · the real AI-Spend Governance loop (v2)
-  ──────────────────────────────────────────────────────────────────────
-  Loop-stage · full-loop · Altitude · L1→L2 · Surface · desktop
-  Framing · wedge→infra (AI-spend) · Maturity · live
-  ──────────────────────────────────────────────────────────────────────
-  PORTED from the shipped Govern cockpit (liminal-govern/app) + RECONCILED with cut 11's
-  loved prototype interactions. Real verified figures ($13,045→$4,500 · naïve $446→verified $284; E14/PR-103 dropped $162
-  adversarial catch). Restores: the 4-register read + the CORRECTION FLOW (correction is the
-  primary act), the OKR allocation bar, the OG Today + Mirror surfaces, and the
-  ORBITAL agency rail (8 bounded + adversarial reviewer, per liminal-govern canon;
-  from slate-tray, re-subjected to spend, canon-color-clean).
-  Follows design-system.html canon: register tokens only, NO inline color overrides.
+  Cut 11 · AI Spend Control Workstation
+  full-loop · L1→L2 · desktop · wedge→infra · live prototype
 
-  Surfaces (tabs + ⌘K): Today (re-entry) · The Loop (sense→read→catch→ratify) · Mirror
-  (calibration) · Registry (verified agents) · Decision log (hash chain).
-  ── Try it: ⌘K · 1–5 tabs · on the Loop: "Amend read" any register (correction) · Sign to ratify.
+  This is a SANITIZED DEMONSTRATION. It contains no customer data and no PHI.
+  Discovery-sourced premises retain their native unit: credits. Illustrative
+  allocation rows are labeled as such. No billed-currency or savings claim is
+  inferred. Hosted ChatGPT/Codex workspace controls remain guided manual actions.
+
+  Presenter path: 1–7 or ←/→ · R resets the demo.
+  source → today → reconcile → allocate → triage → control → proof
 -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
-<link rel="stylesheet" href="../design-system/components/framing.css">
-<!-- Shared design system (converged): chrome + canonical .artifact from cut-shell.css. -->
 <link rel="stylesheet" href="../lib/cut-shell.css">
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 <style>
-@font-face{font-family:"Nineties Headliner";src:url("../fonts/nineties-headliner.otf") format("opentype");font-weight:400;font-display:swap}
-@font-face{font-family:"Perfectly Nineties";src:url("../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
-@font-face{font-family:"Perfectly Nineties";src:url("../fonts/PerfectlyNineties-Semibold.otf") format("opentype");font-weight:600;font-display:swap}
-*{box-sizing:border-box}html,body{margin:0;height:100%}
-h1,h2,h3{text-wrap:balance}p{text-wrap:pretty}
-button{transition:transform .22s var(--ease-spring,ease),color .15s,background .15s,border-color .15s}
-button:hover{transform:translateY(-1.5px)}button:active{transform:translateY(0) scale(.97);transition-duration:.08s}
-@media (prefers-reduced-motion:reduce){button{transition:color .15s,background .15s}button:hover,button:active{transform:none}}
-body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;
-  background-image:radial-gradient(900px 480px at 8% -6%,var(--diligence-50),transparent 60%),radial-gradient(760px 480px at 106% 4%,var(--depth-50),transparent 55%);
-  display:flex;align-items:center;justify-content:center;min-height:100vh;padding:18px}
-.mono{font-family:var(--mono)}.serif{font-family:var(--serif,"Perfectly Nineties",Georgia,serif)}
-/* CHROME (.shell/.rb-top/.traffic/.brand/.rb-bot) inherited from converged cut-shell.css. */
-
-/* ── top-bar tabs ── */
-.tabs{display:flex;gap:2px;margin:0 auto}
-.tab{font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid transparent;border-radius:4px;padding:6px 11px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:7px}
-.tab:hover{color:var(--text);background:var(--hover)}.tab.on{color:var(--text);background:var(--hover);border-color:var(--card-border)}
-.tab .k{font-size:8px;color:var(--text-mute);border:1px solid var(--card-border);border-radius:2px;padding:0 4px}
-.tab .badge{background:var(--watch);color:var(--bg);border-radius:8px;font-size:8px;padding:1px 5px;letter-spacing:0}
-.cmdk{font:9px/1 var(--mono);letter-spacing:.1em;color:var(--text-faint);border:1px solid var(--card-border);border-radius:4px;padding:6px 9px;cursor:pointer;display:flex;gap:6px;align-items:center}
-.cmdk:hover{color:var(--text-mid);border-color:var(--text-faint)}
-.rel{display:flex;align-items:center;gap:5px}.rel .lbl{color:var(--text-faint);font-size:8px;letter-spacing:.14em;text-transform:uppercase}
-.rel button{font:8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:1px solid var(--card-border);border-radius:3px;padding:5px 7px;cursor:pointer;transition:.15s}
-.rel button:hover{color:var(--text)}.rel button.on{color:var(--bg);background:var(--diligence);border-color:var(--diligence)}
-
-/* ── 3-pane middle ── */
-.mid{display:grid;grid-template-columns:280px 1fr 320px;min-height:0;position:relative;transition:grid-template-columns .25s var(--ease)}
-/* Today/Mirror/Registry/Log go full-width (focus the center) */
-body[data-surface="today"] .mid,body[data-surface="mirror"] .mid,body[data-surface="registry"] .mid,body[data-surface="log"] .mid{grid-template-columns:0px 1fr 0px}
-body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-surface="mirror"] .rail-l,body[data-surface="mirror"] .rail-r,body[data-surface="registry"] .rail-l,body[data-surface="registry"] .rail-r,body[data-surface="log"] .rail-l,body[data-surface="log"] .rail-r{opacity:0;pointer-events:none}
-.rail-l,.rail-r{transition:opacity .2s var(--ease)}
-
-/* ── LEFT RAIL · evidence signals · skinned to cut 01's slate/tray tile vocabulary
-   (visual only · same .sig/.src/.nm/.act/.rows classes, same renderSignals logic).
-   The tile look: macOS title-bar w/ traffic-dots + source · display-font title ·
-   seated-nib rail connector · dashed/diffuse tray, solid slate. ── */
-.rail-l{background:var(--frame-bg-2);border-right:1px solid var(--frame-border);padding:13px 0;overflow-y:auto}
-.rl-h{display:flex;align-items:center;gap:7px;padding:0 15px 8px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
-.rl-h .live{display:inline-flex;align-items:center;gap:5px;color:var(--signal);margin-left:auto}.rl-h .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--signal);animation:pl 1.1s var(--ease) infinite}
-.rl-sub{padding:0 15px 9px;font:8px/1.4 var(--mono);letter-spacing:.08em;color:var(--text-mute);border-bottom:1px solid var(--frame-border);margin-bottom:8px}
-.rl-grp{padding:9px 15px 4px;font:8px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--text-mute)}
-/* the tile · cut-01 .tile shape */
-.sig{position:relative;margin:6px 9px 6px 22px;border:1px solid var(--card-border);border-radius:4px;background:var(--frame-bg-2);cursor:pointer;overflow:hidden;transition:border-color .22s var(--ease),transform .28s var(--ease),box-shadow .28s var(--ease),opacity .22s}
-/* seated nib · the tab linking the tile to the rail (cut 01) */
-.sig::before{content:"";position:absolute;top:15px;left:-13px;width:12px;height:1px;background:var(--card-border-2,var(--card-border))}
-.sig::after{content:"";position:absolute;top:13px;left:-17px;width:5px;height:5px;border-radius:50%;background:var(--frame-bg);border:1px solid var(--card-border-2,var(--card-border));transition:background .22s,border-color .22s,box-shadow .22s}
-.sig:hover{border-color:var(--diligence);transform:translateX(-3px);box-shadow:-6px 6px 20px rgba(0,0,0,.42),0 0 24px var(--diligence-bg);z-index:4}
-.sig:hover::after{background:var(--diligence);border-color:var(--diligence);box-shadow:0 0 8px var(--diligence)}
-/* the title-bar · macOS traffic-lights + source eyebrow (cut 01 .tile-bar) */
-.sig .src{display:flex;align-items:center;gap:8px;padding:6px 10px;background:rgba(255,255,255,.025);border-bottom:1px solid var(--card-border);font:8px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint)}
-.sig .src::before{content:"";flex-shrink:0;width:23px;height:7px;border-radius:10px;
-  background:radial-gradient(circle 3.5px at 3.5px 3.5px,rgba(255,255,255,.18) 0 3.5px,transparent 0),radial-gradient(circle 3.5px at 11.5px 3.5px,rgba(255,255,255,.18) 0 3.5px,transparent 0),radial-gradient(circle 3.5px at 19.5px 3.5px,rgba(255,255,255,.18) 0 3.5px,transparent 0)}
-/* the title · display font (cut 01 .tile-label) */
-.sig .nm{padding:7px 12px 8px;font:12.5px/1.25 var(--display,"Nineties Headliner",Georgia,serif);letter-spacing:-.005em;color:var(--text)}
-/* tray · diffuse · dashed (cut 01 idiom) · the harden affordance lives in the bar */
-.sig.tray{border-style:dashed;opacity:.82}.sig.tray .src{color:var(--watch)}.sig.tray .act{color:var(--watch)}
-.sig .act{margin-left:auto;flex-shrink:0;font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint)}
-.sig.slate .act{color:var(--good)}
-.sig.cited{border-color:var(--diligence)}.sig.cited .src{background:var(--diligence-bg);color:var(--diligence)}.sig.cited .src::before{background:radial-gradient(circle 3.5px at 3.5px 3.5px,var(--diligence) 0 3.5px,transparent 0),radial-gradient(circle 3.5px at 11.5px 3.5px,var(--diligence) 0 3.5px,transparent 0),radial-gradient(circle 3.5px at 19.5px 3.5px,var(--diligence) 0 3.5px,transparent 0)}.sig.cited .nm{color:var(--text)}
-.sig .rows{padding:0 12px 9px;font:9px/1.5 var(--mono);color:var(--text-faint);display:none}
-.sig.open .rows{display:block}
-
-/* ── CENTER ── */
-.work{padding:0;overflow-y:auto;position:relative}
-.pad{padding:22px 28px;display:flex;flex-direction:column;gap:16px}
-.invoke{display:flex;align-items:baseline;gap:10px;font:10px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);border-bottom:1px solid var(--card-border);padding-bottom:12px}
-.invoke b{color:var(--diligence);letter-spacing:.12em;text-transform:uppercase}
-.invoke .invoke-q{margin-left:auto;color:var(--text-mute);letter-spacing:.04em}.invoke .invoke-q b{color:var(--text-mid);text-transform:none;letter-spacing:.02em}
-
-/* ── SUBJECT SWITCHER (converged from cut 00) · the loop's subject is a parameter ── */
-.subjects{display:flex;gap:3px;margin:0 0 14px;background:var(--frame-bg);border:1px solid var(--card-border);border-radius:6px;padding:3px;width:fit-content}
-.subj{font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);background:transparent;border:0;border-radius:4px;padding:7px 12px;cursor:pointer;transition:.15s;white-space:nowrap}
-.subj:hover{color:var(--text)}.subj.on{color:var(--bg);background:var(--diligence)}
-.subj .deep{font-size:7px;letter-spacing:.14em;opacity:.6;margin-left:5px}
-/* per-subject read head (non-spend subjects reuse this; spend keeps its native sense-h) */
-.subj-head{margin:2px 0 12px}.subj-head .sk{font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
-.subj-head h2{margin:7px 0 0;font:400 22px/1.15 var(--display);color:var(--text)}
-/* ported evidence-pane primitives (custody map · osint layers · notice atrail · pattern coverage) */
-.subj-map{width:100%;height:170px;border-radius:6px;background:radial-gradient(120% 100% at 30% 20%,#0c1622,#08080a);border:1px solid var(--card-border);display:block}
-.map-legend{display:flex;gap:18px;margin-top:9px;font:8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
-.map-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:middle}
-.layers{display:flex;flex-direction:column;gap:6px}
-.layer{display:flex;gap:12px;align-items:baseline;padding:8px 11px;border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg)}
-.layer.counter{border-color:var(--alarm-edge);background:var(--alarm-bg)}
-.layer .ln{font:8px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);min-width:54px}
-.layer .lc{font:11px/1.4 var(--mono);color:var(--text-mid)}.layer.counter .lc{color:var(--alarm)}
-.hyp{margin-top:12px}.hyp-l{display:flex;justify-content:space-between;font:9px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);margin-bottom:6px}
-.hyp-bar{display:flex;height:14px;border-radius:3px;overflow:hidden;border:1px solid var(--card-border)}
-.hyp-bar .h1{flex:62;background:var(--good)}.hyp-bar .h2{flex:26;background:var(--watch)}.hyp-bar .h3{flex:12;background:var(--alarm)}
-.atrail{display:flex;flex-direction:column;gap:5px}
-.arow{display:grid;grid-template-columns:54px 1fr auto;gap:12px;align-items:center;padding:8px 11px;border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg);font:10px/1.3 var(--mono)}
-.arow .ak{color:var(--text-faint);letter-spacing:.12em}.arow .ae{color:var(--text-mid)}.arow .av{color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;font-size:8px}
-.arow.match{border-color:var(--connection-edge,var(--connection))}.arow.match .av{color:var(--connection,var(--good))}
-.arow.contra{border-color:var(--alarm-edge);background:var(--alarm-bg)}.arow.contra .av{color:var(--alarm)}
-.subj-cov{font:13px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim)}.subj-cov em{color:var(--text)}
-.seam{--seam-mb:14px}
-
-/* sense · vendor table + usage stream */
-.sense-h{display:flex;align-items:baseline;gap:10px}
-.sense-h .anum{font:9px/1 var(--mono);letter-spacing:.16em;color:var(--diligence);border:1px solid var(--diligence-edge);border-radius:3px;padding:3px 6px}
-.sense-h .atitle{font:500 16px/1.2 var(--display);color:var(--text)}
-.sense-h .asub{margin-left:auto;font:9px/1 var(--mono);color:var(--text-mute)}
-.tbl{width:100%;border-collapse:collapse;font:11px/1.5 var(--mono);border:1px solid var(--card-border);border-radius:7px;overflow:hidden}
-.tbl th{text-align:left;padding:8px 11px;font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);background:var(--frame-bg-3);border-bottom:1px solid var(--frame-border)}
-.tbl td{padding:7px 11px;color:var(--text-dim);border-bottom:1px solid var(--frame-border)}
-.tbl tr:last-child td{border-bottom:0}.tbl td.num{text-align:right;font-variant-numeric:tabular-nums}
-.tbl tr.flag td{background:var(--alarm-bg)}.tbl tr.flag td:first-child{color:var(--alarm)}
-.tbl tr.total td{font-weight:600;color:var(--text);background:var(--frame-bg-3)}
-.stream{display:flex;flex-direction:column;gap:2px;font:10.5px/1 var(--mono)}
-.urow{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;padding:7px 11px;border:1px solid var(--card-border);border-radius:4px;background:var(--frame-bg-2)}
-.urow .cat{color:var(--text-faint);font-size:9px}.urow .cost{color:var(--text-mid);font-variant-numeric:tabular-nums}
-.urow.flagged{border-color:var(--alarm-edge);background:var(--alarm-bg)}.urow.flagged .cat{color:var(--alarm)}
-
-/* ── the 4-register READ (restored, with correction flow) ── */
-.reg{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.03);position:relative;opacity:0;transform:translateY(5px);animation:rin .5s var(--ease) forwards}
-.reg .rh{display:flex;align-items:baseline;gap:10px}
-.reg .rname{font:10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase}
-.reg .rt{font:9px/1 var(--mono);color:var(--text-mute);margin-left:auto}
-.reg .amend{font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius:3px;padding:3px 7px;cursor:pointer;opacity:0;transition:.15s}
-.reg:hover .amend{opacity:1}.reg .amend:hover{color:var(--diligence);border-color:var(--diligence)}
-.reg .rbody{margin-top:9px;font:14px/1.55 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid)}
-.reg .rbody .hl{color:var(--text)}
-.reg.diligence .rname{color:var(--diligence)}.reg.synthesis .rname{color:var(--depth)}.reg.judgment .rname{color:var(--judgment)}.reg.outreach .rname{color:var(--connection)}
-.reg.corrected{background:linear-gradient(90deg,var(--diligence-bg),transparent 60%)}
-.reg .cmark{display:none;font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--diligence);margin-left:8px}
-.reg.corrected .cmark{display:inline}
-.reg-edit{display:none;margin-top:9px;gap:8px}
-.reg.editing .reg-edit{display:flex;flex-direction:column}
-.reg-edit textarea{width:100%;background:var(--frame-bg);border:1px solid var(--card-border);border-radius:4px;color:var(--text);font:12px/1.5 var(--sans);padding:8px 10px;resize:vertical;min-height:54px}
-.reg-edit .er{display:flex;gap:8px;align-items:center}
-.reg-edit .save{font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius:3px;padding:7px 12px;cursor:pointer}
-.reg-edit .cancel{font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);background:transparent;border:1px solid var(--card-border);border-radius:3px;padding:7px 12px;cursor:pointer}
-.reg-edit .hint{margin-left:auto;font:8px/1.4 var(--mono);color:var(--text-mute);letter-spacing:.06em;max-width:30ch;text-align:right}
-.cite{font:9px/1 var(--mono);letter-spacing:.04em;color:var(--depth);border:1px solid var(--depth-edge);border-radius:3px;padding:2px 6px;margin-left:4px;cursor:pointer;transition:.15s;white-space:nowrap}
-.cite:hover{background:var(--depth-bg)}
-
-/* OKR allocation bar (restored) · canon tokens only */
-.allocbar{margin-top:11px;height:26px;border-radius:4px;overflow:hidden;display:flex;border:1px solid var(--card-border);position:relative;max-width:400px}
-.allocbar .p{background:var(--diligence);display:flex;align-items:center;padding-left:10px;font:9px/1 var(--mono);color:#fff;letter-spacing:.08em}
-.allocbar .s{background:var(--depth);display:flex;align-items:center;padding-left:10px;font:9px/1 var(--mono);color:#fff;letter-spacing:.08em;position:relative}
-.allocbar .ghost{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--alarm);box-shadow:0 0 0 1px var(--alarm)}
-.allocbar .ghost::after{content:"actual 24%";position:absolute;top:-15px;left:-25px;font:8px/1 var(--mono);color:var(--alarm);white-space:nowrap}
-
-/* verdict + refusal */
-.verdict{display:inline-flex;align-items:center;gap:9px;margin-top:4px;font:11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--alarm);border:1px solid var(--alarm-edge);background:var(--alarm-bg);padding:7px 12px;border-radius:4px}
-.refusal{display:flex;gap:9px;align-items:flex-start;margin:10px 0 0;padding:8px 12px;border-left:2px solid var(--judgment);background:var(--judgment-bg);border-radius:0 4px 4px 0}
-.refusal .ico{color:var(--judgment);font:600 12px/1.3 var(--mono)}
-.refusal .tx{font:11px/1.45 var(--mono);color:var(--text-mid)}.refusal .tx b{color:var(--judgment);font-weight:500}
-
-/* the catch (E14/PR-103) · hero beat */
-.catch{border-left:2px solid var(--alarm);background:var(--alarm-bg);border-radius:0 5px 5px 0;padding:11px 14px;margin-top:10px}
-.catch .ch{display:flex;align-items:center;gap:8px;font:9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--alarm)}
-.catch .cb{margin-top:8px;font:12.5px/1.55 var(--sans);color:var(--text-mid)}.catch .cb b{color:var(--text);font-weight:500}.catch .cb s{color:var(--text-faint);text-decoration-color:var(--alarm)}
-.catch .moral{margin-top:9px;font:11px/1.5 var(--serif,Georgia,serif);font-style:italic;color:var(--text-dim)}
-.verifier{display:inline-flex;align-items:center;gap:7px;font:9px/1 var(--mono);letter-spacing:.06em;color:var(--judgment);margin:8px 0}
-.verifier::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--judgment);animation:pulse 1.4s infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 var(--judgment-glow)}50%{box-shadow:0 0 0 5px transparent}}
-
-/* reconciliation strip (the visible subtraction · "judges reward this") */
-.recon{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:10px 0}
-.recon .rc{border:1px solid var(--card-border);border-radius:6px;padding:10px 12px;background:var(--frame-bg-2);position:relative}
-.recon .rc .l{font:8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
-.recon .rc .v{margin-top:6px;font:600 19px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
-.recon .rc.drop .v{color:var(--alarm)}.recon .rc.verified .v{color:var(--good)}.recon .rc.naive .v{color:var(--text-faint)}
-.recon .rc .op{position:absolute;left:-9px;top:50%;transform:translateY(-50%);font:13px/1 var(--mono);color:var(--text-mute)}
-
-/* FINDING · clickable provenance artifact (THE hero interaction) */
-.finding{border:1px solid var(--card-border);border-radius:7px;background:var(--frame-bg-2);overflow:hidden;margin-bottom:9px}
-.finding.dropped{opacity:.78;border-left:3px solid var(--alarm)}
-.finding-head{display:flex;align-items:flex-start;gap:8px;padding:11px 13px;cursor:pointer}
-.finding-head .meta{flex:1;min-width:0}
-.finding-head .badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px}
-.finding-head .bdg{display:inline-flex;align-items:center;gap:5px;font:8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius:3px;padding:3px 6px}
-.finding-head .bdg.dot::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.finding-head .bdg.good{color:var(--good)}.finding-head .bdg.bad{color:var(--alarm)}.finding-head .bdg.acc{color:var(--diligence)}
-.finding-head .ftitle{font:500 13.5px/1.3 var(--sans);color:var(--text)}.finding.dropped .ftitle{color:var(--text-faint);text-decoration:line-through;text-decoration-color:var(--alarm)}
-.finding-head .fsave{font:600 16px/1 var(--mono);color:var(--good);font-variant-numeric:tabular-nums;white-space:nowrap}
-.finding-head .chev{font:10px/1 var(--mono);color:var(--text-mute);transition:transform .2s;margin-top:2px}
-.finding.open .chev{transform:rotate(90deg)}
-.finding-route{margin:0 13px 9px;padding:7px 10px;background:var(--diligence-bg);border:1px solid var(--diligence-edge);border-radius:4px;font:10px/1.4 var(--mono);color:var(--text-mid)}
-.finding-route .chip{color:var(--connection);border:1px solid var(--connection);border-radius:3px;padding:1px 5px;margin:0 3px}
-.finding-body{display:none;border-top:1px dashed var(--card-border)}
-.finding.open .finding-body{display:block}
-.ev-table{width:100%;border-collapse:collapse;font:9.5px/1.4 var(--mono)}
-.ev-table caption{text-align:left;padding:8px 13px 4px;font:8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
-.ev-table td,.ev-table th{padding:5px 13px;text-align:left;color:var(--text-dim);border-bottom:1px solid var(--frame-border)}
-.ev-table th{font:8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
-.ev-table td.num{text-align:right;font-variant-numeric:tabular-nums;color:var(--text-mid)}
-.ev-table tr:last-child td{border-bottom:0}
-.receipt{display:flex;flex-wrap:wrap;gap:6px 18px;padding:9px 13px;background:var(--frame-bg-3);border-top:1px solid var(--frame-border);font:9px/1.4 var(--mono);color:var(--text-dim)}
-.receipt .k{color:var(--text-faint);letter-spacing:.08em;text-transform:uppercase;margin-right:5px}
-.receipt .full{flex-basis:100%}
-.receipt .vbadge{display:inline-flex;align-items:center;gap:5px;color:var(--good);letter-spacing:.06em}.receipt .vbadge::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--good)}
-.receipt.bad .vbadge{color:var(--alarm)}.receipt.bad .vbadge::before{background:var(--alarm)}
-.finding-correct{padding:10px 13px;border-top:1px dashed var(--card-border);background:var(--frame-bg-3)}
-.fc-toggle{font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius:3px;padding:5px 9px;cursor:pointer;background:transparent}
-.fc-toggle:hover{color:var(--diligence);border-color:var(--diligence)}
-.fc-box{display:none;margin-top:9px}.finding.correcting .fc-box{display:block}
-.fc-kinds{display:flex;gap:6px;margin-bottom:8px}
-.fc-kind{font:8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius:3px;padding:5px 8px;cursor:pointer;background:transparent}
-.fc-kind.on{color:#fff;background:var(--diligence);border-color:var(--diligence)}
-.fc-box textarea{width:100%;background:var(--frame-bg);border:1px solid var(--card-border);border-radius:4px;color:var(--text);font:11px/1.5 var(--sans);padding:8px 10px;resize:vertical;min-height:46px}
-.fc-box .er{display:flex;gap:8px;align-items:center;margin-top:8px}
-.fc-box .save{font:8px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#fff;background:var(--diligence);border:1px solid var(--diligence);border-radius:3px;padding:7px 12px;cursor:pointer}
-.fc-done{display:none;margin-top:8px;font:9px/1.4 var(--mono);color:var(--good)}.finding.corrected .fc-done{display:block}.finding.corrected .fc-box{display:none}
-/* chain-integrity badge (stays green through corrections) */
-.chain-integ{display:inline-flex;align-items:center;gap:5px;font:8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--good);margin-left:auto;flex-shrink:0}
-.chain-integ::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--good);box-shadow:0 0 6px var(--good)}
-
-/* agent-fit swap */
-.swap{display:grid;grid-template-columns:1fr 24px 1fr;align-items:stretch;max-width:480px;margin-top:10px}
-.swap .side{padding:11px 13px;border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg-2)}
-.swap .side.cur{border-color:var(--alarm-edge)}.swap .side.sug{border-color:var(--connection);background:linear-gradient(180deg,var(--connection-bg),transparent)}
-.swap .ro{font:8px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
-.swap .ag{margin:6px 0 0;font:13px/1.2 var(--sans);color:var(--text);font-weight:500}
-.swap .co{margin-top:3px;font:9px/1.2 var(--mono);color:var(--text-dim)}
-.swap .bd{display:inline-flex;align-items:center;gap:5px;margin-top:9px;font:8px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase}.swap .bd::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.swap .cur .bd{color:var(--alarm)}.swap .sug .bd{color:var(--connection)}
-.swap .arrow{display:flex;align-items:center;justify-content:center;color:var(--depth);font:15px/1 var(--mono)}
-.savings{display:flex;align-items:baseline;gap:9px;margin-top:11px;font:11px/1 var(--mono)}
-.savings .was{color:var(--text-faint);text-decoration:line-through;text-decoration-color:var(--alarm)}
-.savings .now{font:600 19px/1 var(--mono);color:var(--good);font-variant-numeric:tabular-nums}
-.savings .lbl{color:var(--text-mute);letter-spacing:.04em}
-
-/* ratify */
-.policy{border:1px solid var(--diligence-edge);border-radius:8px;padding:16px 18px;background:linear-gradient(180deg,var(--diligence-bg),transparent)}
-.policy .pt{font:500 19px/1.3 var(--display);color:var(--text)}
-.policy .ps{margin-top:8px;font:11px/1.5 var(--mono);color:var(--good)}
-.dispo{display:flex;align-items:center;gap:10px;margin-top:6px;flex-wrap:wrap}
-.dispo .lbl{font:9px/1.4 var(--mono);letter-spacing:.06em;color:var(--text-faint);margin-right:auto;max-width:46ch}
-.db{font:10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:9px 16px;border-radius:3px;border:1px solid var(--card-border);background:var(--hover);color:var(--text-mid);cursor:pointer}
-.db:hover{color:var(--text);border-color:var(--text-faint)}
-.db.sign{color:#fff;background:var(--judgment);border-color:var(--judgment)}.db.sign:hover{box-shadow:0 0 22px var(--judgment-glow)}
-.db.sign .pre{opacity:.7;font-size:8px}
-.calib-cta{margin-top:14px;text-align:center}
-.calib-cta button{font:9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--diligence);background:transparent;border:1px solid var(--diligence-edge);border-radius:4px;padding:8px 14px;cursor:pointer}
-
-/* ── Today surface (OG, restored) ── */
-.today{max-width:600px;margin:0 auto;padding:40px 30px}
-.today .greet{font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
-.today h1{margin:10px 0 6px;font:400 30px/1.15 var(--display);color:var(--text)}
-.today .lede{margin:0 0 26px;font:16px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim)}
-.tcard{display:block;width:100%;text-align:left;border:1px solid var(--card-border);border-radius:8px;background:var(--frame-bg-2);padding:16px 18px;margin-bottom:12px;cursor:pointer;transition:.15s;color:inherit}
-.tcard:hover{border-color:var(--text-faint);background:var(--frame-bg-3)}
-.tcard .tk{display:flex;align-items:center;gap:8px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
-.tcard .tk .meta{margin-left:auto;color:var(--text-mute);letter-spacing:.08em}
-.tcard.decide .tk{color:var(--watch)}.tcard.outcome .tk{color:var(--connection)}.tcard.mirror .tk{color:var(--diligence)}
-.tcard h3{margin:8px 0 4px;font:500 17px/1.2 var(--display);color:var(--text)}
-.tcard p{margin:0;font:13.5px/1.5 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim)}
-.tcard .verdict-mini{margin-top:8px;display:inline-block;font:9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--alarm);border:1px solid var(--alarm-edge);background:var(--alarm-bg);padding:4px 8px;border-radius:3px}
-
-/* ── Mirror surface (OG, restored) ── */
-.mirror{max-width:640px;margin:0 auto;padding:36px 30px}
-.mirror .greet{font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
-.mirror h1{margin:10px 0 6px;font:400 28px/1.15 var(--display);color:var(--text)}
-.mirror .lede{margin:0 0 26px;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim);max-width:58ch}
-.mstats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-.mstat{border:1px solid var(--card-border);border-radius:7px;padding:14px;background:var(--frame-bg-2)}
-.mstat .v{font:600 24px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
-.mstat .l{margin-top:6px;font:9px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
-.mbars{border:1px solid var(--card-border);border-radius:7px;padding:16px 18px;background:var(--frame-bg-2);margin-bottom:20px}
-.mbars h3{margin:0 0 14px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-mid)}
-.mbar{display:grid;grid-template-columns:130px 1fr 40px;align-items:center;gap:12px;margin-bottom:9px;font:10px/1 var(--mono)}
-.mbar .lb{color:var(--text-dim)}.mbar .track{height:8px;background:var(--frame-bg-3);border-radius:4px;overflow:hidden}
-.mbar .fill{height:100%;border-radius:4px}.mbar .pct{color:var(--text-faint);text-align:right;font-variant-numeric:tabular-nums}
-.mnote{border-left:2px solid var(--diligence);padding:4px 0 4px 16px;margin-top:8px}
-.mnote .k{font:8px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--diligence)}
-.mnote p{margin:8px 0 0;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid);font-style:italic}
-.mnote ul{margin:8px 0 0;padding-left:18px;font:13px/1.6 var(--sans);color:var(--text-mid)}
-.mnote code{font:11px/1 var(--mono);color:var(--text);background:var(--frame-bg-3);padding:1px 5px;border-radius:3px}
-
-/* ── run-badge · marks a real-pipeline run vs the inline demo ── */
-.run-badge{margin-left:auto;font:8px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius:3px;padding:4px 8px;align-self:center}
-.run-badge.on{color:var(--connection);border-color:var(--connection)}
-
-/* ── OKR surface (reuses .today shell) ── */
-.okrs{display:flex;flex-direction:column;gap:18px;margin:6px 0 18px}
-.okr-obj{border:1px solid var(--card-border);border-radius:8px;padding:16px 18px;background:var(--frame-bg-2)}
-.okr-head{display:flex;align-items:baseline;gap:10px;margin-bottom:10px}
-.okr-head .okr-n{font:9px/1 var(--mono);letter-spacing:.1em;color:var(--depth)}
-.okr-head .okr-name{font:17px/1.2 var(--display,"Nineties Headliner",Georgia,serif);color:var(--text)}
-.okr-head .okr-alloc{margin-left:auto;font:13px/1 var(--mono);color:var(--text)}
-.okr-obj .track{height:8px;background:var(--frame-bg-3);border-radius:4px;overflow:hidden}
-.okr-obj .track .fill{height:100%}
-.okr-krs{margin:10px 0 0;padding-left:18px;font:13px/1.6 var(--sans);color:var(--text-dim)}
-.okr-foot{display:flex;align-items:center;gap:12px;margin-bottom:22px}
-.okr-sum{font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:4px;border:1px solid var(--card-border)}
-.okr-sum.ok{color:var(--connection);border-color:var(--connection)}
-.okr-sum.warn{color:var(--alarm);border-color:var(--alarm-edge,var(--alarm))}
-.okr-note{font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
-
-/* ── secondary screens (Registry / Decision log) ── */
-.screen{max-width:760px;margin:0 auto;padding:30px;display:flex;flex-direction:column;gap:16px}
-.screen .sh{font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint)}
-.screen h1{margin:8px 0 4px;font:400 26px/1.15 var(--display);color:var(--text)}
-.screen .lede{margin:0 0 8px;font:14px/1.6 var(--serif,Georgia,serif);color:var(--text-dim);max-width:64ch}
-.agents{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.agent{border:1px solid var(--card-border);border-radius:8px;padding:14px 16px;background:var(--frame-bg-2)}
-.agent .an{font:500 15px/1.2 var(--sans);color:var(--text)}.agent .at{margin-top:3px;font:9px/1 var(--mono);color:var(--text-dim)}
-.agent .badges{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
-.agent .bdg{display:inline-flex;align-items:center;gap:5px;font:8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}.agent .bdg::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
-.agent .bdg.ok{color:var(--good)}.agent .bdg.warn{color:var(--watch)}.agent .bdg.cost{color:var(--diligence)}
-.agent .lanes{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
-.agent .lane{font:8px/1 var(--mono);color:var(--text-dim);border:1px solid var(--card-border);border-radius:3px;padding:3px 6px}
-.agent .prov{margin-top:9px;padding-top:8px;border-top:1px solid var(--frame-border);font:8.5px/1.4 var(--mono);color:var(--text-mute)}
-.agent .prov .phash{color:var(--diligence)}
-
-/* ── rich registry agent cards (real reputation + proof) ── */
-.agent.rich{display:flex;flex-direction:column;gap:8px}
-.agent .ar-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.agent .rep{font:600 18px/1 var(--mono);display:flex;flex-direction:column;align-items:flex-end;gap:2px}
-.agent .rep .rl{font:7px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);font-weight:400}
-.agent .rep.ok{color:var(--good)}.agent .rep.cost{color:var(--diligence)}.agent .rep.warn{color:var(--watch)}
-.agent .claim{font:12px/1.5 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim);font-style:italic}
-
-/* ── the agent-fit marketplace swap (hero beat in the loop) ── */
-.mswap{margin-top:12px;border:1px solid var(--card-border);border-radius:8px;background:var(--frame-bg-2);overflow:hidden}
-.mswap-h{padding:9px 13px;font:10px/1.4 var(--mono);color:var(--text-dim);border-bottom:1px solid var(--frame-border);background:var(--frame-bg-3)}
-.mswap-grid{display:grid;grid-template-columns:1fr 52px 1fr;align-items:stretch;gap:0}
-.mside{padding:13px 15px;display:flex;flex-direction:column;gap:6px}
-.mside.sug{background:color-mix(in srgb,var(--good) 7%,transparent)}
-.mside .mrole{font:7px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
-.mside .mname{font:500 15px/1.2 var(--sans);color:var(--text)}
-.mside.sug .mname{color:var(--good)}
-.mside .mmeta{font:8px/1.3 var(--mono);color:var(--text-dim)}
-.mside .mstatrow{display:flex;gap:8px;align-items:baseline;margin-top:2px}
-.mside .mcost{font:11px/1 var(--mono);color:var(--text)}
-.mside .mrep{font:8px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--good)}
-.mside .mlanes{display:flex;flex-wrap:wrap;gap:4px;margin-top:2px}
-.mside .mproof{margin-top:auto;padding-top:7px;font:8px/1.4 var(--mono);color:var(--text-mute)}
-.marrow{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font:15px/1 var(--mono);color:var(--text-faint);border-left:1px solid var(--frame-border);border-right:1px solid var(--frame-border)}
-.marrow .msave{font:8px/1 var(--mono);color:var(--good);letter-spacing:.04em}
-
-/* ── RIGHT RAIL · ORBITAL agency (ported from cut 01, canon-clean, spend-subjected) ── */
-.rail-r{background:var(--frame-bg-2);border-left:1px solid var(--frame-border);padding:13px 0;overflow-y:auto}
-.rr-h{display:flex;justify-content:space-between;align-items:center;padding:0 15px 10px;border-bottom:1px solid var(--frame-border);margin-bottom:6px;font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint)}
-.rr-h .live{display:inline-flex;align-items:center;gap:5px;color:var(--signal)}.rr-h .live::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--signal);animation:pl 1.1s var(--ease) infinite}
-.orbital-rail{position:relative;width:100%;aspect-ratio:1/1.15;margin:6px auto 8px;padding:0 10px}
-.orbital-svg{width:100%;height:100%;display:block;overflow:visible}
-.reg-plate{fill:rgba(255,255,255,.025);stroke:var(--frame-border);stroke-width:1}
-.reg-plate.diligence{stroke:var(--diligence)}.reg-plate.outreach{stroke:var(--outreach)}.reg-plate.synthesis{stroke:var(--depth)}.reg-plate.judgment{stroke:var(--judgment)}
-.reg-label{font-family:var(--mono);font-size:8px;letter-spacing:.16em;text-transform:uppercase;text-anchor:middle;dominant-baseline:middle}
-.reg-label.diligence{fill:var(--diligence)}.reg-label.outreach{fill:var(--outreach)}.reg-label.synthesis{fill:var(--depth)}.reg-label.judgment{fill:var(--judgment)}
-.agent-slot{font-family:var(--mono);font-size:7px;letter-spacing:.02em;text-anchor:middle;dominant-baseline:middle;fill:rgba(255,255,255,.5);transition:fill .2s}
-.agent-glyph{font-family:var(--mono);font-size:9px;text-anchor:middle;dominant-baseline:middle;transition:fill .2s,opacity .4s}
-.agent-glyph.queued{fill:rgba(255,255,255,.22)}
-.agent-glyph.reading{fill:var(--text);animation:pulse-glyph 4.2s ease-in-out infinite}
-.agent-glyph.complete{fill:var(--connection)}
-.agent-glyph.refused{fill:var(--judgment)}
-@keyframes pulse-glyph{0%,100%{opacity:.55}50%{opacity:1}}
-.center-mark{font-family:var(--mono);font-size:14px;text-anchor:middle;dominant-baseline:middle;fill:rgba(255,255,255,.42)}
-.center-orb{fill:var(--diligence);fill-opacity:0;stroke:var(--diligence);stroke-opacity:0;transition:fill-opacity .6s,stroke-opacity .6s}
-.center-orb.convergent{fill-opacity:.18;stroke-opacity:.55}
-.center-orb.sealed{fill-opacity:.32;stroke-opacity:.85;stroke-width:1.5;filter:drop-shadow(0 0 8px var(--diligence-glow))}
-.refusal-arrow{fill:none;stroke-width:1;opacity:0;transition:opacity .32s;stroke-linecap:round}
-.refusal-arrow.active{opacity:.55}
-.refusal-arrow.diligence{stroke:var(--diligence)}.refusal-arrow.judgment{stroke:var(--judgment)}.refusal-arrow.outreach{stroke:var(--outreach)}
-.orbital-coverage{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);text-align:center;padding:0 14px;margin-top:-2px;line-height:1.55}
-.orbital-coverage .ce{color:var(--text-mid)}
-
-/* ── BOTTOM RIBBON · chain ── */
-.ev{display:flex;gap:6px;align-items:baseline;flex-shrink:0}.ev .t{color:var(--text-mute)}.ev .e{color:var(--text-mid)}
-.ev.ref .e{color:var(--judgment)}.ev.corr .e{color:var(--diligence)}.ev.fresh{animation:fr 1.6s var(--ease)}
-
-/* ⌘K palette + toast */
-.palette{position:absolute;inset:0;z-index:50;display:none;align-items:flex-start;justify-content:center;padding-top:14vh;background:rgba(0,0,0,.55);backdrop-filter:blur(3px)}
-.palette.open{display:flex}
-.pal-box{width:min(520px,92%);background:var(--frame-bg);border:1px solid var(--card-border);border-radius:10px;box-shadow:0 40px 90px rgba(0,0,0,.7);overflow:hidden}
-.pal-box input{width:100%;background:transparent;border:0;outline:0;padding:15px 18px;color:var(--text);font:14px/1 var(--mono);border-bottom:1px solid var(--frame-border)}
-.pal-box input::placeholder{color:var(--text-faint)}
-.pal-row{display:flex;align-items:center;gap:12px;padding:11px 16px;cursor:pointer;font:11px/1 var(--mono);color:var(--text-mid)}
-.pal-row:hover,.pal-row.sel{background:var(--hover);color:var(--text)}.pal-row .pk{margin-left:auto;font-size:9px;color:var(--text-mute);border:1px solid var(--card-border);border-radius:2px;padding:1px 5px}
-.toast{position:absolute;bottom:48px;left:50%;transform:translateX(-50%) translateY(8px);opacity:0;background:var(--frame-bg);border:1px solid var(--diligence);border-radius:6px;padding:9px 14px;font:10px/1.3 var(--mono);color:var(--text);box-shadow:0 12px 30px rgba(0,0,0,.5);z-index:40;transition:opacity .2s,transform .2s;letter-spacing:.04em;display:flex;gap:8px;align-items:center}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}.toast .d{color:var(--diligence)}
-
-/* relationship states */
-body[data-relationship="oversight"] .reg .rbody,body[data-relationship="oversight"] .sig .nm{filter:blur(4px);opacity:.5;pointer-events:none}
-/* PUBLIC · the bounded-refusal-for-viewers beat · a composed consent-boundary
-   frame, not a blank pane. The center work hides; the orbital rail stays LIVE
-   (the fleet still runs · you just don't have custody of the read). */
-body[data-relationship="public"] .work>.pad,body[data-relationship="public"] .work>.today,body[data-relationship="public"] .work>.mirror,body[data-relationship="public"] .work>.screen{display:none}
-/* overlays the center column only (between the two rails) so the orbital rail stays visible */
-.refuse-frame{display:none;position:absolute;top:0;bottom:0;left:280px;right:320px;z-index:5;background:var(--frame-bg)}
-body[data-surface="today"] .refuse-frame,body[data-surface="mirror"] .refuse-frame,body[data-surface="registry"] .refuse-frame,body[data-surface="log"] .refuse-frame,body[data-surface="okr"] .refuse-frame,body[data-surface="report"] .refuse-frame{left:0;right:0}
-body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;height:100%;padding:36px;gap:0;animation:refuse-in .5s var(--ease) both}
-@keyframes refuse-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.refuse-frame .seal{width:60px;height:60px;border-radius:50%;border:1px solid var(--judgment);display:flex;align-items:center;justify-content:center;font:300 26px/1 var(--mono);color:var(--judgment);background:var(--judgment-bg);box-shadow:0 0 0 6px color-mix(in srgb,var(--judgment) 8%,transparent);margin-bottom:22px}
-.refuse-frame .rk{font:8px/1 var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--judgment);margin-bottom:14px}
-.refuse-frame h2{margin:0;font:400 27px/1.2 var(--display);color:var(--text);max-width:18ch}
-.refuse-frame .rsub{margin:14px 0 0;font:15px/1.6 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-dim);max-width:42ch}
-.refuse-frame .rsub b{color:var(--text-mid);font-weight:400;font-style:italic}
-.refuse-frame .resc{margin-top:26px;display:inline-flex;align-items:center;gap:9px;font:9px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--text-faint);border:1px solid var(--card-border);border-radius:5px;padding:10px 16px;background:var(--frame-bg-2)}
-.refuse-frame .resc .arr{color:var(--judgment)}
-
-@keyframes pl{0%,100%{opacity:1}50%{opacity:.3}}@keyframes fr{0%{background:var(--diligence-bg);padding:2px 6px;border-radius:3px}100%{background:transparent;padding:0}}@keyframes rin{to{opacity:1;transform:none}}
-
-/* ── PATH-ONLY MOTION · surface transition (the only motion not already present) ──
-   Each time #work re-renders (tab change / ⌘K jump) its content fades up once.
-   Restrained: 8px rise, 360ms, brand ease. Tuned to read clean on video playback. */
-@keyframes work-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.work.enter>*{animation:work-in .36s var(--ease,cubic-bezier(.22,.61,.36,1)) both}
-
-/* ── QUIET THE NON-PATH CHROME ──
-   Demo path = Today · The loop · Mirror (+ ⌘K, register switcher, both rails).
-   Off-path tabs (OKRs · Report · Registry · Log) and the run-badge recede so the
-   eye lands on the story. Still fully functional · opacity only, restores on hover. */
-.tab[data-go="okr"],.tab[data-go="report"],.tab[data-go="registry"],.tab[data-go="log"]{opacity:.42;transition:opacity .2s var(--ease)}
-.tab[data-go="okr"]:hover,.tab[data-go="report"]:hover,.tab[data-go="registry"]:hover,.tab[data-go="log"]:hover,.tab.on{opacity:1}
-.run-badge:not(.on){opacity:.4;transition:opacity .2s}.run-badge:hover{opacity:1}
-
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}.reg{opacity:1;transform:none}}
+@font-face{font-family:"Nineties Headliner";src:url("../fonts/nineties-headliner.otf") format("opentype");font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../fonts/perfectly-nineties-regular.otf") format("opentype");font-display:swap}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
+body{min-height:100vh;display:grid;place-items:center;padding:18px;font:13px/1.5 var(--sans,system-ui,sans-serif);background-image:radial-gradient(900px 480px at 8% -8%,var(--diligence-100),transparent 62%),radial-gradient(720px 460px at 105% 0,var(--depth-100),transparent 58%);-webkit-font-smoothing:antialiased}
+button{font:inherit}
+.mono{font-family:var(--mono,ui-monospace,monospace)}
+.shell{width:min(1320px,calc(100vw - 36px));height:min(840px,calc(100vh - 76px));display:grid;grid-template-rows:auto minmax(0,1fr) auto;border:1px solid var(--card-border);border-radius:12px;overflow:hidden;background:var(--frame-bg);box-shadow:0 40px 90px rgba(0,0,0,.6);position:relative}
+body.embedded .shell{height:min(840px,96vh)}
+.rb-top{min-height:42px;padding:9px 14px}
+.brand{font-family:var(--mono,ui-monospace,monospace)}
+.top-spacer{flex:1}
+.env{display:flex;align-items:center;gap:8px;font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.13em;text-transform:uppercase;color:var(--text-faint)}
+.env .safe{color:var(--connection);border:1px solid var(--connection-edge);background:var(--connection-bg);border-radius:999px;padding:5px 8px}
+.env .local{border:1px solid var(--card-border);border-radius:999px;padding:5px 8px}
+.workspace{min-height:0;display:grid;grid-template-columns:248px 1fr;background:var(--frame-bg)}
+.rail{min-height:0;display:flex;flex-direction:column;border-right:1px solid var(--frame-border);background:var(--frame-bg-2)}
+.rail-head{padding:20px 18px 15px;border-bottom:1px solid var(--frame-border)}
+.rail-kicker{font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.18em;text-transform:uppercase;color:var(--diligence)}
+.rail-title{margin-top:8px;font:20px/1.05 var(--display,"Nineties Headliner",serif);letter-spacing:-.01em}
+.rail-sub{margin-top:7px;color:var(--text-faint);font-size:11px;line-height:1.45}
+.pool{margin-top:15px;border:1px solid var(--diligence-edge);border-radius:7px;padding:11px 12px;background:linear-gradient(135deg,var(--diligence-bg),transparent)}
+.pool .v{font:600 21px/1 var(--mono,ui-monospace,monospace);font-variant-numeric:tabular-nums}
+.pool .u{margin-top:5px;font:8px/1.35 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
+.step-nav{padding:12px 9px;display:flex;flex-direction:column;gap:3px;overflow:auto}
+.step-btn{appearance:none;width:100%;display:grid;grid-template-columns:24px 1fr auto;gap:8px;align-items:center;text-align:left;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--text-dim);padding:8px 9px;cursor:pointer;transition:background .15s,border-color .15s,color .15s}
+.step-btn:hover{color:var(--text);background:var(--hover)}
+.step-btn.on{color:var(--text);border-color:var(--card-border);background:var(--frame-bg-3)}
+.step-btn.done .n{color:var(--connection);border-color:var(--connection-edge)}
+.step-btn .n{width:21px;height:21px;display:grid;place-items:center;border:1px solid var(--card-border);border-radius:50%;font:8px/1 var(--mono,ui-monospace,monospace);color:var(--text-faint)}
+.step-btn.on .n{color:var(--bg);background:var(--diligence);border-color:var(--diligence)}
+.step-btn .name{font:10px/1.2 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase}
+.step-btn .sub{display:block;margin-top:3px;font-size:8px;letter-spacing:.01em;text-transform:none;color:var(--text-faint)}
+.step-btn .key{font:8px/1 var(--mono,ui-monospace,monospace);color:var(--text-mute)}
+.rail-foot{margin-top:auto;padding:12px 15px;border-top:1px solid var(--frame-border);font:8px/1.5 var(--mono,ui-monospace,monospace);letter-spacing:.06em;color:var(--text-faint)}
+.rail-foot b{display:block;margin-bottom:4px;color:var(--connection);font-weight:500;text-transform:uppercase;letter-spacing:.13em}
+.content{min-width:0;min-height:0;display:flex;flex-direction:column}
+.content-top{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:11px 20px;border-bottom:1px solid var(--frame-border);background:var(--frame-bg-2)}
+.flow-wrap{min-width:0}
+.flow{display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden;font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase;color:var(--text-mute)}
+.flow span{transition:color .15s}
+.flow span.hot{color:var(--diligence)}
+.flow i{font-style:normal;color:var(--card-border-2)}
+.progress{margin-top:7px;height:2px;background:var(--card-border);overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--diligence),var(--judgment));transition:width .32s var(--ease-out,ease)}
+.reset{appearance:none;border:1px solid var(--card-border);border-radius:4px;background:transparent;color:var(--text-faint);padding:6px 9px;cursor:pointer;font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase}
+.reset:hover{color:var(--text);border-color:var(--text-faint)}
+.disclosure{display:flex;align-items:center;gap:9px;padding:8px 20px;border-bottom:1px solid var(--watch-edge);background:var(--watch-bg);font:8px/1.35 var(--mono,ui-monospace,monospace);letter-spacing:.09em;text-transform:uppercase;color:var(--watch)}
+.disclosure .mark{width:6px;height:6px;border-radius:50%;background:var(--watch);box-shadow:0 0 7px var(--watch-glow)}
+.disclosure .right{margin-left:auto;color:var(--text-faint)}
+.view{flex:1;min-height:0;overflow:auto;padding:24px 28px 34px;scrollbar-color:var(--card-border-2) transparent}
+.view-inner{max-width:1040px;margin:0 auto;animation:enter .28s var(--ease-out,ease)}
+@keyframes enter{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.eyebrow{font:9px/1 var(--mono,ui-monospace,monospace);letter-spacing:.18em;text-transform:uppercase;color:var(--diligence)}
+.headline{margin:9px 0 6px;font:400 clamp(25px,3vw,38px)/1.02 var(--display,"Nineties Headliner",serif);letter-spacing:-.02em;color:var(--text)}
+.lede{margin:0;max-width:780px;color:var(--text-dim);font:15px/1.5 var(--serif,"Perfectly Nineties",Georgia,serif)}
+.lede b{color:var(--text);font-weight:500}
+.section-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:19px}
+.section-head .copy{flex:1}
+.status-pill{flex-shrink:0;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--card-border);border-radius:999px;padding:6px 9px;color:var(--text-faint);font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.09em;text-transform:uppercase}
+.status-pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.status-pill.good{color:var(--connection);border-color:var(--connection-edge);background:var(--connection-bg)}
+.status-pill.warn{color:var(--watch);border-color:var(--watch-edge);background:var(--watch-bg)}
+.status-pill.alarm{color:var(--alarm);border-color:var(--alarm-edge);background:var(--alarm-bg)}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{border:1px solid var(--card-border);border-radius:8px;background:var(--frame-bg-2);overflow:hidden}
+.card-pad{padding:15px 16px}
+.card-head{display:flex;align-items:center;gap:10px;padding:10px 13px;border-bottom:1px solid var(--frame-border);background:var(--frame-bg-3);font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.13em;text-transform:uppercase;color:var(--text-faint)}
+.card-head .tag{margin-left:auto;color:var(--diligence)}
+.metric{padding:16px}
+.metric .v{font:600 24px/1 var(--mono,ui-monospace,monospace);font-variant-numeric:tabular-nums;color:var(--text)}
+.metric .v.small{font-size:18px}
+.metric .l{margin-top:8px;font:8px/1.35 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.metric .note{margin-top:9px;color:var(--text-dim);font-size:11px;line-height:1.45}
+.metric.accent{border-color:var(--diligence-edge);background:linear-gradient(145deg,var(--diligence-bg),var(--frame-bg-2) 62%)}
+.metric.warn{border-color:var(--watch-edge);background:linear-gradient(145deg,var(--watch-bg),var(--frame-bg-2) 62%)}
+.metric.alarm{border-color:var(--alarm-edge);background:linear-gradient(145deg,var(--alarm-bg),var(--frame-bg-2) 62%)}
+.fact-list{display:flex;flex-direction:column}
+.fact{display:grid;grid-template-columns:minmax(110px,.7fr) 1.4fr auto;gap:14px;align-items:center;padding:11px 13px;border-bottom:1px solid var(--frame-border)}
+.fact:last-child{border-bottom:0}
+.fact .k{font:8px/1.25 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.fact .v{font:11px/1.4 var(--mono,ui-monospace,monospace);color:var(--text-mid);overflow-wrap:anywhere}
+.fact .s{font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)}
+.fact .s.ok{color:var(--connection)}
+.fact .s.warn{color:var(--watch)}
+.callout{margin-top:12px;display:flex;gap:12px;align-items:flex-start;border:1px solid var(--diligence-edge);background:var(--diligence-bg);border-radius:7px;padding:12px 14px;color:var(--text-dim)}
+.callout .icon{font:18px/1 var(--display,"Nineties Headliner",serif);color:var(--diligence)}
+.callout b{display:block;margin-bottom:3px;color:var(--text);font:9px/1.2 var(--mono,ui-monospace,monospace);letter-spacing:.12em;text-transform:uppercase}
+.callout.warn{border-color:var(--watch-edge);background:var(--watch-bg)}
+.callout.warn .icon{color:var(--watch)}
+.callout.alarm{border-color:var(--alarm-edge);background:var(--alarm-bg)}
+.callout.alarm .icon{color:var(--alarm)}
+.checks{display:flex;flex-direction:column;gap:8px;padding:13px}
+.check{display:grid;grid-template-columns:18px 1fr auto;gap:9px;align-items:start;color:var(--text-dim);font-size:11px}
+.check .box{width:15px;height:15px;display:grid;place-items:center;border:1px solid var(--connection-edge);border-radius:3px;color:var(--connection);font:9px/1 var(--mono,ui-monospace,monospace)}
+.check .meta{font:8px/1.3 var(--mono,ui-monospace,monospace);letter-spacing:.07em;text-transform:uppercase;color:var(--text-faint)}
+.actions{display:flex;align-items:center;gap:9px;margin-top:17px;padding-top:14px;border-top:1px dashed var(--card-border-2)}
+.actions .hint{margin-right:auto;color:var(--text-faint);font:8px/1.45 var(--mono,ui-monospace,monospace);letter-spacing:.05em;max-width:58ch}
+.btn{appearance:none;border:1px solid var(--card-border);border-radius:5px;background:var(--hover);color:var(--text-mid);padding:9px 13px;cursor:pointer;font:9px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;transition:transform .15s,border-color .15s,background .15s,color .15s}
+.btn:hover{color:var(--text);border-color:var(--text-faint);transform:translateY(-1px)}
+.btn.primary{color:var(--bg);background:var(--diligence);border-color:var(--diligence)}
+.btn.primary:hover{box-shadow:0 0 20px var(--diligence-glow)}
+.btn.good{color:var(--bg);background:var(--connection);border-color:var(--connection)}
+.btn.warn{color:var(--bg);background:var(--watch);border-color:var(--watch)}
+.btn:disabled{opacity:.35;cursor:not-allowed;transform:none;box-shadow:none}
+.table-wrap{overflow:auto}
+.table{width:100%;border-collapse:collapse;font:10px/1.4 var(--mono,ui-monospace,monospace);font-variant-numeric:tabular-nums}
+.table th{text-align:left;padding:8px 11px;border-bottom:1px solid var(--frame-border);background:var(--frame-bg-3);color:var(--text-faint);font-size:8px;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+.table td{padding:9px 11px;border-bottom:1px solid var(--frame-border);color:var(--text-dim);white-space:nowrap}
+.table tr:last-child td{border-bottom:0}
+.table .num{text-align:right;color:var(--text-mid)}
+.table .total td{color:var(--text);font-weight:600;background:var(--frame-bg-3)}
+.unit-lanes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.unit{border:1px solid var(--card-border);border-radius:6px;padding:10px 11px;background:var(--frame-bg-2)}
+.unit .u{font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.unit .v{margin-top:7px;font:11px/1.3 var(--mono,ui-monospace,monospace);color:var(--text-mid)}
+.unit.active{border-color:var(--diligence-edge)}
+.unit.active .u{color:var(--diligence)}
+.license-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px}
+.license{border:1px solid var(--card-border);border-radius:6px;padding:11px;background:var(--frame-bg)}
+.license .v{font:600 22px/1 var(--mono,ui-monospace,monospace)}
+.license .source{margin-top:7px;color:var(--text-faint);font:8px/1.35 var(--mono,ui-monospace,monospace);letter-spacing:.06em;text-transform:uppercase}
+.license.accepted{border-color:var(--connection-edge)}
+.license.gap{border-style:dashed;border-color:var(--watch-edge)}
+.gap-list{display:flex;flex-direction:column}
+.gap-row{display:grid;grid-template-columns:8px 1fr auto;gap:10px;align-items:start;padding:10px 12px;border-bottom:1px solid var(--frame-border)}
+.gap-row:last-child{border-bottom:0}
+.gap-row .dot{width:6px;height:6px;margin-top:5px;border-radius:50%;background:var(--watch)}
+.gap-row .text{color:var(--text-dim);font-size:11px}
+.gap-row .text b{display:block;color:var(--text-mid);font-weight:500}
+.gap-row .tag{font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.08em;text-transform:uppercase;color:var(--watch)}
+.allocation{margin-top:12px}
+.alloc-bar{height:18px;display:flex;overflow:hidden;border:1px solid var(--card-border);border-radius:5px;background:var(--frame-bg-3)}
+.alloc-seg{height:100%;position:relative;transition:width .4s var(--ease-out,ease)}
+.alloc-seg:nth-child(1){background:var(--diligence)}
+.alloc-seg:nth-child(2){background:var(--judgment)}
+.alloc-seg:nth-child(3){background:var(--depth)}
+.alloc-seg:nth-child(4){background:var(--connection)}
+.alloc-seg.residual{background:repeating-linear-gradient(135deg,var(--watch),var(--watch) 4px,var(--watch-700) 4px,var(--watch-700) 8px)}
+.alloc-legend{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin-top:9px}
+.alloc-key{font:8px/1.35 var(--mono,ui-monospace,monospace);color:var(--text-faint)}
+.alloc-key i{display:inline-block;width:7px;height:7px;border-radius:2px;margin-right:5px;background:var(--diligence)}
+.alloc-key:nth-child(2) i{background:var(--judgment)}
+.alloc-key:nth-child(3) i{background:var(--depth)}
+.alloc-key:nth-child(4) i{background:var(--connection)}
+.alloc-key:nth-child(5) i{background:var(--watch)}
+.equation{display:flex;align-items:center;justify-content:center;gap:10px;margin:12px 0 0;padding:10px;border:1px solid var(--connection-edge);border-radius:6px;background:var(--connection-bg);color:var(--connection);font:10px/1 var(--mono,ui-monospace,monospace);font-variant-numeric:tabular-nums}
+.finding{border:1px solid var(--card-border);border-radius:8px;background:var(--frame-bg-2);overflow:hidden}
+.finding.hero{border-color:var(--alarm-edge)}
+.finding-top{display:flex;align-items:center;gap:10px;padding:10px 13px;border-bottom:1px solid var(--frame-border);background:var(--frame-bg-3)}
+.finding-top .sev{width:7px;height:7px;border-radius:50%;background:var(--alarm);box-shadow:0 0 7px var(--alarm-glow)}
+.finding-top .type{font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.13em;text-transform:uppercase;color:var(--text-faint)}
+.finding-top .det{margin-left:auto;font:8px/1 var(--mono,ui-monospace,monospace);color:var(--text-mute)}
+.finding-body{padding:14px 15px}
+.finding-title{font:500 16px/1.25 var(--display,"Nineties Headliner",serif)}
+.finding-copy{margin-top:6px;color:var(--text-dim);font-size:11px}
+.finding-measure{display:flex;align-items:baseline;gap:8px;margin-top:12px}
+.finding-measure .big{font:600 27px/1 var(--mono,ui-monospace,monospace)}
+.finding-measure .of{color:var(--text-faint);font:9px/1 var(--mono,ui-monospace,monospace)}
+.evidence-line{margin-top:12px;padding-top:10px;border-top:1px solid var(--frame-border);font:8px/1.5 var(--mono,ui-monospace,monospace);color:var(--text-faint)}
+.dispositions{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap}
+.chip-btn{appearance:none;border:1px solid var(--card-border);border-radius:999px;background:transparent;color:var(--text-faint);padding:6px 9px;cursor:pointer;font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.06em;text-transform:uppercase}
+.chip-btn:hover,.chip-btn.on{color:var(--diligence);border-color:var(--diligence-edge);background:var(--diligence-bg)}
+.control-grid{display:grid;grid-template-columns:1fr 48px 1fr 48px 1fr;align-items:stretch;margin-top:12px}
+.control-box{border:1px solid var(--card-border);border-radius:7px;padding:14px;background:var(--frame-bg-2)}
+.control-box.plan{border-color:var(--diligence-edge);background:var(--diligence-bg)}
+.control-box .k{font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.13em;text-transform:uppercase;color:var(--text-faint)}
+.control-box .v{margin-top:9px;font:600 22px/1 var(--mono,ui-monospace,monospace);font-variant-numeric:tabular-nums}
+.control-box .l{margin-top:7px;color:var(--text-dim);font-size:10px;line-height:1.45}
+.control-arrow{display:grid;place-items:center;color:var(--text-faint);font:16px/1 var(--mono,ui-monospace,monospace)}
+.lifecycle{display:flex;align-items:center;gap:4px;margin:15px 0 0;overflow:auto;padding-bottom:3px}
+.life{display:flex;align-items:center;gap:5px;white-space:nowrap;font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.07em;text-transform:uppercase;color:var(--text-mute)}
+.life:not(:last-child)::after{content:"→";margin-left:4px;color:var(--card-border-2)}
+.life .dot{width:7px;height:7px;border-radius:50%;border:1px solid var(--card-border-2)}
+.life.done{color:var(--connection)}
+.life.done .dot{background:var(--connection);border-color:var(--connection)}
+.life.current{color:var(--watch)}
+.life.current .dot{background:var(--watch);border-color:var(--watch);box-shadow:0 0 7px var(--watch-glow)}
+.guard-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.guard{display:flex;align-items:center;gap:8px;border:1px solid var(--card-border);border-radius:5px;padding:9px 10px;color:var(--text-dim);font-size:10px}
+.guard::before{content:"○";color:var(--text-faint);font:10px/1 var(--mono,ui-monospace,monospace)}
+.guard.ok::before{content:"✓";color:var(--connection)}
+.proof-hero{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:center;border:1px solid var(--watch-edge);border-radius:9px;padding:17px 18px;background:linear-gradient(135deg,var(--watch-bg),var(--frame-bg-2) 65%)}
+.proof-hero.verified{border-color:var(--connection-edge);background:linear-gradient(135deg,var(--connection-bg),var(--frame-bg-2) 65%)}
+.proof-state{font:600 18px/1 var(--mono,ui-monospace,monospace);letter-spacing:.01em;color:var(--watch)}
+.proof-hero.verified .proof-state{color:var(--connection)}
+.proof-copy{margin-top:7px;color:var(--text-dim);font-size:11px;max-width:66ch}
+.receipt-chain{display:flex;flex-direction:column;padding:12px}
+.receipt-row{display:grid;grid-template-columns:86px 1fr auto;gap:12px;align-items:center;padding:9px 4px;border-bottom:1px solid var(--frame-border);font:9px/1.35 var(--mono,ui-monospace,monospace)}
+.receipt-row:last-child{border-bottom:0}
+.receipt-row .kind{color:var(--diligence);letter-spacing:.09em;text-transform:uppercase}
+.receipt-row .hash{color:var(--text-dim);overflow:hidden;text-overflow:ellipsis}
+.receipt-row .state{color:var(--connection);font-size:8px;letter-spacing:.06em;text-transform:uppercase}
+.verify-box{padding:14px 15px}
+.terminal{border:1px solid var(--card-border);border-radius:6px;background:var(--bg);padding:12px 13px;font:9px/1.65 var(--mono,ui-monospace,monospace);color:var(--text-faint)}
+.terminal .cmd{color:var(--text-mid)}
+.terminal .ok{color:var(--connection)}
+.terminal .warn{color:var(--watch)}
+.exports{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}
+.export{border:1px solid var(--card-border);border-radius:6px;padding:12px;background:var(--frame-bg-2)}
+.export .ext{font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.1em;text-transform:uppercase;color:var(--diligence)}
+.export .name{margin-top:7px;color:var(--text-mid);font-size:11px}
+.export .desc{margin-top:5px;color:var(--text-faint);font-size:9px;line-height:1.4}
+.assets{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.asset{border:1px solid var(--card-border);border-radius:999px;padding:5px 8px;color:var(--text-faint);font:8px/1 var(--mono,ui-monospace,monospace);letter-spacing:.05em}
+.loading,.load-error{height:100%;display:grid;place-items:center;text-align:center;color:var(--text-faint);font:10px/1.6 var(--mono,ui-monospace,monospace);letter-spacing:.06em}
+.load-error b{display:block;color:var(--alarm)}
+.rb-bot{min-height:34px;gap:10px;padding:8px 14px;white-space:nowrap}
+.rb-bot .event{display:flex;gap:5px;align-items:center;color:var(--text-faint)}
+.rb-bot .event::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--card-border-2)}
+.rb-bot .event.done{color:var(--text-dim)}
+.rb-bot .event.done::before{background:var(--connection)}
+.rb-bot .state{margin-left:auto;color:var(--watch);text-transform:uppercase;letter-spacing:.1em}
+.rb-bot .state.verified{color:var(--connection)}
+.toast{position:fixed;left:50%;bottom:34px;z-index:80;transform:translate(-50%,10px);opacity:0;pointer-events:none;border:1px solid var(--diligence-edge);border-radius:6px;background:var(--frame-bg);box-shadow:0 18px 50px rgba(0,0,0,.6);padding:10px 14px;color:var(--text-mid);font:9px/1.4 var(--mono,ui-monospace,monospace);letter-spacing:.05em;transition:opacity .2s,transform .2s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:980px){body{padding:0}.shell{width:100vw;height:calc(100vh - 58px);border:0;border-radius:0}body.embedded .shell{height:100vh}.workspace{grid-template-columns:206px 1fr}.view{padding:20px}.g4{grid-template-columns:repeat(2,1fr)}.control-grid{grid-template-columns:1fr 30px 1fr}.control-box.rollback{grid-column:1/-1}.control-arrow.rollback{display:none}.exports{grid-template-columns:1fr}.alloc-legend{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:720px){.workspace{grid-template-columns:1fr}.rail{display:none}.content-top{padding:10px 13px}.disclosure{padding:8px 13px}.disclosure .right{display:none}.view{padding:17px 14px}.g2,.g3,.g4{grid-template-columns:1fr}.section-head{display:block}.status-pill{margin-top:11px}.unit-lanes,.license-grid{grid-template-columns:1fr}.control-grid{grid-template-columns:1fr}.control-arrow{display:none}.guard-list{grid-template-columns:1fr}.alloc-legend{grid-template-columns:repeat(2,1fr)}.proof-hero{grid-template-columns:1fr}.env .local{display:none}.flow{font-size:7px}.actions{align-items:stretch;flex-direction:column}.actions .hint{margin-right:0}.btn{width:100%}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body data-beat="3">
+<script>document.body.classList.toggle('embedded',new URLSearchParams(location.search).get('embed')==='1')</script>
 <div class="shell">
-  <div class="rb-top">
-    <div class="traffic"><i class="r"></i><i class="y"></i><i class="g"></i></div>
-    <div class="brand"><span class="dia">◇</span><span class="bc">Liminal</span><span class="bc">/</span><b>Govern</b></div>
-    <div class="tabs">
-      <button class="tab on" data-go="today"><span class="k">1</span>Today<span class="badge" id="duebadge">1</span></button>
-      <button class="tab" data-go="okr"><span class="k">2</span>OKRs</button>
-      <button class="tab" data-go="loop"><span class="k">3</span>The loop</button>
-      <button class="tab" data-go="report"><span class="k">4</span>Report</button>
-      <button class="tab" data-go="mirror"><span class="k">5</span>Mirror</button>
-      <button class="tab" data-go="registry"><span class="k">6</span>Registry</button>
-      <button class="tab" data-go="log"><span class="k">7</span>Log</button>
-      <span class="run-badge" id="run-badge">demo</span>
-    </div>
-    <div class="cmdk" id="cmdk-btn"><span>⌘K</span></div>
-    <div class="rel"><span class="lbl">rel</span>
-      <button data-rel="operator" class="on">operator</button>
-      <button data-rel="oversight">oversight</button>
-      <button data-rel="public">public</button>
-    </div>
+  <header class="rb-top">
+    <div class="traffic" aria-hidden="true"><i class="r"></i><i class="y"></i><i class="g"></i></div>
+    <div class="brand"><span class="dia">◇</span><b>Liminal</b><span class="bc">/</span><span>AI Spend</span></div>
+    <div class="top-spacer"></div>
+    <div class="env"><span class="safe">sanitized demo</span><span class="local">local workstation</span></div>
+  </header>
+
+  <div class="workspace">
+    <aside class="rail">
+      <div class="rail-head">
+        <div class="rail-kicker">Workspace credit governance</div>
+        <div class="rail-title">Know the total.<br>Control the exception.</div>
+        <div class="rail-sub">One operator, one encrypted evidence boundary, one daily exception-and-control loop.</div>
+        <div class="pool"><div class="v" id="rail-pool">not loaded</div><div class="u">monthly pool · reported premise</div></div>
+      </div>
+      <nav class="step-nav" id="step-nav" aria-label="Demo scenes"></nav>
+      <div class="rail-foot"><b>Data boundary</b>Metadata only · no PHI<br>Named views require OS authentication</div>
+    </aside>
+
+    <main class="content">
+      <div class="content-top">
+        <div class="flow-wrap">
+          <div class="flow" id="flow"></div>
+          <div class="progress"><div class="progress-fill" id="progress"></div></div>
+        </div>
+        <button class="reset" type="button" data-action="reset">R · reset</button>
+      </div>
+      <div class="disclosure"><span class="mark"></span><span>illustrative fixture · no customer data · metadata only</span><span class="right">credits are not currency · allocation rows are demonstration-only</span></div>
+      <section class="view" id="view" aria-live="polite"><div class="loading">Loading the unit-safe demo fixture…</div></section>
+    </main>
   </div>
 
-  <div class="mid">
-    <aside class="rail-l" id="signals"></aside>
-    <section class="work" id="work"></section>
-    <div class="refuse-frame" aria-hidden="true">
-      <div class="seal">⊘</div>
-      <div class="rk">consent boundary</div>
-      <h2>This read isn't yours to hold.</h2>
-      <p class="rsub">The fleet still runs · you can see it deliberating, on the right. But the read itself belongs to the operator. <b>Refusal is the boundary working, not a failure.</b></p>
-      <div class="resc"><span class="arr">→</span> escalate · request the audit chain</div>
-    </div>
-    <aside class="rail-r" id="agency"></aside>
-  </div>
-
-  <div class="rb-bot" id="chain"></div>
-
-  <div class="palette" id="palette"><div class="pal-box">
-    <input id="pal-input" placeholder="Jump or act…  (Today · Loop · Mirror · Registry · Log · Amend · Sign)" autocomplete="off">
-    <div id="pal-list"></div>
-  </div></div>
-  <div class="toast" id="toast"></div>
+  <footer class="rb-bot" id="audit-ribbon"><span class="lab">decision lineage</span><span class="state">fixture loading</span></footer>
 </div>
+<div class="toast" id="toast" role="status"></div>
 
-<script>
-const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-const body=document.body;
-const usd=n=>'$'+n.toLocaleString('en-US');
+<script type="module">
+const STEPS = [
+  {id:'source',name:'Source',sub:'inspect + bind'},
+  {id:'today',name:'Today',sub:'delta + bounded agents'},
+  {id:'reconcile',name:'Reconcile',sub:'revisions + gaps'},
+  {id:'allocate',name:'Allocate',sub:'external Finance review'},
+  {id:'triage',name:'Triage',sub:'deterministic findings'},
+  {id:'control',name:'Control',sub:'signed + guided'},
+  {id:'proof',name:'Proof',sub:'verify + export'}
+];
+const FLOW = ['qualify','import','reconcile','allocate','triage','decide','control','verify','export'];
+const state = {step:0,reviewed:false,reviewDisposition:null,financeReviewExported:false,policyApproved:false,triaged:false,controlPhase:0,signerPinned:false,data:null};
+const phaseNames = ['planned','signed','authorized','applied_unverified','verified'];
+const $ = (s) => document.querySelector(s);
+const fmt = (n) => new Intl.NumberFormat('en-US').format(n);
+const compact = (n) => n >= 1000 ? `${(n/1000).toFixed(Number.isInteger(n/1000)?0:1)}K` : String(n);
+const esc = (value) => String(value).replace(/[&<>"']/g,(c)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
-// ── DATA · inline demo fixtures · overridable by ?run=<json> (the seam) ──────
-// These are `let` so the real-pipeline loader (initGovernData, at boot) can
-// shadow them with output emitted by liminal-agents `npm run govern:emit`.
-// No ?run= ⇒ these fixtures render unchanged (fully backward-compatible).
-let VENDORS=[
-  ['Cursor','Business',30,1200],['Linear','Standard',40,320],['Notion','Plus',55,550],
-  ['Figma','Organization',15,675,'flag'],['Datadog','Pro',18,1350],['Vercel','Enterprise',12,2400,'flag'],
-  ['Granola','Business',35,525],['GitHub Copilot','Business',30,570],['Slack','Business Plus',65,975],
-  ['Zoom','Business',25,500],['Claude API','Team',55,1650],['Retool','Team',15,750],
-  ['Amplitude','Growth',8,1000],['Sentry','Team',20,520],['Airtable','Team',30,600],
-];
-let SPEND_TOTAL=13045, OPUS_TOTAL=4500, COHORT=7, CLAIMED=446, VERIFIED=284;
-let USAGE=[
-  ['Build payments API','product_dev',420],['Threat-model auth service','security_hardening',300],
-  ['Feature: search v2','product_dev',400],['Dependency CVE audit','security_hardening',240],
-  ['Schedule team offsite + calendar wrangling','calendar_admin',90,'flag'],
-  ['Reformat meeting notes + send invites','calendar_admin',90,'flag'],
-  ['calendar-sync feature: Google Calendar API + UI','calendar_admin',180,'flag-e14'],
-  ['Summarize 40-page vendor PDF','summarization',75,'flag'],
-  ['Summarize Slack threads into weekly digest','summarization',60,'flag'],
-];
-let AGENTS=[
-  {name:'Claude Opus 4.8',type:'frontier_model',badges:[['ok','verified'],['warn','high cost']],lanes:['product_dev','security_hardening','architecture_review']},
-  {name:'CalendarOps Agent',type:'internal_agent',badges:[['ok','verified'],['cost','low · ~10% of Opus']],lanes:['calendar_management','scheduling'],prov:'registry-verified (trustless agent registry · design concept — on-chain optional/roadmap) · internal-platform'},
-  {name:'DigestBot',type:'internal_agent · claude-haiku-4-5',badges:[['ok','verified'],['cost','low · ~5% of Opus']],lanes:['summarization','digests'],prov:'registry-verified'},
-  {name:'Analyst (bounded)',type:'internal_agent',badges:[['ok','verified']],lanes:['diligence','analysis']},
-];
-let SIGNALS=[
-  {id:'usage',src:'Usage events',nm:'$4,500 Opus · 7 engineers',state:'slate',rows:'E01–E21 · 5 categories · 2026-06'},
-  {id:'okr',src:'OKR baseline',nm:'60% product / 40% security',state:'slate',rows:'O1 product 0.6 · O2 security 0.4'},
-  {id:'pr',src:'PR evidence',nm:'PR-103 · Mara',state:'slate',rows:'“calendar-sync feature” · workstream=product · linked E14'},
-  {id:'registry',src:'Agent registry',nm:'CalendarOps · verified',state:'slate',rows:'registry-verified · ~10% of Opus · scoped: calendar'},
-  {id:'tickets',src:'Security tickets',nm:'12 open · P0×2',state:'tray',rows:'security workstream under-allocated'},
-  {id:'model',src:'Model access',nm:'cohort=7 · Opus 4.8',state:'tray',rows:'early-access · approved lanes only'},
-];
-// the 4 register reads (spend-subjected; .corr enables Amend)
-let READS={
-  diligence:{rt:'+0.4s',html:'<span class="hl">'+usd(OPUS_TOTAL)+'</span> of Opus 4.8 across '+COHORT+' engineers <span class="cite" data-cite="usage">usage-events</span>. Product 56% · security 24% · calendar/admin 11% · unclassified 9%.'},
-  synthesis:{rt:'+4.6s',html:'Against the frame · <span class="hl">60% product / 40% security</span> <span class="cite" data-cite="okr">okr-baseline</span> · security is <span class="hl">under-allocated</span>, and frontier spend leaks to work a verified agent can do.<div class="allocbar"><div class="p" style="width:60%">product 60%</div><div class="s" style="width:40%">security 40%<span class="ghost"></span></div></div>'},
-  judgment:{rt:'+6.1s',html:'__JUDGMENT__'},
-  outreach:{rt:'+7.0s',html:'Drafted · route calendar work to a registry-verified agent <span class="cite" data-cite="registry">agent-registry</span>. Ready to ratify.<div class="swap"><div class="side cur"><span class="ro">current</span><div class="ag">Claude Opus 4.8</div><div class="co">calendar mgmt · frontier tier</div><span class="bd">out of approved scope</span></div><div class="arrow">→</div><div class="side sug"><span class="ro">route to</span><div class="ag">CalendarOps Agent</div><div class="co">~10% of Opus · scoped: calendar</div><span class="bd">registry-verified</span></div></div>'},
-};
-let corrections=0, signed=false;
-// reconciliation (matches the real /findings screen · naïve → dropped → verified)
-let RECON={naive:446,dropped:162,verified:284};
-// the agent-fit findings · clickable provenance artifacts (the hero interaction)
-let FINDINGS=[
-  {id:'F-CAL',kind:'agent-fit',cat:'calendar_admin',who:'Elif',title:'Route calendar admin to verified agent',save:162,
-   route:true,
-   events:[['E12','2026-06-03','Elif','Schedule team offsite + calendar wrangling',90],['E13','2026-06-06','Bianca','Reformat meeting notes + send calendar invites',90]],
-   receipt:{ph:'7d4ba0c91e…a284',pp:'c3d4f8b271…91ad',anchor:'local · local-first (not yet on-chain)',vstate:'✓ submitted',ok:true}},
-  {id:'F-SUM',kind:'agent-fit',cat:'summarization',who:'Marco',title:'Route summarization to DigestBot',save:122,
-   route:true,
-   events:[['E18','2026-06-05','Marco','Summarize 40-page vendor PDF',75],['E20','2026-06-09','Dana','Summarize Slack threads into weekly digest',60]],
-   receipt:{ph:'b81e4f2c07…3d9a',pp:'7d4ba0c91e…a284',anchor:'local · local-first (not yet on-chain)',vstate:'✓ submitted',ok:true}},
-  {id:'F-BBX',kind:'governance',cat:'pen-test team',who:'2nd team',title:'Pen-test fleet is a black box · observe the setup, never read the work',save:0,
-   route:false,
-   drop:'Diligence refused to read the team\'s work · setup only. It audits how the fleet is configured, never the contents. High spend, output unverifiable: observe + tune the agent setup, without reading their logs. Observability without snooping · the boundary that lets you govern a team you can\'t surveil.',
-   events:[['—','2026-06','2nd team','pen-test fleet · agent setup audited, contents never read','black-box']],
-   receipt:{ph:'a90c12…77fe',pp:'b81e4f2c07…3d9a',anchor:'local · setup-only · no content read',vstate:'✓ governed without surveillance',ok:true}},
-  {id:'F-E14',kind:'refuted',cat:'calendar_admin',who:'Mara',title:'E14: Google Calendar sync feature (misclassified)',save:0,
-   dropped:true,
-   drop:'Verifier dropped this claim. PR-103 shows this is a shipped product feature (Google Calendar API + UI), not calendar admin. The $180 cannot be reallocated.',
-   events:[['E14','2026-06-04','Mara','calendar-sync feature: Google Calendar API + UI',180]],
-   receipt:{ph:'—',pp:'—',anchor:'dropped · not anchored',vstate:'✗ dropped · E14 refuted',ok:false}},
-];
-let CHAIN=[
-  ['t0','15-vendor spend · $13,045/mo',''],['t1','narrowed · Opus $4,500 · 7 eng',''],
-  ['t2','exec-comms · refused (out of lane)','ref'],['t3','adversarial · E14 refuted · PR-103','ref'],['t4','verified realizable · $284/mo',''],
-];
-let LOG=[
-  ['0','● finding','Figma: downsize from 15 to 6 seats','f1a2…','0000…'],
-  ['1','● finding','Vercel: downsize from 12 to 4 seats','c3d4…','f1a2…'],
-  ['2','● ratification','Opus 4.8 ≠ calendar management · route to CalendarOps','7d4b…','c3d4…'],
-  ['—','✗ refuted','E14 refuted · PR-103 proves product feature ($162, not anchored)','—','—'],
-];
-
-// ── SUBJECT-PARAMETRIC LOOP (ported + converged from cut 00-agency) ──────────────
-// The Loop's SUBJECT is a switch: spend is the deep native render (above); the other
-// four subjects re-skin the Loop center using cut-00's per-subject panes. Same loop,
-// any subject · "you're watching the control plane, not a spend tool." Spend = default.
-const SUBJECT_ORDER=['spend','pattern','notice','custody','osint'];
-let SUBJECT='spend';
-const SUBJECTS={
-  pattern:{label:'Your pattern',product:'personal · subject = you',
-    registers:['Diligence','Synthesis','Judgment','Outreach'],
-    cover:['reads your week','frames the shape','what it means','the gentle next move'],
-    refuse:['won’t diagnose','won’t prescribe','won’t score','won’t advise'],
-    sk:'subject · your own week, read back',title:'Your pattern · what this week held',
-    reads:['A heavy build week <span class="cite" data-cite="git">Git</span> with one high-context partner call <span class="cite" data-cite="granola">Granola</span>.','The shape: output high, but the open loop with the partner is unclosed · that’s the weight.','VERDICT','Not a problem to fix · a thread to close. One message clears it. Drafted, in your voice · yours to send.'],
-    verdict:'◍ Read · one open loop',
-    refusalLine:'<b>Judgment refused to diagnose.</b> It reads the shape and names the loop; it won’t pathologize. The anti-domain, held.',
-    evidence:{h:'Evidence · the week, as coverage',tag:'your signals',body:'<div class="subj-cov">Four registers traversed the same week from different positions. Diligence read the facts; Synthesis found the shape; Judgment named the open loop and <em>refused to pathologize it</em>. The coverage is what was read · the gaps are what was refused.</div>'}},
-  notice:{label:'Notification',product:'operator · subject = a contradicting notice',
-    registers:['Forensic','Judgment','Outreach','Operations'],
-    cover:['authenticates','verdicts the contradiction','drafts the response','schedules + vaults'],
-    refuse:['won’t interpret','won’t send','won’t conclude','won’t verdict'],
-    sk:'subject · a notice that contradicts your records',title:'Diligence · routing-mismatch notice',
-    reads:['Email DKIM/SPF <span class="hl">pass</span>, but recipient routed to the catch-all, not the founder address.','The notice says "rejected"; the dashboard <span class="hl">still shows in-review</span> · they contradict.','VERDICT','Draft a clarification to the partner; hold the silent-wait until the window closes.'],
-    verdict:'⚠ Real-but-contradicted · 1 action',
-    refusalLine:'<b>Operations refused to vault before Judgment.</b> Nothing is recorded until the contradiction is verdicted. Order preserved.',
-    evidence:{h:'Evidence · the contradiction, authenticated',tag:'forensic',body:'<div class="atrail"><div class="arow match"><span class="ak">DKIM</span><span class="ae">signature valid · sender authentic</span><span class="av">pass</span></div><div class="arow"><span class="ak">ROUTE</span><span class="ae">to catch-all@ · not founder@</span><span class="av">anomaly</span></div><div class="arow contra"><span class="ak">STATE</span><span class="ae">notice "rejected" vs dashboard "in-review"</span><span class="av">contradiction</span></div><div class="arow"><span class="ak">SLA</span><span class="ae">stated review window · 14d · not elapsed</span><span class="av">open</span></div></div>'}},
-  custody:{label:'Custody',product:'defense · subject = a contested location',
-    registers:['Custody','Trial','Verdict','Review'],
-    cover:['holds the evidence','tries the hypothesis','the disposition','process audit'],
-    refuse:['won’t conclude','won’t publish','won’t re-open','won’t read content'],
-    sk:'subject · a contested maritime location',title:'Custody read · strait transit anomaly',
-    reads:['Three vessels transited <span class="hl">AIS-dark</span>; marker δ shifted 2nm overnight.','Hypothesis: coordinated dark transit · <span class="hl">tried against</span> 7 prior transits.','VERDICT','Custody held; recommend escalate to watch-officer, not publish.'],
-    verdict:'◆ Hold · escalate · do not publish',
-    refusalLine:'<b>Review refused to read content · process only.</b> Oversight sees the chain, not the intercept. The privacy boundary, structural.',
-    evidence:{h:'Evidence · the contested location',tag:'IMINT + pattern',body:'<svg class="subj-map" viewBox="0 0 440 170"><path d="M0,130 Q80,100 140,120 T260,100 Q320,90 360,115 L440,100 L440,170 L0,170 Z" fill="#0e1a26" stroke="var(--card-border-2)"/><path d="M150,0 Q180,55 160,100 Q150,130 175,170" fill="none" stroke="var(--card-border-2)" stroke-dasharray="3 4"/><text x="186" y="34" fill="var(--text-faint)" font-size="8" font-family="var(--mono)">STRAIT</text><g transform="translate(210,98)"><circle r="3" fill="none" stroke="var(--alarm)"/><circle r="3" fill="var(--alarm)" opacity="0.5"/></g><g transform="translate(255,86)"><circle r="3" fill="var(--watch)" opacity="0.7"/></g><g transform="translate(300,114)"><circle r="3" fill="var(--watch)" opacity="0.7"/></g></svg><div class="map-legend"><span><i style="background:var(--alarm)"></i>marker δ · moved 2nm</span><span><i style="background:var(--watch)"></i>AIS-dark transit</span></div>'}},
-  osint:{label:'OSINT',product:'open-source · subject = a claim',
-    registers:['Diligence','Redteam','Reconcile','Decide'],
-    cover:['gathers sources','attacks the claim','settles the posterior','the call'],
-    refuse:['won’t opine','won’t confirm','won’t source','won’t gather'],
-    sk:'subject · an open-source claim',title:'OSINT read · the contested assertion',
-    reads:['Two independent sources support the claim; one is primary.','Redteam found <span class="hl">one strong counter</span> · the timeline doesn’t reconcile.','VERDICT','Posterior 62% true · 26% partial · 12% false · decide: partial, with the contradiction flagged.'],
-    verdict:'▲ Partial · contradiction unresolved',
-    refusalLine:'<b>Decide refused to upgrade past the evidence.</b> The counter doesn’t reconcile, so the posterior stays split. Refusal as honesty.',
-    evidence:{h:'Evidence · layered reads + posterior',tag:'3 sources',body:'<div class="layers"><div class="layer"><span class="ln">Primary</span><span class="lc">Source A · filed Nov 12 · supports</span></div><div class="layer"><span class="ln">Corrob.</span><span class="lc">Source B · independent · supports</span></div><div class="layer counter"><span class="ln">Counter</span><span class="lc">Redteam · timeline doesn’t reconcile</span></div></div><div class="hyp"><div class="hyp-l"><span>posterior</span><span>true 62 · partial 26 · false 12</span></div><div class="hyp-bar"><div class="h1"></div><div class="h2"></div><div class="h3"></div></div></div>'}},
-};
-
-// ── render: rails ───────────────────────────────────────────────────────────
-// tile · cut-01 vocabulary: title-bar (traffic-dots + source + action) · display title · preview rows
-const sigHTML=s=>`<div class="sig ${s.state}" data-sig="${s.id}"><div class="src">${s.src}<span class="act">${s.state==='tray'?'harden ↑':'on slate'}</span></div><div class="nm">${s.nm}</div><div class="rows">${s.rows}</div></div>`;
-function renderSignals(){
-  const tray=SIGNALS.filter(s=>s.state==='tray'), slate=SIGNALS.filter(s=>s.state!=='tray');
-  $('#signals').innerHTML=`<div class="rl-h">Tray · your work surfaces<span class="live">live</span></div><div class="rl-sub">each tile is a window from your work · you control what hardens onto the slate</div><div class="rl-grp">Slate · being read</div>${slate.map(sigHTML).join('')}${tray.length?`<div class="rl-grp">Tray · diffuse</div>${tray.map(sigHTML).join('')}`:''}`;
+function showToast(message){
+  const el=$('#toast'); el.textContent=message; el.classList.add('show');
+  clearTimeout(showToast.timer); showToast.timer=setTimeout(()=>el.classList.remove('show'),2400);
 }
-
-// the ORBITAL agency rail (spend-subjected, canon-clean) ----------------------
-function renderAgency(){
-  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · 8 bounded + reviewer</span><span class="live">live</span></div>
-  <div class="orbital-rail"><svg class="orbital-svg" viewBox="0 0 280 320" preserveAspectRatio="xMidYMid meet">
-    <g class="refusal-arrows">
-      <path id="arrow-execcomms" class="refusal-arrow outreach" d="M 140 88 Q 220 160 140 232"/>
-      <path id="arrow-adversarial" class="refusal-arrow judgment" d="M 232 184 Q 200 240 170 240"/>
-      <path id="arrow-util" class="refusal-arrow diligence" d="M 110 88 Q 90 200 130 240"/>
-    </g>
-    <g data-register="diligence"><rect class="reg-plate diligence" x="60" y="20" width="160" height="68" rx="4"/><text class="reg-label diligence" x="140" y="34">Diligence</text>
-      <g transform="translate(90,58)"><text class="agent-glyph reading" data-agent="spend">◉</text><text class="agent-slot" y="14">Spend</text></g>
-      <g transform="translate(140,58)"><text class="agent-glyph queued" data-agent="util">◯</text><text class="agent-slot" y="14">Util-ev</text></g>
-      <g transform="translate(190,58)"><text class="agent-glyph queued" data-agent="security">◯</text><text class="agent-slot" y="14">Security</text></g></g>
-    <g data-register="outreach"><rect class="reg-plate outreach" x="8" y="116" width="92" height="88" rx="4"/><text class="reg-label outreach" x="54" y="130">Outreach</text>
-      <g transform="translate(54,152)"><text class="agent-glyph queued" data-agent="marketplace">◯</text><text class="agent-slot" y="14">Market</text></g>
-      <g transform="translate(54,182)"><text class="agent-glyph queued" data-agent="execcomms">◯</text><text class="agent-slot" y="14">Exec-comm</text></g></g>
-    <g data-register="judgment"><rect class="reg-plate judgment" x="180" y="116" width="92" height="88" rx="4"/><text class="reg-label judgment" x="226" y="130">Judgment</text>
-      <g transform="translate(226,152)"><text class="agent-glyph queued" data-agent="misuse">◯</text><text class="agent-slot" y="14">Misuse</text></g>
-      <g transform="translate(226,182)"><text class="agent-glyph reading" data-agent="adversarial">◉</text><text class="agent-slot" y="14">Adversar.</text></g></g>
-    <g data-register="synthesis"><rect class="reg-plate synthesis" x="60" y="232" width="160" height="68" rx="4"/><text class="reg-label synthesis" x="140" y="246">Synthesis</text>
-      <g transform="translate(110,270)"><text class="agent-glyph queued" data-agent="okr">◯</text><text class="agent-slot" y="14">OKR-align</text></g>
-      <g transform="translate(170,270)"><text class="agent-glyph queued" data-agent="reconcile">◯</text><text class="agent-slot" y="14">Reconcile</text></g></g>
-    <g class="center"><circle class="center-orb" id="orbital-center-orb" cx="140" cy="160" r="14"/><text class="center-mark" x="140" y="160">◇</text></g>
-  </svg></div>
-  <div class="orbital-coverage"><span class="ce" id="coverage-counts">8 bounded + reviewer · 1 reading · 8 queued</span></div>`;
-  orbitalDemo();
-}
-
-// the orbital demo loop, re-subjected to the SPEND story
-let _orbTimer=null;
-function orbitalDemo(){
-  if(_orbTimer){clearInterval(_orbTimer);_orbTimer=null;}
-  const G={queued:'◯',reading:'◉',complete:'●',refused:'⊘'};
-  const STEPS=[
-    {a:{spend:'reading',util:'queued',security:'queued',marketplace:'queued',execcomms:'queued',misuse:'queued',adversarial:'queued',okr:'queued',reconcile:'queued'},arr:[],cov:'8 bounded + reviewer · 1 reading · scanning the fleet spend',conv:false},
-    {a:{spend:'complete',util:'reading',security:'reading',marketplace:'queued',execcomms:'queued',misuse:'reading',adversarial:'queued',okr:'reading',reconcile:'queued'},arr:[],cov:'8 bounded + reviewer · 4 reading · spend + util + OKR + misuse',conv:false},
-    {a:{spend:'complete',util:'complete',security:'complete',marketplace:'reading',execcomms:'refused',misuse:'reading',adversarial:'reading',okr:'complete',reconcile:'queued'},arr:['arrow-execcomms'],cov:'exec-comms refused · out of lane, pre-verdict',conv:false},
-    {a:{spend:'complete',util:'complete',security:'complete',marketplace:'complete',execcomms:'refused',misuse:'complete',adversarial:'refused',okr:'complete',reconcile:'reading'},arr:['arrow-execcomms','arrow-adversarial'],cov:'adversarial dropped E14 · PR-103 · honesty in the chain',conv:false},
-    {a:{spend:'complete',util:'complete',security:'complete',marketplace:'complete',execcomms:'refused',misuse:'complete',adversarial:'refused',okr:'complete',reconcile:'complete'},arr:['arrow-execcomms','arrow-adversarial','arrow-util'],cov:'convergence: route calendar → CalendarOps',conv:true},
-    {a:{spend:'complete',util:'complete',security:'complete',marketplace:'complete',execcomms:'refused',misuse:'complete',adversarial:'refused',okr:'complete',reconcile:'complete'},arr:['arrow-execcomms','arrow-adversarial','arrow-util'],cov:'vault committed · the disagreement is the data',conv:true,sealed:true},
-  ];
-  let i=0;
-  function apply(s){
-    Object.entries(s.a).forEach(([ag,st])=>{const el=document.querySelector(`[data-agent="${ag}"]`);if(!el)return;el.textContent=G[st];el.classList.remove('queued','reading','complete','refused');el.classList.add(st);});
-    document.querySelectorAll('.refusal-arrow').forEach(a=>a.classList.remove('active'));
-    s.arr.forEach(id=>{const a=document.getElementById(id);if(a)a.classList.add('active');});
-    const c=document.getElementById('coverage-counts');if(c)c.textContent=s.cov;
-    const orb=document.getElementById('orbital-center-orb');if(orb){orb.classList.toggle('convergent',!!s.conv&&!s.sealed);orb.classList.toggle('sealed',!!s.sealed);}
-  }
-  const reduced=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduced){apply(STEPS[4]);return;}
-  apply(STEPS[0]);i=1;
-  _orbTimer=setInterval(()=>{apply(STEPS[i]);i=(i+1)%STEPS.length;},4200);
-}
-
-function renderChain(){
-  $('#chain').innerHTML=`<span class="lab">chain</span>`+CHAIN.map((e,i)=>`<span class="ev ${e[2]||''} ${i===CHAIN.length-1&&e[3]==='new'?'fresh':''}"><span class="t">${e[0]}</span><span class="e">${e[1]}</span></span>`).join('')+`<span class="chain-integ">verified · ${CHAIN.length} entries</span>`;
-  $('#chain').scrollLeft=99999;
-}
-
-// FINDING · clickable provenance artifact: head → expand → cited rows + receipt → correct
-const KINDS=['inner','outer','cross','emergence'];
-function findingHTML(f){
-  const gov=f.kind==='governance';
-  const badge=f.dropped?'<span class="bdg bad dot">refuted &amp; dropped</span>':gov?'<span class="bdg acc dot">governance · no-surveillance</span>':'<span class="bdg good dot">agent-fit</span>';
-  const rows=f.events.map(e=>`<tr><td class="mono">${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td>${e[3]}</td><td class="num">${typeof e[4]==='number'?usd(e[4]):e[4]}</td></tr>`).join('');
-  const route=f.route?`<div class="finding-route">→ route to <span class="chip">CalendarOps</span> · registry-verified · ~10% of Opus cost</div>`:'';
-  const dropStrip=f.dropped?`<div class="finding-route" style="background:var(--alarm-bg);border-color:var(--alarm-edge)">✗ ${f.drop} <span class="cite" data-cite="pr">pr-evidence</span></div>`:gov?`<div class="finding-route" style="background:var(--judgment-bg);border-color:var(--judgment)">⊘ ${f.drop}</div>`:'';
-  const r=f.receipt;
-  const correctBlock=f.dropped?'':`<div class="finding-correct">
-      <button class="fc-toggle" data-fcorrect="${f.id}">Correct this finding →</button>
-      <div class="fc-box">
-        <div class="fc-kinds">${KINDS.map((k,i)=>`<button class="fc-kind ${i===2?'on':''}" data-fckind="${k}">${k}</button>`).join('')}</div>
-        <textarea placeholder="What did this finding get wrong?"></textarea>
-        <div class="er"><button class="save" data-fcsave="${f.id}">Sign correction →</button></div>
-      </div>
-      <div class="fc-done"></div></div>`;
-  return `<div class="finding ${f.dropped?'dropped':''}" data-finding="${f.id}">
-    <div class="finding-head" data-fexpand="${f.id}">
-      <div class="meta"><div class="badges">${badge}<span class="bdg">${f.cat}</span><span class="bdg" style="border:0">· ${f.who}</span></div>
-        <div class="ftitle">${f.title}</div></div>
-      ${f.save?`<div class="fsave">${usd(f.save)}/mo</div>`:''}<div class="chev">▸</div></div>
-    ${route}${dropStrip}
-    <div class="finding-body">
-      <table class="ev-table"><caption>cites ${f.events.length} usage event(s)</caption>
-        <tr><th>Event</th><th>Date</th><th>Who</th><th>Task</th><th>Cost</th></tr>${rows}</table>
-      <div class="receipt ${r.ok?'':'bad'}">
-        <span><span class="k">packet_hash</span>${r.ph}</span>
-        <span><span class="k">prev_hash</span>${r.pp}</span>
-        <span class="full"><span class="k">anchor</span>${r.anchor}</span>
-        <span class="full"><span class="k">verify</span><span class="vbadge">${r.vstate}</span></span></div>
-      ${correctBlock}
-    </div></div>`;
-}
-
-// the judgment register body: verdict + refusal + recon strip + clickable findings (the hero)
-function judgmentHTML(){
-  return `<span class="verdict">⚠ Not ready · 3 findings · 1 dropped</span>
-    <span class="verifier">Adversarial reviewer · cross-check vs PR evidence</span>
-    <div class="refusal"><span class="ico">⊘</span><span class="tx"><b>Diligence refused to read the team's work · setup only.</b> It audits how the fleet is configured, never the contents. Observability without snooping · the boundary that lets you govern a team you can't surveil.</span></div>
-    <div class="recon">
-      <div class="rc naive"><span class="l">naïve savings</span><span class="v">${usd(RECON.naive)}/mo</span></div>
-      <div class="rc drop"><span class="op">−</span><span class="l">dropped by verifier</span><span class="v">${usd(RECON.dropped)}</span></div>
-      <div class="rc verified"><span class="op">=</span><span class="l">verified realizable</span><span class="v">${usd(RECON.verified)}/mo</span></div>
+function sourceView(d){
+  const p=d.reportedPremise, q=d.qualification;
+  return `<div class="view-inner">
+    <div class="section-head"><div class="copy"><div class="eyebrow">01 · inspect before import</div><h1 class="headline">Start with the ${compact(p.monthlyBudgetCredits)}-credit workspace pool.</h1><p class="lede">Before interpreting the number, Liminal inspects the selected CSV without retaining its rows. <b>Unknown vendor columns block instead of being guessed.</b></p></div><span class="status-pill warn">normalized demo shape · vendor adapter unproven</span></div>
+    <div class="grid g3">
+      <div class="card metric accent"><div class="v">${fmt(p.monthlyBudgetCredits)}</div><div class="l">credits / month</div><div class="note">Sanitized discovery premise. The pilot must bind the contract or approved budget evidence.</div></div>
+      <div class="card metric warn"><div class="v">+${compact(p.overrunRangeCredits.minimum)}–${compact(p.overrunRangeCredits.maximum)}</div><div class="l">reported overrun range · credits</div><div class="note">A sanitized range, not a reconstructed bill and not an exact forecast.</div></div>
+      <div class="card metric"><div class="v">${compact(p.concentratedUserCredits)}</div><div class="l">reported 30-day user example</div><div class="note">A sanitized discovery example until an accepted export corroborates the same identity and period.</div></div>
     </div>
-    <div id="findings">${FINDINGS.map(findingHTML).join('')}</div>`;
-}
-function regHTML(reg,name,r,delay){
-  const bodyHtml=r.html==='__JUDGMENT__'?judgmentHTML():r.html;
-  return `<div class="reg ${reg}" data-reg="${reg}" style="animation-delay:${delay}s">
-    <div class="rh"><span class="rname">${name}</span><span class="cmark">· corrected</span><span class="rt">${r.rt}</span><span class="amend" data-amendreg="${reg}">Amend read</span></div>
-    <div class="rbody">${bodyHtml}</div>
-    <div class="reg-edit"><textarea></textarea><div class="er"><button class="rsave" data-savereg="${reg}">Save correction</button><button class="rcancel">Cancel</button><span class="hint">your correction appends to the chain · never overwrites. signing seals YOUR judgment.</span></div></div></div>`;
-}
-
-// ── THE LOOP (sense → 4-register read → ratify) ─────────────────────────────
-// subject-switcher bar (converged from cut 00): spend = deep native render below;
-// other subjects re-skin the Loop center via renderSubjectLoop().
-function subjectBar(){
-  return `<div class="subjects" id="subjects">`+SUBJECT_ORDER.map(k=>{
-    const lbl = k==='spend' ? 'AI Spend' : SUBJECTS[k].label;
-    const deep = k==='spend' ? `<span class="deep">deep</span>` : '';
-    return `<button class="subj ${k===SUBJECT?'on':''}" data-subj="${k}">${lbl}${deep}</button>`;
-  }).join('')+`</div>`;
-}
-/* wire the subject bar after each render — scripts inside innerHTML never
-   execute, and a nested script tag inside a template literal terminates
-   the outer script element at the HTML-parser level */
-function wireSubjectBar(){
-  document.querySelectorAll('.subjects .subj').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-      SUBJECT=btn.getAttribute('data-subj');
-      renderLoop();
-    });
-  });
-}
-function renderLoop(){
-  body.dataset.surface='loop';
-  if(SUBJECT!=='spend'){ renderSubjectLoop(); return; }
-  const vendorRows=VENDORS.map(v=>`<tr class="${v[4]||''}"><td>${v[0]}</td><td>${v[1]}</td><td class="num">${v[2]}</td><td class="num">${usd(v[3])}</td></tr>`).join('');
-  const usageRows=USAGE.map(u=>`<div class="urow ${u[3]?'flagged':''}"><span>${u[0]}</span><span class="cat">${u[1]}</span><span class="cost">${usd(u[2])}</span></div>`).join('');
-  $('#work').innerHTML=`<div class="pad">
-    ${subjectBar()}
-    <div class="invoke"><b>/govern invoked</b><span>reading the agent fleet · 2026-06 · the AI-spend loop</span><span class="invoke-q">the two questions: <b>how is AI being used</b> · <b>did it move the business</b></span></div>
-    <div class="seam">Spend is the wedge · the one read a CFO pays for today. But the loop · sense · read · refuse · correct · ratify · is the judgment layer, pointed at a budget first. <b>The subject is the agent fleet and the spend · never the people. Governance without surveillance.</b> <b>The read is the model's until you change it.</b></div>
-    <div>
-      <div class="sense-h"><span class="anum">01 · SENSE</span><span class="atitle">This month, the fleet spent ${usd(SPEND_TOTAL)}.</span><span class="asub">15 vendors</span></div>
-      <table class="tbl" style="margin-top:10px"><thead><tr><th>Vendor</th><th>Plan</th><th>Seats</th><th>Monthly</th></tr></thead><tbody>${vendorRows}<tr class="total"><td colspan="3">Total</td><td class="num">${usd(SPEND_TOTAL)}</td></tr></tbody></table>
-      <div style="margin:11px 0 7px;font:13px/1.5 var(--serif,Georgia,serif);color:var(--text-mid)">Narrowed to the Opus cohort · <span style="color:var(--text)">${usd(OPUS_TOTAL)}</span> running everything for ${COHORT} engineers. The <span style="color:var(--alarm)">calendar/admin</span> rows are a frontier model doing routine work:</div>
-      <div class="stream">${usageRows}</div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card"><div class="card-head">Read-only qualification <span class="tag">no raw bytes retained</span></div><div class="fact-list">
+        <div class="fact"><span class="k">Candidate</span><span class="v">${esc(q.adapterId)} · workspace credits</span><span class="s ok">structural match</span></div>
+        <div class="fact"><span class="k">Rows / coverage</span><span class="v">${q.rowCount} rows · ${esc(q.dateMin)} → ${esc(q.dateMax)} · ${q.validAmountRows}/${q.rowCount} valid amounts</span><span class="s ok">complete</span></div>
+        <div class="fact"><span class="k">Identity coverage</span><span class="v">${q.rowsWithIdentity}/${q.rowCount} rows · missing identity stays a gap</span><span class="s warn">explicit</span></div>
+        <div class="fact"><span class="k">Exact headers</span><span class="v">${q.recognizedHeaders.map(esc).join(' · ')}</span><span class="s ok">allowlisted</span></div>
+        <div class="fact"><span class="k">Source hash</span><span class="v">${esc(q.sourceSha256)}</span><span class="s ok">bound at import</span></div>
+        <div class="fact"><span class="k">Untouched vendor export</span><span class="v">Not proven by this synthetic normalized fixture</span><span class="s warn">Stage 0 gate</span></div>
+      </div></div>
+      <div class="card"><div class="card-head">Execution boundary <span class="tag">not a proxy</span></div><div class="fact-list">
+        <div class="fact"><span class="k">Workspace limits</span><span class="v">Guided Global Admin Console action</span><span class="s ok">supported path</span></div>
+        <div class="fact"><span class="k">Traffic interception</span><span class="v">None. Hosted workspace use is not proxied.</span><span class="s">outside boundary</span></div>
+        <div class="fact"><span class="k">Bounded review</span><span class="v">Deterministic offline analyst + auditor; remote model not simulated</span><span class="s ok">available next</span></div>
+        <div class="fact"><span class="k">Other spend surfaces</span><span class="v">Qualified separately and absent from this cut</span><span class="s">not implied</span></div>
+      </div></div>
     </div>
-    <div class="sense-h" style="margin-top:4px"><span class="anum">02 · THE READ</span><span class="atitle">Four registers read the fleet · correct what you disagree with.</span><span class="asub">hover a read → Amend · the correction is the moat</span></div>
-    ${regHTML('diligence','Diligence',READS.diligence,.05)}
-    ${regHTML('synthesis','Synthesis',READS.synthesis,.18)}
-    ${regHTML('judgment','Judgment',READS.judgment,.31)}
-    ${regHTML('outreach','Outreach',READS.outreach,.44)}
-    <div class="sense-h" style="margin-top:4px"><span class="anum">03 · RATIFY</span><span class="atitle">You decide. The chain remembers.</span><span class="asub">operator-gated</span></div>
-    <div class="policy"><div class="pt">Opus 4.8 ≠ calendar management · route to CalendarOps.</div><div class="ps">Verified realizable savings · ${usd(VERIFIED)}/mo · registry-verified agent</div></div>
-    <div class="dispo"><span class="lbl" id="corrcount">${corrections} corrections · the read is the model's until you change it · correct first, then sign</span>
-      <button class="db" data-act="defer">Defer 30d</button>
-      <button class="db sign" data-act="sign"><span class="pre">${corrections?'correct →':''}</span> Sign &amp; hand off</button></div>
-    <div id="artwrap"></div>
+    <div class="callout"><span class="icon">◇</span><div><b>Credits are not currency</b>Currency allocation remains unavailable until a bill or effective contract conversion is accepted. Liminal will not infer billed spend from a credit total.</div></div>
+    <div class="actions"><span class="hint">The import must match this exact qualified SHA. Changing the file after review fails before any vault write.</span><button class="btn primary" data-action="next">Import the daily revision →</button></div>
   </div>`;
-  renderSignals(); renderAgency(); wireSubjectBar();
-  if(signed) mintArtifact();
 }
-
-// ── non-spend subjects: re-skin the Loop center (converged from cut 00) ──────
-const REGCLS=['diligence','synthesis','judgment','outreach']; // canon register colors, by position
-function renderSubjectLoop(){
-  const S=SUBJECTS[SUBJECT];
-  const reads=S.registers.map((nm,i)=>{
-    const cls=REGCLS[i]||'diligence';
-    if(S.reads[i]==='VERDICT') return `<div class="reg ${cls}" style="animation-delay:${(.1+i*.13)}s"><div class="rh"><span class="rname">${nm}</span><span class="rt">verdict</span></div>
-      <div class="rbody"><span class="verdict">${S.verdict}</span><div class="refusal"><span class="ico">⊘</span><span class="tx">${S.refusalLine}</span></div></div></div>`;
-    return `<div class="reg ${cls}" style="animation-delay:${(.1+i*.13)}s"><div class="rh"><span class="rname">${nm}</span><span class="rt">+${(0.4+i*1.5).toFixed(1)}s</span><span class="amend">${S.cover[i]}</span></div>
-      <div class="rbody">${S.reads[i]}</div></div>`;
+function todayView(d){
+  const r=d.dailyReview;
+  const reviewDisposed=Boolean(state.reviewDisposition);
+  const draftState=state.reviewDisposition==='accepted'?'operator accepted':state.reviewDisposition==='corrected'?'operator corrected':state.reviewDisposition==='dismissed'?'operator dismissed':'proposed';
+  const reviewCards=state.reviewed?`<div class="grid g2" style="margin-top:12px">
+    <div class="finding"><div class="finding-top"><span class="sev" style="background:var(--diligence);box-shadow:none"></span><span class="type">Spend Analyst</span><span class="det">${esc(r.analyst.semantics)} · cited</span></div><div class="finding-body"><div class="finding-title">${esc(r.analyst.headline)}</div><div class="finding-copy">${esc(r.analyst.body)}</div><div class="evidence-line">${r.analyst.citations.map(esc).join(' · ')}</div></div></div>
+    <div class="finding"><div class="finding-top"><span class="sev" style="background:var(--watch);box-shadow:none"></span><span class="type">Control Auditor</span><span class="det">${esc(r.auditor.semantics)} · cited</span></div><div class="finding-body"><div class="finding-title">${esc(r.auditor.headline)}</div><div class="finding-copy">${esc(r.auditor.body)}</div><div class="evidence-line">${r.auditor.citations.map(esc).join(' · ')}</div></div></div>
+  </div>
+  <div class="card" style="margin-top:12px"><div class="card-head">Drafted next actions <span class="tag">not sent · no ticket created</span></div><div class="fact-list">${r.drafts.map(x=>`<div class="fact"><span class="k">${esc(x.kind.replaceAll('_',' '))}</span><span class="v">${esc(x.title)}</span><span class="s ${state.reviewDisposition==='accepted'?'ok':'warn'}">${draftState}</span></div>`).join('')}</div></div>`:`<div class="callout warn"><span class="icon">!</span><div><b>Review not prepared</b>The ledger and delta exist, but no analyst/auditor proposal has been recorded. Nothing is silently generated or sent.</div></div>`;
+  const action=!state.reviewed
+    ? '<button class="btn primary" data-action="prepare-review">Prepare cited review</button>'
+    : !reviewDisposed
+      ? '<div class="dispositions"><button class="chip-btn" data-action="dispose-review" data-value="accepted">Accept reviewed drafts</button><button class="chip-btn" data-action="dispose-review" data-value="corrected">Correct review packet</button><button class="chip-btn" data-action="dispose-review" data-value="dismissed">Dismiss with reason</button></div>'
+      : '<button class="btn primary" data-action="next">Reconcile sources →</button>';
+  return `<div class="view-inner">
+    <div class="section-head"><div class="copy"><div class="eyebrow">02 · today · work only what changed</div><h1 class="headline">The daily audit becomes an exception queue.</h1><p class="lede">Revision 2 supersedes revision 1 without double counting. The operator sees the exact typed delta, then records an acceptance, correction, or dismissal on the bounded review packet.</p></div><span class="status-pill ${reviewDisposed?'good':state.reviewed?'warn':''}">${reviewDisposed?`human disposition · ${esc(state.reviewDisposition)}`:state.reviewed?'proposals ready':'review required'}</span></div>
+    <div class="grid g4">
+      <div class="card metric"><div class="v">${fmt(r.previousTotalCredits)}</div><div class="l">prior accepted · credits</div><div class="note">Revision 1 remains immutable and superseded.</div></div>
+      <div class="card metric accent"><div class="v">${fmt(r.currentTotalCredits)}</div><div class="l">current accepted · credits</div><div class="note">Revision 2 is the only accepted projection.</div></div>
+      <div class="card metric warn"><div class="v">+${fmt(r.deltaCredits)}</div><div class="l">exact revision delta · credits</div><div class="note">No currency or token conversion.</div></div>
+      <div class="card metric"><div class="v small">${esc(r.runtime)}</div><div class="l">review runtime</div><div class="note">Remote model unavailable and not simulated.</div></div>
+    </div>
+    ${reviewCards}
+    <div class="callout"><span class="icon">◇</span><div><b>Agents are advisory and tool-less</b>The evidence packet is de-identified aggregate metadata. These roles cannot read raw CSV rows, reveal a name, approve Finance policy, send, create a ticket, or execute a control. Packet hash: ${esc(r.evidencePacketHash)}.</div></div>
+    <div class="actions"><span class="hint">Every disposition preserves the cited original. No proposal is sent and no ticket is created.</span>${action}</div>
+  </div>`;
+}
+function reconcileView(d){
+  const contract=d.licenseObservations.find(x=>x.sourceKind==='contract_purchased');
+  const roster=d.licenseObservations.find(x=>x.sourceKind==='directory_roster_derived');
+  const vendor=d.licenseObservations.find(x=>x.sourceKind==='vendor_admin');
+  const delta=(left,right)=>{const value=left.value-right.value;return `${value>0?'+':''}${value}`};
+  return `<div class="view-inner">
+    <div class="section-head"><div class="copy"><div class="eyebrow">03 · preserve the discrepancy</div><h1 class="headline">One ledger. Every revision and gap visible.</h1><p class="lede">Accepted evidence supersedes prior revisions without double counting. The operator works the exception queue instead of auditing every row again; unsupported observations remain explicit.</p></div><span class="status-pill good">revision 2 · illustrative accepted snapshot</span></div>
+    <div class="grid g2">
+      <div class="card"><div class="card-head">Immutable source snapshots <span class="tag">native unit · credits</span></div><div class="table-wrap"><table class="table"><thead><tr><th>Revision</th><th>Schema</th><th>SHA-256</th><th>Status</th></tr></thead><tbody>${d.sourceRevisions.map(r=>`<tr><td>rev ${r.revision}</td><td>${esc(r.schemaFingerprint)}</td><td>${esc(r.sha256)}</td><td class="num">${esc(r.status.replace('_demo',''))}</td></tr>`).join('')}</tbody></table></div></div>
+      <div class="card"><div class="card-head">License-count comparison <span class="tag">not auto-reconciled</span></div><div class="license-grid">
+        <div class="license accepted"><div class="v">${contract.value}</div><div class="source">${esc(contract.sourceLabel)} · accepted rev ${contract.revision}</div></div>
+        <div class="license accepted"><div class="v">${roster.value}</div><div class="source">${esc(roster.sourceLabel)} · accepted rev ${roster.revision}</div></div>
+        <div class="license accepted"><div class="v">${vendor.value}</div><div class="source">${esc(vendor.sourceLabel)} · accepted rev ${vendor.revision}</div></div>
+      </div><div class="callout warn" style="margin:0 12px 12px"><span class="icon">!</span><div><b>${contract.value} / ${roster.value} / ${vendor.value} remain three accepted observations</b>All three use the same July period and ${esc(contract.asOf)} as-of date. Pairwise mismatches remain open; Liminal does not select a winner or manufacture a true-up.<div class="evidence-line" style="margin-top:8px">contract minus directory ${delta(contract,roster)} · contract minus vendor ${delta(contract,vendor)} · directory minus vendor ${delta(roster,vendor)} · arithmetic only</div></div></div></div>
+    </div>
+    <div class="unit-lanes">
+      <div class="unit active"><div class="u">Workspace credits</div><div class="v">${fmt(d.dailyReview.currentTotalCredits)} accepted · revisioned</div></div>
+      <div class="unit"><div class="u">Billed currency</div><div class="v">not supplied · not inferred</div></div>
+      <div class="unit"><div class="u">API tokens</div><div class="v">separate spend surface</div></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card"><div class="card-head">Pseudonymous usage facts <span class="tag">metadata only</span></div><div class="table-wrap"><table class="table"><thead><tr><th>Subject</th><th>Product</th><th>LOB</th><th class="num">Credits</th></tr></thead><tbody>${d.usageRows.map(r=>`<tr><td>${esc(r.subject)}</td><td>${esc(r.product)}</td><td>${esc(r.lob)}</td><td class="num">${fmt(r.credits)}</td></tr>`).join('')}</tbody></table></div></div>
+      <div class="card"><div class="card-head">Coverage gaps <span class="tag">first-class lines</span></div><div class="gap-list">
+        <div class="gap-row"><span class="dot"></span><span class="text"><b>Three accepted license sources disagree</b>500 contract, 494 directory-derived, and 501 vendor-admin remain independently attributed. No true-up is resolved.</span><span class="tag">source</span></div>
+        <div class="gap-row"><span class="dot"></span><span class="text"><b>usr_8f2a has no effective-dated LOB mapping</b>Credits stay in the allocation residual.</span><span class="tag">identity</span></div>
+        <div class="gap-row"><span class="dot"></span><span class="text"><b>Seat billing evidence is absent</b>No billed-currency retro is available from this credit export.</span><span class="tag">coverage</span></div>
+      </div></div>
+    </div>
+    <div class="actions"><span class="hint">Revision history, unit boundaries and unexplained observations survive every downstream export.</span><button class="btn primary" data-action="next">Build the Finance allocation →</button></div>
+  </div>`;
+}
+function allocateView(d){
+  const lines=d.allocationPolicy.lines; const total=lines.reduce((a,x)=>a+x.credits,0);
+  const status=state.policyApproved?'external approval recorded':state.financeReviewExported?'pending external Finance':'review export required';
+  const action=!state.financeReviewExported
+    ? '<button class="btn primary" data-action="export-finance-review">Export pending Finance review</button>'
+    : !state.policyApproved
+      ? '<button class="btn primary" data-action="record-finance-approval">Record external Finance approval</button>'
+      : '<button class="btn primary" data-action="next">Open deterministic findings →</button>';
+  return `<div class="view-inner">
+    <div class="section-head"><div class="copy"><div class="eyebrow">04 · external Finance review</div><h1 class="headline">Allocation is a reviewable policy, not a chart.</h1><p class="lede">The illustrative rows conserve the <b>${fmt(d.allocationPolicy.acceptedUsageCredits)} accepted usage credits</b>. The ${fmt(d.allocationPolicy.budgetCredits)}-credit budget stays a separate guard; it is not silently allocated as spend.</p></div><span class="status-pill ${state.policyApproved?'good':'warn'}">${status}</span></div>
+    <div class="card"><div class="card-head">${esc(d.allocationPolicy.version)} <span class="tag">illustrative allocation · not customer evidence</span></div><div class="card-pad">
+      <div class="allocation"><div class="alloc-bar">${lines.map(x=>`<span class="alloc-seg ${x.treatment==='residual'?'residual':''}" style="width:${(x.credits/total*100).toFixed(2)}%" title="${esc(x.label)} · ${fmt(x.credits)} credits"></span>`).join('')}</div><div class="alloc-legend">${lines.map(x=>`<div class="alloc-key"><i></i>${esc(x.label)}<br>${fmt(x.credits)}</div>`).join('')}</div></div>
+      <div class="equation">${lines.map(x=>fmt(x.credits)).join(' + ')} = ${fmt(total)} credits · conserved exactly</div>
+    </div><div class="table-wrap"><table class="table"><thead><tr><th>Allocation line</th><th>Treatment</th><th>Policy basis</th><th class="num">Credits</th></tr></thead><tbody>${lines.map(x=>`<tr><td>${esc(x.label)}</td><td>${esc(x.treatment)}</td><td>${x.treatment==='residual'?'unresolved identity / mapping':'effective-dated LOB mapping'}</td><td class="num">${fmt(x.credits)}</td></tr>`).join('')}<tr class="total"><td colspan="3">Accepted usage total</td><td class="num">${fmt(total)}</td></tr></tbody></table></div></div>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="card metric"><div class="v small">${fmt(d.allocationPolicy.budgetCredits)}</div><div class="l">approved budget · credits</div><div class="note">Guardrail only; not a source-spend total.</div></div>
+      <div class="card metric"><div class="v small">${esc(d.allocationPolicy.previewHash)}</div><div class="l">exact preview hash</div><div class="note">Sources, policy version, rows, residual and warnings are bound.</div></div>
+      <div class="card metric ${state.policyApproved?'accent':'warn'}"><div class="v small">${state.policyApproved?'recorded':state.financeReviewExported?'pending':'not exported'}</div><div class="l">external Finance evidence</div><div class="note">${state.policyApproved?esc(d.allocationPolicy.approvalEvidence):state.financeReviewExported?'approval_status: pending_external_finance':'Export the exact review packet first.'}</div></div>
+    </div>
+    <div class="callout warn"><span class="icon">!</span><div><b>No currency retro without currency evidence</b>This allocation is valid in credits. It does not become a billed-currency chargeback until the relevant bill or contract conversion is accepted for the period.</div></div>
+    <div class="actions"><span class="hint">The pending packet leaves the vault before approval. macOS reauthentication later records external evidence; it does not authenticate or impersonate Finance.</span>${action}</div>
+  </div>`;
+}
+function triageView(d){
+  const f=d.finding;
+  const controlEligible=state.triaged==='acknowledged';
+  const triageStatus=!state.triaged?'1 control-eligible finding needs disposition':controlEligible?'acknowledged · control eligible':`${state.triaged} · no control authorized`;
+  return `<div class="view-inner">
+    <div class="section-head"><div class="copy"><div class="eyebrow">05 · triage evidence, not people</div><h1 class="headline">A deterministic exception queue.</h1><p class="lede">Thresholds, units, source hashes, and operator corrections stay attached. A typed detector-to-action matrix prevents a coverage or allocation gap from authorizing an arbitrary cap.</p></div><span class="status-pill ${controlEligible?'good':state.triaged?'warn':'alarm'}">${triageStatus}</span></div>
+    <div class="grid g2">
+      <div class="finding hero"><div class="finding-top"><span class="sev"></span><span class="type">Person concentration</span><span class="det">detector · threshold ${f.thresholdPercent}%</span></div><div class="finding-body"><div class="finding-title">One pseudonymous subject exceeds the concentration threshold.</div><div class="finding-copy">This is a governance signal, not a performance judgment. It is the only finding on this screen that may justify a limit for the same workspace user.</div><div class="finding-measure"><span class="big">${f.observedPercent}%</span><span class="of">${fmt(f.observedCredits)} of ${fmt(f.acceptedUsageCredits)} accepted credits</span></div><div class="evidence-line">unit: credits · source: workspace rev 2 · subject: usr_8f2a · detector: deterministic · action mapping: same-user limit only</div><div class="dispositions">
+        <button class="chip-btn ${state.triaged==='acknowledged'?'on':''}" data-action="triage" data-value="acknowledged">Acknowledge + exception</button>
+        <button class="chip-btn ${state.triaged==='corrected'?'on':''}" data-action="triage" data-value="corrected">Correct evidence</button>
+        <button class="chip-btn ${state.triaged==='dismissed'?'on':''}" data-action="triage" data-value="dismissed">Dismiss with reason</button>
+      </div></div></div>
+      <div class="grid">
+        <div class="finding"><div class="finding-top"><span class="sev" style="background:var(--watch);box-shadow:none"></span><span class="type">Source mismatch</span><span class="det">data quality · no control authority</span></div><div class="finding-body"><div class="finding-title">Accepted license observations diverge.</div><div class="finding-copy">500 contract / purchased · 494 directory / roster-derived · 501 vendor-admin · same July period and as-of date.</div><div class="evidence-line">Action: work all three pairwise mismatches; this cannot justify a user, group, or project limit.</div></div></div>
+        <div class="finding"><div class="finding-top"><span class="sev" style="background:var(--watch);box-shadow:none"></span><span class="type">Coverage gap</span><span class="det">data quality · no control authority</span></div><div class="finding-body"><div class="finding-title">30,000 illustrative credits remain residual.</div><div class="finding-copy">The allocation conserves the total while the missing LOB mapping remains visible.</div><div class="evidence-line">Action: resolve mapping or approve residual treatment; never cut a user because data is missing.</div></div></div>
+      </div>
+    </div>
+    <div class="callout"><span class="icon">◇</span><div><b>Human correction is first-party evidence</b>An acknowledge, correction, or dismissal becomes a revisioned decision record. It does not overwrite the original finding.</div></div>
+    <div class="actions"><span class="hint">Only an acknowledged control-eligible finding may authorize this plan. A correction must be re-evaluated; a dismissal authorizes no control.</span><button class="btn primary" data-action="next" ${controlEligible?'':'disabled'}>${controlEligible?'Bind finding to a control →':'No control authorized by this disposition'}</button></div>
+  </div>`;
+}
+function controlView(d){
+  const c=d.controlPlan; const phase=phaseNames[state.controlPhase];
+  const ready=state.policyApproved && state.triaged==='acknowledged';
+  const labels=['Sign control intent','Confirm OS auth + authorize','Record native admin action','Continue to verification →','Verified · view proof'];
+  return `<div class="view-inner">
+    <div class="section-head"><div class="copy"><div class="eyebrow">06 · decide, then guide the native control</div><h1 class="headline">A control plan is not an enforcement claim.</h1><p class="lede">The same-user concentration finding, external Finance approval, encrypted before-state evidence, exact change, and rollback are bound before signing. An authorized administrator still acts in the vendor console.</p></div><span class="status-pill ${state.controlPhase===4?'good':state.controlPhase===3?'warn':''}">${phase}</span></div>
+    <div class="card"><div class="card-head">${esc(c.target)} · ${esc(c.subject)} <span class="tag">execution · guided manual</span></div><div class="card-pad">
+      <div class="control-grid">
+        <div class="control-box"><div class="k">Before · current user limit</div><div class="v">${fmt(c.beforeCredits)}</div><div class="l">credits / user / month<br>operator-attested, unparsed</div></div><div class="control-arrow">→</div>
+        <div class="control-box plan"><div class="k">Approved change · same user</div><div class="v">${fmt(c.afterCredits)}</div><div class="l">credits / user / month<br>exception policy retained</div></div><div class="control-arrow rollback">↩</div>
+        <div class="control-box rollback"><div class="k">Rollback</div><div class="v">${fmt(c.rollbackCredits)}</div><div class="l">restore prior limit<br>if outcome breaches guard</div></div>
+      </div>
+      <div class="lifecycle">${phaseNames.map((name,i)=>`<span class="life ${i<state.controlPhase?'done':i===state.controlPhase?'current':''}"><i class="dot"></i>${name}</span>`).join('')}</div>
+      <div class="guard-list">
+        <div class="guard ${state.policyApproved?'ok':''}">External Finance evidence ${state.policyApproved?'recorded':'missing'}</div>
+        <div class="guard ${state.triaged==='acknowledged'?'ok':''}">Same-user concentration finding ${state.triaged==='acknowledged'?'acknowledged + bound':state.triaged?'not control-authorizing':'missing'}</div>
+        <div class="guard ok">Before evidence ${esc(c.beforeEvidence.sha256)} bound · no value-equality claim</div>
+        <div class="guard ok">Rollback ${fmt(c.rollbackCredits)} credits recorded</div>
+        <div class="guard ${state.controlPhase>=1?'ok':''}">Ed25519 intent ${state.controlPhase>=1?'signed':'unsigned'}</div>
+      </div>
+    </div></div>
+    <div class="callout"><span class="icon">◇</span><div><b>Before-state evidence is part of the intent</b>${esc(c.beforeEvidence.sourceName)} · ${esc(c.beforeEvidence.approvalReference)} · no-PHI attested. Its literal vendor reference ${esc(c.beforeEvidence.vendorSubjectReference)} is bound by the encrypted fixture identity map to vault pseudonym ${esc(c.beforeEvidence.boundPseudonym)}; the exact bytes are re-hashed before signing. Because this CSV is not parsed by a reviewed state adapter, it remains operator-attested and makes no machine value-equality claim.</div></div>
+    <div class="callout warn"><span class="icon">!</span><div><b>Guided ${esc(c.vendorSurface)} action</b>Liminal does not write hosted ChatGPT/Codex workspace limits. The operator reauthenticates, follows the guide in the vendor console, and records the result. This normalized fixture demonstrates the binding contract; untouched vendor control-export parsing remains a Stage 0 gate.</div></div>
+    <div class="actions"><span class="hint">Signing proves intent. Authorization proves consent. A recorded native action remains applied_unverified until fresh after-state evidence arrives.</span><button class="btn ${state.controlPhase===3?'warn':state.controlPhase===4?'good':'primary'}" data-action="advance-control" ${ready?'':'disabled'}>${labels[state.controlPhase]}</button></div>
+  </div>`;
+}
+function proofView(d){
+  const applied=state.controlPhase>=3, verified=state.controlPhase>=4;
+  const lifecycleRows=d.controlPlan.lifecycleReceipts.map((receipt,index)=>{
+    const recorded=index<=state.controlPhase;
+    return `<div class="receipt-row"><span class="kind">${esc(receipt.state)}</span><span class="hash">${recorded?esc(receipt.receiptId):'not recorded'}</span><span class="state" style="color:${recorded?'var(--connection)':'var(--watch)'}">${recorded?'recorded':'pending'}</span></div>`;
   }).join('');
-  $('#work').innerHTML=`<div class="pad">
-    ${subjectBar()}
-    <div class="invoke"><b>/agency invoked</b><span>reading · ${S.product}</span></div>
-    <div class="seam">Switch the subject above · the four registers re-skin, but the loop never changes: sense · read · refuse · correct · ratify. <b>Spend is the door a CFO pays for today. The loop below is the same on any subject · you're watching the control plane for founders running multi-agent systems, not a single tool.</b></div>
-    <div class="subj-head"><span class="sk">${S.sk}</span><h2>${S.title}</h2></div>
-    <div class="sense-h"><span class="anum">01 · EVIDENCE</span><span class="atitle">${S.evidence.h.replace('Evidence · ','')}</span><span class="asub">${S.evidence.tag}</span></div>
-    <div class="evidence-pane" id="evidence-pane"><div class="evidence"><div class="ev-h">${S.evidence.h}<span class="tag">${S.evidence.tag}</span></div><div class="ev-body">${S.evidence.body}</div></div></div>
-    <div class="sense-h" style="margin-top:4px"><span class="anum">02 · THE READ</span><span class="atitle">Four registers read the subject.</span><span class="asub">same loop · different subject</span></div>
-    ${reads}
-    <div class="sense-h" style="margin-top:4px"><span class="anum">03 · RATIFY</span><span class="atitle">You decide. The chain remembers.</span><span class="asub">operator-gated</span></div>
-    <div class="dispo"><span class="lbl">${S.verdict} · the read is the model's until you change it</span>
-      <button class="db" data-act="defer">Defer</button>
-      <button class="db sign" data-act="sign"> Sign &amp; hand off</button></div>
-  </div>`;
-  renderSignals(); renderSubjectAgency(); wireSubjectBar();
-}
-function renderSubjectAgency(){
-  const S=SUBJECTS[SUBJECT];
-  $('#agency').innerHTML=`<div class="rr-h"><span>Agency · ${S.product.split('·')[0].trim()}</span><span class="live">live</span></div>
-    <div style="padding:10px 15px;display:flex;flex-direction:column;gap:9px">
-    ${S.registers.map((nm,i)=>`<div style="border:1px solid var(--card-border);border-radius:6px;padding:10px 12px;background:var(--frame-bg-2)">
-      <div style="font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--${REGCLS[i]==='synthesis'?'depth':REGCLS[i]==='outreach'?'connection':REGCLS[i]})">${nm}</div>
-      <div style="margin-top:5px;font:10px/1.4 var(--mono);color:var(--text-mid)">${S.cover[i]}</div>
-      <div style="margin-top:4px;font:9px/1.3 var(--mono);color:var(--judgment)">⊘ ${S.refuse[i]}</div></div>`).join('')}
+  const proofPhase=verified?'verified':applied?'applied_unverified':phaseNames[state.controlPhase];
+  const proofHeadline=verified?'The normalized after-state exactly matches the signed outcome.':applied?'Applied is not verified.':'No applied action, no verification claim.';
+  const heroState=verified?'VERIFIED':applied?'APPLIED_UNVERIFIED':'NO_APPLIED_ACTION';
+  const heroCopy=verified
+    ? `Illustrative strict adapter ${esc(d.controlPlan.afterEvidence.schema)} matched surface ${esc(d.controlPlan.afterEvidence.surface)}, target ${esc(d.controlPlan.afterEvidence.target)}, subject ${esc(d.controlPlan.afterEvidence.boundPseudonym)}, observation ${esc(d.controlPlan.afterEvidence.observedAt)}, and monthly_credit_limit ${esc(d.controlPlan.afterEvidence.matchedState.monthly_credit_limit)} exactly. Vendor provenance remains operator-attested.`
+    : applied
+      ? 'The authorized admin action has been recorded, but no fresh after-state evidence is attached. Liminal will not call this control verified.'
+      : 'The control lifecycle has not reached a recorded native action. This scene remains a proof preview; no after-state can be attached.';
+  const verifier=verified ? (state.signerPinned?'VERIFIED':'INTEGRITY VALID · SIGNER UNPINNED') : 'WAITING FOR VERIFIED AFTER-STATE';
+  return `<div class="view-inner">
+    <div class="section-head"><div class="copy"><div class="eyebrow">07 · verify the outcome, export the evidence</div><h1 class="headline">${proofHeadline}</h1><p class="lede">Only a reviewed machine-readable adapter that matches the signed target, subject, and exact state can close the loop. Screenshots and unparsed files remain operator-attested evidence and never become “verified.”</p></div><span class="status-pill ${verified?'good':applied?'warn':''}">${proofPhase}</span></div>
+    <div class="proof-hero ${verified?'verified':''}"><div><div class="proof-state">${heroState}</div><div class="proof-copy">${heroCopy}</div></div><button class="btn ${verified?'good':'primary'}" data-action="attach-evidence" ${applied&&!verified?'':'disabled'}>${verified?'Illustrative exact match shown ✓':'Simulate reviewed adapter match'}</button></div>
+    <div class="grid g2" style="margin-top:12px">
+      <div class="card"><div class="card-head">Receipt chain <span class="tag">illustrative ids · production export is signed</span></div><div class="receipt-chain">
+        <div class="receipt-row"><span class="kind">source</span><span class="hash">sha256:${esc(d.qualification.sourceSha256)}</span><span class="state">accepted</span></div>
+        <div class="receipt-row"><span class="kind">agent review</span><span class="hash">${esc(d.dailyReview.evidencePacketHash)} · ${esc(state.reviewDisposition||'proposed')}</span><span class="state">advisory</span></div>
+        <div class="receipt-row"><span class="kind">policy</span><span class="hash">${state.policyApproved?'finance-policy-v1-demo · external evidence finance-approval-demo-01':esc(d.allocationPolicy.previewHash)}</span><span class="state" style="color:${state.policyApproved?'var(--connection)':'var(--watch)'}">${state.policyApproved?'approval recorded':'pending external Finance'}</span></div>
+        <div class="receipt-row"><span class="kind">finding</span><span class="hash">person_concentration · ${esc(state.triaged||'undisposed')}</span><span class="state">correctable</span></div>
+        <div class="receipt-row"><span class="kind">identity binding</span><span class="hash">${esc(d.controlPlan.vendorSubjectReference)} → ${esc(d.controlPlan.subject)} · ${esc(d.controlPlan.identityBinding)}</span><span class="state">vault-local</span></div>
+        <div class="receipt-row"><span class="kind">before-state</span><span class="hash">${esc(d.controlPlan.beforeEvidence.sha256)} · encrypted attachment</span><span class="state">bound</span></div>
+        <div class="receipt-row"><span class="kind">control</span><span class="hash">${state.controlPhase>=1?`${esc(d.controlPlan.target)} · ${esc(d.controlPlan.subject)} · ${esc(d.controlPlan.intentPacketId)}`:'control intent not signed'}</span><span class="state" style="color:${state.controlPhase>=1?'var(--connection)':'var(--watch)'}">${state.controlPhase>=1?'signed':'pending'}</span></div>
+        ${lifecycleRows}
+        <div class="receipt-row"><span class="kind">after-state</span><span class="hash">${verified?`${esc(d.controlPlan.afterEvidence.sha256)} · ${esc(d.controlPlan.afterEvidence.vendorSubjectReference)} → ${esc(d.controlPlan.afterEvidence.boundPseudonym)} · ${esc(d.controlPlan.afterEvidence.valueSemantics)}`:'not attached'}</span><span class="state" style="color:${verified?'var(--connection)':'var(--watch)'}">${verified?'exact match':'pending'}</span></div>
+      </div></div>
+      <div class="card"><div class="card-head">Offline verifier <span class="tag">illustrative projection · production verifier is zero-dependency</span></div><div class="verify-box"><div class="terminal"><div class="cmd">$ node verify.mjs${state.signerPinned?' --expect-fingerprint 4C91…7A':''}</div><div>bundle inventory integrity  <span class="${verified?'ok':'warn'}">${verified?'valid':'waiting'}</span></div><div>operational receipt chain . <span class="${verified?'ok':'warn'}">${verified?'valid':'waiting'}</span></div><div>signature ................. <span class="${verified?'ok':'warn'}">${verified?'valid':'waiting'}</span></div><div>expected signer pin ....... <span class="${state.signerPinned?'ok':'warn'}">${state.signerPinned?'match':'not supplied'}</span></div><div class="${state.signerPinned?'ok':'warn'}">${verifier}</div></div><button class="btn" style="margin-top:10px" data-action="pin-signer" ${verified&&!state.signerPinned?'':'disabled'}>${state.signerPinned?'Signer pinned ✓':'Pin expected signer'}</button></div></div>
     </div>
-    <div class="orbital-coverage"><span class="ce">4 registers · 1 subject · the loop travels</span></div>`;
-}
-
-// ── Today (OG, real figures + full re-entry surface absorption) ──────────────
-// Absorbed from cut 10: two-column layout (left: needs decision + resurfaced reads;
-// right: close-the-loop outcomes + mirror) + outcome sealing with calibration bump
-function renderToday(){
-  body.dataset.surface='today';
-
-  // Outcome sealing interaction (from cut 10, ported to master)
-  const setupTodayInteraction = () => {
-    const loopEl = document.getElementById('tdy-loop');
-    const outcomesEl = document.getElementById('tdy-outcomes');
-    const verdictEl = document.getElementById('tdy-sealed-verdict');
-    const hashEl = document.getElementById('tdy-sealed-hash');
-    const calNum = document.getElementById('tdy-cal-num');
-
-    if (!loopEl || !outcomesEl) return;
-
-    // deterministic seals per outcome
-    const SEALS = {
-      'resolved-well': '9f4c · 7e21 · 0d8a · b3f0',
-      'mixed':         'a1d8 · 3b07 · ee52 · 6c19',
-      'regret':        '4e90 · c2aa · 71f3 · 08bd',
-      'open':          '0c3f · 5512 · 9a8e · d7b1',
-    };
-
-    outcomesEl.addEventListener('click', (e) => {
-      const btn = e.target.closest('.tdy-outcome');
-      if (!btn || loopEl.classList.contains('is-sealed')) return;
-
-      const verdict = btn.getAttribute('data-outcome');
-      const disp = btn.getAttribute('data-disp');
-
-      if (verdictEl) verdictEl.textContent = verdict;
-      if (hashEl) hashEl.textContent = 'seal ' + (SEALS[disp] || SEALS['resolved-well']) + ' · device-local';
-
-      loopEl.classList.add('is-sealed');
-
-      // Calibration counter bump (520ms rise)
-      if (disp !== 'open' && calNum) {
-        calNum.textContent = '8 of 10';
-        calNum.classList.add('bump');
-        setTimeout(() => calNum.classList.remove('bump'), 520);
-      }
-    });
-  };
-
-  // Render the full two-column Today surface
-  $('#work').innerHTML=`<div class="today" style="max-width:1080px;margin:0 auto;padding:40px 30px">
-    <div style="font:9px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--text-faint);margin-bottom:14px">Today · re-entry · the loop comes back</div>
-    <h1 style="margin:10px 0 6px;font:400 30px/1.15 var(--display);color:var(--text)">Three things came back overnight.</h1>
-    <p style="margin:0 0 26px;font:16px/1.6 var(--serif,Georgia,serif);color:var(--text-dim)">The daemon re-read your held compositions while you slept. One needs a decision today. One outcome is due to close. Your pattern has a note.</p>
-
-    <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:1.5rem;align-items:start">
-      <!-- LEFT: needs a decision + resurfaced reads -->
-      <div style="display:flex;flex-direction:column;gap:1.5rem">
-        <!-- Needs a decision -->
-        <div>
-          <div style="font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.85rem;display:flex;justify-content:space-between">
-            <span>Needs a decision</span><span style="color:var(--text-mute);font-size:8px">held 2 days · re-read 04:12</span>
-          </div>
-          <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.6rem 1.7rem">
-            <div style="display:flex;gap:0.5rem;margin-bottom:1rem;flex-wrap:wrap">
-              <span style="font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid var(--card-border);color:var(--text-faint)">Founding round</span>
-              <span style="font:9px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid rgba(255,210,74,0.3);color:var(--agency-500,#FFD24A)">Almost ready</span>
-            </div>
-            <div style="font:500 italic 1.7rem var(--display);color:var(--wholeness-500,#E90095);letter-spacing:-.01em;margin-bottom:0.7rem">NOT READY · 4 fixes</div>
-            <p style="font:0.92rem/1.6 var(--sans);color:var(--text-mid);margin-bottom:1.1rem">The <b style="color:var(--text);font-weight:500">Judgment</b> register refused to ship. Three corrections plus one defer stand between you and a yes — the head-of-eng call is the blocker the agents converged on.</p>
-            <div style="font:9.5px/1 var(--mono);letter-spacing:.06em;color:var(--text-faint);margin-bottom:1.2rem"><span style="color:var(--text-soft)">read · sr-founding-0512</span> · in-lane: Judgment · refused: out-of-lane → named redirect · vault-sealed · device-local</div>
-            <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
-              <button style="font:11px/1 var(--mono);letter-spacing:.04em;padding:9px 16px;border-radius:6px;border:1px solid var(--card-border);background:var(--card-border);color:var(--text-mid);cursor:pointer;transition:all 140ms" onclick="this.closest('.work').querySelector('[data-go=loop]')&&this.closest('.work').querySelector('[data-go=loop]').click()">Open the read →</button>
-              <button style="font:11px/1 var(--mono);letter-spacing:.04em;padding:9px 16px;border-radius:6px;border:1px solid var(--card-border);background:transparent;color:var(--text-mid);cursor:pointer;transition:all 140ms">Sign &amp; hand off</button>
-              <button style="font:11px/1 var(--mono);letter-spacing:.04em;padding:9px 16px;border-radius:6px;border:1px solid var(--card-border);background:transparent;color:var(--text-mid);cursor:pointer;transition:all 140ms">Defer 2d</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Re-surfaced overnight -->
-        <div>
-          <div style="font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.85rem;display:flex;justify-content:space-between">
-            <span>Re-surfaced overnight</span><span style="color:var(--text-mute);font-size:8px">2 held reads · no decision due</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:0.7rem">
-            <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:7px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:0.4rem">
-              <div style="display:flex;align-items:center;gap:0.55rem">
-                <span style="width:6px;height:6px;border-radius:50%;background:var(--connection,#3EE878);flex-shrink:0"></span>
-                <span style="font:500 1.05rem var(--display);color:var(--text)">Eng hire · candidate B</span>
-                <span style="margin-left:auto;font:9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)">held 6d</span>
-              </div>
-              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Sent a technical write-up unprompted. Synthesis flips its read: the Judgment register placed this third — pattern, just one counter-example.</p>
-            </div>
-            <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:7px;padding:1rem 1.2rem;display:flex;flex-direction:column;gap:0.4rem">
-              <div style="display:flex;align-items:center;gap:0.55rem">
-                <span style="width:6px;height:6px;border-radius:50%;background:var(--connection,#3EE878);flex-shrink:0"></span>
-                <span style="font:500 1.05rem var(--display);color:var(--text)">Design system · v2 migration</span>
-                <span style="margin-left:auto;font:9px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint)">held 9d</span>
-              </div>
-              <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin:0">Strategist surfaced a third option overnight — ship v1, run v2 in parallel two weeks. Maia's review supports it.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RIGHT: close the loop + mirror -->
-      <div style="display:flex;flex-direction:column;gap:1.5rem">
-        <!-- Close the loop (outcome sealing) -->
-        <div>
-          <div style="font:9px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.85rem;display:flex;justify-content:space-between">
-            <span>Close the loop</span><span style="color:var(--text-mute);font-size:8px">outcome due · 27 days ago</span>
-          </div>
-          <div id="tdy-loop" style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.6rem 1.7rem">
-            <div style="font:500 1.3rem var(--display);line-height:1.25;color:var(--text);letter-spacing:-.01em;margin-bottom:0.7rem">You held the seed round to chase a cleaner close.</div>
-            <p style="font:0.85rem/1.55 var(--sans);color:var(--text-soft);margin-bottom:1.3rem">How did that land? <em style="font-style:italic;color:var(--text-mid)">Your answer is what makes the vault's calibration real.</em></p>
-
-            <div id="tdy-outcomes" style="display:flex;flex-direction:column;gap:0.5rem">
-              <button class="tdy-outcome good" data-outcome="Resolved well — right call" data-disp="resolved-well" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Resolved well <span style="color:var(--text-faint);font-size:0.8rem">— right call</span></button>
-              <button class="tdy-outcome" data-outcome="Mixed — would adjust" data-disp="mixed" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Mixed <span style="color:var(--text-faint);font-size:0.8rem">— would adjust</span></button>
-              <button class="tdy-outcome warn" data-outcome="Regret it — wrong call" data-disp="regret" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Regret it <span style="color:var(--text-faint);font-size:0.8rem">— wrong call</span></button>
-              <button class="tdy-outcome" data-outcome="Still open" data-disp="open" style="font:0.9rem var(--sans);text-align:left;padding:0.85rem 1.1rem;border-radius:6px;border:1px solid var(--card-border);background:var(--frame-bg);color:var(--text-mid);cursor:pointer;transition:all 150ms;display:flex;align-items:baseline;gap:0.5rem">Still open</button>
-            </div>
-
-            <div id="tdy-sealed" style="display:none;flex-direction:column;gap:0.6rem;animation:tdy-rise 360ms var(--ease-out) both">
-              <div style="font:10.5px/1 var(--mono);letter-spacing:.05em;color:var(--text-soft);display:flex;align-items:center;gap:0.5rem"><span style="color:var(--connection,#3EE878)">●</span> outcome recorded · sealed to vault</div>
-              <div id="tdy-sealed-verdict" style="font:italic 1.05rem var(--display);color:var(--text)">Resolved well — right call</div>
-              <div id="tdy-sealed-hash" style="font:9.5px/1 var(--mono);letter-spacing:.08em;color:var(--text-faint)">seal 9f4c · 7e21 · 0d8a · b3f0 · device-local</div>
-            </div>
-
-            <div style="margin-top:1.1rem;padding-top:1.1rem;border-top:1px solid var(--card-border);display:flex;align-items:baseline;gap:0.5rem">
-              <span id="tdy-cal-num" style="font:1.4rem var(--mono);color:var(--diligence,#8E66FB);transition:color 300ms">7 of 9</span>
-              <span style="font:0.8rem var(--sans);color:var(--text-soft)">decisions calibrated · last 12 weeks</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Mirror note -->
-        <div style="background:var(--frame-bg-2);border:1px solid var(--card-border);border-radius:8px;padding:1.4rem 1.6rem">
-          <div style="font:9px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--agency-500,#FFD24A);margin-bottom:0.7rem">◍ Mirror · a quiet note</div>
-          <p style="font:1.05rem/1.5 var(--display);color:var(--text-mid);margin:0">You tend to decide funding calls when depleted. Last two nights averaged 5h. The agents are reading you rested today — <em style="font-style:italic;color:var(--diligence,#8E66FB)">maybe let them.</em></p>
-        </div>
-      </div>
+    <div class="exports">
+      <div class="export"><div class="ext">Finance · CSV</div><div class="name">Conserved credit allocation</div><div class="desc">Budget and accepted-usage views with direct, shared, residual, policy and source revision.</div></div>
+      <div class="export"><div class="ext">ServiceNow · MD</div><div class="name">Control change record</div><div class="desc">Finding and correction, external approval evidence, before/change/rollback, lifecycle and outcome.</div></div>
+      <div class="export"><div class="ext">Proof · JSON + verifier</div><div class="name">Signed decision chain</div><div class="desc">Exact intent, ordered receipt signatures, verification basis, manifest and signer pin.</div></div>
     </div>
-  </div>`;
-
-  // Wire outcome sealing interaction (happens after DOM paint)
-  setTimeout(setupTodayInteraction, 0);
-}
-
-// ── OKRs · the frame spend is measured against (use case 2) ─────────────────
-function renderOkr(){
-  body.dataset.surface='okr';
-  const objs=OKR.objectives||[];
-  const rows=objs.map((o,i)=>{
-    const pct=Math.round((o.allocation||0)*100);
-    const krs=(o.key_results||[]).map(k=>`<li>${k}</li>`).join('');
-    return `<div class="okr-obj">
-      <div class="okr-head"><span class="okr-n">O${i+1}</span><span class="okr-name">${o.name}</span><span class="okr-alloc">${pct}%</span></div>
-      <div class="track"><div class="fill" style="width:${pct}%;background:${i===0?'var(--depth)':'var(--judgment)'}"></div></div>
-      ${krs?`<ul class="okr-krs">${krs}</ul>`:''}
-    </div>`;
-  }).join('');
-  const sum=Math.round(objs.reduce((a,o)=>a+(o.allocation||0),0)*100);
-  $('#work').innerHTML=`<div class="today">
-    <div class="greet">OKR baseline · what "good usage" means · ${RUN_MODE==='demo'?'demo':'this run'}</div>
-    <h1>Define the outcomes before measuring the spend.</h1>
-    <p class="lede">Spend data is meaningless without business intent. $10K of Opus is great if it ships a feature, wasteful if it summarizes calendars. The baseline is the frame every read below is measured against.</p>
-    <div class="okrs">${rows}</div>
-    <div class="okr-foot"><span class="okr-sum ${sum===100?'ok':'warn'}">allocation total · ${sum}%</span><span class="okr-note">${sum===100?'balanced · ready to govern':'must sum to 100% before ratifying'}</span></div>
-    <button class="tcard decide" data-go="loop"><div class="tk">Next<span class="meta">the loop reads against this frame</span></div><h3>Ask: is our Opus 4.8 spend tracking to these OKRs?</h3><p>The agents harden the right context and surface a finding ready to ratify.</p></button>
+    <div class="callout"><span class="icon">◇</span><div><b>The dashboard is not the durable asset</b><div class="assets"><span class="asset">source qualification</span><span class="asset">human-reviewed agent draft</span><span class="asset">allocation policy</span><span class="asset">corrected finding</span><span class="asset">signed control intent</span><span class="asset">measured outcome</span></div></div></div>
+    <div class="actions"><span class="hint">This cut demonstrates the product contract with sanitized data. The production workstation produces the real exports and cryptographic evidence.</span><button class="btn" data-action="reset">Restart the seven-beat demo</button></div>
   </div>`;
 }
+const views=[sourceView,todayView,reconcileView,allocateView,triageView,controlView,proofView];
 
-// ── Report · the spend-ROI exec report (use case 5a) ────────────────────────
-function renderReport(){
-  body.dataset.surface='report';
-  const r=REPORT;
-  if(!r){
-    $('#work').innerHTML=`<div class="today"><div class="greet">Spend-ROI report</div><h1>No ratified run yet.</h1><p class="lede">Run the loop and ratify a decision · the report is generated from the finding + the signed decision, and cites its sources. ${RUN_MODE==='demo'?'(Open with <code>?run=govern-run.json</code> to see a real pipeline report.)':''}</p><button class="tcard decide" data-go="loop"><div class="tk">Go to the loop</div><h3>Sense → read → ratify</h3></button></div>`;
-    return;
+function renderNav(){
+  $('#step-nav').innerHTML=STEPS.map((s,i)=>`<button class="step-btn ${i===state.step?'on':''} ${i<state.step?'done':''}" type="button" data-step-index="${i}"><span class="n">${i+1}</span><span><span class="name">${s.name}</span><span class="sub">${s.sub}</span></span><span class="key">${i+1}</span></button>`).join('');
+  $('#flow').innerHTML=FLOW.map((name,i)=>`<span class="${i<=Math.round(state.step/(STEPS.length-1)*(FLOW.length-1))?'hot':''}">${name}</span>${i<FLOW.length-1?'<i>→</i>':''}`).join('');
+  $('#progress').style.width=`${state.step/(STEPS.length-1)*100}%`;
+  document.documentElement.dataset.step=STEPS[state.step].id;
+}
+function renderRibbon(){
+  const events=[['source','qualified',true],['review','human disposed',Boolean(state.reviewDisposition)],['Finance','external approval',state.policyApproved],['finding','triaged',Boolean(state.triaged)],['intent','signed',state.controlPhase>=1],['action','applied',state.controlPhase>=3],['outcome','verified',state.controlPhase>=4]];
+  $('#audit-ribbon').innerHTML=`<span class="lab">decision lineage</span>${events.map(e=>`<span class="event ${e[2]?'done':''}">${e[0]} · ${e[1]}</span>`).join('')}<span class="state ${state.controlPhase>=4?'verified':''}">${phaseNames[state.controlPhase]}</span>`;
+}
+function render(){
+  if(!state.data)return;
+  renderNav(); renderRibbon();
+  $('#rail-pool').textContent=`${compact(state.data.reportedPremise.monthlyBudgetCredits)} credits`;
+  $('#view').innerHTML=views[state.step](state.data);
+  $('#view').scrollTop=0;
+}
+function go(step){state.step=Math.max(0,Math.min(STEPS.length-1,step));render()}
+function reset(){state.step=0;state.reviewed=false;state.reviewDisposition=null;state.financeReviewExported=false;state.policyApproved=false;state.triaged=false;state.controlPhase=0;state.signerPinned=false;render();showToast('Sanitized demo reset')}
+
+document.addEventListener('click',(event)=>{
+  const nav=event.target.closest('[data-step-index]'); if(nav){go(Number(nav.dataset.stepIndex));return}
+  const btn=event.target.closest('[data-action]'); if(!btn||btn.disabled)return;
+  const action=btn.dataset.action;
+  if(action==='next')go(state.step+1);
+  if(action==='reset')reset();
+  if(action==='prepare-review'){state.reviewed=true;render();showToast('Deterministic cited review prepared; nothing sent')}
+  if(action==='dispose-review'){state.reviewDisposition=btn.dataset.value;render();showToast(`Review ${state.reviewDisposition}; cited original preserved and nothing sent`)}
+  if(action==='export-finance-review'){state.financeReviewExported=true;render();showToast('Pending external-Finance review packet exported')}
+  if(action==='record-finance-approval'){state.policyApproved=true;render();showToast('External Finance approval evidence recorded against preview hash')}
+  if(action==='triage'){state.triaged=btn.dataset.value;render();showToast(`Finding ${state.triaged}; original evidence preserved`)}
+  if(action==='advance-control'){
+    if(state.controlPhase===0){state.controlPhase=1;showToast('Control intent signed; no vendor change made')}
+    else if(state.controlPhase===1){state.controlPhase=2;showToast('OS-authenticated operator authorization recorded')}
+    else if(state.controlPhase===2){state.controlPhase=3;showToast('Native action recorded as applied_unverified')}
+    else if(state.controlPhase===3){go(6);return}
+    else {go(6);return}
+    render();
   }
-  const pct=r.spend?.pct||{};
-  const catRows=Object.entries(pct).map(([cat,p])=>`<div class="mbar"><span class="lb">${cat.replace(/_/g,' ')}</span><div class="track"><div class="fill" style="width:${p}%;background:var(--diligence)"></div></div><span class="pct">${p}%</span></div>`).join('');
-  const fp=(r.false_positives_removed||[]).map(f=>`<li><b>${f.event}</b> · ${f.reason}</li>`).join('');
-  const under=(r.under_allocated||[]).map(u=>`<li>${u.objective}: ${u.actual_pct}% actual vs ${u.target_pct}% target</li>`).join('');
-  $('#work').innerHTML=`<div class="mirror">
-    <div class="greet">Spend-ROI report · ${r.period||'2026-06'} · ${r.persona||'Rhea'} · ${RUN_MODE} run</div>
-    <h1>Spend, against the OKRs you set.</h1>
-    <p class="lede">${r.business_impact||''}</p>
-    <div class="mstats">
-      <div class="mstat"><div class="v">${r.spend?.aligned_pct??'—'}%</div><div class="l">OKR-aligned</div></div>
-      <div class="mstat"><div class="v">$${(r.expected_savings?.monthly??0).toLocaleString()}</div><div class="l">verified savings/mo</div></div>
-      <div class="mstat"><div class="v">$${(r.expected_savings?.annual??0).toLocaleString()}</div><div class="l">/yr via ${r.expected_savings?.via||'agent'}</div></div>
-    </div>
-    <div class="mbars"><h3>Spend by category (corrected)</h3>${catRows}</div>
-    <div class="recon" style="margin-top:14px">
-      <div class="rc naive"><span class="l">naïve savings</span><span class="v">$${r.misaligned?.naive_monthly??0}/mo</span></div>
-      <div class="rc drop"><span class="op">−</span><span class="l">dropped (false positive)</span><span class="v">$${r.misaligned?.dropped_monthly??0}</span></div>
-      <div class="rc verified"><span class="op">=</span><span class="l">verified realizable</span><span class="v">$${r.misaligned?.verified_monthly??0}/mo</span></div>
-    </div>
-    ${under?`<div class="mnote"><span class="k">under-allocated</span><ul>${under}</ul></div>`:''}
-    ${fp?`<div class="mnote"><span class="k">false positives removed (not reclassified)</span><ul>${fp}</ul></div>`:''}
-    <div class="mnote"><span class="k">provenance · this report cites its sources</span>
-      <p>Decision <code>${(r.decision_id||'—').slice(0,8)}</code> · hash <code>${r.decision_hash||'—'}</code><br>
-      Cited events: ${(r.cited_events||[]).join(', ')||'—'}${r.cited_prs?.length?` · ${r.cited_prs.join(', ')}`:''}<br>
-      <em>${r.decision||''}</em></p></div>
-  </div>`;
-}
-
-// ── Mirror (OG calibration) ─────────────────────────────────────────────────
-function renderMirror(){
-  body.dataset.surface='mirror';
-  $('#work').innerHTML=`<div class="mirror">
-    <div class="greet">Mirror · decisions calibrated · last 12 weeks</div>
-    <h1>How your judgment is changing</h1>
-    <p class="lede">Not what you decided · how you decide. The correction stream is first-party data about your judgment itself; this is it, reflected back. <em>This</em> is the layer that compounds · the spend cockpit was just where you entered it.</p>
-    <div class="mstats"><div class="mstat"><div class="v">47</div><div class="l">decisions ratified</div></div><div class="mstat"><div class="v">128</div><div class="l">corrections made</div></div><div class="mstat"><div class="v">2.7×</div><div class="l">corrections per read ↑</div></div></div>
-    <div class="mbars"><h3>Where your corrections land (by register)</h3>
-      <div class="mbar"><span class="lb">Synthesis · framing</span><div class="track"><div class="fill" style="width:54%;background:var(--depth)"></div></div><span class="pct">54%</span></div>
-      <div class="mbar"><span class="lb">Judgment · verdict</span><div class="track"><div class="fill" style="width:23%;background:var(--judgment)"></div></div><span class="pct">23%</span></div>
-      <div class="mbar"><span class="lb">Outreach · the move</span><div class="track"><div class="fill" style="width:15%;background:var(--connection)"></div></div><span class="pct">15%</span></div>
-      <div class="mbar"><span class="lb">Diligence · facts</span><div class="track"><div class="fill" style="width:8%;background:var(--diligence)"></div></div><span class="pct">8%</span></div></div>
-    <div class="mnote"><span class="k">the quiet note</span><p>“Better models read the facts more accurately · and you correct the framing more, not less. The loop is doing what it should: the agents got sharper, and so did your disagreements.”</p></div>
-  </div>`;
-}
-
-// ── Registry + Decision log (real) ──────────────────────────────────────────
-// the agent-fit marketplace swap (the hero beat) · current vs suggested, each verifiable
-function swapHTML(fit){
-  const side=(s,role,roleCls)=>{
-    const costPct=Math.round((s.cost_ratio||0)*100);
-    return `<div class="mside ${roleCls}">
-      <span class="mrole">${role}</span>
-      <div class="mname">${s.name}</div>
-      <div class="mmeta">${s.type||''}${s.publisher?' · '+s.publisher:''}</div>
-      <div class="mstatrow"><span class="mcost">${costPct}% of frontier</span>${s.reputation_score!=null?`<span class="mrep">rep ${s.reputation_score}</span>`:''}</div>
-      <div class="mlanes">${(s.lanes||[]).slice(0,3).map(l=>`<span class="lane">${l.replace(/_/g,' ')}</span>`).join('')}</div>
-      <div class="mproof">${s.attested?'⛓ registry-verified · proof '+s.proof_hash:'frontier · out of approved scope'}</div>
-    </div>`;
-  };
-  return `<div class="mswap">
-    <div class="mswap-h">${fit.reason}</div>
-    <div class="mswap-grid">
-      ${side(fit.current,'current','cur')}
-      <div class="marrow">→<span class="msave">−${fit.savings_ratio}%</span></div>
-      ${side(fit.suggested,'route to','sug')}
-    </div>
-  </div>`;
-}
-
-// agent card · rich (real reputation + proof) when REGISTRY_DATA present, else fixture
-function agentCardHTML(a){
-  // rich registry agent (from the pipeline): publisher, claim, cost, lanes, reputation, proof
-  if(a.reputation){
-    const costPct=Math.round((a.cost_ratio||0)*100);
-    const score=a.reputation.score;
-    const scoreCls=score>=90?'ok':score>=75?'cost':'warn';
-    return `<div class="agent rich">
-      <div class="ar-top"><div class="an">${a.name}</div><div class="rep ${scoreCls}" title="reputation · ${a.reputation.reads} reads · ${a.reputation.corrections} corrections">${score==null?'—':score}<span class="rl">rep</span></div></div>
-      <div class="at">${a.type} · ${a.publisher}</div>
-      <div class="claim">${a.claim||''}</div>
-      <div class="badges">
-        ${a.verified?'<span class="bdg ok">verified</span>':''}
-        <span class="bdg ${costPct<=10?'ok':costPct>=100?'warn':'cost'}">${costPct<=10?'low · ':''}${costPct}% of frontier</span>
-        ${a.proof?.attested?'<span class="bdg ok">attested</span>':''}
-      </div>
-      <div class="lanes">${(a.lanes||[]).map(l=>`<span class="lane">${l.replace(/_/g,' ')}</span>`).join('')}</div>
-      <div class="prov">${a.proof?.attested?'⛓ '+a.proof.anchor:'frontier model · not registry-published'} · proof <span class="phash">${a.proof?.integrity_hash||'—'}</span></div>
-    </div>`;
-  }
-  // fixture fallback (demo mode)
-  return `<div class="agent"><div class="an">${a.name}</div><div class="at">${a.type}</div><div class="badges">${(a.badges||[]).map(b=>`<span class="bdg ${b[0]}">${b[1]}</span>`).join('')}</div><div class="lanes">${(a.lanes||[]).map(l=>`<span class="lane">${l}</span>`).join('')}</div>${a.prov?`<div class="prov">provenance: ${a.prov}</div>`:''}</div>`;
-}
-function renderRegistry(){
-  body.dataset.surface='registry';
-  const list=REGISTRY_DATA||AGENTS;
-  const cards=list.map(agentCardHTML).join('');
-  const verifiable=!!REGISTRY_DATA;
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · verifiable agent registry</div><h1>Is your team using the right agent for the job?</h1><p class="lede">Every registered agent carries who published it, what it claims, what it costs, the tasks it's approved for, and a <em>verifiable reputation</em> · a real survived/landed score plus an integrity hash. ${verifiable?'Verified agents carry registry attestation (proven at Berlin on Algorand TestNet; product anchoring optional/roadmap); the proof is the identity, not a cheaper unknown.':'Verification is provenance: a registry-verified agent trades frontier spend for a known, attestable identity.'}</p><div class="agents rich">${cards}</div></div>`;
-}
-function renderLog(){
-  body.dataset.surface='log';
-  const rows=LOG.map(e=>`<tr><td>${e[0]}</td><td>${e[1]}</td><td>${e[2]}</td><td class="num">${e[3]}</td><td class="num">${e[4]}</td></tr>`).join('');
-  $('#work').innerHTML=`<div class="screen"><div class="sh">Govern · decision log</div><h1>Decision log</h1><p class="lede">Append-only trail. Every surviving finding entered the chain; the ratified policy is a new linked entry; the refuted claim is recorded, never silently dropped. Real SHA-256 anchors, hash-linked.</p><table class="tbl"><thead><tr><th>#</th><th>Kind</th><th>Entry</th><th>packet_hash</th><th>prev_hash</th></tr></thead><tbody>${rows}</tbody></table><p class="lede" style="font:11px/1.5 var(--mono);color:var(--text-mute)">${LOG.filter(e=>e[0]!=='—').length} anchored · 1 refuted${signed?' · 1 ratified this session':''} · ${corrections} correction${corrections!==1?'s':''} signed.</p></div>`;
-}
-
-// ── correction flow (restored) ──────────────────────────────────────────────
-function openRegEdit(reg){
-  const r=$(`.reg[data-reg="${reg}"]`); if(!r||r.classList.contains('editing'))return;
-  const plain=r.querySelector('.rbody').textContent.trim().slice(0,180);
-  r.querySelector('textarea').value=plain;
-  r.classList.add('editing'); r.querySelector('textarea').focus();
-}
-function saveRegEdit(reg){
-  const r=$(`.reg[data-reg="${reg}"]`); const val=r.querySelector('textarea').value.trim();
-  if(val){ r.querySelector('.rbody').innerHTML='<span class="hl">'+val+'</span>'; }
-  r.classList.remove('editing'); r.classList.add('corrected');
-  recordCorrection(reg+' read');
-}
-function recordCorrection(where){
-  corrections++; logChain('correction · '+where+' · operator','corr');
-  const cc=$('#corrcount'); if(cc) cc.textContent=corrections+' correction'+(corrections>1?'s':'')+' · this is YOUR read now';
-  const pre=$('.db.sign .pre'); if(pre) pre.textContent='correct →';
-  toast('Correction recorded · appended to the chain (entry '+(5+corrections)+')');
-}
-// typed finding correction → new linked entry (kind) → re-anchors, badge stays green
-function signFindingCorrection(fid,btn){
-  const card=$(`.finding[data-finding="${fid}"]`);
-  const kind=card.querySelector('.fc-kind.on')?.dataset.fckind||'cross';
-  const note=card.querySelector('textarea').value.trim()||'operator amended the read';
-  corrections++;
-  const h=(0x7d4b+corrections).toString(16);
-  logChain('correction · '+kind+' · '+fid+' · re-anchored','corr');
-  card.classList.add('corrected');
-  card.querySelector('.fc-done').innerHTML=`✓ correction appended &amp; re-anchored · <span class="mono">${kind}</span> · sha256 ${h}…a${corrections}9 · <span style="color:var(--good)">chain verified</span>`;
-  const cc=$('#corrcount'); if(cc) cc.textContent=corrections+' correction'+(corrections>1?'s':'')+' · this is YOUR read now';
-  const pre=$('.db.sign .pre'); if(pre) pre.textContent='correct →';
-  toast('Correction signed · '+kind+' · new linked entry, chain stays verifiable ✓');
-}
-function logChain(text,cls){CHAIN.push(['t'+(5+corrections),text,cls,'new']);renderChain();}
-// invisible presenter affordance · reset demo to a clean opening state (⌥R / 0)
-const CHAIN0=CHAIN.slice(0,5).map(e=>e.slice(0,3));
-function resetDemo(){
-  corrections=0; signed=false;
-  CHAIN=CHAIN0.map(e=>e.slice());
-  SIGNALS.forEach(s=>{ if(s.id==='tickets'||s.id==='model') s.state='tray'; });
-  body.dataset.relationship='operator';
-  $$('.rel button').forEach(x=>x.classList.toggle('on',x.dataset.rel==='operator'));
-  const db=$('#duebadge'); if(db) db.style.display='';
-  renderChain(); go('today');
-  toast('Demo reset · clean opening state');
-}
-function toast(msg){const t=$('#toast');t.innerHTML=`<span class="d">✎</span>${msg}`;t.classList.add('show');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);}
-
-// ── engine integration · loop engine state + hooks ───────────────────────────
-let loopEngine=null;
-function initEngine(){
-  loopEngine={
-    subject:'spend',
-    sealChoreography:'bifurcated',
-    sealRiseMs:600,
-    refusalFlavor:'agent',
-    refusalTimingMs:320,
-    motionTier:'both',
-    onSealGlow:()=>{
-      // bifurcated seal: trigger orbital center-orb glow animation (600ms by convention)
-      const orb=document.querySelector('svg.orbit .core');
-      if(orb){orb.classList.add('glow');setTimeout(()=>orb.classList.remove('glow'),600);}
-    }
-  };
-}
-
-// ── ratify → mint canonical artifact (corrections shape it) ─────────────────
-function mintArtifact(){
-  signed=true; const aw=$('#artwrap'); if(!aw)return;
-  const corrLine = corrections? `<span class="corr" style="color:var(--coherence,#7AA9FF)">Operator made ${corrections} correction${corrections>1?'s':''} to the read before sealing · this reflects the corrected judgment.</span> ` : '';
-  const artifactHTML=`<div class="artifact"><div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
-    <div class="abody"><p class="adec">Opus 4.8 cannot be used for calendar management or routine admin work.</p>
-    <p class="arat">${corrLine}Calendar/admin usage does not map to the approved OKRs, and a registry-verified lower-cost agent (CalendarOps, ~10% of Opus) covers it. E14 is product engineering (PR-103) and is NOT reclassified.</p>
-    <div class="apol"><span class="pc al">allow · product_dev</span><span class="pc al">allow · security_hardening</span><span class="pc al">allow · architecture_review</span><span class="pc dn">deny · calendar_management</span><span class="pc dn">deny · routine_admin</span><span class="pc dn">deny · generic_summarization</span></div>
-    <div class="arec"><span class="hl">anchored</span><span class="hs">sha256: 7d4b…a284 · local-first chain · entry ${6+corrections}/${6+corrections}</span><span class="ok">chain verified</span></div></div></div>
-    <div class="calib-cta"><button data-go="mirror">◍ see how your judgment is calibrating →</button></div>`;
-  aw.innerHTML=artifactHTML;
-
-  /* apply choreography: bifurcated seal (instant artifact + glow) */
-  const artifact=aw.querySelector('.artifact');
-  if(artifact&&loopEngine&&loopEngine.onSealGlow){
-    artifact.style.animation='none'; /* instant render */
-    loopEngine.onSealGlow(); /* fire glow hook */
-  }
-
-  const sb=$('.db.sign'); if(sb) sb.style.display='none';
-  logChain('ratified · policy anchored · chain verified','corr');
-  $('#duebadge').style.display='none';
-  toast('Sealed & handed off · reversible by correction (append-only) · see it in Today');
-  aw.scrollIntoView({behavior:'smooth',block:'nearest'});
-}
-
-// ── routing ─────────────────────────────────────────────────────────────────
-function go(s){
-  $$('.tab').forEach(t=>t.classList.toggle('on',t.dataset.go===s));
-  ({today:renderToday,okr:renderOkr,loop:renderLoop,report:renderReport,mirror:renderMirror,registry:renderRegistry,log:renderLog}[s]||renderToday)();
-  // path-only motion: replay the fade-up on the freshly-rendered work content
-  const w=$('#work'); if(w){w.classList.remove('enter'); void w.offsetWidth; w.classList.add('enter');}
-}
-function highlightSignal(id){ $$('.sig').forEach(s=>s.classList.remove('cited'));
-  const el=$(`.sig[data-sig="${id}"]`); if(el){el.classList.add('cited');el.classList.add('open');el.scrollIntoView({block:'nearest'});} }
-
-document.addEventListener('click',e=>{
-  const subj=e.target.closest('[data-subj]'); if(subj){ SUBJECT=subj.dataset.subj; corrections=0; signed=false; renderLoop(); return; }
-  const go_=e.target.closest('[data-go]'); if(go_){go(go_.dataset.go);return;}
-  const cite=e.target.closest('[data-cite]'); if(cite){highlightSignal(cite.dataset.cite);return;}
-  const sig=e.target.closest('[data-sig]'); if(sig){const s=SIGNALS.find(x=>x.id===sig.dataset.sig);
-    if(s.state==='tray'){s.state='slate';renderSignals();toast('Hardened '+s.src+' onto the slate');logChain('slate · hardened '+s.id,'corr');}
-    else sig.classList.toggle('open'); return;}
-  const ar=e.target.closest('[data-amendreg]'); if(ar){openRegEdit(ar.dataset.amendreg);return;}
-  const sr=e.target.closest('[data-savereg]'); if(sr){saveRegEdit(sr.dataset.savereg);return;}
-  if(e.target.closest('.rcancel')){e.target.closest('.reg').classList.remove('editing');return;}
-  // FINDING interactions (the hero): expand → evidence+receipt; correct (typed)
-  const fx=e.target.closest('[data-fexpand]'); if(fx){fx.closest('.finding').classList.toggle('open');return;}
-  const fct=e.target.closest('[data-fcorrect]'); if(fct){fct.closest('.finding').classList.toggle('correcting');return;}
-  const fk=e.target.closest('[data-fckind]'); if(fk){const box=fk.closest('.fc-kinds');box.querySelectorAll('.fc-kind').forEach(x=>x.classList.toggle('on',x===fk));return;}
-  const fcs=e.target.closest('[data-fcsave]'); if(fcs){signFindingCorrection(fcs.dataset.fcsave,fcs);return;}
-  const act=e.target.closest('[data-act]'); if(act){if(act.dataset.act==='sign')mintArtifact();else toast('Deferred 30 days · returns in Today');return;}
-  if(e.target.closest('#cmdk-btn')){togglePalette(true);return;}
-  if(e.target.id==='palette'){togglePalette(false);return;}
-  const pr=e.target.closest('.pal-row'); if(pr){pr.dataset.act?doPalAct(pr.dataset.act):go(pr.dataset.goto);togglePalette(false);return;}
-  const rel=e.target.closest('[data-rel]'); if(rel){body.dataset.relationship=rel.dataset.rel;$$('.rel button').forEach(x=>x.classList.toggle('on',x===rel));return;}
+  if(action==='attach-evidence'){state.controlPhase=4;render();showToast('Illustrative adapter matched surface, target, subject, timestamp, and signed value')}
+  if(action==='pin-signer'){state.signerPinned=true;render();showToast('Expected signer fingerprint matches')}
+});
+document.addEventListener('keydown',(event)=>{
+  if(event.target.matches('input,textarea,select'))return;
+  if(/^[1-7]$/.test(event.key))go(Number(event.key)-1);
+  if(event.key==='ArrowRight')go(state.step+1);
+  if(event.key==='ArrowLeft')go(state.step-1);
+  if(event.key.toLowerCase()==='r')reset();
 });
 
-// ⌘K palette
-const PAL=[{goto:'today',label:'Go · Today (re-entry)',k:'1'},{goto:'loop',label:'Go · The loop (sense→ratify)',k:'2'},{goto:'mirror',label:'Go · Mirror (calibration)',k:'3'},{goto:'registry',label:'Go · Agent registry',k:'4'},{goto:'log',label:'Go · Decision log',k:'5'},{act:'correct',label:'Correct the read · amend Synthesis',k:'C'},{act:'sign',label:'Sign & hand off (ratify)',k:'S'}];
-function renderPal(q=''){const list=PAL.filter(p=>p.label.toLowerCase().includes(q.toLowerCase()));
-  $('#pal-list').innerHTML=list.map((p,i)=>`<div class="pal-row ${i===0?'sel':''}" ${p.goto?`data-goto="${p.goto}"`:`data-act="${p.act}"`}>${p.label}<span class="pk">${p.k}</span></div>`).join('');}
-function togglePalette(open){const p=$('#palette');p.classList.toggle('open',open);if(open){$('#pal-input').value='';renderPal();$('#pal-input').focus();}}
-function doPalAct(a){ if(a==='correct'){go('loop');setTimeout(()=>openRegEdit('synthesis'),60);} else if(a==='sign'){go('loop');setTimeout(mintArtifact,60);} }
-$('#pal-input').addEventListener('input',e=>renderPal(e.target.value));
-document.addEventListener('keydown',e=>{
-  if((e.metaKey||e.ctrlKey)&&e.key==='k'){e.preventDefault();togglePalette(!$('#palette').classList.contains('open'));return;}
-  if($('#palette').classList.contains('open')){if(e.key==='Escape')togglePalette(false);
-    if(e.key==='Enter'){const sel=$('.pal-row.sel')||$('.pal-row');if(sel){sel.dataset.goto?go(sel.dataset.goto):doPalAct(sel.dataset.act);togglePalette(false);}}return;}
-  if(e.target.tagName==='TEXTAREA'||e.target.tagName==='INPUT')return;
-  // invisible presenter affordance: ⌥R (or "0") resets demo state between rehearsals/takes
-  if((e.key==='0')||(e.altKey&&e.key.toLowerCase()==='r')){e.preventDefault();resetDemo();return;}
-  const map={'1':'today','2':'okr','3':'loop','4':'report','5':'mirror','6':'registry','7':'log'}; if(map[e.key])go(map[e.key]);
-  if(e.key.toLowerCase()==='c'&&body.dataset.surface==='loop')openRegEdit('synthesis');
-  if(e.key.toLowerCase()==='s'&&body.dataset.surface==='loop'&&!signed)mintArtifact();
-});
-
-// ── the seam · load real pipeline output when ?run=<json> is present ─────────
-// liminal-agents `npm run govern:emit` writes cuts/govern-run.json; opening
-// 11-govern.html?run=govern-run.json renders that real run. No ?run ⇒ fixtures.
-let OKR={product_pct:60,security_pct:40,objectives:[
-  {name:'Accelerate product development',allocation:0.6,key_results:['Ship 3 customer-facing AI features this quarter']},
-  {name:'Improve security hardening',allocation:0.4,key_results:['Complete penetration testing and remediate P0/P1 issues']},
-]};
-let REPORT=null, RUN_MODE='demo', REGISTRY_DATA=null, AGENT_FIT=null;
-
-async function initGovernData(){
-  const run=new URLSearchParams(location.search).get('run');
-  if(run||window.GOVERN_DATA){
-    try{
-      const d=run?await fetch(run).then(r=>{if(!r.ok)throw new Error(r.status);return r.json();}):window.GOVERN_DATA;
-      // shadow the inline globals with the real run (only present keys override)
-      if(d.VENDORS)VENDORS=d.VENDORS; if(d.USAGE)USAGE=d.USAGE; if(d.SIGNALS)SIGNALS=d.SIGNALS;
-      if(d.READS)READS=d.READS; if(d.RECON)RECON=d.RECON; if(d.FINDINGS)FINDINGS=d.FINDINGS;
-      if(d.CHAIN)CHAIN=d.CHAIN; if(d.LOG)LOG=d.LOG;
-      if(typeof d.SPEND_TOTAL==='number')SPEND_TOTAL=d.SPEND_TOTAL;
-      if(typeof d.OPUS_TOTAL==='number')OPUS_TOTAL=d.OPUS_TOTAL;
-      if(typeof d.COHORT==='number')COHORT=d.COHORT;
-      if(typeof d.CLAIMED==='number')CLAIMED=d.CLAIMED;
-      if(typeof d.VERIFIED==='number')VERIFIED=d.VERIFIED;
-      if(d.okr)OKR=d.okr; if(d.report)REPORT=d.report;
-      if(d.REGISTRY)REGISTRY_DATA=d.REGISTRY; if(d.AGENT_FIT)AGENT_FIT=d.AGENT_FIT;
-      // hero swap-in-loop: replace the Outreach read's swap with the real marketplace comparison
-      if(AGENT_FIT&&READS.outreach)READS.outreach.html='Drafted · the registry has a better-fit verified agent for this task <span class="cite" data-cite="registry">agent-registry</span>. Ready to ratify the routing rule.'+swapHTML(AGENT_FIT);
-      RUN_MODE=d.meta?.mode==='demonstration'?'demonstration':(d.meta?.mode==='live'?'live':'real');
-      const badge=$('#run-badge'); if(badge){badge.textContent=RUN_MODE==='demonstration'?'demonstration run':(RUN_MODE==='live'?'live run':'real run');badge.classList.add('on');}
-    }catch(err){
-      console.warn('[govern] ?run load failed, using demo fixtures:',err);
-    }
-  }
-  // boot routing: ?subject= picks the loop's subject (cut 11's subject is a parameter);
-  // ?beat=loop (or any ?subject) boots straight into the deliberation instead of Today,
-  // so the demo deep-link lands on the 8-agent spend loop with no manual click.
-  const params=new URLSearchParams(location.search);
-  const wantSubject=params.get('subject');
-  if(wantSubject&&SUBJECTS[wantSubject])SUBJECT=wantSubject;
-  const wantLoop=params.get('beat')==='loop'||!!wantSubject;
-  renderChain(); go(wantLoop?'loop':'today');
+try{
+  const response=await fetch('./ai-spend-workstation-demo.json',{cache:'no-store'});
+  if(!response.ok)throw new Error(`HTTP ${response.status}`);
+  state.data=await response.json();
+  if(state.data.fixtureKind!=='illustrative_demo'||state.data.customerData!==false)throw new Error('fixture boundary missing');
+  render();
+}catch(error){
+  $('#view').innerHTML=`<div class="load-error"><div><b>Demo fixture refused</b>${esc(error.message)}<br>Run this cut through the repository dev server.</div></div>`;
+  $('#audit-ribbon').innerHTML='<span class="lab">decision lineage</span><span class="state">fixture refused</span>';
 }
-
-// boot · init engine, load real data if requested, then route (?subject/?beat) or land on Today
-initEngine();
-initGovernData();
 </script>
-<!-- demo spine · persistent beat rail (beat 3 of 4) -->
 <script src="../lib/beat-rail.js" defer></script>
-<!-- presenter aid · founder note (beat 3) -->
 <script src="../lib/beat-marginalia.js" defer></script>
-<!-- presentation legibility layer · calm mode on by default · "D" toggles -->
-<script src="../lib/demo-calm.js" defer></script>
 </body>
 </html>

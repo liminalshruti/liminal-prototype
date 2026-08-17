@@ -1,5 +1,10 @@
 # Cut Taxonomy + Port-Readiness — session findings (2026-06-16)
 
+> **HISTORICAL / SUPERSEDED.** This session record preserves the June 2026 exploration trail.
+> It is not current demo, product, release, or pilot canon. The current public front door is the
+> de-identified AI Spend Control Workstation in `cuts/11-govern.html`; current behavior and proof
+> claims must follow that cut and its fixture.
+
 > Explore-mode session. **No production code was written.** This doc records what was
 > investigated and concluded, so the next session (or the parallel one) doesn't re-derive it.
 > Two sessions were on `main` concurrently; the taxonomy artifacts (`cuts/TAXONOMY.md`,
@@ -176,7 +181,7 @@ repositioning. (Disambiguation: this is `liminal-agents-v1`, the live substrate.
 | Doc | Status | What it actually is now |
 |---|---|---|
 | `sandbox/docs/SPEC_LEGIBLE_SPEND` | **SHIPPED** | `npm run spend` runs against **real Claude Code usage** (`~/.claude/projects/**/*.jsonl`), real prices, hash-only anchor. Reposition: not a sandbox demo — a working ingest→price→bucket→anchor pipeline for the wedge. |
-| `sandbox/docs/SPEC_USAGE_INSIGHT_ENGINE` | **PROPOSAL · design-to-review** | **The wedge's substrate spec.** Persona = "Matt, a manager with a thousands-a-month token bill and no idea of the value" — the exact CFO-legible beachhead `THESIS_CONVERGENCE` named. Two lenses: **cost (the wedge)** + **capability/adoption-maturity (the renewal)**. Enablement-not-indictment framing discipline baked in (matches the privacy-invariant + "do not surveil" register). This is cut 11's `wedge→infra` argument as a real engine. |
+| `sandbox/docs/SPEC_USAGE_INSIGHT_ENGINE` | **PROPOSAL · design-to-review** | **The wedge's substrate spec.** Persona = "an enterprise budget owner with a thousands-a-month token bill and no idea of the value" — the exact CFO-legible beachhead `THESIS_CONVERGENCE` named. Two lenses: **cost (the wedge)** + **capability/adoption-maturity (the renewal)**. Enablement-not-indictment framing discipline baked in (matches the privacy-invariant + "do not surveil" register). This is cut 11's `wedge→infra` argument as a real engine. |
 | `sandbox/docs/SPEC_VALUE_QUOTE_ENGINE` | **PROPOSAL · "the genuinely hard part"** | Scores the Insight Engine: `value_quote = base_outcome_value × purpose_weight × durability`, grounded in *outcome (did it stay shipped)* not tokens — generalizes `reputation.js#scoreFromStats` from agents to sessions. 3-tier evidence ladder (features → outcome → counterfactual replay); a downgrade/over-reliance claim never hits `high` confidence on heuristics alone. Suppress-by-default. This is what makes the wedge *defensible under challenge* rather than a guess generator. |
 
 **The repositioning, stated plainly:** `USAGE_INSIGHT_ENGINE` + `VALUE_QUOTE_ENGINE` should be re-filed
@@ -238,7 +243,7 @@ x402 settlement + receipt (`lib/x402/priced-read.js`, `algorand.js`) · hash anc
 | Two surfaces (lead feed / director view) | Insight | — | **`liminal-desktop` = Sean's lane** |
 | Structural privacy guards | both | Low effort, **mandatory** | tests asserting no `summary`/transcript/judge text ever reaches an anchored payload — PPA invariant, not polish |
 
-**Phasing (the specs imply it — "ship the internal tier first; the chain earns nothing if Matt only
+**Phasing (the specs imply it — "ship the internal tier first; the chain earns nothing if the budget owner only
 reports to himself"):**
 1. **Internal tier · cost lens · T1+T2 only** — summarizer + ledger + insight engine + detector #1 +
    value_quote (outcome-grounded, no replay) + confidence model + privacy guards. **No chain, no T3,

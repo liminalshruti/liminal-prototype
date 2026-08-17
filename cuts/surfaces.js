@@ -58,10 +58,10 @@ export const SURFACES = [
       alt:'L1-founder', framing:'wedge', stage:'Re-enter',
       jump:'Held compositions re-read overnight; the loop closes.',
       check:'re-entry cards render; the “how it landed” correction prompt is reachable.' },
-    { num:'11', file:'11-govern.html', name:'Govern · the Agency Loop', meta:'correction-primary · ⌘K', badge:'live', survey:true,
+    { num:'11', file:'11-govern.html', name:'AI Spend Control Workstation', meta:'350K budget · seven-beat daily loop', badge:'live', survey:true,
       alt:'L1→L2', framing:'wedge→infra', stage:'full-loop',
-      jump:'Correction-as-primary; Today re-entry; Mirror reflect-back; ⌘K palette.',
-      check:'⌘K opens; OKR allocation bar renders; Amend marks a read corrected; Mirror reflects the stream.' },
+      jump:'Qualified source → exact daily delta + bounded review → reconciliation → pending Finance review → same-user guided control → verified proof.',
+      check:'1–7 navigate; +20K is the exact revision delta; 500/494/501 stay independently accepted with pairwise mismatches and no winner; 260K accepted usage is conserved against a separate 350K budget; Finance review export precedes recorded external approval; demo-user-001 binds through the encrypted fixture identity map to usr_8f2a; applied_unverified requires fresh evidence; signer pin closes proof.' },
   ]},
   { grp: 'Scaffold + exploration', desc: 'authoring tools and in-flight directions', items: [
     { file:'_template.html', name:'_template', badge:'', jump:'Starting shape for a new cut.' },

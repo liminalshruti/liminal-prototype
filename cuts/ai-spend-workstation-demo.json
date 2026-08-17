@@ -1,0 +1,227 @@
+{
+  "fixtureKind": "illustrative_demo",
+  "customerData": false,
+  "dataBoundary": "metadata_only_no_phi",
+  "surface": "openai_workspace_credits",
+  "period": "illustrative_month",
+  "qualification": {
+    "sourceName": "wf0_ai_spend_governance_revision_2.csv",
+    "rowCount": 10,
+    "dateMin": "2026-07-01",
+    "dateMax": "2026-07-16",
+    "rowsWithIdentity": 9,
+    "validAmountRows": 10,
+    "recognizedHeaders": ["date", "user_id", "product", "model", "project_id", "group_id", "credits"],
+    "unsupportedHeaders": [],
+    "adapterId": "liminal_normalized_workspace_usage_v1",
+    "sourceSha256": "2f9b7a449af4c7e3d5de0e951a0c79511670b8b985e06867799a765bce05f1d8",
+    "untouchedVendorExportSupported": false,
+    "rawBytesRetained": false
+  },
+  "reportedPremise": {
+    "monthlyBudgetCredits": 350000,
+    "overrunRangeCredits": {
+      "minimum": 100000,
+      "maximum": 200000
+    },
+    "concentratedUserCredits": 36000,
+    "currentBlanketLimitCredits": 5000
+  },
+  "sourceRevisions": [
+    {
+      "revision": 2,
+      "status": "accepted_demo",
+      "nativeUnit": "credits",
+      "schemaFingerprint": "liminal-normalized-workspace-v1",
+      "sha256": "2f9b7a449af4c7e3d5de0e951a0c79511670b8b985e06867799a765bce05f1d8"
+    },
+    {
+      "revision": 1,
+      "status": "superseded_demo",
+      "nativeUnit": "credits",
+      "schemaFingerprint": "liminal-normalized-workspace-v1",
+      "sha256": "58fceaa934c2457f65fbfae5a66107e1fd11fc134379abfe1c472af4b2817a03"
+    }
+  ],
+  "dailyReview": {
+    "runtime": "deterministic_offline",
+    "remoteModelAvailable": false,
+    "evidencePacketHash": "7a4f0ab812c6d381...de92",
+    "previousTotalCredits": 240000,
+    "currentTotalCredits": 260000,
+    "deltaCredits": 20000,
+    "analyst": {
+      "semantics": "weakened",
+      "headline": "Accepted export changed since the prior revision",
+      "body": "The accepted workspace ledger increased by 20,000 credits. Work the cited concentration, coverage, and license-count exceptions before treating the view as complete.",
+      "citations": ["revision:9a1f2c10", "finding:72ad410e", "gap:103ca8ee"]
+    },
+    "auditor": {
+      "semantics": "refused",
+      "headline": "Dollar-savings and productivity conclusions refused",
+      "body": "This period has credits but no billed-USD total. Credits remain credits; no dollar savings or employee-productivity conclusion is supportable.",
+      "citations": ["total:c4de8f01"]
+    },
+    "drafts": [
+      {"kind": "finance_followup", "title": "Finance allocation review", "state": "proposed", "sent": false},
+      {"kind": "service_now_update", "title": "Daily AI spend exception update", "state": "proposed", "sent": false},
+      {"kind": "downgrade_outreach", "title": "Evidence-bound model downgrade outreach", "state": "proposed", "sent": false}
+    ]
+  },
+  "licenseObservations": [
+    {
+      "value": 500,
+      "sourceKind": "contract_purchased",
+      "sourceStream": "openai.workspace.license-count.contract-purchased",
+      "sourceLabel": "Contract / purchased count",
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-07-31",
+      "asOf": "2026-07-15",
+      "revision": 1,
+      "status": "accepted_demo",
+      "sha256": "3b68a79f4cf2d911...a150"
+    },
+    {
+      "value": 494,
+      "sourceKind": "directory_roster_derived",
+      "sourceStream": "openai.workspace.license-count.directory-roster-derived",
+      "sourceLabel": "Directory / roster-derived count",
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-07-31",
+      "asOf": "2026-07-15",
+      "revision": 1,
+      "status": "accepted_demo",
+      "sha256": "924fd773afe3b012...d494"
+    },
+    {
+      "value": 501,
+      "sourceKind": "vendor_admin",
+      "sourceStream": "openai.workspace.license-count.vendor-admin",
+      "sourceLabel": "OpenAI Global Admin Console count",
+      "periodStart": "2026-07-01",
+      "periodEnd": "2026-07-31",
+      "asOf": "2026-07-15",
+      "revision": 1,
+      "status": "accepted_demo",
+      "sha256": "f18a02bd6935c447...b501"
+    }
+  ],
+  "usageRows": [
+    {
+      "subject": "usr_8f2a",
+      "lob": "unmapped",
+      "product": "Codex",
+      "model": "workspace_default",
+      "credits": 36000
+    },
+    {
+      "subject": "usr_21c7",
+      "lob": "operations",
+      "product": "ChatGPT",
+      "model": "workspace_default",
+      "credits": 14800
+    },
+    {
+      "subject": "usr_4de1",
+      "lob": "platform",
+      "product": "Codex",
+      "model": "workspace_default",
+      "credits": 12100
+    }
+  ],
+  "allocationPolicy": {
+    "version": "finance-policy-v1-demo",
+    "effectivePeriod": "illustrative_month",
+    "approvalEvidence": "finance-approval-demo-01",
+    "previewHash": "d19c3c8b5f20e4b6...0bd7",
+    "approvalStatusBeforeRecord": "pending_external_finance",
+    "budgetCredits": 350000,
+    "acceptedUsageCredits": 260000,
+    "lines": [
+      {
+        "label": "Operations",
+        "treatment": "direct",
+        "credits": 100000
+      },
+      {
+        "label": "Platform",
+        "treatment": "direct",
+        "credits": 70000
+      },
+      {
+        "label": "Corporate",
+        "treatment": "direct",
+        "credits": 40000
+      },
+      {
+        "label": "Shared services",
+        "treatment": "shared",
+        "credits": 20000
+      },
+      {
+        "label": "Unmapped residual",
+        "treatment": "residual",
+        "credits": 30000
+      }
+    ]
+  },
+  "finding": {
+    "detector": "person_concentration",
+    "thresholdPercent": 8,
+    "observedCredits": 36000,
+    "acceptedUsageCredits": 260000,
+    "observedPercent": 13.8,
+    "status": "advisory_demo"
+  },
+  "controlPlan": {
+    "target": "workspace_user_limit",
+    "subject": "usr_8f2a",
+    "vendorSubjectReference": "demo-user-001",
+    "identityBinding": "encrypted_fixture_identity_map",
+    "execution": "guided_manual",
+    "beforeCredits": 5000,
+    "afterCredits": 3000,
+    "rollbackCredits": 5000,
+    "vendorSurface": "Global Admin Console",
+    "untouchedVendorControlExportSupported": false,
+    "beforeEvidence": {
+      "sourceName": "wf0_control_before_state.csv",
+      "sha256": "e8bda84c19c043c113d7f1b1cab8f74f9d4680cccb2650f54f4458bf2fc5c815",
+      "vendorSubjectReference": "demo-user-001",
+      "boundPseudonym": "usr_8f2a",
+      "approvalReference": "DEMO-GRC-BEFORE-001",
+      "noPhiAttested": true
+    },
+    "afterEvidence": {
+      "sourceName": "illustrative_normalized_after_state.json",
+      "sha256": "illustrative-adapter-hash-not-a-production-receipt",
+      "vendorSubjectReference": "demo-user-001",
+      "boundPseudonym": "usr_8f2a",
+      "schema": "liminal.ai_spend.control_state_evidence.v1",
+      "surface": "openai_workspace_credits",
+      "target": "workspace_user_limit",
+      "observedAt": "2026-07-16T18:00:00Z",
+      "valueSemantics": "machine_parsed_exact_state",
+      "matchedState": {
+        "monthly_credit_limit": "3000"
+      },
+      "approvalReference": "DEMO-GRC-AFTER-001",
+      "noPhiAttested": true
+    },
+    "intentPacketId": "demo-intent-9b31-771e",
+    "lifecycle": [
+      "planned",
+      "signed",
+      "authorized",
+      "applied_unverified",
+      "verified"
+    ],
+    "lifecycleReceipts": [
+      {"state": "planned", "receiptId": "demo-receipt-planned-01"},
+      {"state": "signed", "receiptId": "demo-receipt-signed-02"},
+      {"state": "authorized", "receiptId": "demo-receipt-authorized-03"},
+      {"state": "applied_unverified", "receiptId": "demo-receipt-applied-04"},
+      {"state": "verified", "receiptId": "demo-receipt-verified-05"}
+    ]
+  }
+}

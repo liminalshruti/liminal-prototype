@@ -1,5 +1,9 @@
 # Master Grammar Upgrade Spec — tray + orbital in the master
 
+> **Superseded for Cut 11, 2026-07-11.** Do not apply this upgrade to the current AI Spend Control
+> Workstation. Cut 11 is a dedicated budget-owner flow, not the generalized Agency master. Preserve
+> this file only as the older consolidation proposal.
+
 *2026-07-01 · the fold map §4 upgrade deferred by the C2 build (correct call:
 it risks the spend-native flow). The master (`cuts/11-govern.html`) now has the
 subject switch + absorbed Today; this spec adds cut 01's interaction grammar.*

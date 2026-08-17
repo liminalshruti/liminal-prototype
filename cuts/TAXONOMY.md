@@ -88,23 +88,17 @@ is the proof the substrate travels. **Altitude replaces the old flat `Audience` 
 
 ### Half 3 · The framing flag (how a cut gets priced) — NEW in v2
 
-Positioning's load-bearing rule (June-15 addendum, verbatim):
+The framing flag distinguishes a use-case surface from the durable decision layer beneath it.
+Cut 11 is the exact **wedge→infra seam**: the buyer enters through AI spend, but the assets that
+remain are an inspected source, accepted revision delta, human-reviewed agent proposals, an externally
+approved allocation policy, a corrected finding, an encrypted source-reference-to-vault-pseudonym binding,
+before-state evidence, a signed control intent,
+and a measured outcome. If the demo leads with charts or autonomous
+recommendations, it collapses into a feature. If it shows the full source-to-verification loop, the
+broader decision layer is visible without asking the buyer to accept an abstract platform story.
 
-> *"A founder who leads with the spend cockpit gets priced as a feature. A founder
-> who leads with the verified-decision layer gets priced as infrastructure."*
-
-So every cut carries a **framing flag** — is it being shown *as the wedge* (entered
-here, priced as a feature) or *as the infrastructure* (the judgment layer, the
-company)? Cut 11 (govern / AI-spend) is positioning's exact worked example of the
-**wedge→infra seam**. This flag has no equivalent in v1 and is the second substantive
-correction.
-
-> **This flag is fundraise-critical, not cosmetic.** `THESIS_CONVERGENCE_2026-06-15`
-> names the wedge→platform bridge as **the VC's #1 objection** and an OKR (O2/KR1) —
-> *"judgment layer = company; spend = wedge; same loop."* So how cut 11 is framed in a
-> demo is the raise's #1 objection in miniature — which is precisely why the
-> demonstration strategy resolved to **cut-01-forward, shell as proof** (below):
-> entered as founder-OS, priced as infrastructure.
+For the active demo route, Cut 11 leads. Cut 01 and the general shell remain separate explorations;
+they are not allowed to replace the budget owner's workflow because they are easier to present.
 
 ---
 
@@ -147,7 +141,7 @@ the cut's address.
 | 06 margin-read | full-loop | L1-founder | desktop | wedge | refining | **The explanation layer.** The only cut whose subject is the marginalia: renders the loop as real UX, then narrates it with staged founder notes anchored to live elements. Refusal is the focal beat. (06 slot reused; old onboarding-06 archived → cut 04.) |
 | 10 today | Re-enter | L1-founder | desktop | wedge | live | The Re-enter stage; closes the loop. Already thinks in coordinates. |
 | 12 operating-plane | full-loop | L1-founder | desktop | wedge | sketch | The four-zone desktop plane (loop map, slate, agent workspace, intake dock) that cut 01's slate-tray unwinds into per FP-DESIGN. Shares altitude/surface/framing with cut 01, not loop-stage (cut 01 is Capture→Read→Decide detail; this is the full loop, plus Re-enter via the vault scene). Not a duplicate, the wider frame around the same wedge. |
-| 11 govern | full-loop (agent fleet) | L1→L2 | desktop | **wedge→infra** | live | **The seam cut** — positioning's exact wedge→platform example (AI-spend) |
+| 11 govern | full-loop (AI spend control) | L1→L2 | desktop | **wedge→infra** | live | **The seam cut:** source qualification, Finance allocation, signed native-control intent, and verified outcome make the decision layer visible beyond the spend dashboard |
 | 08 custody | full-loop (defense) | L3-high-stakes | desktop | infra | sketch | A subject of cut 00 (custody); proof-of-travel |
 | 09 osint | full-loop (live kernel) | L3-high-stakes | desktop | infra | live | A subject of cut 00 (osint); **the real-kernel proof** |
 | molehunt | full-loop (CI) | L3-high-stakes | desktop | infra | live | A subject — proof-of-travel (CI) |
@@ -161,8 +155,7 @@ the cut's address.
    shell that proves they're one substrate.
 2. **The L3 cluster (08, 09, molehunt) is the depth proof, not separate products** —
    positioning closed this. They are subjects of one substrate, framed `infra`.
-3. **Cut 11 is the only `wedge→infra` cut** — the literal pricing seam. Worth watching:
-   how it's framed determines whether the demo gets priced as a feature or as the company.
+3. **Cut 11 is the only `wedge→infra` cut:** the literal pricing seam. Its dashboard is deliberately subordinate to revisioned source authority, approved allocation policy, corrected finding, signed control intent, and measured outcome. If those durable records disappear, it collapses back into a feature.
 4. **Altitude does the differentiating, and it's ordered** L1→L4 — that ordering is
    the strategy (wedge → expansion → depth → category), not a flat tag.
 
@@ -188,20 +181,16 @@ coordinates as its grouping vocabulary.
 
 ## What this DOES decide
 
-- **Demonstration strategy — DECIDED 2026-06-16: cut-01-forward, shell as proof.**
-  The prototype leads with cut 01 (the founder front door, `live`); cut 00 sits
-  behind it as the "same loop, every subject" infrastructure proof. This is the most
-  literal expression of positioning's wedge→platform resolution: *entered as
-  founder-OS, priced as infrastructure.* Applied in `index.html` (card order +
-  framing) and noted in the Substrate Console masthead. Rejected: cut-00-forward
-  (leads with an unfinished, abstract surface) and two-door-by-audience (maintains
-  two front doors, dilutes the one-product story).
+- **Demonstration strategy, superseded 2026-07-11: Cut 11 leads.** The public front door and
+  presenter route start with the AI Spend Control Workstation. Cut 01 remains the general
+  decision-record exploration; Cut 00 remains a compact multi-subject shell. Neither substitutes
+  for the budget owner's source, allocation, guided-control, and verification workflow.
 
 ## What this does NOT decide (deliberately — these are gated elsewhere)
 
-- **Who the first buyer is.** `HARMONIZED_FRAME` §"OPEN DECISION" rules this
-  **discovery-gated — "NOT a whiteboard pick"** (4 options, deferred to discovery
-  calls). This taxonomy is structured so it doesn't depend on the answer.
+- **Buyer canon beyond the active route.** The taxonomy does not generalize one discovery call into
+  a market-wide claim. The active Cut 11 route uses a de-identified IT-operations budget owner and
+  the prior process that buyer is replacing.
 - **Whether to actually merge 00/08/09/11** into one parametric surface. The map
   makes it *addressable*; executing it is a larger product-build decision, and the
   product spine is `liminal-desktop` (Sean's lane). This doc maps demos to layers —

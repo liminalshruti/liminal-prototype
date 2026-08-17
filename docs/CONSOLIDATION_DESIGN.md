@@ -1,6 +1,10 @@
 # Loop Consolidation Design — Executive Summary
 
-**Status:** Design document (not implementation)  
+> **Superseded for Cut 11 and the public front door, 2026-07-11.** This remains a historical design
+> record for the older loop-bearing cuts. Its spend pane, master-surface, and consolidation routing
+> must not replace the dedicated AI Spend Control Workstation or its source-to-verification flow.
+
+**Status:** Historical design document (not current Cut 11 implementation)
 **Scope:** Full consolidation of 8 loop-bearing cuts (00, 01, 02, 06, 08, 09, 10, 11) onto one parameterized engine  
 **Timeline:** 4 weeks (Phase A proof + Phase B ports in parallel + Phase C fold)  
 **Key principle:** Reuse existing lib/ modules; parametrize divergences without resolving them  

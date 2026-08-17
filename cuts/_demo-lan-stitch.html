@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Demo · Lan Wu · Liminal (stitch)</title>
+<title>Liminal · presenter demo (stitch)</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 
 <!--
@@ -74,7 +74,7 @@
     <a class="home" href="./_demo-lan.html" title="Plain launcher (fallback)" aria-label="Plain launcher">◇</a>
     <button class="s-beat" data-beat="1"><span class="num">1</span><span>FEEL</span></button>
     <button class="s-beat" data-beat="2"><span class="num">2</span><span>UNDERSTAND</span></button>
-    <button class="s-beat" data-beat="3"><span class="num">3</span><span>PRICE</span></button>
+    <button class="s-beat" data-beat="3"><span class="num">3</span><span>CONTROL</span></button>
     <button class="s-beat" data-beat="4"><span class="num">4</span><span>PROVE</span><span class="ext">tab</span></button>
   </div>
 </nav>
@@ -93,13 +93,13 @@
   var SRC = {
     1: 'thread/open-loops.html?embed=1',
     2: '01-slate-tray.html?embed=1',
-    3: '11-govern.html?subject=spend&embed=1'
+    3: '11-govern.html?embed=1'
   };
   var NOTE = {
     1: 'receipted to the exact source. dismiss a wrong one, it learns your line.',
     2: 'the disagreement is the signal. i correct the read, i stay in command. local-first, signed.',
-    3: 'spend is the wedge. judgment is the company. same loop, every subject.',
-    4: 'refusal with receipts. notarized on a public ledger. verifiable today.'
+    3: 'credits are not currency. applied is not verified. the receipt is the asset.',
+    4: 'recorded hackathon artifact. a public-network claim still needs its transaction-specific receipt.'
   };
   var WALKTHROUGH = 'https://liminalshruti.github.io/algorand-berlin-2026/walkthrough.html';
 
@@ -116,6 +116,8 @@
     iframe.setAttribute('title', 'Beat ' + n);
     iframe.setAttribute('loading', 'eager');
     iframe.src = SRC[n];
+    var loading = wraps[n].querySelector('.loading');
+    if (loading) loading.remove();
     wraps[n].appendChild(iframe);
     loaded[n] = true;
   }

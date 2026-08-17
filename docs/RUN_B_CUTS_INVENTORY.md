@@ -1,5 +1,10 @@
 # RUN_B_CUTS_INVENTORY — prototype cuts fact sheet (producer pass)
 
+> **Historical snapshot, 2026-07-01.** Cut 11 and the public demo route were replaced on 2026-07-11
+> by the AI Spend Control Workstation. Cut 11 descriptions and line references below document the
+> older file and must not be used as current demo or product truth. Use `cuts/cut-manifests.json` and
+> `cuts/11-govern.html` for current state.
+
 > **What this is.** Read-only INVENTORY of the liminal-prototype cut surfaces, produced
 > 2026-07-01 as the substrate for the Fable Run-B adjudicator pass (which infers the desktop
 > canonical design system FROM this doc). This is a FACT SHEET: extraction + citation only.

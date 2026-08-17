@@ -1,7 +1,7 @@
 {
   "name": "liminal-prototype",
   "version": "0.1.0",
-  "description": "Public interactive prototype for Liminal Agents — workflow demo with bounded refusal, deliberation, correction, and vault loops.",
+  "description": "Public Liminal prototype catalog led by the local AI Spend Control Workstation and its source-to-verification loop.",
   "type": "module",
   "private": true,
   "scripts": {

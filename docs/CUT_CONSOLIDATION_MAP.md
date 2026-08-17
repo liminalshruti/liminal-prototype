@@ -1,6 +1,11 @@
 # CUT_CONSOLIDATION_MAP — the join (ladder × fold × situations × divergences)
 
-> **Status: binding for the consolidation build** (the doc cut 00 promises at
+> **Superseded for Cut 11 and active demo routing, 2026-07-11.** Preserve this file as the
+> consolidation decision record for the older multi-subject prototype. Do not generalize Cut 11 or
+> route the current demo through the old Agency master. Current truth lives in `cuts/11-govern.html`,
+> `cuts/ai-spend-workstation-demo.json`, `cuts/cut-manifests.json`, and `cuts/TAXONOMY.md`.
+
+> **Historical status at the time: binding for the consolidation build** (the doc cut 00 promised at
 > `cuts/00-agency.html` and `cuts/TAXONOMY.md:34-35`). Authored 2026-07-01, producer
 > session. Strategy claims cite canon verbatim; the one new adjudication (§1) is made
 > here and is ratified by merging this doc. Re-sync trigger: the Speedrun cohort

@@ -231,26 +231,23 @@
     },
     {
       "id": "11-govern",
-      "name": "Govern — correction is the interaction (the agency loop)",
+      "name": "AI Spend Control Workstation: inspect, review, control, prove",
       "path": "cuts/11-govern.html",
-      "coordinate": "full-loop (agent fleet) × L1→L2 × desktop × wedge→infra × live",
-      "role": "The seam cut — the wedge→infra pricing seam in miniature; the loop turned on the agent fleet itself.",
-      "primitiveMadeVisible": "correction-as-primary-interaction; provenance click-through (finding → cited rows + SHA-256 receipt); ⌘K palette; OKR allocation bar",
+      "coordinate": "full-loop (AI spend control) × L1→L2 × desktop × wedge→infra × live",
+      "role": "The enterprise seam cut: an inspected workspace-credit revision becomes an exact daily delta, human-reviewed analyst/auditor drafts, an externally approved allocation, a before-evidence-bound native control, and a verified receipt.",
+      "primitiveMadeVisible": "read-only source qualification; exact revision delta; cited bounded-agent dispositions; no-winner count reconciliation; unit-safe ledger; pending external-Finance review; corrected deterministic finding; encrypted fixture identity binding; before-state evidence; signed control intent; full lifecycle verification",
       "loopTested": "full-loop",
-      "subjectDomain": "spend (AI-spend / agent fleet governance)",
-      "stateReality": "live (TAXONOMY maturity); recently rebuilt to v3 to demonstrate provenance (per LIMINAL_END_TO_END §4)",
-      "proof": "Click a finding → its cited rows + SHA-256 receipt; reconciliation ($486→−$162→$324); chain-integrity badge (per LIMINAL_END_TO_END §4)",
-      "choreography": "⌘K to drive it; correction as primary move; loop returns each morning (Today) + Mirror reflect-back",
-      "portability": "⌘K palette is reimplemented here AND in surface-nav.js (audit §7 duplication finding) — a consolidation candidate, not a clean extraction",
+      "subjectDomain": "OpenAI hosted-workspace credit governance (metadata-only)",
+      "stateReality": "interactive sanitized prototype; no customer data; guided workspace control only; production behavior lives in liminal-desktop",
+      "proof": "Seven scenes preserve credit units, bind the exact demo-fixture source hash, show a +20K accepted revision delta, persist human dispositions on cited offline drafts, retain 500/494/501 as three accepted observations with no winner, conserve 260K accepted usage against a separate 350K budget, export a pending Finance review before recording external approval, bind demo-user-001 through an encrypted fixture identity map to vault pseudonym usr_8f2a and its same-user control evidence, hold at applied_unverified, then require fresh after-state evidence and an expected signer pin",
+      "choreography": "1–7 or arrow keys: source → today → reconcile → allocate → triage → control → proof; R resets",
+      "portability": "Fixture contract lives in cuts/ai-spend-workstation-demo.json; production contracts and cryptographic evidence live in liminal-desktop",
       "monolithic": true,
-      "orphanedSpecRefs": [
-        "HCI_AUDIT.md",
-        "RECONCILED_SYSTEM.md"
-      ],
+      "orphanedSpecRefs": [],
       "openQuestions": [
-        "Cites HCI_AUDIT.md + RECONCILED_SYSTEM.md as specs — both NOT FOUND IN REPO",
-        "Grew +722 lines in a recent merge — audit §7 flags product logic accreting inside a demo file",
-        "⌘K palette duplicated with surface-nav.js"
+        "The cut preserves 500 contract_purchased, 494 directory_roster_derived, and 501 vendor_admin as three independently accepted July observations; pairwise mismatches remain open and no source is presented as the winner",
+        "The allocation rows and bounded-agent reads are illustrative demo data and must never be presented as customer evidence or live model output",
+        "The normalized fixture demonstrates identity binding but does not prove untouched vendor control-export parsing"
       ]
     },
     {

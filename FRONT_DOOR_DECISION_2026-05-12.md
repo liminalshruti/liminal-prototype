@@ -1,7 +1,7 @@
 ---
 id: decision.prototype.front-door.2026-05-12
 type: decision-record
-status: ACCEPTED · 2026-05-12 evening
+status: SUPERSEDED 2026-07-11 for active public routing; preserved as the 2026-05-12 decision record
 deciders: Shruti
 audience: future Claude sessions, prototype index curators, anyone deciding which cut to link as canonical
 parent_canon:
@@ -13,6 +13,10 @@ related:
 ---
 
 # Prototype Front-Door Decision
+
+> **Superseded routing:** the public prototype now leads with `cuts/11-govern.html`, the sanitized AI
+> Spend Control Workstation. The decision below is preserved as historical context and must not be
+> used to restore Cut 01 as the active buyer-facing front door.
 
 ## Decision
 

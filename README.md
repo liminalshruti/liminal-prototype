@@ -1,18 +1,18 @@
-# Liminal Agents — prototype
+# Liminal prototype
 
 **Live demos: <https://liminalshruti.github.io/liminal-prototype/>**
 
-This is the public prototype surface for **Liminal** — judgment infrastructure for founders running multi-agent systems.
+This is the public prototype surface for **Liminal**. The primary enterprise demo is the local AI Spend Control Workstation; the remaining cuts explore the broader human-decision record and design system.
 
 The core claim: when anyone can build, the bottleneck moves from output to **judgment**. Liminal is the substrate where that judgment gets recorded, corrected, and compounded.
 
-## The product loop
+## The primary enterprise loop
 
-1. **Tray** — drag a window, doc, transcript, or session in. No pipes. No integrations. The Tray is the substrate the operator's other tools enter.
-2. **Bounded agents** — twelve specialists read what's there. They disagree. Out-of-lane agents refuse and name the right one.
-3. **Correction** — when you push back, the semantic delta becomes first-party data.
-4. **Vault** — local-first. Every session, every correction, canonically hashed and searchable. The record is the moat. (Encryption-at-rest and packet signing are implemented in the `agents-v1` substrate library; wiring them into the shipping Tauri vault is on the near-term roadmap — see "Status: what's shipping vs. designed" below.)
-5. **Next move** — one signed packet. One thing the founder can stand behind.
+1. **Qualify** the product surface, native unit, period, revision, and approved source.
+2. **Reconcile** independent observations, identities, and coverage gaps without choosing a winner by inference.
+3. **Allocate** credits under an effective-dated Finance policy whose direct, shared, and residual lines conserve the source total.
+4. **Decide and control** by disposing a deterministic finding, signing the exact before/change/rollback plan, and guiding an authorized administrator through the vendor console.
+5. **Verify and export** only after fresh after-state evidence is bound. `applied_unverified` is not `verified`.
 
 ## Why this matters
 
@@ -24,20 +24,20 @@ The thesis: better models don't erode this — they deepen it. Higher-resolution
 
 ## What's in this repo
 
-This is a **single-file prototype catalog** — public, click-able embodiments of the four loops above PLUS the **canonical visual substrate** that every Liminal product surface consumes.
+This is a **single-file prototype catalog**. Cut 11 is the current AI Spend route; the other public cuts are separate explorations and design references.
 
 | File | What it is |
 | --- | --- |
 | `index.html` | The cuts catalog — single self-contained file (HTML + CSS + JS, no build step) |
-| `cuts/00-agency.html` | **The Agency master.** ONE shell + ONE loop where the *subject is a parameter* — switch between pattern · notification · custody · OSINT · spend. Each subject reskins the four registers and swaps its evidence pane, so the distinctive charts from cuts 01/02/08/09/11 are preserved as per-subject panes ("the kernel travels"). Real Tray→Slate composition + orbital agent-coverage viz with refusal arrows. (Spec: `CUT_CONSOLIDATION_MAP.md`.) |
-| `cuts/01-slate-tray.html` | **Canonical front door** (per `FRONT_DOOR_DECISION_2026-05-12.md`) — slate-tray-vault workspace, brand-first hero. (The speedrun-register hero is a toggle inside this cut; the former `01-slate-tray-speedrun.html` + `00-hero-demo.html` were consolidated to `cuts/_archive/` on 2026-06-02.) |
+| `cuts/00-agency.html` | **General decision-loop exploration.** One shell switches among pattern, notification, custody, OSINT, and a compressed spend summary. It is not the primary AI Spend pilot proof and must not substitute for Cut 11's source-to-verification sequence. |
+| `cuts/01-slate-tray.html` | **General decision-record exploration.** Slate-tray-vault workspace and the former front door. It remains available as a secondary cut; it is not the AI Spend pilot route. |
 | `cuts/02-forensic-agent.html` | Forensic agent · contradicting-notification diligence loop (v0.3) |
 | `cuts/03-calibration.html` | 12wk × 4-register vault heatmap — the moat-visibility cut (renders a seeded illustrative baseline with any real corrections merged on top; see the cut's own in-UI disclosure) |
 | `cuts/04-onboarding.html` + `cuts/onboarding/*` | First-touch onboarding (JSX/CSS in `cuts/onboarding/`). Consolidates three earlier explorations now in `cuts/_archive/`: Cut 05 Argument ("the redline IS the onboarding"), Cut 06 Compare (7-step vs 3-step), Cut 07 Radical (3 steps, "the delta IS the onboarding"). |
 | `cuts/08-liminal-custody.html` | Natsec-register custody view (DoD/IC audience) |
 | `cuts/09-osint-custody.html` | **OSINT Custody — wired to the real kernel.** Runs INGEST→READ→GUARD→REVIEW→VAULT live in-browser via `lib/osint-kernel.bundle.js` (real loop, recomputed each run). Custody/DISCORD register toggle. Displays a **recorded** Kafka + Algorand provenance snapshot from `lib/osint-run.json` (current: localnet, not publicly verifiable) — see "OSINT Custody" §below. |
 | `cuts/10-today.html` | Today · re-entry — the loop closes; held compositions re-read overnight (renamed from `09-today` on 2026-06-11 to resolve a slot collision) |
-| `cuts/11-govern.html` | **Govern — the Agency Loop.** The canonical govern cut: shell + reconciled Agency Loop + folded HCI fixes. Correction is the *primary* interaction, the loop returns (Today/Re-enter), the record reflects back (Mirror); ⌘K palette, OKR allocation bar + agent-fit cost-swap. Absorbed `_archive/11-govern-cockpit-iter.html` + `_archive/12-agency-govern-iter.html`. (Spec: `HCI_AUDIT.md` + `RECONCILED_SYSTEM.md`.) |
+| `cuts/11-govern.html` | **AI Spend Control Workstation.** The operator-first enterprise seam: inspect a sanitized illustrative 350K-credit workspace source without guessing, supersede a prior revision and show the exact typed delta, disposition cited offline analyst/auditor drafts, retain 500 contract, 494 directory-derived, and 501 vendor-admin as independent observations with no winner, export a conserved 260K-credit accepted-usage allocation for external Finance review against a separate 350K budget, bind before-state evidence to a same-user concentration control, then require fresh after-state evidence before calling it verified. Uses `cuts/ai-spend-workstation-demo.json`, a metadata-only fixture with no customer data or PHI. Credits never render as currency; planning never renders as application; application never renders as verification. |
 | `cuts/_template.html` · `cuts/_console.html` · `cuts/_explore/` | Internal tooling: `_template.html` is the starting shape for a new cut; `_console.html` is the **Substrate Console** — a complete directory of every surface (jump) plus all live cuts side-by-side as a click-to-load coherence scan (survey), with a working-tree banner fed by the dev server's `/__state` endpoint so parallel sessions see each other's in-flight work; `_explore/ledger-directions.html` is an active exploration of the provenance chain as a decision ledger (three directions — Spine / Sealed Stack / Anchor Strand). Retired cuts and frozen baselines live in `cuts/_archive/` (incl. `root-experiments/` — frozen `index-v0.3.7`/`v0.4` + the ontology-agent-travel 3D series). |
 | `lib/osint-kernel.bundle.js` | Browser build of the `liminal-test` custody kernel. Real deliberation + 7-layer structural guard + review-rule re-rank, no backend. **Frozen artifact** — `liminal-test` source is no longer in the workspace, so `npm run build:kernel` can't currently regenerate it (see "OSINT Custody" §below). |
 | `molehunt/index.html` | Counterintelligence analyst console (self-contained, high-assurance) |
@@ -47,7 +47,7 @@ This is a **single-file prototype catalog** — public, click-able embodiments o
 | `lib/brand-upgrade.css` | Brand fonts (PerfectlyNineties + NinetiesHeadliner) + type hierarchy |
 | `design-system.html` + `design-system/` | Design tokens browser, type ramp, motion specimens |
 | `server.mjs` | Zero-dependency dev server with live reload |
-| `FRONT_DOOR_DECISION_2026-05-12.md` | Lock: cut 01-canon is the single front door for all audiences |
+| `FRONT_DOOR_DECISION_2026-05-12.md` | Historical front-door decision, superseded for active routing on 2026-07-11 by the AI Spend workstation |
 | `embed-*.html` | Embeddable demos (Tray + Slate, agent hackathon cut, vault) |
 
 ## The lockstep-canon contract
@@ -92,18 +92,18 @@ The honest status as of 2026-06-11 (stated at the layer actually measured):
 
 ### Why this matters
 
-The architectural discipline is the moat. Liminal isn't shipping one product — it's shipping a substrate that ships AS multiple surfaces (desktop pilot, Tauri prod, future mobile, marketing site, natsec custody) without fragmenting. Single-source canon + cut-shape-appropriate consumption is what makes the portfolio coherent. The lockstep contract is what keeps it that way.
+The design intent is one substrate expressed through multiple surfaces without fragmenting the evidence contracts. This repository is a prototype catalog, not proof that every illustrated surface ships in one released application.
 
-## Status: what's shipping vs. designed
+## Status: source and artifact reality
 
 Honest line between what runs today and what is built-but-not-yet-wired or roadmapped. This catalog is a prototype; keeping the line explicit is the point.
 
 | Capability | Status |
 | --- | --- |
-| Bounded agents · refusal-as-output | **Shipping** — runs live in the cuts; the custody kernel (cut 09) recomputes the full loop in-browser each run. |
-| Packet contract · canonical hashing | **Shipping** — implemented and tested in the `agents-v1` substrate (golden-test pinned); consumed by `liminal-desktop` for hashing. |
-| Canonical token lockstep | **Shipping** — single token vocabulary. Desktop's linked CSS in exact sync (2026-06-11, Panda codegen). This prototype re-synced to canon 2026-06-16 (was 171 vars behind) + now has `tokens:sync`/`tokens:check` + an opt-in pre-push hook (`scripts/tokens/pre-push-check.sh`) so drift is caught locally before it ships. (CI guard skipped: canon is a private sibling repo — cross-repo CI checkout needs a secret; local guard chosen instead.) Symlink ruled out (cross-repo symlink dangles on Pages deploy); flat-copy + sync-discipline is the mechanism. |
-| Vault encryption-at-rest · packet signing | **Designed, not yet wired** — implemented in the `agents-v1` library (SQLCipher v4 + keyguard); the shipping Tauri vault currently opens plaintext SQLite. Wiring is near-term. |
+| Bounded-agent cuts · refusal-as-output | **Runs in this prototype**. This does not claim the same agent behavior is present in a released desktop artifact. |
+| Packet contract · canonical hashing | **Implemented and tested in source** in the `agents-v1` substrate and consumed by `liminal-desktop`. Release status is separate. |
+| Canonical token lockstep | **Verified at the source-file layer on the dated checks below.** This is not a claim of current rendered parity or release readiness. |
+| AI Spend pilot vault · packet signing | **Implemented in the constrained desktop pilot source, not released.** Spend imports, normalized facts, receipts, and attachments use SQLCipher; keys stay in macOS Keychain behind operator authentication; Ed25519 packets export with an offline verifier. This is not a claim that every legacy desktop storage path is encrypted, or that a Developer ID signed and notarized customer artifact exists. |
 | On-chain provenance (cut 09) | **Recorded snapshot** — a real custody run was anchored once (localnet, 2026-05-28); a publicly-verifiable testnet anchor is roadmapped. |
 | Real model agents (desktop) | **Partial** — agent pipeline exists; desktop falls back to heuristic reads when no model client is wired. |
 
