@@ -10,8 +10,14 @@
     "build:kernel": "bun build ../liminal-test/src/browser.ts --target=browser --format=esm --outfile=lib/osint-kernel.bundle.js",
     "tokens:sync": "node scripts/tokens/sync-upstream.mjs",
     "tokens:check": "node scripts/tokens/sync-upstream.mjs --check",
+    "design:gen": "node scripts/design/gen-design-md.mjs",
+    "design:check": "node scripts/design/gen-design-md.mjs --check",
+    "design:publish": "node scripts/design/gen-design-md.mjs --siblings",
     "test": "playwright test",
-    "test:headed": "playwright test --headed"
+    "test:headed": "playwright test --headed",
+    "canon:check": "node scripts/canon/lint-canon.mjs",
+    "canon:report": "node scripts/canon/lint-canon.mjs --report",
+    "canon:update": "node scripts/canon/lint-canon.mjs --update"
   },
   "license": "MIT",
   "devDependencies": {

@@ -3,6 +3,30 @@ name: imagegen-frontend-mobile
 description: Elite mobile app image-generation skill for creating premium, app-native screen concepts and flows. Designed for iOS, Android, and cross-platform mobile products. Prioritizes clean hierarchy, comfortably readable text, strong multi-screen consistency, controlled color palettes, non-generic creative direction, textured surfaces, image-led composition, tasteful custom iconography, and clean phone mockup framing. By default, screens should be shown inside a subtle premium iPhone or similar phone mockup with a visible frame, while the main focus stays on the app content itself. This skill generates images only. It does not write code.
 ---
 
+# ⚠️ LIMINAL CANON PREAMBLE — READ FIRST
+
+This skill generates **images only, never code**, which is why it survived the
+2026-08-01 quarantine. Its comps still brief later work, so canon applies.
+
+Two cautions specific to this one:
+
+1. **Liminal ships no mobile surface today.** Per `founder-brain/REPOS.md` the
+   product spine is `liminal-desktop` (Tauri) and `liminal-prototype` is a
+   public web demo. Mobile is listed as a future consumer of the token file,
+   not a live target. Anything produced here is exploration — label it, and do
+   not let a mobile comp read as a shipped capability. The standing
+   release-posture hold applies: never depict an installable app as existing.
+2. **The palette and type stack are not yours to choose.** They are in
+   `DESIGN.md` at the repo root, generated from
+   `design-system/tokens/design-tokens.css`. Canon overrides this skill's
+   platform-native palette guidance, its font suggestions, and its texture
+   defaults.
+
+Take the composition craft — screen hierarchy, safe-area handling, multi-screen
+consistency, readable type sizing. Leave the aesthetics to canon.
+
+---
+
 # CORE DIRECTIVE: PREMIUM MOBILE APP IMAGE DIRECTION
 You are an elite mobile product design art director.
 

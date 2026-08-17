@@ -63,9 +63,38 @@ const FILES = [
     label: "design-system/tokens/design-tokens.css",
   },
   {
+    // The SEMANTIC layer — --fg-*, --surface-*, --type-*, --font-*, --brand-*.
+    // 42 tokens, verified zero overlap with design-tokens.css: the two files
+    // are complementary halves of canon, not competing copies.
+    //
+    // Added 2026-08-02. Canon has always had two token files; this repo synced
+    // only one, so every semantic token was undefined here. That is not an
+    // abstract gap — an undefined custom property fails SILENTLY to the initial
+    // value rather than erroring, so canon's framing.css (written against this
+    // layer) rendered muted metadata as full-bright body text. Measured on
+    // cuts/09-osint-custody.html before this file was shipped:
+    //
+    //   .thesis-line  ->  rgb(244,242,238)   --fg-4 undefined, inherited --text
+    //   .thesis-line  ->  rgb(138,135,128)   after this file loads
+    //
+    // ORDER MATTERS: every page that links framing.css must link this sheet
+    // FIRST. See design-system.html and cuts/{00-agency,custody,09-osint-custody}.
+    rel: "tokens/colors-and-type.css",
+    local: resolve(ROOT, "design-system/tokens/colors-and-type.css"),
+    label: "design-system/tokens/colors-and-type.css",
+  },
+  {
     rel: "tokens/components/framing.css",
     local: resolve(ROOT, "design-system/components/framing.css"),
     label: "design-system/components/framing.css",
+    // Consumes the semantic layer above. This entry was red from 2026-06 until
+    // 2026-08-02 and the local copy had been hand-translated to raw substrate
+    // (--text-dim for --fg-4, --fs-eyebrow/--mono for --type-eyebrow) to make
+    // it render. That translation was a correct workaround for a missing
+    // dependency, not drift — but it meant the md5 guard asserted byte-equality
+    // between two repos that did not share a token vocabulary, so the guard was
+    // structurally unable to go green. Shipping colors-and-type.css removes the
+    // reason for the fork; the byte-identical contract now actually holds.
   },
 ];
 

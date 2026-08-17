@@ -1,0 +1,260 @@
+/*
+ * colors-and-type.css · Liminal · semantic-role layer
+ * ─────────────────────────────────────────────────────────────────
+ * The surface-facing layer of the design system. Imports the
+ * canonical token upstream (./design-tokens.css), loads brand fonts
+ * from ../fonts/, and exposes the named semantic CSS vars and
+ * utility classes every surface should reach for (--fg-1, --surface-2,
+ * --type-h1, .l-eyebrow, etc.).
+ *
+ * CONSUMERS IMPORT THIS FILE, NOT design-tokens.css DIRECTLY.
+ * The semantic layer survives token retunes. The raw token names
+ * may change; the semantic names won't.
+ *
+ * Provenance: Promoted 2026-05-14 from Claude.ai/Design handoff bundle
+ * (liminal-creative/inbox/claude-design-handoff-2026-05-14/). Adapted
+ * for the canonical font location at liminal-creative/fonts/.
+ *
+ * See: liminal-creative/canon/DESIGN_SYSTEM.md for the full spec.
+ * ─────────────────────────────────────────────────────────────────
+ */
+
+@import url("./design-tokens.css");
+
+/* ─── @font-face · brand families ─────────────────────────────── */
+/* Nineties Headliner · display · single-weight bold serif */
+@font-face {
+  font-family: "NinetiesHeadliner";
+  src: url("../fonts/nineties-headliner/Fonts/NinetiesHeadliner-Regular.otf") format("opentype"),
+       url("../fonts/nineties-headliner/Fonts/NinetiesHeadliner-Regular.ttf") format("truetype");
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Perfectly Nineties · body · serif with italic and weights */
+@font-face {
+  font-family: "PerfectlyNineties";
+  src: url("../fonts/perfectly-nineties/WOFF/PerfectlyNineties-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PerfectlyNineties";
+  src: url("../fonts/perfectly-nineties/WOFF/PerfectlyNineties-Regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PerfectlyNineties";
+  src: url("../fonts/perfectly-nineties/WOFF/PerfectlyNineties-Italic.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PerfectlyNineties";
+  src: url("../fonts/perfectly-nineties/WOFF/PerfectlyNineties-Semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PerfectlyNineties";
+  src: url("../fonts/perfectly-nineties/WOFF/PerfectlyNineties-SemiboldItalic.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PerfectlyNineties";
+  src: url("../fonts/perfectly-nineties/WOFF/PerfectlyNineties-Bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PerfectlyNineties";
+  src: url("../fonts/perfectly-nineties/WOFF/PerfectlyNineties-BoldItalic.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Geist / Geist Mono / Caveat from Google Fonts · utility tier */
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Caveat:wght@400;500;600&display=swap");
+
+/* ─────────────────────────────────────────────────────────────────
+ * SURFACE-LEVEL ROLE TOKENS · the names a component should reach for
+ * ───────────────────────────────────────────────────────────────── */
+:root {
+  /* ── Foreground / ink tiers · readable names ──────────────────── */
+  --fg-1: var(--text);       /* primary ink · warm cream            */
+  --fg-2: var(--text-mid);   /* secondary body                      */
+  --fg-3: var(--text-dim);   /* muted captions, archetype labels    */
+  --fg-4: var(--text-faint); /* eyebrows, meta, refusal kind chrome */
+  --fg-5: var(--text-mute);  /* dividers, dimmest                   */
+
+  /* ── Surface tiers · dark-first warm ground ──────────────────── */
+  --surface-0: var(--bg);          /* page ground                   */
+  --surface-1: var(--frame-bg);    /* titlebar, panel chrome        */
+  --surface-2: var(--frame-bg-2);  /* footer, audit ribbon          */
+  --surface-3: var(--frame-bg-3);  /* hover-lifted card, menus      */
+  --surface-rail: var(--rail-bg);  /* deepest plate · rails         */
+
+  /* ── Line / divider ───────────────────────────────────────────── */
+  --line-1: var(--frame-border);
+  --line-2: var(--card-border);
+  --line-3: var(--card-border-2);
+  --line-dotted: rgba(255,255,255,0.08);
+
+  /* ── Brand 3 (locked) ─────────────────────────────────────────── */
+  /* BRAND 4 · founder ruling 2026-07-29 · NOT locked · pink leads.
+     Rebound from Brand 3 (clarity primary / wholeness secondary / vitality accent).
+     The four are the cool half of the wheel and are exactly the four agent registers,
+     so brand and register vocabulary are one system. Cerulean is an ornament carrying
+     brand load: three factors plus one ornament.
+     --brand-accent is KEPT as a deprecated alias rather than deleted, because it has
+     live call sites; it now points at the brand primary instead of retired orange, so
+     nothing renders orange and nothing breaks. Migrate call sites to --brand-primary.
+     Vitality #FF9549 and Agency #FEF059 keep their wheel ramps — reach them via
+     --vitality / --agency, never as brand.
+     Canon: founder-brain/decisions/2026-07-29-brand-4-pink-led.md */
+  --brand-primary:   var(--wholeness);  /* Liminal Pink       #E90095 · --judgment  */
+  --brand-secondary: var(--clarity);    /* Ultramarine Violet #8E66FB · --diligence */
+  --brand-third:     var(--cerulean);   /* Ultramarine Light  #197EEB · --synthesis */
+  --brand-fourth:    var(--connection); /* green              #31E682 · --outreach  */
+  --brand-accent:    var(--wholeness);  /* DEPRECATED alias → brand primary          */
+
+  /* ── Type family roles ────────────────────────────────────────── */
+  --font-display: "NinetiesHeadliner", "Newsreader", Georgia, serif;
+  --font-serif:   "PerfectlyNineties", "Newsreader", Georgia, serif;
+  --font-sans:    "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono:    "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-hand:    "Caveat", cursive;
+
+  /* ── Semantic type roles · paste these onto elements ─────────── */
+  /* hero · 96px+ wordmark / cover  */
+  --type-hero: 700 96px/1.0   var(--font-display);
+  --type-hero-ls: -0.04em;
+
+  /* h1 · screen titles, slate titles */
+  --type-h1: 700 64px/1.05 var(--font-display);
+  --type-h1-ls: -0.038em;
+
+  /* h2 · section heads */
+  --type-h2: 600 36px/1.15 var(--font-serif);
+  --type-h2-ls: -0.025em;
+
+  /* h3 · card titles, sub-heads */
+  --type-h3: 600 22px/1.2 var(--font-serif);
+  --type-h3-ls: -0.02em;
+
+  /* lede · italic editorial subtitle */
+  --type-lede: italic 400 20px/1.45 var(--font-serif);
+
+  /* body · primary running text (UI) */
+  --type-body: 400 14px/1.55 var(--font-sans);
+
+  /* body-serif · literary running text */
+  --type-body-serif: 400 16px/1.6 var(--font-serif);
+
+  /* small · caption / secondary */
+  --type-small: 400 12px/1.5 var(--font-sans);
+
+  /* code · timestamps, hashes, runtime IDs */
+  --type-code: 500 12px/1.5 var(--font-mono);
+  --type-code-ls: 0.06em;
+
+  /* eyebrow · uppercase mono label (the most-frequent chrome) */
+  --type-eyebrow: 500 10px/1.4 var(--font-mono);
+  --type-eyebrow-ls: 0.14em;
+  --type-eyebrow-tt: uppercase;
+
+  /* delta · the big number (coherence-check Δ) */
+  --type-delta: 600 56px/1.0 var(--font-display);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+ * SEMANTIC ELEMENT STYLES · attach by class for quick adoption
+ * ───────────────────────────────────────────────────────────────── */
+
+.l-hero {
+  font: var(--type-hero);
+  letter-spacing: var(--type-hero-ls);
+  color: var(--fg-1);
+}
+
+.l-h1 {
+  font: var(--type-h1);
+  letter-spacing: var(--type-h1-ls);
+  color: var(--fg-1);
+}
+
+.l-h2 {
+  font: var(--type-h2);
+  letter-spacing: var(--type-h2-ls);
+  color: var(--fg-1);
+}
+
+.l-h3 {
+  font: var(--type-h3);
+  letter-spacing: var(--type-h3-ls);
+  color: var(--fg-1);
+}
+
+.l-lede {
+  font: var(--type-lede);
+  color: var(--fg-2);
+}
+
+.l-body {
+  font: var(--type-body);
+  color: var(--fg-2);
+}
+
+.l-body-serif {
+  font: var(--type-body-serif);
+  color: var(--fg-2);
+}
+
+.l-small {
+  font: var(--type-small);
+  color: var(--fg-3);
+}
+
+.l-code {
+  font: var(--type-code);
+  letter-spacing: var(--type-code-ls);
+  color: var(--fg-3);
+}
+
+.l-eyebrow {
+  font: var(--type-eyebrow);
+  letter-spacing: var(--type-eyebrow-ls);
+  text-transform: var(--type-eyebrow-tt);
+  color: var(--fg-4);
+}
+
+.l-delta {
+  font: var(--type-delta);
+  letter-spacing: -0.02em;
+  color: var(--fg-1);
+}
+
+.l-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+}
+
+/* Diamond glyph · used as wordmark prefix, slate marker, vault-pill */
+.l-diamond::before {
+  content: "◇";
+  display: inline-block;
+  margin-right: 0.4em;
+  color: var(--brand-primary);
+  font-family: var(--font-mono);
+  font-weight: 400;
+}

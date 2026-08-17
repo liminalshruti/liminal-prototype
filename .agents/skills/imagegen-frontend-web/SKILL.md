@@ -3,6 +3,33 @@ name: imagegen-frontend-web
 description: Elite frontend image-direction skill for generating premium, conversion-aware website design references. CRITICAL OUTPUT RULE — generate ONE separate horizontal image FOR EVERY section. A landing page with 8 sections produces 8 images. Never compress multiple sections into one image. Enforces composition variety (not always left-text / right-image), background-image freedom, varied CTAs, varied hero scales (giant / mid / mini minimalist), narrative concept spine, second-read moments, and a single consistent palette across all images. Optimized for landing pages, marketing sites, and product comps that developers or coding models can accurately recreate.
 ---
 
+# ⚠️ LIMINAL CANON PREAMBLE — READ FIRST
+
+This skill produces **reference imagery, never code**, which is why it survived
+the 2026-08-01 quarantine that removed nine aesthetic-imposing skills. Nothing
+it makes can put an off-canon value into a shipped surface directly — but the
+images brief later implementation work, so an off-canon comp becomes off-canon
+code one step downstream.
+
+The "single consistent palette" this skill demands is **not yours to choose**.
+It is in `DESIGN.md` at the repo root, whose front matter is generated from
+`design-system/tokens/design-tokens.css`: a near-black void substrate
+(`#0A0A0B`), ten named saturated chrome registers, and a locked type stack of
+Nineties Headliner / Perfectly Nineties / Space Grotesk / Space Mono. Read the
+resolved values there rather than from memory — two register bindings moved in
+the Brand 4 rebind and the type stack moved on 2026-07-29.
+
+Canon overrides this skill's palette logic, its font suggestions, and its
+premium-texture defaults. Colour is semantic here: a register hue means one
+thing, and using it decoratively is a lie a viewer can feel.
+
+Use this skill for what it is actually good at — composition variety, hero
+architecture, section rhythm, second-read moments, and the one-image-per-section
+discipline. The visual register is FLUID (2026-07-03 ruling), so exploratory
+comps have room; label them as exploration.
+
+---
+
 # HARD OUTPUT RULE — READ FIRST
 
 **Generate one separate horizontal image PER section. Always. No exceptions.**
