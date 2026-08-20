@@ -1126,8 +1126,8 @@
         <!-- coverage line + demo input -->
         <div class="orbital-coverage" id="orbital-coverage">
           <span><span class="coverage-emphasis" id="coverage-counts">9 agents · 5 in lane · 3 refused with named redirect · 1 queued</span></span>
-          <span class="coverage-refusal" id="coverage-refusal">Witness refused · it reads what the body holds, not the next move → Strategist</span>
-          <span class="coverage-input" id="coverage-input">demo input: "head-of-eng offer slipped a third time, sleep is broken, customer X escalated again"</span>
+          <span class="coverage-refusal" id="coverage-refusal">Refused to emit one seat count · entitled, active and provisioned are three different predicates</span>
+          <span class="coverage-input" id="coverage-input">demo input: vendor reports 501 seats provisioned · directory shows 494 active identities · contract entitles 500</span>
         </div>
       </aside>
     </main>
@@ -1272,11 +1272,29 @@
      ticker (which targets #register-blocks, now absent · it no-ops
      silently per its existing null-guard).
 
-     The cycle plays a synthetic "head-of-eng / customer-X" scenario
-     (substrate-grounded to the canonical example in INVENTIONS.md
-     bounded-agent demo flow). Refusal arrows fade in when the
-     refusing agent activates. Center orb saturates when 2+ in-lane
-     agents converge on the same recommendation.
+     SCENARIO (swapped 2026-08-19 from a synthetic "head-of-eng /
+     customer-X" week to seat reconciliation). Three authoritative
+     sources report three numbers for what everyone colloquially calls
+     "licences":
+
+       contract   → entitlement            = 500
+       directory  → active identities      = 494
+       vendor API → provisioned seats      = 501
+
+     They are three different predicates, not three estimates of one
+     quantity, so there is no correct single number to report. The loop
+     exists to show the system REFUSING to average them, routing the
+     contradiction to a human, and only then producing the two findings
+     that the averaging would have destroyed:
+
+       501 provisioned − 494 active = 7 seats with no active identity
+       501 provisioned − 500 entitled = 1 seat over entitlement
+
+     This scenario was chosen over the previous one because the refusal
+     is checkable rather than a matter of taste: a viewer can verify the
+     arithmetic and see that the finding depends on the refusal. Refusal
+     arrows fade in when the refusing agent activates. Center orb
+     saturates when 2+ in-lane agents converge.
      ───────────────────────────────────────────────────────────────── -->
 <script>
   (function orbitalDemo() {
@@ -1304,8 +1322,8 @@
                   contrarian: "reading", manager: "queued",
                   strategist: "queued", editor: "queued" },
         arrows: ["arrow-witness-strategist"],
-        coverage: "9 agents · 2 reading · 1 in lane · 1 refused → Strategist · 5 queued",
-        refusal: "Witness refused · it reads what the body holds, not the next move → Strategist",
+        coverage: "9 agents · 2 reading · 1 in lane · 1 refused → Synthesizer · 5 queued",
+        refusal: "Witness refused · 500, 494 and 501 do not measure the same thing → Synthesizer",
         convergent: false
       },
       {
@@ -1316,7 +1334,7 @@
                   strategist: "reading", editor: "queued" },
         arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper"],
         coverage: "9 agents · 3 reading · 2 in lane · 3 refused with named redirect · 1 queued",
-        refusal: "Planner and SDR refused · a staffing call is not an outreach decision → Contrarian",
+        refusal: "Refused to emit a single seat count · averaging three predicates would erase the finding → Contrarian",
         convergent: false
       },
       {
@@ -1327,7 +1345,7 @@
                   strategist: "complete", editor: "queued" },
         arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
         coverage: "9 agents · 5 in lane · 3 refused with named redirect · 1 queued",
-        refusal: "3 refusals held · each one named the agent that should answer instead",
+        refusal: "3 refusals held · the contradiction routes to a human, not to an average",
         convergent: true
       },
       {
@@ -1338,7 +1356,7 @@
                   strategist: "complete", editor: "complete" },
         arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
         coverage: "9 agents · vault committed · the disagreement is the data",
-        refusal: "Refusals sealed with their reasons · that record is what you can defend later",
+        refusal: "Sealed with reasons · 7 provisioned seats have no active identity · 1 seat over entitlement",
         convergent: true,
         sealed: true  /* v0.8.5 F2 · rest step distinguished from convergent
                          via .sealed center-orb class (stronger fill + outer
