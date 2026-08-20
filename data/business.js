@@ -97,6 +97,27 @@ export const BUSINESS_TILES_FOR_CASE = {
     { id: "v_prior_watchboards",  label: "Prior watchboards · 9 cases",   source: "vault",     icon: "◈", requires_level: 0, kind: "vault", note: "7 of 9 stayed OSINT-only · 2 escalated on alias-resolution" },
     { id: "v_audit_chain",        label: "Audit chain · internal only",   source: "vault",     icon: "◈", requires_level: 0, kind: "vault" },
   ],
+
+  /* Seat reconciliation · the spend door, made enterable (2026-08-19).
+     Cut 00 has long said "spend is the door a CISO pays for today", and
+     cut 11 is the spend-governance surface, but no register carried a
+     spend case a viewer could actually pick up on the slate. This is that
+     case, and it is deliberately the same scenario the orbital loop in
+     cut 01 narrates, so the diagram and the slate finally agree.
+
+     The three sources are three PREDICATES, not three estimates of one
+     quantity — which is why the refusal below is checkable arithmetic
+     rather than a matter of taste. */
+  secops_seat_reconciliation: [
+    { id: "sr_contract_entitlement", label: "Contract · 500 entitled",        source: "contracts", icon: "▣", requires_level: 1, kind: "case" },
+    { id: "sr_directory_active",     label: "Directory · 494 active",         source: "iam",       icon: "▣", requires_level: 1, kind: "evidence" },
+    { id: "sr_vendor_provisioned",   label: "Vendor console · 501 seats",     source: "vendor_api",icon: "▣", requires_level: 1, kind: "evidence" },
+    { id: "sr_finance_ask",          label: "Finance · asked for one number", source: "intake",    icon: "▣", requires_level: 1, kind: "case" },
+    { id: "sr_renewal_window",       label: "Renewal · 31 days out",          source: "contracts", icon: "▣", requires_level: 1, kind: "evidence" },
+    { id: "sr_prior_recon_2025",     label: "Prior recon · vendor-Q 2025",    source: "vault",     icon: "◈", requires_level: 1, kind: "vault", note: "same three-source shape · resolved by reporting three figures, not one · vendor accepted" },
+    { id: "sr_hr_terminations",      label: "HR · terminations 90d · ✗",      source: "hris",      icon: "▦", requires_level: 3, kind: "classified", refused_reason: "Employment records exceed security-ops clearance · naming WHO holds the 7 orphaned seats routes to HR, not to this analyst" },
+    { id: "sr_audit_chain",          label: "Audit chain · vendor-visible",   source: "vault",     icon: "◈", requires_level: 0, kind: "vault" },
+  ],
 };
 
 // ─── Business scenarios (shape documented in v0_3_config.js) ──────────────
@@ -285,5 +306,28 @@ export const BUSINESS_SCENARIOS = [
     in_lane: true, // every agent answers cleanly · no refusal protagonist · the contrast scenario
     featured_pillar: "correction_stream",
     pillar_note: "every agent has ground here. no boundary line on any card. the work this scenario does is correction · what compounds across watchboard cases over time is the operator's running record of which read held and which didn't. correction stream as moat · not refusal as theater.",
+  },
+  {
+    id: "secops_seat_reconciliation",
+    label: "security ops · seat reconciliation",
+    operator: "secops-l · security operations lead · 3 vendors under review",
+    case_file: "vendor-a licence position · contract entitles 500 seats · identity directory shows 494 active identities · vendor tenant reports 501 provisioned · renewal in 31 days · finance has asked for one number",
+    reads: {
+      operator: "three sources as posted. contract, directory, vendor console. no reconciliation attempted.",
+      strategist: "renewal is 31 days out. your negotiating position depends on which figure you take to the vendor, and they are not the same figure.",
+      synthesizer: "these are three predicates, not three estimates. 500 is what you are entitled to. 494 is who currently exists. 501 is what the vendor has switched on. no arithmetic turns them into one number.",
+      contrarian: "finance asked for one number and you are about to give them one. the gap IS the finding · 7 provisioned seats have no active identity behind them, and you are 1 seat over entitlement. average them and you delete both.",
+      planner: "reconciliation is not the deliverable. two named exceptions with owners is the deliverable · 31 days is enough for both.",
+      manager: "every released figure carries the predicate it came from · no cross-predicate arithmetic without a recorded decision · vendor sees the audit chain at renewal",
+    },
+    disagreements: [
+      { a: "synthesizer", b: "contrarian", on: "is one reported number defensible at renewal, or does it destroy the finding?" },
+      { a: "strategist",  b: "manager",    on: "give finance the number they asked for, or the three they need" },
+    ],
+    refusal: ["sr_hr_terminations"],
+    correction_targets: ["synthesizer", "contrarian"],
+    vault_calibration: "your prior three-source reconciliations · 2 of 3 times you reported a single figure under deadline pressure and re-opened it within the quarter. calibration: surface contrarian before finance, not after.",
+    featured_pillar: "bounded_refusal",
+    pillar_note: "the refusal here is checkable, which is the point. the system will not emit one seat count because entitled, active and provisioned are different predicates · and it will not name WHO holds the 7 orphaned seats, because employment records sit above security-ops clearance and route to HR. two refusals, one epistemic and one jurisdictional, and the finding survives both.",
   },
 ];
