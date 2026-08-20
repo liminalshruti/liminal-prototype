@@ -995,7 +995,7 @@
       <!-- right rail · agency console (orbital · v0.8.4) -->
       <aside class="rail-right" data-annotation="agency-rail">
         <div class="rail-right-header">
-          <span class="agency-label" title="Twelve bounded specialists in four registers · Diligence, Outreach, Synthesis, Judgment. Each refuses out of lane and names the right agent. The refusal is the feature.">
+          <span class="agency-label" title="Nine bounded specialists in four registers · Diligence, Outreach, Synthesis, Judgment. Each refuses out of lane and names the right agent. The refusal is the feature.">
             <!-- static orbital glyph: 4 quadrant arcs around a ◇ -->
             <svg class="orbital-glyph" viewBox="0 0 14 14" aria-hidden="true">
               <path d="M 7 1 A 6 6 0 0 1 13 7" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
@@ -1003,15 +1003,21 @@
               <path d="M 7 13 A 6 6 0 0 1 1 7" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
               <path d="M 1 7 A 6 6 0 0 1 7 1" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
               <text x="7" y="7.5" font-family="inherit" font-size="6" text-anchor="middle" fill="currentColor">◇</text>
-            </svg>AGENCY · 12 BOUNDED</span>
+            </svg>AGENCY · 9 BOUNDED</span>
           <span class="live-indicator">live</span>
         </div>
 
         <!-- orbital diagram · 4 register plates around central ◇ ──────────
              Plates positioned: top=diligence, right=judgment,
-             bottom=synthesis, left=outreach. Each plate carries 3 agents
-             in slots. Status glyphs and refusal arrows are toggled by
-             the orbital-demo loop in the script block below. -->
+             bottom=synthesis, left=outreach. Plates carry 3/2/2/2 agents in
+             slots, matching the roster in lib/agency.js (9 total) — NOT 3 each.
+             Any count shown on this page must match that roster; the label
+             above said 12 until 2026-08-19. Status glyphs and refusal arrows
+             are toggled by the orbital-demo loop in the script block below.
+             KNOWN GAP: Synthesizer (diligence) is in the agency.js roster but
+             has no slot in the static diagram below, so the diagram renders 8
+             of the 9. Fix the diagram or drop it from the roster; do not
+             paper over it by changing the label again. -->
         <div class="orbital-rail">
           <svg class="orbital-svg" viewBox="0 0 280 320" preserveAspectRatio="xMidYMid meet">
 
