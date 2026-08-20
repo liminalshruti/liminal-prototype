@@ -1153,9 +1153,16 @@
                pre-applied synchronously on load. Keeping them in sync means the
                cut is coherent for the pre-JS frame and if scripting fails: it
                renders an idle plane rather than a frozen mid-deliberation. -->
-          <span><span class="coverage-emphasis" id="coverage-counts">9 agents · idle · work is happening elsewhere</span></span>
+          <span><span class="coverage-emphasis" id="coverage-counts">9 agents · idle · nothing in lane this beat</span></span>
           <span class="coverage-refusal" id="coverage-refusal"></span>
-          <span class="coverage-input" id="coverage-input">demo input: vendor reports 501 seats provisioned · directory shows 494 active identities · contract entitles 500</span>
+          <!-- The input names its own job on purpose. This rail deliberates a
+               SEAT RECONCILIATION while the slate beside it reads something else
+               entirely (a cofounder coherence read, a founding-round close). Both
+               are correct; unlabelled, they read as one confused scenario, and the
+               501/494/500 figures look like they belong to the slate. Saying "not
+               this slate" turns that into the actual claim: the nine are always on,
+               and the read you are looking at is not the only thing they are doing. -->
+          <span class="coverage-input" id="coverage-input">always on · reading a seat reconciliation, not this slate · vendor 501 provisioned · directory 494 active · contract 500 entitled</span>
         </div>
       </aside>
     </main>
@@ -1351,7 +1358,7 @@
                   contrarian: "queued", manager: "queued",
                   strategist: "queued", editor: "queued" },
         arrows: [],
-        coverage: "9 agents · idle · work is happening elsewhere",
+        coverage: "9 agents · idle · nothing in lane this beat",
         refusal: "",
         convergent: false
       },
