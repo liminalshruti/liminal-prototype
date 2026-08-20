@@ -401,6 +401,30 @@
   .vault-row .out em { font-style: normal; color: var(--text); }
 
   /* FOOTER · 3 clauses */
+  /* HONESTY CHIPS · what is actually real on this surface.
+     Every cut in cuts/ carries a chip row; the three embeds carried none,
+     despite being the most forwardable pages in the repo — that is LIM-1600.
+     Founder ruled 2026-08-20: label the surface, leave the live pills alone.
+     Note the vault claims in this deck's right foot (SQLCipher, no inbound
+     surface) are NOT aspirational — verified 2026-08-20 against liminal-desktop:
+     sqlcipher in Cargo.toml + src-tauri/src/commands/vault.rs, and 0o600
+     enforcement in ai_spend.rs. Do not soften them without re-checking there. */
+  .honesty-chips {
+    border-top: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 7px var(--space-4);
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .honesty-chips .hchip {
+    color: var(--text-faint);
+    border: 1px solid var(--frame-border);
+    border-radius: 2px; padding: 2px 7px; white-space: nowrap;
+  }
+  .honesty-chips .hchip.real { color: var(--connection); border-color: var(--connection); }
+
   .deck-foot {
     height: 32px;
     border-top: 1px solid var(--frame-border);
@@ -633,9 +657,14 @@
       </section>
 
       <!-- ── DECK FOOTER · ledger of the loop ── -->
+      <div class="honesty-chips">
+        <span class="hchip">Prototype</span>
+        <span class="hchip">Deterministic fixture</span>
+        <span class="hchip real">Vault writes real · device-local</span>
+      </div>
       <div class="deck-foot">
         <span class="left">compose → read → dispatch → commit · <b>the founder's own door into the loop</b></span>
-        <span class="center">refusal-as-trust · <b>judges named it "the most original architectural idea in the cohort"</b></span>
+        <span class="center">refusal-as-trust · <b>AgentHansa judges: “refusal as designed output” — most original architectural idea in their cohort</b></span>
         <span class="right">local SQLCipher vault · no inbound network surface · no vault-content telemetry</span>
       </div>
 
