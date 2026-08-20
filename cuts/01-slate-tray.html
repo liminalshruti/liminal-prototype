@@ -1050,18 +1050,24 @@
         <div class="orbital-rail">
           <svg class="orbital-svg" viewBox="0 0 280 320" preserveAspectRatio="xMidYMid meet">
 
-            <!-- Refusal arrows (drawn first so they sit beneath plates) -->
+            <!-- Refusal arrows (drawn first so they sit beneath plates).
+                 Every name below is a real agent in lib/agency.js REGISTER_AGENTS.
+                 An earlier version of these comments and ids referenced Bookkeeper,
+                 Skeptic, Liaison and Closer — none of which exist in the roster —
+                 which is how a reader could derive a wrong agent count from this
+                 block. Do not reintroduce a name that is not in agency.js. -->
             <g class="refusal-arrows">
               <!-- Witness (Diligence) → Strategist (Synthesis): top→bottom curve via right -->
               <path id="arrow-witness-strategist" class="refusal-arrow diligence"
                     d="M 140 88 Q 220 160 140 232" />
-              <!-- Planner (Outreach) → Liaison (also Outreach): in-plate handled inside slot -->
-              <!-- SDR (Outreach) → Closer (Outreach): same -->
-              <!-- Operator (Diligence) → Bookkeeper (Synthesis): top-left → bottom diagonal -->
-              <path id="arrow-operator-bookkeeper" class="refusal-arrow diligence"
+              <!-- Planner and SDR (Outreach) also refuse at the outreach-refuses beat,
+                   but their refusals are handled in-plate and draw no arrow. That is why
+                   the coverage line can read 3 refused while only 2 arrows are lit. -->
+              <!-- Operator (Diligence) → Editor (Synthesis): top-left → bottom diagonal -->
+              <path id="arrow-operator-editor" class="refusal-arrow diligence"
                     d="M 110 88 Q 90 200 130 240" />
-              <!-- Skeptic (Judgment) → Editor (Synthesis): right → bottom -->
-              <path id="arrow-skeptic-editor" class="refusal-arrow judgment"
+              <!-- Contrarian (Judgment) → Editor (Synthesis): right → bottom -->
+              <path id="arrow-contrarian-editor" class="refusal-arrow judgment"
                     d="M 232 184 Q 200 240 170 240" />
             </g>
 
@@ -1370,7 +1376,7 @@
                   planner: "refused", sdr: "refused",
                   contrarian: "reading", manager: "reading",
                   strategist: "reading", editor: "queued" },
-        arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper"],
+        arrows: ["arrow-witness-strategist", "arrow-operator-editor"],
         coverage: "9 agents · 3 reading · 2 in lane · 3 refused with named redirect · 1 queued",
         refusal: "Refused to emit a single seat count · averaging three predicates would erase the finding → Contrarian",
         convergent: false
@@ -1381,7 +1387,7 @@
                   planner: "refused", sdr: "refused",
                   contrarian: "complete", manager: "complete",
                   strategist: "complete", editor: "queued" },
-        arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
+        arrows: ["arrow-witness-strategist", "arrow-operator-editor", "arrow-contrarian-editor"],
         coverage: "9 agents · 5 in lane · 3 refused with named redirect · 1 queued",
         refusal: "3 refusals held · the contradiction routes to a human, not to an average",
         convergent: true
@@ -1392,7 +1398,7 @@
                   planner: "refused", sdr: "refused",
                   contrarian: "complete", manager: "complete",
                   strategist: "complete", editor: "complete" },
-        arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
+        arrows: ["arrow-witness-strategist", "arrow-operator-editor", "arrow-contrarian-editor"],
         coverage: "9 agents · vault committed · the disagreement is the data",
         refusal: "Sealed with reasons · 7 provisioned seats have no active identity · 1 seat over entitlement",
         convergent: true,
