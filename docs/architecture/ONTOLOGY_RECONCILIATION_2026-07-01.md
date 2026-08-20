@@ -61,3 +61,67 @@ things that were never distinguished:
 
 *Relates: `docs/CUT_CONSOLIDATION_MAP.md` §1 (the engine absorbs the register-skin
 parameter), PORTABILITY_BACKLOG Tier-2 row + 2026-07-01 addendum.*
+
+---
+
+## Addendum — 2026-08-20 · the fourth vocabulary, and how to cite the third
+
+The 2026-07-01 pass named three things (canon ontology · demo cast · register
+vocabulary). It missed a fourth, and the miss was on the highest-traffic surface
+in the repo.
+
+### 4. Front-door cast (`index.html`, `<g id="regs">`)
+
+The front door names one agent per register — **Auditor · Skeptic · Weaver ·
+Envoy** — and matches none of the three above:
+
+| Name | Status |
+|---|---|
+| Weaver | appears nowhere else in this repo |
+| Envoy | appears nowhere else in this repo |
+| Skeptic | retired 2026-05-12 (renamed from Operator/Skeptic in `liminal-desktop`, to align with `liminal-agents/SPEC.md` v0.6) |
+| Auditor | real `AGENCY_AGENTS` name, but lanes **diligence** here and **judgment** in `cuts/04-onboarding.html:462` |
+
+This was never adjudicated — the 2026-07-01 doc reconciled the register
+*vocabulary* (§3/V4) and never looked at the front door's *cast*.
+
+**V6 · Front-door cast stays, documented, not renamed.** Founder ruled
+2026-08-20: *"document rather than rename, since renaming touches claim-adjacent
+framing for a cosmetic gain."* The four **positions** are load-bearing — the
+four-register framing is claim-adjacent — while the four **names** are not, so a
+rename buys nothing and risks something. This settles for `index.html` the call
+V3 deferred as "a founder/content call." A do-not-correct note now sits inline at
+the block in `index.html`, with a pointer in `cuts/_explore/frontdoor-synthesis.html`.
+
+Consequence for future sweeps: a roster sweep will flag Skeptic/Weaver/Envoy every
+time. That is expected. **Read the note before "fixing" them.**
+
+### Citation rule for the demo cast (corrects a live overclaim)
+
+V3 established that `lib/agency.js` is a presentation-layer cast, not an ontology
+claim. That was recorded in the file header but not as a *citation* rule, and the
+gap produced a real error: PR #101 (2026-08-20) described `agency.js` as "the
+roster authority," and that framing was relayed to the DARPA/AoNS lane as guidance
+for verifying agent counts in proposal text. No wrong cardinal reached a submitted
+volume — the DV015 volumes carry no agent cardinal at all — but the rule as stated
+would have licensed *"nine bounded agents (`agency.js`)"* into an architecture
+claim sourced to a self-declared demo cast: correct number, real citation, wrong
+kind of claim.
+
+**Stating it as a rule, since the header alone did not prevent the error:**
+
+- `REGISTER_AGENTS` (9) is authoritative for **what cut 01's rail renders** — that
+  surface, nothing else.
+- `AGENCY_AGENTS` (Analyst/SDR/Auditor/Forensic) is what a surface uses when it
+  needs **production-real names** (cut 04, cut 05).
+- `liminal-agents-v1` is the **schema authority** for agent ontology. Per V1, the
+  prototype never becomes one.
+- **No count from this repo is an architecture claim.** External-facing text names
+  the roster *and* the layer, or carries no cardinal. The stronger form, from the
+  DARPA lane's `proposal-language.md` [BA-1], is to ban the bare cardinal outright.
+
+Related: the retired **"12 bounded agents"** claim is not a fabrication either — it
+traces to `INTROSPECTIVE_AGENTS` (12 × 4 registers) per §1 above, i.e. a real
+schema-layer number cited at the wrong layer. Same failure mode as the front-door
+fossils: the artifact outlived the state it described. A sweep that assumes those
+numbers were invented will mis-explain where they came from.
