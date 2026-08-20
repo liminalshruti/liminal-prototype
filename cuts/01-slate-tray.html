@@ -1032,10 +1032,21 @@
              Any count shown on this page must match that roster; the label
              above said 12 until 2026-08-19. Status glyphs and refusal arrows
              are toggled by the orbital-demo loop in the script block below.
-             KNOWN GAP: Synthesizer (diligence) is in the agency.js roster but
-             has no slot in the static diagram below, so the diagram renders 8
-             of the 9. Fix the diagram or drop it from the roster; do not
-             paper over it by changing the label again. -->
+             RETRACTED 2026-08-19 · there is no gap. An earlier pass in this
+             same session recorded a "KNOWN GAP: Synthesizer has no slot, the
+             diagram renders 8 of 9". That was wrong. All nine agents have
+             slots; the check that produced the claim grepped for the literal
+             string "Synthesizer" and the label here reads "Synthesizr".
+
+             The abbreviation is a deliberate fit constraint, not an oversight.
+             Slots sit 50px apart (x=90/140/190) at 7.5px mono with 0.04em
+             tracking. Ten characters is the practical ceiling — "Contrarian"
+             is exactly at it. Eleven overlaps its neighbours. Do not "fix"
+             this label to "Synthesizer" without also re-spacing the plate.
+
+             Verified by counting data-agent attributes rather than label text:
+             contrarian · editor · manager · operator · planner · sdr ·
+             strategist · synthesizer · witness = 9, matching lib/agency.js. -->
         <div class="orbital-rail">
           <svg class="orbital-svg" viewBox="0 0 280 320" preserveAspectRatio="xMidYMid meet">
 
