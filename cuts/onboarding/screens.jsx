@@ -31,7 +31,7 @@ function S01_PilotKey() {
               <label className="fld">Pilot key</label>
               <input className="input mono" defaultValue="LMNL-PILOT-7F2E-9C1A-B6D4" />
               <div className="meter-label" style={{marginTop:6}}>
-                Issued to <span style={{color:"var(--clarity)"}}>Shruti</span> · 6-week pilot · expires 2026-06-08
+                Issued to <span style={{color:"var(--clarity)"}}>Maia</span> · 6-week pilot · expires 2026-06-08
               </div>
             </div>
 

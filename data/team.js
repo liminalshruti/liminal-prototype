@@ -18,14 +18,14 @@
 // them · refusal-on-consent triggers when crossed.
 export const TEAM_SUBJECTS = [
   {
-    id: "sean_cofounder",
-    label: "Sean",
+    id: "rafe_cofounder",
+    label: "Rafe",
     role: "Cofounder · CTO",
     relationship: "cofounder",
     consent_class: "mutual-cofounder",
     drift_state: "stable",
     last_surfaced: "14d ago · resolved benign",
-    mutual: true,  // Sean has Liminal too · symmetric read
+    mutual: true,  // Rafe has Liminal too · symmetric read
     window_days: 17,
     color: "diligence",
     intro: "shared from day one · symmetric coherence read · joint correction class",
@@ -87,12 +87,12 @@ export const TEAM_TILES_FOR_SUBJECT = {
     { id: "devon_prior_w2",     label: "Prior window · Mar 2025", source: "vault",     icon: "◈", requires_level: 1, kind: "vault", note: "family bereavement · resolved benign" },
     { id: "maia_obsidian",      label: "Maia's notes on Devon",   source: "obsidian",  icon: "◇", requires_level: 0, kind: "operator-self" },
   ],
-  sean_cofounder: [
-    { id: "sean_commits_17d",   label: "Commit pattern · 17d",    source: "git",      icon: "◇", requires_level: 1, kind: "pattern" },
-    { id: "sean_granola_joint", label: "Joint Granola · last 4",  source: "granola",  icon: "◇", requires_level: 3, kind: "joint" },
-    { id: "sean_slack_thread",  label: "Slack thread · cofounders", source: "slack",  icon: "◇", requires_level: 4, kind: "joint" },
-    { id: "sean_obsidian",      label: "Sean's recent notes",     source: "obsidian", icon: "◇", requires_level: 4, kind: "joint" },
-    { id: "shruti_corrections", label: "Shruti's vault on Sean",  source: "vault",    icon: "◈", requires_level: 0, kind: "operator-self" },
+  rafe_cofounder: [
+    { id: "rafe_commits_17d",   label: "Commit pattern · 17d",    source: "git",      icon: "◇", requires_level: 1, kind: "pattern" },
+    { id: "rafe_granola_joint", label: "Joint Granola · last 4",  source: "granola",  icon: "◇", requires_level: 3, kind: "joint" },
+    { id: "rafe_slack_thread",  label: "Slack thread · cofounders", source: "slack",  icon: "◇", requires_level: 4, kind: "joint" },
+    { id: "rafe_obsidian",      label: "Rafe's recent notes",     source: "obsidian", icon: "◇", requires_level: 4, kind: "joint" },
+    { id: "maia_corrections",   label: "Maia's vault on Rafe",  source: "vault",    icon: "◈", requires_level: 0, kind: "operator-self" },
   ],
   maya_design: [
     { id: "maya_attendance",    label: "Calendar attendance",     source: "calendar", icon: "◇", requires_level: 1, kind: "pattern" },
