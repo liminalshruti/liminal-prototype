@@ -247,6 +247,24 @@
   .orbital-coverage .coverage-emphasis {
     color: var(--text-mid);
   }
+  /* Refusal narration · the one line that says WHY an agent stepped back and
+     which agent it named instead. The orbital glyphs already show THAT a
+     refusal happened (⊘) and the arrows show where it routed; without a
+     reason in words, a viewer reads a status icon rather than the product.
+     Refusal is the feature, so it gets a sentence, not a symbol. */
+  .orbital-coverage .coverage-refusal {
+    display: block;
+    text-transform: none;
+    letter-spacing: var(--ls-app-wide);
+    color: var(--judgment, #E90095);
+    margin-top: 2px;
+    min-height: 1.55em; /* reserve the line so steps without a refusal do not
+                           reflow the coverage block on every 4.2s tick */
+  }
+  .orbital-coverage .coverage-refusal:empty::before {
+    content: "no refusals this beat";
+    color: var(--text-faint);
+  }
   .orbital-coverage .coverage-input {
     display: block;
     font-style: italic;
@@ -1107,7 +1125,8 @@
 
         <!-- coverage line + demo input -->
         <div class="orbital-coverage" id="orbital-coverage">
-          <span><span class="coverage-emphasis" id="coverage-counts">12 agents · 5 in lane · 3 refused with named redirect · 4 queued</span></span>
+          <span><span class="coverage-emphasis" id="coverage-counts">9 agents · 5 in lane · 3 refused with named redirect · 1 queued</span></span>
+          <span class="coverage-refusal" id="coverage-refusal">Witness refused · it reads what the body holds, not the next move → Strategist</span>
           <span class="coverage-input" id="coverage-input">demo input: "head-of-eng offer slipped a third time, sleep is broken, customer X escalated again"</span>
         </div>
       </aside>
@@ -1274,7 +1293,8 @@
                   contrarian: "queued", manager: "queued",
                   strategist: "queued", editor: "queued" },
         arrows: [],
-        coverage: "12 agents · 1 reading · 11 queued",
+        coverage: "9 agents · 1 reading · 8 queued",
+        refusal: "",
         convergent: false
       },
       {
@@ -1284,7 +1304,8 @@
                   contrarian: "reading", manager: "queued",
                   strategist: "queued", editor: "queued" },
         arrows: ["arrow-witness-strategist"],
-        coverage: "12 agents · 2 reading · 1 in lane · 1 refused → Strategist · 8 queued",
+        coverage: "9 agents · 2 reading · 1 in lane · 1 refused → Strategist · 5 queued",
+        refusal: "Witness refused · it reads what the body holds, not the next move → Strategist",
         convergent: false
       },
       {
@@ -1294,7 +1315,8 @@
                   contrarian: "reading", manager: "reading",
                   strategist: "reading", editor: "queued" },
         arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper"],
-        coverage: "12 agents · 3 reading · 2 in lane · 3 refused with named redirect · 4 queued",
+        coverage: "9 agents · 3 reading · 2 in lane · 3 refused with named redirect · 1 queued",
+        refusal: "Planner and SDR refused · a staffing call is not an outreach decision → Contrarian",
         convergent: false
       },
       {
@@ -1304,7 +1326,8 @@
                   contrarian: "complete", manager: "complete",
                   strategist: "complete", editor: "queued" },
         arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
-        coverage: "12 agents · 5 in lane · 3 refused with named redirect · convergence: head-of-eng call",
+        coverage: "9 agents · 5 in lane · 3 refused with named redirect · 1 queued",
+        refusal: "3 refusals held · each one named the agent that should answer instead",
         convergent: true
       },
       {
@@ -1314,7 +1337,8 @@
                   contrarian: "complete", manager: "complete",
                   strategist: "complete", editor: "complete" },
         arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
-        coverage: "12 agents · vault committed · the disagreement is the data",
+        coverage: "9 agents · vault committed · the disagreement is the data",
+        refusal: "Refusals sealed with their reasons · that record is what you can defend later",
         convergent: true,
         sealed: true  /* v0.8.5 F2 · rest step distinguished from convergent
                          via .sealed center-orb class (stronger fill + outer
@@ -1345,6 +1369,11 @@
       // update coverage counts
       const counts = document.getElementById("coverage-counts");
       if (counts) counts.textContent = step.coverage;
+      // update refusal narration · why an agent stepped back, and who it named
+      // instead. Empty string on beats with no refusal; the :empty::before rule
+      // supplies "no refusals this beat" so the line never collapses.
+      const refusal = document.getElementById("coverage-refusal");
+      if (refusal) refusal.textContent = step.refusal ?? "";
       // update center orb convergence + sealed states
       // v0.8.5 F2 · sealed state on rest step makes step 5 visually distinct
       // from step 4 (convergent). Investors reading the loop see: deliberation
