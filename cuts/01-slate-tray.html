@@ -1125,8 +1125,12 @@
 
         <!-- coverage line + demo input -->
         <div class="orbital-coverage" id="orbital-coverage">
-          <span><span class="coverage-emphasis" id="coverage-counts">9 agents · 5 in lane · 3 refused with named redirect · 1 queued</span></span>
-          <span class="coverage-refusal" id="coverage-refusal">Refused to emit one seat count · entitled, active and provisioned are three different predicates</span>
+          <!-- Static defaults are the QUIET beat, matching STEPS[0], which is
+               pre-applied synchronously on load. Keeping them in sync means the
+               cut is coherent for the pre-JS frame and if scripting fails: it
+               renders an idle plane rather than a frozen mid-deliberation. -->
+          <span><span class="coverage-emphasis" id="coverage-counts">9 agents · idle · work is happening elsewhere</span></span>
+          <span class="coverage-refusal" id="coverage-refusal"></span>
           <span class="coverage-input" id="coverage-input">demo input: vendor reports 501 seats provisioned · directory shows 494 active identities · contract entitles 500</span>
         </div>
       </aside>
@@ -1301,9 +1305,32 @@
     // states: queued → reading → complete OR refused
     const GLYPHS = { queued: "◯", reading: "◉", complete: "●", refused: "⊘" };
 
-    // 5-step demo cycle · each step takes 4200ms · loops indefinitely
+    // 6-step demo cycle · each step takes 4200ms · loops indefinitely
     // Agent reads + arrow visibility + counts label per step
+    //
+    // BEAT 0 IS DELIBERATE AND IS THE POINT (added 2026-08-19). Before it, the
+    // cycle opened mid-deliberation and never returned to rest, so the loop read
+    // as "these agents are always running" — which is the impression the product
+    // most needs to avoid. Liminal is not where the work happens; it is what you
+    // pass through when the work needs judgment.
+    //
+    // With a quiet beat at the head, the cycle now reads:
+    //   quiet → something arrives → reads → refusals → convergence → sealed → quiet
+    // and the return to quiet is as load-bearing as the deliberation. The centre
+    // orb needs no new state for this: .center-orb already defaults to fully
+    // transparent, so quiet is the absence of the convergent/sealed classes.
     const STEPS = [
+      {
+        name: "quiet",
+        agents: { operator: "queued", synthesizer: "queued", witness: "queued",
+                  planner: "queued", sdr: "queued",
+                  contrarian: "queued", manager: "queued",
+                  strategist: "queued", editor: "queued" },
+        arrows: [],
+        coverage: "9 agents · idle · work is happening elsewhere",
+        refusal: "",
+        convergent: false
+      },
       {
         name: "scan",
         agents: { operator: "reading", synthesizer: "queued", witness: "queued",
