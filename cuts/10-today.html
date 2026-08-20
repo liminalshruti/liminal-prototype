@@ -168,6 +168,57 @@
   }
   .tdy-col { display: flex; flex-direction: column; gap: 1.5rem; }
 
+  /* ── OUTWARD RE-ENTRY · "still binding" ─────────────────────────────
+     This cut already carried re-entry INWARD: a held decision comes back,
+     you say how it landed, the record gets truer. This block is the other
+     direction — judgment that went OUT to an executor and is still binding
+     it. Same surface, opposite arrow.
+
+     Nearly all of it reuses existing primitives (.tdy-loop shape,
+     .tdy-section-label, .tdy-cal, .audit-ribbon-frame, .consent-chip).
+     Two things had no precedent anywhere in the system and are defined
+     here: a REMAINING-validity treatment (.pk-life · everything existing
+     shows elapsed time, e.g. "held 9d", which is the wrong direction for a
+     constraint that expires) and an addressee (.pk-target · no cut has ever
+     depicted an external executor).
+     ──────────────────────────────────────────────────────────────────── */
+  .tdy-binding { max-width: 1080px; margin: 1.5rem auto 0; }
+  .pk {
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent-edge, var(--diligence, #8E66FB));
+    background: var(--surface-1, transparent);
+    padding: 0.9rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .pk.is-expired { border-left-color: var(--judgment, #E90095); }
+  .pk-decision { font-size: 0.95rem; line-height: 1.45; margin-bottom: 0.55rem; }
+  .pk-meta {
+    font-family: var(--mono, "Geist Mono", monospace);
+    font-size: var(--fs-mono-xs);
+    letter-spacing: var(--ls-mono-sm);
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1rem;
+    align-items: baseline;
+  }
+  /* addressee · the executor this packet binds. No prior art in any cut. */
+  .pk-target { color: var(--text-mid); }
+  /* remaining validity, NOT elapsed time · a constraint that cannot expire
+     is a policy that outlives its evidence (decisions/2026-08-19-readiness-
+     must-be-earned.md, applied one layer up). */
+  .pk-life { margin-left: auto; color: var(--text-soft); }
+  .pk-life.is-expiring { color: var(--watch, #FDC237); }
+  .pk-life.is-expired  { color: var(--judgment, #E90095); }
+  .pk-constraint {
+    font-size: 0.85rem; color: var(--text-mid);
+    margin: 0.4rem 0 0.55rem; padding-left: 0.75rem;
+    border-left: 1px solid var(--border);
+  }
+  .pk-ask {
+    font-size: 0.85rem; color: var(--judgment, #E90095);
+    margin-top: 0.5rem;
+  }
+
   /* phone: the two-column body stacks (drift-matrix row 2 — this cut had
      no breakpoints at all) */
   @media (max-width: 760px) {
@@ -410,7 +461,7 @@
       <div class="tdy-head">
         <div class="tdy-eyebrow">Today · re-entry · the loop comes back</div>
         <h1 class="tdy-title">Three things came back overnight.</h1>
-        <p class="tdy-lede">The daemon re-read your held compositions while you slept. One needs a decision today. One outcome is due to close. Your pattern has a note.</p>
+        <p class="tdy-lede">The daemon re-read your held compositions while you slept. One needs a decision today. One outcome is due to close. Your pattern has a note. And three judgments you sent back out are still binding your agents · one of them has expired.</p>
       </div>
 
       <div class="tdy-cols">
@@ -500,13 +551,59 @@
 
       </div>
 
+      <!-- ── OUTWARD RE-ENTRY · what you left binding ──────────────────
+           The columns above are re-entry inward: held work comes back to be
+           judged. This is re-entry outward: judgment that went to an executor
+           and still constrains it. Three packets deliberately show the whole
+           expiry lifecycle — holding, expiring, expired — because an expired
+           constraint is the interesting case: it does not fail open or closed,
+           it asks. Only the human knows whether it still holds.
+           ─────────────────────────────────────────────────────────────── -->
+      <div class="tdy-binding">
+        <div class="tdy-section-label">
+          <span>Still binding · what you sent back out</span>
+          <span class="meta">3 packets · 1 expired</span>
+        </div>
+
+        <div class="pk">
+          <div class="pk-decision">Report entitled, active and provisioned as three separate counts. Never one number.</div>
+          <div class="pk-constraint">Every seat figure cites the predicate it came from · no cross-predicate arithmetic without a named decision</div>
+          <div class="pk-meta">
+            <span class="pk-target">→ claude-code · liminal-desktop · main</span>
+            <span>sealed 4c19 · 8e2f</span>
+            <span class="pk-life">holds 9 more days</span>
+          </div>
+        </div>
+
+        <div class="pk">
+          <div class="pk-decision">Treat a merged PR as shipped, not as verified. Runtime evidence closes the loop.</div>
+          <div class="pk-constraint">Agent may report a merge · may not report a capability working</div>
+          <div class="pk-meta">
+            <span class="pk-target">→ claude-code · all repos</span>
+            <span>sealed b3f0 · 1a77</span>
+            <span class="pk-life is-expiring">holds 2 more days</span>
+          </div>
+        </div>
+
+        <div class="pk is-expired">
+          <div class="pk-decision">Route spend questions to the Analyst before the Contrarian.</div>
+          <div class="pk-constraint">Set when the spend ledger was the only source · two sources have since been added</div>
+          <div class="pk-meta">
+            <span class="pk-target">→ claude-code · liminal-desktop</span>
+            <span>sealed 7e21 · 0d8a</span>
+            <span class="pk-life is-expired">expired 3 days ago</span>
+          </div>
+          <div class="pk-ask">Still true? The agent has been holding this without evidence since Tuesday. <em>It will keep holding it until you say.</em></div>
+        </div>
+      </div>
+
       <!-- tray: the loop's entry point, ties back to cut 01 -->
       <div class="tdy-tray">
         <div class="tdy-tray-glyph">◇</div>
         <div class="tdy-tray-text">Drag any window, doc, or transcript here to start a new read · captured to vault</div>
       </div>
 
-      <div class="tdy-foot">Re-entry is how the loop closes. What you held comes back, you say how it landed, the record gets truer.</div>
+      <div class="tdy-foot">Re-entry runs both ways. What you held comes back and you say how it landed, so the record gets truer. What you decided goes back out and binds the agents, until it expires and has to be earned again.</div>
 
     </main>
 
