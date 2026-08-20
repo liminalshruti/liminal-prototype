@@ -467,6 +467,29 @@
   }
 
   /* DECK FOOTER */
+  /* HONESTY CHIPS · what is actually real on this surface.
+     Every cut in cuts/ carries a chip row (PROTOTYPE · DETERMINISTIC FIXTURE ·
+     VAULT WRITES REAL · DEVICE-LOCAL). The three embeds carried none, despite
+     being the most forwardable pages in the repo — which is LIM-1600.
+     Founder ruled 2026-08-20: label the surface, leave the live pills alone.
+     A page that declares itself a deterministic fixture is not overclaiming
+     when a tile inside it says "live". */
+  .honesty-chips {
+    border-top: 1px solid var(--frame-border);
+    background: var(--frame-bg-2);
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 7px var(--space-4);
+    font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    flex-shrink: 0;
+  }
+  .honesty-chips .hchip {
+    color: var(--text-faint);
+    border: 1px solid var(--frame-border);
+    border-radius: 2px; padding: 2px 7px; white-space: nowrap;
+  }
+  .honesty-chips .hchip.real { color: var(--connection); border-color: var(--connection); }
+
   .deck-foot {
     height: 32px;
     border-top: 1px solid var(--frame-border);
@@ -638,9 +661,14 @@
       </section>
 
       <!-- DECK FOOTER -->
+      <div class="honesty-chips">
+        <span class="hchip">Prototype</span>
+        <span class="hchip">Deterministic fixture</span>
+        <span class="hchip real">Vault writes real · device-local</span>
+      </div>
       <div class="deck-foot">
         <span class="left">tray → slate → brief → vault · <b>founders enter first</b></span>
-        <span class="center">refusal-as-trust · <b>judges named it "the most original architectural idea in the cohort"</b></span>
+        <span class="center">refusal-as-trust · <b>AgentHansa judges: “refusal as designed output” — most original architectural idea in their cohort</b></span>
         <span class="right">local SQLCipher vault · no inbound network surface · no vault-content telemetry</span>
       </div>
 
