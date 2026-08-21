@@ -37,7 +37,9 @@
     THE WORKSPACE. `npm run build:kernel` cannot regenerate it; the committed
     bundle is a frozen, recorded artifact, not a from-source rebuildable one.
     Treat the in-page run as a recorded computation, not a reproducible-from-source
-    proof, until the kernel source is restored (LIM-1135).
+    proof. This is now PERMANENT: founder ruled 2026-08-21 (LIM-1135) to accept the
+    kernel as frozen and not rebuild it. The previous wording said "until the kernel
+    source is restored", which promised a restoration nobody had committed to.
   · Scenario = Strait of Hormuz dark-gap / identity-churn (CASE_1 → sign R-001 →
     CASE_2 re-rank), the fixtures the frozen bundle was built with (originally
     liminal-test/src/fixtures/hormuz.ts).
@@ -400,7 +402,7 @@
         <div class="case-eyebrow" id="caseEyebrow">CASE C1 · awaiting deliberation</div>
         <h1 class="case-title" id="caseTitle"></h1>
         <p class="case-sub" id="caseSub"></p>
-        <div class="thesis-line">The same capture · read · refuse · correct · sign loop · at the high-stakes altitude. Everything below is computed in your browser by a frozen kernel bundle (<span style="font-family:var(--mono)">osint-kernel.bundle.js</span>), recomputed each load. <b>This is the depth proof with a working engine: not a mockup of the loop, the loop itself · pointed at an intelligence claim.</b> <span style="opacity:0.7">The bundle is a recorded artifact; its source is not currently rebuildable in-workspace.</span></div>
+        <div class="thesis-line">The same capture · read · refuse · correct · sign loop · at the high-stakes altitude. Everything below is computed in your browser by a frozen kernel bundle (<span style="font-family:var(--mono)">osint-kernel.bundle.js</span>), recomputed each load. <b>This is the depth proof with a working engine: not a mockup of the loop, the loop itself · pointed at an intelligence claim.</b> <span style="opacity:0.7">The bundle is a permanently archived artifact — its source is gone, and it is not being rebuilt (founder ruling, 2026-08-21). It still computes in your browser on every load.</span></div>
 
         <div class="metric-band">
           <div class="metric"><div class="metric-k" id="m1k">Signal integrity</div><div class="metric-v" id="m1v">·</div></div>
@@ -795,7 +797,20 @@
  *   refusalTimingMs: 320 (C5: typical refusal timing)
  *   motionTier: 'refined' (C9: most aggressive reduced-motion handling in cut 09)
  *
- * FROZEN KERNEL: lib/osint-kernel.bundle.js is a recorded artifact (source missing, LIM-1135).
+ * FROZEN KERNEL: lib/osint-kernel.bundle.js is a PERMANENTLY archived artifact.
+ * Founder ruled 2026-08-21 (LIM-1135): accept frozen, do not rebuild.
+ *
+ * The source is gone, verified rather than assumed: no ~/liminal/liminal-test on
+ * disk, no src/browser.ts anywhere under ~/liminal (the exact path package.json
+ * build:kernel compiles from), and no liminalshruti/liminal-test repository.
+ *
+ * The page copy previously said the source was "not CURRENTLY rebuildable", which
+ * implied a rebuild was pending. Under a permanent ruling that word was doing
+ * quiet work it had not earned, so it is gone. Do not reintroduce language that
+ * hints at a rebuild unless the ruling is reversed.
+ *
+ * `npm run build:kernel` in package.json cannot succeed and is retained only as a
+ * record of how the bundle was originally produced.
  * Do NOT attempt to rebuild or modify. The doBeat() sequence uses the kernel as a
  * black-box compute engine; re-plumbing onto applyBeat preserves its behavior.
  *
