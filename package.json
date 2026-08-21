@@ -1,7 +1,7 @@
 {
   "name": "liminal-prototype",
   "version": "0.1.0",
-  "description": "Public interactive prototype for Liminal Agents — workflow demo with bounded refusal, deliberation, correction, and vault loops.",
+  "description": "Public interactive prototype for Liminal Agents \u2014 workflow demo with bounded refusal, deliberation, correction, and vault loops.",
   "type": "module",
   "private": true,
   "scripts": {
@@ -17,7 +17,9 @@
     "test:headed": "playwright test --headed",
     "canon:check": "node scripts/canon/lint-canon.mjs",
     "canon:report": "node scripts/canon/lint-canon.mjs --report",
-    "canon:update": "node scripts/canon/lint-canon.mjs --update"
+    "canon:update": "node scripts/canon/lint-canon.mjs --update",
+    "coherence:report": "node scripts/scenario-coherence.mjs",
+    "coherence:check": "node scripts/scenario-coherence.mjs --check"
   },
   "license": "MIT",
   "devDependencies": {
