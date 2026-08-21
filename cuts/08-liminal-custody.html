@@ -698,6 +698,73 @@
     font-weight: 500;
   }
 
+  /* DIVERGENCE CHART · ported from team-drift/index.html (~line 419).
+     Two lines and the gap between them: what a source ASSERTS against what is
+     OBSERVED, with the disagreement shaded. Three deliberate changes from the
+     original rather than a straight copy:
+
+     1. team-drift declares a local alias `--drift: var(--judgment)` carrying the
+        comment "was var(--alarm)" — someone moved it off the alarm lane on
+        purpose. Porting the alias would have carried a private name into a second
+        file, so this uses var(--judgment) directly.
+     2. The original shades the gap with a hardcoded rgba(240,64,64,...) — raw red,
+        untokenized, and a severity colour. A contested read is a STATE, not a
+        severity: the system has not decided anything is wrong, it is refusing to
+        decide. Shading it red pre-judges exactly the call the scenario refuses to
+        make, so the gap sits in the judgment lane with the line above it.
+     3. Duration is a local token here; team-drift's --loop is its own timing. */
+  /* Specificity note, learned the hard way. `.viewport svg` (above) sets
+     height:100% and display:block, and it outranks a bare `.divergence-spark`.
+     Two consequences, both of which shipped briefly in local testing:
+       · height:168px was ignored — the chart stretched to 561px and the
+         sparkline distorted, because preserveAspectRatio="none" lets it.
+       · the `hidden` ATTRIBUTE did nothing. The UA rule is [hidden]{display:none},
+         which a class-plus-element selector beats, so the chart rendered on the
+         maritime page underneath the map.
+     Both rules below are scoped `.viewport` to match that specificity. The hidden
+     rule is explicit rather than relying on the UA default: an element whose own
+     stylesheet sets display:block does not obey `hidden` for free. */
+  .viewport .divergence-spark {
+    --spark-loop: 12s;
+    width: 100%; height: 168px; display: block;
+  }
+  /* Generic, not per-element: `.viewport svg` sets display:block, which outranks
+     the UA [hidden] rule for EVERY svg in here, not just the chart. Scoping this
+     to .divergence-spark alone left #scenario-map visible next to the chart —
+     both scenarios' visuals on screen at once, which is the mismatch in its
+     purest form. One rule covers any svg the switch ever hides. */
+  .viewport svg[hidden] { display: none; }
+  .divergence-spark path { fill: none; stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .divergence-spark .spark-asserted {
+    stroke: var(--judgment);
+    stroke-dasharray: 600; stroke-dashoffset: 600;
+    animation: sparkDrawAsserted var(--spark-loop) ease infinite;
+  }
+  .divergence-spark .spark-observed {
+    stroke: var(--diligence);
+    stroke-dasharray: 600; stroke-dashoffset: 600;
+    animation: sparkDrawObserved var(--spark-loop) ease infinite;
+  }
+  .divergence-spark .spark-gap {
+    fill: var(--judgment); stroke: none; opacity: 0;
+    animation: sparkGapFade var(--spark-loop) ease infinite;
+  }
+  .divergence-spark .spark-note {
+    font-family: var(--mono); font-size: 9px;
+    fill: var(--text-faint); letter-spacing: 0.08em;
+  }
+  @keyframes sparkDrawObserved { 0%, 16% { stroke-dashoffset: 600; } 32%, 100% { stroke-dashoffset: 0; } }
+  @keyframes sparkDrawAsserted { 0%, 18% { stroke-dashoffset: 600; } 34%, 100% { stroke-dashoffset: 0; } }
+  @keyframes sparkGapFade      { 0%, 32% { opacity: 0; } 40%, 80% { opacity: 0.13; } 100% { opacity: 0; } }
+
+  /* Carried over from the source, and non-negotiable: this loops forever on a
+     surface someone may leave open. Without it the chart is a vestibular hazard. */
+  @media (prefers-reduced-motion: reduce) {
+    .divergence-spark .spark-asserted,
+    .divergence-spark .spark-observed { animation: none; stroke-dashoffset: 0; }
+    .divergence-spark .spark-gap { animation: none; opacity: 0.13; }
+  }
+
   .map-legend {
     display: flex;
     flex-wrap: wrap;
@@ -1594,7 +1661,14 @@
           <div class="case-list" id="case-list"></div>
         </section>
 
-        <section class="rail-section">
+        <section class="rail-section" id="scenario-findings">
+          <!-- RECEIPT BLOCK · maritime only, and deliberately NOT translatable.
+               These are findings from a real 2026-05-03 hackathon run against real
+               OSINT feeds. A scenario can be re-authored; a receipt cannot. Writing
+               healthcare-flavoured "findings" here would invent evidence for a run
+               that never happened, which is a worse defect than the framing/console
+               mismatch this whole switch exists to prevent.
+               So it is hidden for any scenario that did not earn it. -->
           <div class="section-head">
             <span class="section-label">Real-world findings</span>
             <span class="section-meta">NatSec hackathon · 2026-05-03</span>
@@ -1661,7 +1735,7 @@
                 <span class="corner-pill"><strong id="corner-range">Range 14nm</strong></span>
                 <span class="corner-pill"><strong id="corner-latency">Latency 2.3s</strong></span>
               </div>
-              <svg viewBox="0 0 860 520" aria-label="Strait of Hormuz contested-track map">
+              <svg viewBox="0 0 860 520" id="scenario-map" aria-label="Strait of Hormuz contested-track map">
                 <path class="map-coast" d="M0,56 C120,32 176,42 278,64 C334,77 388,114 470,118 C570,124 676,75 860,45 L860,0 L0,0 Z"></path>
                 <path class="map-coast" d="M0,520 L860,520 L860,420 C732,382 614,372 552,392 C462,420 388,470 292,478 C182,486 92,444 0,420 Z"></path>
                 <path class="map-strait" d="M52,92 C152,78 222,96 306,138 C366,169 414,190 494,194 C600,200 684,166 806,110 L806,410 C704,448 622,456 528,434 C432,412 384,354 292,326 C208,300 132,302 52,326 Z"></path>
@@ -1697,8 +1771,31 @@
                 <text class="marker-note" x="664" y="150" id="marker-region-b">Strait chokepoint</text>
                 <text class="marker-note" x="194" y="404" id="marker-region-c">Arabian Sea</text>
               </svg>
+              <!-- DIVERGENCE CHART · the alternate scenario visual.
+                   Ported from team-drift/index.html:864, which already draws this
+                   exact idea: an observed line, an asserted line, and the gap
+                   between them shaded. That is not decoration here — for a
+                   scenario whose whole claim is "two sources disagree and the
+                   system refuses to collapse the disagreement", the shaded gap IS
+                   the contested read. A track map cannot say that.
+
+                   Maritime keeps the map; a scenario that sets framing.visual to
+                   "chart" gets this instead. Hidden by default so the default
+                   render is untouched. -->
+              <svg class="divergence-spark" id="scenario-chart" viewBox="0 0 600 120"
+                   preserveAspectRatio="none" hidden aria-label="Observed signal against asserted status, with the contested gap shaded">
+                <path class="spark-gap" id="spark-gap"
+                      d="M0,30 L60,30 L120,32 L180,31 L240,58 L300,74 L360,86 L420,92 L480,96 L540,98 L600,99
+                         L600,30 L540,30 L480,30 L420,30 L360,30 L300,30 L240,30 L180,30 L120,30 L60,30 L0,30 Z"/>
+                <path class="spark-asserted" id="spark-asserted"
+                      d="M0,30 L60,30 L120,30 L180,30 L240,30 L300,30 L360,30 L420,30 L480,30 L540,30 L600,30"/>
+                <path class="spark-observed" id="spark-observed"
+                      d="M0,30 L60,30 L120,32 L180,31 L240,58 L300,74 L360,86 L420,92 L480,96 L540,98 L600,99"/>
+                <text class="spark-note" x="4" y="16" id="spark-note-a">vendor status · asserted healthy</text>
+                <text class="spark-note" x="4" y="114" id="spark-note-b">internal synthetics · observed</text>
+              </svg>
             </div>
-            <div class="map-legend">
+            <div class="map-legend" id="scenario-legend">
               <span class="legend-item"><span class="legend-swatch primary"></span>original track</span>
               <span class="legend-item"><span class="legend-swatch alert"></span>contested gap</span>
               <span class="legend-item"><span class="legend-swatch secondary"></span>emergent identity</span>
@@ -1865,6 +1962,7 @@
       location: "26.5N / 56.1E",
       risk: "Command too early risks acting on a spoofed or re-flagged vessel.",
       mapLabel: "CASE-014 / contested reappearance",
+      queueNote: "The originating contested identity event.",
       range: "Range 14nm",
       latency: "Latency 2.3s",
       beats: {
@@ -2340,6 +2438,536 @@
     "AND suppress_action = <span class=\"action\">escalate</span> until corroborated"
   ].join("\\n");
 
+  const HEALTHCARE_workflowNodes = [
+    { label: "Substrate", value: "raw alert signals + vendor feeds", glyph: "01" },
+    { label: "Stage viewport", value: "telemetry gap + status conflict", glyph: "02" },
+    { label: "Working panel", value: "hypotheses + refusal + review", glyph: "03" },
+    { label: "Command line", value: "severity trace + clinical validation", glyph: "04" }
+  ];
+
+  const HEALTHCARE_beatMeta = [
+    {
+      id: 1,
+      name: "Telemetry gap",
+      short: "alert raised",
+      note: "Monitoring custody begins before any escalation action.",
+      toast: ["Beat 1 loaded", "Telemetry gap opened. The system preserves the signal instead of deciding severity."]
+    },
+    {
+      id: 2,
+      name: "Status conflict",
+      short: "vendor disagrees",
+      note: "A second source contradicts the monitoring signal.",
+      toast: ["Beat 2 loaded", "Status conflict surfaced. Competing severity hypotheses are now preserved."]
+    },
+    {
+      id: 3,
+      name: "Structural refusal",
+      short: "guard fires",
+      note: "Patient impact is unvalidated. Severity cannot pass.",
+      toast: ["Beat 3 loaded", "Severity refused because the structural guard fired on unvalidated evidence."]
+    },
+    {
+      id: 4,
+      name: "Review memory",
+      short: "save clinical rule",
+      note: "Clinical validation becomes durable policy.",
+      toast: ["Beat 4 loaded", "Review memory is ready. Save the rule to change the next case."]
+    },
+    {
+      id: 5,
+      name: "Second case changed",
+      short: "prior rule applied",
+      note: "The next ambiguous outage inherits the prior rule.",
+      toast: ["Beat 5 loaded", "Second case opened. Prior rule changed the recommendation before page-out."]
+    }
+  ];
+
+  const HEALTHCARE_caseData = {
+    case1: {
+      label: "INC-2214",
+      name: "Dispatch telemetry gap",
+      route: "Regional patient-transfer network",
+      baseSummary: "Dispatch service telemetry goes dark for 38 minutes. A vendor status page reports all-green while internal synthetics keep failing. The system preserves both signals and refuses to confirm severity until patient impact is validated.",
+      location: "Transport hub region",
+      risk: "Escalating Sev-1 too early risks triggering unnecessary diversion protocols before we know patient impact.",
+      mapLabel: "INC-2214 / contested severity",
+      queueNote: "The originating contested severity event.",
+      range: "Telemetry gap 38m",
+      latency: "Latency 1.8s",
+      beats: {
+        1: {
+          title: "The bridge sees an alarm before it sees a patient.",
+          subtitle: "Monitoring probe raises a critical alert at 14:22 local. The system opens custody immediately because signal integrity is now unresolved upstream of any page-out.",
+          heroStats: [
+            { label: "Signal integrity", value: "Unresolved", kind: "normal" },
+            { label: "Patient impact", value: "Not evaluated", kind: "normal" },
+            { label: "Guard state", value: "Standing by", kind: "normal" }
+          ],
+          mapNote: "Monitoring shows the dispatch telemetry gap. No vendor confirmation is yet available.",
+          mapChip: { label: "Telemetry gap open", kind: "open" },
+          cornerRange: "Gap 38 minutes",
+          cornerLatency: "Latency 1.8s",
+          eventMeta: "1 alert preserved",
+          events: [
+            { glyph: "01", headline: "Monitoring probe raises critical alert for SVC-DISPATCH-02", time: "14:22", detail: "Telemetry stream dropout detected. Persistence hold starts instead of closing the alert.", alert: false },
+            { glyph: "02", headline: "No vendor status confirmation yet", time: "14:23", detail: "Pager notifications and ops log remain pending.", alert: false }
+          ],
+          overview: [
+            { label: "Contested service", value: "SVC-DISPATCH-02", alert: false },
+            { label: "Telemetry gap", value: "38 minutes reported", alert: true },
+            { label: "Current action", value: "Hold escalation", alert: false },
+            { label: "Downstream command", value: "Not yet eligible", alert: false }
+          ],
+          hypothesesMeta: "Preservation begins",
+          hypotheses: [
+            { name: "H1 Vendor API degradation, no patient impact", score: "0.49 posterior", copy: "The dispatch service remains provisionally intact while the signal is missing.", leading: true, suppressed: false },
+            { name: "H2 Internal dispatch queue backlog", score: "0.31 posterior", copy: "No evidence yet, but operational context keeps backlog risk live.", leading: false, suppressed: false },
+            { name: "H3 Synthetic-probe false positive", score: "0.20 posterior", copy: "Cannot be ruled out, but there is no vendor corroboration to evaluate yet.", leading: false, suppressed: false }
+          ],
+          readsMeta: "4 specialists waiting",
+          reads: [
+            { name: "Service continuity", body: "The monitoring alert is holding the escalation open with uncertainty growth but no alternative source.", status: { label: "Open", kind: "open" }, evidence: { label: "1 cite", kind: "open" } },
+            { name: "Vendor status", body: "Insufficient input. No vendor feed corroboration has surfaced yet.", status: { label: "Pending", kind: "locked" }, evidence: { label: "0 cite", kind: "locked" } },
+            { name: "Signal integrity", body: "Single-source monitoring only. Chain remains unresolved until corroboration arrives.", status: { label: "Watch", kind: "open" }, evidence: { label: "monitoring only", kind: "open" } },
+            { name: "Patient impact", body: "Not evaluated. The system does not infer severity on absence alone.", status: { label: "Held", kind: "locked" }, evidence: { label: "No claim", kind: "locked" } },
+            { name: "Action options", body: "Continue monitoring the hold. No escalation action recommended.", status: { label: "Hold", kind: "locked" }, evidence: { label: "1 option", kind: "locked" } }
+          ],
+          guard: {
+            title: "Guard state",
+            meta: "armed",
+            body: "The structural guard is standing by. No severity claim has been generated because evidence-type minimums are not yet met."
+          },
+          causal: {
+            title: "Custody opened",
+            body: "The system is preserving the missing signal because escalation paths start too late if the evidence chain is not held first."
+          },
+          logs: [
+            ["14:22", "Monitoring alert raised for <strong>SVC-DISPATCH-02</strong> dispatch service."],
+            ["14:22", "Custody case created. Confidence flow now routes through evidence preservation."],
+            ["14:23", "No severity claim generated. Waiting for vendor or clinical confirmation."]
+          ],
+          prompt: "case INC-2214 --hold-escalation --watch dispatch/regional-hub",
+          stepBanner: "Beat 1 keeps the system upstream of page-out. Absence becomes a custody object, not a conclusion.",
+          stepCopy: "This is the load-bearing move: preserve the break in evidence before anybody compresses it into a severity declaration.",
+          ruleBullets: [
+            "No review rule exists yet.",
+            "Second case remains locked until doctrine is saved."
+          ],
+          mapState: {
+            showTrackB: false,
+            showGap: true,
+            showProjected: false,
+            betaLabel: "No vendor data",
+            betaNote: "awaiting status feed",
+            arcRuleOn: false,
+            betaOpacity: 0.14
+          }
+        },
+        2: {
+          title: "A second source disagrees, and the system keeps both reads.",
+          subtitle: "The vendor status page reports all-green while internal synthetics continue to fail. The system preserves both contradictory signals instead of collapsing ambiguity into a single narrative.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Patient impact", value: "Not cleared", kind: "normal" },
+            { label: "Guard state", value: "Evaluating", kind: "normal" }
+          ],
+          mapNote: "The monitoring gap and the vendor assertion overlap in time, but clinical corroboration is still missing.",
+          mapChip: { label: "Status conflict", kind: "contested" },
+          cornerRange: "Gap 38 minutes",
+          cornerLatency: "Latency 1.9s",
+          eventMeta: "3 receipts traceable",
+          events: [
+            { glyph: "01", headline: "Dispatch service telemetry remains dark", time: "14:22", detail: "Escalation hold remains open.", alert: false },
+            { glyph: "02", headline: "Vendor status page reports healthy", time: "14:36", detail: "All metrics green. No outage reported in their feed.", alert: true },
+            { glyph: "03", headline: "Custody board expands to preserved hypotheses", time: "14:37", detail: "The system refuses to collapse ambiguity into a single narrative.", alert: false }
+          ],
+          overview: [
+            { label: "Contested source", value: "monitoring vs vendor", alert: true },
+            { label: "Hypotheses open", value: "3 preserved", alert: false },
+            { label: "Status divergence", value: "38-minute gap", alert: false },
+            { label: "Clinical validation", value: "Not yet acquired", alert: true }
+          ],
+          hypothesesMeta: "Competing custody live",
+          hypotheses: [
+            { name: "H1 Partial vendor outage, subset of transfers", score: "0.53 posterior", copy: "A partial fault would explain both the failing probes and a status page that still reads green.", leading: true, suppressed: false },
+            { name: "H2 Two coincident unrelated faults", score: "0.28 posterior", copy: "Possible at this hub, but correlation across the window keeps it below the lead.", leading: false, suppressed: false },
+            { name: "H3 Status-page staleness masking a real outage", score: "0.19 posterior", copy: "Reporting-chain lag remains plausible because clinical evidence is still single-channel.", leading: false, suppressed: false }
+          ],
+          readsMeta: "Signal integrity contested",
+          reads: [
+            { name: "Service continuity", body: "The monitoring outage and the vendor health report are mutually incompatible. Both are preserved.", status: { label: "Conflict", kind: "contested" }, evidence: { label: "2 cites", kind: "contested" } },
+            { name: "Vendor status", body: "The status feed diverges from the monitoring signal. Source confidence remains unresolved.", status: { label: "Mixed", kind: "contested" }, evidence: { label: "2 cites", kind: "contested" } },
+            { name: "Signal integrity", body: "Still monitoring-dominant. No pager or clinical corroboration has entered the graph.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Patient impact", body: "Not yet cleared for analysis because the chain of evidence is still contested upstream.", status: { label: "Held", kind: "locked" }, evidence: { label: "Guard wait", kind: "locked" } },
+            { name: "Action options", body: "Request clinical confirmation, continue the hold, or manually annotate for ops review.", status: { label: "3 options", kind: "open" }, evidence: { label: "bounded", kind: "open" } }
+          ],
+          guard: {
+            title: "Guard state",
+            meta: "yellow",
+            body: "The guard sees competing hypotheses and single-source evidence. It can evaluate claims, but it will refuse overreach if severity is asserted."
+          },
+          causal: {
+            title: "Competing custody preserved",
+            body: "The system is keeping the ambiguity live because a page-out based on a forced resolution would be structurally unsafe."
+          },
+          logs: [
+            ["14:36", "Vendor status feed returned: <strong>all-green</strong>."],
+            ["14:37", "Posterior split generated across three custody hypotheses."],
+            ["14:37", "Signal integrity remains <span class=\"danger\">CONTESTED</span>. Severity specialist not cleared."]
+          ],
+          prompt: "case INC-2214 --preserve-hypotheses --compare monitoring vendor",
+          stepBanner: "Beat 2 shows the wedge. The system holds three hypotheses instead of choosing a story too early.",
+          stepCopy: "This is the product difference from alerting: preserve competing claims, trace every one back to evidence, and do not compress the dispute away.",
+          ruleBullets: [
+            "Structural refusal has not fired yet.",
+            "Operator doctrine can be written after the guard outcome."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "Vendor status page",
+            betaNote: "contradicts monitoring",
+            arcRuleOn: false,
+            betaOpacity: 1
+          }
+        },
+        3: {
+          title: "Severity is a claim about patients, so it waits for one.",
+          subtitle: "The specialist tries to characterize severity as Sev-1, but the server-side guard blocks persistence because patient impact is unvalidated and signal integrity is contested. The app receives refusal, not overclaim.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Patient impact", value: "Refused", kind: "contested" },
+            { label: "Guard state", value: "Layer 2 fired", kind: "contested" }
+          ],
+          mapNote: "The status divergence has not changed. What changes is whether the evidence chain permits escalation-adjacent inference.",
+          mapChip: { label: "Severity refused", kind: "contested" },
+          cornerRange: "Gap 38 minutes",
+          cornerLatency: "Latency 2.1s",
+          eventMeta: "Guard trace attached",
+          events: [
+            { glyph: "01", headline: "Severity specialist emits draft claim", time: "14:38", detail: "Draft suggests a possible Sev-1 escalation.", alert: true },
+            { glyph: "02", headline: "Structural guard rejects persistence", time: "14:38", detail: "Citation minimum and evidence-type requirements are not satisfied.", alert: true },
+            { glyph: "03", headline: "Bounded recommendation remains confirmation-first", time: "14:39", detail: "The operator sees why refusal happened and what is still allowed.", alert: false }
+          ],
+          overview: [
+            { label: "Refusal mode", value: "Server-side invariant", alert: true },
+            { label: "Guard layer", value: "Layer 2 / patient impact", alert: true },
+            { label: "Allowed action", value: "Request clinical confirmation", alert: false },
+            { label: "Escalation posture", value: "Human review only", alert: false }
+          ],
+          hypothesesMeta: "Ambiguity preserved",
+          hypotheses: [
+            { name: "H1 Partial vendor outage, subset of transfers", score: "0.58 posterior", copy: "Still the lead hypothesis, but not enough to justify severity or escalation.", leading: true, suppressed: false },
+            { name: "H2 Two coincident unrelated faults", score: "0.24 posterior", copy: "Remains plausible because only one signal chain is carrying the story.", leading: false, suppressed: false },
+            { name: "H3 Status-page staleness", score: "0.18 posterior", copy: "Source-integrity risk keeps the chain contested and blocks stronger claims.", leading: false, suppressed: false }
+          ],
+          readsMeta: "Refusal propagated",
+          reads: [
+            { name: "Service continuity", body: "Continuity evidence supports a custody link, not a severity conclusion.", status: { label: "Bounded", kind: "open" }, evidence: { label: "2 cites", kind: "open" } },
+            { name: "Vendor status", body: "The status conflict persists across multiple signals.", status: { label: "Contested", kind: "contested" }, evidence: { label: "2 cites", kind: "contested" } },
+            { name: "Signal integrity", body: "No corroborating source has entered the graph. Single-channel evidence cannot carry severity.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Patient impact", body: "Refused. The structural guard blocked the claim because the evidence chain does not support it.", status: { label: "Refused", kind: "contested" }, evidence: { label: "guard hit", kind: "contested" } },
+            { name: "Action options", body: "Request clinical confirmation is the top recommendation. Escalation is intentionally absent.", status: { label: "Confirmation", kind: "ready" }, evidence: { label: "1 safe path", kind: "ready" } }
+          ],
+          guard: {
+            title: "Severity refused",
+            meta: "layer 2",
+            body: "Causal line: severity refused because the guard fired on patient impact. Citation minimums passed, but evidence-type requirements and posterior thresholds did not."
+          },
+          causal: {
+            title: "Severity refused because the guard fired",
+            body: "Patient impact is unvalidated. The specialist output cannot become escalation-adjacent because the evidence chain is not actionable."
+          },
+          logs: [
+            ["14:38", "Severity specialist returned draft JSON for review."],
+            ["14:38", "<span class=\"danger\">guard.ts</span> blocked persistence: missing clinical evidence under contested signal integrity."],
+            ["14:39", "Returned operator-safe action set: <strong>Request clinical confirmation</strong>."]
+          ],
+          prompt: "case INC-2214 --trace-guard --why severity-refused",
+          stepBanner: "Beat 3 is the hard differentiator: the model cannot overclaim, because refusal is server-side rather than cosmetic.",
+          stepCopy: "Everything downstream reads this causal line. The user sees refusal with provenance, not a hidden scoring rule.",
+          ruleBullets: [
+            "Structural refusal is now visible on the product surface.",
+            "Review memory can convert a clinical correction into durable doctrine."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "Vendor status page",
+            betaNote: "contested status",
+            arcRuleOn: false,
+            betaOpacity: 1
+          }
+        },
+        4: {
+          title: "A safety rule is written before anyone escalates again.",
+          subtitle: "The major-incident lead writes a rule: ambiguous dispatch outages with unvalidated patient impact must default to clinical confirmation before page-out. Saving the rule changes the next case, not just this one.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Patient impact", value: "Refused", kind: "contested" },
+            { label: "Review memory", value: "Ready to persist", kind: "normal" }
+          ],
+          mapNote: "The first case is still contested. The new thing is doctrine, not new evidence.",
+          mapChip: { label: "Review memory", kind: "open" },
+          cornerRange: "Gap 38 minutes",
+          cornerLatency: "Latency 2.2s",
+          eventMeta: "Operator correction live",
+          events: [
+            { glyph: "01", headline: "Major-incident lead writes a rule", time: "14:40", detail: "An ambiguous dispatch outage with unvalidated impact requires confirmation-first posture.", alert: false },
+            { glyph: "02", headline: "Rule compiles and persists locally", time: "14:40", detail: "Future cases can consume the new doctrine immediately.", alert: false },
+            { glyph: "03", headline: "Second case is now eligible to show the policy shift", time: "14:41", detail: "Opening the next case demonstrates memory as moat.", alert: false }
+          ],
+          overview: [
+            { label: "Operator action", value: "Write review rule", alert: false },
+            { label: "Persistence", value: "Local doctrine receipt", alert: false },
+            { label: "Next proof", value: "Open INC-2215", alert: false },
+            { label: "Command impact", value: "Future recommendation shifts", alert: false }
+          ],
+          hypothesesMeta: "Doctrine pending save",
+          hypotheses: [
+            { name: "H1 Partial vendor outage, subset of transfers", score: "0.58 posterior", copy: "Still lead, but the operator does not want escalation without clinical corroboration.", leading: true, suppressed: false },
+            { name: "H2 Two coincident unrelated faults", score: "0.24 posterior", copy: "Human judgment keeps the ambiguity meaningful rather than nuisance noise.", leading: false, suppressed: false },
+            { name: "H3 Status-page staleness", score: "0.18 posterior", copy: "The rule treats contested integrity as a durable decision surface.", leading: false, suppressed: false }
+          ],
+          readsMeta: "Rule authoring beat",
+          reads: [
+            { name: "Service continuity", body: "Evidence still supports continuity but not a coercive escalation posture.", status: { label: "Bounded", kind: "open" }, evidence: { label: "2 cites", kind: "open" } },
+            { name: "Vendor status", body: "Conflicting signals remain unresolved.", status: { label: "Contested", kind: "contested" }, evidence: { label: "2 cites", kind: "contested" } },
+            { name: "Signal integrity", body: "Still contested, which is now the operator's chosen policy hinge.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Patient impact", body: "Refusal remains structurally enforced regardless of operator preference.", status: { label: "Refused", kind: "contested" }, evidence: { label: "guard hit", kind: "contested" } },
+            { name: "Action options", body: "Confirmation-first posture is about to become doctrine for future ambiguous cases.", status: { label: "Pending save", kind: "open" }, evidence: { label: "operator", kind: "open" } }
+          ],
+          guard: {
+            title: "Review memory ready",
+            meta: "human doctrine",
+            body: "The human does not bypass refusal. They write a durable rule that changes the next recommendation under similar contested conditions."
+          },
+          causal: {
+            title: "Operator correction compounds",
+            body: "Review memory turns judgment into doctrine so the next case starts from the better decision boundary."
+          },
+          logs: [
+            ["14:40", "Operator drafted a rule for ambiguous dispatch status conflict."],
+            ["14:40", "Rule awaiting save: require clinical confirmation before escalation."],
+            ["14:41", "INC-2215 remains locked until doctrine is persisted."]
+          ],
+          prompt: "case INC-2214 --compose-rule --class DISPATCH-AMBIGUOUS",
+          stepBanner: "Beat 4 makes the moat visible. Human judgment is not ephemeral; it modifies the next case.",
+          stepCopy: "The user is not correcting a chat response. They are writing operational doctrine into the substrate loop.",
+          ruleBullets: [
+            "Save the rule to open INC-2215.",
+            "After save, the second case should default to Request Clinical Confirmation."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "Vendor status page",
+            betaNote: "rule draft ready",
+            arcRuleOn: false,
+            betaOpacity: 1
+          }
+        },
+        5: {
+          title: "The first case remains preserved. The second case proves the doctrine changed.",
+          subtitle: "INC-2214 still shows the original contested scenario. The product proof now lives in INC-2215, where the prior rule changes the recommended action before anybody escalates.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Patient impact", value: "Refused", kind: "contested" },
+            { label: "Review memory", value: "Rule applied elsewhere", kind: "normal" }
+          ],
+          mapNote: "INC-2214 remains your source case. Switch to INC-2215 to see the review rule alter the next recommendation.",
+          mapChip: { label: "Source case preserved", kind: "open" },
+          cornerRange: "Gap 38 minutes",
+          cornerLatency: "Latency 2.2s",
+          eventMeta: "Doctrine in effect",
+          events: [
+            { glyph: "01", headline: "INC-2214 remains the originating custody dispute", time: "14:41", detail: "Nothing about the first case is rewritten.", alert: false },
+            { glyph: "02", headline: "RULE-2214 now exists as operator doctrine", time: "14:41", detail: "Future similar cases inherit the confirmation-first action boundary.", alert: false },
+            { glyph: "03", headline: "Open INC-2215 to see the changed recommendation", time: "14:41", detail: "The proof is cross-case memory, not within-case decoration.", alert: false }
+          ],
+          overview: [
+            { label: "Origin case", value: "Preserved", alert: false },
+            { label: "Rule id", value: "RULE-2214", alert: false },
+            { label: "Next move", value: "Open INC-2215", alert: false },
+            { label: "Memory state", value: "Doctrine active", alert: false }
+          ],
+          hypothesesMeta: "Same evidence, new doctrine elsewhere",
+          hypotheses: [
+            { name: "H1 Partial vendor outage, subset of transfers", score: "0.58 posterior", copy: "The first case remains exactly as it was when the rule was saved.", leading: true, suppressed: false },
+            { name: "H2 Two coincident unrelated faults", score: "0.24 posterior", copy: "Preserved ambiguity is still visible for audit.", leading: false, suppressed: false },
+            { name: "H3 Status-page staleness", score: "0.18 posterior", copy: "The doctrine does not erase this hypothesis; it changes future action posture.", leading: false, suppressed: false }
+          ],
+          readsMeta: "Switchable proof state",
+          reads: [
+            { name: "Service continuity", body: "Source-case evidence remains intact for audit and review.", status: { label: "Preserved", kind: "ready" }, evidence: { label: "audit", kind: "ready" } },
+            { name: "Vendor status", body: "The original contested signals remain visible and unchanged.", status: { label: "Preserved", kind: "ready" }, evidence: { label: "trace", kind: "ready" } },
+            { name: "Signal integrity", body: "Still contested. The rule was authored precisely because this stays live.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Patient impact", body: "Still refused. Structural guard posture is unchanged.", status: { label: "Refused", kind: "contested" }, evidence: { label: "guard", kind: "contested" } },
+            { name: "Action options", body: "Switch to the next case to see the prior rule apply before escalation enters the surface.", status: { label: "Open INC-2215", kind: "ready" }, evidence: { label: "memory", kind: "ready" } }
+          ],
+          guard: {
+            title: "Source case preserved",
+            meta: "audit intact",
+            body: "Review memory is additive. It does not rewrite the first case. It changes the next recommendation under similar evidence conditions."
+          },
+          causal: {
+            title: "Review rule saved",
+            body: "INC-2214 authored the doctrine. INC-2215 is where the recommendation changes."
+          },
+          logs: [
+            ["14:41", "RULE-2214 persisted from INC-2214."],
+            ["14:41", "Source case remains intact for audit and replay."],
+            ["14:41", "Open INC-2215 to see the prior rule change the recommendation."]
+          ],
+          prompt: "case INC-2214 --handoff RULE-2214 --open INC-2215",
+          stepBanner: "Beat 5 is a two-case proof. The first case remains true; the second changes because doctrine is now durable.",
+          stepCopy: "Memory is the moat only if it survives the first case and alters the second. Open INC-2215 from the queue or the review panel.",
+          ruleBullets: [
+            "INC-2214 is still the originating evidence dispute.",
+            "INC-2215 should now default to Request Clinical Confirmation before escalation."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "Third dispatch alert",
+            betaNote: "source case preserved",
+            arcRuleOn: true,
+            betaOpacity: 1
+          }
+        }
+      }
+    },
+    case2: {
+      label: "INC-2215",
+      name: "Prior rule applied",
+      route: "Regional patient-transfer network",
+      baseSummary: "A new ambiguous dispatch outage arrives. Review memory changes the recommendation before escalation becomes available.",
+      location: "Transport hub region",
+      risk: "Without doctrine, this case would have been routed toward page-out too early.",
+      mapLabel: "INC-2215 / prior rule applied",
+      range: "Telemetry gap 42m",
+      latency: "Latency 1.9s",
+      beats: {
+        5: {
+          title: "The prior rule changes the second incident before the page-out.",
+          subtitle: "Another dispatch outage with ambiguous patient impact arrives. Because RULE-2214 exists, the working panel defaults to confirmation-first posture instead of escalation review.",
+          heroStats: [
+            { label: "Signal integrity", value: "Contested", kind: "contested" },
+            { label: "Patient impact", value: "Refused", kind: "contested" },
+            { label: "Review memory", value: "RULE-2214 applied", kind: "normal" }
+          ],
+          mapNote: "The status conflict is similar enough to match the ambiguous-dispatch class, so the rule enters before a human has to restate it.",
+          mapChip: { label: "Prior rule applied", kind: "ready" },
+          cornerRange: "Gap 42 minutes",
+          cornerLatency: "Latency 1.9s",
+          eventMeta: "Cross-case doctrine proved",
+          events: [
+            { glyph: "01", headline: "New dispatch outage classified as DISPATCH-AMBIGUOUS", time: "15:04", detail: "INC-2215 matches the same operational pattern class.", alert: false },
+            { glyph: "02", headline: "RULE-2214 auto-applies before the escalation option renders", time: "15:05", detail: "The default recommendation becomes confirmation-first.", alert: false },
+            { glyph: "03", headline: "Operator sees the changed recommendation with provenance", time: "15:05", detail: "The system names the prior rule and shows why it attached.", alert: false }
+          ],
+          overview: [
+            { label: "Matched rule", value: "RULE-2214", alert: false },
+            { label: "Default action", value: "Request confirmation", alert: false },
+            { label: "Escalation status", value: "Suppressed pending validation", alert: true },
+            { label: "Doctrine source", value: "INC-2214 operator review", alert: false }
+          ],
+          hypothesesMeta: "Rule-mediated action boundary",
+          hypotheses: [
+            { name: "H1 Partial vendor outage, subset of transfers", score: "0.61 posterior", copy: "The lead hypothesis is stronger here, which is exactly why the rule matters.", leading: true, suppressed: false },
+            { name: "H2 Two coincident unrelated faults", score: "0.22 posterior", copy: "Still viable enough to preserve ambiguity.", leading: false, suppressed: false },
+            { name: "H3 Escalation candidate", score: "suppressed by rule", copy: "Without prior doctrine, this case would have surfaced manual escalation review. RULE-2214 forces confirmation first.", leading: false, suppressed: true }
+          ],
+          readsMeta: "Rule-modified readout",
+          reads: [
+            { name: "Service continuity", body: "Continuity is slightly stronger than INC-2214, which would normally raise escalation pressure.", status: { label: "Stronger", kind: "ready" }, evidence: { label: "3 cites", kind: "ready" } },
+            { name: "Vendor status", body: "Ambiguous again: signals still diverge even though operational metrics look persuasive.", status: { label: "Contested", kind: "contested" }, evidence: { label: "3 cites", kind: "contested" } },
+            { name: "Signal integrity", body: "Still not corroborated across independent sources, so the rule conditions are satisfied.", status: { label: "Contested", kind: "contested" }, evidence: { label: "1 source", kind: "contested" } },
+            { name: "Patient impact", body: "Still refused by the structural guard. Rule memory does not weaken refusal.", status: { label: "Refused", kind: "contested" }, evidence: { label: "guard hit", kind: "contested" } },
+            { name: "Action options", body: "Request confirmation is promoted to default. Escalation stays suppressed until validation arrives.", status: { label: "Rule applied", kind: "ready" }, evidence: { label: "RULE-2214", kind: "ready" } }
+          ],
+          guard: {
+            title: "Prior rule applied",
+            meta: "cross-case",
+            body: "Review memory changed the second case before escalation action. The guard still refuses severity; the rule changes which safe action is promoted."
+          },
+          causal: {
+            title: "Recommendation changed by prior rule",
+            body: "INC-2215 matches the ambiguous dispatch class, so the system defaults to Request Clinical Confirmation instead of escalation review."
+          },
+          logs: [
+            ["15:04", "INC-2215 classified into DISPATCH-AMBIGUOUS."],
+            ["15:05", "Applied <strong>RULE-2214</strong> from prior operator review."],
+            ["15:05", "Recommendation changed: <strong>Request Confirmation</strong>. Escalation withheld pending validation."]
+          ],
+          prompt: "case INC-2215 --apply-review-memory RULE-2214 --recommend confirmation",
+          stepBanner: "The moat is now visible. Human correction from INC-2214 changed INC-2215 before the operator had to restate it.",
+          stepCopy: "This is the proof that matters: review memory is not a note. It is durable doctrine with immediate operational consequence.",
+          ruleBullets: [
+            "RULE-2214 matched the new case class.",
+            "Escalation stayed off the surface until validation arrives."
+          ],
+          mapState: {
+            showTrackB: true,
+            showGap: true,
+            showProjected: true,
+            betaLabel: "SVC-DISPATCH-05",
+            betaNote: "rule-modified recommendation",
+            arcRuleOn: true,
+            betaOpacity: 1
+          }
+        }
+      }
+    }
+  };
+
+  const HEALTHCARE_sourceStates = {
+    1: [
+      { glyph: "M", name: "Monitoring / synthetics", note: "Primary dispatch signal only. Telemetry gap just opened.", status: { label: "open gap", kind: "open" }, alert: false },
+      { glyph: "V", name: "Vendor status feed", note: "Vendor listener available but not yet correlated.", status: { label: "standby", kind: "locked" }, alert: false },
+      { glyph: "P", name: "Clinical confirmation", note: "No on-call clinician tasked for validation yet.", status: { label: "not tasked", kind: "locked" }, alert: false },
+      { glyph: "O", name: "Ops log / shift bulletin", note: "Operational context only. No event-specific corroboration.", status: { label: "context", kind: "open" }, alert: false }
+    ],
+    2: [
+      { glyph: "M", name: "Monitoring / synthetics", note: "Probes still failing. Vendor assertion now in range.", status: { label: "contested", kind: "contested" }, alert: true },
+      { glyph: "V", name: "Vendor status feed", note: "Reports healthy. No aligned clinical confirmation yet.", status: { label: "conflict", kind: "contested" }, alert: true },
+      { glyph: "P", name: "Clinical confirmation", note: "Still unavailable until the operator requests validation.", status: { label: "not tasked", kind: "locked" }, alert: false },
+      { glyph: "O", name: "Ops log / shift bulletin", note: "Hub context remains relevant but not decisive.", status: { label: "context", kind: "open" }, alert: false }
+    ],
+    3: [
+      { glyph: "M", name: "Monitoring / synthetics", note: "A single-source chain cannot carry severity.", status: { label: "contested", kind: "contested" }, alert: true },
+      { glyph: "V", name: "Vendor status feed", note: "Still contradicts. Integrity remains unresolved.", status: { label: "conflict", kind: "contested" }, alert: true },
+      { glyph: "P", name: "Clinical confirmation", note: "Recommended next action to validate the chain.", status: { label: "request", kind: "ready" }, alert: false },
+      { glyph: "O", name: "Ops log / shift bulletin", note: "Context exists, but the guard ignores it for severity claims.", status: { label: "bounded", kind: "open" }, alert: false }
+    ],
+    4: [
+      { glyph: "M", name: "Monitoring / synthetics", note: "Still the dominant evidence plane.", status: { label: "contested", kind: "contested" }, alert: true },
+      { glyph: "V", name: "Vendor status feed", note: "The operator rule now treats an unresolved conflict as a policy hinge.", status: { label: "hinge", kind: "open" }, alert: false },
+      { glyph: "P", name: "Clinical confirmation", note: "The confirmation-first rule draft points here as the safe default.", status: { label: "default", kind: "ready" }, alert: false },
+      { glyph: "O", name: "Ops log / shift bulletin", note: "Human judgment is about to become durable doctrine.", status: { label: "review", kind: "open" }, alert: false }
+    ],
+    5: [
+      { glyph: "M", name: "Monitoring / synthetics", note: "The ambiguous class persists across cases.", status: { label: "contested", kind: "contested" }, alert: true },
+      { glyph: "V", name: "Vendor status feed", note: "The rule still requires validation before escalation.", status: { label: "required", kind: "ready" }, alert: false },
+      { glyph: "P", name: "Clinical confirmation", note: "Now promoted automatically on matched cases.", status: { label: "default", kind: "ready" }, alert: false },
+      { glyph: "O", name: "Ops log / shift bulletin", note: "Operator doctrine is now a first-class input.", status: { label: "memory", kind: "ready" }, alert: false }
+    ]
+  };
+
+  const HEALTHCARE_ruleText = [
+    "<span class=\"token\">WHEN</span> class == <span class=\"token\">DISPATCH-AMBIGUOUS</span>",
+    "AND telemetry_gap_minutes >= <span class=\"token\">20</span>",
+    "AND vendor_status_conflict == <span class=\"token\">true</span>",
+    "AND patient_impact == <span class=\"guard\">unvalidated</span>",
+    "<span class=\"token\">THEN</span> promote_action = <span class=\"action\">request_clinical_confirmation</span>",
+    "AND suppress_action = <span class=\"action\">declare_sev1</span> until corroborated"
+  ].join("\\n");
+
   /* ─── SCENARIO REGISTRY ────────────────────────────────────────────────
      Cut 11 already proves the pattern this ports: one loop, pointed at a
      different subject via ?subject=, with a SUBJECTS map guarding the switch
@@ -2396,7 +3024,15 @@
         mapGapNote: "38 minutes no AIS",
         regionA:    "Gulf of Oman",
         regionB:    "Strait chokepoint",
-        regionC:    "Arabian Sea"
+        regionC:    "Arabian Sea",
+        visual:     "map",
+        showFindings: true,   /* this scenario is the one the run was against */
+        legend: [
+          { swatch: "primary",   label: "original track" },
+          { swatch: "alert",     label: "contested gap" },
+          { swatch: "secondary", label: "emergent identity" },
+          { swatch: "rule",      label: "rule-applied recommendation" }
+        ]
       },
       workflowNodes: MARITIME_workflowNodes,
       beatMeta:      MARITIME_beatMeta,
@@ -2412,8 +3048,41 @@
        incomplete so it cannot render until its console exists. */
     healthcare: {
       label: "Healthcare major-incident · patient-transport outage",
-      complete: false,
-      missing: "console payload (hypotheses, evidence sources, specialist reads, rule text) AND the framing block — operator line, foundation line, surface-meta chips, map region labels. The framing half is easy to forget precisely because it is static HTML rather than data; forgetting it is what produced #106."
+      complete: true,
+      framing: {
+        operator:   "<strong>Major-incident lead, regional transfer desk.</strong> An AI triage agent escalates a transport-dispatch outage to Sev-1 off a single probe. A second source disagrees. The system preserves both reads and refuses to confirm severity until someone validates patient impact.",
+        foundation: "<strong>Your incident and ITSM stack is the foundation.</strong> This prototype owns the substrate layer beneath it: contested signals, structural refusal, and review memory before the severity call.",
+        authority:  "Transfer desk",
+        post:       "bridge",
+        clock:      "1422 local",
+        banner:     "Regional transport network",
+        /* The map ids still exist in the DOM but are not shown for this scenario;
+           they are set anyway so nothing stale is left behind if the visual is
+           ever switched back mid-session. */
+        mapAlpha:   "SVC-DISPATCH-02",
+        mapGapNote: "38 minutes no telemetry",
+        regionA:    "Referring sites",
+        regionB:    "Dispatch gateway",
+        regionC:    "Receiving sites",
+        /* A track map cannot say "two sources disagree". The divergence chart can,
+           and the shaded gap between the lines IS the contested read this whole
+           scenario refuses to collapse. Cut 11 already establishes that a subject's
+           evidence need not be a map. */
+        visual:     "chart",
+        showFindings: false,  /* no run happened for this scenario; claim nothing */
+        chartAssertedLabel: "vendor status · asserted healthy",
+        chartObservedLabel: "internal synthetics · observed",
+        legend: [
+          { swatch: "secondary", label: "vendor status · asserted" },
+          { swatch: "primary",   label: "internal synthetics · observed" },
+          { swatch: "alert",     label: "contested gap · unresolved" }
+        ]
+      },
+      workflowNodes: HEALTHCARE_workflowNodes,
+      beatMeta:      HEALTHCARE_beatMeta,
+      caseData:      HEALTHCARE_caseData,
+      sourceStates:  HEALTHCARE_sourceStates,
+      ruleText:      HEALTHCARE_ruleText
     }
   };
 
@@ -2480,6 +3149,43 @@
     put("marker-region-a",     f.regionA);
     put("marker-region-b",     f.regionB);
     put("marker-region-c",     f.regionC);
+    put("spark-note-a",        f.chartAssertedLabel);
+    put("spark-note-b",        f.chartObservedLabel);
+
+    /* Swap the evidence visual. Not every subject's evidence is a map — cut 11
+       already establishes this, where its `pattern` subject renders a prose block
+       instead of the custody map. A track map cannot express "two sources
+       disagree", so a scenario built on that disagreement gets the chart. */
+    const map   = document.getElementById("scenario-map");
+    const chart = document.getElementById("scenario-chart");
+    const wantsChart = f.visual === "chart";
+
+    /* Use the ATTRIBUTE, not the .hidden property. Both of these elements are
+       <svg>, and `hidden` is defined on HTMLElement — SVGElement does not inherit
+       it. `el.hidden = false` on an SVG therefore sets an inert JS property and
+       leaves the content attribute untouched, so the element never unhides. Worse,
+       reading `el.hidden` back returns the property you just set, so a check
+       written the same way reports success while the page shows the opposite. */
+    const setHidden = (el, on) => {
+      if (!el) return;
+      if (on) el.setAttribute("hidden", ""); else el.removeAttribute("hidden");
+    };
+    setHidden(map, wantsChart);
+    setHidden(chart, !wantsChart);
+
+    /* The real-world findings rail is a RECEIPT, not scenario dressing — it cites
+       a dated run against real feeds. Scenarios that did not earn it do not get a
+       translated version of it; they get nothing. `showFindings` defaults to false
+       so a new scenario cannot inherit someone else's evidence by omission. */
+    const findings = document.getElementById("scenario-findings");
+    if (findings) findings.hidden = !(f.showFindings === true);
+
+    const legend = document.getElementById("scenario-legend");
+    if (legend && Array.isArray(f.legend)) {
+      legend.innerHTML = f.legend.map(item =>
+        `<span class="legend-item"><span class="legend-swatch ${item.swatch}"></span>${item.label}</span>`
+      ).join("");
+    }
   }
   document.addEventListener("DOMContentLoaded", () => applyFraming(SCENARIO.framing));
 
@@ -2715,19 +3421,30 @@
   }
 
   function renderCases() {
+    /* Derived from caseData, not hardcoded. This array previously duplicated the
+       case labels and names as literals — "CASE-014 · Dark-gap reappearance" —
+       which meant the case queue kept rendering maritime under the healthcare
+       scenario while every other panel had switched. Two copies of the same fact,
+       and only one of them moved.
+
+       It is also a sixth scenario-bearing structure that REQUIRED_KEYS did not
+       know about, so the completeness guard passed a scenario that was still
+       visibly wrong. Deriving it removes the second copy rather than adding
+       another key to keep in sync: caseData is the single source, and a scenario
+       cannot forget to translate something it does not separately own. */
     const caseItems = [
       {
         id: "case1",
-        label: "CASE-014",
-        name: "Dark-gap reappearance",
-        note: "The originating contested identity event.",
+        label: caseData.case1.label,
+        name: caseData.case1.name,
+        note: caseData.case1.queueNote || "The originating contested event.",
         status: state.step >= 3 ? { label: "refusal traced", kind: "contested" } : { label: "active", kind: "open" },
         disabled: false
       },
       {
         id: "case2",
-        label: "CASE-015",
-        name: "Prior rule applied",
+        label: caseData.case2.label,
+        name: caseData.case2.name,
         note: state.ruleSaved ? "Second case proves doctrine changed the recommendation." : "Locked until review memory is saved.",
         status: state.ruleSaved ? { label: "ready", kind: "ready" } : { label: "locked", kind: "locked" },
         disabled: !state.ruleSaved
