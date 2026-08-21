@@ -2340,6 +2340,89 @@
     "AND suppress_action = <span class=\"action\">escalate</span> until corroborated"
   ].join("\\n");
 
+  /* ─── SCENARIO REGISTRY ────────────────────────────────────────────────
+     Cut 11 already proves the pattern this ports: one loop, pointed at a
+     different subject via ?subject=, with a SUBJECTS map guarding the switch
+     (cuts/11-govern.html — `SUBJECTS[wantSubject]`).
+
+     WHY THIS EXISTS AT ALL. On 2026-08-20 this cut was live as a half-converted
+     page: PR #60 swapped the FRAMING to a healthcare incident — hero, foundation,
+     thesis, beat labels — and left the console maritime. 68 maritime references
+     against 4 healthcare ones. A visitor read a hospital incident brief and then
+     operated a tanker-tracking console. PR #106 restored the maritime framing to
+     make the page coherent again.
+
+     The lesson is not "be careful". A scenario here is TWO layers — the framing a
+     reader sees first, and the console they operate — and swapping one without the
+     other produces a page where every individual string is well-written and the
+     whole is incoherent. Nothing caught it: it served 200, threw no errors, and
+     passed the vocab gate. Only the COMBINATION was wrong.
+
+     So the switch is guarded. A scenario activates only if it declares a complete
+     payload; an incomplete one falls back to the default and says why. A partial
+     scenario cannot render, which is what makes the #60 defect structurally
+     impossible rather than merely discouraged.
+
+     ADDING A SCENARIO: author every key in REQUIRED_KEYS, set complete: true, and
+     read the whole page in both subjects before shipping. Framing without a
+     console is exactly the failure this guard exists to stop — do not set
+     complete: true to "unblock" a preview. */
+  const REQUIRED_KEYS = ["workflowNodes", "beatMeta", "caseData", "sourceStates", "ruleText"];
+
+  const SCENARIOS = {
+    /* Maritime is the default and the only complete scenario. It references the
+       data defined above rather than copying it, so this registry adds a
+       selection layer without relocating ~440 lines of authored content. */
+    maritime: {
+      label: "Maritime custody · contested strait transit",
+      complete: true,
+      workflowNodes, beatMeta, caseData, sourceStates, ruleText
+    },
+
+    /* Healthcare major-incident. Framing was authored on
+       demo/cut08-healthcare-incident-2026-07-06 and landed via #60; the CONSOLE
+       payload was never written, which is precisely what produced the hybrid.
+       Declared here so the scenario is visible and named, and deliberately marked
+       incomplete so it cannot render until its console exists. */
+    healthcare: {
+      label: "Healthcare major-incident · patient-transport outage",
+      complete: false,
+      missing: "console payload — hypotheses, evidence sources, specialist reads, map, rule text"
+    }
+  };
+
+  const DEFAULT_SCENARIO = "maritime";
+
+  function scenarioIsComplete(s) {
+    return !!s && s.complete === true && REQUIRED_KEYS.every(k => s[k] != null);
+  }
+
+  /* Resolves ?subject= to a renderable scenario. Refuses silently-partial
+     rendering: an unknown or incomplete subject returns the default, and says so
+     in the console so a developer testing ?subject=healthcare learns why the page
+     did not change rather than assuming it worked. */
+  function resolveScenario() {
+    const want = new URLSearchParams(location.search).get("subject");
+    if (!want) return SCENARIOS[DEFAULT_SCENARIO];
+
+    const picked = SCENARIOS[want];
+    if (!picked) {
+      console.warn(`[cut-08] unknown subject "${want}" — falling back to ${DEFAULT_SCENARIO}. ` +
+                   `Available: ${Object.keys(SCENARIOS).join(", ")}`);
+      return SCENARIOS[DEFAULT_SCENARIO];
+    }
+    if (!scenarioIsComplete(picked)) {
+      console.warn(`[cut-08] subject "${want}" (${picked.label}) is declared but INCOMPLETE ` +
+                   `— falling back to ${DEFAULT_SCENARIO}. Missing: ${picked.missing || "unspecified"}. ` +
+                   `A partial scenario is blocked on purpose: framing without a console is the ` +
+                   `defect PR #106 had to repair.`);
+      return SCENARIOS[DEFAULT_SCENARIO];
+    }
+    return picked;
+  }
+
+  const SCENARIO = resolveScenario();
+
   const state = loadState();
   const els = {};
   let toastTimer = null;
