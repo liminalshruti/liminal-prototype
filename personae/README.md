@@ -57,5 +57,14 @@ If the persona package is ever wanted in a public repo, it needs a de-identified
 derivative — the cast and the constraints, without the real-world referents that
 make the constraints meaningful. That is a rewrite, not a move.
 
-*The unmerged branch `docs/maia-move` holds the full package. Left unmerged
-deliberately, 2026-08-20.*
+*The full package lived on branch `docs/maia-move`, deleted 2026-08-21 after the
+founder ruled that this note covers the operational need. It is not lost — the
+branch tip is `ffc94958e8410117a0388ecad656384c30c1247e`, restorable with:*
+
+```
+git push origin ffc94958e8410117a0388ecad656384c30c1247e:refs/heads/docs/maia-move
+```
+
+*Recorded here rather than only in a commit message, because the reason to go
+looking for it — wanting the richer persona public — is the same reason someone
+would be reading this file.*
