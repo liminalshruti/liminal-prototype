@@ -216,6 +216,14 @@
   @keyframes reveal-failsafe { to { opacity: 1; } }
   @media (prefers-reduced-motion: reduce) {
     body { opacity: 1; transition: none; animation: none; }
+    /* The beat ticker already stops under reduced motion (see the matchMedia
+       check in the orbital script, which renders STEPS[3] statically and
+       returns). But STEPS[3] is the "outreach-refuses" frame, and it leaves
+       contrarian, manager and strategist in the `reading` state — so three
+       glyphs kept pulsing forever for exactly the viewer who asked for no
+       motion. Stopping the loop is not the same as stopping the animation the
+       loop left behind. */
+    .agent-glyph.reading { animation: none; }
   }
 
   /* Refusal arrows (curved paths) */

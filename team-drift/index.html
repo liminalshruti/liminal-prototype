@@ -95,8 +95,30 @@
     transform-origin: center center;
     z-index: 1;
   }
+  /* Scale the fixed 1640x920 stage down to fit smaller viewports.
+
+     The divisor MUST carry a unit. `calc((100vw - 32px) / 1640)` is a length
+     divided by a NUMBER, which yields a length — and scale() requires a unitless
+     <number>, so the whole declaration was invalid and silently dropped. The
+     stage therefore never scaled at all: it stayed 1640px wide at every viewport
+     and the page grew a horizontal scrollbar below 1640px, worst across the
+     769-1639px laptop band. Dividing by `1640px` makes it length / length, which
+     is the unitless ratio scale() actually wants.
+
+     Nothing reported this. Invalid CSS does not throw, does not warn, and does
+     not fail a build — the rule just isn't there, and the layout quietly falls
+     back to the unscaled default. */
   @media (max-width: 1700px), (max-height: 980px) {
-    .stage { transform: scale(min(calc((100vw - 32px) / 1640), calc((100vh - 32px) / 920))); }
+    .stage {
+      transform: scale(min(calc((100vw - 32px) / 1640px), calc((100vh - 32px) / 920px)));
+    }
+    /* Scaling is visual only — the stage keeps a 1640px LAYOUT box however small
+       it is drawn, so the document still scrolls sideways over empty space. Clip
+       at the root so the scrollbar matches what is actually visible. Needed on
+       html as well as body: overflow on body alone can propagate to the viewport
+       instead of clipping, which is why a body-only version of this fixed 768px
+       and left 1440px still scrolling. */
+    html, body { overflow-x: hidden; }
   }
 
   /* titlebar */
