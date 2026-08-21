@@ -1560,9 +1560,9 @@
     <div class="product-row">
       <div class="workflow-strip" id="workflow-strip"></div>
       <div class="surface-meta">
-        <span><span class="sm-strong">5th Fleet</span> watchfloor</span>
-        <span>0200 local</span>
-        <span class="sm-banner">Strait of Hormuz</span>
+        <span><span class="sm-strong" id="sm-authority">5th Fleet</span> <span id="sm-post">watchfloor</span></span>
+        <span id="sm-clock">0200 local</span>
+        <span class="sm-banner" id="sm-banner">Strait of Hormuz</span>
       </div>
     </div>
 
@@ -1573,7 +1573,7 @@
             <span class="section-label">Named operator</span>
             <span class="section-meta">PS1 primary</span>
           </div>
-          <p class="scenario-blurb">
+          <p class="scenario-blurb" id="scenario-operator">
             <strong>Maritime watch officer, U.S. 5th Fleet.</strong> One vessel goes dark in the chokepoint. A second identity appears nearby. The system preserves custody hypotheses and refuses intent until the evidence chain clears.
           </p>
         </section>
@@ -1631,7 +1631,7 @@
         </section>
 
         <div class="rail-footer">
-          <p><strong>Maven is the foundation.</strong> This prototype owns the substrate layer beneath it: contested signals, structural refusal, and review memory before command action.</p>
+          <p id="scenario-foundation"><strong>Maven is the foundation.</strong> This prototype owns the substrate layer beneath it: contested signals, structural refusal, and review memory before command action.</p>
         </div>
       </aside>
 
@@ -1676,7 +1676,7 @@
                   <circle class="marker-ring primary" r="18"></circle>
                   <circle class="marker-core primary" r="7"></circle>
                 </g>
-                <text class="marker-label" x="304" y="252">MMSI-88102</text>
+                <text class="marker-label" x="304" y="252" id="marker-alpha-label">MMSI-88102</text>
                 <text class="marker-note" x="302" y="268">last clean identity</text>
 
                 <g class="marker pulse" id="marker-gap" transform="translate(468 232)">
@@ -1684,7 +1684,7 @@
                   <circle class="marker-core alert" r="7"></circle>
                 </g>
                 <text class="marker-label" x="438" y="198">dark gap</text>
-                <text class="marker-note" x="432" y="214">38 minutes no AIS</text>
+                <text class="marker-note" x="432" y="214" id="marker-gap-note">38 minutes no AIS</text>
 
                 <g class="marker" id="marker-beta" transform="translate(598 208)">
                   <circle class="marker-ring secondary" r="18"></circle>
@@ -1693,9 +1693,9 @@
                 <text class="marker-label" x="568" y="174" id="marker-beta-label">MMSI-22241</text>
                 <text class="marker-note" x="544" y="190" id="marker-beta-note">new identity nearby</text>
 
-                <text class="marker-note" x="116" y="144">Gulf of Oman</text>
-                <text class="marker-note" x="664" y="150">Strait chokepoint</text>
-                <text class="marker-note" x="194" y="404">Arabian Sea</text>
+                <text class="marker-note" x="116" y="144" id="marker-region-a">Gulf of Oman</text>
+                <text class="marker-note" x="664" y="150" id="marker-region-b">Strait chokepoint</text>
+                <text class="marker-note" x="194" y="404" id="marker-region-c">Arabian Sea</text>
               </svg>
             </div>
             <div class="map-legend">
@@ -1811,14 +1811,14 @@
 <script>
   const STORAGE_KEY = "liminal-custody-prototype-v1";
 
-  const workflowNodes = [
+  const MARITIME_workflowNodes = [
     { label: "Substrate", value: "raw contested observations", glyph: "01" },
     { label: "Stage viewport", value: "dark gap + identity churn", glyph: "02" },
     { label: "Working panel", value: "hypotheses + refusal + review", glyph: "03" },
     { label: "Command line", value: "causal trace + operator override", glyph: "04" }
   ];
 
-  const beatMeta = [
+  const MARITIME_beatMeta = [
     {
       id: 1,
       name: "Dark gap",
@@ -1856,7 +1856,7 @@
     }
   ];
 
-  const caseData = {
+  const MARITIME_caseData = {
     case1: {
       label: "CASE-014",
       name: "Dark-gap reappearance",
@@ -2298,7 +2298,7 @@
     }
   };
 
-  const sourceStates = {
+  const MARITIME_sourceStates = {
     1: [
       { glyph: "A", name: "AIS stream", note: "Primary vessel signal only. Dark gap just opened.", status: { label: "open gap", kind: "open" }, alert: false },
       { glyph: "R", name: "RF intercept", note: "Passive listener available but not yet correlated.", status: { label: "standby", kind: "locked" }, alert: false },
@@ -2331,7 +2331,7 @@
     ]
   };
 
-  const ruleText = [
+  const MARITIME_ruleText = [
     "<span class=\"token\">WHEN</span> class == <span class=\"token\">VESSEL-AMBIGUOUS</span>",
     "AND dark_gap_minutes >= <span class=\"token\">20</span>",
     "AND identity_churn == <span class=\"token\">true</span>",
@@ -2367,7 +2367,16 @@
      read the whole page in both subjects before shipping. Framing without a
      console is exactly the failure this guard exists to stop — do not set
      complete: true to "unblock" a preview. */
-  const REQUIRED_KEYS = ["workflowNodes", "beatMeta", "caseData", "sourceStates", "ruleText"];
+  /* REQUIRED_KEYS covers BOTH layers on purpose.
+     The first five are the JS payload. `framing` is the static HTML a reader
+     meets before any of it — the operator line, the foundation line, the
+     surface-meta chips, and the map's region labels. An earlier version of this
+     guard checked only the JS, which would have let a "complete" scenario render
+     a healthcare console on a map still labelled Gulf of Oman / Strait chokepoint
+     / MMSI-88102. That is the same framing-vs-console split that produced #106,
+     one layer down — so the guard has to see the whole surface, not the half that
+     happens to live in JavaScript. */
+  const REQUIRED_KEYS = ["workflowNodes", "beatMeta", "caseData", "sourceStates", "ruleText", "framing"];
 
   const SCENARIOS = {
     /* Maritime is the default and the only complete scenario. It references the
@@ -2376,7 +2385,24 @@
     maritime: {
       label: "Maritime custody · contested strait transit",
       complete: true,
-      workflowNodes, beatMeta, caseData, sourceStates, ruleText
+      framing: {
+        operator:   "<strong>Maritime watch officer, U.S. 5th Fleet.</strong> One vessel goes dark in the chokepoint. A second identity appears nearby. The system preserves custody hypotheses and refuses intent until the evidence chain clears.",
+        foundation: "<strong>Maven is the foundation.</strong> This prototype owns the substrate layer beneath it: contested signals, structural refusal, and review memory before command action.",
+        authority:  "5th Fleet",
+        post:       "watchfloor",
+        clock:      "0200 local",
+        banner:     "Strait of Hormuz",
+        mapAlpha:   "MMSI-88102",
+        mapGapNote: "38 minutes no AIS",
+        regionA:    "Gulf of Oman",
+        regionB:    "Strait chokepoint",
+        regionC:    "Arabian Sea"
+      },
+      workflowNodes: MARITIME_workflowNodes,
+      beatMeta:      MARITIME_beatMeta,
+      caseData:      MARITIME_caseData,
+      sourceStates:  MARITIME_sourceStates,
+      ruleText:      MARITIME_ruleText
     },
 
     /* Healthcare major-incident. Framing was authored on
@@ -2387,7 +2413,7 @@
     healthcare: {
       label: "Healthcare major-incident · patient-transport outage",
       complete: false,
-      missing: "console payload — hypotheses, evidence sources, specialist reads, map, rule text"
+      missing: "console payload (hypotheses, evidence sources, specialist reads, rule text) AND the framing block — operator line, foundation line, surface-meta chips, map region labels. The framing half is easy to forget precisely because it is static HTML rather than data; forgetting it is what produced #106."
     }
   };
 
@@ -2422,6 +2448,40 @@
   }
 
   const SCENARIO = resolveScenario();
+
+  /* Rebind the original identifiers from the resolved scenario. Every call site
+     below this line is unchanged — it still says caseData, beatMeta, and so on —
+     but now reads whichever scenario resolveScenario() cleared. This is why the
+     switch costs ~30 lines instead of rewriting 17 call sites. */
+  const workflowNodes = SCENARIO.workflowNodes;
+  const beatMeta      = SCENARIO.beatMeta;
+  const caseData      = SCENARIO.caseData;
+  const sourceStates  = SCENARIO.sourceStates;
+  const ruleText      = SCENARIO.ruleText;
+
+  /* Paint the static layer from the scenario. Maritime writes back exactly what
+     is already in the HTML, so the default render is unchanged; a future scenario
+     supplies its own and the map stops saying Gulf of Oman. */
+  function applyFraming(f) {
+    if (!f) return;
+    const put = (id, value, asHTML) => {
+      const el = document.getElementById(id);
+      if (!el || value == null) return;
+      if (asHTML) el.innerHTML = value; else el.textContent = value;
+    };
+    put("scenario-operator",   f.operator,   true);
+    put("scenario-foundation", f.foundation, true);
+    put("sm-authority",        f.authority);
+    put("sm-post",             f.post);
+    put("sm-clock",            f.clock);
+    put("sm-banner",           f.banner);
+    put("marker-alpha-label",  f.mapAlpha);
+    put("marker-gap-note",     f.mapGapNote);
+    put("marker-region-a",     f.regionA);
+    put("marker-region-b",     f.regionB);
+    put("marker-region-c",     f.regionC);
+  }
+  document.addEventListener("DOMContentLoaded", () => applyFraming(SCENARIO.framing));
 
   const state = loadState();
   const els = {};
