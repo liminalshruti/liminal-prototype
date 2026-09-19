@@ -119,7 +119,7 @@
      --brand-accent is KEPT as a deprecated alias rather than deleted, because it has
      live call sites; it now points at the brand primary instead of retired orange, so
      nothing renders orange and nothing breaks. Migrate call sites to --brand-primary.
-     Vitality #FF9549 and Agency #FEF059 keep their wheel ramps — reach them via
+     Vitality #FF9549 and Agency #FEF059 keep their wheel ramps, reach them via
      --vitality / --agency, never as brand.
      Canon: founder-brain/decisions/2026-07-29-brand-4-pink-led.md */
   --brand-primary:   var(--wholeness);  /* Liminal Pink       #E90095 · --judgment  */

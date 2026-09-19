@@ -6,7 +6,7 @@
  * ────────────────────────
  * This is the only token file you need to import. Every product surface
  * (this prototype, the marketing site, the Tauri desktop client, future
- * mobile, etc.) imports this file — and ONLY this file — to receive the
+ * mobile, etc.) imports this file: and ONLY this file, to receive the
  * canonical Liminal color · type · spacing · motion system.
  *
  *   <link rel="stylesheet" href="design-tokens.css">  ← that's it
@@ -24,20 +24,20 @@
  *           : 2026-04-28 (surface layer · --frame-bg-3 + shadow tokens + scrim layer)
  *           : 2026-05-12 (a11y pass 1 · --text-faint bumped #5A5852 → #6B6862 for WCAG AA body-text contrast)
  *           : 2026-05-13 (canonical upstream · superset merge of all 16 prior copies; paper aliases backported)
- * Version   : 2026-06-11 — canonical upstream at liminal-creative/tokens/design-tokens.css
- *           : 2026-06-11 (§18 PRODUCT SEMANTICS · desktop tray-loop layer canonized — agent
+ * Version   : 2026-06-11: canonical upstream at liminal-creative/tokens/design-tokens.css
+ *           : 2026-06-11 (§18 PRODUCT SEMANTICS · desktop tray-loop layer canonized, agent
  *             identity colors + overlays + reveal palette + fw/z/shadow/motion/radius additions;
  *             additive only, zero existing values changed. Source: liminal-desktop
  *             SPEC_TOKEN_CODEGEN.md · panda.config.ts is now GENERATED from this file.)
  *           : 2026-06-11 (§19 APP SCALE · desktop app spacing/type/leading/tracking register
- *             canonized verbatim per founder call — second scale, honestly labeled --*-app-*;
+ *             canonized verbatim per founder call: second scale, honestly labeled --*-app-*;
  *             additive only. Desktop's token drift ledger drops to zero pins.)
  *           : 2026-06-19 (a11y pass 2 · --text-faint #6B6862 → #807D78; pass 1's AA claim was wrong)
  *           : 2026-07-29 (§5 TYPE · --sans Geist → Space Grotesk, --mono Geist Mono → Space Mono.
  *             §5 had been stale since the late-Jul stack change; surfaces already shipping
  *             Space Grotesk were in violation of the no-local-forks contract. §5 is now upstream
  *             again. --display / --serif / --hand unchanged.)
- *           : 2026-07-29 (§2 SCALE STRUCTURE · new named tier `-lift` — an OPAQUE LIGHT stop above
+ *           : 2026-07-29 (§2 SCALE STRUCTURE · new named tier `-lift`, an OPAQUE LIGHT stop above
  *             -500. The scale previously had no opaque tier lighter than the wheel value: 50-400
  *             are alpha-on-dark, 500 is the hex, 600-900 go darker. That gap is why §18 went
  *             off-wheel. Added on the two hue axes that have a consumer today: --cerulean-lift,
@@ -54,7 +54,7 @@
  *             emergence went to Orchid although Clarity is nearer by 4°: Clarity is a BRAND
  *             hue and binding the moat metric there hardens a collision instead of fixing
  *             it. (Clarity was brand PRIMARY when decided; Brand 4 2026-07-29 makes it
- *             second and Wholeness primary. Conclusion unchanged — Clarity is still brand.
+ *             second and Wholeness primary. Conclusion unchanged: Clarity is still brand.
  *             The 32° figure below is measured against the OLD primary, not recomputed.) Orchid's register alias --liminal ("transition · in-between") is also the
  *             better semantic home. Separation from the then-brand-primary (Clarity)
  *             goes 14° → 32°.
@@ -100,7 +100,7 @@
  * ───────────────────
  * -lift is the opaque light tier: same hue as -500, raised lightness, for
  * foreground glyphs and labels on the near-black --bg. Only add one when a
- * consumer needs it — do not pre-build all twelve. Procedure:
+ * consumer needs it: do not pre-build all twelve. Procedure:
  *   1. Read the hue's -500 hex, convert to HSL, keep H.
  *   2. Pick the L your foreground needs (70-76 is the usable band on --bg).
  *   3. Keep S at or near the -500 value so it stays the same pigment.
@@ -115,7 +115,7 @@
  *      ├── Liminal aliases (-faint, -bg, -tint, -soft, -edge, -glow, -strong)
  *      ├── pigment-aware extras (-glow-soft, -glow-strong, -wash, -wash-deep)
  *      ├── pigment physics · ink-on-dark-stone (-wash resting · -stain soaked · -dry aged)
- *      ├── opaque light tier (-lift) — NEW 2026-07-29; see "ADDING A -LIFT STOP"
+ *      ├── opaque light tier (-lift): NEW 2026-07-29; see "ADDING A -LIFT STOP"
  *      ├── register aliases (12 register-words → 12 hue scales)
  *      ├── semantic states (good/amber/red migrated to wheel registers)
  *      ├── functional UI bindings (--ui-action-* / --ui-state-* / etc.)
@@ -130,7 +130,7 @@
  *  10. Shape             (5 radii)
  *  11. Motion            (7 durations · intent-named)
  *  12. Shadow + dash     (overlay alphas)
- *  13. Legacy aliases    (--accent, --pink — backward-compat with v0.2)
+ *  13. Legacy aliases    (--accent, --pink: backward-compat with v0.2)
  *  14. Density           (3 product registers)
  *  15. Role              (who is reading)
  *  16. Relationship      (operator's relationship to subject)
@@ -149,10 +149,10 @@
  *
  * VERIFICATION
  * ────────────
- *   Contrast — design-system.html · Section 07 (Accessibility) for WCAG AA
+ *   Contrast: design-system.html · Section 07 (Accessibility) for WCAG AA
  *   ratios on every text/background pair. Body 4.5:1 · UI 3:1 · large 3:1.
  *
- *   Invariant — every non-neutral must derive from a wheel hue. To check:
+ *   Invariant: every non-neutral must derive from a wheel hue. To check:
  *     grep -n '#[0-9A-Fa-f]\{6\}\|rgba(\|oklch(' design-tokens.css
  *   Every hit must be one of:
  *     · a warm-grey neutral (--bg / --frame-* / --rail-* / --card-* / --text-* / --cream-* / --ink)
@@ -225,7 +225,7 @@
      EVERY non-neutral color in the desktop app + brand system
      derives from one of these 12 hues. Neutrals (bg/frame/text/ink)
      are warm-grey on a black-to-cream axis · everything else routes
-     through the wheel. Verified 2026-07-29 — see VERIFICATION above.
+     through the wheel. Verified 2026-07-29: see VERIFICATION above.
 
      STRUCTURE per hue:
        --{hue}-50    extreme low · paper-tinted background (alpha-on-dark)
@@ -242,10 +242,10 @@
                      (only present where a consumer needs it)
 
      PIGMENT-AWARE:
-       opaque hues      — standard linear scale
-       luminous hues    — mid-stops keep saturation (the glow);
+       opaque hues: standard linear scale
+       luminous hues: mid-stops keep saturation (the glow);
                           plus explicit -glow-soft / -glow-strong
-       translucent hues — wash variants richer; mid-stops softer
+       translucent hues: wash variants richer; mid-stops softer
 
      BRAND 4 (founder ruling 2026-07-29 · NOT locked):
        1 primary = --wholeness  (Liminal Pink       · #e90095)
@@ -256,13 +256,13 @@
        Four colours, pink-led. Coherent as a system: these are the COOL HALF of
        the wheel; the warm half drops out of the brand entirely.
 
-       RETIRED from the brand — still wheel hues with full ramps, they simply
+       RETIRED from the brand: still wheel hues with full ramps, they simply
        hold no brand or register role:
-         --vitality (Cadmium Orange #ff9549) — was the Brand-3 accent
-         --agency   (Cadmium Lemon  #fef059) — was bound to --synthesis
+         --vitality (Cadmium Orange #ff9549): was the Brand-3 accent
+         --agency   (Cadmium Lemon  #fef059): was bound to --synthesis
 
        SUPERSEDES "BRAND 3 (locked 2026-04-15)". The founder ruled Brand 3 is NOT
-       locked — do not re-add a lock date here without a dated ruling.
+       locked: do not re-add a lock date here without a dated ruling.
 
        The --synthesis rebind (agency yellow → cerulean blue) is not new: it was
        recorded in liminal-desktop/docs/audits/2026-07-03/UI_IMPROVEMENT_AUDIT
@@ -303,7 +303,7 @@
   --stability-glow:   rgba(237,33,79,0.18);
   --stability-wash:   var(--stability-100);   /* pigment · resting ink */
   --stability-stain:  var(--stability-800);   /* pigment · soaked-in */
-  --stability-dry:    #B76E72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --stability-dry:    #B76E72;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --stability-strong: var(--stability-600);
 
   /* ─── factor 2 · Vitality · 60° (HSL 25) · sacral · OPAQUE · RETIRED FROM BRAND 2026-07-29 · Cadmium Orange ─── */
@@ -326,7 +326,7 @@
   --vitality-glow:   rgba(255,149,73,0.18);
   --vitality-wash:   var(--vitality-100);   /* pigment · resting ink */
   --vitality-stain:  var(--vitality-800);   /* pigment · soaked-in */
-  --vitality-dry:    #C49A72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --vitality-dry:    #C49A72;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --vitality-strong: var(--vitality-600);
 
   /* ─── factor 3 · Agency · 120° (HSL 55) · solar plexus · OPAQUE · RETIRED FROM BRAND 2026-07-29 (was --synthesis) · Cadmium Lemon ─── */
@@ -349,7 +349,7 @@
   --agency-glow:   rgba(254,240,89,0.18);
   --agency-wash:   var(--agency-100);   /* pigment · resting ink */
   --agency-stain:  var(--agency-800);   /* pigment · soaked-in */
-  --agency-dry:    #BDB777;   /* pigment · aged / faded — desaturated literal, derived (House had no agency-dry); saturation-axis exception */
+  --agency-dry:    #BDB777;   /* pigment · aged / faded: desaturated literal, derived (House had no agency-dry); saturation-axis exception */
   --agency-strong: var(--agency-600);
 
   /* ─── factor 4 · Connection · 180° (HSL 147) · heart · LUMINOUS · BRAND 4 FOURTH · Emerald Green ─── */
@@ -374,7 +374,7 @@
   --connection-glow-strong: rgba(49,230,130,0.36);
   --connection-wash:   var(--connection-100);   /* pigment · resting ink */
   --connection-stain:  var(--connection-800);   /* pigment · soaked-in */
-  --connection-dry:    #72BA8F;   /* pigment · aged / faded — HSL 144 · 3° off -500 · saturation-axis exception. Consumed by --resolved as of 2026-07-29. */
+  --connection-dry:    #72BA8F;   /* pigment · aged / faded, HSL 144 · 3° off -500 · saturation-axis exception. Consumed by --resolved as of 2026-07-29. */
   --connection-strong: var(--connection-600);
 
   /* ─── factor 5 · Expression · 210° (HSL 178) · throat · TRANSLUCENT · Prussian Teal ─── */
@@ -398,7 +398,7 @@
   --expression-wash:        rgba(30,150,146,0.08);
   --expression-wash-deep:   rgba(30,150,146,0.20);
   --expression-stain:  var(--expression-800);   /* pigment · soaked-in */
-  --expression-dry:    #6A9E9D;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --expression-dry:    #6A9E9D;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --expression-strong: var(--expression-600);
 
   /* ─── factor 6 · Clarity · 270° (HSL 256) · third eye · LUMINOUS · BRAND 4 SECOND · Ultramarine Violet ─── */
@@ -423,7 +423,7 @@
   --clarity-glow-strong: rgba(142,102,251,0.45);
   --clarity-wash:   var(--clarity-100);   /* pigment · resting ink */
   --clarity-stain:  var(--clarity-800);   /* pigment · soaked-in */
-  --clarity-dry:    #9485BF;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --clarity-dry:    #9485BF;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --clarity-mid:    var(--clarity-300);
   --clarity-strong: var(--clarity-glow-strong);
 
@@ -444,7 +444,7 @@
   --wholeness-tint:   var(--wholeness-200);
   --wholeness-soft:   var(--wholeness-300);
   /* -mid added 2026-07-29 with BRAND 4: --accent-mid needs it now that accent
-     leads with Wholeness. Mirrors --clarity-mid, which points at -300 — NOT the
+     leads with Wholeness. Mirrors --clarity-mid, which points at -300, NOT the
      -500 the alias ladder at §"LIMINAL ALIASES per hue" documents. That ladder
      mismatch is pre-existing and shared with Clarity; matched here deliberately so
      --accent-mid keeps its exact prior weight and only its hue changes. */
@@ -455,7 +455,7 @@
   --wholeness-glow-strong: rgba(233,0,149,0.40);
   --wholeness-wash:   var(--wholeness-100);   /* pigment · resting ink */
   --wholeness-stain:  var(--wholeness-800);   /* pigment · soaked-in */
-  --wholeness-dry:    #B66E8A;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --wholeness-dry:    #B66E8A;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --wholeness-strong: var(--wholeness-glow-strong);
   --wholeness-due:    rgba(233,0,149,0.16);
 
@@ -579,7 +579,7 @@
   /* NEW 2026-07-29 · OPAQUE LIGHT TIER. HSL 288 · S 95 · L 75.
      18° rotation off the previous free-standing --emergence #C084FC (HSL 270),
      which it replaces. Contrast on --bg 8.44:1 (was 7.49:1).
-     Clarity (HSL 256) was nearer by 4° but is a BRAND hue — see §18 note.
+     Clarity (HSL 256) was nearer by 4° but is a BRAND hue, see §18 note.
      (It was brand PRIMARY when this was decided; Brand 4 makes it second. The
      routing conclusion is unchanged; the separation figure below is measured
      against the OLD primary and has not been recomputed for Wholeness.)
@@ -868,7 +868,7 @@
    * brand role cannot also be the neutral atmospheric wash. Expression is the
    * right home rather than a free slot: it is the DARKEST of the 12 (L 35%) and
    * the only other TRANSLUCENT factor, so it is the most recessive hue on the
-   * wheel — which is what depth means. It shares Expression with --ambient, but
+   * wheel: which is what depth means. It shares Expression with --ambient, but
    * both are wash registers on a NON-brand hue, so no brand colour does chrome
    * duty any more. That was the actual complaint.
    * Canon: founder-brain/decisions/2026-07-29-brand-4-pink-led.md */
@@ -948,7 +948,7 @@
   /* action · primary · brand 3 primary · Clarity violet */
   /* BRAND 4 · 2026-07-29 · founder ruling: the primary action follows the brand
      primary. Was the Clarity ramp.
-     Contrast, measured in situ on cut 04 rather than assumed — buttons.css paints
+     Contrast, measured in situ on cut 04 rather than assumed, buttons.css paints
      this with color:, not as a fill, so it is TEXT: against the frame ground
      #0E0E11, pink #E90095 gives 4.496:1 where Clarity violet gave 4.996:1. That
      puts it 0.004 under WCAG AA's 4.5:1 for normal-size text. Darkening is worse
@@ -956,7 +956,7 @@
      alpha and -600+ darken, so -500 is the lightest solid stop.
      RESOLVED by size, not by tinting the pink (founder call): .btn-primary is now
      19px/700, which WCAG classes as large-scale text, dropping the threshold to
-     3.0:1 — pink clears it with room. The colour token is therefore correct as-is;
+     3.0:1: pink clears it with room. The colour token is therefore correct as-is;
      the accessibility fix lives in components/buttons.css. Do not "fix" this by
      lightening the pink without re-reading that rule. */
   --ui-action-primary:        var(--wholeness-500);
@@ -1059,7 +1059,7 @@
      brand order 1→2→3→4: Wholeness, Clarity, Cerulean, Connection.
      Uniform -400 stops (all four are rgba …,0.42): this token is an ambient WASH,
      never a saturated decorative fill, so translucent stops are the correct
-     register — and the old form mixed 0.42 with 0.28, weighting stops unevenly for
+     register: and the old form mixed 0.42 with 0.28, weighting stops unevenly for
      no stated reason. Even quarters, uniform alpha. */
   --brand-spectrum: linear-gradient(120deg,
     var(--wholeness-400)   0%,
@@ -1084,12 +1084,12 @@
   /* --text-faint a11y history (corrected 2026-06-19):
        · 2026-05-12 pass 1: #5A5852 → #6B6862. The note then claimed this
          reached AA body-text contrast, but #6B6862 measures 3.56:1 on --bg
-         #0A0A0B — that clears the 3:1 LARGE-text bar, NOT the 4.5:1 body bar.
+         #0A0A0B: that clears the 3:1 LARGE-text bar, NOT the 4.5:1 body bar.
          Small labels using this token were silently sub-AA catalog-wide.
        · 2026-06-19 pass 2: #6B6862 → #807D78. Clears AA 1.4.3 for body-grade
          text with headroom: 4.83:1 on --bg #0A0A0B, and 4.76:1 on the lighter
          --frame-bg #0C0C0F that the chrome labels actually render against (the
-         minimal #7C7975 cleared --bg at 4.57 but only 4.51 on --frame-bg — too
+         minimal #7C7975 cleared --bg at 4.57 but only 4.51 on --frame-bg, too
          thin). Stays a distinct tier below --text-dim (#8A8780, 5.52:1). The
          faint tier is now AA-safe for the small forensic labels (counts, source
          tags, audit meta) that use it across cuts, the desktop client, and
@@ -1201,7 +1201,7 @@
   /* BRAND 4 · 2026-07-29 · pink leads (was Clarity-led under Brand 3).
      --accent → Wholeness (BRAND PRIMARY · Liminal Pink #e90095)
      --pink   → Wholeness too; same hue, kept for the liminal-space-v0 spelling.
-     Clarity is BRAND SECOND — use --clarity directly.
+     Clarity is BRAND SECOND: use --clarity directly.
      Vitality is RETIRED from the brand; --vitality remains a wheel hue only. */
   --accent:        var(--wholeness);
   --accent-soft:   var(--wholeness-soft);
@@ -1286,20 +1286,20 @@
    *
    *   cofounder-mutual  was --clarity-edge, byte-identical to `self`. Now
    *                     Vitality. Both are symmetric readings, which is
-   *                     presumably why they were paired — but a joint vault is
+   *                     presumably why they were paired: but a joint vault is
    *                     not a private one, and the frame has to say so.
    *                     Vitality is the "move forward" register (RETIRED from brand
    *                     2026-07-29; still the move-forward semantic):
    *                     a co-founding read is generative, not a verdict.
    *
    *   peer              STAYS NEUTRAL (--text-mute). This is the exception, and
-   *                     it is deliberate — do not "fix" it to a wheel hue.
+   *                     it is deliberate: do not "fix" it to a wheel hue.
    *                     Briefly moved to Amber-orn on 2026-07-29 under the
    *                     one-hue rule, then reverted the same day by founder
    *                     ruling. `peer` is a THIRD PARTY seeing a SANITIZED view:
    *                     there is no measured relation between operator and
-   *                     subject to render. Under the Signal Atlas law — base UI
-   *                     is ink, chroma is SIGNAL and signal is EARNED — a hue
+   *                     subject to render. Under the Signal Atlas law, base UI
+   *                     is ink, chroma is SIGNAL and signal is EARNED, a hue
    *                     here would be decoration claiming a measurement that
    *                     does not exist. The absence of chroma IS the reading.
    *                     Amber-orn read as active monitoring, which is a
@@ -1377,7 +1377,7 @@
      --emergence went to Orchid although Clarity is nearer by 4°. Clarity is a
      BRAND hue; binding the moat metric onto it hardens a collision rather than
      fixing one. (Brand 4, 2026-07-29: Clarity is second, Wholeness primary. The
-     conclusion holds — it is still a brand hue. The separation figure below is
+     conclusion holds: it is still a brand hue. The separation figure below is
      against the old primary and has not been recomputed.) Orchid's register alias --liminal ("transition ·
      in-between · glow") is also the better semantic home for a metric that
      tracks corrections compounding into doctrine. Separation from
@@ -1462,7 +1462,7 @@
 
   /* STATIC FALLBACK for engines without relative color syntax. These are the
      pre-retune v1 values and are OFF-WHEEL. Uncommenting reintroduces a
-     documented §2 exception — record it in DESIGN_SYSTEM.md if you do.
+     documented §2 exception: record it in DESIGN_SYSTEM.md if you do.
   --reveal-violet:    oklch(0.55 0.20 300);
   --reveal-teal:      oklch(0.70 0.15 195);
   --reveal-cyan:      oklch(0.75 0.12 210);
@@ -1520,13 +1520,13 @@
      The desktop app's spacing/type/leading/tracking scale, canonized
      verbatim (2026-06-11 founder call: "canonize desktop's scales").
      This register evolved separately from the editorial scale in
-     §§6–9 — both are canon, honestly labeled. Editorial surfaces
+     §§6–9: both are canon, honestly labeled. Editorial surfaces
      (cuts, site, packets) use --space-* / --fs-* / --lh-* / --ls-*;
      the desktop app uses --*-app-*. Collapsing the two into one
      scale is a deliberate redesign decision, not assumed.
 
      Values lifted verbatim from the shipping liminal-desktop Panda
-     theme — additive only. Source: liminal-desktop/SPEC_TOKEN_CODEGEN.md.
+     theme: additive only. Source: liminal-desktop/SPEC_TOKEN_CODEGEN.md.
   */
   /* spacing · 4px base with half-steps, diverges from --space-* at 5+ */
   --space-app-0:    0;
@@ -1612,13 +1612,13 @@ body:not([data-relationship])                   { --ui-relationship-edge: var(--
  * consumers that declare a layer order. Unlayered author CSS beats LAYERED
  * author CSS, so this block was overriding liminal-desktop's Panda `recipes`
  * and `utilities` layers (it declares `@layer reset, base, tokens, recipes,
- * utilities`) — a reset silently winning over components.
+ * utilities`): a reset silently winning over components.
  *
  * Safe for unlayered consumers (liminal-prototype and the cuts declare no
  * layers): layers only reorder within the AUTHOR origin. User-agent defaults
  * sit in a lower origin entirely, so this block still strips them exactly as
  * before. What changes is only that an unlayered AUTHOR rule elsewhere now
- * wins against it — which is the intended precedence for a reset.
+ * wins against it: which is the intended precedence for a reset.
  *
  * The form-control rule is FIRST inside the layer deliberately:
  * liminal-desktop/scripts/check-ui-system.mjs asserts that shape.
