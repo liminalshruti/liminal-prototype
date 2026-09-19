@@ -402,19 +402,19 @@
         <div class="thesis-line">The same capture · read · refuse · correct · sign loop, at the high-stakes altitude. Everything below is computed in your browser by a frozen kernel bundle (<span style="font-family:var(--mono)">osint-kernel.bundle.js</span>), recomputed each load. <b>This is the depth proof with a working engine: not a mockup of the loop, the loop itself, pointed at an intelligence claim.</b> <span style="opacity:0.7">The bundle is a recorded artifact; its source is not currently rebuildable in-workspace.</span></div>
 
         <div class="metric-band">
-          <div class="metric"><div class="metric-k" id="m1k">Signal integrity</div><div class="metric-v" id="m1v">n/a</div></div>
-          <div class="metric"><div class="metric-k" id="m2k">Lead hypothesis</div><div class="metric-v" id="m2v">n/a</div></div>
-          <div class="metric"><div class="metric-k" id="m3k">Doctrine</div><div class="metric-v" id="m3v">n/a</div></div>
+          <div class="metric"><div class="metric-k" id="m1k">Signal integrity</div><div class="metric-v" id="m1v">—</div></div>
+          <div class="metric"><div class="metric-k" id="m2k">Lead hypothesis</div><div class="metric-v" id="m2v">—</div></div>
+          <div class="metric"><div class="metric-k" id="m3k">Doctrine</div><div class="metric-v" id="m3v">—</div></div>
         </div>
 
         <div class="sec-h" id="readsHead">Bounded specialist reads <span class="hint" id="readsHint">stateless · each sees only this bundle (I2)</span></div>
         <div class="reads" id="reads"><div class="empty">Run the loop: the kernel fans out to six bounded specialists.</div></div>
 
         <div class="sec-h" id="hypHead">Competing hypotheses</div>
-        <div id="hyps"><div class="empty muted">n/a</div></div>
+        <div id="hyps"><div class="empty muted">—</div></div>
 
         <div class="sec-h" id="actHead">Recommended next move <span class="hint" id="actHint">ranked</span></div>
-        <div class="actions" id="actions"><div class="empty muted">n/a</div></div>
+        <div class="actions" id="actions"><div class="empty muted">—</div></div>
 
         <div class="brief">
           <div class="brief-h" id="briefH">Operator review · durable doctrine</div>
@@ -590,7 +590,7 @@
     $("m1v").textContent = integ;
     $("m1v").className = "metric-v " + integ;
     const lead = c.hypotheses[0];
-    $("m2v").textContent = lead ? Math.round(lead.posterior * 100) + "%" : "n/a";
+    $("m2v").textContent = lead ? Math.round(lead.posterior * 100) + "%" : "—";
     $("m3v").textContent = doctrine;
   }
 
@@ -707,8 +707,8 @@
     beat = 0; lastC1 = null; session = null;
     $("obsList").innerHTML = "";
     $("reads").innerHTML = `<div class="empty">Run the loop: the kernel fans out to six bounded specialists.</div>`;
-    $("hyps").innerHTML = `<div class="empty muted">n/a</div>`;
-    $("actions").innerHTML = `<div class="empty muted">n/a</div>`;
+    $("hyps").innerHTML = `<div class="empty muted">—</div>`;
+    $("actions").innerHTML = `<div class="empty muted">—</div>`;
     $("caseEyebrow").textContent = "CASE C1 · awaiting deliberation";
     $("caseTitle").textContent = REG[reg].c1Title;
     $("caseSub").textContent = REG[reg].c1Sub;

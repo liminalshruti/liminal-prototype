@@ -310,8 +310,8 @@
         ]
       ],
       "receipt": {
-        "ph": "n/a",
-        "pp": "n/a",
+        "ph": "—",
+        "pp": "—",
         "anchor": "dropped: not anchored",
         "vstate": "✗ dropped · E14 refuted",
         "ok": false

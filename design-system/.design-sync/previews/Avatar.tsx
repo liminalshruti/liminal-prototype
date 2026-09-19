@@ -30,10 +30,10 @@ export function AgentRow() {
       <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
         <Avatar variant="accent">A</Avatar>
         <div style={{ fontSize: 14 }}>Analyst</div>
-        <span style={{ marginLeft: 16, fontSize: 12, color: 'var(--text-faint)' }}>n/a</span>
+        <span style={{ marginLeft: 16, fontSize: 12, color: 'var(--text-faint)' }}>—</span>
         <Avatar variant="accent">S</Avatar>
         <div style={{ fontSize: 14 }}>SDR</div>
-        <span style={{ marginLeft: 16, fontSize: 12, color: 'var(--text-faint)' }}>n/a</span>
+        <span style={{ marginLeft: 16, fontSize: 12, color: 'var(--text-faint)' }}>—</span>
         <Avatar variant="accent">D</Avatar>
         <div style={{ fontSize: 14 }}>Auditor</div>
       </div>

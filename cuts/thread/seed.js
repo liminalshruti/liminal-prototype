@@ -119,7 +119,7 @@ export const openLoops = [
     title: "You said the monthly investor update would go out this week.",
     sub: "Not started. Three asks reference \"the next update\" already.",
     age: "due · this week",
-    person: "n/a",
+    person: "—",
     receipt: r("gcal", "Investor update", "on your calendar",
       "Recurring hold: <mark>\"Send investor update: first business week.\"</mark> No draft found in Docs or mail.",
       "gcal/recurring/inv-update · matched: scheduled commitment, no artifact"),

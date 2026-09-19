@@ -122,7 +122,7 @@
     const { fmt, loops, stats } = extractFromText(text, filename);
     listEl.innerHTML = loops.length
       ? loops.map(loopHTML).join("")
-      : `<div class="loop" style="border-left-color:var(--card-border-2)"><div class="loop-rank">n/a</div><div class="loop-main"><div class="loop-title">No open loops found in this file.</div><div class="loop-sub">Try an .mbox/.eml with sentences like “I'll send… by Friday” or a question awaiting a reply.</div></div><div></div></div>`;
+      : `<div class="loop" style="border-left-color:var(--card-border-2)"><div class="loop-rank">—</div><div class="loop-main"><div class="loop-title">No open loops found in this file.</div><div class="loop-sub">Try an .mbox/.eml with sentences like “I'll send… by Friday” or a question awaiting a reply.</div></div><div></div></div>`;
     summaryEl.innerHTML =
       `<span class="extract-file">${filename}</span> · parsed <b>${stats.units}</b> ${stats.kind} (${fmt}) · ` +
       `<span class="real">found ${loops.length} open loop${loops.length === 1 ? "" : "s"}</span> · computed in your browser`;

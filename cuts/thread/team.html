@@ -103,7 +103,7 @@
 
   document.getElementById("needs").innerHTML = needsYou.map(loopHTML).join("");
   document.getElementById("rest").innerHTML = rest.length ? rest.map(loopHTML).join("")
-    : `<div class="team-loop" style="border-left-color:var(--card-border-2)"><span class="team-flow">n/a</span><span class="team-loop-title">Everything else is moving without you.</span><span></span></div>`;
+    : `<div class="team-loop" style="border-left-color:var(--card-border-2)"><span class="team-flow">—</span><span class="team-loop-title">Everything else is moving without you.</span><span></span></div>`;
 
   document.body.addEventListener("click", (e) => {
     const bar = e.target.closest("[data-receipt]"); if (bar) bar.closest(".receipt").classList.toggle("is-open");
