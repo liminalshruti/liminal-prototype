@@ -8,7 +8,7 @@ export interface ConsentChipProps extends React.HTMLAttributes<HTMLSpanElement> 
 }
 
 /**
- * ConsentChip — badge for consent state (mutual vs. unilateral).
+ * ConsentChip: badge for consent state (mutual vs. unilateral).
  *
  * A small inline chip with optional lock icon. Apply `.is-mutual` for
  * bilateral consent styling. Maps to `.consent-chip` + `.is-mutual` and

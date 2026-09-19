@@ -8,7 +8,7 @@
  * Each read is a column carrying its provenance chain top-to-bottom
  * (observation → anomaly → hypothesis → claim → actionOption) with the typed
  * edge and its confidence rendered BETWEEN nodes. Horizontal room is the scarce
- * axis — the shell's centre pane is ~434px — so the ontology's depth spends
+ * axis: the shell's centre pane is ~434px: so the ontology's depth spends
  * vertical space, which is free.
  *
  * Loaded standalone by cut 01 alongside surface-nav.css / brand-upgrade.css (the
@@ -18,11 +18,11 @@
  *
  * RULE 1 COMPLIANCE (cuts/CONTRIBUTING.md) · canon only, zero hardcoded hex.
  *
- * CHROMA DISCIPLINE · v0.3 SEVERITY LANE (founder ruling, 2026-07-29 —
+ * CHROMA DISCIPLINE · v0.3 SEVERITY LANE (founder ruling, 2026-07-29, 
  * design-system/atlas/state-atlas.html + signal-atlas.html). Two sanctioned kinds
  * of earned signal, and they must never be flattened:
  *
- *   · SEVERITY is a property of the EVIDENCE — "flagged anomaly · refuted finding
+ *   · SEVERITY is a property of the EVIDENCE, "flagged anomaly · refuted finding
  *     · custody alert · carried by evidence, not by the primitive". Severity uses
  *     **--alarm / --watch only**.
  *   · LIFECYCLE STATE uses **the four registers only**. A refused or corrected
@@ -42,7 +42,7 @@
  *                                                           pending corroboration"
  *   everything else               → INK. Per the atlas, chroma appears only where
  *                                   a hue names a measurement. A claim or an
- *                                   action measures nothing on its own — its
+ *                                   action measures nothing on its own: its
  *                                   EDGE carries the confidence, so the edge
  *                                   carries the colour. This also matches
  *                                   graph-spine, which puts confidence on the
@@ -137,7 +137,7 @@
 }
 
 /* The edge hint is an operator affordance, revealed on hover. In flow it
-   reserved ~75px of the caption row while invisible — width taken from the
+   reserved ~75px of the caption row while invisible, width taken from the
    one span carrying the actual disagreement. Lift it out of the flex flow:
    the row's scarce axis is horizontal, and per this file's own layout model
    depth spends vertical space, which is free. */
@@ -171,7 +171,7 @@
   padding: 10px 12px 12px;
 }
 
-/* A refused read is the read, not an empty slot — typed chrome, full weight.
+/* A refused read is the read, not an empty slot: typed chrome, full weight.
    Judgment register, NOT severity: a refused agent is a lifecycle state, and the
    v0.3 ruling forbids it sharing a hue with a flagged anomaly. */
 .dvg-col.is-refused { border-color: var(--judgment-edge); background: var(--judgment-bg); }
@@ -201,7 +201,7 @@
 /* ─── the chain · provenance depth, rendered downward ────────────────── */
 
 /* The nodes bleed 6px outward so their hover background reaches the card edge.
-   The chain absorbs that bleed (pad in, pull out by the same amount) — without
+   The chain absorbs that bleed (pad in, pull out by the same amount), without
    this the children are 12px wider than the chain and it overflows. */
 .dvg-chain {
   display: flex;
@@ -236,13 +236,13 @@
 }
 
 /* Only nodes whose hue NAMES a measurement get chroma (severity lane v0.3).
-   · anomaly — "flagged anomaly" is domain severity, by name
-   · sourceIntegrityCheck — a provenance gap is "watch-grade evidence · uncertain
+   · anomaly: "flagged anomaly" is domain severity, by name
+   · sourceIntegrityCheck: a provenance gap is "watch-grade evidence · uncertain
      signal pending corroboration"
    claim and actionOption stay INK: they measure nothing on their own. Their edge
-   carries the confidence, so the edge carries the colour — which is also where
+   carries the confidence, so the edge carries the colour, which is also where
    graph-spine puts it (EdgeProvenance.confidence).
-   (A reviewRule never appears in a chain — traceBack does not traverse to it —
+   (A reviewRule never appears in a chain, traceBack does not traverse to it, 
    so its chrome lives on .dvg-rule below, not here.) */
 .dvg-node[data-node-type="anomaly"]              .dvg-node-type { color: var(--watch); }
 .dvg-node[data-node-type="sourceIntegrityCheck"] .dvg-node-type { color: var(--watch); }
@@ -281,7 +281,7 @@
 .dvg-edge-step--weakens     .dvg-edge-type { color: var(--watch); }
 .dvg-edge-step--contradicts .dvg-edge-type { color: var(--alarm); }
 
-/* Confidence lives on the EDGE, per graph-spine's EdgeProvenance — a belief is
+/* Confidence lives on the EDGE, per graph-spine's EdgeProvenance: a belief is
    only as strong as the link carrying it. */
 .dvg-edge-conf {
   font-size: 9px;
@@ -314,7 +314,7 @@
 /* The four refusal_kinds are distinguished by TEXT, not by hue. Giving each its
    own colour would either spend severity hues on a lifecycle state (forbidden by
    the v0.3 ruling) or invent register attributions that do not exist. The kind is
-   already named in the label — "refused · substrate" — so nothing is lost. */
+   already named in the label: "refused · substrate", so nothing is lost. */
 
 .dvg-terminal-note { font-size: 10px; color: var(--text-faint); line-height: 1.35; }
 
@@ -353,7 +353,7 @@
 .dvg-edge-label--weakens     { color: var(--watch); }
 .dvg-edge-label--supports    { color: var(--resolved); }
 
-/* The note carries the disagreement itself — it outranks the metadata that
+/* The note carries the disagreement itself: it outranks the metadata that
    annotates it. Previously every child sized to content and the note was the
    only one that could shrink, so it took 118px while its own label, score and
    hint took 163px between them, wrapping one sentence over five lines. */
@@ -402,7 +402,7 @@
   to   { opacity: 1; transform: none; }
 }
 
-/* Nothing here is motion-dependent — reduced motion simply lands it instantly. */
+/* Nothing here is motion-dependent: reduced motion simply lands it instantly. */
 @media (prefers-reduced-motion: reduce) {
   .dvg { animation: none; }
   .dvg-ground,
@@ -415,7 +415,7 @@
 
 /* ─── narrow container · reads stack as rows ─────────────────────────────
    Below ~560px of pane width there is not room for a legible chain in a column,
-   so the reads stack full-width. Chains stay vertical — that is the ontology's
+   so the reads stack full-width. Chains stay vertical, that is the ontology's
    depth and it is never traded away; only the columns' side-by-side comparison
    is. Polarity and confidence survive the layout change intact. */
 

@@ -6,7 +6,7 @@ export interface DrawerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Drawer — edge-anchored panel for auxiliary content.
+ * Drawer: edge-anchored panel for auxiliary content.
  *
  * A static open panel is rendered for preview purposes. The consumer manages
  * the `open` state and transform/animation. Maps to `.drawer-host` and

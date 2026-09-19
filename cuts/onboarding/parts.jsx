@@ -146,7 +146,7 @@ const AGENTS = [
     key: "witness",
     name: "Witness",
     lane: "observed behavior",
-    reads: "what the signal stream shows — tone, timing, attention",
+    reads: "what the signal stream shows: tone, timing, attention",
     refuses: "structural pattern, missing interface",
     redirect: "→ Architect",
   },

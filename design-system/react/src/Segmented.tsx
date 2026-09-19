@@ -21,7 +21,7 @@ export interface SegmentedProps
 }
 
 /**
- * Segmented — compact radio-button-like control group.
+ * Segmented: compact radio-button-like control group.
  *
  * A density-sensitive alternative to Tabs with rounded background container.
  * The active item receives the `.is-active` class. Maps to `.segmented` container

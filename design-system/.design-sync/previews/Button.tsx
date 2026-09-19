@@ -30,7 +30,7 @@ export function States() {
   );
 }
 
-/** A real toolbar row — primary advance + parallel + defer. */
+/** A real toolbar row: primary advance + parallel + defer. */
 export function ActionRow() {
   return (
     <Surface>

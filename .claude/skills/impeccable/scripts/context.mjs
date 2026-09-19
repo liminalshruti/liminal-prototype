@@ -7,7 +7,7 @@
  * Path resolution (first match wins):
  *   1. cwd, if PRODUCT.md or DESIGN.md is there
  *   2. .agents/context/ then docs/
- *   3. $IMPECCABLE_CONTEXT_DIR (absolute or cwd-relative) — power-user
+ *   3. $IMPECCABLE_CONTEXT_DIR (absolute or cwd-relative): power-user
  *      escape hatch, only consulted when defaults are empty
  *   4. cwd as a "nothing found" default
  *
@@ -238,7 +238,7 @@ async function cli() {
 
   if (!ctx.hasProduct) {
     // Direct stdout message instead of relying on empty output as a signal
-    // — cheap models miss the empty case more often than the explicit one.
+    //, cheap models miss the empty case more often than the explicit one.
     const parts = [
       'NO_PRODUCT_MD: This project has no PRODUCT.md yet. ' +
       'Stop the current task, load reference/init.md, and follow its ' +

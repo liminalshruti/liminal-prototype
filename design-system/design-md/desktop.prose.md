@@ -6,20 +6,20 @@ design-capable agent. This repo is the PRODUCT surface; the brand canon home is
 
 ## Token consumption (this repo never authors tokens)
 
-- Upstream canon: `~/liminal/liminal-creative/tokens/design-tokens.css` — the
+- Upstream canon: `~/liminal/liminal-creative/tokens/design-tokens.css`: the
   single source of truth (consumer contract locked 2026-05-13).
 - This repo consumes via generated Panda CSS config: `panda.tokens.gen.ts` is
   GENERATED from the canon file per `SPEC_TOKEN_CODEGEN.md`. Never hand-edit
   generated token files; change the canon upstream, then regenerate.
 - App-scale register: the `--*-app-*` spacing/type/leading/tracking tokens (§19
-  of the canon file) are the desktop's second scale — honestly labeled,
+  of the canon file) are the desktop's second scale: honestly labeled,
   additive.
 
 The front matter above is generated from the same canon file by
 `liminal-prototype`'s `scripts/design/gen-design-md.mjs`. It is the
 agent-readable twin of the Panda codegen: same upstream, same
 regenerate-don't-edit contract, one tier up. If it disagrees with
-`panda.tokens.gen.ts`, one of the two is stale — check both against canon
+`panda.tokens.gen.ts`, one of the two is stale, check both against canon
 rather than trusting either.
 
 ## Identity constraints (Ring-0, locked)
@@ -32,7 +32,7 @@ rather than trusting either.
 
 > The type stack moved on 2026-07-29 (canon §5). This section declared the
 > previous faces for three months after that ruling while calling itself
-> locked, and `impeccable` reads this file — so every design pass in that
+> locked, and `impeccable` reads this file: so every design pass in that
 > window was briefed off a stale stack. The front matter is now derived, and
 > `design:check` fails when this prose contradicts it. Read the resolved
 > chains above rather than this summary if the two ever differ.

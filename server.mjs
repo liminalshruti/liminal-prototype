@@ -58,7 +58,7 @@ function broadcastReload() {
   }
 }
 
-// Watch root for changes (recursive). Reload only on real SOURCE edits — never on
+// Watch root for changes (recursive). Reload only on real SOURCE edits, never on
 // scratch/tooling churn (Playwright console logs, screenshots, _scratch) which
 // otherwise cause an infinite reload loop: a browser interaction writes a log →
 // watcher reloads → the reload writes a log → … (the week-long flicker bug).
@@ -80,7 +80,7 @@ const watcher = fs.watch(ROOT, { recursive: true }, (eventType, filename) => {
 process.on('SIGINT', () => { watcher.close(); process.exit(0); });
 
 // Working-tree state for the Substrate Console (/__state) is provided by
-// lib/server/working-tree-state.mjs — read-only git introspection, extracted
+// lib/server/working-tree-state.mjs: read-only git introspection, extracted
 // 2026-06-18. Called below with ROOT as the repo root.
 
 // Resolve a request path to a file under ROOT, defaulting to index.html.

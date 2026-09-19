@@ -26,10 +26,10 @@
    * Same OS-window chassis · different content payload.
    * Loop master clock: 18s (matches embed-agent-hack.html)
    * Phases inside loop:
-   *   0–4s:  COMPOSE — windows drop into the Tray
-   *   4–8s:  READ — agents catch / disagree / refuse
-   *   8–12s: DISPATCH — moves emerge, founder signs
-   *   12–16s: COMMIT — vault terminal types, encrypts
+   *   0–4s:  COMPOSE: windows drop into the Tray
+   *   4–8s:  READ: agents catch / disagree / refuse
+   *   8–12s: DISPATCH: moves emerge, founder signs
+   *   12–16s: COMMIT: vault terminal types, encrypts
    *   16–18s: hold + restart
    * ════════════════════════════════════════════════════════════ */
   :root {
@@ -198,7 +198,7 @@
     overflow: hidden;
   }
 
-  /* PANE BASE — every phase column shares the same chrome */
+  /* PANE BASE: every phase column shares the same chrome */
   .pane {
     border-right: 1px solid var(--frame-border);
     background: var(--frame-bg-2);
@@ -356,7 +356,7 @@
     display: flex; justify-content: space-between;
   }
   .move .signed::before { content: '✓ '; }
-  /* corrected move — the founder pushed back on the agent's read (the moat made visible) */
+  /* corrected move: the founder pushed back on the agent's read (the moat made visible) */
   .move.corrected { border-left: 2px solid var(--wholeness); padding-left: 9px; }
   .move .correction {
     font-size: var(--fs-mono-sm); color: var(--text); line-height: 1.45; margin-top: var(--space-app-1-5);
@@ -403,10 +403,10 @@
   /* FOOTER · 3 clauses */
   /* HONESTY CHIPS · what is actually real on this surface.
      Every cut in cuts/ carries a chip row; the three embeds carried none,
-     despite being the most forwardable pages in the repo — that is LIM-1600.
+     despite being the most forwardable pages in the repo. That is LIM-1600.
      Founder ruled 2026-08-20: label the surface, leave the live pills alone.
      Note the vault claims in this deck's right foot (SQLCipher, no inbound
-     surface) are NOT aspirational — verified 2026-08-20 against liminal-desktop:
+     surface) are NOT aspirational: verified 2026-08-20 against liminal-desktop:
      sqlcipher in Cargo.toml + src-tauri/src/commands/vault.rs, and 0o600
      enforcement in ai_spend.rs. Do not soften them without re-checking there. */
   .honesty-chips {
@@ -664,7 +664,7 @@
       </div>
       <div class="deck-foot">
         <span class="left">compose → read → dispatch → commit · <b>the founder's own door into the loop</b></span>
-        <span class="center">refusal-as-trust · <b>AgentHansa judges: “refusal as designed output” — most original architectural idea in their cohort</b></span>
+        <span class="center">refusal-as-trust · <b>AgentHansa judges: “refusal as designed output”: most original architectural idea in their cohort</b></span>
         <span class="right">local SQLCipher vault · no inbound network surface · no vault-content telemetry</span>
       </div>
 

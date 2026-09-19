@@ -5,7 +5,7 @@
  * PROBLEM · design-system.html states the thesis plainly: "Edit a value here
  * and the change cascades to every importing surface." That promise is only
  * true for surfaces that actually consume tokens. Where a literal is baked in,
- * the cascade silently stops — retune `clarity` on the canon page and the
+ * the cascade silently stops: retune `clarity` on the canon page and the
  * surface-nav brand glyph does NOT follow. Nothing in the repo prevented that
  * from happening, so it happened.
  *
@@ -34,14 +34,14 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const BASELINE = join(ROOT, "scripts", "canon", "canon-baseline.json");
 
 /* ─── what the canon exempts ──────────────────────────────────────────────
-   The token file is where literals are SUPPOSED to live — it is the source
+   The token file is where literals are SUPPOSED to live. It is the source
    the cascade flows from. Everything downstream should be var(). */
 const EXEMPT = [
   "design-system/tokens/design-tokens.css",
   /* The semantic half of the same source (--fg-*, --surface-*, --type-*,
      --brand-*), shipped here 2026-08-02. Exempt for the identical reason as
      the line above: it is upstream of the cascade, not downstream of it, and
-     it arrives byte-identical from canon — a literal in it cannot be "fixed"
+     it arrives byte-identical from canon: a literal in it cannot be "fixed"
      locally without forking the file the drift guard exists to keep in
      lockstep. Its declarations do consume the wheel (`--brand-primary:
      var(--wholeness)`); the hexes this rule sees are in trailing comments
@@ -77,12 +77,12 @@ const TOKENS = tokenMap();
 
 /* ─── rules ───────────────────────────────────────────────────────────────
    Each rule: a name, a matcher over one line, and why it matters. Kept
-   deliberately few — a rule nobody understands is a rule nobody keeps. */
+   deliberately few: a rule nobody understands is a rule nobody keeps. */
 const RULES = [
   {
     name: "no-raw-hex",
     why: "a literal colour leaves the cascade · use the canon token",
-    /* Skips url(#...) SVG refs, &#123; entities, and var() fallbacks — the
+    /* Skips url(#...) SVG refs, &#123; entities, and var() fallbacks. The
        last of those ARE consuming the token and get their own rule below.
        Conflating the two was the mistake that sent an audit chasing
        "hardcoded colours" in a file that had none. */
@@ -220,7 +220,7 @@ if (regressions.length) {
     console.error(`    ${r.rule} · ${r.was} → ${r.now} · ${rule.why}`);
     /* Counts are all the baseline knows, so we cannot say WHICH hit is new.
        Dump every one and a 16-hit file buries the single line that broke the
-       build — which is how a linter earns its way into someone's ignore list.
+       build: which is how a linter earns its way into someone's ignore list.
        Show the tail (new lines are usually appended) and say what was held back. */
     const SHOW = 6;
     const shown = hits.slice(-SHOW);

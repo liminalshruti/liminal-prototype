@@ -8,29 +8,29 @@
 <!--
   Cut 05 · Plugin seed · the terminal first-run (the SEED surface, before the desktop land)
   ──────────────────────────────────────────────────────────────────────
-  Loop-stage · pre-loop      (G1 · entry-of-the-entry — Sam enters via the Claude plugin, not a DMG)
+  Loop-stage · pre-loop      (G1 · entry-of-the-entry: Sam enters via the Claude plugin, not a DMG)
   Altitude   · L2-team        (the IC seed of the enterprise motion · B1 in the cut matrix)
-  Surface    · plugin         (Claude Code terminal — NOT the desktop app)
+  Surface    · plugin         (Claude Code terminal: NOT the desktop app)
   Framing    · wedge
   Maturity   · receipt-backed rendering (recreates the shipped liminal-agents flow · audit 2026-06-23)
   Coordinate per TAXONOMY.md · first-touch on the plugin surface; orthogonal (entry, not a loop subject).
   ──────────────────────────────────────────────────────────────────────
 
   2026-06-23 · BUILD (G1, the plugin-surface gap from REFACTOR_PLAN_sam-seed-fold.md + matrix B1).
-  This cut RENDERS the onboarding flow that already ships in liminal-agents — it is a faithful
+  This cut RENDERS the onboarding flow that already ships in liminal-agents. It is a faithful
   screencap of shipped behavior, not invented UI:
-    · beat 1 — plugin enable IS the consent gate (.claude-plugin/plugin.json defaultEnabled:false)
-    · beat 2 — /onboard-swarm: each bounded agent reads its source IN PARALLEL, posts one candidate
+    · beat 1: plugin enable IS the consent gate (.claude-plugin/plugin.json defaultEnabled:false)
+    · beat 2: /onboard-swarm: each bounded agent reads its source IN PARALLEL, posts one candidate
         git + claude-code → Analyst (facts) · granola → SDR (commitments) · cross-stream → Auditor (risks)
         (lib/onboard/swarm.js · read-only · LLM-optional · Promise.allSettled partial-safe)
-    · beat 3 — /try-liminal: three agents read one brief, the in-lane one works, the others REFUSE
+    · beat 3: /try-liminal: three agents read one brief, the in-lane one works, the others REFUSE
         verbatim and name the right agent, you correct one read via the 9-tag taxonomy
         (skills/try-liminal/SKILL.md · lib/correction-tags.js)
-    · beat 4 — install the desktop app so the vault outlives the session (the SessionStart hook)
+    · beat 4: install the desktop app so the vault outlives the session (the SessionStart hook)
 
   Lane vocabulary is intentional + matches the shipped flow (see audit doc 2026-06-23):
-    · the swarm beat labels by EXTRACTION    — facts / commitments / risks
-    · the deliberation beat labels by REGISTER — Diligence / Outreach / Judgment
+    · the swarm beat labels by EXTRACTION, facts / commitments / risks
+    · the deliberation beat labels by REGISTER, Diligence / Outreach / Judgment
   Same three agents, two altitudes of the same lane. Do NOT mix the vocabularies within a beat.
 
   · Tokens from design-system/tokens/design-tokens.css · DO NOT redefine.
@@ -55,7 +55,7 @@
 <style>
   /* ─── cut-05 · terminal-session shell ───────────────────────────────
      The plugin lives in the Claude Code terminal, so this cut reads as a
-     terminal session — the commands and their output — NOT the desktop
+     terminal session: the commands and their output, NOT the desktop
      app's windowed chrome. Only player chrome + per-cut layout here; all
      color/type/space come from tokens. No token redefinition. */
   body { padding: 0 !important; font-variant-numeric: tabular-nums; }
@@ -115,7 +115,7 @@
   .enable .v { color: var(--text); }
   .enable .v.ok { color: var(--diligence, var(--clarity)); }
 
-  /* swarm beat — agents posting candidates by lane */
+  /* swarm beat: agents posting candidates by lane */
   .swarm { margin-top: calc(var(--space-3) * var(--density-scale)); display: flex; flex-direction: column; gap: 14px; }
   .agent-post { border-left: 2px solid var(--card-border); padding: calc(var(--space-app-0-5) * var(--density-scale)) 0 calc(var(--space-app-0-5) * var(--density-scale)) 14px; }
   .agent-post.analyst { border-color: var(--diligence, var(--clarity)); }
@@ -131,7 +131,7 @@
   .ap-cand { margin-top: calc(var(--space-app-1-5) * var(--density-scale)); font-family: var(--serif); font-size: var(--fs-sm); line-height: 1.5; color: var(--text-mid); }
   .ap-pending .ap-cand { color: var(--liminal); }
 
-  /* try-liminal beat — three reads, refusals verbatim */
+  /* try-liminal beat: three reads, refusals verbatim */
   .reads { margin-top: calc(var(--space-3) * var(--density-scale)); display: flex; flex-direction: column; gap: calc(var(--space-3) * var(--density-scale)); }
   .read { border-left: 2px solid var(--card-border); padding: calc(var(--space-app-0-5) * var(--density-scale)) 0 calc(var(--space-app-0-5) * var(--density-scale)) 14px; }
   .read.inlane  { border-color: var(--diligence, var(--clarity)); }
@@ -160,7 +160,7 @@
                    font-size: var(--fs-mono-sm); color: var(--text-dim); }
   .correct .seal b { color: var(--text-mid); font-weight: 500; }
 
-  /* install beat — the close line */
+  /* install beat: the close line */
   .install { margin-top: calc(var(--space-3) * var(--density-scale)); }
   .install .line { font-family: var(--serif); font-size: var(--fs-body); line-height: 1.55; color: var(--text); }
   .install .offer { margin-top: calc(var(--space-3) * var(--density-scale)); display: flex; flex-wrap: wrap; gap: 10px; }
@@ -241,7 +241,7 @@
         <p class="sysline" style="margin-top:14px">Read-only. The swarm posts candidates; it does not write the vault. <em>That's the daemon's job, on the desktop.</em></p>
       </section>
 
-      <!-- ════ BEAT 3 · /try-liminal (the loop in 60s — disagree, refuse, correct) ════ -->
+      <!-- ════ BEAT 3 · /try-liminal (the loop in 60s: disagree, refuse, correct) ════ -->
       <section class="beat" aria-label="Beat 3 of 4 · The loop in 60 seconds">
         <div class="beat-eyebrow"><span class="dot"></span><span class="n">03</span> · /try-liminal · the loop in 60 seconds</div>
         <div class="prompt">$ <span class="cmd">/try-liminal</span> <span style="color:var(--text-faint)">"is the ~240-finding reclassification a triage-quality problem?"</span></div>

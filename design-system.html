@@ -409,7 +409,7 @@
      ────────────────────────────────────────────────────────────────
      The P1 primitives + component galleries that were inlined here now
      live in the canonical components/*.css files, linked in <head>. This
-     page consumes them like any other surface — no inline duplication.
+     page consumes them like any other surface, no inline duplication.
      ════════════════════════════════════════════════════════════════ */
 
   /* ════════════════════════════════════════════════════════════════
@@ -1717,7 +1717,7 @@
      shows the one fact everything else descends from, at true angle.
      Chroma here is earned under the Frontier Rule: each stop is a
      register attribution, which is a sanctioned kind of signal. The
-     substrate stays ink — rim and spokes are hairlines. */
+     substrate stays ink: rim and spokes are hairlines. */
   .canon-crown {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 300px;
@@ -1774,7 +1774,7 @@
 
   /* ── the ledger · what the system contains, in spec-sheet register ── */
   /* The masthead reserved 64px below the text for breathing room it no longer
-     needs — the wheel now occupies that band on the right, so the left column
+     needs: the wheel now occupies that band on the right, so the left column
      was reading as a hole rather than as space. Pull the ledger up to close it. */
   .ds-masthead:has(.canon-crown) { padding-bottom: var(--space-5); }
 
@@ -1835,7 +1835,7 @@
         </li>
         <li class="ds-nav-group">
           <div class="ds-nav-group-label">atlases</div>
-          <!-- Paths are relative to THIS file, which sits at the repo root — not
+          <!-- Paths are relative to THIS file, which sits at the repo root, not
                inside design-system/. They read "atlas/..." until 2026-07-29 and
                resolved to /atlas/..., which 404s. Both atlases were unreachable
                from the nav. -->
@@ -1888,7 +1888,7 @@
       </div>
 
       <!-- The wheel. Twelve hues at 30° intervals is not a diagram of the system,
-           it IS the system — every non-neutral color in every product surface
+           it IS the system: every non-neutral color in every product surface
            derives from one of these. Factors carry semantic load and get a filled
            stop; ornaments are the variety library and get a ring. Drawn at true
            angle, so the geometry is the information. -->
@@ -1912,7 +1912,7 @@
        each a large violet number) said the same thing the wheel above now shows,
        and said it in the most generic form available. Kept as a ledger: same
        facts, spec-sheet register, no hero numbers. The counts also lost their
-       chroma deliberately — an inventory count is not a measurement, so under
+       chroma deliberately: an inventory count is not a measurement, so under
        the Frontier Rule it has not earned a hue. -->
   <section id="summary" aria-label="Design system summary">
     <div class="canon-ledger">
@@ -2337,8 +2337,8 @@
 
   <section class="ds-section" id="density">
     <h2>Density · three product registers</h2>
-    <p class="section-lede">One spacing scale, three readings of it. <code>--density-scale</code> multiplies every spacing token so the same components compress for an institutional console or open up for a personal read. Set it with <code>data-density</code> — or let <code>data-product</code> imply it — <strong>on <code>&lt;body&gt;</code></strong>, which is where canon's selectors match.</p>
-    <p class="section-lede" style="color: var(--text-dim);">The rule is narrow on purpose: <strong>only spacing scales.</strong> Type sizes and radii never do — a dense surface is a tighter grid, not smaller text. Shipped 2026-07-29; the tokens had existed since April but reached no surface, so every register rendered identically.</p>
+    <p class="section-lede">One spacing scale, three readings of it. <code>--density-scale</code> multiplies every spacing token so the same components compress for an institutional console or open up for a personal read. Set it with <code>data-density</code>, or let <code>data-product</code> imply it: <strong>on <code>&lt;body&gt;</code></strong>, which is where canon's selectors match.</p>
+    <p class="section-lede" style="color: var(--text-dim);">The rule is narrow on purpose: <strong>only spacing scales.</strong> Type sizes and radii never do: a dense surface is a tighter grid, not smaller text. Shipped 2026-07-29; the tokens had existed since April but reached no surface, so every register rendered identically.</p>
 
     <div class="state-gallery" style="grid-template-columns: repeat(3, 1fr);">
       <div class="state-card" style="--density-scale: 1.1;">
@@ -2375,7 +2375,7 @@
 
     <div class="ds-deferred" style="border-color: var(--card-border);">
       <strong>Apply to this page</strong>
-      <p style="font: var(--fs-sm)/1.5 var(--serif); color: var(--text-dim); margin: 0 0 var(--space-3);">Sets <code>data-density</code> on <code>&lt;body&gt;</code>. Every component on this page reflows — that is the axis doing its job, not a preview.</p>
+      <p style="font: var(--fs-sm)/1.5 var(--serif); color: var(--text-dim); margin: 0 0 var(--space-3);">Sets <code>data-density</code> on <code>&lt;body&gt;</code>. Every component on this page reflows: that is the axis doing its job, not a preview.</p>
       <div style="display: flex; gap: var(--space-2); flex-wrap: wrap;" id="densitySwitch">
         <button data-d="anointed">anointed · 1.10</button>
         <button data-d="shared">shared · 1.00</button>
@@ -2388,7 +2388,7 @@
 
   <section class="ds-section" id="relationship">
     <h2>Relationship · who is reading</h2>
-    <p class="section-lede">The fifth axis. The same component renders differently depending on the operator's relationship to the person being read — set <code>data-relationship</code> on <code>&lt;body&gt;</code> and the surface frame takes that relationship's edge. <strong>One hue per relationship</strong> (founder ruling 2026-07-29): the edge is how a surface tells you who is reading it, so two relationships sharing a hue would leave the frame unable to answer. <strong>With one deliberate exception</strong> — <code>peer</code> stays neutral. A third party seeing a sanitized view has no measured relation to render, and under the Signal Atlas law chroma is <em>earned</em>; a hue there would claim a measurement that doesn't exist. Eight hues, one neutral, no two alike.</p>
+    <p class="section-lede">The fifth axis. The same component renders differently depending on the operator's relationship to the person being read, set <code>data-relationship</code> on <code>&lt;body&gt;</code> and the surface frame takes that relationship's edge. <strong>One hue per relationship</strong> (founder ruling 2026-07-29): the edge is how a surface tells you who is reading it, so two relationships sharing a hue would leave the frame unable to answer. <strong>With one deliberate exception</strong>, <code>peer</code> stays neutral. A third party seeing a sanitized view has no measured relation to render, and under the Signal Atlas law chroma is <em>earned</em>; a hue there would claim a measurement that doesn't exist. Eight hues, one neutral, no two alike.</p>
 
     <div class="state-gallery" style="grid-template-columns: repeat(3, 1fr);">
       <div class="state-card"><div class="state-label">self · Clarity 270°</div><div class="demo">
@@ -2421,7 +2421,7 @@
 
     <div class="ds-deferred" style="border-color: var(--card-border);">
       <strong>Unassigned hues</strong>
-      <p style="font: var(--fs-sm)/1.5 var(--serif); color: var(--text-dim); margin: 0;">Four wheel registers remain free for a tenth relationship: <span style="color: var(--judgment);">Judgment / Wholeness 330°</span> · <span style="color: var(--watch);">Watch / Amber-orn 90°</span> · <span style="color: var(--surge);">Surge / Coral 30°</span> · <span style="color: var(--signal);">Signal / Lime 150°</span>. Open question: <code>data-relationship="operator"</code> is declared on two cuts but is not one of the nine — it names only the reader, not a relation, so it may belong on the §15 <em>role</em> axis instead.</p>
+      <p style="font: var(--fs-sm)/1.5 var(--serif); color: var(--text-dim); margin: 0;">Four wheel registers remain free for a tenth relationship: <span style="color: var(--judgment);">Judgment / Wholeness 330°</span> · <span style="color: var(--watch);">Watch / Amber-orn 90°</span> · <span style="color: var(--surge);">Surge / Coral 30°</span> · <span style="color: var(--signal);">Signal / Lime 150°</span>. Open question: <code>data-relationship="operator"</code> is declared on two cuts but is not one of the nine. It names only the reader, not a relation, so it may belong on the §15 <em>role</em> axis instead.</p>
     </div>
   </section>
 
@@ -2964,8 +2964,8 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
 
   <section class="ds-section" id="table">
     <h2>Table · the evidence row</h2>
-    <p class="section-lede">The structural component the system was missing. Two surfaces were already building it by hand — the govern cockpit wrote <code>grid-template-columns</code> 19 times, and the desktop client's packet list runs 1,463 lines of row rendering. Both were making the same shape: <strong>a leading gutter, flexible content, a trailing metric</strong>. This names it once.</p>
-    <p class="section-lede" style="color: var(--text-dim);">A row here is <em>evidence</em>, not a record. It came from somewhere, it either verifies or it doesn't, and it can be <strong>refused</strong> — dropped with a stated reason — which a generic data grid has no concept of. So the receipt gutter is structural and always present: a table that can hide provenance lets an unverified row look identical to a verified one.</p>
+    <p class="section-lede">The structural component the system was missing. Two surfaces were already building it by hand. The govern cockpit wrote <code>grid-template-columns</code> 19 times, and the desktop client's packet list runs 1,463 lines of row rendering. Both were making the same shape: <strong>a leading gutter, flexible content, a trailing metric</strong>. This names it once.</p>
+    <p class="section-lede" style="color: var(--text-dim);">A row here is <em>evidence</em>, not a record. It came from somewhere, it either verifies or it doesn't, and it can be <strong>refused</strong>, dropped with a stated reason: which a generic data grid has no concept of. So the receipt gutter is structural and always present: a table that can hide provenance lets an unverified row look identical to a verified one.</p>
 
     <div class="state-gallery" style="grid-template-columns: 1fr;">
       <div class="state-card">
@@ -3006,11 +3006,11 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
                 <td class="dt-metric" data-delta="up">+$2,340<small>unverified</small></td>
               </tr>
               <tr data-refused>
-                <td class="dt-gutter"><span class="dt-receipt" data-receipt="none"><span class="dt-receipt__mark">—</span>dropped</span></td>
+                <td class="dt-gutter"><span class="dt-receipt" data-receipt="none"><span class="dt-receipt__mark">n/a</span>dropped</span></td>
                 <td>
                   <span class="dt-claim">Consolidate the SDR fleet onto a single model.</span>
                   <span class="dt-sub">consolidation · analyst</span>
-                  <span class="dt-refusal">✗ Refused — the operator corrected this read: outreach volume is seasonal, and the sample window is one month.</span>
+                  <span class="dt-refusal">✗ Refused: the operator corrected this read: outreach volume is seasonal, and the sample window is one month.</span>
                 </td>
                 <td class="dt-metric" data-delta="flat">$8,600<small>withdrawn</small></td>
               </tr>
@@ -3033,7 +3033,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
 
     <div class="ds-deferred" style="border-color: var(--card-border);">
       <strong>Where the chroma is, and why</strong>
-      <p style="font: var(--fs-sm)/1.55 var(--serif); color: var(--text-dim); margin: 0;">Colour appears in exactly two places: the <strong>gutter</strong>, carrying a receipt state that was measured, and the <strong>metric</strong>, when the number is a measured delta. Headers, labels, claims and rules are ink. The refused row keeps its claim legible and strikes only the metric — an operator has to be able to read <em>what</em> was refused. Per the <a href="design-system/atlas/signal-atlas.html" style="color: var(--diligence);">Signal Atlas</a>: if you cannot name the measurement behind a hue, it has not earned it.</p>
+      <p style="font: var(--fs-sm)/1.55 var(--serif); color: var(--text-dim); margin: 0;">Colour appears in exactly two places: the <strong>gutter</strong>, carrying a receipt state that was measured, and the <strong>metric</strong>, when the number is a measured delta. Headers, labels, claims and rules are ink. The refused row keeps its claim legible and strikes only the metric. An operator has to be able to read <em>what</em> was refused. Per the <a href="design-system/atlas/signal-atlas.html" style="color: var(--diligence);">Signal Atlas</a>: if you cannot name the measurement behind a hue, it has not earned it.</p>
     </div>
   </section>
 
@@ -3049,10 +3049,10 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       <span class="stamp">deferred · v1.0+</span>
       <strong>The component shelf for the desktop client</strong>
       <ul>
-        <li style="opacity: 0.55;"><b style="text-decoration: line-through; text-decoration-color: var(--outreach);">Density modes</b> · <span style="color: var(--outreach); font-style: normal;">SHIPPED 2026-07-29</span> · see §14 above · <span style="color: var(--text-mute);">the dependency really was met — nothing needed building, 1,010 spacing declarations needed connecting</span></li>
+        <li style="opacity: 0.55;"><b style="text-decoration: line-through; text-decoration-color: var(--outreach);">Density modes</b> · <span style="color: var(--outreach); font-style: normal;">SHIPPED 2026-07-29</span> · see §14 above · <span style="color: var(--text-mute);">the dependency really was met: nothing needed building, 1,010 spacing declarations needed connecting</span></li>
         <li><b>Light theme</b> · <span style="color: var(--text-faint); font-style: italic;">L</span> · cream substrate scale already shipped · component CSS needs <code>body[data-theme="light"]</code> overrides · <span style="color: var(--text-mute);">depends: cream scale ✓ · contrast tokens</span></li>
         <li><b>Command palette</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · ⌘K formal pattern · /agency typing prompt is the analog · <span style="color: var(--text-mute);">depends: keyboard shortcuts subsystem</span></li>
-        <li style="opacity: 0.55;"><b style="text-decoration: line-through; text-decoration-color: var(--outreach);">Table</b> · <span style="color: var(--outreach); font-style: normal;">SHIPPED 2026-07-29</span> · see §table above · <span style="color: var(--text-mute);">it really did depend on nothing — two surfaces had already built it by hand</span></li>
+        <li style="opacity: 0.55;"><b style="text-decoration: line-through; text-decoration-color: var(--outreach);">Table</b> · <span style="color: var(--outreach); font-style: normal;">SHIPPED 2026-07-29</span> · see §table above · <span style="color: var(--text-mute);">it really did depend on nothing: two surfaces had already built it by hand</span></li>
         <li><b>Tree</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · vault browser · audit chain explorer · <span style="color: var(--text-mute);">depends: disclosure animation tokens</span></li>
         <li><b>Date · time picker</b> · <span style="color: var(--text-faint); font-style: italic;">L</span> · for coherence-read window selection · <span style="color: var(--text-mute);">depends: locale tokens</span></li>
         <li><b>File picker</b> · <span style="color: var(--text-faint); font-style: italic;">M</span> · vault import/export, consent flows · <span style="color: var(--text-mute);">depends: Tauri file API</span></li>
@@ -3082,12 +3082,12 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       <summary>changelog · 8 entries</summary>
       <ol>
         <li><span class="cl-date">2026-07-29</span><span><b>v0.3.8 · density wired</b>the April "Density modes" deferral shipped · <code>--density-scale</code> existed in canon since §14 but reached no surface · 1,010 spacing declarations across lib/ and 15 cuts now read <code>calc(var(--space-N) * var(--density-scale))</code> · anointed 1.10 · shared 1.00 · analyst 0.85 · only spacing scales, never type or radius</span></li>
-        <li><span class="cl-date">2026-07-29</span><span><b>brand 4 · pink leads</b>founder ruling, deliberately NOT locked. Four colours: wholeness pink #E90095 (primary) · clarity violet (second) · cerulean blue #197EEB (third — an ornament carrying brand load) · connection green (fourth). The cool half of the wheel, and exactly the four agent registers, so brand and register vocabulary are one system. Vitality orange and Agency yellow retired from the brand, ramps kept. <code>--synthesis</code> is now BLUE and <code>--accent</code> is now PINK; severity (<code>--watch</code>, <code>--alarm</code>) untouched. The brand spectrum became pink → violet → blue → green, which made it adjacent-hue and retired the last diametric exception. Supersedes the brand 3 lock of 2026-04-15, and reverses the “fork removed” entry below — canon was wrong and the fork was right</span></li>
-        <li><span class="cl-date">2026-07-29</span><span><b>one register system</b><em>partly reversed the same day by brand 4 — the synthesis→cerulean “fork” removed here was the intended palette</em> · the cuts had been running a forked wheel — wholeness #E8006A vs canon #E90095, synthesis bound to cerulean BLUE vs canon Agency yellow, and a divergent alpha ladder — because lib/brand-upgrade.css loaded after canon and won. Fork removed; canon inherits. Also: <code>--sans</code> resolved to a SERIF, and a self-referencing "bridge to canon" left the cuts rendering in Times</span></li>
-        <li><span class="cl-date">2026-07-29</span><span><b>§5 type · §2 -lift tier · §18 wheel-bound</b><code>--sans</code> Geist → Space Grotesk · <code>--mono</code> Geist Mono → Space Mono · new opaque light tier above -500 (<code>--cerulean-lift</code>, <code>--orchid-lift</code>, <code>--amber-orn-dry</code>) · the five §18 product-semantics colors were free-standing off-wheel literals that broke the §2 invariant for seven weeks — all now bind to wheel positions</span></li>
+        <li><span class="cl-date">2026-07-29</span><span><b>brand 4 · pink leads</b>founder ruling, deliberately NOT locked. Four colours: wholeness pink #E90095 (primary) · clarity violet (second) · cerulean blue #197EEB (third. An ornament carrying brand load) · connection green (fourth). The cool half of the wheel, and exactly the four agent registers, so brand and register vocabulary are one system. Vitality orange and Agency yellow retired from the brand, ramps kept. <code>--synthesis</code> is now BLUE and <code>--accent</code> is now PINK; severity (<code>--watch</code>, <code>--alarm</code>) untouched. The brand spectrum became pink → violet → blue → green, which made it adjacent-hue and retired the last diametric exception. Supersedes the brand 3 lock of 2026-04-15, and reverses the “fork removed” entry below, canon was wrong and the fork was right</span></li>
+        <li><span class="cl-date">2026-07-29</span><span><b>one register system</b><em>partly reversed the same day by brand 4, the synthesis→cerulean “fork” removed here was the intended palette</em> · the cuts had been running a forked wheel: wholeness #E8006A vs canon #E90095, synthesis bound to cerulean BLUE vs canon Agency yellow, and a divergent alpha ladder, because lib/brand-upgrade.css loaded after canon and won. Fork removed; canon inherits. Also: <code>--sans</code> resolved to a SERIF, and a self-referencing "bridge to canon" left the cuts rendering in Times</span></li>
+        <li><span class="cl-date">2026-07-29</span><span><b>§5 type · §2 -lift tier · §18 wheel-bound</b><code>--sans</code> Geist → Space Grotesk · <code>--mono</code> Geist Mono → Space Mono · new opaque light tier above -500 (<code>--cerulean-lift</code>, <code>--orchid-lift</code>, <code>--amber-orn-dry</code>) · the five §18 product-semantics colors were free-standing off-wheel literals that broke the §2 invariant for seven weeks, all now bind to wheel positions</span></li>
         <li><span class="cl-date">2026-04-28</span><span><b>v0.3.7</b>generative base · 12 hue × 10 stops · functional UI bindings · gradient grammar · semantic states migrated to wheel · accessibility documentation added · sticky nav · summary card</span></li>
         <li><span class="cl-date">2026-04-28</span><span><b>v0.3.6</b>12-register vocabulary · 8 new register words extending v0.2's 4 · alarm · surge · vital · watch · signal · ambient · depth · liminal</span></li>
-        <li><span class="cl-date">2026-04-15</span><span><b>brand 3 lock</b><em>superseded 2026-07-29 by brand 4 — kept as history</em> · clarity (primary) · wholeness (secondary) · vitality (accent) · slate pigment retune across all 12 hues</span></li>
+        <li><span class="cl-date">2026-04-15</span><span><b>brand 3 lock</b><em>superseded 2026-07-29 by brand 4: kept as history</em> · clarity (primary) · wholeness (secondary) · vitality (accent) · slate pigment retune across all 12 hues</span></li>
         <li><span class="cl-date">2026-04-07</span><span><b>12-wheel canon lock</b>liminal-creative/color-lab/src/lib/palettes/liminal-12-wheel.ts · 12 hues at 30° intervals · 7 factors + 5 ornaments</span></li>
         <li><span class="cl-date">2026-02-13</span><span><b>v0.2 design system</b>4 register accents (diligence/outreach/judgment/synthesis) · 16 component galleries · live token editor</span></li>
       </ol>
@@ -3597,7 +3597,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       row.querySelectorAll('.tonal-stop').forEach(stopEl => {
         stopEl.addEventListener('click', () => {
           const tk = stopEl.dataset.token;
-          // not all stops are in the editor (the editor lists key tokens) —
+          // not all stops are in the editor (the editor lists key tokens), 
           // jump to the hue's primary registered editor row
           const target = document.querySelector(`.tg-name[data-token="--${h.token}"]`)
             || document.querySelector(`.tg-name[data-token="--${h.token === 'amber-orn' ? 'amber-orn' : h.token}"]`);
@@ -3616,7 +3616,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
   const UI_GROUPS = [
     { title: 'action · primary / secondary / destructive', tokens: [
       /* BRAND 4 · 2026-07-29 · primary action follows the brand primary (pink).
-         'fill' corrected to 'label' — buttons.css paints this with color:, not background. */
+         'fill' corrected to 'label': buttons.css paints this with color:, not background. */
       { name: '--ui-action-primary',          purpose: 'primary CTA label',       route: 'wholeness-500' },
       { name: '--ui-action-primary-hover',    purpose: 'primary CTA hover',       route: 'wholeness-200' },
       { name: '--ui-action-primary-active',   purpose: 'primary CTA pressed',     route: 'wholeness-600' },
@@ -3659,7 +3659,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
       { name: '--ui-link-visited', purpose: 'link · visited',         route: 'liminal-500' },
     ]},
     /* BRAND 4 · 2026-07-29 · pink-led four colours. --ui-brand-accent was removed
-       from both token files (Brand 4 has no separate accent) — this table listed a
+       from both token files (Brand 4 has no separate accent). This table listed a
        token that no longer exists and painted retired orange as "brand accent". */
     { title: 'brand · primary / second / third / fourth', tokens: [
       { name: '--ui-brand-primary',   purpose: 'brand primary surface · pink',   route: 'wholeness-500' },
@@ -3908,8 +3908,8 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
     // are now the SAME hex. These two ratios are computed, not inherited:
     // #1E9692 on #0A0A0B = 5.50, on cream #F3F1EF = 3.20 (WCAG relative
     // luminance). FLAG: the expression-500 row directly above claims 6.36/4.79
-    // for that identical hex, which is not reachable against any ground — pure
-    // black tops out at 5.83 — so the older numbers in this table look wrong
+    // for that identical hex, which is not reachable against any ground, pure
+    // black tops out at 5.83: so the older numbers in this table look wrong
     // and want their own verification pass. Not corrected here: that is a
     // separate change and the table is load-bearing for a11y decisions.
     { name: 'depth-500',      hex: '#1E9692', dark: 5.50, cream: 3.20, body: 'info state · sky wash · same hue as expression since Brand 4' },
@@ -4021,7 +4021,7 @@ box-shadow: 0 0 0 4px var(--ui-focus-bg);</pre>
 
 <!-- ════════════════════════════════════════════════════════════════
      THE WHEEL · renders the 12 hues at their true pigment-wheel angle
-     Factors get a filled stop, ornaments a ring — so the drawing says
+     Factors get a filled stop, ornaments a ring, so the drawing says
      "7 carry semantic load, 5 are the variety library" without a legend.
      Angles are canon (design-tokens.css §2), not evenly-spaced guesses.
      ════════════════════════════════════════════════════════════════ -->

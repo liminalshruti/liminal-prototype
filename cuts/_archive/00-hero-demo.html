@@ -1030,9 +1030,9 @@
   .doc-scroll::-webkit-scrollbar-track { background: transparent; }
   .doc-scroll::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
 
-  /* ─── v0.9.3 — cut 00 hero anointment + doc-shape primitives ─────────
+  /* ─── v0.9.3: cut 00 hero anointment + doc-shape primitives ─────────
      Translated from cut 02's v0.9.3 treatment (PR #5). Cut 00 is doc-shape
-     (single scenario, no switcher), so no MutationObserver needed — just
+     (single scenario, no switcher), so no MutationObserver needed, just
      static injection of: title hero · verdict-band · intake disclosure ·
      contrarian soften · vault delta · bottombar receipt.
      ──────────────────────────────────────────────────────────────────── */
@@ -1093,7 +1093,7 @@
   .bottombar .receipt-id { color: var(--text-mid); font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; margin-right: 10px; }
   .bottombar .receipt-state { color: var(--text-faint); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; margin-left: 10px; }
 
-  /* boot staging — cut 00 uses body.ready */
+  /* boot staging: cut 00 uses body.ready */
   body:not(.ready) .verdict-band,
   body:not(.ready) .intake-disclosure { opacity: 0; }
   .verdict-band, .intake-disclosure { transition: opacity 320ms ease; }
@@ -1114,7 +1114,7 @@
         <div class="title">
           <span class="diamond">◇</span>
           <span class="breadcrumb">Liminal<span class="crumb-sep">/</span>Maia<span class="crumb-sep">/</span></span>
-          Tuesday — Speedrun partner call
+          Tuesday: Speedrun partner call
         </div>
         <div class="vault-pill"><span class="diamond">◇</span>vault: encrypted · 47 signals</div>
       </div>
@@ -1160,7 +1160,7 @@
             <div class="doc-content">
               <!-- header -->
               <div class="doc-meta">MAIA<span class="dot">·</span>TODAY<span class="dot">·</span>14:32</div>
-              <h1 class="doc-title">Tuesday — Speedrun partner call</h1>
+              <h1 class="doc-title">Tuesday: Speedrun partner call</h1>
               <div class="doc-tags">
                 <span class="tag">1pm Northstar</span>
                 <span class="tag">a16z Speedrun</span>
@@ -1200,7 +1200,7 @@
                   </div>
                   <div class="citation citation-3">
                     <span class="cite-source">REMINDERS</span>
-                    <span class="cite-text">Partner flagged 2 weeks ago — "tracking Granola, would love a take"</span>
+                    <span class="cite-text">Partner flagged 2 weeks ago: "tracking Granola, would love a take"</span>
                   </div>
                 </div>
               </div>
@@ -1248,21 +1248,21 @@
                     <div class="fix-item">
                       <span class="fix-num">01</span>
                       <div class="fix-content">
-                        <div class="fix-title">Unsupported moat claim — line 12</div>
+                        <div class="fix-title">Unsupported moat claim: line 12</div>
                         <div class="fix-by">RISK · the kind of claim a partner will probe</div>
                       </div>
                     </div>
                     <div class="fix-item">
                       <span class="fix-num">02</span>
                       <div class="fix-content">
-                        <div class="fix-title">Need an actual user quote — abstract framing reads thin</div>
+                        <div class="fix-title">Need an actual user quote: abstract framing reads thin</div>
                         <div class="fix-by">EDITOR · a moment, not a category</div>
                       </div>
                     </div>
                   </div>
                   <div class="cartographer-note">
                     <span class="carto-glyph">◇</span>
-                    <span><strong>CARTOGRAPHER:</strong> Granola = capture. Liminal = correction. Adjacent, not competitive — say it that way.</span>
+                    <span><strong>CARTOGRAPHER:</strong> Granola = capture. Liminal = correction. Adjacent, not competitive, say it that way.</span>
                   </div>
                 </div>
               </div>
@@ -1451,8 +1451,8 @@ function fitStage() {
 window.addEventListener('resize', fitStage);
 fitStage();
 
-// typing animation in bottom bar — synced to 20s loop
-const promptText = "/agency tuesday speedrun partner call — they track granola — what do I say — maia";
+// typing animation in bottom bar: synced to 20s loop
+const promptText = "/agency tuesday speedrun partner call: they track granola, what do I say, maia";
 const promptEl = document.getElementById('prompt');
 let typingTimer = null;
 function startTyping() {
@@ -1473,7 +1473,7 @@ setInterval(startTyping, 20000);
 <script src="../lib/brand-upgrade.js"></script>
 
 <!-- v0.9.3 · cut 00 hero anointment + doc-shape primitives
-     Single-scenario, so static injection — no MutationObserver. -->
+     Single-scenario, so static injection: no MutationObserver. -->
 <script>
 (function cut00InterfacePatterns() {
   function inject() {
@@ -1481,10 +1481,10 @@ setInterval(startTyping, 20000);
                        document.querySelector('h1.doc-title')?.closest('div');
     if (!docContent) return;
 
-    /* 1. Verdict-band — three cells composed from existing DOM */
+    /* 1. Verdict-band: three cells composed from existing DOM */
     if (!docContent.querySelector('.verdict-band')) {
       /* Read shape preference: first .tag (e.g. "1pm Northstar") falls back
-         to "partner call" — avoids picking up the timestamp tail of doc-meta. */
+         to "partner call": avoids picking up the timestamp tail of doc-meta. */
       const firstTag = docContent.querySelector('.doc-tags .tag')?.textContent?.trim();
       const shape = firstTag || 'partner call';
       const verdictBadge = docContent.querySelector('.verdict-badge')?.textContent?.trim() || 'NOT READY';
@@ -1515,7 +1515,7 @@ setInterval(startTyping, 20000);
       else docContent.insertBefore(band, docContent.querySelector('.rough-notes-label'));
     }
 
-    /* 2. Intake disclosure — wrap rough-notes-label + rough-list */
+    /* 2. Intake disclosure: wrap rough-notes-label + rough-list */
     const label = docContent.querySelector('.rough-notes-label');
     const list = docContent.querySelector('.rough-list');
     if (label && list && !docContent.querySelector('.intake-disclosure')) {

@@ -1,4 +1,4 @@
-# Cut 12 vs. Canonical Design System — Design Diff
+# Cut 12 vs. Canonical Design System: Design Diff
 
 **Date:** 2026-06-17 · **Subject:** `cuts/_archive/12-agency-govern-iter.html` · **Reference:** cut 01 (canonical front door) + the shared canon layers
 
@@ -13,7 +13,7 @@ Cut 12 runs on **~4% of the canonical design system**. It hand-rolls in 141 inli
 
 ---
 
-## Axis 1 — TYPE
+## Axis 1: TYPE
 
 | | Canonical | Cut 12 | Status |
 |---|---|---|---|
@@ -23,11 +23,11 @@ Cut 12 runs on **~4% of the canonical design system**. It hand-rolls in 141 inli
 | Type scale | **18-step token scale** (`--text-*`, `--fs-*`, ratio 1.25/1.375) | **hardcoded px** in `font:` shorthands, 8–17px ad-hoc | ❌ **no scale** |
 | Letter-spacing | token scale (`--ls-app-*`) | hardcoded em values (.06–.2em) | ⚠️ values close, not tokenized |
 
-**Verdict:** Type *faces* now match (fixed this session). But cut 12 has **no type scale** — it hardcodes every size (8px, 9px, 9.5px, 10px, 11px, 12.5px, 14px, 17px) instead of using `--text-*`/`--fs-*` tokens. The canon's "weight replaces italic, scale by 1.25 ratio" discipline isn't expressed.
+**Verdict:** Type *faces* now match (fixed this session). But cut 12 has **no type scale**. It hardcodes every size (8px, 9px, 9.5px, 10px, 11px, 12.5px, 14px, 17px) instead of using `--text-*`/`--fs-*` tokens. The canon's "weight replaces italic, scale by 1.25 ratio" discipline isn't expressed.
 
 ---
 
-## Axis 2 — COLOR
+## Axis 2: COLOR
 
 | | Canonical | Cut 12 | Status |
 |---|---|---|---|
@@ -37,11 +37,11 @@ Cut 12 runs on **~4% of the canonical design system**. It hand-rolls in 141 inli
 | 12-wheel system | full system via `brand-upgrade` | not present (only the 4 registers used) | ⚠️ subset (fine for this surface) |
 | Hardcoded hex | traffic lights + `#fff` only | **traffic lights + `#fff` only** | ✅ matches (both intentional) |
 
-**Verdict:** Color is the **strongest axis** — cut 12 was already token-disciplined on color, and the two artifact-chip hexes were fixed this session. No real drift remains. The only gap is it doesn't pull `brand-upgrade.css`'s 12-wheel extras, but it doesn't need them for this surface.
+**Verdict:** Color is the **strongest axis**: cut 12 was already token-disciplined on color, and the two artifact-chip hexes were fixed this session. No real drift remains. The only gap is it doesn't pull `brand-upgrade.css`'s 12-wheel extras, but it doesn't need them for this surface.
 
 ---
 
-## Axis 3 — SURFACE & SPACE
+## Axis 3: SURFACE & SPACE
 
 | | Canonical | Cut 12 | Status |
 |---|---|---|---|
@@ -51,11 +51,11 @@ Cut 12 runs on **~4% of the canonical design system**. It hand-rolls in 141 inli
 | Shadows | token scale (`--shadow-*`, `--shadow-window`) | hardcoded rgba shadows | ⚠️ values plausible, not tokenized |
 | Atmosphere | `--p-accent`-tinted stage gradient (register-aware) | fixed diligence+depth corner washes | ⚠️ static, not register-reactive |
 
-**Verdict:** Surface *colors* are token-correct, but **radius and spacing are entirely hardcoded** — cut 12 doesn't consume the `--radius-*` / `--space-*` scales. Its shadows and background atmosphere are bespoke literals rather than the canon shadow tokens / register-reactive gradient.
+**Verdict:** Surface *colors* are token-correct, but **radius and spacing are entirely hardcoded**, cut 12 doesn't consume the `--radius-*` / `--space-*` scales. Its shadows and background atmosphere are bespoke literals rather than the canon shadow tokens / register-reactive gradient.
 
 ---
 
-## Axis 4 — SHELL STRUCTURE (the biggest divergence)
+## Axis 4: SHELL STRUCTURE (the biggest divergence)
 
 | Element | Canonical class | Cut 12 class | Status |
 |---|---|---|---|
@@ -72,22 +72,22 @@ Cut 12 runs on **~4% of the canonical design system**. It hand-rolls in 141 inli
 | Chain | `.audit-ribbon` | `.rb-bot` | ❌ different |
 
 **Verdict:** This is where cut 12 and canon genuinely **don't speak the same language.** Cut 12's entire shell vocabulary is a parallel naming system (`.rb-top` not `.titlebar`, `.rail-l` not `.rail-left`, `.dispo` not `.disposition`). Two concrete consequences:
-- **Rails are ~25% narrower** (212/232 vs 280/320) — the reason cut 12's content reads cramped.
-- **No command palette (⌘K) and no real tabs** — cut 12's top "loop" ribbon is decorative (CAPTURE→READ→DECIDE→RECORD→RE-ENTER as static steps), where the canonical shell has live `tabs` + `cmdk`.
+- **Rails are ~25% narrower** (212/232 vs 280/320), the reason cut 12's content reads cramped.
+- **No command palette (⌘K) and no real tabs**, cut 12's top "loop" ribbon is decorative (CAPTURE→READ→DECIDE→RECORD→RE-ENTER as static steps), where the canonical shell has live `tabs` + `cmdk`.
 
 ---
 
-## Axis 5 — MOTION
+## Axis 5: MOTION
 
 | | Canonical | Cut 12 | Status |
 |---|---|---|---|
 | Easing | `--ease` token + `--ease-spring/-in/-out` | `--ease` token + bespoke `cubic-bezier(.32,.72,.16,1)` | ⚠️ partial |
 | Durations | **intent-named token scale** (`--tx-fast/base/settle/...`) | hardcoded (.15s/.3s/.5s/.56s/1.1s/1.6s) | ❌ not tokenized |
 | Hover physics | magnetic-hover + press (`translateY(-1.5px)` / `scale(.97)`) | basic color/border transitions only | ❌ **missing the canon hover/press feel** |
-| Keyframes | rich set (slated-arrive/settle, pulse-glyph, drift-pulse, artifact-arrive…) | `rin`, `pl`, `fr` + **`arr` (UNDEFINED — bug)** | ❌ sparse + 1 broken |
+| Keyframes | rich set (slated-arrive/settle, pulse-glyph, drift-pulse, artifact-arrive…) | `rin`, `pl`, `fr` + **`arr` (UNDEFINED: bug)** | ❌ sparse + 1 broken |
 | Reduced-motion | scoped, preserves color transitions | `*{animation:none!important}` (blunt) | ⚠️ cruder |
 
-**Verdict:** Motion is the **most under-built axis.** Cut 12 lacks the canonical magnetic-hover/press physics entirely, hardcodes all durations, and has a **confirmed bug**: `.artifact` calls `animation:arr` but only `@keyframes rin/pl/fr` are defined — `arr` doesn't exist, so the ratified card pops in with no animation. (The canonical name is `artifact-arrive`, now in `cut-shell.css`.)
+**Verdict:** Motion is the **most under-built axis.** Cut 12 lacks the canonical magnetic-hover/press physics entirely, hardcodes all durations, and has a **confirmed bug**: `.artifact` calls `animation:arr` but only `@keyframes rin/pl/fr` are defined: `arr` doesn't exist, so the ratified card pops in with no animation. (The canonical name is `artifact-arrive`, now in `cut-shell.css`.)
 
 ---
 
@@ -96,16 +96,16 @@ Cut 12 runs on **~4% of the canonical design system**. It hand-rolls in 141 inli
 | Axis | Alignment | Headline gap |
 |---|---|---|
 | **Type** | 🟡 faces match, no scale | hardcoded px sizes, no `--text-*` scale |
-| **Color** | 🟢 strong | (none material — fixed this session) |
+| **Color** | 🟢 strong | (none material, fixed this session) |
 | **Surface/Space** | 🟡 colors ok | radius + spacing not tokenized |
 | **Shell structure** | 🔴 diverged | parallel class vocabulary; rails 25% narrow; no ⌘K/tabs |
 | **Motion** | 🔴 weakest | no hover/press physics; hardcoded timings; broken `arr` keyframe |
 
 ## What this tells us about the path forward
 
-The diff confirms the earlier read: **cut 12's value is its content** (the adversarial-drop, the $-denominated marketplace swap, the agency-register fidelity), and its **liability is its shell** (a pre-extraction fork that reimplements — narrower, un-tokenized, un-animated — what the canon now provides). The two honest options remain:
+The diff confirms the earlier read: **cut 12's value is its content** (the adversarial-drop, the $-denominated marketplace swap, the agency-register fidelity), and its **liability is its shell** (a pre-extraction fork that reimplements, narrower, un-tokenized, un-animated, what the canon now provides). The two honest options remain:
 
 1. **Re-host on canon** (`cut-shell.css` + `brand-upgrade.css`): cut 12's content rendered through the live system. Closes every red/yellow cell at once. Largest change.
-2. **Keep chrome-only** (current path): cut 12 stays a token-corrected standalone specimen; the *artifact* alone is promoted to canon (done — `.artifact` block now in `cut-shell.css`). Cut 12 itself keeps its narrow rails / no-palette / hardcoded scales.
+2. **Keep chrome-only** (current path): cut 12 stays a token-corrected standalone specimen; the *artifact* alone is promoted to canon (done, `.artifact` block now in `cut-shell.css`). Cut 12 itself keeps its narrow rails / no-palette / hardcoded scales.
 
-The lowest-hanging *correct* fix regardless of path: **the broken `arr` keyframe** (rename to the canonical `artifact-arrive` or define it locally) — that's a live bug, not a style preference.
+The lowest-hanging *correct* fix regardless of path: **the broken `arr` keyframe** (rename to the canonical `artifact-arrive` or define it locally): that's a live bug, not a style preference.

@@ -43,7 +43,7 @@
  *   - use raw hex values
  *   - omit focus-visible outlines on interactive elements
  *   - suppress animation transitions (use prefers-reduced-motion instead)
- *   - change input opacity to hide — use visibility or position: absolute
+ *   - change input opacity to hide: use visibility or position: absolute
  *
  * Extracted from design-system.html, 2026-06-23
  */

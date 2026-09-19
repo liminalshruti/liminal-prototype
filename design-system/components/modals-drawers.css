@@ -43,7 +43,7 @@
  * Do not
  *   - use raw shadows; bind to --shadow-* tokens
  *   - skip focus management / focus trap implementation
- *   - hide scrim—it's essential for accessibility
+ *   - hide scrim: it's essential for accessibility
  *   - use modal for non-critical flows (favor inline forms)
  *
  * Extracted from design-system.html, 2026-06-23

@@ -9,7 +9,7 @@ async function runGoldenPath(page, { correct }) {
   await expect(page.locator("body")).toHaveAttribute("data-surface", "loop");
   await expect(page.locator("#run-badge")).toHaveText("demonstration run");
 
-  // 1b. open the case — the reads live at step 4 of the ritual, and the cut
+  // 1b. open the case: the reads live at step 4 of the ritual, and the cut
   //     opens at step 3 (`let STEP=3`). Before #66 the whole loop was flat and
   //     the judgment hero was on screen at load; #66 wrapped it in the 7-step
   //     `.pane7` ritual, where only `.pane7.on` is displayed. So the path has to
@@ -27,7 +27,7 @@ async function runGoldenPath(page, { correct }) {
 
   // 4. optional operator correction on a finding
   if (correct) {
-    // a viewer expands the finding first — the correct affordance lives inside
+    // a viewer expands the finding first: the correct affordance lives inside
     await page.locator("[data-fexpand]").first().click({ force: true });
     await page.locator("[data-fcorrect]").first().click({ force: true });
     await page.locator(".fc-kind").first().click({ force: true });
@@ -36,7 +36,7 @@ async function runGoldenPath(page, { correct }) {
   }
 
   // 4b. rule → enforcement: the ratify action lives on step 5, one past the
-  //     reads. Same #66 cause as 1b — what used to be one flat surface is now
+  //     reads. Same #66 cause as 1b: what used to be one flat surface is now
   //     a walk, so the path takes the step instead of assuming it.
   await page.getByRole("button", { name: "Rule → enforcement" }).click();
 
@@ -44,7 +44,7 @@ async function runGoldenPath(page, { correct }) {
   // `.db.sign` alone is no longer unique: #66 gave the five ritual advance
   // buttons ("Open the case →", "Rule → enforcement", …) the same class, so the
   // bare selector now resolves to 6 elements. `[data-act="sign"]` is the actual
-  // ratify ACTION — the nav buttons carry data-goto7/data-adv7 instead.
+  // ratify ACTION: the nav buttons carry data-goto7/data-adv7 instead.
   const signBtn = page.locator('.db.sign[data-act="sign"]');
   await signBtn.click();
   const artifact = page.locator(".artifact");
@@ -97,7 +97,7 @@ test("golden path is deterministic across a restart", async ({ page }) => {
   await page.locator("#reset-demo").click();
   await expect(page.locator("body")).toHaveAttribute("data-surface", "today");
 
-  // run 2 — after restart, the full path (now with a correction) completes
+  // run 2: after restart, the full path (now with a correction) completes
   await page.keyboard.press("3"); // The loop
   await runGoldenPath(page, { correct: true });
 
@@ -105,7 +105,7 @@ test("golden path is deterministic across a restart", async ({ page }) => {
 });
 
 test("tampered fixture can never render live/real badge", async ({ page }) => {
-  // intercept the fixture and claim mode:'live' — the badge must stay classified
+  // intercept the fixture and claim mode:'live': the badge must stay classified
   await page.route("**/govern-run.json", async (route) => {
     const res = await route.fetch();
     const body = await res.json();

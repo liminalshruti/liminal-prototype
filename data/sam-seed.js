@@ -1,9 +1,9 @@
-/* sam-seed.js · Sam-seed scenario — playable in the 01-slate-tray loop
+/* sam-seed.js · Sam-seed scenario: playable in the 01-slate-tray loop
  * ────────────────────────────────────────────────────────────────────
  * The validated pen-test-crisis seed situation, reshaped from the pitch
  * render into the LIVE LOOP's data contract (same shape as data/team.js):
  * an operator reads SUBJECTS via per-subject draggable TILES. The "reframe"
- * is NOT a narrated stage — it's what happens when Sam slates the SYSTEM
+ * is NOT a narrated stage: it's what happens when Sam slates the SYSTEM
  * tiles (observability gap, lexicon, process) instead of the BLAME tiles
  * (tariq pressure, misclassification): the agents re-read and the
  * disposition shifts. The loop enacts it; nothing announces it.
@@ -22,7 +22,7 @@ export const SAMSEED_OPERATOR = Object.freeze({
   clearance_level: 99,   // Sam reads his own team's work · no consent gate on own surface
 });
 
-// The "subjects" Sam can read — here, the assessment itself (and its people).
+// The "subjects" Sam can read: here, the assessment itself (and its people).
 // Modeled like TEAM_SUBJECTS so the existing loop renders it unchanged.
 export const SAMSEED_SUBJECTS = Object.freeze([
   {
@@ -75,7 +75,7 @@ export const SAMSEED_TILES_FOR_SUBJECT = Object.freeze({
     { id: "tariq_canceled_1on1",label: "Canceled 1:1 · today",         source: "calendar", icon: "◇", requires_level: 1, kind: "blame" },
     { id: "tariq_complaints",   label: "Triangulated complaints",      source: "slack",    icon: "◇", requires_level: 2, kind: "blame",  note: "others routing around him" },
     { id: "tariq_dms",          label: "Tariq's DMs · ✗",              source: "slack",    icon: "◇", requires_level: 3, kind: "content", refused_reason: "out of consent · pattern-only · no message-content reads" },
-    { id: "tariq_tenure",       label: "9yr tenure · prior wins",      source: "vault",    icon: "◈", requires_level: 1, kind: "system", note: "context: not a bad hire — a hard transition" },
+    { id: "tariq_tenure",       label: "9yr tenure · prior wins",      source: "vault",    icon: "◈", requires_level: 1, kind: "system", note: "context: not a bad hire: a hard transition" },
     { id: "agentic_shift",      label: "Shift to agentic operating",   source: "process",  icon: "◈", requires_level: 1, kind: "system", note: "the real variable that changed" },
   ],
 });

@@ -1,6 +1,6 @@
 /* business.js · Business-surface scenario data (CI analyst · high-stakes proof)
  * ────────────────────────────────────────────────────────────────────
- * Extracted from v0_3_config.js 2026-06-18 (scenario split, business group —
+ * Extracted from v0_3_config.js 2026-06-18 (scenario split, business group, 
  * the last and highest-consumer scenario group, isolated to its own branch)
  * per docs/architecture/V0_3_CONFIG_SCENARIO_SPLIT_MAP.md.
  *
@@ -12,7 +12,7 @@
  * import directly from data/business.js.
  *
  * NOTE: the generic "Scenarios per product" shape doc-comment intentionally
- * stays in v0_3_config.js — it documents TEAM_SCENARIOS / PERSONAL_SCENARIOS
+ * stays in v0_3_config.js: it documents TEAM_SCENARIOS / PERSONAL_SCENARIOS
  * (still inline there) as well as the business scenarios moved here.
  */
 
@@ -106,7 +106,7 @@ export const BUSINESS_TILES_FOR_CASE = {
      cut 01 narrates, so the diagram and the slate finally agree.
 
      The three sources are three PREDICATES, not three estimates of one
-     quantity — which is why the refusal below is checkable arithmetic
+     quantity: which is why the refusal below is checkable arithmetic
      rather than a matter of taste. */
   secops_seat_reconciliation: [
     { id: "sr_contract_entitlement", label: "Contract · 500 entitled",        source: "contracts", icon: "▣", requires_level: 1, kind: "case" },

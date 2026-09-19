@@ -21,7 +21,7 @@ function S01_PilotKey() {
           <div>
             <p className="lede">
               Liminal records the gap between what you said and what
-              actually happened — corrections, surprises, agent reads
+              actually happened: corrections, surprises, agent reads
               you disagreed with. Over weeks, the stream becomes a
               record sharper than memory. Local-first; nothing leaves
               this machine without your signature.
@@ -47,10 +47,10 @@ function S01_PilotKey() {
                 What this is not
               </div>
               <ul style={{listStyle:"none", padding:0, margin:0, display:"flex", flexDirection:"column", gap:10, fontSize:13.5, lineHeight:1.5, color:"var(--text)"}}>
-                <li>— not a journal app</li>
-                <li>— not a coach</li>
-                <li>— not a productivity tool</li>
-                <li>— not a wellness product</li>
+                <li>: not a journal app</li>
+                <li>: not a coach</li>
+                <li>: not a productivity tool</li>
+                <li>: not a wellness product</li>
               </ul>
               <div style={{height:18, borderTop:"1px solid var(--card-border)", margin:"22px 0 16px"}}></div>
               <div style={{fontSize:11, letterSpacing:".14em", textTransform:"uppercase", color:"var(--text-dim)", marginBottom:14}}>
@@ -79,7 +79,7 @@ function S01_PilotKey() {
 //
 // Canon: vault.db is a SQLite file at ~/Library/Application Support/Liminal/.
 // Encrypted at rest with a passphrase the user owns. First write is the
-// genesis event — no mythologizing.
+// genesis event: no mythologizing.
 
 function S02_Vault() {
   return (
@@ -93,7 +93,7 @@ function S02_Vault() {
             <p className="lede">
               Every read, correction, and agent response is appended to
               a single SQLite file on this disk. The passphrase encrypts
-              it at rest. We cannot recover it for you — that is the
+              it at rest. We cannot recover it for you. That is the
               point. If you forget it, the record is gone.
             </p>
 
@@ -164,8 +164,8 @@ function S03_Identity() {
         <h1 className="display">Sign every event<br/>with <em>your key.</em></h1>
         <p className="lede">
           Liminal generated an Ed25519 keypair on this device. Every
-          event the daemon writes — a captured signal, a correction,
-          an agent read — is signed with the private key. Years from
+          event the daemon writes: a captured signal, a correction,
+          an agent read: is signed with the private key. Years from
           now, the record can prove it has not been tampered with.
         </p>
 
@@ -260,7 +260,7 @@ function S04_Daemon() {
 
         <div className="row">
           <button className="btn btn-primary">Continue <span className="kbd">↵</span></button>
-          <button className="btn btn-ghost">Skip — set this later</button>
+          <button className="btn btn-ghost">Skip: set this later</button>
         </div>
       </section>
       <StepRail step={4} />
@@ -282,7 +282,7 @@ function S05_Source() {
         <h1 className="display">Connect at least <em>one source.</em></h1>
         <p className="lede">
           The daemon reads from sources you authorize. Everything stays
-          local — Liminal never proxies your data through a server. Pick
+          local: Liminal never proxies your data through a server. Pick
           one to start; you can add or remove sources any time.
         </p>
 
@@ -326,7 +326,7 @@ function S05_Source() {
 
         <div className="row">
           <button className="btn btn-primary">Authorize Calendar <span className="kbd">⌘↵</span></button>
-          <button className="btn btn-ghost">Skip — manual capture only</button>
+          <button className="btn btn-ghost">Skip: manual capture only</button>
         </div>
       </section>
       <StepRail step={5} />
@@ -338,7 +338,7 @@ function S05_Source() {
 //
 // Canon, replacing 7-factor body map: per
 // decisions/2026-04-21-agents-as-worker-personas.md, v0.1 ships three
-// bounded agents — Architect, Witness, Contrarian — each with a
+// bounded agents: Architect, Witness, Contrarian: each with a
 // declared lane and an explicit anti-domain. Out-of-lane requests are
 // refused and redirected by name. This is PPA #4 made tangible.
 
@@ -353,7 +353,7 @@ function S06_ThreeReads() {
           <p className="lede">
             Most assistants try to help with everything. These three
             don't. Each has a lane, and explicitly refuses what isn't
-            in it — redirecting you, by name, to whichever agent does
+            in it: redirecting you, by name, to whichever agent does
             handle that. The disagreement is the feature. The refusal
             is the routing.
           </p>
@@ -392,8 +392,8 @@ function S07_Day1() {
         <h1 className="display">The vault is <em>empty.</em><br/>That is correct.</h1>
         <p className="lede">
           The daemon is running. Calendar is connected. The three
-          agents are loaded. What remains is the practice — corrections,
-          captures, reads — and the vault filling out as it goes. Your
+          agents are loaded. What remains is the practice: corrections,
+          captures, reads: and the vault filling out as it goes. Your
           tray icon is a sigil-in-progress.
         </p>
 

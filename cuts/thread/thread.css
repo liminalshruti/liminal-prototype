@@ -4,7 +4,7 @@
  *
  * SCOPE
  * ─────
- * Shared surface CSS for the cuts/thread/* series — the public, click-able embodiment
+ * Shared surface CSS for the cuts/thread/* series: the public, click-able embodiment
  * of the diffuse-context wedge defined in
  *   founder-brain/strategy/LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12.md  (PROPOSED).
  *
@@ -21,7 +21,7 @@
  *             reader must learn.
  *
  * CONTRACT WITH THE STUDIO ARCHITECTURE
- *   · Tokens come from design-system/tokens/design-tokens.css — consumed, never redefined.
+ *   · Tokens come from design-system/tokens/design-tokens.css: consumed, never redefined.
  *   · Window chrome (.stage/.frame/.titlebar/.lights) is reused from lib/cut-shell.css.
  *   · This file owns ONLY the diffuse-context surface vocabulary (loops, receipts, brief,
  *     prep card, thread timeline). Layout is per-cut; these are the shared parts.
@@ -33,7 +33,7 @@
  *   receipts / checkable-to-source    → --cerulean   (blue)
  *
  * TYPE REGISTER (SANCTIONED EXCEPTION · ratified 2026-07-02)
- *   This surface uses "Newsreader" as its EDITORIAL serif, a deliberate sub-register — NOT
+ *   This surface uses "Newsreader" as its EDITORIAL serif, a deliberate sub-register, NOT
  *   the C3 off-canon drift the Run-B audit purged from the numbered cuts. The numbered cuts'
  *   serif is canon Perfectly Nineties (--serif); "the thread" is an editorial/reading surface
  *   where Newsreader is the intended voice (parallel to team-drift's documented sub-register).
@@ -515,7 +515,7 @@
 .update-sec[data-k="stalled"] .update-sec-label { color: var(--stability); }
 .update-line { display:flex; flex-direction:column; gap:5px; padding: 7px 0; }
 .update-line-text { font-size: 14px; color: var(--text); line-height:1.45; }
-.update-line-text::before { content:"— "; color: var(--text-faint); }
+.update-line-text::before { content:": "; color: var(--text-faint); }
 .update-brackets { padding: calc(var(--space-4) * var(--density-scale)) calc(var(--space-5) * var(--density-scale)); background: var(--amber-orn-bg); border-top:1px solid var(--amber-orn-edge); }
 .update-brackets-head { font-family:"Geist Mono",monospace; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color: var(--amber-orn); margin-bottom: 8px; }
 .update-bracket { font-size: 13px; color: var(--text-mid); line-height:1.5; padding: 4px 0; }

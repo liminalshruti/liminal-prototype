@@ -28,7 +28,7 @@ export function Dot() {
   );
 }
 
-/** A real classification row off a read — lane + status chips together. */
+/** A real classification row off a read, lane + status chips together. */
 export function OnARead() {
   return (
     <Surface>

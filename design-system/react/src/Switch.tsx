@@ -6,7 +6,7 @@ export interface SwitchProps extends React.InputHTMLAttributes<HTMLInputElement>
 }
 
 /**
- * Switch — binary toggle control with track and animated thumb.
+ * Switch: binary toggle control with track and animated thumb.
  *
  * A native `<input type="checkbox">` hidden with label wrapper `.sw`.
  * The styled `.sw-track` span provides the track and sliding thumb.

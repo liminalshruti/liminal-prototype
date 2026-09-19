@@ -1,7 +1,7 @@
 import { Segmented } from '@liminal/design-system';
 import { Surface } from './_surface';
 
-/** Three-option view selector — common density-compact control. */
+/** Three-option view selector: common density-compact control. */
 export function ViewSelector() {
   return (
     <Surface>

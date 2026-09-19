@@ -94,11 +94,11 @@ Never · ever · copy `cut-shell.css` into a cut and edit the copy.
 
 ### 3 · Each cut declares its coordinate at the top.
 
-A cut is **not a thing — it's a projection** of the one Product onto a viewing
+A cut is **not a thing: it's a projection** of the one Product onto a viewing
 context: the same loop (capture→read→decide→record→re-enter), at one altitude on the
 **canonical strategic ladder**, on one surface, framed as wedge or infrastructure. So
 the contract block is a **coordinate**, not free text. (Full model: `TAXONOMY.md`,
-which maps onto founder-brain's canonical positioning ladder — not an invented one.)
+which maps onto founder-brain's canonical positioning ladder: not an invented one.)
 
 Every cut HTML opens with:
 
@@ -118,16 +118,16 @@ Every cut HTML opens with:
 
 `(Loop-stage × Altitude × Surface × Framing × Maturity)` is the cut's coordinate.
 Values come from the **controlled vocabulary in `TAXONOMY.md`** (seed + allow
-additions — add a value with a one-line justification, don't fork the model).
+additions: add a value with a one-line justification, don't fork the model).
 
-- **Altitude is ORDERED** (L1 wedge → L4 category) — it's the canonical ladder, not a
+- **Altitude is ORDERED** (L1 wedge → L4 category): it's the canonical ladder, not a
   flat audience tag. The old `Audience`/`ICP` field folds into it.
 - **Framing** encodes positioning's pricing rule: *lead with the wedge → priced as a
   feature; lead with the judgment layer → priced as infrastructure.*
 - Access tiers (pilot v0.1, invite-only) and *who-it's-shown-to* (investor, judge,
-  sponsor) are **per-cut notes, NOT coordinate fields** — they're viewing context.
+  sponsor) are **per-cut notes, NOT coordinate fields**, they're viewing context.
 
-Future-you (or another session) reads the coordinate before changing anything — and
+Future-you (or another session) reads the coordinate before changing anything, and
 can `grep` coordinates to find duplicate projections (see rule #5).
 
 ### 4 · Each cut works standalone AND inside the catalog iframe.
@@ -141,7 +141,7 @@ when needed (see `index.html`'s message bus seam).
 
 ### 5 · A cut converges, or it doesn't get a file. (The counter-force.)
 
-The cascade is a centrifuge — rules #1–4 let you fork framings cheaply. This is the
+The cascade is a centrifuge: rules #1–4 let you fork framings cheaply. This is the
 centripetal rule that keeps framings from drifting into separate products:
 
 - **Before writing a cut, declare its coordinate** (rule #3).
@@ -152,8 +152,8 @@ centripetal rule that keeps framings from drifting into separate products:
   parameter" pattern), **not a new file.**
 
 `grep` the declared coordinates the same way you'd `grep` a hex value to catch a
-token that should consume canon. The map of every current cut's coordinate — and the
-L3 cluster (08/09/molehunt) that's the same loop at the high-stakes altitude — is in
+token that should consume canon. The map of every current cut's coordinate: and the
+L3 cluster (08/09/molehunt) that's the same loop at the high-stakes altitude, is in
 `TAXONOMY.md`.
 
 ---
@@ -207,7 +207,7 @@ is the contract.
 This repo deploys from branch root: **a commit to main is a publication.** Private
 substrate schema vocabulary must never appear in any committed file. The mechanical
 gate is `scripts/v2-vocab-gate.mjs` (banned-term list lives in the script; blessed by
-founder-brain `decisions/2026-08-14-two-layer-demo-discipline.md` — additions require
+founder-brain `decisions/2026-08-14-two-layer-demo-discipline.md`: additions require
 a decision addendum). Run `bash scripts/install-hooks.sh` once per clone to install it
 as a pre-commit hook; the playwright suite also runs it (`tests/vocab-gate.spec.js`).
 If the gate fires, the fix is to REMOVE the vocabulary, never to widen the exemptions.

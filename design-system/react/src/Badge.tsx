@@ -5,21 +5,21 @@ export type BadgeVariant = 'accent' | 'good' | 'amber' | 'red' | 'judgment';
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   /**
    * Semantic register for classification metadata.
-   * - `accent` — clarity primary
-   * - `good` — connection/success
-   * - `amber` — watch/caution
-   * - `red` — alarm/error
-   * - `judgment` — verdict/secondary brand
+   * - `accent`: clarity primary
+   * - `good`: connection/success
+   * - `amber`: watch/caution
+   * - `red`: alarm/error
+   * - `judgment`: verdict/secondary brand
    */
   variant?: BadgeVariant;
 }
 
 /**
- * Badge — rectangular metadata badge for classification.
+ * Badge: rectangular metadata badge for classification.
  *
  * A small, non-interactive chip that carries metadata (a security tier,
  * a classification level) without taking action. Distinct from the Tag
- * component — uses `.tag-base` + `.is-{variant}` classes from
+ * component: uses `.tag-base` + `.is-{variant}` classes from
  * `components/avatars-badges.css`.
  *
  * @example

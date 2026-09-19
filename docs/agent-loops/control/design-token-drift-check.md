@@ -2,7 +2,7 @@
 id: liminal-prototype.control.design-token-drift-check
 type: loop.control
 status: active
-owner: (TBD — will be assigned when launched)
+owner: (TBD: will be assigned when launched)
 created: 2026-06-30
 class: control
 priority: P1
@@ -43,7 +43,7 @@ This loop must NOT: modify design-tokens.css · rewrite DESIGN_SYSTEM.md · chan
 
 ## Required output artifacts
 
-1. `reports/design-token-drift-check.md` — drift audit with severity, alignment matrix, recommended fixes
+1. `reports/design-token-drift-check.md`: drift audit with severity, alignment matrix, recommended fixes
 
 ## Acceptance criteria (done ONLY if all true)
 
@@ -53,7 +53,7 @@ This loop must NOT: modify design-tokens.css · rewrite DESIGN_SYSTEM.md · chan
 - [x] Each drift point assigned severity (critical / high / medium / low)
 - [x] All files consuming tokens audited for correct usage
 - [x] Ready-to-edit decision made (ready / needs-fixes)
-- [x] All changed files listed (should be none — control loop)
+- [x] All changed files listed (should be none, control loop)
 - [x] Verification commands run or explicitly marked unavailable
 - [x] Remaining gaps documented
 
@@ -83,11 +83,11 @@ Stop when: drift audit complete and severity levels assigned, OR a scope blocker
 
 ## Final report format
 
-See `~/liminal/founder-brain/ops/strategy-control-plane/07_LOOP_SPEC_TEMPLATE.md` — § Final report format (8 items: summary, files read, files changed, acceptance checklist, verification, risks, risk level, recommended next loop).
+See `~/liminal/founder-brain/ops/strategy-control-plane/07_LOOP_SPEC_TEMPLATE.md`: § Final report format (8 items: summary, files read, files changed, acceptance checklist, verification, risks, risk level, recommended next loop).
 
 ---
 
-## Loop preamble (REQUIRED — use verbatim in the loop prompt)
+## Loop preamble (REQUIRED: use verbatim in the loop prompt)
 
 ```txt
 Do not optimize for seeming productive. Optimize for convergence. If the task is ambiguous, produce a

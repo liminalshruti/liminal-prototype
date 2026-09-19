@@ -6,7 +6,7 @@
 
 ## The contract
 
-This file is the only token file Liminal product surfaces import. Every consuming surface (the prototype, the marketing site, the future Tauri desktop client, mobile, anywhere Liminal renders) imports this file — and only this file — to receive the canonical color · type · spacing · motion system.
+This file is the only token file Liminal product surfaces import. Every consuming surface (the prototype, the marketing site, the future Tauri desktop client, mobile, anywhere Liminal renders) imports this file, and only this file, to receive the canonical color · type · spacing · motion system.
 
 ```html
 <link rel="stylesheet" href="../tokens/design-tokens.css">
@@ -75,7 +75,7 @@ The full set of functional bindings:
 
 ### 2 · Register vocabulary (for brand moments)
 
-For *explicit brand moments* — the colophon, the wheel, the brand 4 panel (pink / purple / blue / green · founder ruling 2026-07-29), the Liminal Pink moments — use the register words. These are the 12 register-words mapped 1:1 to the 12-wheel:
+For *explicit brand moments*: the colophon, the wheel, the brand 4 panel (pink / purple / blue / green · founder ruling 2026-07-29), the Liminal Pink moments, use the register words. These are the 12 register-words mapped 1:1 to the 12-wheel:
 
 ```css
 /* CORRECT for explicit brand moments */
@@ -201,7 +201,7 @@ Refer to `design-system/docs/relationship-axis.md` for the full per-relationship
 
 Don't. The 12-wheel is canon. New colors only by interpolating between adjacent hues, and only with a brand-canon update.
 
-If you need a *new functional binding* (e.g., `--ui-state-loading`), that's allowed — bind it to an existing wheel hue + stop combination. Document it here.
+If you need a *new functional binding* (e.g., `--ui-state-loading`), that's allowed: bind it to an existing wheel hue + stop combination. Document it here.
 
 ## Versioning
 

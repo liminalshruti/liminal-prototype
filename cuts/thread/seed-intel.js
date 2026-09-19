@@ -3,7 +3,7 @@
  * ──────────────────────────────────────────────────────────────────────────
  * Extends seed.js (the same fictional founder's week) with the data the
  * higher-order surfaces need: told-them contradictions, the precision/learning
- * curve, and the proactive insight feed. Same RENDER-TRUTHFUL discipline —
+ * curve, and the proactive insight feed. Same RENDER-TRUTHFUL discipline, 
  * fictional, disclosed, hand-authored; receipts carry a source + exact line.
  *
  * Grounding:
@@ -33,7 +33,7 @@ export const toldThem = [
     flag: "Two different numbers for the same metric, four days apart.",
     claims: [
       { to: "Ana Okafor · Vela", value: "$42k MRR", when: "6d ago",
-        receipt: r("gmail","Vela · Series A","6d ago","Quick update on traction — <mark>we're at about $42k MRR</mark>, up from $31k last quarter.","gmail/thread/19a2f · outbound") },
+        receipt: r("gmail","Vela · Series A","6d ago","Quick update on traction: <mark>we're at about $42k MRR</mark>, up from $31k last quarter.","gmail/thread/19a2f · outbound") },
       { to: "the board", value: "$55k MRR", when: "2d ago",
         receipt: r("claude","board deck draft","2d ago","Slide 4 metrics line: <mark>\"MRR $55k (incl. two annual prepays amortized).\"</mark>","claude/sessions/board-prep.jsonl · matched: same metric, different value") },
     ],
@@ -41,18 +41,18 @@ export const toldThem = [
   {
     topic: "Northwind pilot start",
     status: "conflict",
-    flag: "Your team still has the old date — they're prepping to the 15th.",
+    flag: "Your team still has the old date, they're prepping to the 15th.",
     claims: [
       { to: "your team · standup", value: "starts the 15th", when: "3d ago",
-        receipt: r("slack","#team","3d ago","<mark>\"Northwind kicks off the 15th — let's have the env ready by then.\"</mark>","slack/C01TEAM/p171… · outbound") },
+        receipt: r("slack","#team","3d ago","<mark>\"Northwind kicks off the 15th: let's have the env ready by then.\"</mark>","slack/C01TEAM/p171… · outbound") },
       { to: "Priya · Northwind", value: "moved to the 22nd", when: "2d ago",
-        receipt: r("gmail","Northwind · pilot","2d ago","<mark>\"Works for us — the 22nd it is.\"</mark>","gmail/thread/4c19e · matched: same event, newer date") },
+        receipt: r("gmail","Northwind · pilot","2d ago","<mark>\"Works for us: the 22nd it is.\"</mark>","gmail/thread/4c19e · matched: same event, newer date") },
     ],
   },
   {
     topic: "Hiring plan · Q3",
     status: "consistent",
-    flag: "Consistent across both — no action needed.",
+    flag: "Consistent across both: no action needed.",
     claims: [
       { to: "Devon", value: "2 eng hires this quarter", when: "5d ago",
         receipt: r("claude","planning session","5d ago","<mark>\"Plan: 2 eng hires in Q3, hold the GTM hire.\"</mark>","claude/sessions/planning.jsonl") },
@@ -87,7 +87,7 @@ export const insights = [
     label: "Clock proximity",
     subject: "Vela data room",
     confidence: 0.91,
-    narrative: "Due tomorrow — and Thursday's partner meeting depends on it. This is the closest clock to firing in your week.",
+    narrative: "Due tomorrow: and Thursday's partner meeting depends on it. This is the closest clock to firing in your week.",
     evidence: [
       r("gmail","Vela · Series A","6d ago","<mark>the updated metrics and the data-room link by end of week</mark>","gmail/thread/19a2f"),
       r("gcal","Vela partner mtg","Thu 2:00pm","<mark>\"Vela full-partner review.\"</mark>","gcal/evt/vela-partners"),
@@ -98,7 +98,7 @@ export const insights = [
     label: "Stuck loop",
     subject: "Marcus offer",
     confidence: 0.82,
-    narrative: "The offer thread has gone three rounds with no resolution — twice-opened, unanswered four days. Threads that pass three rounds close far less often.",
+    narrative: "The offer thread has gone three rounds with no resolution: twice-opened, unanswered four days. Threads that pass three rounds close far less often.",
     evidence: [
       r("gmail","Staff Eng · offer","4d ago","<mark>let me know if the equity split works</mark>","gmail/thread/2b71c"),
       r("gmail","Staff Eng · offer","18h ago","<mark>somewhere around 0.2% more?</mark>","gmail/thread/2b71c · 3rd round"),
@@ -120,7 +120,7 @@ export const insights = [
     label: "Cross-source correlation",
     subject: "The investor update",
     confidence: 0.69,
-    narrative: "Three separate threads reference \"the next update\" that hasn't gone out — Ana, the board, and a customer all expect it this week. One artifact closes all three.",
+    narrative: "Three separate threads reference \"the next update\" that hasn't gone out: Ana, the board, and a customer all expect it this week. One artifact closes all three.",
     evidence: [
       r("gmail","Vela","6d ago","<mark>\"look forward to the next update\"</mark>","gmail/thread/19a2f"),
       r("gcal","Investor update","this week","<mark>recurring hold, no draft found</mark>","gcal/recurring/inv-update"),
@@ -132,7 +132,7 @@ export const insights = [
     label: "Allocation drift",
     subject: "Where your week is going",
     confidence: 0.64,
-    narrative: "Seven of eight open loops are fundraise + hiring. Northwind — your only live customer — has one. Worth seeing before the week sets.",
+    narrative: "Seven of eight open loops are fundraise + hiring. Northwind, your only live customer, has one. Worth seeing before the week sets.",
     evidence: [
       r("claude","week review","today","<mark>\"fundraise: 4 loops · hiring: 3 · customer: 1\"</mark>","claude/sessions/week-review.jsonl · derived count"),
     ],
@@ -140,4 +140,4 @@ export const insights = [
 ];
 
 export const INTEL_DISCLOSURE =
-  "Illustrative — derived from one fictional founder's week. Nothing is read from a real account.";
+  "Illustrative: derived from one fictional founder's week. Nothing is read from a real account.";

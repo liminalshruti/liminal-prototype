@@ -8,7 +8,7 @@
 <!--
   cuts/thread/team.html · The thread · the chief-of-staff view · cross-person loops
   ──────────────────────────────────────────────────────────────────────
-  Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 §wedge — secondary ICP
+  Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 §wedge: secondary ICP
              (chiefs of staff / fractional execs who hold the thread for someone else) + the
              $100/mo "chief of staff that never sleeps" tier when the ledger covers a team.
   Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
@@ -48,9 +48,9 @@
     <main class="th">
       <div class="th-head">
         <div class="th-eyebrow"><span class="dot">◇</span> The thread · across the team</div>
-        <h1 class="th-title">Who owes what — <em>to whom</em>.</h1>
+        <h1 class="th-title">Who owes what: <em>to whom</em>.</h1>
         <p class="th-lede">When the thread covers a whole team, the open loops gain a direction: not just what's
-          open, but who's holding it and who's blocked waiting. The part of a chief of staff that never sleeps —
+          open, but who's holding it and who's blocked waiting. The part of a chief of staff that never sleeps, 
           $40/mo for the founder, more when it's holding the thread for everyone.</p>
       </div>
 
@@ -103,7 +103,7 @@
 
   document.getElementById("needs").innerHTML = needsYou.map(loopHTML).join("");
   document.getElementById("rest").innerHTML = rest.length ? rest.map(loopHTML).join("")
-    : `<div class="team-loop" style="border-left-color:var(--card-border-2)"><span class="team-flow">—</span><span class="team-loop-title">Everything else is moving without you.</span><span></span></div>`;
+    : `<div class="team-loop" style="border-left-color:var(--card-border-2)"><span class="team-flow">n/a</span><span class="team-loop-title">Everything else is moving without you.</span><span></span></div>`;
 
   document.body.addEventListener("click", (e) => {
     const bar = e.target.closest("[data-receipt]"); if (bar) bar.closest(".receipt").classList.toggle("is-open");

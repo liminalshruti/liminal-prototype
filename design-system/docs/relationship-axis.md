@@ -6,12 +6,12 @@
 
 ## The principle
 
-Most design systems handle RBAC (role-based access control). Liminal needs more: **relationship-typed surfaces**. The same component renders differently depending on the operator's *relationship to the subject* — not just their role.
+Most design systems handle RBAC (role-based access control). Liminal needs more: **relationship-typed surfaces**. The same component renders differently depending on the operator's *relationship to the subject*: not just their role.
 
 This is the operationalization of two locked product canons:
 
-- **Brand OS Canon v4** — "the operator's correction is the unit's doctrine"
-- **v0.3.7 spec Decision 11** — "the runtime taxonomy is shape-stable across products"
+- **Brand OS Canon v4**: "the operator's correction is the unit's doctrine"
+- **v0.3.7 spec Decision 11**: "the runtime taxonomy is shape-stable across products"
 
 Same primitives · different relationship · different rendering.
 
@@ -35,7 +35,7 @@ A surface (any HTML page rendering Liminal components) declares a five-tuple on 
 | `data-clearance` | consent class OR classification level | Permitted reads · refused tiles · gate severity |
 | `data-relationship` | `self` · `peer` · `cofounder-mutual` · `direct-report` · `advisor` · `institutional-subject` · `self-as-subject` · `oversight` · `public` | Operator's relationship to the subject being read |
 
-The first four are role-based. The fifth — **relationship** — is about *who you are to the person being read*.
+The first four are role-based. The fifth, **relationship**, is about *who you are to the person being read*.
 
 ## Why relationship is distinct from role
 
@@ -115,9 +115,9 @@ Every reusable component (every file in `design-system/components/*.css`) declar
  *   when refused: aria-disabled="true" · aria-roledescription="refused tile"
  *
  * Keyboard:
- *   Space / Enter — pick up tile (drag analog)
- *   Arrow keys — move within slate when picked up
- *   Escape — drop / cancel
+ *   Space / Enter: pick up tile (drag analog)
+ *   Arrow keys: move within slate when picked up
+ *   Escape: drop / cancel
  */
 ```
 
@@ -151,14 +151,14 @@ Section 10 of `design-system.html` becomes **The operator/subject/peer/oversight
 
 - Operator view (Maia reading Devon · pattern-baseline-only)
 - Subject view (Devon seeing his own audit chain)
-- Peer view (Sam — Devon's teammate — sees: nothing about Devon)
+- Peer view (Sam: Devon's teammate: sees: nothing about Devon)
 - Oversight view (legal review of the read · audit chain visible · content not)
 
 The row-by-row diff is the system claim made visible.
 
 ## Implications for the design-system page itself
 
-The design-system page (the canon) renders by default as `data-relationship="self"` — the founder reviewing the canon for themselves. The marginalia, the "this is the canon" notes, the brand spectrum — all are operator-self register. Future versions of the page can switch relationships to demonstrate variants.
+The design-system page (the canon) renders by default as `data-relationship="self"`. The founder reviewing the canon for themselves. The marginalia, the "this is the canon" notes, the brand spectrum: all are operator-self register. Future versions of the page can switch relationships to demonstrate variants.
 
 ## Implications for engineering
 
@@ -179,7 +179,7 @@ This is the canon. The build inherits it.
 - 12-wheel · all 12 hues stable · brand 4 ruled 2026-07-29 (pink-led, four colours, NOT locked)
 - 12-register vocabulary · all stable
 - Two-product fork → now refined to three-product fork (Personal · Team · Business)
-- Decision 11 runtime taxonomy (decider · ingester · 3 deliberators) — the runtime is relationship-agnostic; surface is relationship-typed
+- Decision 11 runtime taxonomy (decider · ingester · 3 deliberators). The runtime is relationship-agnostic; surface is relationship-typed
 - Bidirectional ethics · the fifth axis is precisely how "protect humans from machines AND machines/institutions from humans" gets surfaced
 
 ## What changes from prior canon
@@ -192,12 +192,12 @@ This is the canon. The build inherits it.
 
 ## Ship order
 
-1. **Now** — this document captures the principle (✓ shipped 2026-04-28)
-2. **P0** — design-tokens.css gets `data-relationship` axis + capability + role tokens
-3. **P0** — every component contract block grows a relationship matrix (where applicable)
-4. **P1** — fixtures multiply by relationship · cell-by-cell for the components that meaningfully vary
-5. **P1** — Section 10 of design-system.html · the matrix view
-6. **P2** — the design-system surface itself can switch relationships for demo
+1. **Now**: this document captures the principle (✓ shipped 2026-04-28)
+2. **P0**: design-tokens.css gets `data-relationship` axis + capability + role tokens
+3. **P0**: every component contract block grows a relationship matrix (where applicable)
+4. **P1**: fixtures multiply by relationship · cell-by-cell for the components that meaningfully vary
+5. **P1**: Section 10 of design-system.html · the matrix view
+6. **P2**: the design-system surface itself can switch relationships for demo
 
 ---
 

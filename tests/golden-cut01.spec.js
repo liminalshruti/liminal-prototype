@@ -3,7 +3,7 @@
 //
 // 2026-07-29 · the Decide stage gained the DECIDING beat's divergence pane, so
 // Confirm is now two presses: the first opens the split, the second seals through
-// it. The single-write invariant this test exists to guard is unchanged — and the
+// it. The single-write invariant this test exists to guard is unchanged, and the
 // gate is now asserted alongside it, because a gate that accidentally sealed on
 // the first press would reintroduce exactly the double-write regression below.
 import { test, expect } from "@playwright/test";
@@ -79,7 +79,7 @@ test("confirm seals once, count stays monotonic, handoff to govern shows", async
 });
 
 // The divergence pane's substantive claim: WHERE you correct determines
-// correction_kind. Position is the taxonomy — inner within a column, cross on the
+// correction_kind. Position is the taxonomy: inner within a column, cross on the
 // polarity edge, emergence on ground no agent produced. If this ever silently
 // degrades to one undifferentiated "correction", the moat metric goes back to
 // being a self-reported radio button.
@@ -105,7 +105,7 @@ test("correction kind is derived from position, not self-reported", async ({
   await expect(ribbon).toContainText("correction · cross");
 
   // cross, again by geometry alone · a SHARED observation genuinely belongs to
-  // two reads, so position — not a hardcoded rule — makes it cross.
+  // two reads, so position: not a hardcoded rule, makes it cross.
   // Observations are collapsed by default in the stacked shell, so open the
   // provenance first; the correction semantics are independent of visibility.
   await pane.locator(".dvg-expand").first().click();
@@ -121,7 +121,7 @@ test("correction kind is derived from position, not self-reported", async ({
   await expect(page.locator("#dispo-artifact")).toBeHidden();
 });
 
-// In the shell the pane is ~434px wide, so it stacks — and three full provenance
+// In the shell the pane is ~434px wide, so it stacks, and three full provenance
 // chains stacked run past 1000px, which destroys the at-a-glance comparison the
 // pane exists for. Collapsed-by-default keeps it scannable; the depth is one
 // press away. Expanding is navigation and must NOT write a correction row.
@@ -211,7 +211,7 @@ test("spine schema rejects dishonest graphs", async ({ page }) => {
 });
 
 // The gate must re-arm after a seal. IDLE resets it, but the re-enter affordance
-// only fires the re-surface preview and never returns the engine to IDLE — so a
+// only fires the re-surface preview and never returns the engine to IDLE, so a
 // gate that armed once per page load would let every decision after the first
 // seal without ever showing its split.
 test("gate re-arms after sealing", async ({ page }) => {
@@ -239,7 +239,7 @@ test("gate re-arms after sealing", async ({ page }) => {
   await expect(pane).toBeVisible();
 });
 
-// Every correction affordance must be reachable without a mouse — the pane is a
+// Every correction affordance must be reachable without a mouse. The pane is a
 // decision gate, so keyboard users cannot be routed around it.
 test("divergence affordances are keyboard-operable", async ({ page }) => {
   await page.goto(CUT_01_CANONICAL);

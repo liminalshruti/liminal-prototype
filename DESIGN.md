@@ -1,6 +1,6 @@
 ---
 # ═══════════════════════════════════════════════════════════════
-# GENERATED — DO NOT EDIT THIS FRONT MATTER.
+# GENERATED: DO NOT EDIT THIS FRONT MATTER.
 #
 # Derived from design-system/tokens/design-tokens.css by
 # liminal-prototype/scripts/design/gen-design-md.mjs. Hand-edits are
@@ -10,7 +10,7 @@
 # Change the PROSE → edit design-system/design-md/prototype.prose.md
 # ═══════════════════════════════════════════════════════════════
 name: Liminal Prototype
-description: Public demo catalog for the judgment layer — bounded agents read, the human decides, the ledger remembers.
+description: Public demo catalog for the judgment layer: bounded agents read, the human decides, the ledger remembers.
 colors:
   diligence: "#8E66FB"
   judgment: "#E90095"
@@ -87,7 +87,7 @@ Every surface in this catalog is a page of one append-only ledger: a decision
 enters, bounded agents read it, dissent and refusal are recorded rather than
 smoothed over, the accountable human signs, and the entry seals with its
 provenance attached. Design decisions are judged the same way the product
-judges work — what was trusted, what was corrected, what was refused, and can
+judges work: what was trusted, what was corrected, what was refused, and can
 you prove it later. The register is a precision instrument whose evidence has
 been made public, not a marketing site: calm, declarative, forensic.
 
@@ -102,7 +102,7 @@ it's selling, it has failed the register.
 **Key Characteristics:**
 - Dark void substrate (#0A0A0B) with framed "windows" of work; one deliberate
   cream exception (molehunt's ink-on-paper analyst console).
-- Ten named saturated chrome registers, each meaning one register of judgment —
+- Ten named saturated chrome registers, each meaning one register of judgment, 
   color is semantic, never decorative.
 - Three-voice type: display serif announces, body serif carries reasoned
   prose, mono carries data and labels. Never swapped.
@@ -122,23 +122,23 @@ a rebind moves what a name points at while every document that spelled the old
 pairing out in prose keeps asserting it. Read the resolved hex from the
 generated front matter above, never from memory.
 
-### The brand four (in order — pink leads)
+### The brand four (in order: pink leads)
 - **Judgment Magenta** (#E90095): the brand lead, `--ui-brand-primary` →
   `--wholeness-500`. Holds verdict and the moat: adversarial review, refusal
   accents, the sealed record. The color that appears when the system pushes
-  back — and the one that carries the brand.
+  back: and the one that carries the brand.
 - **Diligence Violet** (#8E66FB): `--ui-brand-secondary` → `--clarity-500`.
-  Holds intelligence and insight — the auditor's color. Carries the brand
+  Holds intelligence and insight: the auditor's color. Carries the brand
   diamond, primary highlights, focus rings, and the "reading" state across cuts.
 - **Synthesis Cerulean** (#197EEB): `--ui-brand-third` → `--cerulean-500`.
-  Holds pattern and emergence; the institutional/infra register — allocation,
+  Holds pattern and emergence; the institutional/infra register: allocation,
   custody, subject switching.
 - **Outreach Green** (#31E682): `--ui-brand-fourth` → `--connection-500`.
   Holds the relational and the outward.
 
 ### The remaining register chrome (use only with their meaning)
 - **Alarm Red** (#ED214F), **Watch Amber** (#FDC237), **Signal Lime**
-  (#70F32F), **Ambient Teal** (#1E9692), **Depth** (#1E9692 — pending its own
+  (#70F32F), **Ambient Teal** (#1E9692), **Depth** (#1E9692: pending its own
   hue, see below), **Liminal Orchid** (#CC24F5).
 
 **The Pink-Leads Rule** (Brand 4, ruled 2026-07-29). Four colors carry the
@@ -149,21 +149,21 @@ hierarchy.
 
 **Read the register off the slot, not off the name.** `--ui-brand-third`
 resolves to `--cerulean-500`, and cerulean is bound to the **synthesis**
-register — not depth. Depth held cerulean before PR #75 moved it to Expression,
+register: not depth. Depth held cerulean before PR #75 moved it to Expression,
 and the old pairing has outlived the change in more than one document. The
 front matter above is derived, so it is the arbiter.
 
 ### Neutral
 - **Void** (#0A0A0B) page ground · **Frame** (#0E0E11) window chrome.
 - Dark ink ramp: **Bright** #F4F2EE (headings/body) · **Mid** #C9C5BD ·
-  **Dim** #8A8780 (5.5:1) · **Faint** #807D78 (4.8:1 — the AA floor for
+  **Dim** #8A8780 (5.5:1) · **Faint** #807D78 (4.8:1, the AA floor for
   small forensic labels on dark).
 - Cream ramp (light surfaces only): **Cream** #F3F1EF ground ·
   **Cream-deep** #EBE8E4 cards · **Cream-body** #4A4538 text ·
   **Mute** #3A3833.
 
 **The Mute-Is-Cream Rule.** `--text-mute` (#3A3833) is a cream-surface ink.
-It never touches a dark surface — on the void it measures 1.7:1 and text
+It never touches a dark surface: on the void it measures 1.7:1 and text
 disappears. The dark faint tier is `--text-faint` (#807D78), AA-verified.
 
 **The One-Meaning Rule.** A chrome register is used only for its named
@@ -174,8 +174,8 @@ feel.
 both alias the Expression ladder, so the ten named registers cover nine hues
 and those two are chromatically identical. That is deliberate (founder ruling,
 2026-07-29): Cerulean became `--synthesis` and took brand load, so depth moved
-to the most recessive hue on the wheel — Expression, the darkest of the twelve
-and the only other translucent factor — where ambient already lived. Both are
+to the most recessive hue on the wheel: Expression, the darkest of the twelve
+and the only other translucent factor: where ambient already lived. Both are
 wash registers on a non-brand hue, which was the point: no brand colour does
 chrome duty any more. Two wash registers sharing a translucent hue has no
 visible consequence; a brand hue doing chrome duty did.
@@ -194,18 +194,18 @@ previous faces one position back so a build that has not yet loaded the new
 faces degrades to them rather than to the OS default; they are fallbacks, not
 the stack. Never name a fallback as the face.
 
-**Character:** A 1990s broadsheet masthead running on lab instrumentation —
+**Character:** A 1990s broadsheet masthead running on lab instrumentation, 
 warm authoritative serifs for what the humans and agents *say*, cold precise
 mono for what the system *records*.
 
 ### Hierarchy
 - **Display** (700, 64px canon / clamp to 76.8px hero, 1.05): screen titles
   and hero statements. Never exceeds the 96px landing register.
-- **Headline** (300, 28px, 1.18): the subject question — the line the eye
+- **Headline** (300, 28px, 1.18): the subject question, the line the eye
   lands on inside a work surface.
 - **Body** (400, 14–15px Space Grotesk, 1.5): UI copy, descriptions, ≤65–75ch.
 - **Read** (400, 14–15.5px Perfectly Nineties, 1.55–1.7): agent reads and
-  rationale — reasoned prose is always serif, never mono.
+  rationale: reasoned prose is always serif, never mono.
 - **Label** (400, 9–11px Space Mono, 0.08–0.12em, uppercase): source tags,
   counts, audit meta. On dark, labels at this size use ink-faint or brighter.
 
@@ -213,7 +213,7 @@ mono for what the system *records*.
 Grotesk and the mono is Space Mono. `Geist` and `Geist Mono` survive only as
 fallback entries in the `--sans` / `--mono` chains, to be dropped once every
 surface loads the new faces. Naming a fallback as the primary face is how the
-stack silently reverts — and it is what this file itself did for three months.
+stack silently reverts: and it is what this file itself did for three months.
 `design:check` now fails on it, with the offending `file:line`.
 
 (The two fallback faces are written in code spans throughout this file. That is
@@ -225,7 +225,7 @@ A rule about fallbacks has to be able to name them.)
 serif; record = mono. A mono paragraph carrying narrative is drift (the
 molehunt re-skin fixed exactly this).
 
-**The Title-Dash Rule.** Em-dashes are a *naming* grammar ("Govern — Opus 4.8
+**The Title-Dash Rule.** Em-dashes are a *naming* grammar ("Govern: Opus 4.8
 spend against company goals"), not a prose cadence. Body copy uses commas,
 colons, periods; ≤2 em-dashes per surface in prose.
 
@@ -234,7 +234,7 @@ colons, periods; ≤2 em-dashes per surface in prose.
 Depth is carried by borders and light, not by stacking shadows: 1px
 `--card-border` hairlines define every plane, and the window shells float on
 one deep ambient shadow (`0 40px 90px rgba(0,0,0,0.6)`). Inside a frame,
-surfaces are flat — tonal steps (`--frame-bg` → `--frame-bg-2` →
+surfaces are flat: tonal steps (`--frame-bg` → `--frame-bg-2` →
 `--frame-bg-3`) do the layering. Glows are semantic, not decorative: the seal
 glow (600ms bifurcated ceremony) and register pulses are *events*, never
 resting states.
@@ -288,11 +288,11 @@ background step.
 
 ### Do:
 - **Do** consume canon tokens for every color, radius, spacing, and type
-  value; the token file is a synced copy — `npm run tokens:sync`, never
+  value; the token file is a synced copy: `npm run tokens:sync`, never
   hand-edit values here.
 - **Do** put a claim chip on any surface or statement that could read as
   shipped/live/production; classify with the seven-term register.
-- **Do** make refusal visible and legible — it is the product's signature
+- **Do** make refusal visible and legible: it is the product's signature
   act, styled as information (bordered block, register hue, plain language),
   never as an error toast.
 - **Do** ship the C8-safe reduced-motion block (assert the revealed
@@ -311,19 +311,19 @@ background step.
 - **Don't** drift toward wellness-spiritual softness: no pastel gradients,
   no rounded-everything, no breathing-circle calm-app language.
 - **Don't** let evidence read as fake: no placeholder data that announces
-  itself, no fabricated algorithm claims ("sha256:" on a random hex — label
+  itself, no fabricated algorithm claims ("sha256:" on a random hex: label
   it "anchor"), no "real"/"live" wording on fixture-driven behavior.
 - **Don't** use `--text-mute` on a dark surface (The Mute-Is-Cream Rule).
 - **Don't** use Inter, Helvetica, system-ui as a primary face, or Newsreader
-  / Fraunces anywhere — the stack is locked.
+  / Fraunces anywhere: the stack is locked.
 - **Don't** name `Geist` or `Geist Mono` as a primary face; they are fallback
   entries only (The Fallbacks-Are-Not-The-Stack Rule).
 - **Don't** lead a surface with Diligence Violet as though it were the brand
-  colour — pink leads (The Pink-Leads Rule, Brand 4).
+  colour: pink leads (The Pink-Leads Rule, Brand 4).
 - **Don't** trust a register name printed next to a hex in prose; the derived
   front matter is the arbiter. Two documents currently disagree about which
   register owns cerulean.
 - **Don't** use `border-left` > 1px as a decorative stripe; the artifact
   card's seal edge is the one sanctioned, meaning-bearing exception.
-- **Don't** animate layout properties (padding, width) — transform and
+- **Don't** animate layout properties (padding, width): transform and
   opacity only, with blur/glow reserved for seal events.

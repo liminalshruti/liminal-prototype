@@ -242,7 +242,7 @@
     },
     "synthesis": {
       "rt": "+4.6s",
-      "html": "Against the frame — <span class=\"hl\">60% development / 40% hardening</span> <span class=\"cite\" data-cite=\"okr\">okr-baseline</span> — security is <span class=\"hl\">under-allocated</span>, and frontier spend leaks to work a verified agent can do.<div class=\"allocbar\"><div class=\"p\" style=\"width:60%\">product 60%</div><div class=\"s\" style=\"width:40%\">security 40%<span class=\"ghost\"></span></div></div>"
+      "html": "Against the frame: <span class=\"hl\">60% development / 40% hardening</span> <span class=\"cite\" data-cite=\"okr\">okr-baseline</span>, security is <span class=\"hl\">under-allocated</span>, and frontier spend leaks to work a verified agent can do.<div class=\"allocbar\"><div class=\"p\" style=\"width:60%\">product 60%</div><div class=\"s\" style=\"width:40%\">security 40%<span class=\"ghost\"></span></div></div>"
     },
     "judgment": {
       "rt": "+6.1s",
@@ -250,7 +250,7 @@
     },
     "outreach": {
       "rt": "+7.0s",
-      "html": "Drafted — route calendar work to a registry-verified agent <span class=\"cite\" data-cite=\"registry\">agent-registry</span>. Ready to ratify."
+      "html": "Drafted: route calendar work to a registry-verified agent <span class=\"cite\" data-cite=\"registry\">agent-registry</span>. Ready to ratify."
     }
   },
   "RECON": {
@@ -310,9 +310,9 @@
         ]
       ],
       "receipt": {
-        "ph": "—",
-        "pp": "—",
-        "anchor": "dropped — not anchored",
+        "ph": "n/a",
+        "pp": "n/a",
+        "anchor": "dropped: not anchored",
         "vstate": "✗ dropped · E14 refuted",
         "ok": false
       }
@@ -368,11 +368,11 @@
       "c3d4…"
     ],
     [
-      "—",
+      ": ",
       "✗ refuted",
       "E14 refuted · PR-103 proves product feature ($162, not anchored)",
-      "—",
-      "—"
+      ": ",
+      ": "
     ]
   ],
   "okr": {
@@ -459,7 +459,7 @@
       "annual": 3888,
       "via": "CalendarOps"
     },
-    "business_impact": "Frontier-model spend is 89.5% aligned to approved OKRs. $324/mo ($3888/yr) is realizable by routing verified calendar/admin work to a lower-cost agent — without surveilling employees or touching the 1 item(s) that PR evidence proved were real product work. Security is under-allocated and should be rebalanced toward the 40% target.",
+    "business_impact": "Frontier-model spend is 89.5% aligned to approved OKRs. $324/mo ($3888/yr) is realizable by routing verified calendar/admin work to a lower-cost agent, without surveilling employees or touching the 1 item(s) that PR evidence proved were real product work. Security is under-allocated and should be rebalanced toward the 40% target.",
     "decision_id": "4e435b3e-a0ef-42ad-ad31-a473f7287653",
     "decision": "Opus 4.8 cannot be used for calendar management or routine admin work.",
     "decision_hash": "7bd9a3ff95423050",
@@ -516,7 +516,7 @@
       "name": "CalendarOps Agent",
       "type": "internal_agent",
       "publisher": "internal-platform",
-      "claim": "scheduling, calendar wrangling, invite drafting — scoped, no reasoning spend",
+      "claim": "scheduling, calendar wrangling, invite drafting: scoped, no reasoning spend",
       "cost_ratio": 0.1,
       "lanes": [
         "calendar_management",
@@ -605,7 +605,7 @@
   ],
   "AGENT_FIT": {
     "task_lane": "calendar_management",
-    "reason": "Claude Opus 4.8 ran calendar management — out of its approved scope and at frontier cost.",
+    "reason": "Claude Opus 4.8 ran calendar management: out of its approved scope and at frontier cost.",
     "current": {
       "key": "opus-4.8",
       "name": "Claude Opus 4.8",

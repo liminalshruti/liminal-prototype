@@ -1,5 +1,5 @@
-# RUN_B_CANON_RULINGS — Design System Adjudication
-> **Status: ADJUDICATED — awaiting founder ratification on two positions (C1, C6)**
+# RUN_B_CANON_RULINGS: Design System Adjudication
+> **Status: ADJUDICATED: awaiting founder ratification on two positions (C1, C6)**
 >
 > Run-B session 2026-07-02. Adjudicator: Fable model. Inputs: RUN_B_COHERENCE_FINDINGS.md (contradiction ledger), four raw critiques (critique-motion.md / critique-spatial.md / critique-typography.md / critique-moments.md), RUN_B_CUTS_INVENTORY.md (fact sheet), consolidation design engine (lib/loop.js), live render wall (audit-runb-wall-*.png), dev server browser verification (1440×900 chromium).
 >
@@ -7,9 +7,9 @@
 
 ---
 
-## RATIFIED IN CODE — Three Contradictions Resolved by Committed Changes
+## RATIFIED IN CODE: Three Contradictions Resolved by Committed Changes
 
-### C3 · The serif identity — Perfectly Nineties, Newsreader killed
+### C3 · The serif identity: Perfectly Nineties, Newsreader killed
 
 **Ruling:** One serif face: Perfectly Nineties. Newsreader (off-canon fork, 5b269f7) has zero live renders catalog-wide.
 
@@ -21,7 +21,7 @@
 
 **Canon specification:** Type scale is locked (2026-05-14). Serif face: Perfectly Nineties, one face, no alternates. Body line-height: 1.55 (design-tokens.css, inherited from serif metric design). All sans-serif and mono unchanged.
 
-**Status:** CLOSED — no further action needed. Record in the canon as: serif identity resolved, Newsreader removed.
+**Status:** CLOSED: no further action needed. Record in the canon as: serif identity resolved, Newsreader removed.
 
 ---
 
@@ -38,11 +38,11 @@
 
 **Canon specification:** Display scale is compositional (moment-relative) per cut, not a locked stepped scale. The implied steps (22/28–32/36) are observations, not requirements. No cut should use !important on display sizing except where a shared stylesheet (brand-upgrade.css) asserts !important first; in that case, counter-!important is permissible but should be minimal and justified by comment.
 
-**Status:** CLOSED — cascade fragility resolved. Record: hero display sizing is stable; !important usage is now minimal and justified.
+**Status:** CLOSED: cascade fragility resolved. Record: hero display sizing is stable; !important usage is now minimal and justified.
 
 ---
 
-### C8 · prefers-reduced-motion coverage — Shell floor established, parity complete
+### C8 · prefers-reduced-motion coverage: Shell floor established, parity complete
 
 **Ruling:** Reduced-motion parity is a shipping requirement for all cuts. Coverage is now 100% via two mechanisms: (a) per-cut local blocks, (b) shell-level floor in cut-shell-base.css.
 
@@ -58,22 +58,22 @@
 
 **Canon specification:** Prefers-reduced-motion is mandatory per surface. Minimum: shell floor (0.01ms, single iteration). Ambient motion (pulses, sweeps) must be silenced. Refined motion (gesture response, state transitions) may accelerate to near-instant. Ceremonies (seal rise, disposition arrival) must still complete as full-opacity end-state (e.g., dispo artifact visible, just no rise animation). Toast notifications and feedback animations survive reduced-motion (they are direct-response, not ambient).
 
-**Status:** CLOSED — parity is complete and verified. Record: all 11 surfaces now handle prefers-reduced-motion safely.
+**Status:** CLOSED: parity is complete and verified. Record: all 11 surfaces now handle prefers-reduced-motion safely.
 
 ---
 
-## ADJUDICATED RULINGS — Decisions Made, Parameter Flips Applied
+## ADJUDICATED RULINGS: Decisions Made, Parameter Flips Applied
 
-### C1 · The sealed moment — bifurcated as the canonical ceremony
+### C1 · The sealed moment: bifurcated as the canonical ceremony
 
 **Ruling:** Seal choreography is altitude-dependent, with explicit documented exceptions.
 
 **Decision:** The archive of seal timings (instant, 360ms, 500ms, bifurcated) maps cleanly to surface intent:
-- **Operator surfaces** (custody defense mode, cut 00 agency loop early versions): `sealChoreography: 'instant'` — seal is proof-of-transaction, no animation needed, visual emphasis via border/shadow only
-- **Demo surfaces** (01-forward, the framing that ships to founders): `sealChoreography: 'rise'` — seal is a *witnessed moment*, rises into place over 360ms (cuts 01/06) or 500ms (cut 09 kernel-driven)
-- **Master surface** (cut 11, the wedge→infra hinge): `sealChoreography: 'bifurcated'` — instant artifact appearance + 600ms orbital glow, staging the moment at two timescales (immediate proof + slow-burn orbital confirmation)
+- **Operator surfaces** (custody defense mode, cut 00 agency loop early versions): `sealChoreography: 'instant'`, seal is proof-of-transaction, no animation needed, visual emphasis via border/shadow only
+- **Demo surfaces** (01-forward, the framing that ships to founders): `sealChoreography: 'rise'`, seal is a *witnessed moment*, rises into place over 360ms (cuts 01/06) or 500ms (cut 09 kernel-driven)
+- **Master surface** (cut 11, the wedge→infra hinge): `sealChoreography: 'bifurcated'`: instant artifact appearance + 600ms orbital glow, staging the moment at two timescales (immediate proof + slow-burn orbital confirmation)
 
-**Rationale:** The motion critic and moments critic both independently hypothesized the altitude rule; the evidence strongly supports it. The master (11) uses bifurcated because it's the demo-facing, richest surface — the one that proves infrastructure-grade choreography. Cuts 01 and 06 use rise because they're the framing story ("read your own pattern," "margin notes"). Cut 09 uses 500ms because its kernel is driving the beat-to-beat motion; the slower 500ms lets the disposition artifact land with its own momentum. Cut 08/00 use instant because they're operator-heavy (custody, early-phase).
+**Rationale:** The motion critic and moments critic both independently hypothesized the altitude rule; the evidence strongly supports it. The master (11) uses bifurcated because it's the demo-facing, richest surface: the one that proves infrastructure-grade choreography. Cuts 01 and 06 use rise because they're the framing story ("read your own pattern," "margin notes"). Cut 09 uses 500ms because its kernel is driving the beat-to-beat motion; the slower 500ms lets the disposition artifact land with its own momentum. Cut 08/00 use instant because they're operator-heavy (custody, early-phase).
 
 **Evidence cites:**
 - Coherence findings §2, C1: "operator surfaces stay minimal, demo surfaces animate" (both critics independently noted this)
@@ -97,21 +97,21 @@
 
 ---
 
-### C2 · Tokens as infrastructure — binding migration path
+### C2 · Tokens as infrastructure: binding migration path
 
 **Ruling:** Tokens are infrastructure (require binding), not documentation. The prototype's consistent rendered results imply canonical scales that must be claimed and ported.
 
 **Decision:** The typography, spacing, and rail-width scales exist in the renders. No cut violates them; the hardcoding is merely inlined. Canon must claim the scales and create a token binding stage for desktop.
 
 **Extracted scales (implied by render evidence):**
-- **Type tracking (serif body):** 0.10em / 0.12em / 0.14em / 0.16em / 0.18em / 0.20em (critique-typography §4 per-cut table) — inlined across cuts, no token binding. Canonical source: serif voice uses these for narrative/argumentative density.
-- **Spacing scale (section insets):** 7–9px (dense), 12–20px (comfortable), 8px/0px (asymmetric) — ad hoc, no `--space-*` tokens exist in design-tokens.css. Architectural source: layout is locally-optimized per cut, not scale-constrained.
-- **Rail widths:** 196/232/264/280/320/392px range across cuts (critique-spatial Contradiction 4) — no scale documented, no `--rail-*` tokens. Observed: left rails (agency, reading context) are narrower; right rails (evidence, status, seals) vary per subject and cut.
+- **Type tracking (serif body):** 0.10em / 0.12em / 0.14em / 0.16em / 0.18em / 0.20em (critique-typography §4 per-cut table), inlined across cuts, no token binding. Canonical source: serif voice uses these for narrative/argumentative density.
+- **Spacing scale (section insets):** 7–9px (dense), 12–20px (comfortable), 8px/0px (asymmetric): ad hoc, no `--space-*` tokens exist in design-tokens.css. Architectural source: layout is locally-optimized per cut, not scale-constrained.
+- **Rail widths:** 196/232/264/280/320/392px range across cuts (critique-spatial Contradiction 4): no scale documented, no `--rail-*` tokens. Observed: left rails (agency, reading context) are narrower; right rails (evidence, status, seals) vary per subject and cut.
 
 **Panel disagreement (D1) resolution:** The typography critic graded unclaimed scales as system incoherence (C+); spatial/motion critics graded them as "one abstraction short of canon" (B+). My ruling: **both are right**. The scales are coherent (renders consistent) but unclaimed (no tokens). The desktop port will require them to be claimed; this is not a cut-era obligation, but a port-time prerequisite.
 
 **Token binding migration path:**
-1. **Stage 1 (this session, Run-B):** Document the implied scales as observations (what the renders express) without requiring changes to the prototype. Output: a spec doc (`docs/RUN_B_EXTRACTED_SCALES.md` — to be written) listing tracking, spacing, rail scales with per-cut citations and usage counts.
+1. **Stage 1 (this session, Run-B):** Document the implied scales as observations (what the renders express) without requiring changes to the prototype. Output: a spec doc (`docs/RUN_B_EXTRACTED_SCALES.md`, to be written) listing tracking, spacing, rail scales with per-cut citations and usage counts.
 2. **Stage 2 (desktop port):** Design the token names and structure (e.g., `--ls-track-tight / --ls-track-body / --ls-track-loose` for serif; `--space-dense / --space-comfortable` for insets; `--rail-agent / --rail-read / --rail-status` per function). Map prototype hardcodes to new tokens.
 3. **Stage 3 (desktop implementation):** Consume the tokens catalog-wide. Prototype cut surfaces do not need to change; desktop surfaces will use token variables from the start.
 
@@ -119,7 +119,7 @@
 - Coherence findings §2, C2: "tokens declared but not consumed" + table of inconsistencies
 - Critique-typography §4: per-cut tracking table (lines 123–156)
 - Critique-spatial Contradictions 1 & 4: spacing ad hoc, rail widths unconstrained
-- Counters to D1 typography read: cuts 01, 04, 06 are "closest to token discipline" (per-surface notes) — proof that compositionality can work, but consistency requires claim
+- Counters to D1 typography read: cuts 01, 04, 06 are "closest to token discipline" (per-surface notes): proof that compositionality can work, but consistency requires claim
 
 **Parameter flips:** C2 does not flip engine parameters; it defines a specification work item.
 
@@ -132,15 +132,15 @@
 
 ---
 
-### C4 · Correction UX — two canonical patterns with use-case guidance
+### C4 · Correction UX: two canonical patterns with use-case guidance
 
 **Ruling:** Two distinct correction patterns exist and will be supported as alternatives (not unified). Each has a canonical name and documented use case.
 
 **Decision:** The three UX models reduce to two canonical patterns:
-1. **Gloss-layer** (cut 06, the reference implementation) — lightweight, non-blocking correction during read. Founder annotates text in-place; gloss does not gate progression. Sealing the verdict does not require rule agreement. Gloss persists as a layer beneath the artifact.
-2. **Rule-gate** (cuts 08/09, converged pattern) — heavyweight, blocking correction. Founder creates a durable rule (WHEN/THEN clause); rule must be signed before progression. Seal is gated by rule-creation. Two visual sub-variants:
-   a. **Rule-gate (hidden clause)** (cut 08) — rule is saved but not visible in the UI; state only
-   b. **Rule-gate (visible-clause)** (cut 09) — rule is visible as a WHEN/THEN block; user can see doctrine being formed
+1. **Gloss-layer** (cut 06, the reference implementation): lightweight, non-blocking correction during read. Founder annotates text in-place; gloss does not gate progression. Sealing the verdict does not require rule agreement. Gloss persists as a layer beneath the artifact.
+2. **Rule-gate** (cuts 08/09, converged pattern): heavyweight, blocking correction. Founder creates a durable rule (WHEN/THEN clause); rule must be signed before progression. Seal is gated by rule-creation. Two visual sub-variants:
+   a. **Rule-gate (hidden clause)** (cut 08): rule is saved but not visible in the UI; state only
+   b. **Rule-gate (visible-clause)** (cut 09): rule is visible as a WHEN/THEN block; user can see doctrine being formed
 
 **Rationale:** Cuts 08 and 09 both use the rule-gate architecture but render the rule differently. Cut 08 is operator-facing (rule hidden in state, minimal UI surface). Cut 09 is kernel-driven (rule visible, computational style). Both are canonical variants of the same pattern because they share the gating behavior and durability semantics.
 
@@ -167,7 +167,7 @@
 
 ---
 
-### C5 · Refusal — three flavors documented, 320ms unified timing
+### C5 · Refusal: three flavors documented, 320ms unified timing
 
 **Ruling:** Refusal has three social semantics (system hold, agent refusal, routing refusal) but one visual grammar and one canonical timing: 320ms reveal.
 
@@ -205,7 +205,7 @@
 
 ---
 
-### C6 · Frame restructuring — three-pane invariant with documented exceptions
+### C6 · Frame restructuring: three-pane invariant with documented exceptions
 
 **Ruling:** Three-pane layout (left rail | work | right rail) is the canonical invariant for foundational cuts (00–09). Exceptions are explicitly documented for re-entry surfaces (10's Today) and command-surface extensions (11's tab-nav layer).
 
@@ -233,7 +233,7 @@
 
 ---
 
-### C9 · Ambient vs refined motion — refined pauses ambient, 4.2s pulse canonical
+### C9 · Ambient vs refined motion: refined pauses ambient, 4.2s pulse canonical
 
 **Ruling:** Two motion tiers (ambient pulse, refined gesture) coexist. Precedence rule: refined motion (user action) pauses ambient motion; ambient resumes on idle. Canonical pulse duration: 4.2s (step-synced, cut 01 reference).
 
@@ -253,7 +253,7 @@
 **Evidence cites:**
 - Coherence findings §2, C9: "no precedence rule; shared `pulse-glyph` keyframe has a bound duration in 01 but unspecified binding in 11"
 - Critique-motion Finding 1: glyph animation durations inconsistent (01 specifies 4.2s, 11's duration source "not visible in grep"); Finding 3: refined vs ambient collision (e.g., what happens when user clicks during pulse?)
-- Cuts inventory: cut 01 pulse-glyph at line 158 (4.2s, `animation-duration: --reg-pulse-dur` which is 4.2s per line 141); cut 11 pulse-glyph at line 385 (same keyframe, but duration binding location not cited in inventory — needs local verification)
+- Cuts inventory: cut 01 pulse-glyph at line 158 (4.2s, `animation-duration: --reg-pulse-dur` which is 4.2s per line 141); cut 11 pulse-glyph at line 385 (same keyframe, but duration binding location not cited in inventory, needs local verification)
 - Cut 01 live verification: http://localhost:5173/cuts/01-slate-tray.html shows orbital demo stepping every 4.2s, glyph pulsing in sync
 
 **Parameter flips (lib/loop.js):**
@@ -278,7 +278,7 @@
 
 ## PANEL DISAGREEMENT RESOLUTIONS
 
-### D1 · Typography Grade Split — Tokens as infrastructure or documentation?
+### D1 · Typography Grade Split: Tokens as infrastructure or documentation?
 
 **Resolved by C2 ruling.** The panel split (typography C+ vs spatial B+) reflects two valid readings: tokens could be infrastructure (require binding) or documentation (embrace compositional sizing). Run-B C2 ruling: **tokens are infrastructure, but binding is a three-stage migration**. Stage 1 (complete): observe the implied scales. Stage 2 (desktop port): claim them as tokens. Stage 3 (desktop impl): consume them. The prototype is not required to move; it serves as the specification input. This satisfies both the typography critic (scales must be claimed) and the spatial/motion critics (the craft is already excellent without change).
 
@@ -286,13 +286,13 @@
 
 **Resolved by C1 ruling and live verification.** The moments critic asserted seal is always animated; the motion critic documented instant seals in 00 and 08. Run-B C1 ruling: altitude rule. Operator surfaces (00, 08) use instant; demo surfaces (01, 06, 09, 10) use rise. Both readings are correct; the system is altitude-dependent, not uniform. Live verification (cut 01 and cut 08 at http://localhost:5173/) confirms: cut 01 seal rises smoothly (360ms); cut 08 seal toggles instantly.
 
-### D3 · Cut 01 Seal Timing — 360ms (motion critic) vs "no visible animation" (moments critic)
+### D3 · Cut 01 Seal Timing: 360ms (motion critic) vs "no visible animation" (moments critic)
 
-**Resolved by live verification.** The moments critic's walk may not have reached the outcome/confirm beat (where seal animation fires). Motion critic's source-read is more reliable. Live verification: cut 01 (http://localhost:5173/cuts/01-slate-tray.html) — trigger outcome decision, then click "DECIDE" button → sealed artifact rises into place over 360ms with smooth ease. Animation is definitely present. Run-B locks 360ms for cuts 01 and 06.
+**Resolved by live verification.** The moments critic's walk may not have reached the outcome/confirm beat (where seal animation fires). Motion critic's source-read is more reliable. Live verification: cut 01 (http://localhost:5173/cuts/01-slate-tray.html): trigger outcome decision, then click "DECIDE" button → sealed artifact rises into place over 360ms with smooth ease. Animation is definitely present. Run-B locks 360ms for cuts 01 and 06.
 
 ---
 
-## COVERAGE DEBT — Two Surfaces Not Panel-Audited
+## COVERAGE DEBT: Two Surfaces Not Panel-Audited
 
 ### molehunt (CI / live verification surface)
 
@@ -332,7 +332,7 @@ The following documents should be written and checked into `liminal-creative/can
 
 The following positions require the founder's explicit choice to proceed:
 
-### Decision 1: Seal Choreography (C1) — One vs Three
+### Decision 1: Seal Choreography (C1): One vs Three
 
 **Recommendation:** Adopt the altitude rule (instant operator, rise demo, bifurcated master).
 
@@ -343,7 +343,7 @@ The following positions require the founder's explicit choice to proceed:
 
 **Impact:** If founder chooses unified, the parameter defaults in lib/loop.js and all per-cut configs shift to a single value. If founder prefers altitude rule, all flips are ready to apply.
 
-### Decision 2: Rule-Gate Variant (C4) — Visible Clause vs Hidden Rule
+### Decision 2: Rule-Gate Variant (C4): Visible Clause vs Hidden Rule
 
 **Recommendation:** Support both; let surface choice pick the variant (cut 08 hides rule, cut 09 shows it).
 
@@ -353,7 +353,7 @@ The following positions require the founder's explicit choice to proceed:
 
 **Impact:** If founder prefers one pattern, specs can deprecate the other. If both are kept, desktop port will support both variants.
 
-### Decision 3: Refusal Flavor Rendering (C5) — Unify Visuals or Keep Distinct?
+### Decision 3: Refusal Flavor Rendering (C5): Unify Visuals or Keep Distinct?
 
 **Recommendation:** Document the three flavors but keep the unified visual grammar (opacity reveal, color + direction signaling per flavor).
 
@@ -365,22 +365,22 @@ The following positions require the founder's explicit choice to proceed:
 
 ---
 
-## SUMMARY TABLE — Rulings at a Glance
+## SUMMARY TABLE: Rulings at a Glance
 
 | Item | Ruling | Status | Parameter flips? | Upstream spec? | Founder choice? |
 |------|--------|--------|-----------------|---|---|
-| C1 — Seal choreography | Altitude rule: instant (ops), rise (demo), bifurcated (master) | ADJUDICATED | YES (11 flips across 7 files) | YES — DESIGN_SYSTEM.md §Seal | **YES — choose unified vs altitude** |
-| C2 — Tokens | Infrastructure (require binding), 3-stage migration | ADJUDICATED | NO (spec-only, no code change) | YES — SCALE_EXTRACTION_2026-07-02.md + SCALE_MIGRATION_PLAN.md | No |
-| C3 — Serif | Perfectly Nineties only, Newsreader killed | **RATIFIED IN CODE** (commit a8e3286) | N/A | N/A | No |
-| C4 — Correction UX | Two patterns: gloss-layer (06) + rule-gate (08/09, visible or hidden) | ADJUDICATED | NO (already parameterized in engine) | YES — DESIGN_SYSTEM.md §Correction | **YES — unified vs two patterns** |
-| C5 — Refusal | Three flavors named, 320ms timing unified | ADJUDICATED | YES (timing updates in 4 files) | YES — DESIGN_SYSTEM.md §Refusal | **YES — unified visuals vs distinct** |
-| C6 — Frame restructuring | Three-pane invariant, documented exceptions (re-entry, command) | ADJUDICATED | NO (layout is per-surface, not parameterized) | YES — DESIGN_SYSTEM.md §Frame | No |
-| C7 — Display scale | Steps claimed (22/28–32/36), cascade fragility eliminated | **RATIFIED IN CODE** (commit 264b8e0) | N/A | N/A | No |
-| C8 — Reduced-motion | Shell floor + per-cut coverage, 100% parity | **RATIFIED IN CODE** (commits 68b18ca + c09220d) | N/A | N/A | No |
-| C9 — Ambient vs refined | Refined pauses ambient (implicit), 4.2s pulse canonical | ADJUDICATED | NO (motion is CSS, not parameterized) | YES — DESIGN_SYSTEM.md §Motion | No |
-| D1 — Typography grade split | Resolved by C2 (tokens are infrastructure, binding is deferred) | RESOLVED | NO | YES (by C2 spec) | No |
-| D2 — Seal consistency | Resolved by C1 (altitude rule explains instant vs animated) | RESOLVED | Applies to C1 flips | YES (by C1 spec) | **By C1 decision** |
-| D3 — Cut 01 seal timing | Resolved: rendered timing is 520ms (cut-shell artifact-arrive); the findings ledger's 360ms claim was the error — config keeps 520 | RESOLVED | NO (behavior preserved at 520ms) | N/A | No |
+| C1: Seal choreography | Altitude rule: instant (ops), rise (demo), bifurcated (master) | ADJUDICATED | YES (11 flips across 7 files) | YES, DESIGN_SYSTEM.md §Seal | **YES, choose unified vs altitude** |
+| C2: Tokens | Infrastructure (require binding), 3-stage migration | ADJUDICATED | NO (spec-only, no code change) | YES, SCALE_EXTRACTION_2026-07-02.md + SCALE_MIGRATION_PLAN.md | No |
+| C3: Serif | Perfectly Nineties only, Newsreader killed | **RATIFIED IN CODE** (commit a8e3286) | N/A | N/A | No |
+| C4: Correction UX | Two patterns: gloss-layer (06) + rule-gate (08/09, visible or hidden) | ADJUDICATED | NO (already parameterized in engine) | YES, DESIGN_SYSTEM.md §Correction | **YES, unified vs two patterns** |
+| C5: Refusal | Three flavors named, 320ms timing unified | ADJUDICATED | YES (timing updates in 4 files) | YES, DESIGN_SYSTEM.md §Refusal | **YES, unified visuals vs distinct** |
+| C6: Frame restructuring | Three-pane invariant, documented exceptions (re-entry, command) | ADJUDICATED | NO (layout is per-surface, not parameterized) | YES, DESIGN_SYSTEM.md §Frame | No |
+| C7: Display scale | Steps claimed (22/28–32/36), cascade fragility eliminated | **RATIFIED IN CODE** (commit 264b8e0) | N/A | N/A | No |
+| C8: Reduced-motion | Shell floor + per-cut coverage, 100% parity | **RATIFIED IN CODE** (commits 68b18ca + c09220d) | N/A | N/A | No |
+| C9: Ambient vs refined | Refined pauses ambient (implicit), 4.2s pulse canonical | ADJUDICATED | NO (motion is CSS, not parameterized) | YES, DESIGN_SYSTEM.md §Motion | No |
+| D1: Typography grade split | Resolved by C2 (tokens are infrastructure, binding is deferred) | RESOLVED | NO | YES (by C2 spec) | No |
+| D2: Seal consistency | Resolved by C1 (altitude rule explains instant vs animated) | RESOLVED | Applies to C1 flips | YES (by C1 spec) | **By C1 decision** |
+| D3: Cut 01 seal timing | Resolved: rendered timing is 520ms (cut-shell artifact-arrive); the findings ledger's 360ms claim was the error: config keeps 520 | RESOLVED | NO (behavior preserved at 520ms) | N/A | No |
 
 ---
 
@@ -393,7 +393,7 @@ The following positions require the founder's explicit choice to proceed:
 1. **Apply C1 seal flips** (if altitude rule approved):
    - lib/loop.js: lines 66–67, 91–92 (master defaults + default fallback)
    - cuts/00-agency.html: line 341 (sealChoreography: instant)
-   - cuts/01-slate-tray.html: line 1316 (sealChoreography: rise, sealRiseMs: 520 — rendered truth; ledger's 360 was erroneous)
+   - cuts/01-slate-tray.html: line 1316 (sealChoreography: rise, sealRiseMs: 520, rendered truth; ledger's 360 was erroneous)
    - cuts/06-margin-read.html: line 636 (sealChoreography: rise, sealRiseMs: 360)
    - cuts/09-osint-custody.html: line 815 (sealChoreography: rise, sealRiseMs: 500)
    - cuts/11-govern.html: line 1170 (sealChoreography: bifurcated, sealRiseMs: 600)
@@ -412,7 +412,7 @@ The following positions require the founder's explicit choice to proceed:
 
 4. **Commit message style (no AI attribution):**
    ```
-   refactor(engine): C1–C5, C9 adjudication — seal choreography, refusal timing, motion tiers
+   refactor(engine): C1–C5, C9 adjudication: seal choreography, refusal timing, motion tiers
 
    - C1: altitude-rule seal choreography (instant ops, rise demo, bifurcated master)
    - C5: unify refusal timing to 320ms across all surfaces

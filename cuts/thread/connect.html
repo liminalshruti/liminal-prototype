@@ -11,7 +11,7 @@
   Spec ref · LIMINAL_RECOVERY_PLAN_DIFFUSE_CONTEXT_2026-06-12 §"Demo script (8 min, their data)"
              + §"zero ceremony". Connect → back-fill → "how many balls?" → first Open Loops.
   Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
-  (Distinct from the old-frame cuts/04-onboarding.html — this is the new-frame connect flow.)
+  (Distinct from the old-frame cuts/04-onboarding.html: this is the new-frame connect flow.)
   Tokens canon · shell from cut-shell · vocab from thread.css · data from seed.js
   Vocabulary · allowed terms only
 -->
@@ -54,7 +54,7 @@
       <div class="th-head">
         <div class="th-eyebrow"><span class="dot">◇</span> The thread · first run</div>
         <h1 class="th-title">No setup. No tagging. <em>An artifact in five minutes</em>.</h1>
-        <p class="th-lede">Connect the surfaces your context already lives in — read-only, on your machine —
+        <p class="th-lede">Connect the surfaces your context already lives in: read-only, on your machine, 
           and the first thing you see is your own open loops. No onboarding homework, no taxonomy to learn.</p>
       </div>
 
@@ -98,7 +98,7 @@
     if (step === 0) {
       panel.innerHTML = `
         <div class="panel-title">Connect your surfaces</div>
-        <div class="panel-sub">Pick what to read. Everything stays on this device — no upload, no server copy.</div>
+        <div class="panel-sub">Pick what to read. Everything stays on this device: no upload, no server copy.</div>
         <div class="sources">${SOURCES.map(s => `
           <div class="source ${s.on ? "on" : ""}" data-id="${s.id}">
             <span class="source-check">${s.on ? "✓" : ""}</span>
@@ -123,7 +123,7 @@
       const on = SOURCES.filter(s => s.on);
       panel.innerHTML = `
         <div class="panel-title">Reading the last 90 days…</div>
-        <div class="panel-sub">No upload — this runs on your machine. It takes a minute.</div>
+        <div class="panel-sub">No upload: this runs on your machine. It takes a minute.</div>
         <div class="backfill">${on.map(s => `
           <div class="backfill-src"><span>${s.name}</span><div class="backfill-bar"><i data-id="${s.id}"></i></div><span class="pct" data-pct="${s.id}">0%</span></div>`).join("")}</div>`;
       // animate
@@ -139,7 +139,7 @@
     else if (step === 2) {
       panel.innerHTML = `
         <div class="balls">
-          <div class="balls-q">Before you see it — how many balls do you think you're juggling right now?</div>
+          <div class="balls-q">Before you see it: how many balls do you think you're juggling right now?</div>
           <input class="balls-input" id="ball" type="number" min="0" max="99" placeholder="?" />
           <button class="th-btn" id="next">Show me →</button>
         </div>`;
@@ -152,7 +152,7 @@
       const found = openLoops.length;
       const owe = openLoops.filter(l => l.kind === "owe").length;
       const surprise = ballGuess != null && found > ballGuess
-        ? `You guessed <b>${ballGuess}</b>. The thread found <b>${found}</b> — ${found - ballGuess} you couldn't see.`
+        ? `You guessed <b>${ballGuess}</b>. The thread found <b>${found}</b>, ${found - ballGuess} you couldn't see.`
         : `The thread found <b>${found}</b> open loops in your week.`;
       panel.innerHTML = `
         <div class="panel-title">Your open loops</div>

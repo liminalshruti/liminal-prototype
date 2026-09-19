@@ -5,8 +5,8 @@ export type FramingRegister = 'serif' | 'mono';
 export interface FramingProps extends React.HTMLAttributes<HTMLParagraphElement> {
   /**
    * Voice of the framing block.
-   * - `serif` (`.seam`) — founder-facing (L1–L2): warm, editorial italic.
-   * - `mono` (`.thesis-line`) — operator / high-stakes (L3): austere, precise.
+   * - `serif` (`.seam`): founder-facing (L1–L2): warm, editorial italic.
+   * - `mono` (`.thesis-line`): operator / high-stakes (L3): austere, precise.
    * @default 'serif'
    */
   register?: FramingRegister;
@@ -17,7 +17,7 @@ export interface FramingProps extends React.HTMLAttributes<HTMLParagraphElement>
 }
 
 /**
- * Framing — a framing block: a quiet setup line plus a bold payload, set off
+ * Framing: a framing block: a quiet setup line plus a bold payload, set off
  * by a register-colored left rule.
  *
  * Two voices, same job. `serif` renders the `.seam` pattern (founder register);
@@ -26,7 +26,7 @@ export interface FramingProps extends React.HTMLAttributes<HTMLParagraphElement>
  *
  * @example
  * <Framing register="serif"
- *   lead="We started where the founder already lives —"
+ *   lead="We started where the founder already lives, "
  *   payload="the daily decisions nobody else sees." />
  * @example
  * <Framing register="mono"

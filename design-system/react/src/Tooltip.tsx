@@ -8,7 +8,7 @@ export interface TooltipProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 /**
- * Tooltip — passive hover callout with no interactivity.
+ * Tooltip: passive hover callout with no interactivity.
  *
  * Wraps a trigger element in `.tooltip-host`. The `.tooltip` element is
  * shown on hover/focus via CSS. Maps to `.tooltip-host` and `.tooltip`

@@ -14,8 +14,8 @@
  *
  * WHY THIS IS NOT A GENERIC DATA GRID
  * A row here is evidence, not a record. Every row in this product came from
- * somewhere and either verifies or does not, and a row may be REFUSED —
- * dropped with a stated reason — which a generic grid has no concept of. So
+ * somewhere and either verifies or does not, and a row may be REFUSED, 
+ * dropped with a stated reason: which a generic grid has no concept of. So
  * provenance is structural, not a column you can drop: `.dt-gutter` is always
  * present. A table that can hide provenance lets an unverified row look
  * identical to a verified one, which is the failure this product exists to
@@ -23,7 +23,7 @@
  *
  * CHROMA (Signal Atlas · chroma is earned)
  * Colour appears in exactly two places:
- *   1. the gutter, carrying receipt state — a measured verification result
+ *   1. the gutter, carrying receipt state: a measured verification result
  *   2. the metric, when it is a measured delta
  * Headers, labels, titles and rules are ink. If you are tempted to colour a
  * label here, you cannot name the measurement behind it, so it has not
@@ -98,7 +98,7 @@
 .dt tbody tr:last-child td { border-bottom: none; }
 .dt tbody tr:hover td { background: var(--hover); }
 
-/* the claim is prose — a human sentence, so it is set in the serif */
+/* the claim is prose: a human sentence, so it is set in the serif */
 .dt .dt-claim { color: var(--text); }
 .dt .dt-sub {
   display: block;
@@ -135,8 +135,8 @@
   padding-left: calc(var(--space-2) * var(--density-scale));
   min-height: 18px;
 }
-/* The gutter always states the SAME kind of thing — how many events the row
-   cites — and the mark carries the state. A gutter that says "cites 14" on one
+/* The gutter always states the SAME kind of thing, how many events the row
+   cites: and the mark carries the state. A gutter that says "cites 14" on one
    row and "receipt" on the next is naming two different categories in one
    column, which is exactly the inconsistency this rail exists to remove. */
 .dt-receipt__mark { font-size: 10px; line-height: 1; }
@@ -145,7 +145,7 @@
 .dt-receipt[data-receipt="verified"] { border-left-color: var(--ui-state-success); color: var(--ui-state-success); }
 /* failed · a receipt that did not verify is a severity, not a lifecycle state */
 .dt-receipt[data-receipt="failed"]   { border-left-color: var(--ui-state-error);   color: var(--ui-state-error); }
-/* unverified · nothing measured yet, so no chroma — absence is the reading */
+/* unverified · nothing measured yet, so no chroma, absence is the reading */
 .dt-receipt[data-receipt="none"]     { border-left-color: var(--text-mute);        color: var(--text-faint); }
 
 /* ── the metric column ── chroma only when the number is a measured delta ── */

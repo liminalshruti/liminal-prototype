@@ -9,7 +9,7 @@ export interface EmptyStateProps
 }
 
 /**
- * EmptyState — message + icon container for empty content areas.
+ * EmptyState: message + icon container for empty content areas.
  *
  * Displays a centered glyph, title, and body content. Use when a container
  * has no data. Maps to `.empty-state`, `.glyph`, `.es-title`, and `.es-body`

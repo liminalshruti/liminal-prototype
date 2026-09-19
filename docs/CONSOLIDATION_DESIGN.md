@@ -1,4 +1,4 @@
-# Loop Consolidation Design — Executive Summary
+# Loop Consolidation Design: Executive Summary
 
 **Status:** Design document (not implementation)  
 **Scope:** Full consolidation of 8 loop-bearing cuts (00, 01, 02, 06, 08, 09, 10, 11) onto one parameterized engine  
@@ -11,14 +11,14 @@
 
 This design answers 6 foundational questions about how to consolidate the prototype's scattered loop implementations into one coherent engine:
 
-1. **Loop-engine contract** — what does the state machine look like, what does it export, how do cuts call it?
-2. **Port strategy** — which cuts go first, why, and in what order?
-3. **CSS architecture** — how to split cut-shell.css (2,775 lines) into modular, reusable layers?
-4. **Execution plan** — what runs in parallel, what serializes, which branches?
-5. **Verification** — how do we know it works (render wall + beat walks)?
-6. **Risk mitigation** — the top 5 ways this breaks, and how to prevent each.
+1. **Loop-engine contract**: what does the state machine look like, what does it export, how do cuts call it?
+2. **Port strategy**: which cuts go first, why, and in what order?
+3. **CSS architecture**: how to split cut-shell.css (2,775 lines) into modular, reusable layers?
+4. **Execution plan**: what runs in parallel, what serializes, which branches?
+5. **Verification**: how do we know it works (render wall + beat walks)?
+6. **Risk mitigation**: the top 5 ways this breaks, and how to prevent each.
 
-The design does **not** propose new features or resolve the 9 contradictions in `RUN_B_COHERENCE_FINDINGS.md` — those are for Run-B to adjudicate. Instead, it **parameterizes them** so Run-B can decide later without triggering a re-port.
+The design does **not** propose new features or resolve the 9 contradictions in `RUN_B_COHERENCE_FINDINGS.md`, those are for Run-B to adjudicate. Instead, it **parameterizes them** so Run-B can decide later without triggering a re-port.
 
 ---
 
@@ -51,17 +51,17 @@ export function initLoopEngine({
 ```
 
 **This is NOT a rewrite.** It calls into existing modules:
-- `state.js` — read/write active subject, slated tiles, vault count
-- `slate.js` — render evidence pane, wire citations, show disposition
-- `agency.js` — tick agent readers, manage register state
-- `vault-store.js` — persist sealed decisions
-- `keyboard.js` — keyboard shortcuts
+- `state.js`: read/write active subject, slated tiles, vault count
+- `slate.js`: render evidence pane, wire citations, show disposition
+- `agency.js`: tick agent readers, manage register state
+- `vault-store.js`: persist sealed decisions
+- `keyboard.js`: keyboard shortcuts
 
 ### Evidence Panes: `lib/evidence-panes.js`
 
 Each subject has a visual:
 - **spend:** OKR allocation bar + agent-fit cost-swap (from cut 11)
-- **custody:** geographic map + marker rings (cut 08) OR layered reads + hypothesis bar (cut 09) — togglable
+- **custody:** geographic map + marker rings (cut 08) OR layered reads + hypothesis bar (cut 09), togglable
 - **notice:** dense 24-row audit trail (cut 02)
 - **osint:** same as custody-osint mode; subject is separate because it uses the frozen kernel
 - **pattern:** orbital coverage viz (from cut 00)
@@ -152,11 +152,11 @@ npm run dev &
 
 | Risk | Mitigation |
 |---|---|
-| **CSS split cascade shadow** — a rule in one file accidentally wins specificity, breaking 35+ surfaces | Use CSS comment markers per file; load in strict order; render-test all surfaces; use DevTools cascade inspector if diff found |
-| **Choreography default misses cut's original feel** — e.g., cut 08's instant seal becomes "rise" by default | Extract per-cut choreography params before porting; wire defaults to match original; verify vs baseline PNG |
-| **Evidence pane renderer breaks citation wiring** — clicking a cite doesn't light the tile | Evidence panes call `slate.js` internals; test each with a beat walk; document override in comments |
-| **Frozen osint-kernel.bundle.js breaks** — kernel compute drifts during port | Treat as read-only; verify loads in browser console before porting; re-test on any future kernel rebuild |
-| **Subject switch doesn't re-render evidence pane** — user clicks "spend" → "custody" but pane doesn't swap | Wire button click to `loop.initLoopEngine({subject: new_subject})` + render; test in beat-walk script; verify state.js + loop.js sync |
+| **CSS split cascade shadow**: a rule in one file accidentally wins specificity, breaking 35+ surfaces | Use CSS comment markers per file; load in strict order; render-test all surfaces; use DevTools cascade inspector if diff found |
+| **Choreography default misses cut's original feel**: e.g., cut 08's instant seal becomes "rise" by default | Extract per-cut choreography params before porting; wire defaults to match original; verify vs baseline PNG |
+| **Evidence pane renderer breaks citation wiring**, clicking a cite doesn't light the tile | Evidence panes call `slate.js` internals; test each with a beat walk; document override in comments |
+| **Frozen osint-kernel.bundle.js breaks**: kernel compute drifts during port | Treat as read-only; verify loads in browser console before porting; re-test on any future kernel rebuild |
+| **Subject switch doesn't re-render evidence pane**: user clicks "spend" → "custody" but pane doesn't swap | Wire button click to `loop.initLoopEngine({subject: new_subject})` + render; test in beat-walk script; verify state.js + loop.js sync |
 
 ---
 
@@ -235,7 +235,7 @@ Before kicking off, clarify:
 This design was authored before `docs/CUT_CONSOLIDATION_MAP.md`; the map is the
 binding authority for targets. Corrections and answers:
 
-1. **Master surface = generalized cut 11** (map §1, per the founder-brain fold map) —
+1. **Master surface = generalized cut 11** (map §1, per the founder-brain fold map), 
    NOT an ambiguous "agency-master" and NOT cut 00. Cut 00's SUBJECTS mechanism moves
    into lib/loop.js; the 00 file archives behind a redirect after absorption.
 2. **The five "Questions for the Founder" are answered** (plan of record):
@@ -244,9 +244,9 @@ binding authority for targets. Corrections and answers:
    Q3 custody toggle → cut 09's existing register-swap pattern; no new UI paradigm.
    Q4 structure → master (generalized 11) + custody.html, per the fold map.
    Q5 onboarding (04) → out of engine scope (pre-loop, per the map's ruling).
-3. **Cut 10 is not "ported"** — the fold map records it as already absorbed into 11's
+3. **Cut 10 is not "ported"**: the fold map records it as already absorbed into 11's
    Today surface; the work is parity-verify then archive + redirect (map §2, §4).
-4. **Timeline** — phases execute agentically in-session (Phase A gate → B1/B2/B3
+4. **Timeline**: phases execute agentically in-session (Phase A gate → B1/B2/B3
    parallel worktrees → C fold), not the 4-week human cadence written above.
-5. **Archive discipline** — archived cuts become thin redirects (map §4), zero broken
+5. **Archive discipline**: archived cuts become thin redirects (map §4), zero broken
    links for index.html/_demo-lan/external URLs.

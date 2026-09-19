@@ -1,7 +1,7 @@
 import { Tile } from '@liminal/design-system';
 import { Surface } from './_surface';
 
-/** Tile in vault state — accent tint, fully sealed. */
+/** Tile in vault state: accent tint, fully sealed. */
 export function VaultEntry() {
   return (
     <Surface>
@@ -23,7 +23,7 @@ export function VaultEntry() {
   );
 }
 
-/** Tile in refused state — boundary violation in judgment red. */
+/** Tile in refused state: boundary violation in judgment red. */
 export function RefusedEntry() {
   return (
     <Surface>
@@ -45,7 +45,7 @@ export function RefusedEntry() {
   );
 }
 
-/** Tile on slate — dimmed when placed on slate background. */
+/** Tile on slate: dimmed when placed on slate background. */
 export function OnSlateEntry() {
   return (
     <Surface>

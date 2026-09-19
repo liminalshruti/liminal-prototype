@@ -33,7 +33,7 @@
 **Contradiction:** Cut 00 hero headline = 22px (--display, 400wt). Cut 01 entry modal hero = 36px bold (!important). Cut 04 onboarding hero = ~28–32px (var(--fs-3xl) via design-tokens.css:908). Cut 11 govern hero = ~36–40px (serif, not display, but carrying hero load).
 
 **Evidence:**
-- wall-cut00.png: "Agency — the subject is a parameter" (22px, serif+display mix, understated)
+- wall-cut00.png: "Agency: the subject is a parameter" (22px, serif+display mix, understated)
 - wall-cut01.png: Large hero card text (36px!important, serif serif, high contrast against blue)
 - wall-cut04.png: "A workspace for the correction stream." (28–32px range, serif+display, centered hero box)
 - wall-cut11.png: "Three things came back overnight." (large serif, ~32–36px by visual measure)
@@ -44,7 +44,7 @@
 
 ---
 
-### Finding 2: Register titles (serif, 13.5–15px) vs. agent reads (serif, 19–22px) — scale step unclaimed
+### Finding 2: Register titles (serif, 13.5–15px) vs. agent reads (serif, 19–22px), scale step unclaimed
 
 **Contradiction:** Cut 00 register read headers (`.rname { font:10px/1 var(--mono); letter-spacing:.2em; text-transform:uppercase }`), but register *body* (`.rbody { ... 13.5px/1.55 var(--serif); ... }`) is serif. Cut 05 plugin-seed: agent posts are `.ap-name { serif, 14px }` but the read text itself is larger (~16–17px by render). Cut 10 (today): "The Judgment register led the read" (serif, ~14–15px), but the agent-name label above is smaller (.ag-lane { mono, 9px }).
 
@@ -52,7 +52,7 @@
 
 **Why ambiguous:** The scale between "label" (mono, 9px) and "body" (serif, 13.5px) and "subhead" (serif, 15–17px) is continuous, not stepped. Canon has `--fs-sm: 13.5px`, `--fs-base: 15px`, `--fs-md: 17px`. But no cut explicitly assigns these by name. Cut 00 uses `13.5px/1.55` inline; cut 05 uses `14px` inline; cut 10 uses implicit sizes. The voice is right (serif=readable prose) but the *scale coordination* is invisible.
 
-**Implication:** Is there a "body scale" (serif, 13.5–17px) used consistently for agent reads, or does each surface invent? Cut 00 at 13.5px, cut 10 at ~15px, cut 05 at 14px — they're neighbors, but the system doesn't claim them as one scale.
+**Implication:** Is there a "body scale" (serif, 13.5–17px) used consistently for agent reads, or does each surface invent? Cut 00 at 13.5px, cut 10 at ~15px, cut 05 at 14px. They're neighbors, but the system doesn't claim them as one scale.
 
 ---
 
@@ -82,10 +82,10 @@
 
 **Eye order from wall-cut00.png render (center column, agency read):**
 
-1. **Top:** "AGENCY INVOKED" (mono, 9px, pale blue, caps) — *signal, not content*
-2. **Subj key + title:** "COMPANY" mono 9px / "Is the per-test team's fleet tracking the OKRs?" (serif, ~22px, bold) — *topic*
-3. **Evidence pane header:** "EVIDENCE: FLEET SPEND VS OKR" (mono, 9px, pale) — *classification*
-4. **Register blocks:** Four colored left-borders, each with rname (mono 10px uppercase), rt (9px pale), rbody (serif 13.5px) — *reads*
+1. **Top:** "AGENCY INVOKED" (mono, 9px, pale blue, caps): *signal, not content*
+2. **Subj key + title:** "COMPANY" mono 9px / "Is the per-test team's fleet tracking the OKRs?" (serif, ~22px, bold): *topic*
+3. **Evidence pane header:** "EVIDENCE: FLEET SPEND VS OKR" (mono, 9px, pale): *classification*
+4. **Register blocks:** Four colored left-borders, each with rname (mono 10px uppercase), rt (9px pale), rbody (serif 13.5px), *reads*
 
 **Order achieved by:** Size (22px title > 13.5px body > 9–10px labels), weight (title bold, body regular), and color saturation (pale mono < saturated serif body < colored borders). Hierarchy is CLEAR. Eye flow is title → evidence → register.
 
@@ -98,7 +98,7 @@
 
 **Consensus:** Hierarchy is *built by composition* (layout + color + size + weight), not by a single variable. The mono labels are *always* subordinate (smaller or paler or marginalia). The serif is *always* the main read. The display is *always* the topic anchor. This is consistent.
 
-**Ambiguity:** Cut 01 uses `!important` on .slate-title (36px !important) — a desperate move for override priority. Is this because the cascade is fragile, or because anointment deserves to override normal CSS? The principle isn't stated.
+**Ambiguity:** Cut 01 uses `!important` on .slate-title (36px !important): a desperate move for override priority. Is this because the cascade is fragile, or because anointment deserves to override normal CSS? The principle isn't stated.
 
 ---
 
@@ -164,7 +164,7 @@
 - cuts/10-today.html: No brand-upgrade; Google Fonts link includes Newsreader; 8 instances hardcode Newsreader
 - cuts/01-slate-tray.html:40 comments "Newsreader, Geist, Geist Mono marked as never rendered (status unloaded)" but Google Fonts link doesn't include Newsreader (lines 48–52)
 
-**The contradiction:** The prototype loads Newsreader (a serif voice) in 8 of 12 cuts, but brand-upgrade.css declares Perfectly Nineties as the canonical `--serif` font. Cuts that use brand-upgrade (00, 01, 02, 04, 05, 08, 09, 11) should render as Perfectly Nineties, but Newsreader is *loaded in the browser* for cuts 00, 03, 04, 05, 06, 09, 10, 11 — so if CSS is ever ambiguous or `var(--serif)` fails to resolve, the browser will pick Newsreader.
+**The contradiction:** The prototype loads Newsreader (a serif voice) in 8 of 12 cuts, but brand-upgrade.css declares Perfectly Nineties as the canonical `--serif` font. Cuts that use brand-upgrade (00, 01, 02, 04, 05, 08, 09, 11) should render as Perfectly Nineties, but Newsreader is *loaded in the browser* for cuts 00, 03, 04, 05, 06, 09, 10, 11, so if CSS is ever ambiguous or `var(--serif)` fails to resolve, the browser will pick Newsreader.
 
 **Why this is a craft issue:** Newsreader (Google's serif typeface, contemporary, high contrast) and Perfectly Nineties (bespoke 90s serif, lower contrast, decorative weight) are *different reads*. Newsreader feels authoritative/journalistic. Perfectly Nineties feels nostalgic/designed. On wall-cut03.png and wall-cut10.png (Newsreader dominant), the prose reads *journalistic*. On wall-cut00.png and wall-cut11.png (mixed load), the serif feels *warmer*.
 

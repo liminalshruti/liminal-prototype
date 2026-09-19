@@ -11,7 +11,7 @@
   Same architecture as cut-01 canonical, audience-keyed surface swap.
   Per COPY_AUDIT_2026-04-28.md Issue #5 + Maia identity.json
   three-tagline strategy: same vault state, same 12-agent reads, same
-  correction stream, same orbital-rail demo — flipped hero stack for
+  correction stream, same orbital-rail demo: flipped hero stack for
   Speedrun-register audience.
 
   Hero stack (flipped from canonical):
@@ -51,7 +51,7 @@
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
-  /* per-cut polish · v0.8.3 P1 fix #3 — agency hover affordance
+  /* per-cut polish · v0.8.3 P1 fix #3, agency hover affordance
      · cursor:help + dotted underline signals the title-tooltip surface
      · matches the cut-shell classification-token tooltip idiom (cursor:help) */
   .agency-label {
@@ -64,7 +64,7 @@
     border-bottom-color: rgba(255, 255, 255, 0.42);
   }
 
-  /* ─── v0.8.4 — orbital agency rail · inspo-register correction ──────────
+  /* ─── v0.8.4: orbital agency rail · inspo-register correction ──────────
      Per COPY_AUDIT_2026-04-28.md cross-cutting note: the inspo register
      (Houdini Containment MUBs #3, Pinterest pin orbital diagram) prescribed
      flat / saturated / hard-edged / instrument-grade rendering for the
@@ -74,7 +74,7 @@
      that puts 4 register plates around a central ◇ glyph. Agents are slots
      within plates with status glyphs (◯ ◉ ● ⊘). Refusal arrows draw between
      plates as curved SVG paths. A built-in demo loop cycles agents through
-     reading + refusing + redirecting states even when the slate is empty —
+     reading + refusing + redirecting states even when the slate is empty, 
      so the architectural claim is always visible, not gated on user input.
 
      Single visual deliverable named in inspo investigation: the diagram IS
@@ -90,7 +90,7 @@
     color: var(--text-mid);
   }
 
-  /* Orbital container — replaces #register-blocks visually */
+  /* Orbital container: replaces #register-blocks visually */
   .orbital-rail {
     position: relative;
     width: 100%;
@@ -100,7 +100,7 @@
   }
   .orbital-svg { width: 100%; height: 100%; display: block; overflow: visible; }
 
-  /* Register plate — restrained, all same hairline white. Color only on active state. */
+  /* Register plate: restrained, all same hairline white. Color only on active state. */
   .reg-plate {
     fill: rgba(255, 255, 255, 0.02);
     stroke: rgba(255, 255, 255, 0.1);
@@ -111,7 +111,7 @@
   .reg-plate.synthesis { stroke: rgba(255, 255, 255, 0.1); }
   .reg-plate.judgment  { stroke: rgba(255, 255, 255, 0.1); }
 
-  /* Register label — uniform muted, not color-coded */
+  /* Register label: uniform muted, not color-coded */
   .reg-label {
     font-family: var(--mono, "Geist Mono", ui-monospace, monospace);
     font-size: 7.5px;
@@ -143,8 +143,8 @@
     transition: fill 200ms ease;
   }
   /* Status states · v0.8.5 P3 fixes (mirrored from cut 01-slate-tray):
-     · F3 — opacity transition added for smoother loop reset
-     · F4 — pulse-glyph period synced to step duration (4.2s = 1 cycle per step) */
+     · F3: opacity transition added for smoother loop reset
+     · F4: pulse-glyph period synced to step duration (4.2s = 1 cycle per step) */
   .agent-glyph {
     transition: fill 200ms ease, opacity 400ms ease;
   }
@@ -178,7 +178,7 @@
     filter: drop-shadow(0 0 10px rgba(232, 0, 106, 0.4));
   }
 
-  /* v0.8.5 F5 — initial paint suppression. */
+  /* v0.8.5 F5: initial paint suppression. */
   body {
     opacity: 0;
     transition: opacity 240ms ease-out;
@@ -228,7 +228,7 @@
     opacity: 0.72;
   }
 
-  /* Speedrun-cut variant · P1 fix #5 — flipped hero stack */
+  /* Speedrun-cut variant · P1 fix #5: flipped hero stack */
   .entry-card .entry-brand {
     font-style: italic;
     font-size: 0.85em;
@@ -238,19 +238,19 @@
 
   /* speedrun-cut: entry wedge is lead (flipped from canonical brand-first) */
 
-  /* ─── v0.9.0 — sr-cut anointment + reorder pass ────────────────────────
+  /* ─── v0.9.0: sr-cut anointment + reorder pass ────────────────────────
      Scoped to this cut only. Promotes if Shayaun/sr accept. Eight moves:
-       1. Slate title is hero — everything else demotes a step.
+       1. Slate title is hero: everything else demotes a step.
        2. Brief renders above the tiles · pitch-order, not substrate-order.
-       3. Tray is quieter than slate — supply doesn't yell over composition.
+       3. Tray is quieter than slate: supply doesn't yell over composition.
        4. Agents coverage line is the pitch · promoted to readable type.
        5. Contrarian magenta softened so it reads as margin, not primary.
        6. Disposition trio: Decide primary · Sleep secondary outline · Preview text link.
-       7. Slate tiles strip O/E avatars + × chrome — tray keeps theirs.
+       7. Slate tiles strip O/E avatars + × chrome, tray keeps theirs.
        8. Vault pill carries a delta so it reads as substrate-in-motion.
      ──────────────────────────────────────────────────────────────────── */
 
-  /* 1. Anointment — slate title is the loudest object on the surface */
+  /* 1. Anointment: slate title is the loudest object on the surface */
   .slate-title {
     font-size: 36px !important;
     font-weight: 500 !important;
@@ -291,7 +291,7 @@
   .tray-panel .live-indicator,
   .tray-panel [class*="pill"] { opacity: 0.55; }
 
-  /* 4. Promote the agents coverage line — this is the pitch */
+  /* 4. Promote the agents coverage line: this is the pitch */
   .orbital-coverage {
     font-size: 11px !important;
     line-height: 1.65 !important;
@@ -306,7 +306,7 @@
     font-weight: 500;
   }
 
-  /* 5. Soften contrarian magenta — margin voice, not primary */
+  /* 5. Soften contrarian magenta: margin voice, not primary */
   .mystic-margin {
     background: color-mix(in oklch, var(--judgment-bg) 65%, transparent) !important;
     border-left-color: color-mix(in oklch, var(--judgment) 70%, transparent) !important;
@@ -314,7 +314,7 @@
   .mystic-attr { opacity: 0.78; }
   .mystic-quote { color: var(--text-mid) !important; }
 
-  /* 6. Disposition hierarchy — primary / secondary outline / text link */
+  /* 6. Disposition hierarchy: primary / secondary outline / text link */
   .disposition .dispo-btn.is-defer {
     background: transparent !important;
     border-color: var(--card-border-2) !important;
@@ -352,12 +352,12 @@
     margin-left: 4px;
   }
 
-  /* ─── v0.9.1 — desktop interface primitives lifted from cut 06 ────────
+  /* ─── v0.9.1: desktop interface primitives lifted from cut 06 ────────
      Three patterns: number-cell band · disclosure accordion · footer receipt.
      Injected via DOM at end of body to keep HTML structure-clean.
      ──────────────────────────────────────────────────────────────────── */
 
-  /* number-cell band — three big numbers between slate-header and brief */
+  /* number-cell band: three big numbers between slate-header and brief */
   .metric-band {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -386,7 +386,7 @@
     color: var(--text-mid); font-style: italic;
     line-height: 1.3;
   }
-  /* disclosure accordion — collapse audit ribbon into a + row */
+  /* disclosure accordion: collapse audit ribbon into a + row */
   .slate-area > .audit-ribbon {
     padding: 14px 32px !important;
     border-top: 1px solid var(--frame-border) !important;
@@ -427,7 +427,7 @@
   }
   .slate-area > .audit-ribbon[hidden] { display: none !important; }
 
-  /* footer receipt — full-width status bar across the frame */
+  /* footer receipt: full-width status bar across the frame */
   .frame-receipt {
     border-top: 1px solid var(--frame-border);
     padding: 7px 24px;
@@ -443,9 +443,9 @@
   .frame-receipt .fr-strong { color: var(--text-mid); }
   .frame-receipt .fr-right { margin-left: auto; color: var(--text-faint); opacity: 0.72; }
 
-  /* ─── v0.9.2 — fix #1 · boot staging for v0.9.1 chrome ────────────────
+  /* ─── v0.9.2: fix #1 · boot staging for v0.9.1 chrome ────────────────
      Shell has body[data-boot="staged"] rules on .slate-header, .slate-canvas,
-     .audit-ribbon — but my injected primitives (metric-band, audit-disclosure,
+     .audit-ribbon: but my injected primitives (metric-band, audit-disclosure,
      frame-receipt) weren't covered, so they popped in fully visible before the
      staged shell fades up. Match the same opacity:0 + transition pattern so
      the v0.9.1 chrome respects the boot choreography.
@@ -470,7 +470,7 @@
 <div class="entry-overlay" id="entry-overlay" hidden role="dialog" aria-label="Choose a scenario">
   <div class="entry-card">
     <h1 class="entry-wedge">A founder OS where AI agents disagree, deliberate, and prompt you. The corrections are the moat.</h1>
-    <div class="entry-brand">Liminal — gives form to inner life.</div>
+    <div class="entry-brand">Liminal: gives form to inner life.</div>
     <p class="entry-prompt">Try one</p>
     <div class="entry-doors">
       <button class="entry-door" data-product="personal" data-context="self_baseline_check" type="button">
@@ -637,7 +637,7 @@
       <!-- right rail · agency console (orbital · v0.8.4) -->
       <aside class="rail-right" data-annotation="agency-rail">
         <div class="rail-right-header">
-          <span class="agency-label" title="Twelve bounded specialists in four registers — Diligence, Outreach, Synthesis, Judgment. Each refuses out of lane and names the right agent. The refusal is the feature.">
+          <span class="agency-label" title="Twelve bounded specialists in four registers: Diligence, Outreach, Synthesis, Judgment. Each refuses out of lane and names the right agent. The refusal is the feature.">
             <!-- static orbital glyph: 4 quadrant arcs around a ◇ -->
             <svg class="orbital-glyph" viewBox="0 0 14 14" aria-hidden="true">
               <path d="M 7 1 A 6 6 0 0 1 13 7" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
@@ -859,12 +859,12 @@
   <span id="toast-msg">·</span>
 </div>
 
-<!-- v0.8.4 — orbital-rail demo loop · self-contained · zero deps
+<!-- v0.8.4: orbital-rail demo loop · self-contained · zero deps
      ─────────────────────────────────────────────────────────────────
      Cycles agents through queued → reading → complete / refused states
      on a 4.2s cadence so the orbital diagram is always-animated even
      when the slate is empty. Runs independently of the agency.js
-     ticker (which targets #register-blocks, now absent — it no-ops
+     ticker (which targets #register-blocks, now absent: it no-ops
      silently per its existing null-guard).
 
      The cycle plays a synthetic "head-of-eng / customer-X" scenario
@@ -930,7 +930,7 @@
         arrows: ["arrow-witness-strategist", "arrow-operator-bookkeeper", "arrow-skeptic-editor"],
         coverage: "12 agents · vault committed · the disagreement is the data",
         convergent: true,
-        sealed: true  /* v0.8.5 F2 — rest step distinguished from convergent
+        sealed: true  /* v0.8.5 F2: rest step distinguished from convergent
                          via .sealed center-orb class. Mirrored from cut 01. */
       }
     ];
@@ -969,14 +969,14 @@
       idx = (idx + 1) % STEPS.length;
     }
 
-    // v0.8.5 F1 — pre-apply STEP 0 synchronously at script execution
+    // v0.8.5 F1: pre-apply STEP 0 synchronously at script execution
     // (try/catch wrapped, DOM-not-ready safe).
     try { applyStep(STEPS[0]); } catch (_) { /* DOM not ready yet, harmless */ }
 
     function start() {
       // skip if already running
       if (timer) return;
-      // v0.8.5 F5 — toggle body.ready to fade the cut in (240ms via CSS)
+      // v0.8.5 F5: toggle body.ready to fade the cut in (240ms via CSS)
       requestAnimationFrame(() => document.body.classList.add("ready"));
       // skip if reduced motion preferred
       const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1012,7 +1012,7 @@
 <script>
 (function srCutInterfacePatterns() {
   /* Scenario-keyed copy · keyed by body[data-product].
-     The cut runs three product surfaces (personal/team/business) — each
+     The cut runs three product surfaces (personal/team/business), each
      should display metrics + a receipt that match the active scenario.
      Personal default = founding-round close decision (sr-founding-0512). */
   const SCENARIOS = {
@@ -1087,7 +1087,7 @@
 
     const scenario = SCENARIOS[currentProduct()] || SCENARIOS.personal;
 
-    /* 1. Number-cell band — create once, re-render per scenario */
+    /* 1. Number-cell band: create once, re-render per scenario */
     let band = slateArea.querySelector('.metric-band');
     if (!band) {
       band = document.createElement('div');
@@ -1101,7 +1101,7 @@
     }
     renderMetricBand(band, scenario);
 
-    /* 2. Audit disclosure — collapse audit ribbon behind a + toggle */
+    /* 2. Audit disclosure: collapse audit ribbon behind a + toggle */
     const audit = slateArea.querySelector('.audit-ribbon');
     if (audit && !slateArea.querySelector('.audit-disclosure')) {
       const disclosure = document.createElement('div');
@@ -1127,7 +1127,7 @@
       });
     }
 
-    /* 3. Footer receipt — create once, re-render per scenario */
+    /* 3. Footer receipt: create once, re-render per scenario */
     let receipt = frame.querySelector('.frame-receipt');
     if (!receipt) {
       receipt = document.createElement('div');
@@ -1137,7 +1137,7 @@
     renderReceipt(receipt, scenario);
   }
 
-  /* Initial paint — fire once DOM is ready */
+  /* Initial paint: fire once DOM is ready */
   function boot() {
     setTimeout(inject, 50);
 

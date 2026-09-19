@@ -11,7 +11,7 @@ export interface InputProps
 }
 
 /**
- * Input — single-line text entry.
+ * Input: single-line text entry.
  *
  * The quiet surface where the operator speaks back to the system. Wraps a
  * native `<input>` styled by the canon (`.input`), optionally inside a

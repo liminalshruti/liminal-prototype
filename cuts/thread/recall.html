@@ -8,7 +8,7 @@
 <!--
   cuts/thread/recall.html · The thread · ask the thread · recall over the record
   ──────────────────────────────────────────────────────────────────────
-  Spec ref · liminal-desktop UI_CONTRACT.md §1 — recall(query) → ranked, receipted hits
+  Spec ref · liminal-desktop UI_CONTRACT.md §1: recall(query) → ranked, receipted hits
              with matched terms highlighted. This is the lexical half, real + local (recall.js).
   Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
   Tokens canon · shell from cut-shell · vocab from thread.css
@@ -47,13 +47,13 @@
     <main class="th">
       <div class="th-head">
         <div class="th-eyebrow"><span class="dot">◇</span> The thread · ask the thread</div>
-        <h1 class="th-title">Ask, and get the record — <em>not your memory</em>.</h1>
+        <h1 class="th-title">Ask, and get the record: <em>not your memory</em>.</h1>
         <p class="th-lede">Type a question about anyone or anything in your week. Liminal searches the whole
-          thread — open loops, histories, what you've told people, what's drifting — and answers with ranked,
+          thread: open loops, histories, what you've told people, what's drifting: and answers with ranked,
           receipted lines you can check. This search runs locally over the record.</p>
       </div>
 
-      <span class="th-disclosure"><span class="glyph">●</span> Real search — <b style="color:var(--text-mid)">recall.js</b> indexes and ranks the seeded week's records in your browser. Lexical (term) match; the desktop adds embedding-hybrid.</span>
+      <span class="th-disclosure"><span class="glyph">●</span> Real search: <b style="color:var(--text-mid)">recall.js</b> indexes and ranks the seeded week's records in your browser. Lexical (term) match; the desktop adds embedding-hybrid.</span>
 
       <div class="recall-box">
         <span class="q-glyph">⌕</span>
@@ -100,7 +100,7 @@
     const hits = search(query);
     metaEl.textContent = hits.length
       ? `${hits.length} receipted ${hits.length === 1 ? "answer" : "answers"} for “${query}”`
-      : `no matches for “${query}” — try Vela, Northwind, Marcus, equity, data room`;
+      : `no matches for “${query}”: try Vela, Northwind, Marcus, equity, data room`;
     hitsEl.innerHTML = hits.map(h => `
       <article class="hit">
         <div class="hit-top">

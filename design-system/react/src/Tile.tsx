@@ -19,9 +19,9 @@ export interface TileBarProps {
 export interface TileProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Visual state.
-   * - `on-slate` — dimmed when placed on slate
-   * - `refused` — boundary violation (judgment red)
-   * - `vault` — vault entry styling (accent tint)
+   * - `on-slate`: dimmed when placed on slate
+   * - `refused`: boundary violation (judgment red)
+   * - `vault`: vault entry styling (accent tint)
    */
   state?: TileState;
   /** Title label. Renders in `.t-label`. */
@@ -33,7 +33,7 @@ export interface TileProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Tile — draggable unit from tray with macOS-style window chrome.
+ * Tile: draggable unit from tray with macOS-style window chrome.
  *
  * A card with a dark title bar containing LED lights, source identifier,
  * and live status, plus a content window with label and code snippet.

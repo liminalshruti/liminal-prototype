@@ -1,10 +1,10 @@
-# RUN_B_CUTS_INVENTORY — prototype cuts fact sheet (producer pass)
+# RUN_B_CUTS_INVENTORY: prototype cuts fact sheet (producer pass)
 
 > **What this is.** Read-only INVENTORY of the liminal-prototype cut surfaces, produced
 > 2026-07-01 as the substrate for the Fable Run-B adjudicator pass (which infers the desktop
 > canonical design system FROM this doc). This is a FACT SHEET: extraction + citation only.
 > It contains no design inference, no recommendations. Every claim cites a file:line or an
-> `audit-*.png` screenshot at repo root (screenshots are gitignored working artifacts —
+> `audit-*.png` screenshot at repo root (screenshots are gitignored working artifacts, 
 > re-render the cut if an image is missing).
 >
 > **Method.** Five parallel extraction passes over `cuts/*.html` + `index.html` + the demo
@@ -15,14 +15,14 @@
 
 The cuts sit on a three-layer CSS cascade, declared in the files' own headers:
 
-- **`design-system/tokens/design-tokens.css`** (1307 lines) — self-described "Liminal canon ·
+- **`design-system/tokens/design-tokens.css`** (1307 lines): self-described "Liminal canon ·
   single source of truth"; header contract: every surface imports this file and only this
   file for color/type/spacing/motion; consumers add typography overrides + layout but never
   redefine tokens (design-tokens.css:1-45). Version line: canonical upstream at
   `liminal-creative/tokens/design-tokens.css`, 2026-06-11, with §18 PRODUCT SEMANTICS
   (desktop tray-loop layer) and §19 APP SCALE (second spacing/type scale, `--*-app-*`)
   (design-tokens.css:29-37).
-- **`lib/cut-shell.css`** (2775 lines) — the shared desktop-app shell: register-coded
+- **`lib/cut-shell.css`** (2775 lines): the shared desktop-app shell: register-coded
   `:root` tokens (`--diligence`/`--synthesis`/`--judgment`/`--outreach`), macOS-style frame
   chrome + titlebar + traffic lights, three-pane layout (left rail / slate / right rail
   agency), tray inkwell-rail + drag-and-drop choreography, disposition paper-card, audit
@@ -31,7 +31,7 @@ The cuts sit on a three-layer CSS cascade, declared in the files' own headers:
   design-tokens.css first, cut-shell.css second, per-cut overrides after
   (cut-shell.css:19-27). A "CASCADE BRIDGE" block binds prototype tokens to canon via
   `var(--canon-name, fallback)` so canon wins when imported (cut-shell.css:40-50).
-- **Per-cut inline `<style>`** — surface-specific layout/overrides (see each cut's
+- **Per-cut inline `<style>`**: surface-specific layout/overrides (see each cut's
   Design-system usage section).
 
 Type stack as declared in the shell: `--display: "Nineties Headliner", "Perfectly
@@ -46,13 +46,13 @@ not judged.
 Shared JS machinery in `lib/`: `boot.js` (633 lines), `slate.js` (818), `tray.js` (146),
 `state.js` (138), `vault-store.js` (277), `agency.js` (221), `marginalia.js` (138),
 `keyboard.js` (148), `surface-nav.js` (161), `previews.js` (482), `osint-kernel.bundle.js`
-(1012, frozen bundle — source `liminal-test/src/browser.ts` missing per
+(1012, frozen bundle: source `liminal-test/src/browser.ts` missing per
 cuts/09-osint-custody.html:35-40 comment, tracked LIM-1135), plus `demo-calm.css/js` (the
 presentation "calm mode") and `brand-upgrade.css/js`.
 
 Product-model frame (recorded from the repo's own doc, not inferred here):
-`cuts/TAXONOMY.md` declares one substrate, many cuts — "Same loop — capture → read → decide
-→ record — pointed at a [subject] first", and states cut 00's `SUBJECTS = {spend, custody,
+`cuts/TAXONOMY.md` declares one substrate, many cuts: "Same loop: capture → read → decide
+→ record: pointed at a [subject] first", and states cut 00's `SUBJECTS = {spend, custody,
 osint, notice, pattern}` object is "the invariant made flesh" (TAXONOMY.md, "The model" §).
 
 **Coverage note.** Sections below cover: cuts 00, 01, 02, 03, 04 (+`cuts/onboarding/`
@@ -65,11 +65,11 @@ Archived experiments (`cuts/_archive/`, `_explore/`, `_compare.html`, `_console.
 facts in the index section rely on `audit-02-speedrun-full.png` and source instead.
 
 ---
-# Inventory — Liminal Prototype Cuts 00 & 01
+# Inventory: Liminal Prototype Cuts 00 & 01
 
 ## cuts/00-agency.html
 
-### Visual facts — what is literally on the surface
+### Visual facts: what is literally on the surface
 
 **Layout structure** (lines 42–68): Three-column desktop grid with `.shell` container. Top bar (`.rb-top`) contains traffic lights, brand diamond + "Agency" label, subject-switch buttons (`.subjects`), frame ID display, and ⌘K button. Middle section (`.mid`) is `grid-template-columns: 280px 1fr 320px`: left rail (`.rail-l`), center work area (`.work`), right rail (`.rail-r`). Bottom chain ribbon (`.rb-bot`) + ledger modal (`.ledger`). Responsive body radial gradients at lines 50–51 (diligence-50 at 8% -6%, depth-50 at 106% 4%).
 
@@ -106,7 +106,7 @@ Font stacks (lines 39–41, 53):
 
 **Image evidence**: audit-07-agency-frozen.png shows three-column layout with left Signals panel (live indicator pulsing, slate/tray tabs), center Agency/Tuesday read (serif title, four register blocks with colored left borders staggered, refusal blocks with judgment background), right rail with four-plate orbital diagram (diligence top, outreach left, judgment right, synthesis bottom, agents at arc endpoints with status glyphs ◉/◯/●/⊘).
 
-### Interaction facts — what the cut DOES
+### Interaction facts: what the cut DOES
 
 **Subject switch** (lines 337, 400, 384): Click `.subj[data-subj]` button triggers `go(k)` function. `go()` resets chain to 4 items, renders all panes fresh (renderSubjects, renderFrame, renderSlate, renderAgency, renderRead, renderChain), clears ledger open state, fires toast notification. Subject switch is the master control; everything re-renders.
 
@@ -126,13 +126,13 @@ Font stacks (lines 39–41, 53):
 
 **State machine**: Simple state: `CUR` (subject), `corrections` (count), `signed` (bool), `CHAIN` (array, 4 → N entries). No explicit FSM, but order is enforced by UI: reads first, then corrections, then sign. Signing hides buttons and locks the read.
 
-### Design-system usage — which tokens/components the cut consumes
+### Design-system usage: which tokens/components the cut consumes
 
 **CSS files linked** (lines 31–37):
-- `../design-system/tokens/design-tokens.css` (line 31) — canonical 12-wheel tokens
-- `../design-system/components/framing.css` (line 32) — `.seam` class + utilities
-- `../lib/cut-shell.css` (line 36) — converged shell chrome (`.shell`, `.rb-top`, `.rb-bot`, `.lab`, `.dispo`, `.dispo.db`, trade-off note line 34)
-- `../lib/brand-upgrade.css` (line 37) — shared branding overrides
+- `../design-system/tokens/design-tokens.css` (line 31): canonical 12-wheel tokens
+- `../design-system/components/framing.css` (line 32): `.seam` class + utilities
+- `../lib/cut-shell.css` (line 36): converged shell chrome (`.shell`, `.rb-top`, `.rb-bot`, `.lab`, `.dispo`, `.dispo.db`, trade-off note line 34)
+- `../lib/brand-upgrade.css` (line 37): shared branding overrides
 
 **Custom properties (--*) used** (grep across lines 38–196):
 - Registers: `--diligence`, `--depth`, `--judgment`, `--connection`, `--outreach`, `--synthesis`
@@ -143,12 +143,12 @@ Font stacks (lines 39–41, 53):
 - Fonts: `--sans`, `--mono`, `--serif`, `--display`
 
 **Shared component classes** (inherited from cut-shell.css per line 54 comment):
-- `.shell` — outer container
-- `.rb-top` — top bar
-- `.rb-bot` — chain ribbon + disposition anchor
-- `.lab` — chain label glyph
-- `.dispo` — disposition section
-- `.db` — disposition button (cut-00 inherits, adds magnetic-hover override at lines 46–48)
+- `.shell`: outer container
+- `.rb-top`: top bar
+- `.rb-bot`: chain ribbon + disposition anchor
+- `.lab`: chain label glyph
+- `.dispo`: disposition section
+- `.db`: disposition button (cut-00 inherits, adds magnetic-hover override at lines 46–48)
 
 **Cut-00-unique content preserved**: `.subjects` (subject-switch buttons), `.mid` (three-column grid with canonical 280/320 widths), `.slate` (dashed border, drop state), `.tray` (diffuse signals, drag affordance), `.orbital-pane` (evidence pane for pattern subject), all evidence panes (spend/custody/osint/notice/pattern specific), `.reg` (register reads with colored accents per r0–r3), `.orbit` (orbital diagram SVG), `.ledger` (decision ledger modal), `.page2` (sealed cards).
 
@@ -160,7 +160,7 @@ Forensic/analytic register; each subject is a case file the agents read and you 
 
 ## cuts/01-slate-tray.html
 
-### Visual facts — what is literally on the surface
+### Visual facts: what is literally on the surface
 
 **Layout structure** (lines 734–1049): Desktop shell with titlebar (traffic lights + "◇ The control plane..." wedge + vault pill), product-row nav (Personal|Team|Business|Seed tabs), main three-pane layout (left rail + slate area + right agency rail), tray drawer on right edge. Desktop-first, 1180px shell (line 67 `.mid` in cut 00 equivalent). Entry overlay modal (lines 737–766) only on first visit, hidden by default; can be toggled to show three doors (Personal as lead with "start here" suffix, Team and Sam-Seed as secondary pair, lines 547–568).
 
@@ -224,7 +224,7 @@ Forensic/analytic register; each subject is a case file the agents read and you 
 
 **Image evidence**: audit-05-embed-slate.png shows left rail with multiple signal cards (Granola, Obsidian, Git, etc. with timestamps and colored accents), center slate area with large serif title "Drag any window in", empty composition surface with instructions + small buttons below, right rail with vault counts and tray window (showing Granola, Obsidian, FAI signal tiles). Footer shows audit ribbon, network calls log.
 
-### Interaction facts — what the cut DOES
+### Interaction facts: what the cut DOES
 
 **Product tab switch** (line 800–804 HTML, runtime logic in lib/boot.js):
 - Click `.product-tab[data-product]` updates `body[data-product]` attribute
@@ -243,12 +243,12 @@ Forensic/analytic register; each subject is a case file the agents read and you 
 - Tiles have close buttons (hidden in sealed mode, line 344)
 
 **Disposition flow**:
-- `.dispo-btn.is-primary#dispo-primary` ("Confirm") — commits the read
-- `.dispo-btn.is-defer#dispo-defer` ("Defer 7d") — defers decision, hides brief
-- `.preview-sub#preview-sub` ("Preview subject view") — opens modal
+- `.dispo-btn.is-primary#dispo-primary` ("Confirm"): commits the read
+- `.dispo-btn.is-defer#dispo-defer` ("Defer 7d"): defers decision, hides brief
+- `.preview-sub#preview-sub` ("Preview subject view"): opens modal
 - After confirm: `.dispo-artifact` un-hides (line 870 hidden), shows sealed card with disposition + committed + next action + subject-visibility sections
-- `.da-handoff-btn#da-handoff` — escalates up the org (personal → team → business)
-- `.da-handoff-btn#da-share` — shares with subject (copy to vault + forward)
+- `.da-handoff-btn#da-handoff`: escalates up the org (personal → team → business)
+- `.da-handoff-btn#da-share`: shares with subject (copy to vault + forward)
 
 **Audit disclosure** (lines 1359–1373 runtime):
 - Click `.audit-disclosure` toggles `aria-expanded` state
@@ -285,13 +285,13 @@ Forensic/analytic register; each subject is a case file the agents read and you 
 
 **Toast notifications** (lines 1132–1135 HTML, lines 387–388 in cut 00): `.toast#toast` with glyph + message, auto-dismisses via timeout in runtime.
 
-### Design-system usage — which tokens/components the cut consumes
+### Design-system usage: which tokens/components the cut consumes
 
 **CSS files linked** (lines 43–54):
-- Google Fonts: Caveat only (lines 43–45) — Newsreader, Geist, Geist Mono marked as "never rendered (status unloaded)" per comment line 40
+- Google Fonts: Caveat only (lines 43–45): Newsreader, Geist, Geist Mono marked as "never rendered (status unloaded)" per comment line 40
 - `../design-system/tokens/design-tokens.css` (line 48)
-- `../lib/cut-shell.css` (line 52) — shared shell chrome
-- `../lib/surface-nav.css` (line 53) — product row nav
+- `../lib/cut-shell.css` (line 52): shared shell chrome
+- `../lib/surface-nav.css` (line 53): product row nav
 - `../lib/brand-upgrade.css` (line 54)
 
 **Custom properties (--*) used** (grep lines 56–727):
@@ -304,26 +304,26 @@ Forensic/analytic register; each subject is a case file the agents read and you 
 - Cream palette: `--cream-100`, `--cream-700`, `--cream-800` (not used in cut 01 inline; reserved for sealed-artifact styling in cut 00)
 
 **Shared component classes** (inherited from cut-shell.css and surface-nav.css):
-- `.stage` — outer desktop container
-- `.frame` — window frame with titlebar
-- `.titlebar` — title bar with lights + wedge + vault pill
-- `.lights` — traffic light indicators
-- `.product-row` — product tab navigation
-- `.product-tab` — individual tab button
-- `.main` — three-pane layout wrapper
-- `.rail-left`, `.rail-right` — sidebar panes
-- `.slate-area` — center composition area
-- `.slate-header`, `.slate-title`, `.slate-subtitle` — read header
-- `.classification` — product/scenario tag
-- `.brief-area`, `.brief-head`, `.brief-body` — agent brief
-- `.disposition`, `.dispo-btn` — disposition buttons
-- `.dispo-artifact` — sealed read display
-- `.audit-ribbon`, `.audit-disclosure` — audit chain + toggle
-- `.tray-pop`, `.tray-pill`, `.tray-panel` — tray drawer
-- `.entry-overlay`, `.entry-door`, `.entry-card` — entry modal
-- `.modal-overlay`, `.modal` — preview modal
-- `.toast` — notification toasts
-- `.kbd-help`, `.kbd-hint` — keyboard help overlay
+- `.stage`: outer desktop container
+- `.frame`: window frame with titlebar
+- `.titlebar`: title bar with lights + wedge + vault pill
+- `.lights`: traffic light indicators
+- `.product-row`: product tab navigation
+- `.product-tab`: individual tab button
+- `.main`: three-pane layout wrapper
+- `.rail-left`, `.rail-right`: sidebar panes
+- `.slate-area`: center composition area
+- `.slate-header`, `.slate-title`, `.slate-subtitle`: read header
+- `.classification`: product/scenario tag
+- `.brief-area`, `.brief-head`, `.brief-body`: agent brief
+- `.disposition`, `.dispo-btn`: disposition buttons
+- `.dispo-artifact`: sealed read display
+- `.audit-ribbon`, `.audit-disclosure`: audit chain + toggle
+- `.tray-pop`, `.tray-pill`, `.tray-panel`: tray drawer
+- `.entry-overlay`, `.entry-door`, `.entry-card`: entry modal
+- `.modal-overlay`, `.modal`: preview modal
+- `.toast`: notification toasts
+- `.kbd-help`, `.kbd-hint`: keyboard help overlay
 
 **Cut-01-unique content**:
 - Orbital diagram refactor (v0.8.4, lines 70–223): replaces old vertical register-list with four-plate orbital + demo loop
@@ -363,7 +363,7 @@ Three-column grid layout (lines 118–123: `grid-template-columns: minmax(280px,
 
 ### Interaction facts
 
-No JavaScript event handlers visible in this cut. The HTML is a static narrative surface — read-only, no state machines, no tray→slate→correction→packet→vault loop expressions. No click handlers, no gesture support documented.
+No JavaScript event handlers visible in this cut. The HTML is a static narrative surface, read-only, no state machines, no tray→slate→correction→packet→vault loop expressions. No click handlers, no gesture support documented.
 
 Footer (lines 559–563) is a plain metadata strip; `surface-nav.js` is loaded (line 567) but provides cut-independent navigation, not cut-02-specific interaction.
 
@@ -388,7 +388,7 @@ Footer (lines 559–563) is a plain metadata strip; `surface-nav.js` is loaded (
 
 ### Feel/grammar note
 
-Forensic audit aesthetic — monospace body, serif claim headline, red/orange/green signal palette for evidence classification; reads as substrate-level precision and founder-grade legibility over aesthetic.
+Forensic audit aesthetic: monospace body, serif claim headline, red/orange/green signal palette for evidence classification; reads as substrate-level precision and founder-grade legibility over aesthetic.
 
 ---
 
@@ -404,7 +404,7 @@ Forensic audit aesthetic — monospace body, serif claim headline, red/orange/gr
 **Visual structure:**
 - Corner cell (week labels row, line 190–193).
 - Week header cells (mm/dd format, lines 177–188, e.g., "03/10", "03/17" from screenshot audit-f9-calibration-after.png).
-- Register row labels (left): Diligence (blue/clarity-500), Synthesis (yellow/agency-500), Judgment (pink/wholeness-500), Outreach (jade/connection-500) — colored via `.cal-register-label.{register}` classes (lines 214–228).
+- Register row labels (left): Diligence (blue/clarity-500), Synthesis (yellow/agency-500), Judgment (pink/wholeness-500), Outreach (jade/connection-500), colored via `.cal-register-label.{register}` classes (lines 214–228).
 - Grid cells: intensity-encoded (`empty`, `light`, `medium`, `saturated`) via color-mix (lines 290–303). Each cell displays count + tag abbreviation.
   - Example from screenshot: Diligence row, 03/10 cell shows "4 MISSED·COMPENSA…" (truncated tag).
   - Saturated cells (4+ corrections) render at full hue intensity; light cells (1–2) at 14% blend.
@@ -438,7 +438,7 @@ Forensic audit aesthetic — monospace body, serif claim headline, red/orange/gr
 
 **Live indicator** (lines 1005–1036): Injected pill in header, monospace, violet-colored, fades in. Text: "illustrative baseline · seeded sample" or "N real corrections merged onto seeded baseline".
 
-**Footer strip (v0.9.3 receipt, lines 471–485):** Thin `.frame-receipt` below prose footer — Geist Mono, 9.5px, uppercase, with glyph + strong text + right-aligned opacity-72 text.
+**Footer strip (v0.9.3 receipt, lines 471–485):** Thin `.frame-receipt` below prose footer: Geist Mono, 9.5px, uppercase, with glyph + strong text + right-aligned opacity-72 text.
 
 ### Interaction facts
 
@@ -489,7 +489,7 @@ QA seed mode (lines 731–747): `?qa-seed=1` in URL pre-populates IDB with repre
 
 ### Feel/grammar note
 
-Data-visualization dashboard aesthetic — 12-week temporal grid, multi-hue register encoding, intensity-via-saturation, drill-on-click; reads as the "record made visible" and "pattern is the signal" (line 566).
+Data-visualization dashboard aesthetic: 12-week temporal grid, multi-hue register encoding, intensity-via-saturation, drill-on-click; reads as the "record made visible" and "pattern is the signal" (line 566).
 # Inventory: Cuts 04, 05, 06 · Liminal Prototype
 
 ## cuts/04-onboarding.html
@@ -507,14 +507,14 @@ Data-visualization dashboard aesthetic — 12-week temporal grid, multi-hue regi
 **Sealed-artifact moment:** Screen S07 (lines 489–515) renders `.welcome-mark` with a `.seal` pseudo-element (onboarding.css line 539) containing a radial gradient + ◇ glyph. Below that, `.tray-evo` displays five tray-sigil stages (data-stage 0–4, SVG-rendered by `sigil()` function lines 571–581). The `.tray-grow` (line 510) loops Day 1→60 live on the page via `startGrow()` (lines 667–675).
 
 **Motion presence:**
-- `screen-rise` keyframe (lines 75–78): 520ms, eases in with `--ease-out-quint`, staggered delays per child (0ms, 45ms, 90ms, 135ms, 170ms) — cited lines 67–74.
+- `screen-rise` keyframe (lines 75–78): 520ms, eases in with `--ease-out-quint`, staggered delays per child (0ms, 45ms, 90ms, 135ms, 170ms), cited lines 67–74.
 - `.btn` hover/active transitions (line 81): transform, color, background, border-color with 0.22s ease-spring on hover, 0.08s on active.
 - Progress bar fill (lines 87–91): 420ms width transition to `var(--clarity)`.
 - Reduced-motion media query (lines 120–127): removes all animations, transitions collapse to instant.
 
 **Color/type usage:**
 - CSS tokens from `design-tokens.css` (line 40): `--clarity`, `--frame-bg`, `--frame-border`, `--text`, `--text-mid`, `--text-dim`, `--text-faint`, `--card-border`, `--ease-out-quint`, `--clarity-glow-soft`, etc. (verified via grep of 04-onboarding.html).
-- Font stack: `--display` (Nineties Headliner, set in lib/brand-upgrade.css line 42), `--serif` (Perfectly Nineties), `--mono` (Geist Mono), `--sans` (Geist) — all loaded from canonical fonts.googleapis.com (line 37) and lib/brand-upgrade.css (line 42).
+- Font stack: `--display` (Nineties Headliner, set in lib/brand-upgrade.css line 42), `--serif` (Perfectly Nineties), `--mono` (Geist Mono), `--sans` (Geist): all loaded from canonical fonts.googleapis.com (line 37) and lib/brand-upgrade.css (line 42).
 - No inline color redefines. All colors route through CSS custom properties.
 
 ### Interaction facts
@@ -587,7 +587,7 @@ No local token redefines anywhere in the inlined style block (lines 46–128).
 
 ### Feel/grammar note
 
-Forensic/inevitable register: the cut narrates the vault-building sequence with formal precision (each step labeled, locked progression, no skipping), grounded in real affordances (passphrase, encryption, daemon config). The handwritten sigil evolution (S07) adds earned expressiveness — the tray icon as an artifact the user will recognize over time. Tone is instructional + boundary-setting (negations in S01, crypto details matter, no notifications/prompts).
+Forensic/inevitable register: the cut narrates the vault-building sequence with formal precision (each step labeled, locked progression, no skipping), grounded in real affordances (passphrase, encryption, daemon config). The handwritten sigil evolution (S07) adds earned expressiveness. The tray icon as an artifact the user will recognize over time. Tone is instructional + boundary-setting (negations in S01, crypto details matter, no notifications/prompts).
 
 ---
 
@@ -595,7 +595,7 @@ Forensic/inevitable register: the cut narrates the vault-building sequence with 
 
 ### Visual facts
 
-**Layout structure:** A terminal session mockup. `body` centers a `.term` container (max-width 900px, 100% on mobile) with a fixed titlebar and scrolling body. Titlebar (lines 78–87): macOS lights + "sam@frontier-assessment · ~/pentest — claude" + "plugin · claude code" label. Body (lines 90–91): monospace (13px, Geist Mono), line-height 1.62, single column.
+**Layout structure:** A terminal session mockup. `body` centers a `.term` container (max-width 900px, 100% on mobile) with a fixed titlebar and scrolling body. Titlebar (lines 78–87): macOS lights + "sam@frontier-assessment · ~/pentest: claude" + "plugin · claude code" label. Body (lines 90–91): monospace (13px, Geist Mono), line-height 1.62, single column.
 
 **Beats as visual units:** Four `.beat` sections (lines 203–282), each starting invisible (opacity 0, translateY 8px) and rising via `@keyframes rise` (lines 95–96). Beats are separated by top border dashed (line 97). Each beat has a `.beat-eyebrow` (lines 99–103) with a small pulsing dot (`.dot`) and step number in clarity color.
 
@@ -675,10 +675,10 @@ Terminal-session register: the cut reads as a live CLI session unfolding, with s
 **Layout structure:** Desktop app window (max-width 1180px, margin auto, 2-pane grid: 196px rail + flex canvas). Window chrome with macOS lights + "Liminal / Today" titlebar (lines 492–496). The rail (sidebar, lines 500–509) lists agents (Judgment, Synthesis, Diligence, Outreach, Watch, Mirror) with pip color indicators. Canvas (lines 513–596) is the main reading surface.
 
 **Surface zones:**
-1. `.head` — eyebrow + h1 title + lede (lines 514–517).
-2. `.cols` (grid 1.15fr 1fr, lines 520–588) — left col has `.read` (the held read), `.refusal` inline, `.corr` (corrections), receipt. Right col has `.next` (close-loop decision box with outcomes), `.corr` (mirror note).
-3. `.tray` (lines 591–593) — drag zone for new reads, dashed border.
-4. `.foot` — reentry framing (line 596).
+1. `.head`: eyebrow + h1 title + lede (lines 514–517).
+2. `.cols` (grid 1.15fr 1fr, lines 520–588): left col has `.read` (the held read), `.refusal` inline, `.corr` (corrections), receipt. Right col has `.next` (close-loop decision box with outcomes), `.corr` (mirror note).
+3. `.tray` (lines 591–593): drag zone for new reads, dashed border.
+4. `.foot`: reentry framing (line 596).
 
 **Marginalia layer (staged guided reveal):**
 - `.ed-note` elements (lines 370–397): positioned absolutely, max-width 244px, font-family `--hand` (Caveat), color `var(--signal)`, opacity/transform initially 0, fade-in on `.show` class. Positioned relative to target elements via JS (positionNote function, lines 659–692).
@@ -762,14 +762,14 @@ This cut visualizes the FULL loop in one re-entry frame:
 - `.read`, `.tag`, `.refusal`, `.actions`, `.btn` (read presentation).
 - `.corr`, `.corr-row` (correction record component).
 - `.next`, `.outcomes`, `.outcome` (decision/seal box).
-- `.ed-note` (marginalia annotation — UNIQUE TO THIS CUT).
-- `.guide`, `.guide-hint`, `.guide-prog` (walk dock — UNIQUE TO THIS CUT).
+- `.ed-note` (marginalia annotation: UNIQUE TO THIS CUT).
+- `.guide`, `.guide-hint`, `.guide-prog` (walk dock: UNIQUE TO THIS CUT).
 
 **No token redefines in the inlined style block** (lines 54–487). All color/space/type route through CSS custom properties.
 
 ### Feel/grammar note
 
-Forensic, founder-facing register: the cut renders the loop as a founder would live it — reads held, corrections made, outcomes sealed, the record built. The marginalia (handwritten annotations via Caveat font) layer the founder's own voice onto the product surface, explaining each element in the loop. Register is calibration-focused (the correction stream is the moat; the mirror notes repose; outcomes calibrate the vault). Tone is intimate + bounded (12 bounded co-workers, explicit refusals, no external noise).
+Forensic, founder-facing register: the cut renders the loop as a founder would live it, reads held, corrections made, outcomes sealed, the record built. The marginalia (handwritten annotations via Caveat font) layer the founder's own voice onto the product surface, explaining each element in the loop. Register is calibration-focused (the correction stream is the moat; the mirror notes repose; outcomes calibrate the vault). Tone is intimate + bounded (12 bounded co-workers, explicit refusals, no external noise).
 
 ---
 
@@ -783,7 +783,7 @@ Forensic, founder-facing register: the cut renders the loop as a founder would l
 **All three consume design-tokens.css (canonical), lib/brand-upgrade.css (faces), no local token redefines.**
 
 **Unverified:** The live sigil SVG rendering in 04-onboarding.html (lines 559–586) could not be visually confirmed against audit-10-onboarding.png (image shows only a static screenshot of S01). The dots() and sigil() functions are code-only; I inferred their output from the function logic and the .tray-slot rendering call.
-# Inventory: Cuts 08 & 09 — Custody + OSINT Loop
+# Inventory: Cuts 08 & 09: Custody + OSINT Loop
 
 ## cuts/08-liminal-custody.html
 
@@ -876,7 +876,7 @@ Forensic, founder-facing register: the cut renders the loop as a founder would l
 
 ### Feel/grammar note
 
-**Operator register**: substrate-level custody workflow rendered as a four-stage narrative (watch-floor observes → deliberation → refusal/guard → review memory → sealed packet). Dark-field aesthetic (expression/stability colors as judicial decision markers). Motion is minimal, precise: sweep in background, pulse on anomaly, fade-in on rule save. Type: monospace for all metadata/controls, serif for titles. Tone is not urgent; it is deliberative—the vault moment is a quiet checkmark, not a flash.
+**Operator register**: substrate-level custody workflow rendered as a four-stage narrative (watch-floor observes → deliberation → refusal/guard → review memory → sealed packet). Dark-field aesthetic (expression/stability colors as judicial decision markers). Motion is minimal, precise: sweep in background, pulse on anomaly, fade-in on rule save. Type: monospace for all metadata/controls, serif for titles. Tone is not urgent; it is deliberative. The vault moment is a quiet checkmark, not a flash.
 
 ---
 
@@ -888,7 +888,7 @@ Forensic, founder-facing register: the cut renders the loop as a founder would l
 
 **Observable ingestion + animation:** `.obs` elements fade in on stagger (opacity 0→1, translateX(-6px)→0) with 0.3s transition (lines 176–178). Each ingest iteration delays by 80*i + 40ms (line 540). Ten observations per case maximum. No looping; one-shot entrance per beat.
 
-**Sealed-artifact moment — the DISPOSITION:** `.dispo` element (lines 272–274) hidden by default, shows on `dispo.in` class with `@keyframes rise` animation (0.5s ease). Renders "X cases sealed · doctrine R-001 active · latest case C-015 · disposition [result] · Y ontology nodes" (lines 674–677). Visual: teal border (--c-ok) + 5% teal background. This is the loop's **vault seal**.
+**Sealed-artifact moment: the DISPOSITION:** `.dispo` element (lines 272–274) hidden by default, shows on `dispo.in` class with `@keyframes rise` animation (0.5s ease). Renders "X cases sealed · doctrine R-001 active · latest case C-015 · disposition [result] · Y ontology nodes" (lines 674–677). Visual: teal border (--c-ok) + 5% teal background. This is the loop's **vault seal**.
 
 **Vault pill** (line 375, 123): `.vault-pill.sealed` on color --c-ok when `p.vault.length > 0` (line 615). Text "VAULT · N SEALED" updates dynamically (line 614).
 
@@ -919,7 +919,7 @@ Register switch (custody vs. discord) via `reg` variable (line 504), `switchRegi
 
 ### Interaction facts
 
-**Loop driver — doBeat()** (lines 622–683): Five sequential beats managed by `beat` counter. Each beat calls session methods (ingest, commit, signRule, ingestWithDoctrine) and renders output.
+**Loop driver: doBeat()** (lines 622–683): Five sequential beats managed by `beat` counter. Each beat calls session methods (ingest, commit, signRule, ingestWithDoctrine) and renders output.
 
 - **beat 0→1:** `session = createCustodySession()` (line 625), render C1 title/sub, render observations (line 630), show "Specialists reading…" (line 631).
 - **beat 1→2:** `session.ingest("C1", CASE_1_BUNDLE, facts)` (line 636), render reads/hypotheses/actions/metrics (lines 638–641), advance to sign beat.
@@ -1009,15 +1009,15 @@ These alias canon --clarity, --alarm, --amber-orn, --connection, --wholeness tok
 - .frame-foot (footer metadata)
 
 **a11y notes in code:**
-- Lines 341–348: Contrast fix — --text-faint upgraded to AA-safe upstream (4.76:1 on --frame-bg).
+- Lines 341–348: Contrast fix: --text-faint upgraded to AA-safe upstream (4.76:1 on --frame-bg).
 - Lines 350–354: Touch target min 44px under coarse pointer.
 - Lines 356–364: Focus ring via --c-read (brand-aware, 2px offset).
 
 ### Feel/grammar note
 
-**Deliberation register**: The loop is staged as evidence ingestion → specialist reading → doctrine signing → re-ranking under doctrine → sealed disposition. Palette uses clarity (deliberation), alarm (refusal), amber (contested), connection (supported), verdict (disposition). Motion is purposeful: fade-in for observations, slide-in for specialist reads, bar animation for hypotheses, flash for re-rank action highlight. Type hierarchy: Newsreader serif for case titles (humanistic, approachable), Geist Mono for all metadata (crisp, forensic). Tone is architectural proof-of-mechanism—the loop runs in-page (frozen kernel), so every mutation is computed, not mocked. Vault seal is a rise-animation confirmation card showing doctrine captured as durable judgment.
+**Deliberation register**: The loop is staged as evidence ingestion → specialist reading → doctrine signing → re-ranking under doctrine → sealed disposition. Palette uses clarity (deliberation), alarm (refusal), amber (contested), connection (supported), verdict (disposition). Motion is purposeful: fade-in for observations, slide-in for specialist reads, bar animation for hypotheses, flash for re-rank action highlight. Type hierarchy: Newsreader serif for case titles (humanistic, approachable), Geist Mono for all metadata (crisp, forensic). Tone is architectural proof-of-mechanism. The loop runs in-page (frozen kernel), so every mutation is computed, not mocked. Vault seal is a rise-animation confirmation card showing doctrine captured as durable judgment.
 
-# Liminal Prototype Surface Inventory — Part 5
+# Liminal Prototype Surface Inventory: Part 5
 
 ## cuts/10-today.html
 
@@ -1065,11 +1065,11 @@ CSS custom properties from canon (all var() → upstream):
 
 Shared classes from cut-shell.css: `.stage`, `.frame`, `.titlebar`, `.lights` (title-bar traffic lights).
 
-Per-cut aliases (lines 59-74) avoid redefining canon — they var() into it. This is CONTRIBUTING rule #1 compliance.
+Per-cut aliases (lines 59-74) avoid redefining canon, they var() into it. This is CONTRIBUTING rule #1 compliance.
 
 ### Feel/grammar note
 
-Register-named, canonical-first render; the re-entry surface as a "you held this, the daemon re-read it overnight, what happened?" moment — warm-ink palette, serif for the verdict, monospace for receipts and tags.
+Register-named, canonical-first render; the re-entry surface as a "you held this, the daemon re-read it overnight, what happened?" moment: warm-ink palette, serif for the verdict, monospace for receipts and tags.
 
 ---
 
@@ -1103,7 +1103,7 @@ Tab switching (lines 454-461): data-go attributes on buttons; ⌘K opens palette
 
 Relationship selector (lines 465-469): buttons toggle data-rel attribute on body (operator/oversight/public). Public mode hides the center work pane and shows a consent-boundary frame overlay (lines 418-428).
 
-Subject switcher (lines 106-109): .subj buttons with .on class toggle; clicking updates the render loop (not detailed in HTML alone — JavaScript drives subject param).
+Subject switcher (lines 106-109): .subj buttons with .on class toggle; clicking updates the render loop (not detailed in HTML alone, JavaScript drives subject param).
 
 Register amend (line 154-155): .amend button appears on .reg:hover. Clicking toggles .editing class (lines 162-169 show the edit form). Save/cancel buttons commit or discard (lines 166-167).
 
@@ -1395,17 +1395,17 @@ Both are non-rendered data structures that inform the catalog's governance and a
 |---------|---------------|----------|------------------|-----------------|
 | **cut/10-today.html** | Re-enter | L1-founder | Desktop app, two-column, re-entry cards + close-the-loop hero | Outcome button click → seal verdict + bump calibration |
 | **cuts/11-govern.html** | Full-loop | L1→L2 | Desktop cockpit, 3-pane + orbital rail, ⌘K palette | Tabs to switch surfaces; amend register; ⌘K to dispatch |
-| **index.html** | — | — | Minimal catalog front door, card grid | Static nav links to cuts |
-| **cuts/_demo-lan.html** | Full demo | — | Four-beat launcher, 2-column grid + title | Links to four beat surfaces (beats 1-3 local, beat 4 external tab) |
-| **cuts/_demo-lan-stitch.html** | Full demo | — | Iframe stitch, beat rail top + presenter note left-bottom | Beat buttons swap iframes; ⌘N toggles presenter note; arrow keys advance |
+| **index.html** |: |: | Minimal catalog front door, card grid | Static nav links to cuts |
+| **cuts/_demo-lan.html** | Full demo |: | Four-beat launcher, 2-column grid + title | Links to four beat surfaces (beats 1-3 local, beat 4 external tab) |
+| **cuts/_demo-lan-stitch.html** | Full demo |: | Iframe stitch, beat rail top + presenter note left-bottom | Beat buttons swap iframes; ⌘N toggles presenter note; arrow keys advance |
 
 ---
 
 ## Presentation Legibility Observations (Recent Git History)
 
 From git log noted in assignment:
-- Commit 1b3ff6b: "Merge: lift presenter note above chain footer (no overlap)" — maps to _demo-lan-stitch.html's presenter note positioning (lines 52-63, bottom fixed but lifted above the footer).
-- Commit 7f03407: "demo(lan): lift presenter note above the chain footer (no overlap)" — confirms _demo-lan-stitch.html change.
+- Commit 1b3ff6b: "Merge: lift presenter note above chain footer (no overlap)", maps to _demo-lan-stitch.html's presenter note positioning (lines 52-63, bottom fixed but lifted above the footer).
+- Commit 7f03407: "demo(lan): lift presenter note above the chain footer (no overlap)", confirms _demo-lan-stitch.html change.
 
 Both cuts' presenter notes appear to be anchored to avoid covering the bottom ribbon (chain event log in cut 11, tray entry in cut 10).
 

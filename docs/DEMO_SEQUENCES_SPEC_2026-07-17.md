@@ -1,11 +1,11 @@
-# Demo Sequences — compressing the cuts into played product experience (2026-07-17)
+# Demo Sequences: compressing the cuts into played product experience (2026-07-17)
 
 ## Problem
 
 The catalog has ~12 disparate surfaces. Each cut is a projection of one product
 (TAXONOMY: one loop, many cuts), but a first-time viewer meets them as a flat
 list and never sees the interface fit together as a system. The one prior
-attempt at compression — `cuts/_demo-lan-stitch.html` — proved the mechanic
+attempt at compression: `cuts/_demo-lan-stitch.html`: proved the mechanic
 (iframe stitch, master rail, presenter notes, `?embed=1`) but was built for a
 single investor demo with three beats and was never generalized.
 
@@ -14,24 +14,24 @@ single investor demo with three beats and was never generalized.
 The daily/frontier signal briefs converge on three demo-narratives the market
 is actively validating:
 
-1. **Judgment bottleneck** — Microsoft-scale study: adopters merge ~24% more
+1. **Judgment bottleneck**: Microsoft-scale study: adopters merge ~24% more
    PRs; researchers caution merged PRs are an output proxy. "Generation becomes
    abundant; accountable acceptance becomes scarce." (brief 07-14 §2, 07-16 §5)
-2. **Spend governance** — Meta floats per-engineer token budgets; IBM's miss
+2. **Spend governance**: Meta floats per-engineer token budgets; IBM's miss
    makes AI spend a board-level tradeoff. The record that matters:
    `budget → consumption → work → corrections → accepted output → outcome`.
    (07-14 §1, 07-16 §1)
-3. **Portability** — GitHub Models retires July 30; open-weight frontier models
+3. **Portability**: GitHub Models retires July 30; open-weight frontier models
    (Inkling) multiply; model portfolios become the default. The durable asset
    is the customer-owned, model-independent judgment record. (07-15 §5, 07-16
    §2, frontier brief §1–5)
 
-These are exactly the three altitudes the catalog already renders — so the
+These are exactly the three altitudes the catalog already renders, so the
 sequences write themselves onto existing cuts.
 
 ## Deliverable
 
-`cuts/_sequences.html` — the sequence player. Underscore-prefixed (a demo
+`cuts/_sequences.html`: the sequence player. Underscore-prefixed (a demo
 choreography shell like `_console`/`_demo-lan-stitch`, not a new cut; no new
 TAXONOMY coordinate, so the convergence rule is not tripped). Three sequences,
 each: opening **system frame** (full-bleed narrative card: loop diagram with
@@ -47,7 +47,7 @@ lit stages, signal grounding, claim chips) → live cut beats in iframes with
 | 3 · It travels | portability (brief №3) | `08-liminal-custody` (healthcare incident) → `09-osint-custody` | map rows D5/D6; 08's healthcare scenario per PR #60 |
 
 Final close frame: "Same loop, every subject. Spend is the wedge; the judgment
-record is the company." — the wedge→infra framing rule verbatim from TAXONOMY
+record is the company.": the wedge→infra framing rule verbatim from TAXONOMY
 half-3, which THESIS_CONVERGENCE names as the raise's #1 objection.
 
 ### Claim safety
@@ -67,7 +67,7 @@ The player adds no new product claims; it sequences existing claimed surfaces.
   left rail inside the player. No other lib changes.
 - Canon tokens + locked type stack; reduced-motion: instant frame swaps.
 - `index.html`: one catalog entry linking the player (below the wedge lead
-  card — cut-01-forward demonstration strategy is unchanged).
+  card: cut-01-forward demonstration strategy is unchanged).
 
 ## Non-goals / assumptions (background-session decisions, flag if wrong)
 

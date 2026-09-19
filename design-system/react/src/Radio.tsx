@@ -6,7 +6,7 @@ export interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement> 
 }
 
 /**
- * Radio — single-select control with dot indicator.
+ * Radio: single-select control with dot indicator.
  *
  * A native `<input type="radio">` hidden with label wrapper `.rd`.
  * The styled `.rd-circle` span provides visual feedback. Maps to `.rd` and

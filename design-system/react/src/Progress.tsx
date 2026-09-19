@@ -6,7 +6,7 @@ export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Progress — determinate or indeterminate progress bar.
+ * Progress: determinate or indeterminate progress bar.
  *
  * Renders a `.progress` container with `.progress-bar` child. If `value`
  * is provided, sets `.is-determinate` with `--progress` CSS variable.

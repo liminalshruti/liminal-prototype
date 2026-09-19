@@ -1,8 +1,8 @@
 /*
  * extract.js · cuts/thread · REAL client-side open-loop extraction
  * ──────────────────────────────────────────────────────────────────────────
- * Not seeded. This actually parses whatever text you drop — an .mbox/.eml mail
- * export, an .ics calendar, or plain text — and computes open loops in the
+ * Not seeded. This actually parses whatever text you drop. An .mbox/.eml mail
+ * export, an .ics calendar, or plain text, and computes open loops in the
  * browser, no backend. Same render-truthful precedent as cut 09 (which runs the
  * real OSINT kernel client-side): the loops shown are derived from the bytes you
  * gave it, with each receipt pointing at the exact line it matched.
@@ -103,17 +103,17 @@ function extractMail(messages, filename) {
 
       if (isCommit && isOwner) {
         kind = "owe";
-        title = `You told ${recip || "someone"} you'd follow through${dl ? ` — <b>${esc(dl)}</b>` : ""}.`;
+        title = `You told ${recip || "someone"} you'd follow through${dl ? `, <b>${esc(dl)}</b>` : ""}.`;
         trace = `matched: first-person commitment${dl ? " + deadline" : ""} · your message`;
       } else if (isCommit && !isOwner) {
         kind = "waiting";
-        title = `<b>${esc(who)}</b> said they'd get back to you${dl ? ` — ${esc(dl)}` : ""}.`;
+        title = `<b>${esc(who)}</b> said they'd get back to you${dl ? `, ${esc(dl)}` : ""}.`;
         trace = `matched: their commitment${dl ? " + deadline" : ""} · inbound`;
       } else { // ask
         kind = isOwner ? "waiting" : "owed";
         title = isOwner
-          ? `You asked ${recip || "someone"} a question — awaiting reply.`
-          : `<b>${esc(who)}</b> asked you a question — needs an answer.`;
+          ? `You asked ${recip || "someone"} a question: awaiting reply.`
+          : `<b>${esc(who)}</b> asked you a question: needs an answer.`;
         trace = `matched: ${isOwner ? "outbound" : "inbound"} question`;
       }
 
@@ -150,10 +150,10 @@ function extractIcs(text, filename) {
     return {
       kind: "owe",
       title: `Prep for <b>${esc(sum)}</b>.`,
-      sub: `Upcoming meeting — assemble what's open before it.`,
+      sub: `Upcoming meeting: assemble what's open before it.`,
       age: esc(date || "upcoming"),
       receipt: { glyph: "▦", name: "file", meta: `${esc(filename)} · event ${i + 1}`,
-        quote: `<mark>${esc(sum)}</mark> — ${esc(date)}`, trace: `${esc(filename)} · VEVENT ${i + 1}/${events.length}` },
+        quote: `<mark>${esc(sum)}</mark>: ${esc(date)}`, trace: `${esc(filename)} · VEVENT ${i + 1}/${events.length}` },
     };
   }).slice(0, 12);
 }

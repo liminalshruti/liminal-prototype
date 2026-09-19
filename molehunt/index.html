@@ -7,14 +7,14 @@
 <!--
   Coordinate per cuts/TAXONOMY.md v2 · Loop-stage: full-loop (CI subject) · Altitude:
   L3-high-stakes · Surface: desktop · Framing: infra (depth proof) · Maturity: live.
-  A SUBJECT of cut 00 (counterintelligence) — same loop at the high-stakes altitude,
+  A SUBJECT of cut 00 (counterintelligence): same loop at the high-stakes altitude,
   proof-of-travel, NOT a separate product. (Register divergence documented below.)
   ──────────────────────────────────────────────────────────────────────
   Promoted catalog cut · listed from index.html. RE-SKINNED onto canon (founder
   ruling 2026-07-08): imports canon tokens + brand faces; the local :root names are
   kept but repointed to the canon cream/ink substrate; the three-voice type stack is
   restored (Geist Mono data voice + brand display/serif prose). The color-independent
-  severity (border-weight) + timeline-perimeter (shape) encodings are PRESERVED — that
+  severity (border-weight) + timeline-perimeter (shape) encodings are PRESERVED, that
   was the surface's genuinely canon-aligned a11y move. (The prior fork rationale cited
   a reconciliation-plan doc + "Amendment 2.1" that never existed in the repo.)
   See cuts/CONTRIBUTING.md for the divergent-shell contract.
@@ -26,14 +26,14 @@
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 <style>
 /* ─────────────────────────────────────────────────────────────────────
-   LIMINAL MOLEHUNT — Counterintelligence Analyst Console
+   LIMINAL MOLEHUNT: Counterintelligence Analyst Console
    Vanilla. file://-safe. System monospace only. Light default.
    Severity encoded in weight + rule thickness, not color.
    Single accent (oxidised-ink blue) reserved for WPA parallel review.
    ───────────────────────────────────────────────────────────────────── */
 
 :root {
-  /* ink + paper system — repointed onto the canon cream/ink substrate (names kept) */
+  /* ink + paper system: repointed onto the canon cream/ink substrate (names kept) */
   --paper:        var(--cream-100);   /* ledger off-white */
   --paper-2:      var(--cream-200);   /* table-stripe / panel fill */
   --paper-3:      var(--cream-300);   /* well */
@@ -46,7 +46,7 @@
   --ink-4:        var(--cream-600);   /* quaternary (darkened to AA) */
   --hash:         var(--cream-800);   /* monospace runs */
 
-  /* the single accent — reserved for WPA parallel review only */
+  /* the single accent: reserved for WPA parallel review only */
   --accent:       var(--diligence);      /* canon register (was oxidised navy) */
   --accent-fill:  var(--diligence-100);  /* WPA banner fill (light clarity tint) */
 
@@ -287,7 +287,7 @@ a { color: inherit; }
   color: var(--ink); font-weight: 600;
 }
 
-/* Tier + WPA block — the freeze-frame */
+/* Tier + WPA block: the freeze-frame */
 .headline-block {
   padding: var(--space-3) var(--space-5) var(--space-3);
   display: grid;
@@ -325,7 +325,7 @@ a { color: inherit; }
 }
 .tier-meta b { color: var(--ink); font-weight: 680; display: block; font-size: var(--fs-mono-sm); }
 
-/* WPA banner — the only place accent appears */
+/* WPA banner: the only place accent appears */
 .wpa-banner {
   border: 1.5px solid var(--accent);
   background: var(--accent-fill);
@@ -451,7 +451,7 @@ a { color: inherit; }
   color: var(--ink-2); font-weight: 600;
 }
 
-/* Cited signals — margin-rule discipline */
+/* Cited signals: margin-rule discipline */
 .signals { display: flex; flex-direction: column; gap: var(--space-1); }
 .sig {
   display: grid;
@@ -950,11 +950,11 @@ body.alth-louder .alt-h-body { font-size: 15px; line-height: 1.6; font-weight: 5
 body.alth-louder .alt-h-h b { font-size: 15px; }
 
 /* Accent reservation modes */
-body.accent-wpa .accent-leak { /* default — only WPA gets accent */ }
+body.accent-wpa .accent-leak { /* default: only WPA gets accent */ }
 body.accent-tier .tier-value { color: var(--accent); }
 body.accent-flags .flag .fname { color: var(--accent); }
 
-/* ── DARK MODE — institutional, no neon ───────────────────────────── */
+/* ── DARK MODE: institutional, no neon ───────────────────────────── */
 body.theme-dark {
   --paper:        var(--frame-bg);
   --paper-2:      var(--frame-bg-2);
@@ -973,7 +973,7 @@ body.theme-dark {
 body.theme-dark { background: var(--bg); }
 body.theme-dark html { background: var(--bg); }
 
-/* ── PRINT — defensible PDF dossier ───────────────────────────────── */
+/* ── PRINT: defensible PDF dossier ───────────────────────────────── */
 @media print {
   @page {
     size: Letter portrait;
@@ -1575,7 +1575,7 @@ body.theme-dark html { background: var(--bg); }
 
 <script>
 /* ─────────────────────────────────────────────────────────────────────
-   APP — vanilla, file://-safe
+   APP: vanilla, file://-safe
    ───────────────────────────────────────────────────────────────────── */
 (() => {
   const DATA = JSON.parse(document.getElementById('data-subjects').textContent);

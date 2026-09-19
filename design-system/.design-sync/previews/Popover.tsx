@@ -13,7 +13,7 @@ export function HelpPanel() {
                 About sealing
               </div>
               <div style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-                A sealed entry is locked in the vault—device-local, attributed, re-enterable. Once sealed, the decision is immutable.
+                A sealed entry is locked in the vault: device-local, attributed, re-enterable. Once sealed, the decision is immutable.
               </div>
             </div>
           }

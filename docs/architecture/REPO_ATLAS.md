@@ -1,4 +1,4 @@
-# Repo Atlas — `liminal-prototype`
+# Repo Atlas: `liminal-prototype`
 
 **Read-only map. 2026-06-18. Zero file moves performed by this document.**
 
@@ -11,12 +11,12 @@ Extraction direction is left **open** (§5). This is the "map first, decide late
 > **What this repo is, in one line:** a single-file *cut catalog* (HTML + CSS + JS, no
 > build step, served by `server.mjs`) that is the **public demo** of the Liminal loop AND
 > a **synced consumer mirror** of the `liminal-creative` token canon. It is NOT a foundry
-> and NOT the product spine — `liminal-desktop` (SolidJS/Tauri) is the spine and the real
+> and NOT the product spine: `liminal-desktop` (SolidJS/Tauri) is the spine and the real
 > extraction target. (Source: `README.md`, `LIMINAL_END_TO_END_2026-06-18.md`.)
 
 ---
 
-## 1. Canonical vs. exhaust — the navigability map
+## 1. Canonical vs. exhaust: the navigability map
 
 The pain: the *signal* (`cuts/`, `lib/`, `design-system/`) is buried under *exhaust*
 (33 root PNGs, a 180 KB `.bak`, dated audit `.md`s, one-off HTML). This table classifies
@@ -34,9 +34,9 @@ session byproduct, candidate for deletion (regenerable or one-off).
 | `lib/` | **CANON** | Shared JS/CSS substrate the cuts load (see §3). The closest thing to "portable logic." |
 | `design-system/` | **CANON** | Token mirror + components + atlas + docs. The design-system-reference half of the repo. |
 | `fonts/` | **CANON** | Brand typefaces (PerfectlyNineties + NinetiesHeadliner). Load-bearing. |
-| `scripts/` | **CANON** | `tokens/sync-upstream.mjs` — the alignment discipline itself (§4). |
-| `molehunt/` | **ARCHIVE?** | Self-contained CI analyst console. Real, but orphaned from the cut catalog — not in `index.html`. Decide: promote to a cut or archive. |
-| `team-drift/` | **ARCHIVE?** | Team-coherence telemetry surface. Same status as `molehunt/` — orphaned one-off. |
+| `scripts/` | **CANON** | `tokens/sync-upstream.mjs`: the alignment discipline itself (§4). |
+| `molehunt/` | **ARCHIVE?** | Self-contained CI analyst console. Real, but orphaned from the cut catalog, not in `index.html`. Decide: promote to a cut or archive. |
+| `team-drift/` | **ARCHIVE?** | Team-coherence telemetry surface. Same status as `molehunt/`, orphaned one-off. |
 | `_scratch/` | **EXHAUST** | Explicitly scratch. Safe to drop or `.gitignore`. |
 | ~~`_baseline/`~~ | **DROPPED 2026-07-31** | Frozen baseline captures. Was EXHAUST ("archive or drop"); dropped because GitHub Pages served it publicly. In git history if a pre-pivot snapshot is ever needed. |
 | `.playwright-mcp/` | **EXHAUST** | MCP run artifacts. Should be `.gitignore`d. |
@@ -51,20 +51,20 @@ session byproduct, candidate for deletion (regenerable or one-off).
 | `README.md` | **CANON** | Authoritative repo description + lockstep-canon contract. |
 | `design-system.html` | **CANON** | Token/type/motion browser. |
 | `embed-*.html` (×3) | **CANON-ish** | Embeddable Tray/Slate/Vault demos. Real deliverables; could live in an `embed/` dir. |
-| `*-specimen.html` (×2) | **DOC** | `liminal-desktop-specimen`, `nineties-headliner-specimen` — type/brand specimens. Move to `design-system/`? |
+| `*-specimen.html` (×2) | **DOC** | `liminal-desktop-specimen`, `nineties-headliner-specimen`, type/brand specimens. Move to `design-system/`? |
 | `LIMINAL_END_TO_END_2026-06-18.md` | **DOC** | Cross-repo synthesis. Keep; belongs in `docs/`. |
 | `FRONT_DOOR_DECISION_2026-05-12.md` | **DOC** | Lock decision (cut 01 = front door). Keep; → `docs/`. |
 | `CUT_TAXONOMY_AND_PORT_FINDINGS_2026-06-16.md` | **DOC** | Cut taxonomy + port findings. Keep; → `docs/`. |
 | `COPY_AUDIT_2026-04-28.md` | **DOC** | Dated copy audit. → `docs/` or archive. |
-| `index-pre-modular.html.bak` (180 KB) | **EXHAUST** | Pre-modularization backup. Git already has history — safe to delete. |
+| `index-pre-modular.html.bak` (180 KB) | **EXHAUST** | Pre-modularization backup. Git already has history, safe to delete. |
 | `_compare-converged-chrome.html` | **EXHAUST** | One-off compare scratch. Drop. |
 | `ontology-agent-travel-3d.html` | **ARCHIVE** | 3D exploration; README says the series is frozen in `cuts/_archive/root-experiments/`. This loose copy is a stray. |
 | `v0_3_config.js` (92 KB) | **ARCHIVE** | Pre-pivot v0.3 config blob. Almost certainly dead; verify no loader references it, then archive. |
-| `*.png` (×33) | **EXHAUST** | `audit-*`, `refactor-*`, `ontology-*-preview`, `*-surface.png` — session screenshots. None are linked by the app. Move to `docs/screens/` or delete. **This is the single biggest source of root clutter.** |
+| `*.png` (×33) | **EXHAUST** | `audit-*`, `refactor-*`, `ontology-*-preview`, `*-surface.png`, session screenshots. None are linked by the app. Move to `docs/screens/` or delete. **This is the single biggest source of root clutter.** |
 
 **Headline:** ~33 PNGs + `.bak` + `v0_3_config.js` + 2 scratch dirs account for nearly all
 the noise. Removing/relocating them leaves a root of ~12 canonical entries. (No moves done
-here — this is the proposal; a separate review-and-run step would execute it.)
+here: this is the proposal; a separate review-and-run step would execute it.)
 
 ---
 
@@ -77,7 +77,7 @@ here. The real shape:
 ```
 liminal-prototype/
   index.html              cuts catalog front door
-  cuts/*.html             9 live cuts — each a self-contained surface
+  cuts/*.html             9 live cuts: each a self-contained surface
     _template.html        starting shape for a new cut
     _console.html         Substrate Console (directory + coherence scan)
     _explore/             active explorations (ledger directions)
@@ -88,7 +88,7 @@ liminal-prototype/
     components/           framing.css, buttons.css
     atlas/                state-atlas.html
     docs/                 relationship-axis.md
-  scripts/tokens/         sync-upstream.mjs — the alignment guard
+  scripts/tokens/         sync-upstream.mjs: the alignment guard
   server.mjs              dev server
 ```
 
@@ -98,17 +98,17 @@ speak in those terms, not in React/Solid terms.
 
 ---
 
-## 3. The `lib/` substrate — what's shared vs. cut-specific
+## 3. The `lib/` substrate: what's shared vs. cut-specific
 
 Measured by how many surfaces actually load each module (`grep` across `cuts/*.html` +
 `index.html`). This is the honest "shared vs. one-off" picture.
 
 | Module | Lines | Loaded by | Reuse signal | Purpose |
 |---|---|---|---|---|
-| `cut-shell.css` | — | **16** | **spine** | Frame chrome, slate/tray, audit ribbon, classification, boot anims. *Carries a `:root` ink-token fallback that must track canon (§4).* |
+| `cut-shell.css` |: | **16** | **spine** | Frame chrome, slate/tray, audit ribbon, classification, boot anims. *Carries a `:root` ink-token fallback that must track canon (§4).* |
 | `surface-nav.{js,css}` | 161 | 6 | shared | Cross-cut tool shell (the nav rail). |
 | `brand-upgrade.{js,css}` | 49 | 5/2 | shared | Brand fonts + type hierarchy + rail toggle. |
-| `vault-store.js` | 270 | 3 | shared | IndexedDB persistence. **Strongest portable-logic candidate** — pure-ish, framework-agnostic. |
+| `vault-store.js` | 270 | 3 | shared | IndexedDB persistence. **Strongest portable-logic candidate**, pure-ish, framework-agnostic. |
 | `boot.js` | 563 | 2 | wiring | Entrypoint; wires modules together. Cut-coupled by design. |
 | `slate.js` | 749 | 1 | one-off-ish | Composition surface. Large; logic + DOM intertwined. |
 | `state.js` | 135 | 1 | one-off-ish | "Pure runtime state for slate/tray." Candidate to pair with `slate.js` for extraction. |
@@ -119,7 +119,7 @@ Measured by how many surfaces actually load each module (`grep` across `cuts/*.h
 | `marginalia.js` | 138 | (via boot) | shared-internal | Caveat editor's-notes overlay. |
 | `classification.js` | 80 | (via boot) | shared-internal | Business classification banner. |
 | `undo.js` | 49 | (via boot) | shared-internal | ⌘Z reverse (5 deep). Clean, small, portable. |
-| `osint-kernel.bundle.js` | 1012 | (cut 09) | **frozen artifact** | Browser build of the `liminal-test` custody kernel. **Source no longer in workspace** — `build:kernel` cannot regenerate it. Treat as opaque. |
+| `osint-kernel.bundle.js` | 1012 | (cut 09) | **frozen artifact** | Browser build of the `liminal-test` custody kernel. **Source no longer in workspace**, `build:kernel` cannot regenerate it. Treat as opaque. |
 
 **Reading:** `cut-shell.css` is the genuine spine. `vault-store.js`, `undo.js`,
 `keyboard.js`, and `state.js`+`slate.js` are the cleanest seams if extraction is ever
@@ -128,7 +128,7 @@ reusable without `boot.js`'s assumptions.
 
 ---
 
-## 4. Alignment topology — `liminal-creative` → `liminal-prototype`
+## 4. Alignment topology: `liminal-creative` → `liminal-prototype`
 
 The lockstep-canon contract (README + `liminal-creative/tokens/README.md`):
 
@@ -153,7 +153,7 @@ The lockstep-canon contract (README + `liminal-creative/tokens/README.md`):
 | File | `tokens:check` | Hash (local) | Hash (canon) |
 |---|---|---|---|
 | `design-system/tokens/design-tokens.css` | **❌ FAILED** | `e138b7a6…` | `a02db42b…` |
-| `design-system/components/framing.css` | ✅ OK | `bc4ac8b4…` (matches) | — |
+| `design-system/components/framing.css` | ✅ OK | `bc4ac8b4…` (matches) |: |
 
 **The tokens half is drifted right now.** The contract's discipline (`tokens:sync`) is in
 place but has not been run since the last canon change. Creative's own README corroborates
@@ -174,23 +174,23 @@ overrides those tokens inline.
 
 Already present upstream:
 - `tokens/` canon + `README.md` declaring the one-rule contract.
-- `tools/` — `color-studio` (token authoring), `playwright-harness`, `scripts/`.
+- `tools/`: `color-studio` (token authoring), `playwright-harness`, `scripts/`.
 - The README enumerates consumers and their historical hashes (consumer-aware).
 
 Could be repurposed to *enforce* alignment (open menu, not a recommendation yet):
-1. **Drift dashboard** — a `tools/scripts` pass that runs each consumer's `tokens:check`
+1. **Drift dashboard**: a `tools/scripts` pass that runs each consumer's `tokens:check`
    and reports a single green/red board across `prototype` + `desktop`. Creative already
    knows the consumer list; this makes drift visible from the source side.
-2. **Inline-`:root` linter** — extend the harness to grep consumers for token-name
+2. **Inline-`:root` linter**: extend the harness to grep consumers for token-name
    redefinitions outside the synced files (the blind spot above) and flag them.
-3. **Symlink option for static surfaces** — creative's README already *recommends* symlink
+3. **Symlink option for static surfaces**: creative's README already *recommends* symlink
    for build-less surfaces; this prototype uses build-copy. Switching the prototype's token
    file to a symlink would make drift structurally impossible (at the cost of a tracked
-   symlink). Decision deferred — listed as an option, not a call.
+   symlink). Decision deferred: listed as an option, not a call.
 
 ---
 
-## 5. Decision menu — extraction direction (left open)
+## 5. Decision menu: extraction direction (left open)
 
 Per "decide later," no frame is imposed. The evidence above supports three directions:
 
@@ -205,10 +205,10 @@ whichever modules cross the boundary (§3 names the candidates).
 
 ---
 
-## 6. Lowest-risk next actions (if/when you act — none taken here)
+## 6. Lowest-risk next actions (if/when you act, none taken here)
 
-1. `npm run tokens:sync` — close the live token drift (§4). One command, reversible.
-2. Relocate the 33 root PNGs → `docs/screens/` (or delete) — biggest navigability win (§1).
+1. `npm run tokens:sync`: close the live token drift (§4). One command, reversible.
+2. Relocate the 33 root PNGs → `docs/screens/` (or delete): biggest navigability win (§1).
 3. Delete `index-pre-modular.html.bak` (git has history) and confirm `v0_3_config.js` is
    dead before archiving.
 4. Decide `molehunt/` + `team-drift/`: promote to cuts or move to `_archive/`.

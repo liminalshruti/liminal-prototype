@@ -224,7 +224,7 @@ button { cursor: pointer; font-family: inherit; }
   border-bottom-color: var(--accent-soft);
   /* BRAND 4 · 2026-07-29 · accessibility half of the founder ruling.
      --accent moved Clarity violet → Wholeness pink, so this label went from
-     4.996:1 to 4.496:1 against the frame ground #0E0E11 — measured in situ here,
+     4.996:1 to 4.496:1 against the frame ground #0E0E11: measured in situ here,
      not computed from an assumed background. That is 0.004 under WCAG AA's 4.5:1
      for normal-size text at .btn's 11px.
      Founder chose to fix it by size, not by tinting the pink. At >=18.66px with

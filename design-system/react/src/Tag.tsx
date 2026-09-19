@@ -14,7 +14,7 @@ export interface TagProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 /**
- * Tag — a small, non-interactive classification chip.
+ * Tag: a small, non-interactive classification chip.
  *
  * The mono-cased pill that carries metadata (a status, a register, a source)
  * without taking an action. Maps to the canon `.tag` + `.tag-{variant}`
