@@ -1,14 +1,14 @@
 /* Liminal canon · framing primitives
  * ─────────────────────────────────────────────────────────────────────────
- * Two composition patterns for a "framing block", a quiet setup line + a bold
+ * Two composition patterns for a "framing block" — a quiet setup line + a bold
  * payload, set off by a register-colored left rule. Promoted to canon 2026-06-16
  * from liminal-prototype (cuts 00/03/08/09/11), where they carried the
  * wedge→infra / depth-proof thesis on each cut. Documented in DESIGN_SYSTEM.md
- * § Patterns. Consumes canon tokens only: never hardcode; no fallback hexes
+ * § Patterns. Consumes canon tokens only — never hardcode; no fallback hexes
  * (canon vars are always present where this is loaded).
  *
- *   .seam: serif register (founder-facing, L1–L2): warmth + editorial.
- *   .thesis-line: mono register (operator/high-stakes, L3): austere + precise.
+ *   .seam        — serif register (founder-facing, L1–L2): warmth + editorial.
+ *   .thesis-line — mono register (operator/high-stakes, L3): austere + precise.
  *
  * Same job, two voices. Vary per-surface via the custom props below; do NOT fork.
  */
