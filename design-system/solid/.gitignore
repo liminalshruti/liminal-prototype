@@ -1,0 +1,6 @@
+node_modules/
+styled-system/
+storybook-static/
+screenshots/
+desktop
+.storybook/provenance.json
