@@ -43,7 +43,8 @@ export default defineMain({
       plugins: [restyle, ...(config.plugins ?? [])],
       server: {
         ...config.server,
-        fs: { ...config.server?.fs, allow: [...(config.server?.fs?.allow ?? []), gallery, root] },
+        // design-system/ (one level up) so reference stories can import the canon sheets as ?raw.
+        fs: { ...config.server?.fs, allow: [...(config.server?.fs?.allow ?? []), gallery, resolve(gallery, ".."), root] },
       },
       resolve: {
         ...config.resolve,
