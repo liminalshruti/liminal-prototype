@@ -30,7 +30,9 @@ export const PortVsReference: Story = {
     <>
       <style>{scoped}</style>
       <div style={{ display: "grid", "grid-template-columns": "1fr 1fr", gap: "32px", width: "720px" }}>
-        <section data-panel="port" role="status" aria-busy="true" aria-label="Loading">
+        {/* Port lines carry no margin (ruled 2026-09-22); the 8px gap here stands in for the sheet's
+            margin-bottom so the two panels stay visually comparable. The delta spec reports it. */}
+        <section data-panel="port" role="status" aria-busy="true" aria-label="Loading" style={{ display: "grid", gap: "8px", "align-content": "start" }}>
           <div style={label}>port · desktop recipe</div>
           <SkeletonLine width="short" />
           <SkeletonLine width="long" />

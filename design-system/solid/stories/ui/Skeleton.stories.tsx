@@ -10,8 +10,9 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** Container carries the ARIA contract; every skeleton inside is aria-hidden. */
+/** Lines carry no margin (ruled 2026-09-22); the consumer spaces them: 8px here, like the tray's slot cards. */
 const Busy = (props: { children: any; width?: string }) => (
-  <div role="status" aria-busy="true" aria-label="Loading" style={{ width: props.width ?? "320px" }}>
+  <div role="status" aria-busy="true" aria-label="Loading" style={{ width: props.width ?? "320px", display: "grid", gap: "8px" }}>
     {props.children}
   </div>
 );
