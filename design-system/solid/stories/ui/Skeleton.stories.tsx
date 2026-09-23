@@ -51,6 +51,17 @@ export const Staggered: Story = {
   ),
 };
 
+/** The tray's candidate placeholders (TrayPop): three framed 92px tiles, staggered. */
+export const Tiles: Story = {
+  render: () => (
+    <div role="status" aria-busy="true" aria-label="Loading" style={{ display: "grid", "grid-template-columns": "repeat(3, 1fr)", gap: "8px", width: "480px" }}>
+      <Skeleton shape="tile" />
+      <Skeleton shape="tile" delay={120} />
+      <Skeleton shape="tile" delay={240} />
+    </div>
+  ),
+};
+
 /** Same paragraph under the three density registers: spacing tokens scale, the 12px line does not. */
 export const Densities: Story = {
   render: () => (
