@@ -10,11 +10,18 @@
     "panda": "npm run -s link && panda codegen && panda cssgen --outfile styled-system/styles.css && npm run -s provenance",
     "panda:watch": "panda cssgen --outfile styled-system/styles.css --watch",
     "storybook": "npm run -s panda && storybook dev -p 6006 --no-open",
-    "build": "npm run -s panda && storybook build -o storybook-static"
+    "build": "npm run -s panda && storybook build -o storybook-static",
+    "test": "npm run -s build && node scripts-test-gallery.mjs",
+    "test:reduced-motion": "GALLERY_REDUCED_MOTION=1 node scripts-test-gallery.mjs",
+    "argos:upload": "argos upload ./screenshots"
   },
   "devDependencies": {
+    "@argos-ci/cli": "^6.9.4",
+    "@argos-ci/playwright": "^7.6.0",
     "@pandacss/dev": "^0.47.0",
+    "@playwright/test": "^1.63.0",
     "@storybook/addon-docs": "^10.6.0",
+    "http-server": "^14.1.1",
     "solid-js": "1.9.12",
     "storybook": "^10.6.0",
     "storybook-solidjs-vite": "^10.7.2",
