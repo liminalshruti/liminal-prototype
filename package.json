@@ -24,7 +24,9 @@
     "gallery:build": "npm --prefix design-system/solid run build",
     "gallery:panda": "npm --prefix design-system/solid run panda",
     "gallery:setup": "npm --prefix design-system/solid ci --legacy-peer-deps",
-    "gallery:panda:watch": "npm --prefix design-system/solid run panda:watch"
+    "gallery:panda:watch": "npm --prefix design-system/solid run panda:watch",
+    "gallery:test": "npm --prefix design-system/solid run test",
+    "gallery:argos": "npm --prefix design-system/solid run argos:upload"
   },
   "license": "MIT",
   "devDependencies": {
