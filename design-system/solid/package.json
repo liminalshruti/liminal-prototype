@@ -1,0 +1,25 @@
+{
+  "name": "@liminal/design-system-solid",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "description": "Solid Storybook gallery that VIEWS liminal-desktop's src/components/ui from a sibling checkout. Desktop stays the source of truth; this package owns stories, provenance, and its own Panda codegen.",
+  "scripts": {
+    "link": "node desktop-root.mjs --link",
+    "provenance": "node desktop-root.mjs",
+    "panda": "npm run -s link && panda codegen && panda cssgen --outfile styled-system/styles.css && npm run -s provenance",
+    "panda:watch": "panda cssgen --outfile styled-system/styles.css --watch",
+    "storybook": "npm run -s panda && storybook dev -p 6006 --no-open",
+    "build": "npm run -s panda && storybook build -o storybook-static"
+  },
+  "devDependencies": {
+    "@pandacss/dev": "^0.47.0",
+    "@storybook/addon-docs": "^10.6.0",
+    "solid-js": "1.9.12",
+    "storybook": "^10.6.0",
+    "storybook-solidjs-vite": "^10.7.2",
+    "typescript": "^5.6.0",
+    "vite": "^6.0.0",
+    "vite-plugin-solid": "^2.10.0"
+  }
+}

@@ -19,7 +19,12 @@
     "canon:report": "node scripts/canon/lint-canon.mjs --report",
     "canon:update": "node scripts/canon/lint-canon.mjs --update",
     "coherence:report": "node scripts/scenario-coherence.mjs",
-    "coherence:check": "node scripts/scenario-coherence.mjs --check"
+    "coherence:check": "node scripts/scenario-coherence.mjs --check",
+    "gallery": "npm --prefix design-system/solid run storybook",
+    "gallery:build": "npm --prefix design-system/solid run build",
+    "gallery:panda": "npm --prefix design-system/solid run panda",
+    "gallery:setup": "npm --prefix design-system/solid ci --legacy-peer-deps",
+    "gallery:panda:watch": "npm --prefix design-system/solid run panda:watch"
   },
   "license": "MIT",
   "devDependencies": {
