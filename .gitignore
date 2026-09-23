@@ -34,3 +34,5 @@ _frontdoor-*.png
 test-results/
 playwright-report/
 package-lock.json
+# the Solid gallery is a nested package; its lockfile pins Storybook/Panda and is tracked
+!design-system/solid/package-lock.json

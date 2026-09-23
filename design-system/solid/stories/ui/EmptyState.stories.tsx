@@ -8,8 +8,7 @@ const meta = { title: "ui/EmptyState", component: EmptyState } satisfies Meta<ty
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const frame = (props: { children: any }) => <div style={{ width: "360px" }}>{props.children}</div>;
-const Frame = frame;
+const Frame = (props: { children: any }) => <div style={{ width: "360px" }}>{props.children}</div>;
 
 export const ChromeTitleOnly: Story = { render: () => <Frame><EmptyState title="nothing in the tray" /></Frame> };
 export const ChromeWithHint: Story = {

@@ -4,8 +4,9 @@ import { EmptyState } from "../../desktop/src/components/ui/EmptyState";
 // hook classname, so every selector is prefixed `ref-` before injection. Tokens come from
 // the page's design-tokens.css (desktop's synced canon copy).
 import sheet from "../../../components/empty-loading-skeleton.css?raw";
+import { scopeSheet } from "./scope";
 
-const scoped = ["empty-state","glyph","es-title","es-body","skeleton","spinner"].reduce((css, name) => css.replace(new RegExp("\\." + name + "\\b", "g"), ".ref-" + name), sheet).replace(/skeleton-shimmer|spinner-rotate/g, "ref-$&");
+const scoped = scopeSheet(sheet);
 
 const meta = { title: "reference/EmptyState" } satisfies Meta;
 export default meta;

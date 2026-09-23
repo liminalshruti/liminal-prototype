@@ -5,8 +5,9 @@ import { SkeletonLine } from "../../desktop/src/components/ui/Skeleton";
 // its selectors to `.ref-skeleton…` before injection. Tokens (--frame-bg-2, --card-border,
 // --radius-2) come from the page's design-tokens.css, which is desktop's synced canon copy.
 import sheet from "../../../components/empty-loading-skeleton.css?raw";
+import { scopeSheet } from "./scope";
 
-const scoped = sheet.replace(/\.skeleton/g, ".ref-skeleton").replace(/skeleton-shimmer/g, "ref-skeleton-shimmer");
+const scoped = scopeSheet(sheet);
 
 const meta = { title: "reference/Skeleton" } satisfies Meta;
 export default meta;

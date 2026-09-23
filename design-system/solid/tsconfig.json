@@ -7,11 +7,12 @@
     "jsxImportSource": "solid-js",
     "strict": true,
     "skipLibCheck": true,
-    "allowImportingTsExtensions": true,
     "noEmit": true,
-    "resolveJsonModule": true,
-    "types": [],
-    "paths": { "@desktop/*": ["./desktop/src/*"] }
+    "resolveJsonModule": true
   },
-  "include": ["stories", ".storybook", "panda.config.ts"]
+  "include": [
+    "stories",
+    ".storybook",
+    "panda.config.ts"
+  ]
 }
