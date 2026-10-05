@@ -90,3 +90,30 @@ test("archive pages: the on-page marker drift is recorded exactly", async ({ pag
   }
   expect(mismatches).toEqual([]);
 });
+
+for (const width of [1440, 400]) {
+  test(`archive pages show the archive notice in the first viewport at ${width}px (LIM-2218)`, async ({ page }) => {
+    await page.setViewportSize({ width, height: width === 400 ? 860 : 900 });
+    const failures = [];
+    for (const c of INV.cuts.filter((x) => x.status === "archive")) {
+      await page.goto(`/${c.path}`, { waitUntil: "load" });
+      const bar = page.locator("#archive-notice");
+      try {
+        await expect(bar).toBeVisible({ timeout: 3000 });
+        await expect(bar).toContainText(/archived · not maintained/i);
+        await expect(bar).toBeInViewport({ ratio: 1 });
+        const href = await bar.locator("a").evaluate((a) => new URL(a.href).pathname);
+        if (href !== "/index.html") failures.push(`${c.path}: links to ${href}`);
+        const covered = await bar.evaluate((el) => {
+          const r = el.getBoundingClientRect();
+          const top = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+          return !el.contains(top);
+        });
+        if (covered) failures.push(`${c.path}: notice covered by another element`);
+      } catch (e) {
+        failures.push(`${c.path}: ${String(e).split("\n")[0]}`);
+      }
+    }
+    expect(failures).toEqual([]);
+  });
+}

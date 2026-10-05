@@ -116,27 +116,13 @@
       "path": "cuts/_archive/00-hero-demo.html",
       "status": "archive",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/_archive/01-slate-tray-speedrun.html",
       "status": "archive",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/_archive/05-onboarding-argument.html",
@@ -148,11 +134,6 @@
           "id": "archive-header-claims-current",
           "says": "Status · live",
           "should": "Status · archive (superseded, not maintained)"
-        },
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
         }
       ]
     },
@@ -166,11 +147,6 @@
           "id": "archive-header-claims-current",
           "says": "Status · live",
           "should": "Status · archive (superseded, not maintained)"
-        },
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
         }
       ]
     },
@@ -184,11 +160,6 @@
           "id": "archive-header-claims-current",
           "says": "Status · live",
           "should": "Status · archive (superseded, not maintained)"
-        },
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
         }
       ]
     },
@@ -196,40 +167,19 @@
       "path": "cuts/_archive/11-govern-cockpit-iter.html",
       "status": "archive",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/_archive/12-agency-govern-iter.html",
       "status": "archive",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/_archive/index-agenthansa-frozen.html",
       "status": "archive",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/_archive/pre-consolidation/08-liminal-custody.html",
@@ -241,11 +191,6 @@
           "id": "archive-header-claims-current",
           "says": "Maturity · refining",
           "should": "Status · archive (superseded, not maintained)"
-        },
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
         }
       ]
     },
@@ -259,11 +204,6 @@
           "id": "archive-header-claims-current",
           "says": "Maturity · kernel-wired",
           "should": "Status · archive (superseded, not maintained)"
-        },
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "on-page copy says the kernel bundle is frozen, not that this page is archived",
-          "should": "a visible \"archived · not maintained\" line"
         }
       ]
     },
@@ -271,53 +211,25 @@
       "path": "cuts/_archive/root-experiments/index-v04-frozen.html",
       "status": "archive",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/_archive/root-experiments/ontology-agent-travel-more-3d.html",
       "status": "archive",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/_archive/root-experiments/ontology-agent-travel-options.html",
       "status": "archive",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/_archive/root-experiments/ontology-agent-travel-real-3d.html",
       "status": "archive",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "archive-no-onpage-marker",
-          "says": "nothing on screen says archived",
-          "should": "a visible \"archived · not maintained\" line"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/_compare.html",
