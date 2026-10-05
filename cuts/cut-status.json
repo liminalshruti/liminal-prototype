@@ -371,14 +371,7 @@
       "path": "cuts/thread/atlas.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status in the header comment",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/brief.html",
@@ -421,14 +414,7 @@
       "path": "cuts/thread/index.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": true,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status in the header comment",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": true
     },
     {
       "path": "cuts/thread/insights.html",
