@@ -102,8 +102,8 @@
   "SPEND_TOTAL": 13045,
   "OPUS_TOTAL": 4500,
   "COHORT": 7,
-  "CLAIMED": 324,
-  "VERIFIED": 162,
+  "CLAIMED": 486,
+  "VERIFIED": 324,
   "USAGE": [
     [
       "Build payments API",
