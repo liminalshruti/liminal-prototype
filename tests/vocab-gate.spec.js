@@ -1,9 +1,9 @@
 // v2-vocab-gate spec (LIM-1799): the disclosure boundary runs with the suite.
 // Positive: the repo at HEAD is clean. Negative: a planted banned term IS
 // caught (term assembled by concatenation so this file stays clean itself).
-const { test, expect } = require('@playwright/test');
-const { execSync } = require('node:child_process');
-const { writeFileSync, mkdirSync, rmSync } = require('node:fs');
+import { test, expect } from '@playwright/test';
+import { execSync } from 'node:child_process';
+import { writeFileSync, mkdirSync, rmSync } from 'node:fs';
 
 test('v2-vocab-gate: tracked repo is clean', () => {
   execSync('node scripts/v2-vocab-gate.mjs', { stdio: 'pipe' });
