@@ -49,14 +49,7 @@
       "path": "cuts/05-plugin-seed.html",
       "status": "live",
       "kind": "cut",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "maturity-off-vocab",
-          "says": "Maturity · receipt-backed",
-          "should": "stub | sketch | refining | live (qualifier in parentheses)"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/06-margin-read.html",
@@ -82,14 +75,7 @@
       "status": "live",
       "kind": "cut",
       "frontDoor": true,
-      "demoPath": 3,
-      "drift": [
-        {
-          "id": "maturity-off-vocab",
-          "says": "Maturity · prototype",
-          "should": "stub | sketch | refining | live (qualifier in parentheses)"
-        }
-      ]
+      "demoPath": 3
     },
     {
       "path": "cuts/11-govern.html",
@@ -97,14 +83,7 @@
       "kind": "cut",
       "frontDoor": true,
       "demoPath": 2,
-      "contract": "LIM-1554: route and params of 11-govern.html?subject=spend&beat=loop&run=govern-run.json never change",
-      "drift": [
-        {
-          "id": "maturity-off-vocab",
-          "says": "Maturity · prototype",
-          "should": "stub | sketch | refining | live (qualifier in parentheses)"
-        }
-      ]
+      "contract": "LIM-1554: route and params of 11-govern.html?subject=spend&beat=loop&run=govern-run.json never change"
     },
     {
       "path": "cuts/12-operating-plane.html",
@@ -308,14 +287,7 @@
       "path": "cuts/thread/convergence.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "maturity-off-vocab",
-          "says": "Status · doc/sketch",
-          "should": "stub | sketch | refining | live (qualifier in parentheses)"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/eventlog.html",
