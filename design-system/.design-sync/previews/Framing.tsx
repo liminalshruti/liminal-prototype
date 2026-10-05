@@ -1,14 +1,14 @@
 import { Framing } from '@liminal/design-system';
 import { Surface } from './_surface';
 
-/** The serif (founder) register — warm, editorial. */
+/** The serif (founder) register: warm, editorial. */
 export function Serif() {
   return (
     <Surface>
       <div style={{ maxWidth: 560 }}>
         <Framing
           register="serif"
-          lead="We started where the founder already lives —"
+          lead="We started where the founder already lives, "
           payload="the daily decisions nobody else sees."
         />
       </div>
@@ -16,7 +16,7 @@ export function Serif() {
   );
 }
 
-/** The mono (operator / high-stakes) register — austere, precise. */
+/** The mono (operator / high-stakes) register: austere, precise. */
 export function Mono() {
   return (
     <Surface>
@@ -31,7 +31,7 @@ export function Mono() {
   );
 }
 
-/** Both voices stacked — same job, two registers. */
+/** Both voices stacked: same job, two registers. */
 export function BothRegisters() {
   return (
     <Surface>

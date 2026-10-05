@@ -1,4 +1,4 @@
-# Post-Consent Re-check — `v0_3_config.js` (Step 8, post-extraction)
+# Post-Consent Re-check: `v0_3_config.js` (Step 8, post-extraction)
 
 *Branch: `foundry/proof-to-port-architecture` · 2026-06-18 · Planning only.*
 *Source: re-derived export state + per-consumer call-site reading after `config/consent.js` landed.*
@@ -17,11 +17,11 @@ Group C (archive-only) / Group D (dead) per the quarantine plan.
 - `SPEC_VERSION`, `PROTOTYPE_VERSION` → `./config/versions.js` (line 47)
 - `CONSENT_CLASSES` → `./config/consent.js` (line 222)
 
-These are facade lines — `v0_3_config.js` no longer owns them.
+These are facade lines: `v0_3_config.js` no longer owns them.
 
 ## 3. Imports still pointing at `v0_3_config.js`
 - `state.js`, `boot.js`, `keyboard.js`, `slate.js` still import the **scenario data**
-  (`TEAM_*`, `PERSONAL_*`, `BUSINESS_*`) — not yet extracted. Expected.
+  (`TEAM_*`, `PERSONAL_*`, `BUSINESS_*`): not yet extracted. Expected.
 - Archive files import from `v0_3_config.js`; preserved by re-exports.
 
 ## 4. Candidate surface groups (blast-radius compared)
@@ -33,7 +33,7 @@ These are facade lines — `v0_3_config.js` no longer owns them.
 | `PERSONAL_THREADS` | state, boot, keyboard | `.find` (state:86, boot:152/533), `.forEach`/`.length` (boot:220/223), `.map` (keyboard:15) | data only |
 | `PERSONAL_TILES_FOR_THREAD` | state, boot | `[ctx] ?? []` (state:91) | data only |
 
-- **Files:** 3 (state, boot, keyboard) — **no `slate.js`.**
+- **Files:** 3 (state, boot, keyboard): **no `slate.js`.**
 - **Risk:** low–medium. Pure data. **Re-export:** yes. **Blast radius:** smallest of the groups.
 
 ### Team → `data/team.js`
@@ -42,14 +42,14 @@ These are facade lines — `v0_3_config.js` no longer owns them.
 | `TEAM_SUBJECTS` | state, boot, keyboard | `.find`/`.forEach`/`.length`/`.map` | data only |
 | `TEAM_TILES_FOR_SUBJECT` | state, boot, **slate** | `[ctx] ?? []` (state:94), `[s.id]` (boot:340), import (slate:17) | data only |
 
-- **Files:** 4 — **includes `slate.js`.** Risk: medium. Larger blast radius than personal.
+- **Files:** 4: **includes `slate.js`.** Risk: medium. Larger blast radius than personal.
 
 ### Business → `data/business.js`  (LAST)
 - `BUSINESS_OPERATOR`, `BUSINESS_TILES_FOR_CASE`, **`BUSINESS_SCENARIOS`** (4 consumers).
   Highest-consumer knot; `BUSINESS_OPERATOR` carries §552a notice-copy interpolations.
   Move only after personal + team prove the pattern.
 
-### `PRODUCTS` — NOT in this sequence
+### `PRODUCTS`: NOT in this sequence
 8C classified it a **dead import** (boot imports, never uses). Belongs to Stage 1
 dead-import removal, not the scenario split.
 

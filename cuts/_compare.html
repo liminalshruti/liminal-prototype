@@ -8,25 +8,25 @@
 <!--
   Cut Compare · internal scaffold tool · NOT shipped to Pages
   ──────────────────────────────────────────────────────────────────────
-  Loop-stage · n/a (scaffold — carries no product loop)
+  Loop-stage · n/a (scaffold: carries no product loop)
   Altitude   · n/a (tooling, like _console / _template)
   Surface    · desktop
   Framing    · n/a
   Maturity   · live
   Spec ref   · ~/.claude/plans/design-this-like-a-cheeky-feather.md (PM spec)
   ──────────────────────────────────────────────────────────────────────
-  ONE job: mount any two surfaces side by side and read the DELTA between them —
+  ONE job: mount any two surfaces side by side and read the DELTA between them, 
   so the question the final cut-shell design depends on, "do these two surfaces
   render the same chrome?", is answered by looking, not by eyeballing two tabs.
 
   This is the Substrate Console's survey done as a focused 2-up diff. It shares
-  the console's single source of truth (./surfaces.js) — it does NOT re-declare
+  the console's single source of truth (./surfaces.js): it does NOT re-declare
   cut metadata. Fix a coordinate in surfaces.js → console AND compare both update.
 
   THE SPINE IS A LENS REGISTRY. "mount A, mount B, diff the coordinates" is the
   durable mechanism; what you compare THROUGH is a swappable lens. v1 ships the
   shell lens (split / overlay / synced-width). Later lenses (drift, loop, frame/
-  copy, density) are new LENSES entries reading the same two mounted surfaces —
+  copy, density) are new LENSES entries reading the same two mounted surfaces, 
   not rewrites. The named next one is the DRIFT LENS (parse a cut's inline :root
   overrides, show which canon tokens it shadows) per docs/architecture/REPO_ATLAS.md §4.
 
@@ -142,11 +142,11 @@
   .stage.split { display: flex; gap: 1px; background: var(--frame-border, #1F1F23); }
   .stage.split .pane { flex: 1 1 0; min-width: 0; }
 
-  /* overlay mode — panes stacked, B on top with variable opacity */
+  /* overlay mode: panes stacked, B on top with variable opacity */
   .stage.overlay .pane { position: absolute; inset: 0; }
   .stage.overlay .pane.b { /* opacity set inline via JS */ }
 
-  /* synced mode — both panes centered at a fixed width */
+  /* synced mode: both panes centered at a fixed width */
   .stage.synced { display: flex; gap: 1px; background: var(--frame-border, #1F1F23); justify-content: center; overflow: auto; }
   .stage.synced .pane { flex: 0 0 auto; }
 
@@ -308,7 +308,7 @@ function mountPane(paneId, it) {
 // ── lens registry · the extensibility spine ──────────────────────────────────
 // A lens = { id, label, apply(stageEl) }. v1 ships ONE family (the shell lens)
 // expressed as three modes. A future lens (e.g. 'drift') is a NEW entry that
-// reads the same two mounted surfaces — not a rewrite of mount/diff/picker.
+// reads the same two mounted surfaces: not a rewrite of mount/diff/picker.
 const SHELL_MODES = new Set(['split', 'overlay', 'synced']);
 function applyMode(mode) {
   const stage = document.getElementById('stage');

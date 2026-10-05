@@ -8,7 +8,7 @@ name: canon
 # dependencies, matching this repo's no-build stance. The whole job is one
 # node invocation, so it stays fast enough that nobody wants to skip it.
 #
-# Deploy is untouched — GitHub Pages serves main directly, not via Actions.
+# Deploy is untouched: GitHub Pages serves main directly, not via Actions.
 
 on:
   pull_request:

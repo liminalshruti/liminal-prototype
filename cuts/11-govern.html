@@ -150,7 +150,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 /* ── the 4-register READ (restored, with correction flow) ── */
 /* .reg now COMPOSES .p-read (lib/cut-shell-products.css): the box, the register
    left-edge and the head come from the primitive. What stays here is the part
-   the primitive has no opinion about — the staggered entrance and the
+   the primitive has no opinion about: the staggered entrance and the
    positioning context the amend affordance needs. The `reg` class itself must
    remain: the delegated handler resolves targets with closest('.reg'). */
 .reg{position:relative;opacity:0;transform:translateY(5px);animation:rin .5s var(--ease) forwards;margin-bottom:10px}
@@ -161,7 +161,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 .reg:hover .amend{opacity:1}.reg .amend:hover{color:var(--diligence);border-color:var(--diligence)}
 .reg .rbody{margin-top: 9px;font:14px/1.55 var(--serif,"Perfectly Nineties",Georgia,serif);color:var(--text-mid)}
 .reg .rbody .hl{color:var(--text)}
-/* register colour deleted 2026-07-30 — .p-read--<register> > .p-read__head now
+/* register colour deleted 2026-07-30: .p-read--<register> > .p-read__head now
    supplies it. The old local rules also disagreed with canon: outreach was
    painted var(--connection) rather than var(--outreach). Same hue today, but it
    addressed the FACTOR where every sibling addressed the REGISTER, so a future
@@ -181,7 +181,7 @@ body[data-surface="today"] .rail-l,body[data-surface="today"] .rail-r,body[data-
 
 /* OKR allocation bar (restored) · canon tokens only */
 .allocbar{margin-top: 11px;height:26px;border-radius: var(--radius-3);overflow:hidden;display:flex;border:1px solid var(--card-border);position:relative;max-width:400px}
-/* labels ride a darker stop of the same register hue — white at 9px needs
+/* labels ride a darker stop of the same register hue, white at 9px needs
    4.5:1 and the mid stops only give ~3.9 (diligence) / ~4.0 (depth) */
 .allocbar .p{background:color-mix(in oklch,var(--diligence) 72%,black);display:flex;align-items:center;padding-left: 10px;font:9px/1 var(--mono);color:#fff;letter-spacing: .08em}
 .allocbar .s{background:color-mix(in oklch,var(--depth) 72%,black);display:flex;align-items:center;padding-left: 10px;font:9px/1 var(--mono);color:#fff;letter-spacing: .08em;position:relative}
@@ -525,7 +525,7 @@ body[data-relationship="public"] .refuse-frame{display:flex;flex-direction:colum
    The desktop shell is a fixed 280px/1fr/320px instrument; below 760px the
    rails collapse (same move the today/log surfaces already make) and the work
    pane owns the width. Wide evidence tables scroll inside their own pane
-   rather than clipping — the page never pans sideways. */
+   rather than clipping: the page never pans sideways. */
 @media (max-width:760px){
   /* generic .shell/.mid phone behavior now lives in cut-shell-base.css
      (shared phone layer, promoted from this cut 2026-07-13); what remains
@@ -796,7 +796,7 @@ function renderChain(){
 // FINDING · clickable provenance artifact: head → expand → cited rows + receipt → correct
 const KINDS=['inner','outer','cross','emergence'];
 /* correction_kind glosses · canon-faithful per founder-brain
-   liminal-ip/06-evidence/INVENTIONS.md §8 (PPA #5 vocabulary — the labels are
+   liminal-ip/06-evidence/INVENTIONS.md §8 (PPA #5 vocabulary: the labels are
    load-bearing IP and never renamed; the gloss is for the first-time viewer) */
 const KIND_GLOSS={
   inner:'the read itself was wrong · bad inference from the evidence',
@@ -868,7 +868,7 @@ function subjectBar(){
     return `<button class="subj ${k===SUBJECT?'on':''}" data-subj="${k}">${lbl}${deep}</button>`;
   }).join('')+`</div>`;
 }
-/* wire the subject bar after each render — scripts inside innerHTML never
+/* wire the subject bar after each render, scripts inside innerHTML never
    execute, and a nested script tag inside a template literal terminates
    the outer script element at the HTML-parser level */
 function wireSubjectBar(){
@@ -1381,7 +1381,7 @@ const CHAIN0=CHAIN.slice(0,5).map(e=>e.slice(0,3));
 function resetDemo(){
   corrections=0; signed=false;
   // the 7-step ritual is part of the demo state, so restart has to rewind it
-  // too — must match the declaration at the top (`let STEP=3, STEP_DONE=...`).
+  // too: must match the declaration at the top (`let STEP=3, STEP_DONE=...`).
   // #66 introduced the ritual but not this line, so ↺ left the walk wherever
   // the viewer had got to while the toast claimed a clean opening state: a
   // second run-through opened mid-ritual with steps still marked done.
@@ -1418,7 +1418,7 @@ function initEngine(){
 function mintArtifact(){
   const aw=$('#artwrap'); if(!aw)return;
   /* three cases: first mint (log + toast), re-render after tab-hop (rebuild the
-     artifact, no new chain entry — pre-guard this path DUPLICATED the ratified
+     artifact, no new chain entry: pre-guard this path DUPLICATED the ratified
      entry on every revisit), and a genuine second ratify attempt (guard toast) */
   const rerender=signed;
   if(signed&&aw.querySelector('.artifact')){toast('Already ratified this session · ↺ restart to run again');return;}
@@ -1486,7 +1486,7 @@ document.addEventListener('click',e=>{
   const fk=e.target.closest('[data-fckind]'); if(fk){const box=fk.closest('.fc-kinds');box.querySelectorAll('.fc-kind').forEach(x=>x.classList.toggle('on',x===fk));
     const gloss=box.parentElement.querySelector('.fc-gloss'); if(gloss)gloss.textContent=KIND_GLOSS[fk.dataset.fckind]||'';return;}
   const fcs=e.target.closest('[data-fcsave]'); if(fcs){signFindingCorrection(fcs.dataset.fcsave,fcs);return;}
-  /* palette rows carry data-act too — they must be handled (and the palette
+  /* palette rows carry data-act too: they must be handled (and the palette
      closed) BEFORE the generic [data-act] branch, or the palette sticks open */
   const pr=e.target.closest('.pal-row'); if(pr){pr.dataset.act?doPalAct(pr.dataset.act):go(pr.dataset.goto);togglePalette(false);return;}
   const g7=e.target.closest('[data-goto7]');
@@ -1551,7 +1551,7 @@ async function initGovernData(){
       // hero swap-in-loop: replace the Outreach read's swap with the real marketplace comparison
       if(AGENT_FIT&&READS.outreach)READS.outreach.html='Drafted · the registry has a better-fit verified agent for this task <span class="cite" data-cite="registry">agent-registry</span>. Ready to ratify the routing rule.'+swapHTML(AGENT_FIT);
       RUN_MODE=d.meta?.mode==='demonstration'?'demonstration':'recorded';
-      // claim register: every ?run= payload is a recorded artifact — the badge may never
+      // claim register: every ?run= payload is a recorded artifact. The badge may never
       // render "live"/"real" regardless of what the fixture's meta.mode claims.
       const badge=$('#run-badge'); if(badge){badge.textContent=runLabel();badge.classList.add('on');}
     }catch(err){

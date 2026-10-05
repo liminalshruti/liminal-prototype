@@ -8,7 +8,7 @@ export interface ToastProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Toast — ephemeral notification in fixed/floating position.
+ * Toast: ephemeral notification in fixed/floating position.
  *
  * A compact, consumer-timed notification overlay. Maps to `.toast`, `.t-glyph`,
  * and `.t-meta` classes from `components/banners-toasts-alerts.css`. The consumer

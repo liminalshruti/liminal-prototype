@@ -17,7 +17,7 @@ export interface AuditRibbonProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * AuditRibbon — chain-of-custody or audit log entry breadcrumb.
+ * AuditRibbon: chain-of-custody or audit log entry breadcrumb.
  *
  * A horizontal strip displaying a series of audit entries with optional
  * timestamps and refusal status. Each row is an inline-flex entry.

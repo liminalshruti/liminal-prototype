@@ -14,7 +14,7 @@ const SURFACES = [
   { name: "cut 11 canonical", url: CUT_11_CANONICAL, marker: null },
   // Added 2026-07-29 with the .p-read fold: both cuts render the shared read
   // primitive, and neither had ANY coverage before. Cut 06 in particular now
-  // links lib/cut-shell-products.css for the first time — a load regression
+  // links lib/cut-shell-products.css for the first time: a load regression
   // there would otherwise be invisible.
   { name: "cut 06 margin-read", url: "/cuts/06-margin-read.html", marker: null },
   { name: "cut 10 today", url: "/cuts/10-today.html", marker: null },
@@ -31,7 +31,7 @@ for (const s of SURFACES) {
       }
     });
 
-    // NOTE: server.mjs holds a live-reload connection open — networkidle never
+    // NOTE: server.mjs holds a live-reload connection open, networkidle never
     // fires against it. "load" + settle delay is the reliable wait here.
     await page.goto(s.url, { waitUntil: "load" });
     await page.waitForTimeout(2000);
@@ -56,7 +56,7 @@ test("cut 11 missing fixture falls back to inline demo", async ({ page }) => {
   await expect(page.locator("body")).toHaveAttribute("data-surface", "loop");
   // a VISIBLE refusal, not merely the first in DOM order. #66's 7-step ritual
   // keeps six `/refused/i` matches in the document at once and shows only the
-  // `.pane7.on` one, so `.first()` was picking text out of an inactive pane —
+  // `.pane7.on` one, so `.first()` was picking text out of an inactive pane, 
   // it passed before only because the loop used to be one flat surface.
   await expect(page.getByText(/refused/i).filter({ visible: true }).first())
     .toBeVisible();
@@ -65,7 +65,7 @@ test("cut 11 missing fixture falls back to inline demo", async ({ page }) => {
 // ── .p-read · the shared read primitive (adopted 2026-07-29) ──────────────
 // Cuts 06 and 10 were a fork of one held-read design under two vocabularies.
 // These guard the fold: the primitive must actually reach both cuts, and the
-// v0.3 severity-lane chroma law must hold — a refused read is a LIFECYCLE
+// v0.3 severity-lane chroma law must hold: a refused read is a LIFECYCLE
 // state (judgment register), never a severity hue.
 
 const P_READ_SURFACES = [
@@ -93,7 +93,7 @@ for (const s of P_READ_SURFACES) {
     const read = page.locator(".p-read").first();
     await expect(read).toBeVisible();
 
-    // the primitive's stylesheet actually reached the page — padding only
+    // the primitive's stylesheet actually reached the page: padding only
     // exists in lib/cut-shell-products.css, never in the cuts
     const styled = await page.evaluate(() => {
       const el = document.querySelector(".p-read:not(.p-read--compact)");

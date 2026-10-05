@@ -407,7 +407,7 @@
      judgment-spine · "ratified" stamp · decision + rationale · allow/deny
      permission matrix · anchored sha256 / local-first-chain / chain-verified
      receipt. Promoted to canon 2026-06-17 from cut 12 (the most complete
-     version — the only one carrying the full .apol permission-chip block).
+     version: the only one carrying the full .apol permission-chip block).
 
      STATUS: NOT YET ADOPTED by the live cuts. cut 11 still mints its own inline
      copy; this block is inert until a cut consumes `.artifact` from this sheet.
@@ -978,18 +978,18 @@
      vocabularies: cut 06 (.read/.tag/.verdict/.refusal), cut 10
      (.tdy-rcard/.tdy-verdict/.tdy-receipt), cut 12 (.op-read + .reg-*),
      cut 11/00 (.reg/.rname/.rbody). Cuts 06 and 10 were a FORK, not a
-     resemblance — identical fixture, identical receipt string, identical
+     resemblance: identical fixture, identical receipt string, identical
      .lane/.almost tag modifiers. This is the single copy.
 
      WHO DONATED WHAT
-     · cut 06 — the chrome: card, tag pills, verdict line, refusal box,
+     · cut 06: the chrome: card, tag pills, verdict line, refusal box,
                 receipt rule, action row.
-     · cut 12 — the structure: register-coded left border, register-named
+     · cut 12: the structure: register-coded left border, register-named
                 head, and the row model below.
-     · cut 10 — the chroma (it was already right; see the law).
+     · cut 10: the chroma (it was already right; see the law).
 
      THE ROW MODEL IS LOAD-BEARING. Quoted · Situation · Hidden risk ·
-     Next move are not stylistic labels — they are liminal-desktop's
+     Next move are not stylistic labels: they are liminal-desktop's
      shipped `agent_reads` columns (quoted · situation · hidden_risk ·
      next_move · refusal). A read rendered here is structurally faithful
      to the schema, so the design and the substrate cannot drift apart.
@@ -1002,7 +1002,7 @@
            four registers only. The ruling: "a refused agent and a
            flagged anomaly never share a hue." The atlas .p-refusal
            already binds --wholeness (= --judgment); cut 12's refused
-           badge already binds --judgment. Cut 06 used --alarm — it was
+           badge already binds --judgment. Cut 06 used --alarm, it was
            the outlier and that binding is deliberately NOT carried here.
        which agent refused / register attribution → the register hue
            A sanctioned hue kind, so the --outreach tint on the refusal
@@ -1013,8 +1013,8 @@
        --alarm / --watch → NEVER in this primitive.
            Severity is a property of the EVIDENCE, not of a read.
 
-     TOKEN FAMILY. Uses the canonical family — `--mono`, `--serif`, the
-     `--fs-` sizes, the `--ls-` tracking, the `--space-` scale — which is what
+     TOKEN FAMILY. Uses the canonical family: `--mono`, `--serif`, the
+     `--fs-` sizes, the `--ls-` tracking, the `--space-` scale: which is what
      every consuming cut already uses. NOTE the older p- blocks above
      reference `--font-mono`, `--text-2xs` and `--tracking-widest`, which are
      defined in NEITHER canon nor the shell, so their typography silently
@@ -1031,14 +1031,14 @@
     padding: 18px;
   }
 
-  /* Register attribution — a sanctioned hue kind. The left edge says which
+  /* Register attribution: a sanctioned hue kind. The left edge says which
      register produced this read, at a glance, without spending a word. */
   .p-read--diligence { border-left-color: var(--diligence); }
   .p-read--outreach  { border-left-color: var(--outreach); }
   .p-read--judgment  { border-left-color: var(--judgment); }
   .p-read--synthesis { border-left-color: var(--synthesis); }
 
-  /* A refused read is the read, at full weight — never an empty slot.
+  /* A refused read is the read, at full weight, never an empty slot.
      Judgment register, NOT severity.
 
      NAMED `--refusal`, NOT `--refused`, and that is load-bearing.
@@ -1047,7 +1047,7 @@
          { color/background/border-color: wholeness… !important }
      `[class*="refused"]` is a SUBSTRING wildcard with !important, so a modifier
      named `--refused` gets all four of its borders, its background and its text
-     forcibly repainted — the primitive silently stops rendering what it
+     forcibly repainted: the primitive silently stops rendering what it
      declares. Verified: it was overriding this rule's left-edge-only intent.
      `--refusal` dodges the substring and also matches this primitive's own
      element names (__refusal-glyph, __refusal-why). Do not rename it back.
@@ -1101,7 +1101,7 @@
   /* Only a register attribution earns a hue; everything else is ink.
      This also SETTLES a disagreement the fork had hidden: cut 06 coloured its
      lane tag --judgment, cut 10 coloured the same tag --ink-clarity
-     (= diligence). Neither was right — "Founding round" names a SUBJECT, not a
+     (= diligence). Neither was right: "Founding round" names a SUBJECT, not a
      register, and under the atlas rule a hue must name its measurement. So
      subject and readiness tags are ink, and the card's left edge + head carry
      the register. The modifiers below exist for tags that genuinely name one. */

@@ -2,7 +2,7 @@
 id: liminal-prototype.control.demo-inventory
 type: loop.control
 status: active
-owner: (TBD — will be assigned when launched)
+owner: (TBD: will be assigned when launched)
 created: 2026-06-30
 class: control
 priority: P1
@@ -43,7 +43,7 @@ This loop must NOT: rewrite any HTML/CSS · change design tokens · invent featu
 
 ## Required output artifacts
 
-1. `reports/demo-inventory.md` — catalog of all demos with status (green / yellow / red), blocker list, ready-to-showcase assessment
+1. `reports/demo-inventory.md`: catalog of all demos with status (green / yellow / red), blocker list, ready-to-showcase assessment
 
 ## Acceptance criteria (done ONLY if all true)
 
@@ -52,7 +52,7 @@ This loop must NOT: rewrite any HTML/CSS · change design tokens · invent featu
 - [x] Stale/partial implementations identified and severity assigned
 - [x] One overall readiness verdict: ready-for-showcase / needs-fixes / blocked
 - [x] All blockers listed with reproduction steps
-- [x] All changed files listed (should be none — control loop)
+- [x] All changed files listed (should be none, control loop)
 - [x] Verification commands run or explicitly marked unavailable
 - [x] Remaining gaps documented
 
@@ -79,11 +79,11 @@ Stop when: all demos cataloged and assessed, OR a scope blocker prevents complet
 
 ## Final report format
 
-See `~/liminal/founder-brain/ops/strategy-control-plane/07_LOOP_SPEC_TEMPLATE.md` — § Final report format (8 items: summary, files read, files changed, acceptance checklist, verification, risks, risk level, recommended next loop).
+See `~/liminal/founder-brain/ops/strategy-control-plane/07_LOOP_SPEC_TEMPLATE.md`: § Final report format (8 items: summary, files read, files changed, acceptance checklist, verification, risks, risk level, recommended next loop).
 
 ---
 
-## Loop preamble (REQUIRED — use verbatim in the loop prompt)
+## Loop preamble (REQUIRED: use verbatim in the loop prompt)
 
 ```txt
 Do not optimize for seeming productive. Optimize for convergence. If the task is ambiguous, produce a

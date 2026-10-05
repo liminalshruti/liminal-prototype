@@ -5,10 +5,10 @@ export type BannerVariant = 'accent' | 'good' | 'amber' | 'red';
 export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Visual state indicator.
-   * - `accent` — primary attention (informational)
-   * - `good` — success (connection green)
-   * - `amber` — warning (watch gold)
-   * - `red` — error (alarm red)
+   * - `accent`: primary attention (informational)
+   * - `good`: success (connection green)
+   * - `amber`: warning (watch gold)
+   * - `red`: error (alarm red)
    * @default 'accent'
    */
   variant?: BannerVariant;
@@ -17,7 +17,7 @@ export interface BannerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Banner — persistent inline alert that informs without blocking flow.
+ * Banner: persistent inline alert that informs without blocking flow.
  *
  * Renders a full-width or inline alert with optional leading glyph and
  * semantic variant. Maps to `.banner` + `.is-{variant}` classes from

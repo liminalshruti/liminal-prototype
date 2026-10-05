@@ -2,7 +2,7 @@
 id: liminal-prototype.control.link-health-and-a11y
 type: loop.control
 status: active
-owner: (TBD — will be assigned when launched)
+owner: (TBD: will be assigned when launched)
 created: 2026-06-30
 class: control
 priority: P1
@@ -43,7 +43,7 @@ This loop must NOT: modify any HTML/CSS · fix accessibility issues (that's buil
 
 ## Required output artifacts
 
-1. `reports/link-health-and-a11y.md` — link health + a11y audit, all issues with severity, remediation guidance
+1. `reports/link-health-and-a11y.md`: link health + a11y audit, all issues with severity, remediation guidance
 
 ## Acceptance criteria (done ONLY if all true)
 
@@ -55,7 +55,7 @@ This loop must NOT: modify any HTML/CSS · fix accessibility issues (that's buil
 - [x] Form labels present and associated with inputs
 - [x] Each issue assigned severity (critical / high / medium / low)
 - [x] One overall a11y status: accessible / needs-fixes / blocked
-- [x] All changed files listed (should be none — control loop)
+- [x] All changed files listed (should be none, control loop)
 - [x] Verification commands run or explicitly marked unavailable
 - [x] Remaining gaps documented
 
@@ -90,11 +90,11 @@ Stop when: link and a11y audit complete with severity levels assigned, OR a scop
 
 ## Final report format
 
-See `~/liminal/founder-brain/ops/strategy-control-plane/07_LOOP_SPEC_TEMPLATE.md` — § Final report format (8 items: summary, files read, files changed, acceptance checklist, verification, risks, risk level, recommended next loop).
+See `~/liminal/founder-brain/ops/strategy-control-plane/07_LOOP_SPEC_TEMPLATE.md`: § Final report format (8 items: summary, files read, files changed, acceptance checklist, verification, risks, risk level, recommended next loop).
 
 ---
 
-## Loop preamble (REQUIRED — use verbatim in the loop prompt)
+## Loop preamble (REQUIRED: use verbatim in the loop prompt)
 
 ```txt
 Do not optimize for seeming productive. Optimize for convergence. If the task is ambiguous, produce a

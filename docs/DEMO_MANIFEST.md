@@ -1,4 +1,4 @@
-# Demo manifest — canonical paths (2026-07-13)
+# Demo manifest: canonical paths (2026-07-13)
 
 The two demo paths Shruti records and investors receive. Everything else in
 `cuts/` is secondary exploration ("Explore the prototype" on the front door).
@@ -12,7 +12,7 @@ Product truth lives in `liminal-desktop`; nothing here claims shipped behavior.
 
 ---
 
-## P0 · Cut 11 — Govern (the commercial wedge)
+## P0 · Cut 11: Govern (the commercial wedge)
 
 | | |
 |---|---|
@@ -24,7 +24,7 @@ Product truth lives in `liminal-desktop`; nothing here claims shipped behavior.
 | **Guards** | Run badge can never render "live/real run" from fixture metadata; double-ratify closed on button/tab-hop/palette paths; missing fixture falls back to inline demo; visible ↺ restart (also ⌥R / `0`) |
 | **Readiness** | **GREEN** (Playwright 14/14 + this session's live verification; founder visual review pending → confirm before first external send) |
 
-## P1 · Cut 01 — Slate & tray (the core mechanic)
+## P1 · Cut 01: Slate & tray (the core mechanic)
 
 | | |
 |---|---|
@@ -51,7 +51,7 @@ Product truth lives in `liminal-desktop`; nothing here claims shipped behavior.
 | Cut 11 canonical | ✅ verified twice-through | ✅ register pass 2026-07-13 | ✅ 14/14 | ⬜ pending | **GREEN**\* |
 | Cut 01 canonical | ✅ confirm/defer/handoff | ✅ register pass 2026-07-13 | ✅ | ⬜ pending | **GREEN**\* |
 | index.html | ✅ | ✅ orientation + chips | ✅ smoke | ⬜ pending | **GREEN**\* |
-| Other cuts / embeds | not audited this session | spot-fixed previously | ✖ none | — | **YELLOW** |
+| Other cuts / embeds | not audited this session | spot-fixed previously | ✖ none |, | **YELLOW** |
 
 \* GREEN is provisional on founder visual review (the last gate per the
 acceptance criteria). Run `npm test` before any recording session.
@@ -63,13 +63,13 @@ acceptance criteria). Run `npm test` before any recording session.
 Timings assume the recorded take starts on the front door. Total ≈ 85s.
 
 1. **(0:00 · front door)** "Liminal is the judgment layer for AI-assisted
-   work — agents read, the accountable human decides, and the decision leaves
+   work: agents read, the accountable human decides, and the decision leaves
    a record you can inspect later." *Click **See the judgment loop →***
-2. **(0:10 · cut 01)** "Here's the mechanic. A real decision — closing a
-   funding round — lands on the slate. Bounded agents read it: the strategist
+2. **(0:10 · cut 01)** "Here's the mechanic. A real decision: closing a
+   funding round: lands on the slate. Bounded agents read it: the strategist
    argues take it, the contrarian pushes back. Nothing here pretends to be an
    answer machine." *Let the orbital read run (~10s).*
-3. **(0:30)** "I decide. Confirm." *Click **Confirm**.* "The decision seals —
+3. **(0:30)** "I decide. Confirm." *Click **Confirm**.* "The decision seals: 
    with the dissent, the correction, and a next action preserved. The vault is
    real: it's writing to this browser, on this device."
 4. **(0:40)** "Now the same loop pointed at something a CFO cares about."
@@ -78,14 +78,14 @@ Timings assume the recorded take starts on the front door. Total ≈ 85s.
    month on AI; $4.5k is Opus 4.8. Four registers read the fleet against
    company OKRs." *Point at the reads as they stagger in.*
 6. **(1:00)** "Watch the boundary: Diligence refused to read the team's
-   content — it audits configuration, never messages. And the adversarial
+   content: it audits configuration, never messages. And the adversarial
    reviewer dropped $162 of claimed savings because PR evidence contradicted
    it. Naïve $486 becomes verified $324."
-7. **(1:10)** "I disagree with one finding — so I correct it, typed, signed."
+7. **(1:10)** "I disagree with one finding: so I correct it, typed, signed."
    *Expand a finding → **Correct this finding** → pick a kind → sign.*
 8. **(1:15)** "Then I ratify. Opus 4.8 can't do calendar work anymore; a
    registry-verified agent takes it at a tenth the cost. The policy is now an
-   append-only, hash-linked entry — with my correction in it." *Click
+   append-only, hash-linked entry: with my correction in it." *Click
    **Sign & hand off**; show the log tab (`7`).*
 9. **(1:25 · close)** "The model gave a read. The system caught an
    overclaim. A human made the call. And the record proves all three."

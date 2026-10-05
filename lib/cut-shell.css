@@ -7,12 +7,12 @@
  * This file was refactored on 2026-07-01 from a monolithic 2,775-line file into three
  * specialized files for clarity and maintainability:
  *
- * · cut-shell-base.css       — frame chrome, layouts, slate, tray structure, animations
- * · cut-shell-registers.css  — register-coded accents, agent status, per-product modulation
- * · cut-shell-products.css   — feature-specific styling (classification, previews, entry gate)
+ * · cut-shell-base.css: frame chrome, layouts, slate, tray structure, animations
+ * · cut-shell-registers.css: register-coded accents, agent status, per-product modulation
+ * · cut-shell-products.css: feature-specific styling (classification, previews, entry gate)
  *
  * This shim imports all three in order. Every consuming surface (all cuts) continues to
- * work without edits—import this file exactly as before. The import order matters:
+ * work without edits: import this file exactly as before. The import order matters:
  * base → registers → products ensures the cascade is identical to the pre-split original.
  *
  * CASCADE-ORDER NOTES
@@ -22,15 +22,15 @@
  *
  * · register-specific active treatments (lines 320-364) moved to registers.css
  *   REASON: Purely register-coded styling (Personal/Team/Business product tabs).
- *   CASCADE: None—these rules extend base, with no overlaps.
+ *   CASCADE: None: these rules extend base, with no overlaps.
  *
  * · agent-status bullet styling (lines 1369-1505) moved to registers.css
  *   REASON: All .reg-agent, .reg-*idle*, .reg-*read* etc. are register-coded.
- *   CASCADE: None—clean selector separation from base and products.
+ *   CASCADE: None: clean selector separation from base and products.
  *
  * · classification banner + glossary (lines 453-540) moved to products.css
  *   REASON: Business-specific feature (the acronym banner at slate top).
- *   CASCADE: None—base has no .classification rules; rules are new in products.
+ *   CASCADE: None: base has no .classification rules; rules are new in products.
  *
  * VERIFICATION
  * ────────────

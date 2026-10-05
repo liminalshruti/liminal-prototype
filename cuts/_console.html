@@ -11,15 +11,15 @@
   ONE job: keep the prototype coherent as a single system while it's being
   worked on. The thesis is single-canon → many cuts without fragmenting;
   the standing risk under active iteration (esp. two sessions on main) is
-  SILENT DRIFT — a cut falls out of register and nobody notices because we
+  SILENT DRIFT: a cut falls out of register and nobody notices because we
   only ever look at one cut at a time. This console is where you stand to
   ask "is the system still one system?" and then go fix what isn't.
 
   Two functions of that one job:
-    • JUMP  — a complete directory of every surface, so nothing's forgotten.
-    • SURVEY — every live cut side-by-side (click-to-load), so incoherence
+    • JUMP: a complete directory of every surface, so nothing's forgotten.
+    • SURVEY: every live cut side-by-side (click-to-load), so incoherence
               is visible by eye after a canon / cut-shell / token change.
-  The seam between them — see something off → click into it — is the point.
+  The seam between them: see something off → click into it, is the point.
 
   Working-tree awareness: the header fetches /__state (a read-only git
   endpoint in server.mjs) and flags which surfaces are dirty, so parallel
@@ -28,7 +28,7 @@
 
   HONESTY: the survey is a HUMAN COHERENCE SCAN, not pixel regression.
   A real baseline-diff regression differ + structural coherence checks are
-  scoped separately (see _scratch/SUBSTRATE_CONSOLE_SCOPE) — not built here.
+  scoped separately (see _scratch/SUBSTRATE_CONSOLE_SCOPE): not built here.
 
   Open: /cuts/_console.html · inventory verified vs disk 2026-06-16.
   When a surface lands, add it to SURFACES below so the console stays whole.
@@ -82,7 +82,7 @@
   .tree .files { color: var(--watch, #E0A82E); }
   .tree .hint { margin-left: auto; color: var(--text-faint, #6B6862); font-style: normal; }
 
-  /* coherence banner — rule #5 duplicate-coordinate findings */
+  /* coherence banner: rule #5 duplicate-coordinate findings */
   .coherence {
     display: flex; align-items: flex-start; gap: 12px;
     padding: 11px 14px; margin-bottom: 28px;
@@ -255,16 +255,16 @@
 <script type="module">
 // ── single source of truth: every surface, grouped ──────────────────────
 // SURFACES + repoPath now live in ./surfaces.js so the compare harness
-// (_compare.html) reads the SAME coordinate list — one taxonomy, two consumers.
+// (_compare.html) reads the SAME coordinate list: one taxonomy, two consumers.
 // Add/edit a surface THERE, not here. Don't grow a third vocabulary.
 import { SURFACES, repoPath } from './surfaces.js';
 
 // ── DRIFT · duplicate-coordinate detector (CONTRIBUTING rule #5) ─────────────
 // Two surfaces sharing (Loop-stage × Altitude × Surface) are duplicate projections
-// — merge or supersede, don't keep N files. surface defaults to 'desktop' (the only
+//, merge or supersede, don't keep N files. surface defaults to 'desktop' (the only
 // one stamped today). Pure computation over the coordinates already in SURFACES[];
 // no source fetch, no backend. cut 00 (alt L1–L4) is the parametric shell and is
-// EXPECTED to be unique — it's the convergence target, not a duplicate.
+// EXPECTED to be unique: it's the convergence target, not a duplicate.
 function detectDuplicateCoordinates() {
   const coorded = SURFACES.flatMap(g => g.items).filter(it => it.stage && it.alt);
   const buckets = new Map();
@@ -325,7 +325,7 @@ function renderCoherence() {
   const el = document.getElementById('coherence');
   const clusters = detectDuplicateCoordinates();
   const byName = new Map(SURFACES.flatMap(g => g.items).map(it => [it.name, it]));
-  // clickable cut name — jumps to survey cell if surveyable, else links to the file
+  // clickable cut name: jumps to survey cell if surveyable, else links to the file
   const nameLink = (nm) => {
     const it = byName.get(nm);
     if (it && it.survey) return `<a href="#cell-${it.num}" data-cellnum="${it.num}" class="co-jump">${nm}</a>`;
@@ -350,7 +350,7 @@ function renderCoherence() {
     a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
 }
 
-// render the kernel-sharing banner (async — fetches each full-loop cut's source)
+// render the kernel-sharing banner (async: fetches each full-loop cut's source)
 async function renderKernelCoherence() {
   const el = document.getElementById('kernel-coherence');
   el.className = 'coherence';
@@ -378,7 +378,7 @@ async function renderKernelCoherence() {
     a.addEventListener('click', (e) => { e.preventDefault(); scrollToCell(a.dataset.cellnum); }));
 }
 
-// render the stamp-parse banner (async — fetches each stamped cut's source)
+// render the stamp-parse banner (async: fetches each stamped cut's source)
 async function renderStampCoherence() {
   const el = document.getElementById('stamp-coherence');
   el.className = 'coherence';
@@ -410,17 +410,17 @@ async function renderStampCoherence() {
 // instead of sharing it. Only 1 of 9 cuts imports the shared shell; the rest
 // hand-roll chrome (own .rb-top/.rail-l/.work), drift rail widths, and reinvent
 // patterns. This check fetches each LIVE cut's source and flags three signals:
-//   1. import   — does NOT <link> lib/cut-shell.css (off the shared system)
-//   2. vocab    — defines fork chrome class-names inline (.shell/.rb-top/.rail-l/.work)
-//   3. rail     — grid-template-columns is not the canonical 280px 1fr 320px
+//   1. import: does NOT <link> lib/cut-shell.css (off the shared system)
+//   2. vocab: defines fork chrome class-names inline (.shell/.rb-top/.rail-l/.work)
+//   3. rail: grid-template-columns is not the canonical 280px 1fr 320px
 // Rail-width allowlist: surfaces with an intentionally bespoke layout (custody
-// watchfloor, calibration matrix) are EXPECTED to diverge — not flagged.
+// watchfloor, calibration matrix) are EXPECTED to diverge, not flagged.
 const RAIL_CANON = /grid-template-columns:\s*280px\s+1fr\s+320px/;
 // Allowlist = surfaces whose layout is INTENTIONALLY bespoke, not drift:
 //   03 calibration (12wk × register matrix) · 08 + 09 custody watchfloors
 //   (5th-Fleet case-detail panel needs a wide right rail) · 10 today (vertical
 //   re-entry flow) · 04 onboarding (React SPA). Phase 2 confirmed these are
-//   correct-as-is — systematization is "codify the exception", not "force to canon".
+//   correct-as-is: systematization is "codify the exception", not "force to canon".
 const RAIL_ALLOWLIST = new Set(['03-calibration.html','08-liminal-custody.html','09-osint-custody.html','10-today.html','04-onboarding.html']);
 async function detectDesignDrift() {
   // live cuts only (the audience surfaces); skip scaffold/archive/embeds
@@ -431,7 +431,7 @@ async function detectDesignDrift() {
       const importsShell = /lib\/cut-shell\.css/.test(src);
       const importsBrand = /lib\/brand-upgrade\.css/.test(src);
       // Two vocab tiers (refined Phase 2): re-implementing the SHELL CHROME inline is a
-      // real fork — always flagged. Local CONTENT-GRID class names (.rail-l/.work) are
+      // real fork: always flagged. Local CONTENT-GRID class names (.rail-l/.work) are
       // fine on a cut that imports the shared shell (chrome converged); they only signal
       // a fork on a cut that's OFF the system. The original concern was forking-chrome,
       // and that's what we flag. (Renaming working content classes for cosmetics = churn.)
@@ -516,7 +516,7 @@ function renderGroup(name, desc, items, frozen) {
   grp.appendChild(links); return grp;
 }
 
-// altitude order + descriptions (the canonical ladder — TAXONOMY.md v2)
+// altitude order + descriptions (the canonical ladder, TAXONOMY.md v2)
 const ALT_ORDER = [
   ['L1-founder',     'L1 · Founder-OS · the wedge / front door'],
   ['L1→L2',          'L1→L2 · founder rising to the team layer'],
@@ -612,7 +612,7 @@ window.addEventListener('focus', refreshState);
 
 // This script is now a module (it imports SURFACES from ./surfaces.js), so its
 // functions are NOT global by default. Inline on* handlers in the markup
-// (onclick="loadFrame(...)" etc.) resolve against window — expose them explicitly.
+// (onclick="loadFrame(...)" etc.) resolve against window: expose them explicitly.
 Object.assign(window, { loadFrame, loadAllFrames, reloadFrames, setGroupMode, scrollToCell });
 </script>
 

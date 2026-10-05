@@ -12,7 +12,7 @@ export function Default() {
   );
 }
 
-/** Invalid state — error border + error-register hint. */
+/** Invalid state: error border + error-register hint. */
 export function Invalid() {
   return (
     <Surface>
@@ -39,7 +39,7 @@ export function Disabled() {
   );
 }
 
-/** A small form column — the field group stacked. */
+/** A small form column: the field group stacked. */
 export function FieldGroup() {
   return (
     <Surface>

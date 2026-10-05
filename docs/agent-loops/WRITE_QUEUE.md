@@ -6,7 +6,7 @@ owner: shruti
 created: 2026-06-30
 ---
 
-# Write Queue — liminal-prototype
+# Write Queue: liminal-prototype
 
 This is the serialized list of `build` loops (write operations) ready to run on liminal-prototype. **Rule: exactly one build loop runs at a time on this repo.** Claim the top unblocked item, run it to completion, merge/checkpoint, then move to the next.
 
@@ -18,7 +18,7 @@ The repo is lower-stakes than liminal-desktop or liminal-agents-v1, so build ite
 
 | # | Build loop | Status | Blocker | Sean-adjacent | Notes |
 |---|------------|--------|---------|---------------|-------|
-| 1 | (Founder-defined) | TBD | — | No | No build items queued yet. Founder to populate as needed. |
+| 1 | (Founder-defined) | TBD |, | No | No build items queued yet. Founder to populate as needed. |
 
 ---
 

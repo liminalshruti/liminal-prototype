@@ -11,7 +11,7 @@
   --sn-w-open: 208px;      /* expanded on hover */
 }
 
-/* push nothing — the rail floats over the left gutter the artboards
+/* push nothing: the rail floats over the left gutter the artboards
    already leave empty. Cuts keep their own 1920 layout untouched. */
 .sn-rail {
   position: fixed;

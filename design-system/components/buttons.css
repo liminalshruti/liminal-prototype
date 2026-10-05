@@ -82,7 +82,7 @@
   flex-shrink: 0;
   /* protect against accidental selection during drag */
   user-select: none;
-  /* no underline on the wrapper — the variants paint borders explicitly */
+  /* no underline on the wrapper: the variants paint borders explicitly */
   text-decoration: none;
 }
 .btn:focus-visible {
@@ -105,7 +105,7 @@
   /* BRAND 4 · 2026-07-29 · founder ruling, accessibility half.
      The primary action follows the brand primary, so this label is now Wholeness
      pink #E90095. Measured in situ on cut 04: pink gives 4.496:1 against the frame
-     ground #0E0E11, where Clarity violet gave 4.996:1 — i.e. the brand ruling puts
+     ground #0E0E11, where Clarity violet gave 4.996:1, i.e. the brand ruling puts
      the label 0.004 UNDER WCAG AA's 4.5:1 for normal-size text.
      The founder chose to fix it by size rather than by tinting the pink. At
      >=18.66px with weight >=700, WCAG classes text as large-scale and the threshold

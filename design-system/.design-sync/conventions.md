@@ -1,4 +1,4 @@
-# Liminal design system — how to build with it
+# Liminal design system: how to build with it
 
 Dark-substrate, forensic/instrument-panel register. Bounded, calm, declarative.
 Type: Perfectly Nineties (serif/display, ships), Geist + Geist Mono (UI/labels,
@@ -18,16 +18,16 @@ white page they wash out or invert). Set this on the root:
 </body>
 ```
 
-- `data-product` (`personal` | `team` | `business`) — sets the default `--density-scale`.
-- `data-density` (`anointed` | `shared` | `analyst`) — optional override; scales spacing only.
+- `data-product` (`personal` | `team` | `business`): sets the default `--density-scale`.
+- `data-density` (`anointed` | `shared` | `analyst`): optional override; scales spacing only.
 - `data-relationship` (`self` · `cofounder-mutual` · `direct-report` · `advisor` ·
-  `institutional-subject` · `self-as-subject` · `peer` · `oversight` · `public`) —
+  `institutional-subject` · `self-as-subject` · `peer` · `oversight` · `public`): 
   gates capability registers (e.g. `oversight` renders actions review-only).
 
-Load Geist, Geist Mono, and Caveat from Google Fonts in the host page — the bundle
+Load Geist, Geist Mono, and Caveat from Google Fonts in the host page. The bundle
 ships only Perfectly Nineties + Nineties Headliner as files.
 
-## The styling idiom — tokens + component classes
+## The styling idiom: tokens + component classes
 
 Style with **CSS custom properties** (`var(--token)`) and the **component classes**;
 never raw hex, never new hues. Real token families (all defined in the shipped CSS):
@@ -49,7 +49,7 @@ Component classes (used by the React components, available directly too): `.btn`
 `.input` + `.field` `.field-label` `.field-hint`; `.tag` + `.tag-success/-error/-warning/-info`
 (+ `.tag-dot`); `.seam` (serif framing) and `.thesis-line` (mono framing).
 
-**The full component layer ships in the styles closure** — these have no React
+**The full component layer ships in the styles closure**, these have no React
 wrapper card yet but are fully styled, so hand-write the markup with these classes:
 `.banner` (+ `.is-good/-amber/-red/-accent`), `.toast`, `.modal-frame` + `.modal-actions`,
 `.drawer-panel` + `.drawer-pill`, `.tooltip` (+ `.tooltip-host`), `.popover` (+ `.pop-host`),
@@ -62,7 +62,7 @@ wrapper card yet but are fully styled, so hand-write the markup with these class
 ## Where the truth lives
 
 Read these bound files before styling: `_ds/<folder>/styles.css` (the import
-closure — fonts + `_ds_bundle.css` which holds the full token canon + every
+closure: fonts + `_ds_bundle.css` which holds the full token canon + every
 component rule). Per-component API + usage: each `components/general/<Name>/<Name>.prompt.md`.
 
 ## Build snippet (real, renders)
@@ -71,7 +71,7 @@ component rule). Per-component API + usage: each `components/general/<Name>/<Nam
 import { Button, Tag, Input, Framing } from '<global>';
 // inside the dark 5-axis body above:
 <div style={{ display: 'grid', gap: 'var(--space-4)' }}>
-  <Framing register="serif" lead="What came back overnight —"
+  <Framing register="serif" lead="What came back overnight: "
            payload="one decision, due today." />
   <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
     <Tag variant="warning" dot>almost ready</Tag>

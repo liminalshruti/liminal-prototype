@@ -7,7 +7,7 @@
 <!--
   Coordinate per cuts/TAXONOMY.md v2 · Loop-stage: Record/correct (team) · Altitude:
   L2-team · Surface: desktop · Framing: infra · Maturity: prototype (telemetry choreography).
-  The L2 (team/operator) render — the same correction-stream substrate, turned on the
+  The L2 (team/operator) render: the same correction-stream substrate, turned on the
   team. An altitude of cut 00's one loop, not a separate product.
 -->
 <meta name="description" content="A coherence drift surface. Surfacing internal-actor risk to managers via governance-as-pipe, not surveillance flags.">
@@ -20,7 +20,7 @@
 <!--
   Promoted catalog cut · Team Coherence Telemetry (Devon DRIFT)
   Listed from index.html. Canon tokens imported as the shared base; this cut's own
-  :root (below) keeps its distinctive register-hue skin. Tokens are canonical — the
+  :root (below) keeps its distinctive register-hue skin. Tokens are canonical. The
   local :root only extends them, it does not redefine the 12-wheel hues.
 -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
@@ -30,7 +30,7 @@
 <style>
   :root {
     /* Surfaces, ink, --rail-bg, --text-mute: straight from canon tokens
-       (single-ink-source ruling 2026-07-29 — local re-pins removed; values
+       (single-ink-source ruling 2026-07-29: local re-pins removed; values
        were already lockstep, now they cannot drift). */
 
     /* Telemetry-choreography register · data-semantic states (NOT the 12-wheel).
@@ -98,7 +98,7 @@
   /* Scale the fixed 1640x920 stage down to fit smaller viewports.
 
      The divisor MUST carry a unit. `calc((100vw - 32px) / 1640)` is a length
-     divided by a NUMBER, which yields a length — and scale() requires a unitless
+     divided by a NUMBER, which yields a length, and scale() requires a unitless
      <number>, so the whole declaration was invalid and silently dropped. The
      stage therefore never scaled at all: it stayed 1640px wide at every viewport
      and the page grew a horizontal scrollbar below 1640px, worst across the
@@ -106,13 +106,13 @@
      is the unitless ratio scale() actually wants.
 
      Nothing reported this. Invalid CSS does not throw, does not warn, and does
-     not fail a build — the rule just isn't there, and the layout quietly falls
+     not fail a build: the rule just isn't there, and the layout quietly falls
      back to the unscaled default. */
   @media (max-width: 1700px), (max-height: 980px) {
     .stage {
       transform: scale(min(calc((100vw - 32px) / 1640px), calc((100vh - 32px) / 920px)));
     }
-    /* Scaling is visual only — the stage keeps a 1640px LAYOUT box however small
+    /* Scaling is visual only: the stage keeps a 1640px LAYOUT box however small
        it is drawn, so the document still scrolls sideways over empty space. Clip
        at the root so the scrollbar matches what is actually visible. Needed on
        html as well as body: overflow on body alone can propagate to the viewport
@@ -684,7 +684,7 @@
   /* ─── reduced-motion (canon-mandated · C8) ───
      This surface is a 12s auto-playing loop where much of the content rests at
      opacity:0 / collapsed and is only revealed mid-cycle. A blunt `animation:none`
-     would freeze all of it hidden — the C8 trap. So we stop motion AND assert the
+     would freeze all of it hidden: the C8 trap. So we stop motion AND assert the
      revealed end-state (the design's own expanded values), so a still viewer sees
      the full, legible surface. Transient overlays (toast, virtual cursor, button
      flash) correctly stay at their rest-hidden base state. */
@@ -700,7 +700,7 @@
     .gov-row.new { opacity: 1 !important; transform: translateX(0) !important; }
   }
 
-  /* commandbar — non-functional, signals "interactive even if static" */
+  /* commandbar: non-functional, signals "interactive even if static" */
   .commandbar {
     border-top: 1px solid var(--frame-border);
     background: var(--frame-bg-2);

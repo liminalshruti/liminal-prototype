@@ -3,7 +3,7 @@ import * as React from 'react';
 export interface SliderProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 /**
- * Slider — range input with continuous value selection.
+ * Slider: range input with continuous value selection.
  *
  * A native `<input type="range">` styled with the `.sld` class.
  * Arrow keys adjust the value; the slider thumb is styled with accent color.

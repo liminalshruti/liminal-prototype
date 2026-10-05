@@ -27,13 +27,13 @@ This is the artifact that:
 
 ## Rejected alternatives
 
-- **`cuts/01-slate-tray-speedrun.html` as front door** — Speedrun-register hero (wedge-first sentence) reads correctly to product/partner audiences but is harder to recover from for brand-audience readers. Brand-first hero is the safer default; partner/product audiences get the workspace mechanics one beat later, no information lost. Speedrun cut stays available for internal/partner-specific contexts (e.g., direct sends to a16z partners) but is not the public front door.
-- **`cuts/02-alt-ui.html` (doc-shape)** — sequential prose flow (CASE FILE → DILIGENCE → SYNTHESIS → JUDGMENT) is an alternate-register read for audiences that don't parse workspace UI. Linked, not front. Available for prospects who recoil from product-mechanics framing.
-- **`cuts/00-hero-demo.html`** — single-scenario doc-shape, editorial register. Useful for landing-page-style brand reads but does not show the workspace product surface that M3 pilot will ship.
-- **`cuts/03-calibration.html`** — analytic dashboard (12wk vault heatmap). Investor-side artifact for showing longitudinal signal. Not landing surface.
-- **`cuts/08-liminal-custody.html`** — natsec-register custody view. Separate audience funnel (DoD, classified-register prospects). Not main door.
-- **`cuts/04-07-onboarding-*`** — React/JSX user-flow pages. Live downstream of the front door, not as the door itself.
-- **Different front door per audience** — exact register-fragmentation problem `feedback_audience_register_pitch_map.md` warns against. Different *pitches* per audience, yes. Different *front doors* per audience, no.
+- **`cuts/01-slate-tray-speedrun.html` as front door**: Speedrun-register hero (wedge-first sentence) reads correctly to product/partner audiences but is harder to recover from for brand-audience readers. Brand-first hero is the safer default; partner/product audiences get the workspace mechanics one beat later, no information lost. Speedrun cut stays available for internal/partner-specific contexts (e.g., direct sends to a16z partners) but is not the public front door.
+- **`cuts/02-alt-ui.html` (doc-shape)**: sequential prose flow (CASE FILE → DILIGENCE → SYNTHESIS → JUDGMENT) is an alternate-register read for audiences that don't parse workspace UI. Linked, not front. Available for prospects who recoil from product-mechanics framing.
+- **`cuts/00-hero-demo.html`**: single-scenario doc-shape, editorial register. Useful for landing-page-style brand reads but does not show the workspace product surface that M3 pilot will ship.
+- **`cuts/03-calibration.html`**: analytic dashboard (12wk vault heatmap). Investor-side artifact for showing longitudinal signal. Not landing surface.
+- **`cuts/08-liminal-custody.html`**: natsec-register custody view. Separate audience funnel (DoD, classified-register prospects). Not main door.
+- **`cuts/04-07-onboarding-*`**: React/JSX user-flow pages. Live downstream of the front door, not as the door itself.
+- **Different front door per audience**: exact register-fragmentation problem `feedback_audience_register_pitch_map.md` warns against. Different *pitches* per audience, yes. Different *front doors* per audience, no.
 
 ## Why one canonical front door
 
@@ -47,29 +47,29 @@ Three reasons:
 
 A parallel session paused before opening new cut work and asked three questions. This decision-record answers all three so the parallel session can resume:
 
-### Q1 — Which cut is the front door?
+### Q1: Which cut is the front door?
 
 **`cuts/01-slate-tray.html` (canon, brand-first hero).** See §Decision above. PRs #6–9 already merged (2026-05-12 23:28 UTC); they brought 01-canon, 00-hero-demo, 03-calibration, and 08-custody to v0.9 anointment parity, which made this question answerable as a curation choice rather than a build choice.
 
-### Q2 — Onboarding cuts (04/06/07) — separate work-stream or deliberate separation?
+### Q2: Onboarding cuts (04/06/07): separate work-stream or deliberate separation?
 
-**Separate work-stream, scoped after pilot M2.0 ships.** They live downstream of the front door (post-discovery, post-signup, post-cohort-recruitment). Not gated to a different surface in code — they're prospect-discoverable today via the cuts directory — but the seam is acceptable for now because:
+**Separate work-stream, scoped after pilot M2.0 ships.** They live downstream of the front door (post-discovery, post-signup, post-cohort-recruitment). Not gated to a different surface in code. They're prospect-discoverable today via the cuts directory, but the seam is acceptable for now because:
 
 - The 20-founder M3 cohort is recruited directly (briefed founders, not cold prospects browsing the cuts catalog)
 - Anointing onboarding cuts to match 01-canon's v0.9 register is real engineering work (React/JSX + separate CSS in `onboarding/`) and shouldn't block M3 ship
 - Post-M3, when public discovery becomes relevant, onboarding cuts get their own anointment pass
 
-**One-line clarification for the parallel session:** if you want to surface that the seam is deliberate-and-temporary (not lost), add a comment on `index.html` near the onboarding-cuts list saying "post-discovery surfaces — anointment scheduled post-M3." That's a 5-minute addition, not a work-stream.
+**One-line clarification for the parallel session:** if you want to surface that the seam is deliberate-and-temporary (not lost), add a comment on `index.html` near the onboarding-cuts list saying "post-discovery surfaces: anointment scheduled post-M3." That's a 5-minute addition, not a work-stream.
 
-### Q3 — Cut 02 doc-shape positioning — alternative read or competing product surface?
+### Q3: Cut 02 doc-shape positioning: alternative read or competing product surface?
 
 **Alternative read for a different ICP, not a competing product surface.** Cut 02 reads as institutional-doc-shape (CASE FILE → DILIGENCE → SYNTHESIS → JUDGMENT) which speaks to natsec/business audiences who don't parse workspace UI. It is the *same product* as cut 01 (same correction-loop thesis, same vault, same Analyst+Auditor agents) rendered in a different visual register.
 
-**Why this doesn't violate Andrew Chen's "Tuesday afternoon" question:** Andrew's framing was "I can't picture what someone does with this on Tuesday afternoon." Cut 02 doesn't fragment the answer — it shows the same Tuesday-afternoon action through a doc-register lens. A natsec analyst's Tuesday afternoon looks like reading a structured case file; a tech founder's Tuesday afternoon looks like dropping context into a tray. Both surfaces test the same product thesis.
+**Why this doesn't violate Andrew Chen's "Tuesday afternoon" question:** Andrew's framing was "I can't picture what someone does with this on Tuesday afternoon." Cut 02 doesn't fragment the answer: it shows the same Tuesday-afternoon action through a doc-register lens. A natsec analyst's Tuesday afternoon looks like reading a structured case file; a tech founder's Tuesday afternoon looks like dropping context into a tray. Both surfaces test the same product thesis.
 
 **Concretely:** cut 02 is linked from the cuts catalog and from natsec-audience contexts. It is **not** linked from `theliminalspace.io` as a primary CTA. The front door routes everyone through cut 01-canon; cut 02 is a register-alternative for prospects who don't parse the workspace UI.
 
-If cut 02 starts pulling traction that cut 01-canon doesn't, that's a positioning signal worth a revisit per §Revisit criteria above — but today it's clarifying-the-pitch-for-an-audience, not parallel-product-confusion.
+If cut 02 starts pulling traction that cut 01-canon doesn't, that's a positioning signal worth a revisit per §Revisit criteria above, but today it's clarifying-the-pitch-for-an-audience, not parallel-product-confusion.
 
 ---
 
@@ -77,11 +77,11 @@ If cut 02 starts pulling traction that cut 01-canon doesn't, that's a positionin
 
 Not blocking, sequenced:
 
-1. **Prototype index curator pass** (~30 min) — `liminal-prototype/index.html` (or whichever lists cuts) shows canon first, with a sentence describing what each cut is for. Prevents random landing on cut 03 calibration or cut 08 custody.
-2. **`desktop-pilot` fidelity target updated** — earlier today the direction was "make pilot look and feel like cut 01-speedrun." With this decision, the source becomes cut 01-canon (brand-first hero). The chrome is identical post-PR-#6; only the entry-card differs.
-3. **Onboarding cuts anointment plan** — separate work-stream, scoped after pilot M2.0 ships. Onboarding cuts (04/05/06/07) live downstream of the front door. Not urgent for the M3 cohort if founders are briefed directly.
-4. **`theliminalspace.io` link audit** — verify the brand site links to `cuts/01-slate-tray.html` (canon), not `01-slate-tray-speedrun.html` or any other variant. If currently pointed elsewhere, update.
-5. **Speedrun cut becomes internal** — cut 01-speedrun stays as a usable artifact for direct-send to a16z partners (where the wedge-first hero lands cleaner) but is not the surface anyone discovers organically.
+1. **Prototype index curator pass** (~30 min): `liminal-prototype/index.html` (or whichever lists cuts) shows canon first, with a sentence describing what each cut is for. Prevents random landing on cut 03 calibration or cut 08 custody.
+2. **`desktop-pilot` fidelity target updated**: earlier today the direction was "make pilot look and feel like cut 01-speedrun." With this decision, the source becomes cut 01-canon (brand-first hero). The chrome is identical post-PR-#6; only the entry-card differs.
+3. **Onboarding cuts anointment plan**: separate work-stream, scoped after pilot M2.0 ships. Onboarding cuts (04/05/06/07) live downstream of the front door. Not urgent for the M3 cohort if founders are briefed directly.
+4. **`theliminalspace.io` link audit**: verify the brand site links to `cuts/01-slate-tray.html` (canon), not `01-slate-tray-speedrun.html` or any other variant. If currently pointed elsewhere, update.
+5. **Speedrun cut becomes internal**: cut 01-speedrun stays as a usable artifact for direct-send to a16z partners (where the wedge-first hero lands cleaner) but is not the surface anyone discovers organically.
 
 ## Revisit criteria
 
@@ -93,9 +93,9 @@ Overturn if:
 
 ## Status history
 
-- **2026-05-12 evening** — ACCEPTED. After PR #6 merge brought cut 01-canon to anointment parity with cut 01-speedrun, the question was no longer "which to build" but "which to curate as canonical."
+- **2026-05-12 evening**: ACCEPTED. After PR #6 merge brought cut 01-canon to anointment parity with cut 01-speedrun, the question was no longer "which to build" but "which to curate as canonical."
 
-- **2026-06-02 — SUPERSEDED (cut-consolidation refactor).** This decision *retained* `00-hero-demo` (editorial/brand register) and `01-slate-tray-speedrun` (a16z direct-send) as distinct live surfaces. The 2026-06-02 refactor — applying a journey-hierarchy lens (one primary journey per surface; collapse renders of the same journey step) — **overrides that retention.** Both `00-hero-demo` and `01-slate-tray-speedrun`, plus `index-agenthansa-frozen` (a frozen frame of the same workspace engine, never anointed), were moved to `cuts/_archive/`. Rationale: all three are renders of the **same Capture→Read→Decide journey step** that `01-slate-tray` owns; keeping them as separate catalog entries is the "surfaces competing" anti-pattern. The speedrun **hero framing** is preserved as a register toggle inside `01-slate-tray` (default state remains brand-first, pixel-identical to pre-refactor; speedrun is opt-in), so the a16z direct-send register is not lost — it moves from a separate file to a state inside the canonical door. Files remain in `_archive/` (reachable, reversible), not deleted. Decision made by founder, 2026-06-02, consciously superseding the 2026-05-12 retention. The Revisit criteria above (00-hero-demo / speedrun as fallback front doors) still apply — those artifacts live in `_archive/` if a revisit is triggered.
+- **2026-06-02: SUPERSEDED (cut-consolidation refactor).** This decision *retained* `00-hero-demo` (editorial/brand register) and `01-slate-tray-speedrun` (a16z direct-send) as distinct live surfaces. The 2026-06-02 refactor, applying a journey-hierarchy lens (one primary journey per surface; collapse renders of the same journey step), **overrides that retention.** Both `00-hero-demo` and `01-slate-tray-speedrun`, plus `index-agenthansa-frozen` (a frozen frame of the same workspace engine, never anointed), were moved to `cuts/_archive/`. Rationale: all three are renders of the **same Capture→Read→Decide journey step** that `01-slate-tray` owns; keeping them as separate catalog entries is the "surfaces competing" anti-pattern. The speedrun **hero framing** is preserved as a register toggle inside `01-slate-tray` (default state remains brand-first, pixel-identical to pre-refactor; speedrun is opt-in), so the a16z direct-send register is not lost. It moves from a separate file to a state inside the canonical door. Files remain in `_archive/` (reachable, reversible), not deleted. Decision made by founder, 2026-06-02, consciously superseding the 2026-05-12 retention. The Revisit criteria above (00-hero-demo / speedrun as fallback front doors) still apply, those artifacts live in `_archive/` if a revisit is triggered.
 
 ## Action items (not blocking; work to sequence after this decision)
 

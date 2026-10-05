@@ -99,7 +99,7 @@
   .reader-chip.is-reading {
     /* fallback matters: products that don't define --p-accent otherwise drop
        this declaration entirely and the --bg letter lands on the dark chip
-       base at 1.0:1 — the letter disappears */
+       base at 1.0:1: the letter disappears */
     background: var(--p-accent, var(--diligence));
     color: var(--bg);
     box-shadow: 0 0 8px var(--p-accent-soft, transparent);

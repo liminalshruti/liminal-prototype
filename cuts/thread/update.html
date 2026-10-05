@@ -8,9 +8,9 @@
 <!--
   cuts/thread/update.html · The thread · the Receipted Update · the doc you send
   ──────────────────────────────────────────────────────────────────────
-  Spec ref · liminal-desktop OPERATIONAL_PICTURE_V0_PR_PATH.md §Receipted Update —
+  Spec ref · liminal-desktop OPERATIONAL_PICTURE_V0_PR_PATH.md §Receipted Update, 
              closed/new/moved/stalled + bracketed unsupported-claim questions + source boundaries.
-             Plan §2: the weekly job "write the investor/team update — what actually changed?"
+             Plan §2: the weekly job "write the investor/team update: what actually changed?"
   Frame · diffuse-context (NEW) · Status · sketch · staged · PROPOSED
   Tokens canon · shell from cut-shell · vocab from thread.css · data from seed-ops.js
   Vocabulary · allowed terms only
@@ -49,7 +49,7 @@
       <div class="th-head">
         <div class="th-eyebrow"><span class="dot">◇</span> The thread · what actually changed</div>
         <h1 class="th-title">The weekly update, <em>drafted from the record</em>.</h1>
-        <p class="th-lede">The hardest ten minutes of the week — the investor or team update — written from what
+        <p class="th-lede">The hardest ten minutes of the week, the investor or team update, written from what
           actually moved. Closed, new, moved, stalled, every line receipted. Anything the record can't back
           comes back as a bracketed question, not a confident sentence you'll regret.</p>
       </div>
@@ -103,9 +103,9 @@
     </div>`).join("");
 
   document.getElementById("brackets").innerHTML = `
-    <div class="update-brackets-head">⚠ before you send — the record can't cleanly back these</div>
+    <div class="update-brackets-head">⚠ before you send: the record can't cleanly back these</div>
     ${weekUpdate.unsupported.map(u => `
-      <div class="update-bracket"><b>[ ${u.bracket} ]</b> — ${u.note}</div>`).join("")}`;
+      <div class="update-bracket"><b>[ ${u.bracket} ]</b>: ${u.note}</div>`).join("")}`;
 
   // receipts toggle
   document.getElementById("sections").addEventListener("click", (e) => {
@@ -114,13 +114,13 @@
 
   // copy as plain text (receipted)
   document.getElementById("copy").addEventListener("click", async () => {
-    let txt = `What changed — ${weekUpdate.period}\n\n`;
+    let txt = `What changed: ${weekUpdate.period}\n\n`;
     for (const sec of weekUpdate.sections) {
       txt += `${sec.label.toUpperCase()}\n`;
       for (const it of sec.items) txt += `  - ${strip(it.text)}  [${it.receipt.name} · ${it.receipt.meta}]\n`;
       txt += `\n`;
     }
-    txt += `BEFORE SENDING — reconcile:\n`;
+    txt += `BEFORE SENDING: reconcile:\n`;
     for (const u of weekUpdate.unsupported) txt += `  [ ${u.bracket} ] ${u.note}\n`;
     try { await navigator.clipboard.writeText(txt); } catch (e) {}
     const b = document.getElementById("copy"); b.textContent = "copied ✓";

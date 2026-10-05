@@ -38,24 +38,24 @@
 | Lede: "The daemon re-read your held compositions..." | 460 | ~ | 829 | △ | Rephrased slightly ("held decisions" vs "held compositions") |
 | **Left column: decision** | | | | | |
 | "Needs a decision" label + meta (held 2d, re-read time) | 468 | ~ | 831 | △ | Label present; meta details differ (no re-read time in 11) |
-| Verdict: "NOT READY · 4 fixes" | 474 | × | — | ✗ | Not rendered in 11; context is AI-spend, not founding round |
+| Verdict: "NOT READY · 4 fixes" | 474 | × |: | ✗ | Not rendered in 11; context is AI-spend, not founding round |
 | Decision body text | 475 | ~ | 833 | △ | Different substance; 11 is spend-specific |
-| Receipt meta line (read ID, lanes, vault) | 476 | × | — | ✗ | Completely absent from 11 |
-| Action buttons: "Open the read / Sign & hand off / Defer 2d" | 477–481 | × | — | ✗ | Not in 11's renderToday |
+| Receipt meta line (read ID, lanes, vault) | 476 | × |, | ✗ | Completely absent from 11 |
+| Action buttons: "Open the read / Sign & hand off / Defer 2d" | 477–481 | × |: | ✗ | Not in 11's renderToday |
 | **Left column: resurfaced reads** | | | | | |
-| "Re-surfaced overnight" section label | 486 | × | — | ✗ | This entire section is absent from 11 |
-| Resurfaced read cards (2 items w/ dot, name, age, body) | 487–505 | × | — | ✗ | Not rendered anywhere in 11 |
+| "Re-surfaced overnight" section label | 486 | × |, | ✗ | This entire section is absent from 11 |
+| Resurfaced read cards (2 items w/ dot, name, age, body) | 487–505 | × |, | ✗ | Not rendered anywhere in 11 |
 | **Right column: close the loop** | | | | | |
-| "Close the loop" label + meta | 511 | × | — | ✗ | Not in 11's Today (outcome interaction exists only implicitly in the old demo) |
-| Loop question & sub-text | 513–514 | × | — | ✗ | The interaction ("How did that land?") is core to cut 10's design |
-| Outcome buttons (4 options: Resolved well / Mixed / Regret / Still open) | 516–521 | × | — | ✗ | Outcome sealing is NOT in 11's renderToday |
-| Sealed verdict display (●, text, hash) | 523–527 | × | — | ✗ | Seal display element missing |
-| Calibration counter ("7 of 9 decisions calibrated") | 530–531 | × | — | ✗ | The calibration metric doesn't appear in 11's renderToday |
+| "Close the loop" label + meta | 511 | × |, | ✗ | Not in 11's Today (outcome interaction exists only implicitly in the old demo) |
+| Loop question & sub-text | 513–514 | × |, | ✗ | The interaction ("How did that land?") is core to cut 10's design |
+| Outcome buttons (4 options: Resolved well / Mixed / Regret / Still open) | 516–521 | × |, | ✗ | Outcome sealing is NOT in 11's renderToday |
+| Sealed verdict display (●, text, hash) | 523–527 | × |, | ✗ | Seal display element missing |
+| Calibration counter ("7 of 9 decisions calibrated") | 530–531 | × |: | ✗ | The calibration metric doesn't appear in 11's renderToday |
 | **Right column: mirror note** | | | | | |
 | "◍ Mirror · a quiet note" section | 537–540 | ~ | 838–841 | △ | Present as a card in 11; much shorter in 11 (one sentence vs two paragraphs in cut 10 concept) |
 | **Footer elements** | | | | | |
-| Tray: "Drag any window, doc..." | 547–550 | × | — | ✗ | Not in 11's renderToday |
-| Closing philosophy: "Re-entry is how the loop closes..." | 552 | × | — | ✗ | Not rendered |
+| Tray: "Drag any window, doc..." | 547–550 | × |: | ✗ | Not in 11's renderToday |
+| Closing philosophy: "Re-entry is how the loop closes..." | 552 | × |: | ✗ | Not rendered |
 
 ---
 
@@ -120,7 +120,7 @@
 
 ## 7. Architectural Context
 
-The fold map (§2) states: "Cut 10 · Already absorbed into 11's Today surface (fold map §1) — verify parity, then archive + redirect."
+The fold map (§2) states: "Cut 10 · Already absorbed into 11's Today surface (fold map §1): verify parity, then archive + redirect."
 
 However, cut 11's renderToday() is a **spend-governance-specific** rendering, not a generalized re-entry surface. It appears the intended absorption was:
 - **Concept absorbed:** re-entry closes the loop (the philosophy)

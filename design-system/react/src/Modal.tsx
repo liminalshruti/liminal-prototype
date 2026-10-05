@@ -9,7 +9,7 @@ export interface ModalProps
 }
 
 /**
- * Modal — centered dialog for critical decision moments.
+ * Modal: centered dialog for critical decision moments.
  *
  * A card container with optional header, body content, and action footer.
  * Maps to `.modal-frame` and `.modal-actions` classes from

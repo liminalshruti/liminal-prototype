@@ -1,7 +1,7 @@
-# D1 token-binding migration — ledger
+# D1 token-binding migration: ledger
 
 Tracks the surface-by-surface binding of hardcoded spacing/radius/tracking/font-size
-onto canon tokens (plan: `plan-the-d1-migration-adaptive-boot.md`; policy: pragmatic —
+onto canon tokens (plan: `plan-the-d1-migration-adaptive-boot.md`; policy: pragmatic: 
 exact binds are identity-safe; ≤2px off-scale values snap to nearest token; ≥3px
 stranded values stay raw as documented exceptions here). `design-tokens.css` never edited.
 
@@ -9,7 +9,7 @@ Verification: headless Chromium under forced reduced-motion. Exact (Pass A) bind
 zero-change by sha256 on 8 deterministic shim cuts; snap (Pass B) changes measured with a
 pure-Node PNG pixel-diff and visually confirmed as benign reflow.
 
-## Phase 1 — shared cut-shell CSS (feeds the 17 shim-linked cuts) ✅
+## Phase 1: shared cut-shell CSS (feeds the 17 shim-linked cuts) ✅
 
 | File | Exact binds (Δ0) | Snap binds (≤2px) |
 |---|---|---|
@@ -17,12 +17,12 @@ pure-Node PNG pixel-diff and visually confirmed as benign reflow.
 | `lib/cut-shell-products.css` | 166 | 91 |
 | `lib/cut-shell-registers.css` | 32 | 22 |
 
-**Verification:** Pass A — all 8 deterministic cuts (02/03/05/08/09/10/11/12) byte-identical.
+**Verification:** Pass A: all 8 deterministic cuts (02/03/05/08/09/10/11/12) byte-identical.
 Pass B pixel-diff vs baseline: 02/03/05/09 = 0.000%; 10-today 0.81%; 11-govern 4.70%;
-12-operating 5.00%; 08-custody 15.24% — all confirmed by eye as clean cumulative reflow
+12-operating 5.00%; 08-custody 15.24%: all confirmed by eye as clean cumulative reflow
 (no overlap/misalignment); custody + 00 (non-deterministic) visually confirmed clean.
 
-### Stranded exceptions (kept raw — no canon token within 2px)
+### Stranded exceptions (kept raw: no canon token within 2px)
 | File | Axis | Values | Reason |
 |---|---|---|---|
 | base | spacing | 32px, 360px | 32 between --space-6/7 (Δ4); 360 large custom |
@@ -36,11 +36,11 @@ Pass B pixel-diff vs baseline: 02/03/05/09 = 0.000%; 10-today 0.81%; 11-govern 4
 Candidate for a founder micro-tier call if these recur widely: a `--radius` at ~10px and
 an `--ls` at ~.10em would absorb the most common strandeds. Low priority.
 
-## Phases 2–5 — per-surface binding ✅
+## Phases 2–5: per-surface binding ✅
 
 **Policy refinement (important):** the shared shell (Phase 1) safely took exact **+ snap**
 binds (verified across all consumers). A trial snap pass on the cuts' **own** inline
-styles **clipped cut 08's left rail** — dense, fine-tuned per-cut layouts don't tolerate
+styles **clipped cut 08's left rail**: dense, fine-tuned per-cut layouts don't tolerate
 cumulative ≤2px snaps. So per-surface binding is **exact-only**; off-scale per-cut values
 stay raw (documented). This keeps the highest-leverage layer fully normalized while
 preserving hand-tuned cut layouts.
@@ -55,16 +55,16 @@ preserving hand-tuned cut layouts.
 **molehunt specifics:** local parallel `--fs-*` scale repointed to canon (`--fs-micro`→
 `--fs-mono-xs`, `--fs-meta`→`--fs-mono-sm`, `--fs-h`→`--fs-mono-lg`, `--fs-tier`→`--fs-2xl`;
 `--pad-pane`→`--space-4`); dead `--u/--pad-row/--gap-col` removed. **font-size axis not
-auto-bound** — molehunt carries 3 contested `--fs-body` definitions (base + 2 density
+auto-bound**: molehunt carries 3 contested `--fs-body` definitions (base + 2 density
 variants), so `14px→var(--fs-body)` is unreliable; the repoint already canonizes its type
 scale, ~13 raw `font-size` px remain as documented exceptions.
 
 ## Deliberately deferred (documented)
-- **Per-cut off-scale snaps** — kept raw to protect hand-tuned layouts (see policy above).
+- **Per-cut off-scale snaps**: kept raw to protect hand-tuned layouts (see policy above).
   Revisit per-surface with individual visual verification if full snap coverage is wanted.
-- **rem-routed type** in cuts 00/03/10/11 — their px/radius/tracking are exact-bound; the
+- **rem-routed type** in cuts 00/03/10/11: their px/radius/tracking are exact-bound; the
   rem type system is a consistent relative scale, left as-is (rem ≠ raw px).
 
 ## Tooling (reusable, in `scratchpad/d1/`)
-`bind.mjs` — property-aware CSS→token binder (exact/snap passes, per-axis filter, HTML
-`<style>`-scoped). `pngdiff.mjs` — pure-Node PNG pixel-diff (zlib only, no deps).
+`bind.mjs`: property-aware CSS→token binder (exact/snap passes, per-axis filter, HTML
+`<style>`-scoped). `pngdiff.mjs`: pure-Node PNG pixel-diff (zlib only, no deps).

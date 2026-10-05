@@ -7,7 +7,7 @@ created: 2026-06-30
 parent: ~/liminal/founder-brain/ops/strategy-control-plane/08_PARALLEL_LOOP_ORCHESTRATION_2026-06-30.md
 ---
 
-# Agent Loops — liminal-prototype
+# Agent Loops: liminal-prototype
 
 ## Repo context
 

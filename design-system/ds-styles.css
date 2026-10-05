@@ -10,7 +10,7 @@
  * ────────────────────────
  * This is the only token file you need to import. Every product surface
  * (this prototype, the marketing site, the Tauri desktop client, future
- * mobile, etc.) imports this file — and ONLY this file — to receive the
+ * mobile, etc.) imports this file: and ONLY this file, to receive the
  * canonical Liminal color · type · spacing · motion system.
  *
  *   <link rel="stylesheet" href="design-tokens.css">  ← that's it
@@ -28,13 +28,13 @@
  *           : 2026-04-28 (surface layer · --frame-bg-3 + shadow tokens + scrim layer)
  *           : 2026-05-12 (a11y pass 1 · --text-faint bumped #5A5852 → #6B6862 for WCAG AA body-text contrast)
  *           : 2026-05-13 (canonical upstream · superset merge of all 16 prior copies; paper aliases backported)
- * Version   : 2026-06-11 — canonical upstream at liminal-creative/tokens/design-tokens.css
- *           : 2026-06-11 (§18 PRODUCT SEMANTICS · desktop tray-loop layer canonized — agent
+ * Version   : 2026-06-11: canonical upstream at liminal-creative/tokens/design-tokens.css
+ *           : 2026-06-11 (§18 PRODUCT SEMANTICS · desktop tray-loop layer canonized, agent
  *             identity colors + overlays + reveal palette + fw/z/shadow/motion/radius additions;
  *             additive only, zero existing values changed. Source: liminal-desktop
  *             SPEC_TOKEN_CODEGEN.md · panda.config.ts is now GENERATED from this file.)
  *           : 2026-06-11 (§19 APP SCALE · desktop app spacing/type/leading/tracking register
- *             canonized verbatim per founder call — second scale, honestly labeled --*-app-*;
+ *             canonized verbatim per founder call: second scale, honestly labeled --*-app-*;
  *             additive only. Desktop's token drift ledger drops to zero pins.)
  * Reference : liminal-creative/color-lab/src/lib/palettes/liminal-12-wheel.ts
  *
@@ -51,7 +51,7 @@
  *      ├── per-hue scales (--{hue}-50 through -900)
  *      ├── Liminal aliases (-faint, -bg, -tint, -soft, -edge, -glow, -strong)
  *      ├── pigment-aware extras (-glow-soft, -glow-strong, -wash, -wash-deep)
- *      ├── pigment physics · ink-on-dark-stone (-wash resting · -stain soaked · -dry aged) — per factor; see DESIGN_SYSTEM.md
+ *      ├── pigment physics · ink-on-dark-stone (-wash resting · -stain soaked · -dry aged), per factor; see DESIGN_SYSTEM.md
  *      ├── register aliases (12 register-words → 12 hue scales)
  *      ├── semantic states (good/amber/red migrated to wheel registers)
  *      ├── functional UI bindings (--ui-action-* / --ui-state-* / etc.)
@@ -66,7 +66,7 @@
  *  10. Shape             (5 radii)
  *  11. Motion            (7 durations · intent-named)
  *  12. Shadow + dash     (overlay alphas)
- *  13. Legacy aliases    (--accent, --pink — backward-compat with v0.2)
+ *  13. Legacy aliases    (--accent, --pink: backward-compat with v0.2)
  *
  * NAMING CONVENTIONS
  * ──────────────────
@@ -143,10 +143,10 @@
        --{hue}-900   ink-tinted text · maximum legibility
 
      PIGMENT-AWARE:
-       opaque hues      — standard linear scale
-       luminous hues    — mid-stops keep saturation (the glow);
+       opaque hues: standard linear scale
+       luminous hues: mid-stops keep saturation (the glow);
                           plus explicit -glow-soft / -glow-strong
-       translucent hues — wash variants richer; mid-stops softer
+       translucent hues: wash variants richer; mid-stops softer
 
      BRAND 3 (locked 2026-04-15):
        primary   = --clarity (Ultramarine Violet · #8e66fb)
@@ -180,7 +180,7 @@
   --stability-glow:   rgba(237,33,79,0.18);
   --stability-wash:   var(--stability-100);   /* pigment · resting ink */
   --stability-stain:  var(--stability-800);   /* pigment · soaked-in */
-  --stability-dry:    #B76E72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --stability-dry:    #B76E72;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --stability-strong: var(--stability-600);
 
   /* ─── factor 2 · Vitality · 60° · sacral · OPAQUE · BRAND ACCENT · Cadmium Orange ─── */
@@ -203,7 +203,7 @@
   --vitality-glow:   rgba(255,149,73,0.18);
   --vitality-wash:   var(--vitality-100);   /* pigment · resting ink */
   --vitality-stain:  var(--vitality-800);   /* pigment · soaked-in */
-  --vitality-dry:    #C49A72;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --vitality-dry:    #C49A72;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --vitality-strong: var(--vitality-600);
 
   /* ─── factor 3 · Agency · 120° · solar plexus · OPAQUE · Cadmium Lemon ─── */
@@ -226,7 +226,7 @@
   --agency-glow:   rgba(254,240,89,0.18);
   --agency-wash:   var(--agency-100);   /* pigment · resting ink */
   --agency-stain:  var(--agency-800);   /* pigment · soaked-in */
-  --agency-dry:    #BDB777;   /* pigment · aged / faded — desaturated literal, derived (House had no agency-dry); saturation-axis exception */
+  --agency-dry:    #BDB777;   /* pigment · aged / faded: desaturated literal, derived (House had no agency-dry); saturation-axis exception */
   --agency-strong: var(--agency-600);
 
   /* ─── factor 4 · Connection · 180° · heart · LUMINOUS · Emerald Green ─── */
@@ -251,7 +251,7 @@
   --connection-glow-strong: rgba(49,230,130,0.36);
   --connection-wash:   var(--connection-100);   /* pigment · resting ink */
   --connection-stain:  var(--connection-800);   /* pigment · soaked-in */
-  --connection-dry:    #72BA8F;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --connection-dry:    #72BA8F;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --connection-strong: var(--connection-600);
 
   /* ─── factor 5 · Expression · 210° · throat · TRANSLUCENT · Prussian Teal ─── */
@@ -275,7 +275,7 @@
   --expression-wash:        rgba(30,150,146,0.08);
   --expression-wash-deep:   rgba(30,150,146,0.20);
   --expression-stain:  var(--expression-800);   /* pigment · soaked-in */
-  --expression-dry:    #6A9E9D;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --expression-dry:    #6A9E9D;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --expression-strong: var(--expression-600);
 
   /* ─── factor 6 · Clarity · 270° · third eye · LUMINOUS · BRAND PRIMARY · Ultramarine Violet ─── */
@@ -300,7 +300,7 @@
   --clarity-glow-strong: rgba(142,102,251,0.45);
   --clarity-wash:   var(--clarity-100);   /* pigment · resting ink */
   --clarity-stain:  var(--clarity-800);   /* pigment · soaked-in */
-  --clarity-dry:    #9485BF;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --clarity-dry:    #9485BF;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --clarity-mid:    var(--clarity-300);
   --clarity-strong: var(--clarity-glow-strong);
 
@@ -326,7 +326,7 @@
   --wholeness-glow-strong: rgba(233,0,149,0.40);
   --wholeness-wash:   var(--wholeness-100);   /* pigment · resting ink */
   --wholeness-stain:  var(--wholeness-800);   /* pigment · soaked-in */
-  --wholeness-dry:    #B66E8A;   /* pigment · aged / faded — desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
+  --wholeness-dry:    #B66E8A;   /* pigment · aged / faded: desaturated literal (saturation-axis exception, see DESIGN_SYSTEM.md) */
   --wholeness-strong: var(--wholeness-glow-strong);
   --wholeness-due:    rgba(233,0,149,0.16);
 
@@ -881,12 +881,12 @@
   /* --text-faint a11y history (corrected 2026-06-19):
        · 2026-05-12 pass 1: #5A5852 → #6B6862. The note then claimed this
          reached AA body-text contrast, but #6B6862 measures 3.56:1 on --bg
-         #0A0A0B — that clears the 3:1 LARGE-text bar, NOT the 4.5:1 body bar.
+         #0A0A0B: that clears the 3:1 LARGE-text bar, NOT the 4.5:1 body bar.
          Small labels using this token were silently sub-AA catalog-wide.
        · 2026-06-19 pass 2: #6B6862 → #807D78. Clears AA 1.4.3 for body-grade
          text with headroom: 4.83:1 on --bg #0A0A0B, and 4.76:1 on the lighter
          --frame-bg #0C0C0F that the chrome labels actually render against (the
-         minimal #7C7975 cleared --bg at 4.57 but only 4.51 on --frame-bg — too
+         minimal #7C7975 cleared --bg at 4.57 but only 4.51 on --frame-bg, too
          thin). Stays a distinct tier below --text-dim (#8A8780, 5.52:1). The
          faint tier is now AA-safe for the small forensic labels (counts, source
          tags, audit meta) that use it across cuts, the desktop client, and
@@ -1103,7 +1103,7 @@
      Agent-identity + app-chrome vocabulary canonized from the
      liminal-desktop Panda theme (2026-06-11 token-codegen pass,
      SPEC_TOKEN_CODEGEN.md). Values lifted verbatim from the
-     shipping desktop surface — additive only, no existing var
+     shipping desktop surface: additive only, no existing var
      changed. Desktop's panda.config.ts is GENERATED from this
      file; these vars are its canonical source.
 
@@ -1179,13 +1179,13 @@
      The desktop app's spacing/type/leading/tracking scale, canonized
      verbatim (2026-06-11 founder call: "canonize desktop's scales").
      This register evolved separately from the editorial scale in
-     §§6–9 — both are canon, honestly labeled. Editorial surfaces
+     §§6–9: both are canon, honestly labeled. Editorial surfaces
      (cuts, site, packets) use --space-* / --fs-* / --lh-* / --ls-*;
      the desktop app uses --*-app-*. Collapsing the two into one
      scale is a deliberate redesign decision, not assumed.
 
      Values lifted verbatim from the shipping liminal-desktop Panda
-     theme — additive only. Source: liminal-desktop/SPEC_TOKEN_CODEGEN.md.
+     theme: additive only. Source: liminal-desktop/SPEC_TOKEN_CODEGEN.md.
   */
   /* spacing · 4px base with half-steps, diverges from --space-* at 5+ */
   --space-app-0:    0;
@@ -1383,7 +1383,7 @@ body::before {
   flex-shrink: 0;
   /* protect against accidental selection during drag */
   user-select: none;
-  /* no underline on the wrapper — the variants paint borders explicitly */
+  /* no underline on the wrapper: the variants paint borders explicitly */
   text-decoration: none;
 }
 .btn:focus-visible {
@@ -1533,15 +1533,15 @@ body[data-relationship="self-as-subject"] .btn-primary[data-cap="drop"] {
 /* ===== component · framing ===== */
 /* Liminal canon · framing primitives
  * ─────────────────────────────────────────────────────────────────────────
- * Two composition patterns for a "framing block" — a quiet setup line + a bold
+ * Two composition patterns for a "framing block", a quiet setup line + a bold
  * payload, set off by a register-colored left rule. Promoted to canon 2026-06-16
  * from liminal-prototype (cuts 00/03/08/09/11), where they carried the
  * wedge→infra / depth-proof thesis on each cut. Documented in DESIGN_SYSTEM.md
- * § Patterns. Consumes canon tokens only — never hardcode; no fallback hexes
+ * § Patterns. Consumes canon tokens only: never hardcode; no fallback hexes
  * (canon vars are always present where this is loaded).
  *
- *   .seam        — serif register (founder-facing, L1–L2): warmth + editorial.
- *   .thesis-line — mono register (operator/high-stakes, L3): austere + precise.
+ *   .seam: serif register (founder-facing, L1–L2): warmth + editorial.
+ *   .thesis-line: mono register (operator/high-stakes, L3): austere + precise.
  *
  * Same job, two voices. Vary per-surface via the custom props below; do NOT fork.
  */
@@ -1727,7 +1727,7 @@ body[data-relationship="self-as-subject"] .btn-primary[data-cap="drop"] {
  * ════════════════════════════════════════════════════════════════
  *
  * Purpose
- *   A small, non-interactive label that classifies a thing — a status,
+ *   A small, non-interactive label that classifies a thing: a status,
  *   a register, a source. The mono-cased chip that carries metadata
  *   without taking an action.
  *
@@ -1862,7 +1862,7 @@ body[data-relationship="self-as-subject"] .btn-primary[data-cap="drop"] {
  *   - use raw hex values
  *   - omit focus-visible outlines on interactive elements
  *   - suppress animation transitions (use prefers-reduced-motion instead)
- *   - change input opacity to hide — use visibility or position: absolute
+ *   - change input opacity to hide: use visibility or position: absolute
  *
  * Extracted from design-system.html, 2026-06-23
  */
@@ -2056,7 +2056,7 @@ body[data-relationship="self-as-subject"] .btn-primary[data-cap="drop"] {
  *   --radius-1
  *
  * Do not
- *   - use raw rgba/hex — use token-bound colors only
+ *   - use raw rgba/hex: use token-bound colors only
  *   - make avatars interactive without explicit ARIA roles
  *   - vary avatar size outside the 32px canonical (scale via --density-scale)
  *
@@ -2389,7 +2389,7 @@ body[data-relationship="self-as-subject"] .btn-primary[data-cap="drop"] {
  * Do not
  *   - use raw shadows; bind to --shadow-* tokens
  *   - skip focus management / focus trap implementation
- *   - hide scrim—it's essential for accessibility
+ *   - hide scrim: it's essential for accessibility
  *   - use modal for non-critical flows (favor inline forms)
  *
  * Extracted from design-system.html, 2026-06-23

@@ -1,6 +1,6 @@
 # Design System: Liminal Creative (canon)
 
-This repo **authors** `tokens/design-tokens.css` — the single source of truth
+This repo **authors** `tokens/design-tokens.css`: the single source of truth
 every other Liminal surface consumes. It is the only repo where a token value
 may be changed by hand.
 
@@ -10,18 +10,18 @@ nothing and fell back to whatever it already believed.
 
 ## What canon owns
 
-- `tokens/design-tokens.css` — 19 sections: surface, the 12-wheel (7 factors +
+- `tokens/design-tokens.css`: 19 sections: surface, the 12-wheel (7 factors +
   5 ornaments × 10-stop tonal scales), substrate, ink, type families, type
   scale, leading, tracking, spacing, shape, motion, shadow, legacy aliases,
   density, role, relationship, capability, product semantics, app scale.
-- `tokens/components/framing.css` — the one component contract canon owns
+- `tokens/components/framing.css`: the one component contract canon owns
   directly. Every other component contract is authored in `liminal-prototype`.
-- `canon/DESIGN_SYSTEM.md`, `canon/CONTENT_VOICE.md`, `canon/ICONOGRAPHY.md` —
+- `canon/DESIGN_SYSTEM.md`, `canon/CONTENT_VOICE.md`, `canon/ICONOGRAPHY.md`: 
   the prose canon these tokens serve.
 
 ## The consumer contract
 
-Consumers hold byte-identical flat copies, verified by md5, never symlinks — a
+Consumers hold byte-identical flat copies, verified by md5, never symlinks. A
 cross-repo symlink dangles on a sibling-less checkout and the CSS 404s on the
 GitHub Pages deploy. Each consumer runs `sync-upstream.mjs` and a `--check`
 drift guard.
@@ -35,7 +35,7 @@ Consumers today:
 
 ## Why this file is generated
 
-The token tier had a contract — sync script, md5, drift guard — and it held.
+The token tier had a contract: sync script, md5, drift guard, and it held.
 The agent-readable tier had none, and on 2026-07-29 canon §5 moved `--sans` and
 `--mono` while every `DESIGN.md` kept declaring the previous faces. Agents read
 the ungoverned tier, so the stale one is the one that shipped into design work.

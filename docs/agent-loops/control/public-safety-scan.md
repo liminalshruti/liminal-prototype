@@ -2,7 +2,7 @@
 id: liminal-prototype.control.public-safety-scan
 type: loop.control
 status: active
-owner: (TBD — will be assigned when launched)
+owner: (TBD: will be assigned when launched)
 created: 2026-06-30
 class: control
 priority: P1
@@ -43,7 +43,7 @@ This loop must NOT: modify any files · remove public content (that's a founder 
 
 ## Required output artifacts
 
-1. `reports/public-safety-scan.md` — full safety audit, all flagged content with severity, remediation guidance
+1. `reports/public-safety-scan.md`: full safety audit, all flagged content with severity, remediation guidance
 
 ## Acceptance criteria (done ONLY if all true)
 
@@ -53,7 +53,7 @@ This loop must NOT: modify any files · remove public content (that's a founder 
 - [x] Each finding assigned severity (critical / high / medium / low)
 - [x] One overall ready-to-ship verdict: safe-to-publish / needs-review / blocked
 - [x] Remediation guidance provided for all findings
-- [x] All changed files listed (should be none — control loop)
+- [x] All changed files listed (should be none, control loop)
 - [x] Verification commands run or explicitly marked unavailable
 - [x] Remaining gaps documented
 
@@ -83,11 +83,11 @@ Stop when: full sweep completed and all findings cataloged with severity, OR a s
 
 ## Final report format
 
-See `~/liminal/founder-brain/ops/strategy-control-plane/07_LOOP_SPEC_TEMPLATE.md` — § Final report format (8 items: summary, files read, files changed, acceptance checklist, verification, risks, risk level, recommended next loop).
+See `~/liminal/founder-brain/ops/strategy-control-plane/07_LOOP_SPEC_TEMPLATE.md`: § Final report format (8 items: summary, files read, files changed, acceptance checklist, verification, risks, risk level, recommended next loop).
 
 ---
 
-## Loop preamble (REQUIRED — use verbatim in the loop prompt)
+## Loop preamble (REQUIRED: use verbatim in the loop prompt)
 
 ```txt
 Do not optimize for seeming productive. Optimize for convergence. If the task is ambiguous, produce a

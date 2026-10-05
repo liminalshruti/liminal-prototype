@@ -1,4 +1,4 @@
-# Consolidation Design — Reuse & Non-Rewrite Inventory
+# Consolidation Design: Reuse & Non-Rewrite Inventory
 
 **Purpose:** Explicit map of what gets reused vs. wrapped vs. deprecated, with line references, so implementation is mechanical not interpretive.
 

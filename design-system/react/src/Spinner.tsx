@@ -3,7 +3,7 @@ import * as React from 'react';
 export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 /**
- * Spinner — inline rotating loader indicator.
+ * Spinner: inline rotating loader indicator.
  *
  * A simple 18px circular spinner with accent-colored top border.
  * Use with role="status" and aria-label for accessibility.

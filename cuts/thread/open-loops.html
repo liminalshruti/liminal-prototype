@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The thread · Open loops · Liminal</title>
-<!-- brand ◇ favicon (data-URI) — kills the dev-console 404 on screen-share -->
+<!-- brand ◇ favicon (data-URI): kills the dev-console 404 on screen-share -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 
 <!--
@@ -18,8 +18,8 @@
   ──────────────────────────────────────────────────────────────────────
   Tokens: design-system/tokens/design-tokens.css (canon · not redefined).
   Shell chrome: lib/cut-shell.css (.stage/.frame/.titlebar). Surface vocab: thread.css.
-  Data: seed.js — render-truthful, disclosed, fictional. No real inbox is read.
-  Vocabulary: allowed terms only — no banned Liminal nouns.
+  Data: seed.js: render-truthful, disclosed, fictional. No real inbox is read.
+  Vocabulary: allowed terms only: no banned Liminal nouns.
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -37,7 +37,7 @@
   .frame { max-width: 1000px; margin: 0 auto; }
   .ol-pill { font-family:"Geist Mono",monospace; font-size:11px; color:var(--text-dim); }
   .ol-pill b { color: var(--cerulean); }
-  /* "it's real" proof chip — cut-04 language, folds the kernel onto the felt-problem surface */
+  /* "it's real" proof chip: cut-04 language, folds the kernel onto the felt-problem surface */
   .real-chip { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px;
     font-family: "Geist Mono", monospace; font-size: 11px; color: var(--text-dim);
     border: 1px solid var(--card-border); border-radius: 999px; padding: 7px 14px;
@@ -124,7 +124,7 @@
 
   // veracity: no em dashes on this investor surface. seed.js carries em dashes in
   // loop titles / subs / receipts; transform at render locally, never mutate shared seed.
-  const clean = (s) => typeof s === "string" ? s.replace(/\s*—\s*/g, " · ") : s;
+  const clean = (s) => typeof s === "string" ? s.replace(/\s*: \s*/g, " · ") : s;
   document.getElementById("disc").textContent = clean(DISCLOSURE);
 
   const listEl = document.getElementById("loops-list");

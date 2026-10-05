@@ -8,7 +8,7 @@ export interface PopoverProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 /**
- * Popover — interactive anchored panel with content and optional actions.
+ * Popover: interactive anchored panel with content and optional actions.
  *
  * Wraps a trigger element in `.pop-host`. The `.popover` element is
  * positioned below the trigger and shown on click (consumer implements).

@@ -11,11 +11,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../design-system/tokens/design-tokens.css">
 <style>
-/* real brand display/serif faces — @font-face families named to MATCH design-tokens.css --display/--serif */
+/* real brand display/serif faces: @font-face families named to MATCH design-tokens.css --display/--serif */
 @font-face{font-family:"Nineties Headliner";src:url("../../fonts/nineties-headliner.otf") format("opentype");font-weight:400;font-display:swap}
 @font-face{font-family:"Perfectly Nineties";src:url("../../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
 @font-face{font-family:"Perfectly Nineties";src:url("../../fonts/PerfectlyNineties-Semibold.otf") format("opentype");font-weight:600;font-display:swap}
-/* tokens (colors · surfaces · space · radius · type vars --sans/--mono/--display) come from design-tokens.css — no excerpt here */
+/* tokens (colors · surfaces · space · radius · type vars --sans/--mono/--display) come from design-tokens.css, no excerpt here */
 *{box-sizing:border-box}html,body{margin:0;height:100%}
 body{background:var(--bg);color:var(--text);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased;
   background-image:radial-gradient(900px 480px at 8% -6%,rgba(142,102,251,.06),transparent 60%),radial-gradient(760px 480px at 106% 4%,rgba(25,126,235,.05),transparent 55%);
@@ -166,7 +166,7 @@ body[data-relationship="oversight"] .rail-r .ag .nm,body[data-relationship="over
 body[data-relationship="oversight"] .work::before{content:"oversight view · process-review · read-content withheld · audit chain only";display:block;font:10px/1.5 var(--mono);letter-spacing:.08em;color:var(--watch);border:1px solid var(--watch);background:var(--watch-bg);border-radius:5px;padding:10px 14px;text-transform:uppercase}
 body[data-relationship="public"] .mid{filter:grayscale(.6)}
 body[data-relationship="public"] .work>*{display:none}
-body[data-relationship="public"] .work::before{content:"⊘ refused surface — outside the consent boundary. This decision belongs to the operator and the agent fleet. Escalation: request audit-chain disclosure.";display:flex;align-items:center;text-align:center;justify-content:center;height:100%;font:12px/1.7 var(--mono);letter-spacing:.04em;color:var(--text-dim);max-width:46ch;margin:0 auto;padding:30px}
+body[data-relationship="public"] .work::before{content:"⊘ refused surface: outside the consent boundary. This decision belongs to the operator and the agent fleet. Escalation: request audit-chain disclosure.";display:flex;align-items:center;text-align:center;justify-content:center;height:100%;font:12px/1.7 var(--mono);letter-spacing:.04em;color:var(--text-dim);max-width:46ch;margin:0 auto;padding:30px}
 
 @keyframes rin{to{opacity:1;transform:none}}@keyframes pl{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes sin{from{opacity:.4}to{opacity:1}}@keyframes arr{0%{transform:translateY(16px) rotate(-.3deg);opacity:0}100%{transform:none;opacity:1}}
@@ -238,11 +238,11 @@ const SURFACES = {
       <div class="tile"><div class="tt">Model-access list</div><div class="ts">found</div></div>
     </div>`},
   okr:{eyebrow:'beat 2 · baseline',title:'AI spend governance baseline',agency:'summary',body:()=>`
-    <p class="lede">Objectives, allocations, the approved model and cohort — the frame everything is measured against.</p>
+    <p class="lede">Objectives, allocations, the approved model and cohort, the frame everything is measured against.</p>
     <div style="margin-top:18px"><div class="alloc-bar"><div class="p" style="width:60%">product 60%</div><div class="s" style="width:40%">security 40%<span class="ghost"></span></div></div></div>
     <p class="lede" style="margin-top:22px">Approved model <b style="color:var(--text)">Opus 4.8</b> · cohort 7 · budget period 2026-06. Security is the target the deliberation will test actual spend against.</p>`},
   tray:{eyebrow:'beat 3 · harden',title:'Tray → Slate · you control what hardens',agency:'summary',body:()=>`
-    <p class="lede">Diffuse context on the left; the hardened working set on the right. Crossing the boundary is the governance act — not surveillance, selection.</p>
+    <p class="lede">Diffuse context on the left; the hardened working set on the right. Crossing the boundary is the governance act, not surveillance, selection.</p>
     <div class="tiles" style="margin-top:6px">
       <div class="tile"><div class="tt">usage-events.csv</div><div class="ts">slated</div></div>
       <div class="tile"><div class="tt">okr-baseline.json</div><div class="ts">slated</div></div>
@@ -258,7 +258,7 @@ const SURFACES = {
       <div class="dlog-f"><span class="tick">live</span><span>· adversarial reviewer running · 1 claim contested</span></div>
     </div>`},
   finding:{eyebrow:'beat 5 · finding',title:'The model caught its own error',agency:'rail',body:()=>`
-    <p class="lede">Opus spend on calendar &amp; admin can route to a verified agent — but one claim did not survive review.</p>
+    <p class="lede">Opus spend on calendar &amp; admin can route to a verified agent, but one claim did not survive review.</p>
     <div class="card"><div class="card-h">Finding · misuse / agent-fit <span class="meta">cites usage-events · pr-evidence</span></div>
       <div class="finding">
         <div class="fhead"><span class="amt">$284<span class="u">/mo realizable</span></span><span class="tag">verified</span></div>
@@ -271,7 +271,7 @@ const SURFACES = {
         </div>
       </div></div>`},
   agentfit:{eyebrow:'beat 6 · agent fit',title:'Route to a registry-verified agent',agency:'rail',body:()=>`
-    <p class="lede">A verifiable internal agent registry — current vs suggested, with on-chain provenance.</p>
+    <p class="lede">A verifiable internal agent registry: current vs suggested, with on-chain provenance.</p>
     <div class="card"><div class="card-h">Agent fit <span class="meta">Algorand-verified registry</span></div>
       <div class="swap">
         <div class="side cur"><span class="ro">current</span><p class="ag">Claude Opus 4.8</p><span class="co">calendar mgmt · high tier</span><span class="bd">out of approved scope</span></div>
@@ -279,7 +279,7 @@ const SURFACES = {
         <div class="side sug"><span class="ro">suggested</span><p class="ag">CalendarOps Agent</p><span class="co">~10% of Opus · scoped: calendar</span><span class="bd">registry-verified</span></div>
       </div></div>`},
   ratify:{eyebrow:'beat 7 · ratify',title:'One policy proves the product',agency:'summary',prov:'rail',body:()=>`
-    <p class="lede">Spend governance + routing + the registry + provenance + non-surveillance — in a single signed, anchored object.</p>
+    <p class="lede">Spend governance + routing + the registry + provenance + non-surveillance, in a single signed, anchored object.</p>
     <div class="cta"><button class="btn-r" onclick="document.getElementById('art').style.display='block';this.style.display='none'">Ratify decision ▸</button></div>
     <div id="art" style="display:none"><div class="artifact">
       <div class="ab"><span class="stamp">ratified</span><span class="wh">2026-06 · operator · effective immediately</span></div>
@@ -289,7 +289,7 @@ const SURFACES = {
         <div class="apol"><span class="pc al">allow · product_dev</span><span class="pc al">allow · security_hardening</span><span class="pc al">allow · architecture_review</span><span class="pc dn">deny · calendar_management</span><span class="pc dn">deny · routine_admin</span><span class="pc dn">deny · generic_summarization</span></div>
         <div class="arec"><span class="hl">anchored</span><span class="hs">sha256: 7d4b…a284 · local-first chain · entry 6/6</span><span class="ok">chain verified</span></div>
       </div></div></div>`},
-  brief:{eyebrow:'beat 8 · brief',title:'AI Spend Brief — exec-ready',agency:'summary',body:()=>`
+  brief:{eyebrow:'beat 8 · brief',title:'AI Spend Brief: exec-ready',agency:'summary',body:()=>`
     <p class="lede">The decision trail as proof: spend by OKR, the routing change, the savings, the ratified policy.</p>
     <div class="tiles" style="margin-top:6px">
       <div class="tile"><div class="tt tnum">$4,500</div><div class="ts">opus spend · period</div></div>
@@ -321,7 +321,7 @@ function renderAgency(mode){
       <div style="padding:10px 15px;font:10px/1.7 var(--mono);color:var(--text-faint);letter-spacing:.08em">
       <div style="color:var(--text-mid)">8 bounded agents</div>
       <div>· ${flagged} flagged</div><div style="color:var(--judgment)">· ${ref} refused out of lane</div>
-      <div style="margin-top:8px;color:var(--text-mute)">— promotes to live console on the deliberation surface —</div></div>`;
+      <div style="margin-top:8px;color:var(--text-mute)">: promotes to live console on the deliberation surface, </div></div>`;
   }
 }
 function renderChain(uptoIdx){

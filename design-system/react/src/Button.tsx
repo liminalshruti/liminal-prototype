@@ -11,11 +11,11 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Visual + semantic register of the action.
-   * - `primary` — the action that advances the flow (seal · save · ship). Hairline-bottom.
-   * - `secondary` — a parallel action (branch · alternate path). Bordered.
-   * - `destructive` — removes / discards. Bordered alarm register.
-   * - `ghost` — low-emphasis nav that doesn't commit. Transparent.
-   * - `icon` — square compact toolbar button. Requires `aria-label`.
+   * - `primary`: the action that advances the flow (seal · save · ship). Hairline-bottom.
+   * - `secondary`: a parallel action (branch · alternate path). Bordered.
+   * - `destructive`: removes / discards. Bordered alarm register.
+   * - `ghost`: low-emphasis nav that doesn't commit. Transparent.
+   * - `icon`: square compact toolbar button. Requires `aria-label`.
    * @default 'primary'
    */
   variant?: ButtonVariant;
@@ -28,7 +28,7 @@ export interface ButtonProps
 }
 
 /**
- * Button — the primary user-facing decision surface.
+ * Button: the primary user-facing decision surface.
  *
  * A native `<button>` styled by the Liminal canon. Variants map to the
  * design-system's real CSS classes (`.btn` + `.btn-{variant}`); the look,

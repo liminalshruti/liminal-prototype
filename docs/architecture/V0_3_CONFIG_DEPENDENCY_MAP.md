@@ -1,4 +1,4 @@
-# `v0_3_config.js` Dependency Map — `liminal-prototype`
+# `v0_3_config.js` Dependency Map: `liminal-prototype`
 
 *Branch: `foundry/proof-to-port-architecture` · 2026-06-18 · Step 8 (planning only).*
 *Source: every `export` in `v0_3_config.js` (35 total) + a per-symbol consumer grep across `lib/`, `cuts/`, `index.html`.*
@@ -9,7 +9,7 @@
 
 ---
 
-## Verification findings (read first — they correct the raw grep)
+## Verification findings (read first: they correct the raw grep)
 
 A naive grep of export names over-reports consumption in three ways. Each was verified
 directly:
@@ -22,7 +22,7 @@ directly:
    **no live consumer**.
 3. **`cuts/_archive/root-experiments/*` are retired/frozen.** `cuts/_console.html` badges
    every archive entry `retired` (e.g. `index-v036-frozen`, `index-v04-frozen`). They are
-   **not live consumers** — they are frozen scaffolding that still imports old symbols.
+   **not live consumers**: they are frozen scaffolding that still imports old symbols.
    They must **not** count toward "safe to move" decisions.
 
 ---
@@ -30,7 +30,7 @@ directly:
 ## Live-consumer definition
 
 > **Live consumers are `lib/state.js`, `lib/boot.js`, `lib/slate.js`, and
-> `lib/keyboard.js`** — the modular slate-tray app (entered via `cuts/01-slate-tray.html`
+> `lib/keyboard.js`**: the modular slate-tray app (entered via `cuts/01-slate-tray.html`
 > → `lib/boot.js`). `lib/marginalia.js` is live but does **not** consume config (own
 > `ANNOTATIONS`). **`cuts/_archive/**` (including `root-experiments/*`) is NOT live.**
 
@@ -38,7 +38,7 @@ All four live consumers import via named imports `from "../v0_3_config.js"` (ver
 
 ---
 
-## Group A — LIVE-consumed (used by the modular app)
+## Group A: LIVE-consumed (used by the modular app)
 
 The real working surface: ~12 exports the running app actually imports.
 
@@ -59,16 +59,16 @@ The real working surface: ~12 exports the running app actually imports.
 
 ---
 
-## Group B — NO live consumer / false positives
+## Group B: NO live consumer / false positives
 
 | Export | Why no live consumer | Category | Safe to move? |
 |---|---|---|---|
-| `ANNOTATIONS` | `marginalia.js` defines its **own** local const (no import) | copy | yes — orphaned in config |
-| `FLOW` | `11-govern` match is the word in a **prose comment**, not an import | config | yes — orphaned |
+| `ANNOTATIONS` | `marginalia.js` defines its **own** local const (no import) | copy | yes, orphaned in config |
+| `FLOW` | `11-govern` match is the word in a **prose comment**, not an import | config | yes, orphaned |
 
 ---
 
-## Group C — Archive-only (consumed solely by retired `cuts/_archive/**`)
+## Group C: Archive-only (consumed solely by retired `cuts/_archive/**`)
 
 These have consumers, but only **retired/frozen** archive files. Low risk to move (only
 already-frozen files reference them), but **flag, don't delete**, until the archive's fate
@@ -84,18 +84,18 @@ is decided in Stage 1.
 > `ANNOTATIONS` are *also* referenced by archive files, but they are classified by their
 > **live** use (Group A) or **own-definition** status (Group B), not here.
 
-Risk for Group C: **low** — only retired files would break, and they are already frozen.
+Risk for Group C: **low**: only retired files would break, and they are already frozen.
 
 ---
 
-## Group D — Zero consumers anywhere (dead exports)
+## Group D: Zero consumers anywhere (dead exports)
 
-No code reads these — not live, not archive. Dead-code candidates (verify once more before
+No code reads these: not live, not archive. Dead-code candidates (verify once more before
 any deletion; this is a map, not a delete order).
 
 | Category | Exports (14) | Safe to move? | Destination |
 |---|---|---|---|
-| spec / doc constants | `TILE_TYPES`, `TRAY_SOURCES`, `SLATE_LAYOUT`, `SLATE_INTERACTIONS`, `CLASSIFICATION_LADDER`, `SLATE_UX`, `SLATE_TRAY_PHASES`, `READ_SHAPES`, `PERSONA_RENDER_COUNT`, `CATEGORY_CLAIM`, `CATEGORY_TAGLINE`, `NOT_CATEGORIES`, `AGENT_RAIL_UX`, `APR14_GRANOLA` | **yes — dead-code candidates** | none — mark for removal review |
+| spec / doc constants | `TILE_TYPES`, `TRAY_SOURCES`, `SLATE_LAYOUT`, `SLATE_INTERACTIONS`, `CLASSIFICATION_LADDER`, `SLATE_UX`, `SLATE_TRAY_PHASES`, `READ_SHAPES`, `PERSONA_RENDER_COUNT`, `CATEGORY_CLAIM`, `CATEGORY_TAGLINE`, `NOT_CATEGORIES`, `AGENT_RAIL_UX`, `APR14_GRANOLA` | **yes: dead-code candidates** | none: mark for removal review |
 
 Risk: **low** to move/quarantine; no code reads them.
 
@@ -106,7 +106,7 @@ Risk: **low** to move/quarantine; no code reads them.
 - **The live surface is small:** ~12 of 35 exports are actually imported by the running
   app (Group A). The other 23 are orphaned/false-positive (B), archive-only (C), or dead
   (D).
-- **This reframes the split:** it is not "carve a 1460-line file into modules" — it is
+- **This reframes the split:** it is not "carve a 1460-line file into modules". It is
   "~23 exports may be removable or quarantine-able, and only ~12 need a real home."
 - **The hard knot is scenario data** (`TEAM_*` / `PERSONAL_*` / `BUSINESS_*`), entangled
   across state + boot + slate + keyboard. `BUSINESS_SCENARIOS` (4 consumers) is the
@@ -114,16 +114,16 @@ Risk: **low** to move/quarantine; no code reads them.
 
 ---
 
-## Conclusion — first safe extraction candidate
+## Conclusion: first safe extraction candidate
 
 > **`SPEC_VERSION` + `PROTOTYPE_VERSION` → `config/versions.js`.**
 
 Why it is first:
 - **Two values, one live consumer** (`boot.js`, the dev `?dev` version pin). Trivially
   cohesive, lowest risk in the entire file.
-- **Behavior-preserving** — `boot.js` imports the same names, just from a new path; the
+- **Behavior-preserving**: `boot.js` imports the same names, just from a new path; the
   `v0_3_config` analogue of the 7A/7B/7C pattern (smallest cohesive unit first).
-- **Archive-safe** — the frozen files also reference these two; `v0_3_config.js` can
+- **Archive-safe**: the frozen files also reference these two; `v0_3_config.js` can
   **re-export** them from `config/versions.js` (the 7A re-export trick) so nothing breaks.
 
 The clean wins (versions + the dead/orphaned constants) shrink the file *before* the
@@ -135,4 +135,4 @@ scenario-data surgery. Scenario data is the last and highest-risk tranche.
 
 - No `v0_3_config.js` split performed; no runtime code edited.
 - "Recommended destination" paths are *proposed*, not created.
-- Group D "dead" verdicts are extraction-map findings — confirm before any deletion.
+- Group D "dead" verdicts are extraction-map findings: confirm before any deletion.

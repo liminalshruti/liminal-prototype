@@ -11,15 +11,15 @@
   Loop-stage · full-loop    (defense subject)
   Altitude   · L3-high-stakes
   Surface    · desktop
-  Framing    · infra        (depth proof — "the substrate generalizes")
-  Maturity   · refining     (4-stage interactive narrative console, end-to-end; the old "sketch" tag was stale — 2026-06-16)
+  Framing    · infra        (depth proof: "the substrate generalizes")
+  Maturity   · refining     (4-stage interactive narrative console, end-to-end; the old "sketch" tag was stale: 2026-06-16)
   Spec ref   · liminal-natsec/docs/liminal-custody-onepager.md
              · liminal-natsec/docs/maven-analysis.md
              · liminal-natsec/docs/v4-judge-calibrated-demo.md
-  Coordinate per TAXONOMY.md v2 · the L3 depth-proof cluster (with 09 + molehunt) —
+  Coordinate per TAXONOMY.md v2 · the L3 depth-proof cluster (with 09 + molehunt), 
   same loop at the high-stakes altitude; a SUBJECT of cut 00, not a separate product
   (positioning: natsec is proof-of-generalization). (investor/judge/sponsor = who
-  it's SHOWN to — viewing context, not a coordinate field.)
+  it's SHOWN to: viewing context, not a coordinate field.)
   ──────────────────────────────────────────────────────────────────────
 
   DIVERGENCE NOTE
@@ -508,7 +508,7 @@
     margin-bottom: calc(var(--space-app-1-5) * var(--density-scale));
   }
 
-  /* L3 depth-proof framing — .thesis-line rule from design-system/components/framing.css
+  /* L3 depth-proof framing: .thesis-line rule from design-system/components/framing.css
      (canon, operator register). Only the per-cut accent override stays here. */
   .thesis-line { --thesis-rule: var(--expression); }
 
@@ -704,10 +704,10 @@
      original rather than a straight copy:
 
      1. team-drift declares a local alias `--drift: var(--judgment)` carrying the
-        comment "was var(--alarm)" — someone moved it off the alarm lane on
+        comment "was var(--alarm)": someone moved it off the alarm lane on
         purpose. Porting the alias would have carried a private name into a second
         file, so this uses var(--judgment) directly.
-     2. The original shades the gap with a hardcoded rgba(240,64,64,...) — raw red,
+     2. The original shades the gap with a hardcoded rgba(240,64,64,...): raw red,
         untokenized, and a severity colour. A contested read is a STATE, not a
         severity: the system has not decided anything is wrong, it is refusing to
         decide. Shading it red pre-judges exactly the call the scenario refuses to
@@ -716,7 +716,7 @@
   /* Specificity note, learned the hard way. `.viewport svg` (above) sets
      height:100% and display:block, and it outranks a bare `.divergence-spark`.
      Two consequences, both of which shipped briefly in local testing:
-       · height:168px was ignored — the chart stretched to 561px and the
+       · height:168px was ignored: the chart stretched to 561px and the
          sparkline distorted, because preserveAspectRatio="none" lets it.
        · the `hidden` ATTRIBUTE did nothing. The UA rule is [hidden]{display:none},
          which a class-plus-element selector beats, so the chart rendered on the
@@ -730,7 +730,7 @@
   }
   /* Generic, not per-element: `.viewport svg` sets display:block, which outranks
      the UA [hidden] rule for EVERY svg in here, not just the chart. Scoping this
-     to .divergence-spark alone left #scenario-map visible next to the chart —
+     to .divergence-spark alone left #scenario-map visible next to the chart, 
      both scenarios' visuals on screen at once, which is the mismatch in its
      purest form. One rule covers any svg the switch ever hides. */
   .viewport svg[hidden] { display: none; }
@@ -1550,7 +1550,7 @@
     }
   }
 
-  /* ─── v0.9.3 — cut 08 custody anointment ──────────────────────────────
+  /* ─── v0.9.3: cut 08 custody anointment ──────────────────────────────
      Cut 08 (natsec custody view) already has hero-stats which is the
      equivalent of a metric-band; we don't need to inject one. Three moves:
        1. center-title 32 -> 40px
@@ -1571,7 +1571,7 @@
     opacity: 0.72;
     margin-left: calc(var(--space-app-1-5) * var(--density-scale));
   }
-  /* hero-stats — promote spacing + label register to match the metric-band primitive */
+  /* hero-stats: promote spacing + label register to match the metric-band primitive */
   .hero-stats {
     border-top: 1px solid var(--frame-border, rgba(255,255,255,0.08));
     border-bottom: 1px solid var(--frame-border, rgba(255,255,255,0.08));
@@ -1599,7 +1599,7 @@
   .frame-receipt .fr-glyph { color: var(--accent, var(--p-accent)); }
   .frame-receipt .fr-strong { color: var(--text-mid, rgba(255,255,255,0.7)); }
   .frame-receipt .fr-right { margin-left: auto; opacity: 0.72; }
-  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) — in-cut, wins source-order */
+  /* magnetic-hover + press (ui-skills motion, canon --ease-spring): in-cut, wins source-order */
   .case-button { transition: transform .22s var(--ease-spring, ease), background .15s, color .15s, border-color .15s; }
   .case-button:hover { transform: translateY(-1.5px); }
   .case-button:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
@@ -1715,7 +1715,7 @@
             <div class="eyebrow">Substrate / Stage viewport / Working panel / Command line</div>
             <h1 class="center-title" id="center-title"></h1>
             <p class="center-subtitle" id="center-subtitle"></p>
-            <div class="thesis-line">The same capture · read · refuse · correct · sign loop — at scale — under maximum constraint: overload, ambiguity, accountability. <b>This is the depth proof: if the loop holds here, it holds anywhere. Do not automate the moral lever; equip the operator at it.</b></div>
+            <div class="thesis-line">The same capture · read · refuse · correct · sign loop, at scale, under maximum constraint: overload, ambiguity, accountability. <b>This is the depth proof: if the loop holds here, it holds anywhere. Do not automate the moral lever; equip the operator at it.</b></div>
           </div>
           <div class="hero-stats" id="hero-stats"></div>
         </div>
@@ -1774,7 +1774,7 @@
               <!-- DIVERGENCE CHART · the alternate scenario visual.
                    Ported from team-drift/index.html:864, which already draws this
                    exact idea: an observed line, an asserted line, and the gap
-                   between them shaded. That is not decoration here — for a
+                   between them shaded. That is not decoration here, for a
                    scenario whose whole claim is "two sources disagree and the
                    system refuses to collapse the disagreement", the shaded gap IS
                    the contested read. A track map cannot say that.
@@ -2971,17 +2971,17 @@
   /* ─── SCENARIO REGISTRY ────────────────────────────────────────────────
      Cut 11 already proves the pattern this ports: one loop, pointed at a
      different subject via ?subject=, with a SUBJECTS map guarding the switch
-     (cuts/11-govern.html — `SUBJECTS[wantSubject]`).
+     (cuts/11-govern.html: `SUBJECTS[wantSubject]`).
 
      WHY THIS EXISTS AT ALL. On 2026-08-20 this cut was live as a half-converted
-     page: PR #60 swapped the FRAMING to a healthcare incident — hero, foundation,
-     thesis, beat labels — and left the console maritime. 68 maritime references
+     page: PR #60 swapped the FRAMING to a healthcare incident: hero, foundation,
+     thesis, beat labels: and left the console maritime. 68 maritime references
      against 4 healthcare ones. A visitor read a hospital incident brief and then
      operated a tanker-tracking console. PR #106 restored the maritime framing to
      make the page coherent again.
 
-     The lesson is not "be careful". A scenario here is TWO layers — the framing a
-     reader sees first, and the console they operate — and swapping one without the
+     The lesson is not "be careful". A scenario here is TWO layers, the framing a
+     reader sees first, and the console they operate, and swapping one without the
      other produces a page where every individual string is well-written and the
      whole is incoherent. Nothing caught it: it served 200, threw no errors, and
      passed the vocab gate. Only the COMBINATION was wrong.
@@ -2993,16 +2993,16 @@
 
      ADDING A SCENARIO: author every key in REQUIRED_KEYS, set complete: true, and
      read the whole page in both subjects before shipping. Framing without a
-     console is exactly the failure this guard exists to stop — do not set
+     console is exactly the failure this guard exists to stop, do not set
      complete: true to "unblock" a preview. */
   /* REQUIRED_KEYS covers BOTH layers on purpose.
      The first five are the JS payload. `framing` is the static HTML a reader
-     meets before any of it — the operator line, the foundation line, the
+     meets before any of it: the operator line, the foundation line, the
      surface-meta chips, and the map's region labels. An earlier version of this
      guard checked only the JS, which would have let a "complete" scenario render
      a healthcare console on a map still labelled Gulf of Oman / Strait chokepoint
      / MMSI-88102. That is the same framing-vs-console split that produced #106,
-     one layer down — so the guard has to see the whole surface, not the half that
+     one layer down: so the guard has to see the whole surface, not the half that
      happens to live in JavaScript. */
   const REQUIRED_KEYS = ["workflowNodes", "beatMeta", "caseData", "sourceStates", "ruleText", "framing"];
 
@@ -3102,13 +3102,13 @@
 
     const picked = SCENARIOS[want];
     if (!picked) {
-      console.warn(`[cut-08] unknown subject "${want}" — falling back to ${DEFAULT_SCENARIO}. ` +
+      console.warn(`[cut-08] unknown subject "${want}": falling back to ${DEFAULT_SCENARIO}. ` +
                    `Available: ${Object.keys(SCENARIOS).join(", ")}`);
       return SCENARIOS[DEFAULT_SCENARIO];
     }
     if (!scenarioIsComplete(picked)) {
       console.warn(`[cut-08] subject "${want}" (${picked.label}) is declared but INCOMPLETE ` +
-                   `— falling back to ${DEFAULT_SCENARIO}. Missing: ${picked.missing || "unspecified"}. ` +
+                   `: falling back to ${DEFAULT_SCENARIO}. Missing: ${picked.missing || "unspecified"}. ` +
                    `A partial scenario is blocked on purpose: framing without a console is the ` +
                    `defect PR #106 had to repair.`);
       return SCENARIOS[DEFAULT_SCENARIO];
@@ -3119,7 +3119,7 @@
   const SCENARIO = resolveScenario();
 
   /* Rebind the original identifiers from the resolved scenario. Every call site
-     below this line is unchanged — it still says caseData, beatMeta, and so on —
+     below this line is unchanged: it still says caseData, beatMeta, and so on, 
      but now reads whichever scenario resolveScenario() cleared. This is why the
      switch costs ~30 lines instead of rewriting 17 call sites. */
   const workflowNodes = SCENARIO.workflowNodes;
@@ -3152,7 +3152,7 @@
     put("spark-note-a",        f.chartAssertedLabel);
     put("spark-note-b",        f.chartObservedLabel);
 
-    /* Swap the evidence visual. Not every subject's evidence is a map — cut 11
+    /* Swap the evidence visual. Not every subject's evidence is a map: cut 11
        already establishes this, where its `pattern` subject renders a prose block
        instead of the custody map. A track map cannot express "two sources
        disagree", so a scenario built on that disagreement gets the chart. */
@@ -3161,7 +3161,7 @@
     const wantsChart = f.visual === "chart";
 
     /* Use the ATTRIBUTE, not the .hidden property. Both of these elements are
-       <svg>, and `hidden` is defined on HTMLElement — SVGElement does not inherit
+       <svg>, and `hidden` is defined on HTMLElement: SVGElement does not inherit
        it. `el.hidden = false` on an SVG therefore sets an inert JS property and
        leaves the content attribute untouched, so the element never unhides. Worse,
        reading `el.hidden` back returns the property you just set, so a check
@@ -3173,7 +3173,7 @@
     setHidden(map, wantsChart);
     setHidden(chart, !wantsChart);
 
-    /* The real-world findings rail is a RECEIPT, not scenario dressing — it cites
+    /* The real-world findings rail is a RECEIPT, not scenario dressing. It cites
        a dated run against real feeds. Scenarios that did not earn it do not get a
        translated version of it; they get nothing. `showFindings` defaults to false
        so a new scenario cannot inherit someone else's evidence by omission. */
@@ -3422,7 +3422,7 @@
 
   function renderCases() {
     /* Derived from caseData, not hardcoded. This array previously duplicated the
-       case labels and names as literals — "CASE-014 · Dark-gap reappearance" —
+       case labels and names as literals: "CASE-014 · Dark-gap reappearance", 
        which meant the case queue kept rendering maritime under the healthcare
        scenario while every other panel had switched. Two copies of the same fact,
        and only one of them moved.
@@ -3677,11 +3677,11 @@
 /* Loop engine integration for cut 08
  *
  * Beat mapping (cut 08 five-beat state.step → engine beats):
- *   Beat 1 → CAPTURING: "Dark gap" — AIS custody begins, witness the break in signal
- *   Beat 2 → READING: "Identity churn" — competing hypotheses preserved, specialist reads
- *   Beat 3 → DECIDING: "Structural refusal" — guard fires, shows why intent cannot pass
- *   Beat 4 → SEALING: "Review memory" — operator saves rule, rule-gate gating persistence
- *   Beat 5 → ENTERING: "Second case changed" — prior rule applied to CASE-015
+ *   Beat 1 → CAPTURING: "Dark gap": AIS custody begins, witness the break in signal
+ *   Beat 2 → READING: "Identity churn": competing hypotheses preserved, specialist reads
+ *   Beat 3 → DECIDING: "Structural refusal": guard fires, shows why intent cannot pass
+ *   Beat 4 → SEALING: "Review memory": operator saves rule, rule-gate gating persistence
+ *   Beat 5 → ENTERING: "Second case changed", prior rule applied to CASE-015
  *
  * Choreography config (per RUN_B_COHERENCE_FINDINGS):
  *   subject: 'custody'

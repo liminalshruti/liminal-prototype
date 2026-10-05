@@ -21,7 +21,7 @@ export interface TabsProps
 }
 
 /**
- * Tabs — traditional horizontal tablist for document-like structures.
+ * Tabs: traditional horizontal tablist for document-like structures.
  *
  * A bordered container with full-width buttons. The active tab receives
  * the `.is-active` class. Maps to `.tabs` container and `<button>` children

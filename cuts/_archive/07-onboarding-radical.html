@@ -37,7 +37,7 @@
     --serif:   "Newsreader", Georgia, serif;
   }
   [data-dc-artboard] { background: var(--bg) !important; }
-  /* v0.8.5 F5 — initial paint suppression. */
+  /* v0.8.5 F5: initial paint suppression. */
   body {
     opacity: 0;
     transition: opacity 240ms ease-out;
@@ -85,7 +85,7 @@
 
   ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
-  // v0.8.5 F5 — fade body in after React mounts
+  // v0.8.5 F5: fade body in after React mounts
   requestAnimationFrame(() => document.body.classList.add("ready"));
 </script>
 

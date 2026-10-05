@@ -3,18 +3,18 @@
 
 ---
 
-## 1. The Emergent System — Shared Grammar
+## 1. The Emergent System: Shared Grammar
 
 ### Frame Skeleton
 **Rule:** All cuts inherit a three-pane macOS-window frame: titlebar (traffic lights + brand wedge) → three-column grid (left rail | slate/work | right rail) → footer ribbon. Cut-shell.css §1-33 codifies this layout as the *invariant container*.
 
 **Evidence:**
 - Cut 00 (wall-cut00): 280px left rail (Signals) | 1fr center (Agency read) | 320px right rail (Orbital diagram). Grid-template-columns hardcoded at line 42-68.
-- Cut 01 (wall-cut01): Same 3-pane skeleton, visible in layout—left tray rail, center slate, right orbital agency diagram.
+- Cut 01 (wall-cut01): Same 3-pane skeleton, visible in layout: left tray rail, center slate, right orbital agency diagram.
 - Cut 06 (wall-cut06): Left 196px rail (agents), center work, right modal.
 - Cut 08 (wall-cut08): Three-pane horizontal: 264px left | center | 392px right; layout mirrors but with different semantics (custody sources vs. signals).
 - Cut 09 (wall-cut09): 232px left rail | 1fr center | 250px right rail.
-- Cut 10 (wall-cut10): Two-column grid (card stacks left | outcome buttons right), diverges from three-pane — *first major frame restructure* (see Contradiction #2).
+- Cut 10 (wall-cut10): Two-column grid (card stacks left | outcome buttons right), diverges from three-pane, *first major frame restructure* (see Contradiction #2).
 - Cut 11 (wall-cut11): Three-pane, but top tab bar (5 PRICE / AGENCY / PROVE) added, left rail hidden in default view, center dominates.
 
 **Spacing rhythm within frame:**
@@ -45,7 +45,7 @@
 - **Cut 10 (wall-cut10):** Two-column grid. Left column (held decision + resurfaced cards) has 24px padding, cards stacked with 16px gap. Right column (close-the-loop hero) has 20px padding + outcome buttons (44px min height each). Footer tray has 12px padding. **Rest observed:** Strong vertical breathing between card stacks. Accretion is **NONE**.
 - **Cut 11 (wall-cut11):** Tab nav (6px height), center work pane dominates (padding ~20px). Left rail visible only on tab switch. Right rail is a scrollable ontology (sparse). **Rest observed:** Top nav is minimal; center work has generous padding. Accretion signals are LOW for the viewport.
 
-**Verdict:** ✓ All cuts balance density with deliberate rest. **Asymmetry is intentional:** custodial domains (cuts 08–09) compress left rail for operator efficiency; reads (cuts 00–01, 06) breathe. No evidence of accretion in cuts 00–07, 10–11. Cut 08 line count (2,816 lines per inventory §) is large but *not accretion*—it's because the custody domain has semantic complexity (map SVG, multi-pane state machine). Verdict: **System is healthy; no filth found.**
+**Verdict:** ✓ All cuts balance density with deliberate rest. **Asymmetry is intentional:** custodial domains (cuts 08–09) compress left rail for operator efficiency; reads (cuts 00–01, 06) breathe. No evidence of accretion in cuts 00–07, 10–11. Cut 08 line count (2,816 lines per inventory §) is large but *not accretion*. It's because the custody domain has semantic complexity (map SVG, multi-pane state machine). Verdict: **System is healthy; no filth found.**
 
 ---
 
@@ -147,7 +147,7 @@
 
 ---
 
-## 2. Contradictions — Ambiguities for Canon Inference
+## 2. Contradictions: Ambiguities for Canon Inference
 
 ### Contradiction #1: Rail Width Normalization
 
@@ -216,7 +216,7 @@
 - file:cuts/02-forensic-agent.html:142–180 → `.stream-item` rows, only 4 visible, generous vertical spacing per row.
 - file:cuts/02-forensic-agent.html:209–253 → `.records` grid 2-column, tight cells, no padding inside.
 - file:cuts/02-forensic-agent.html:287–326 → `.audit-row` monospace, 9.5px, no padding, line-height 1.4.
-- file:wall-cut02.png: Visual confirmation—left is sparse, center + right are packed.
+- file:wall-cut02.png: Visual confirmation: left is sparse, center + right are packed.
 
 **Why it's ambiguous for a canon-inferrer:**
 - Cut 02 asymmetry *is intentional* (read-only forensic surface, dense evidence-packing is correct for the domain).
@@ -233,10 +233,10 @@
 **Cuts disagreeing:** 00 (7×9px) | 03 (0px, cells are grid cells) | 06 (12–16px) | 08 (8px).
 
 **What each does:**
-- Cut 00 `.tile { padding: 7px 9px; }` — fine-grain insets, asymmetric (7 vert, 9 horiz).
-- Cut 03 `.cal-cell` — 0px padding inside (content is count + tag, rendered directly; spacing via grid gap 1px).
-- Cut 06 canvas sections — 12–20px padding (line 291 `.slate-canvas { min-height: 240px }`; inferred from layout).
-- Cut 08 source item — 8px padding (line 166 implicit from 14px font height + tight line spacing).
+- Cut 00 `.tile { padding: 7px 9px; }`: fine-grain insets, asymmetric (7 vert, 9 horiz).
+- Cut 03 `.cal-cell`: 0px padding inside (content is count + tag, rendered directly; spacing via grid gap 1px).
+- Cut 06 canvas sections: 12–20px padding (line 291 `.slate-canvas { min-height: 240px }`; inferred from layout).
+- Cut 08 source item: 8px padding (line 166 implicit from 14px font height + tight line spacing).
 
 **Evidence:**
 - file:cuts/00-agency.html:73 → `padding: 7px 9px`
@@ -283,7 +283,7 @@
 
 **Grade: B+ (strong craft, one step short of system)**
 
-**Rationale:** The cuts express a single spatial grammar *at the level of intent*—three-pane frames, density-as-choice, component consistency. Execution is disciplined: padding and margins are legible, visual hierarchy is clear, accretion is absent. The railings (left/right panes) vary in width to reflect domain (operator watch floor vs. read flow), showing *adaptive craft*.
+**Rationale:** The cuts express a single spatial grammar *at the level of intent*, three-pane frames, density-as-choice, component consistency. Execution is disciplined: padding and margins are legible, visual hierarchy is clear, accretion is absent. The railings (left/right panes) vary in width to reflect domain (operator watch floor vs. read flow), showing *adaptive craft*.
 
 However, the system lacks **atomic tokens for spacing**. Hardcoded pixel values (7px, 9px, 12px, 14px, 16px, 18px, 24px, etc.) scatter across cuts with no unifying scale. A production system would have `--space-2`, `--space-3`, `--space-4`, etc., and every padding/margin/gap would reference one. Cuts 04 (onboarding) and 06 (margin-read) come closest to this discipline (using 16–24px consistently), but they're not quite there.
 

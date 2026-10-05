@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * gen-design-md.mjs — derive each surface's DESIGN.md from the canon token file.
+ * gen-design-md.mjs: derive each surface's DESIGN.md from the canon token file.
  *
  *   node scripts/design/gen-design-md.mjs           # write every surface
  *   node scripts/design/gen-design-md.mjs --check   # verify, exit 1 on drift
@@ -16,8 +16,8 @@
  * The ungoverned tier rotted. On 2026-07-29 canon §5 moved --sans Geist →
  * Space Grotesk and --mono Geist Mono → Space Mono; DESIGN.md kept declaring
  * Geist in both its front matter (typography.body/label) and its prose
- * (§3 "Body Fonts", "Label/Mono Font"). `impeccable` — the design skill that
- * actually runs against these surfaces — reads DESIGN.md, so every invocation
+ * (§3 "Body Fonts", "Label/Mono Font"). `impeccable`: the design skill that
+ * actually runs against these surfaces: reads DESIGN.md, so every invocation
  * was handed a superseded type stack by a file labelled "locked".
  *
  * Agents read the ungoverned tier. So govern it, by derivation rather than by
@@ -26,12 +26,12 @@
  *
  * WHAT IS GENERATED VS. WHAT IS YOURS
  * ───────────────────────────────────
- * Generated : YAML front matter — colors, typography, spacing, rounded. Every
+ * Generated : YAML front matter: colors, typography, spacing, rounded. Every
  *             value traces to a token. Hand-edits are overwritten without
  *             ceremony; that is the point.
  * Yours     : the prose body, authored in design-system/design-md/<surface>.prose.md
  *             and spliced in verbatim. The Three-Voices Rule, the Mute-Is-Cream
- *             Rule, the Do/Don't list — none of that is derivable and none of it
+ *             Rule, the Do/Don't list: none of that is derivable and none of it
  *             is touched.
  *
  * The prose is not merely passed through, though. Front matter that says
@@ -45,7 +45,7 @@
  * Mirrors scripts/tokens/sync-upstream.mjs: the token file's md5 is printed
  * before any verdict, so a pass/fail is never readable without knowing what it
  * was judged against. That script's discipline is why the token tier never
- * drifted — this is the same contract applied one tier up.
+ * drifted: this is the same contract applied one tier up.
  *
  * Note this check needs NO sibling canon checkout: it derives from this repo's
  * own committed token copy, which tokens:check separately proves equal to
@@ -77,7 +77,7 @@ const check = process.argv.includes("--check");
  * into being switched off.
  *
  * Hermetic-by-default is also what makes this CI-able where tokens:check is
- * not — it needs nothing but files committed here.
+ * not: it needs nothing but files committed here.
  */
 const withSiblings = process.argv.includes("--siblings");
 
@@ -87,7 +87,7 @@ const withSiblings = process.argv.includes("--siblings");
  * sync-upstream.mjs hardcodes two candidates (`../` and `../../`) to cover the
  * plain-checkout and worktree cases. That is one level short here: this repo's
  * worktrees live at `<repo>/.claude/worktrees/<name>`, three levels down, so
- * both candidates miss and every sibling "goes absent" — a run that reports
+ * both candidates miss and every sibling "goes absent", a run that reports
  * success while writing nothing. Walking up instead of enumerating fixed
  * depths makes the lookup independent of where the checkout sits.
  */
@@ -127,8 +127,8 @@ function parseTokens(css) {
 /**
  * Resolve a token to a literal, following `var(--x)` indirection.
  *
- * The register vocabulary is entirely indirection — `--diligence: var(--clarity)`
- * — which is exactly what lets a rebrand remap meaning without touching call
+ * The register vocabulary is entirely indirection: `--diligence: var(--clarity)`
+ *, which is exactly what lets a rebrand remap meaning without touching call
  * sites (Brand 4, 2026-07-29). Reading the register names therefore requires
  * chasing the chain, not reading one line.
  *
@@ -146,7 +146,7 @@ function resolveToken(tokens, name, seen = new Set()) {
   return resolveToken(tokens, varOnly[1], seen);
 }
 
-/** Resolve or fail loudly — a silent null becomes `undefined` in YAML. */
+/** Resolve or fail loudly: a silent null becomes `undefined` in YAML. */
 function need(tokens, name) {
   const v = resolveToken(tokens, name);
   if (v === null) throw new Error(`canon token ${name} not found in ${relative(ROOT, TOKENS)}`);
@@ -171,7 +171,7 @@ const GENERIC = new Set([
  * at a fallback position, and is the primary of no chain.
  *
  * This is the generated form of "the stack moved on and prose didn't". After
- * 2026-07-29, Geist and Geist Mono are exactly this — kept in the chains so an
+ * 2026-07-29, Geist and Geist Mono are exactly this, kept in the chains so an
  * un-updated build degrades to the previous face rather than to the OS default
  * (canon §5 says so explicitly), but no longer the primary of anything. Prose
  * naming one as *the* font is the 07-29 bug, so it is derived rather than
@@ -200,7 +200,7 @@ function demotedFaces(chains) {
       // A face in several chains (Iowan Old Style, in both --display and
       // --serif) is a shared fallback that was never anyone's primary, and
       // prose may name it freely. Without this the lint fires on legitimate
-      // writing, and a lint that cries wolf gets switched off — which is how
+      // writing, and a lint that cries wolf gets switched off, which is how
       // the §5 drift survived three months.
       chainCount.get(f) === 1
   );
@@ -210,7 +210,7 @@ function demotedFaces(chains) {
 
 /**
  * Each consuming surface. `out` is relative to this repo, so the prototype
- * publishes its siblings' contracts the same way it publishes its own — the
+ * publishes its siblings' contracts the same way it publishes its own, the
  * distribution-hub role. A sibling that is not checked out is skipped, not
  * failed; this must stay runnable on a lone clone.
  */
@@ -219,21 +219,21 @@ const SURFACES = [
     key: "prototype",
     name: "Liminal Prototype",
     description:
-      "Public demo catalog for the judgment layer — bounded agents read, the human decides, the ledger remembers.",
+      "Public demo catalog for the judgment layer: bounded agents read, the human decides, the ledger remembers.",
     out: resolve(ROOT, "DESIGN.md"),
   },
   {
     key: "desktop",
     name: "Liminal Desktop",
     description:
-      "The product surface — a local-first vault where bounded agents deliberate and the accountable human signs.",
+      "The product surface: a local-first vault where bounded agents deliberate and the accountable human signs.",
     repo: "liminal-desktop",
   },
   {
     key: "creative",
     name: "Liminal Creative",
     description:
-      "Brand canon home — authors the token file every other surface consumes.",
+      "Brand canon home: authors the token file every other surface consumes.",
     repo: "liminal-creative",
   },
 ]
@@ -260,14 +260,14 @@ function frontMatter(tokens, surface, stack) {
 
   // The `---` delimiter MUST be the first bytes of the file. Every common
   // frontmatter parser (gray-matter and friends) anchors on that, and returns
-  // an EMPTY object rather than an error when it is missing — so an HTML
+  // an EMPTY object rather than an error when it is missing, so an HTML
   // "do not edit" banner placed above it makes the metadata silently invisible
   // to `impeccable`, which is worse than the stale metadata this replaces:
   // stale values are at least values. The notice therefore lives inside the
   // block as YAML comments.
   L.push("---");
   L.push("# ═══════════════════════════════════════════════════════════════");
-  L.push("# GENERATED — DO NOT EDIT THIS FRONT MATTER.");
+  L.push("# GENERATED: DO NOT EDIT THIS FRONT MATTER.");
   L.push("#");
   L.push("# Derived from design-system/tokens/design-tokens.css by");
   L.push("# liminal-prototype/scripts/design/gen-design-md.mjs. Hand-edits are");
@@ -308,7 +308,7 @@ function frontMatter(tokens, surface, stack) {
   };
   role("display", stack.display, need(tokens, "--fs-display"), 700, 1.05, "-0.005em");
   // --fs-2xl is canon's "pin-name, section h2". The hand-written file carried
-  // 27px, which is not a token at all — a value that never had an upstream.
+  // 27px, which is not a token at all, a value that never had an upstream.
   role("headline", stack.serif, need(tokens, "--fs-2xl"), 300, 1.18);
   role("body", stack.sans, need(tokens, "--fs-body"), 400, 1.5);
   role("read", stack.serif, need(tokens, "--fs-body"), 400, 1.55);
@@ -363,7 +363,7 @@ function lintProse(prose, demoted, proseRel) {
 /* ── main ───────────────────────────────────────────────────────────────── */
 
 if (!existsSync(TOKENS)) {
-  console.error(`design:gen — token file missing at ${relative(ROOT, TOKENS)}`);
+  console.error(`design:gen: token file missing at ${relative(ROOT, TOKENS)}`);
   process.exit(1);
 }
 
@@ -386,14 +386,14 @@ console.log(`${TAG} type stack: sans=${families(stack.sans)[0]} · mono=${famili
 if (demoted.length) console.log(`${TAG} demoted faces (prose may not name these): ${demoted.join(", ")}`);
 
 /**
- * Report registers that resolve to the same hex — but only ones canon has not
+ * Report registers that resolve to the same hex, but only ones canon has not
  * already signed off.
  *
  * ambient + depth share the Expression ladder, and that is deliberate: see the
  * founder ruling quoted at design-tokens.css §2 (2026-07-29). Cerulean became
  * --synthesis and took brand load, so depth moved to the most recessive hue on
  * the wheel; ambient was already there. Both are translucent wash registers on
- * a NON-brand hue, which was the point — "no brand colour does chrome duty any
+ * a NON-brand hue, which was the point, "no brand colour does chrome duty any
  * more. That was the actual complaint."
  *
  * An earlier version of this check flagged that pairing as a One-Meaning Rule
@@ -416,7 +416,7 @@ if (demoted.length) console.log(`${TAG} demoted faces (prose may not name these)
   for (const [hex, rs] of byHex) {
     if (rs.length > 1 && !ACCEPTED.has([...rs].sort().join("+"))) {
       console.warn(
-        `${TAG} WARN — registers ${rs.join(" + ")} both resolve to ${hex}, ` +
+        `${TAG} WARN: registers ${rs.join(" + ")} both resolve to ${hex}, ` +
         `which canon has not ruled on. Either bind one elsewhere, or record the ` +
         `decision and add "${[...rs].sort().join("+")}" to ACCEPTED here.`
       );
@@ -434,16 +434,16 @@ for (const surface of SURFACES) {
   const proseRel = relative(ROOT, proseFile);
 
   if (!existsSync(proseFile)) {
-    console.error(`${TAG} FAILED — missing prose source ${proseRel}`);
+    console.error(`${TAG} FAILED: missing prose source ${proseRel}`);
     failed++;
     continue;
   }
   // Sibling repos are optional: a lone clone of this repo must not fail. But a
-  // skip is reported as SKIP, not folded into the success lines — a silent skip
+  // skip is reported as SKIP, not folded into the success lines. A silent skip
   // reads as "wrote it" and that is the failure this whole script exists to
   // stop. Counted and re-stated in the summary so it cannot scroll past.
   if (!surface.out) {
-    console.warn(`${TAG} SKIP — ${surface.key}: sibling repo "${surface.repo}" not found near ${ROOT}`);
+    console.warn(`${TAG} SKIP: ${surface.key}: sibling repo "${surface.repo}" not found near ${ROOT}`);
     skipped.push(surface.key);
     continue;
   }
@@ -451,7 +451,7 @@ for (const surface of SURFACES) {
   const prose = readFileSync(proseFile, "utf8");
   const findings = lintProse(prose, demoted, proseRel);
   if (findings.length) {
-    findings.forEach((f) => console.error(`${TAG} PROSE DRIFT — ${f}`));
+    findings.forEach((f) => console.error(`${TAG} PROSE DRIFT: ${f}`));
     failed++;
     continue;
   }
@@ -462,11 +462,11 @@ for (const surface of SURFACES) {
   if (check) {
     const current = existsSync(surface.out) ? readFileSync(surface.out, "utf8") : null;
     if (current === rendered) {
-      console.log(`design:check OK — ${outRel}`);
+      console.log(`design:check OK: ${outRel}`);
     } else {
       const why = current === null ? "(missing)" : `(md5 ${md5(current)})`;
       console.error(
-        `design:check FAILED — ${outRel} ${why} ≠ generated (md5 ${md5(rendered)}). Run: npm run design:gen`
+        `design:check FAILED: ${outRel} ${why} ≠ generated (md5 ${md5(rendered)}). Run: npm run design:gen`
       );
       failed++;
     }
@@ -482,7 +482,7 @@ for (const surface of SURFACES) {
 // per-line output above is easy to skim past.
 const verb = check ? "checked" : "written";
 console.log(
-  `${TAG} summary — ${SURFACES.length} surface${SURFACES.length === 1 ? "" : "s"} · ` +
+  `${TAG} summary: ${SURFACES.length} surface${SURFACES.length === 1 ? "" : "s"} · ` +
   `${(check ? SURFACES.length - failed - skipped.length : wrote.length)} ${verb} · ` +
   `${skipped.length} skipped${skipped.length ? ` (${skipped.join(", ")})` : ""} · ${failed} failed`
 );

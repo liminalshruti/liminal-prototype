@@ -6,7 +6,7 @@ export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElemen
 }
 
 /**
- * Checkbox — multi-select control with check-mark indicator.
+ * Checkbox: multi-select control with check-mark indicator.
  *
  * A native `<input type="checkbox">` hidden with label wrapper `.ck`.
  * The styled `.ck-box` span provides visual feedback. Maps to `.ck` and

@@ -8,7 +8,7 @@
 <!--
   Cut 03 · Calibration · Your OS over time
   ──────────────────────────────────────────────────────────────────────
-  Loop-stage · Record       (over time — Calibration)
+  Loop-stage · Record       (over time: Calibration)
   Altitude   · L1→L2        (founder OS, rising to the team/operator layer)
   Surface    · desktop
   Framing    · infra        (the moat made visible)
@@ -50,7 +50,7 @@
 <link rel="stylesheet" href="../lib/brand-upgrade.css">
 
 <style>
-  /* v0.8.5 P3 — initial paint suppression (F5 from cut01 polish pass).
+  /* v0.8.5 P3: initial paint suppression (F5 from cut01 polish pass).
      body opacity 0 → 1 toggle eliminates pre-refresh flash. .ready class
      fires after refresh() completes initial render of vault calibration data. */
   body {
@@ -286,7 +286,7 @@
      register accent (--cell-accent → --judgment/--diligence/etc.) with
      --paper at deliberate ratios so each filled cell clears the
      background and intensity is legible without interaction. Per-register
-     hue is preserved; no canon token is redefined (rule #1) — we only
+     hue is preserved; no canon token is redefined (rule #1). We only
      change how this cut composites the hue it already binds. */
   .cal-cell.light {
     background: color-mix(in oklch, var(--cell-accent) 14%, var(--paper) 86%);
@@ -455,10 +455,10 @@
   }
 
   /* Vault calibration footer */
-  /* ─── v0.9.3 — cut 03 minimal anointment ──────────────────────────────
+  /* ─── v0.9.3: cut 03 minimal anointment ──────────────────────────────
      Cut 03 is a dashboard view (12wk × 4-register vault heatmap), not a
      workspace. Most v0.9 moves don't fit. Only two apply:
-       1. title hero — 1.5rem → 36px
+       1. title hero: 1.5rem → 36px
        2. thin packet-receipt strip below the prose footer
      (no vault pill in this cut · skipped)
      ──────────────────────────────────────────────────────────────────── */
@@ -485,7 +485,7 @@
   .frame-receipt .fr-strong { color: var(--text-mid); }
   .frame-receipt .fr-right { margin-left: auto; opacity: 0.72; }
 
-  /* boot staging — cut 03 has no shell boot system; receipt fades in */
+  /* boot staging: cut 03 has no shell boot system; receipt fades in */
   .frame-receipt { transition: opacity 320ms ease; }
 
   .cal-footer {
@@ -517,7 +517,7 @@
     line-height: 1.4;
     pointer-events: none;
   }
-  /* magnetic-hover + press (ui-skills motion, canon --ease-spring) — in-cut, wins source-order */
+  /* magnetic-hover + press (ui-skills motion, canon --ease-spring): in-cut, wins source-order */
   .cal-drill-close { transition: transform .22s var(--ease-spring, ease), background .15s, color .15s, border-color .15s; }
   .cal-drill-close:hover { transform: translateY(-1.5px); }
   .cal-drill-close:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
@@ -1028,7 +1028,7 @@
     /* Honest disclosure (kept unmissable on purpose): the grid is a seeded
        illustrative baseline with any real vault corrections merged on top.
        A viewer must never mistake the seeded density for accumulated real
-       record — so the seed-only state is stated plainly, not dimmed away. */
+       record: so the seed-only state is stated plainly, not dimmed away. */
     if (mockData.realCount > 0) {
       const n = mockData.realCount;
       pill.textContent = `${n} real correction${n === 1 ? "" : "s"} from your vault · merged onto a seeded illustrative baseline`;
@@ -1060,7 +1060,7 @@
 
   // Initialize
   refresh();
-  // v0.8.5 F5 — fade body in after initial refresh() completes
+  // v0.8.5 F5: fade body in after initial refresh() completes
   requestAnimationFrame(() => document.body.classList.add("ready"));
 </script>
 

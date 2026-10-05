@@ -20,6 +20,6 @@ export async function skipEntryOverlay(page) {
   try {
     await skip.click({ timeout: 5_000 });
   } catch {
-    /* overlay already dismissed (sessionStorage flag) — fine */
+    /* overlay already dismissed (sessionStorage flag): fine */
   }
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * v2-vocab-gate — the G3 disclosure boundary, made mechanical (LIM-1799).
+ * v2-vocab-gate: the G3 disclosure boundary, made mechanical (LIM-1799).
  *
  * This repo deploys from branch root (GitHub Pages): a COMMIT here is a
  * PUBLICATION. Private-substrate schema vocabulary must never appear in any
@@ -25,7 +25,7 @@ import { readFileSync } from "node:fs";
 // Terms are literal substrings unless marked regex. Two deliberate refinements
 // from the baseline run (2026-08-14): the private repo NAME is not on the list
 // (it is long-public provenance labeling in this repo, name != mechanics), and
-// SUPERSEDES — the only non-underscored schema term — matches only code-shaped
+// SUPERSEDES: the only non-underscored schema term: matches only code-shaped
 // usage (quoted / backticked / type-field), because the English word appears
 // legitimately in brand comments (design-tokens.css:264).
 const BANNED = [
@@ -88,7 +88,7 @@ for (const file of tracked) {
 }
 
 if (hits.length > 0) {
-  console.error("v2-vocab-gate: PRIVATE VOCABULARY IN A PUBLIC REPO — refuse to publish:");
+  console.error("v2-vocab-gate: PRIVATE VOCABULARY IN A PUBLIC REPO, refuse to publish:");
   for (const hit of hits) console.error("  " + hit);
   process.exit(1);
 }

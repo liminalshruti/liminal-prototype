@@ -1,13 +1,13 @@
 /*
  * recall.js · cuts/thread · REAL client-side recall over the thread corpus
  * ──────────────────────────────────────────────────────────────────────────
- * Not seeded results — a real index + ranker over the week's records (open loops,
+ * Not seeded results: a real index + ranker over the week's records (open loops,
  * subject histories, told-them claims, insights). Mirrors the desktop recall
  * contract (UI_CONTRACT §1): a query returns ranked, receipted hits with the
  * matched terms highlighted. bm25-flavoured: term frequency × inverse doc
  * frequency, title-weighted, light recency boost.
  *
- * Honest scope: lexical (term) search over the in-memory corpus — the desktop
+ * Honest scope: lexical (term) search over the in-memory corpus. The desktop
  * ships FTS5 + an embedding-hybrid; this is the lexical half, real and local.
  */
 
@@ -37,12 +37,12 @@ function buildCorpus() {
   for (const key of Object.keys(threads)) {
     const t = threads[key];
     for (const e of t.entries)
-      push("history", t.subject, `${t.subject} — ${e.tag}`, `${e.what} ${e.receipt.quote}`, e.receipt);
+      push("history", t.subject, `${t.subject}: ${e.tag}`, `${e.what} ${e.receipt.quote}`, e.receipt);
   }
 
   for (const topic of toldThem)
     for (const c of topic.claims)
-      push("told-them", topic.topic, `${topic.topic} — told ${c.to}`, `${c.value} ${c.receipt.quote}`, c.receipt);
+      push("told-them", topic.topic, `${topic.topic}: told ${c.to}`, `${c.value} ${c.receipt.quote}`, c.receipt);
 
   for (const ins of insights)
     push("insight", ins.subject, `${ins.label}: ${ins.subject}`, ins.narrative, ins.evidence[0]);
@@ -99,7 +99,7 @@ export function search(query, limit = 8) {
   return scored.filter((d) => d.score > 0).sort((a, b) => b.score - a.score).slice(0, limit);
 }
 
-/* Suggested queries — the three weekly jobs from the plan, as one-click prompts. */
+/* Suggested queries: the three weekly jobs from the plan, as one-click prompts. */
 export const suggestions = [
   "what do we know about Vela",
   "what changed with Northwind",

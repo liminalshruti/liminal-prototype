@@ -8,14 +8,14 @@
  *
  * Nothing caught it. The page returned 200, threw no console errors, passed the
  * vocab gate, and every individual string in it was well written. Only the
- * COMBINATION was wrong — and no existing check looks at combinations.
+ * COMBINATION was wrong: and no existing check looks at combinations.
  *
  * That is the gap this fills. It does not check whether words are allowed; the
  * vocab gate does that. It checks whether a surface is speaking one language.
  *
  * WHAT IT LOOKS FOR
  * The cut-08 signature: one dominant domain plus a thin veneer of another. A
- * page that is 94% maritime and 6% healthcare is not bilingual — it is a page
+ * page that is 94% maritime and 6% healthcare is not bilingual. It is a page
  * somebody half-converted.
  *
  * Report-only by default. `--check` exits non-zero on veneers that are not in
@@ -43,20 +43,20 @@ const DOMAINS = {
 
 /* Surfaces whose mixing is DELIBERATE and verified, with the reason. Anything
    here is reported but never fails --check. Add to this list only after reading
-   the file and confirming the mix is by design — never to quiet a failure. */
+   the file and confirming the mix is by design, never to quiet a failure. */
 const ALLOWED = {
   "cuts/11-govern.html":
-    "SUBJECTS map genuinely carries a maritime subject beside spend and OSINT — the ?subject= switch is the point of the cut",
+    "SUBJECTS map genuinely carries a maritime subject beside spend and OSINT. The ?subject= switch is the point of the cut",
   "cuts/08-liminal-custody.html":
     "two complete scenarios behind ?subject=, each guarded by REQUIRED_KEYS; both vocabularies live in source, only one renders",
   "cuts/_sequences.html":
-    "catalog page — describes every cut, so it necessarily names every domain",
+    "catalog page: describes every cut, so it necessarily names every domain",
   "cuts/_demo-lan.html":
-    "stitched launcher — links across the whole catalog",
+    "stitched launcher: links across the whole catalog",
   "molehunt/index.html":
-    "single spend hit is \"Vendor / DIB Tier-2\" — a defense-industrial-base org unit in a counterintel dossier, not spend vocabulary",
+    "single spend hit is \"Vendor / DIB Tier-2\": a defense-industrial-base org unit in a counterintel dossier, not spend vocabulary",
   "index.html":
-    "front door — indexes all surfaces",
+    "front door: indexes all surfaces",
 };
 
 const VENEER_RATIO = 0.25;   // a second domain under this share of the dominant
@@ -109,7 +109,7 @@ for (const r of rows) {
 
 console.log(`\n${rows.length} surface(s) scanned · ${failures} unexplained veneer(s)`);
 if (failures) {
-  console.log("\nA veneer is a HINT, not a verdict — a scenario may reference another");
+  console.log("\nA veneer is a HINT, not a verdict, a scenario may reference another");
   console.log("domain in passing. But it is also exactly what a half-finished");
   console.log("conversion looks like, and that shipped once. Read before dismissing.");
 }

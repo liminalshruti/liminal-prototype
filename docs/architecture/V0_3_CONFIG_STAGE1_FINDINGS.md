@@ -1,11 +1,11 @@
-# Stage 1 Cleanup — Findings & Revised Scope (`v0_3_config.js`)
+# Stage 1 Cleanup: Findings & Revised Scope (`v0_3_config.js`)
 
 *Branch: `cleanup/v0_3_config-dead-exports-2026-06-18` · 2026-06-18 · Planning/findings only.*
 *Supersedes the cleanup assumptions in `V0_3_CONFIG_QUARANTINE_PLAN.md` after re-verification against current `main` (post scenario-split).*
 
 > **⚠️ CORRECTED 2026-06-18 by `ARCHIVE_IMPORT_EXECUTION_CHECK.md`.** This doc's central
-> claim — that the frozen archives import Group C from `v0_3_config.js`, so Group C must
-> stay inline — is **FALSE**. The archives import from `"./v0_3_config.js"`, a path
+> claim: that the frozen archives import Group C from `v0_3_config.js`, so Group C must
+> stay inline: is **FALSE**. The archives import from `"./v0_3_config.js"`, a path
 > relative to `cuts/_archive/root-experiments/`, which **404s** (no file there;
 > `v0_3_config.js` is at repo root). The archive imports are dead. **Group C is therefore
 > as deletable as Group D** (no working consumer anywhere). Read
@@ -24,8 +24,8 @@ the archive-fate decision was made, with the option "inline the needed values in
 archives, then delete." On re-verification against current `main`, that path is **larger
 and riskier than the plan implied**:
 
-- The two frozen archive files —
-  `cuts/_archive/root-experiments/index-v036-frozen.html` and `index-v04-frozen.html` —
+- The two frozen archive files: 
+  `cuts/_archive/root-experiments/index-v036-frozen.html` and `index-v04-frozen.html`: 
   import **8–12 symbols each** from `v0_3_config.js` by name, e.g.:
   - v036: `SPEC_VERSION, PROTOTYPE_VERSION, PHASE_1_STATUS, LOCKED_DECISIONS, PRODUCTS, WORKER_PERSONAS, BUSINESS_SCENARIOS, PERSONAL_SCENARIOS, TEAM_SCENARIOS, BIDIRECTIONAL_ETHICS, ANNOTATIONS, V0_3_OPEN_QUESTIONS_IN_BUILD`
   - v04: `SPEC_VERSION, PROTOTYPE_VERSION, PRODUCTS, WORKER_PERSONAS, BUSINESS_SCENARIOS, PERSONAL_SCENARIOS, TEAM_SCENARIOS, BIDIRECTIONAL_ETHICS, ANNOTATIONS`
@@ -53,33 +53,33 @@ for the archives regardless of cleanup. So:
 
 ## Re-verified status (against current `main`)
 
-- **Group D (14 exports)** — re-verified **0 consumers everywhere** (live AND archive):
+- **Group D (14 exports)**: re-verified **0 consumers everywhere** (live AND archive):
   `TILE_TYPES, TRAY_SOURCES, SLATE_LAYOUT, SLATE_INTERACTIONS, CLASSIFICATION_LADDER,
   SLATE_UX, SLATE_TRAY_PHASES, READ_SHAPES, PERSONA_RENDER_COUNT, CATEGORY_CLAIM,
   CATEGORY_TAGLINE, NOT_CATEGORIES, AGENT_RAIL_UX, APR14_GRANOLA`.
   These are the *only* genuinely free-to-delete exports. Notable on content read:
   `CATEGORY_CLAIM` / `CATEGORY_TAGLINE` are the **superseded** old category noun
   ("transition workspace for unresolved context"), pre-dating the locked
-  control-plane/judgment-infrastructure framing — preserving them as "reference" would
+  control-plane/judgment-infrastructure framing: preserving them as "reference" would
   preserve *retired positioning*. `NOT_CATEGORIES` + `CLASSIFICATION_LADDER` are the only
   two with durable reference value.
-- **Group C (8 exports)** — imported by name by the 2 frozen archives. **Not free to
+- **Group C (8 exports)**: imported by name by the 2 frozen archives. **Not free to
   delete** without editing frozen files. Recommendation: **leave inline.**
-- **`PRODUCTS`** — dead *import* in `boot.js` (never used in body; verified), but the
+- **`PRODUCTS`**: dead *import* in `boot.js` (never used in body; verified), but the
   **export must stay** (archives import it). Only the boot import line is removable.
-- **`ANNOTATIONS`** — the quarantine plan called it a Group B false-positive (marginalia
+- **`ANNOTATIONS`**: the quarantine plan called it a Group B false-positive (marginalia
   has its own local const). True for *live* code, but the **archives do import the config
-  `ANNOTATIONS`** — so it is effectively Group C, not freely deletable.
+  `ANNOTATIONS`**: so it is effectively Group C, not freely deletable.
 
 ## Revised Stage 1 scope
 
 | Item | Original plan | Revised verdict |
 |---|---|---|
-| Group D (14 dead exports) | delete later | **Delete-eligible** (0 consumers anywhere) — its own deletion-gated pass, with `CATEGORY_*` superseded-copy noted |
-| Group C (8 archive-only) | inline archives, then delete | **Leave inline** — honest frozen-snapshot dependency; not worth editing frozen files |
+| Group D (14 dead exports) | delete later | **Delete-eligible** (0 consumers anywhere), its own deletion-gated pass, with `CATEGORY_*` superseded-copy noted |
+| Group C (8 archive-only) | inline archives, then delete | **Leave inline**, honest frozen-snapshot dependency; not worth editing frozen files |
 | `PRODUCTS` export | drop dead import + delete export | **Drop boot import only**; keep export (archive needs it) |
-| `ANNOTATIONS` | Group B, delete | **Reclassify to Group C** — archive imports it; leave inline |
-| 2 frozen archives | candidate to delete/self-contain | **Leave frozen as-is** — self-containment is a large, anti-"frozen" edit; re-exports already protect them |
+| `ANNOTATIONS` | Group B, delete | **Reclassify to Group C**, archive imports it; leave inline |
+| 2 frozen archives | candidate to delete/self-contain | **Leave frozen as-is**, self-containment is a large, anti-"frozen" edit; re-exports already protect them |
 
 ## Smallest safe cleanup available now
 

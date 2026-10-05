@@ -1,4 +1,4 @@
-# design-sync notes — Liminal design-system
+# design-sync notes: Liminal design-system
 
 ## Repo classification (2026-06-23, first import)
 
@@ -26,10 +26,10 @@ real tokens, fonts, and component styles.
 
 ## Scope of first sync (2026-06-23)
 
-- **Button** — wrap existing `components/buttons.css`
-- **Framing** — wrap existing `components/framing.css`
-- **Input** — author new token-bound CSS (`components/inputs.css`) then wrap
-- **Tag** — author new token-bound CSS (`components/tags.css`) then wrap
+- **Button**: wrap existing `components/buttons.css`
+- **Framing**: wrap existing `components/framing.css`
+- **Input**: author new token-bound CSS (`components/inputs.css`) then wrap
+- **Tag**: author new token-bound CSS (`components/tags.css`) then wrap
 
 ## Token facts learned (verified against canon)
 
@@ -49,11 +49,11 @@ real tokens, fonts, and component styles.
 
 - `components/framing.css` references `--fg-1`, `--fg-4`, `--type-eyebrow` which are
   **not defined** in the canon (grep = 0). They fall back to inherited/initial. Left
-  as-is — out of scope for the sync; flag to canon owner separately.
+  as-is: out of scope for the sync; flag to canon owner separately.
 
 ---
 
-## How this was ACTUALLY built (2026-06-23 — supersedes "by hand" above)
+## How this was ACTUALLY built (2026-06-23: supersedes "by hand" above)
 
 Rather than hand-produce the layout, I synthesized a **real React wrapper package**
 and ran the **real converter** on it (deterministic, on-script verification). The
@@ -67,14 +67,14 @@ component system; a SolidJS twin can share the same CSS contract later.
 Built with `tsc` → `dist/` (+ `.d.ts`). React/types/esbuild installed there.
 
 **Converter inputs that must be reproduced on a fresh machine:**
-1. Recreate the synthetic package (src wrappers + tsc build) — the 4 wrapper sources
+1. Recreate the synthetic package (src wrappers + tsc build). The 4 wrapper sources
    are the only non-committed code that matters. Consider promoting them into the repo
    (e.g. `design-system/react/`) so re-sync doesn't depend on scratch.
-2. **Mirror the real CSS/fonts into the package dir** before building — the converter
+2. **Mirror the real CSS/fonts into the package dir** before building. The converter
    resolves `cssEntry`/`extraFonts` relative to the package, not this repo:
    copy `design-system/{tokens,components,fonts}` + the generated `ds-styles.css`
    into the build dir.
-3. `cfg.cssEntry` = **`ds-styles.css`** — a GENERATED single self-contained stylesheet
+3. `cfg.cssEntry` = **`ds-styles.css`**: a GENERATED single self-contained stylesheet
    (tokens + all 4 component CSS concatenated, NO `@import`s). Regenerate by
    concatenation when token/component CSS changes. This is required because the
    converter copies `cssEntry` verbatim to `_ds_bundle.css`; external `@import`s in it
@@ -99,18 +99,18 @@ Built with `tsc` → `dist/` (+ `.d.ts`). React/types/esbuild installed there.
 
 ## Known render warns (triaged)
 
-- `Button` carries `cfg.overrides.Button: {"cardMode": "column"}` — ActionRow is a
+- `Button` carries `cfg.overrides.Button: {"cardMode": "column"}`: ActionRow is a
   wide 3-button row; column mode keeps each story full-width. Presentation-only.
 
 ## Project
 
-- Uploaded to claude.ai/design project **Liminal DS — cuts substrate**
+- Uploaded to claude.ai/design project **Liminal DS: cuts substrate**
   (`ae960dee-babe-4c97-a198-bb2e62379c22`). 4 components, all graded good,
   render check clean. Incremental path (project created fresh + empty this run).
 
 ---
 
-## Scope expansion (2026-06-23, same session) — full component layer
+## Scope expansion (2026-06-23, same session): full component layer
 
 The design system renders far more than 4 components: `design-system.html` (root,
 specimen page) inlines the FULL canon + ~18 components whose CSS was never extracted
@@ -140,14 +140,14 @@ audit-classification product-surfaces. REGENERATE this on any token/component ch
 - **Raw rgba() in extracted files** (pre-existing specimen choices, faithfully copied):
   `.banner.is-good/-amber/-red` and `.tag-base.is-good/-amber/-red` use
   rgba(69,201,163/245,165,36/240,64,64) overlays; `.tile-bar-line` uses rgba(0,0,0,.18).
-  Canon discipline says no raw hex in components — candidates for tokenizing
+  Canon discipline says no raw hex in components, candidates for tokenizing
   (--banner-good-border etc.) but functional as-is (they pair with var(--good/-amber/-red)).
-- **"Iowan Old Style"** added to runtimeFontPrefixes — it's a system serif FALLBACK in
+- **"Iowan Old Style"** added to runtimeFontPrefixes: it's a system serif FALLBACK in
   the canon --display/--serif stacks, not a brand font; intentionally host-provided.
 
 ---
 
-## Wrapper expansion (2026-06-23) — all 26 components now have React cards
+## Wrapper expansion (2026-06-23): all 26 components now have React cards
 
 Wrapped the remaining ~22 components (Banner, Toast, Avatar, Badge, Tabs, Segmented,
 Tooltip, Popover, Modal, Drawer, Checkbox, Radio, Switch, Slider, Progress, Skeleton,
@@ -158,8 +158,8 @@ ship as both styles AND pickable, prop-typed, graded cards. Previews authored in
 canvas); all graded good; render check 26/26.
 
 Overrides: Button + AuditRibbon use `cardMode: column` (wide rows).
-Skipped: Slate (`.slate-frame`) — a drop container, not statically previewable; its CSS
+Skipped: Slate (`.slate-frame`): a drop container, not statically previewable; its CSS
 ships (reachable as a class) but no wrapper/card.
 
 Tooltip/Popover cards show only their trigger (hover/click overlay can't render in a
-static screenshot) — graded good with that noted; the .prompt.md documents the behavior.
+static screenshot): graded good with that noted; the .prompt.md documents the behavior.

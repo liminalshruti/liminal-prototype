@@ -10,7 +10,7 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Skeleton — shimmer placeholder during content loading.
+ * Skeleton: shimmer placeholder during content loading.
  *
  * Renders either a block `.skeleton` or multiple `.skeleton-line` elements
  * with varied widths (short/mid/long). Useful for showing placeholder content

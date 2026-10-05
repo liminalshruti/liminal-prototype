@@ -35,7 +35,7 @@ export function EntrySealed() {
         }
       >
         <div style={{ lineHeight: 1.6 }}>
-          Your decision is now locked in the vault—device-local, attributed, and re-enterable.
+          Your decision is now locked in the vault: device-local, attributed, and re-enterable.
         </div>
       </Modal>
     </Surface>

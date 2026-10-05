@@ -30,13 +30,13 @@
 
 <style>
   /* Face names match canon §5's chains ("Nineties Headliner", "Perfectly Nineties");
-     the type stack itself comes from canon — no local --display/--serif/--mono. */
+     the type stack itself comes from canon, no local --display/--serif/--mono. */
   @font-face { font-family:'Nineties Headliner'; src:url('../fonts/nineties-headliner.otf') format('opentype'); font-weight:700; font-display:swap; }
   @font-face { font-family:'Perfectly Nineties'; src:url('../fonts/perfectly-nineties-light.otf') format('opentype'); font-weight:300; font-display:swap; }
   @font-face { font-family:'Perfectly Nineties'; src:url('../fonts/perfectly-nineties-regular.otf') format('opentype'); font-weight:400; font-display:swap; }
 
   :root{
-    /* Canon aliases only — the private --sq-* ink fork is retired; §1 wins. */
+    /* Canon aliases only: the private --sq-* ink fork is retired; §1 wins. */
     --sq-bg:var(--bg); --sq-panel:var(--frame-bg); --sq-hair:var(--frame-border); --sq-hair-2:var(--card-border-2);
     --sq-text:var(--text); --sq-mid:var(--text-mid); --sq-dim:var(--text-dim); --sq-faint:var(--text-faint);
     --accent:var(--clarity);
@@ -144,7 +144,7 @@
   #note-toggle:hover{color:var(--sq-dim)}
   body.note-on #note-toggle{color:var(--accent);border-color:var(--accent)}
 
-  /* keyboard focus — the player is arrow-key-driven; focus must be visible */
+  /* keyboard focus: the player is arrow-key-driven; focus must be visible */
   #rail button:focus-visible,.seq-card:focus-visible,#note-toggle:focus-visible,
   .frame-body .links a:focus-visible,.frame-body .links button:focus-visible{
     outline:1px solid var(--accent);outline-offset:2px}

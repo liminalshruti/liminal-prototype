@@ -2,7 +2,7 @@
 
 These nine skills were installed under `.agents/skills/` and, per the Claude
 Code usage counter, **every one of them had never been invoked**. That is the
-finding, not the problem — they went unused for a good reason, and this
+finding, not the problem: they went unused for a good reason, and this
 directory records it so they don't get re-enabled on the assumption that unused
 means overlooked.
 
@@ -38,7 +38,7 @@ two files that each present themselves as authoritative.
 
 | Skill | Why |
 |---|---|
-| `impeccable` | Liminal-native, 18 sub-commands, its own `scripts/` and `reference/`. The one in real use. Reads `DESIGN.md` — which is now generated from tokens, so it is finally briefed off canon rather than off a stale copy |
+| `impeccable` | Liminal-native, 18 sub-commands, its own `scripts/` and `reference/`. The one in real use. Reads `DESIGN.md`, which is now generated from tokens, so it is finally briefed off canon rather than off a stale copy |
 | `image-to-code`, `imagegen-frontend-web`, `imagegen-frontend-mobile` | Produce *reference imagery*, not code, so they cannot inject off-canon values into a shipped surface. Useful while the visual register is FLUID (2026-07-03 ruling). Each carries a canon preamble |
 | `stitch-design-taste` | Kept for its `DESIGN.md` schema, which the generator follows. Not intended for invocation |
 
@@ -51,5 +51,5 @@ git mv .agents/offcanon-skills/<name> .agents/skills/<name>
 ```
 
 If you re-enable one, give it a canon preamble first (see the top of
-`.agents/skills/image-to-code/SKILL.md` for the pattern) — otherwise it will
+`.agents/skills/image-to-code/SKILL.md` for the pattern): otherwise it will
 confidently propose a palette and a type stack that are not Liminal's.

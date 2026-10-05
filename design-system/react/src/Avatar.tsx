@@ -5,14 +5,14 @@ export type AvatarVariant = 'accent' | 'drift';
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Visual variant.
-   * - `accent` — accent brand color
-   * - `drift` — judgment color with status dot
+   * - `accent`: accent brand color
+   * - `drift`: judgment color with status dot
    */
   variant?: AvatarVariant;
 }
 
 /**
- * Avatar — circular identity indicator.
+ * Avatar: circular identity indicator.
  *
  * Renders a 32px circular avatar for user initials or identity glyphs.
  * Maps to `.avatar-base` + `.is-{variant}` classes from

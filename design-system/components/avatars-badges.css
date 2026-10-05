@@ -38,7 +38,7 @@
  *   --radius-1
  *
  * Do not
- *   - use raw rgba/hex — use token-bound colors only
+ *   - use raw rgba/hex: use token-bound colors only
  *   - make avatars interactive without explicit ARIA roles
  *   - vary avatar size outside the 32px canonical (scale via --density-scale)
  *
@@ -82,7 +82,7 @@
 }
 .tag-base.is-accent { color: var(--accent); border-color: var(--accent-edge); background: var(--accent-bg); }
 /* Retired v0.2 hexes (#45C9A3 / #F5A524 / #F04040) rebound to the functional
-   state bindings — see the note in banners-toasts-alerts.css. */
+   state bindings: see the note in banners-toasts-alerts.css. */
 .tag-base.is-good   { color: var(--ui-state-success); border-color: var(--ui-state-success-border); background: var(--ui-state-success-bg); }
 .tag-base.is-amber  { color: var(--ui-state-warning); border-color: var(--ui-state-warning-border); background: var(--ui-state-warning-bg); }
 .tag-base.is-red    { color: var(--ui-state-error);   border-color: var(--ui-state-error-border);   background: var(--ui-state-error-bg); }

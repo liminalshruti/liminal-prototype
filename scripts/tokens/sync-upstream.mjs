@@ -1,25 +1,25 @@
 #!/usr/bin/env node
 /**
- * sync-upstream.mjs — copy canon design files (liminal-creative) into this repo's
+ * sync-upstream.mjs: copy canon design files (liminal-creative) into this repo's
  * consumer copies, byte-identical. Currently syncs the token file AND the framing
  * component CSS.
  *
  *   node scripts/tokens/sync-upstream.mjs           # copy all
  *   node scripts/tokens/sync-upstream.mjs --check   # compare hashes (drift guard)
  *
- * Mirrors liminal-desktop/scripts/tokens/sync-upstream.mjs — same md5-verify
- * contract per liminal-creative/tokens/README.md — MINUS Panda codegen (this is
+ * Mirrors liminal-desktop/scripts/tokens/sync-upstream.mjs: same md5-verify
+ * contract per liminal-creative/tokens/README.md: MINUS Panda codegen (this is
  * a buildless, GitHub-Pages-served consumer: the cuts <link> the committed CSS
  * directly, so there is no generate step).
  *
  * Why copies and not symlinks: a tracked symlink is stored by git as a path
- * string, and canon is a SEPARATE repo — on any sibling-less checkout (a fresh
+ * string, and canon is a SEPARATE repo, on any sibling-less checkout (a fresh
  * clone, CI, the GitHub Pages deploy) the symlink dangles and the CSS 404s.
  * Committed flat copies can't 404; this script is the discipline that keeps them
  * in lockstep. (See _scratch/PORT_RECONCILIATION_SCOPE §2.)
  *
  * If the canon checkout is absent (someone clones the prototype alone), every
- * file no-ops with a warning and the run exits 0 — the committed local copies are
+ * file no-ops with a warning and the run exits 0. The committed local copies are
  * what the site serves either way, so the deployed prototype is unaffected.
  *
  * Baseline is canon's origin/main, NOT the checkout (LIM-1706):
@@ -42,7 +42,7 @@ import { dirname, resolve } from "node:path";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 // Resolve the canon repo: env override (tests point this at a throwaway checkout), the
-// canonical sibling, then the worktree context — matching liminal-desktop's twin, which
+// canonical sibling, then the worktree context: matching liminal-desktop's twin, which
 // always had the ../../ candidate this script lacked. Without it, any run from a git
 // worktree silently found no canon and skipped every file.
 const CANON =
@@ -63,13 +63,13 @@ const FILES = [
     label: "design-system/tokens/design-tokens.css",
   },
   {
-    // The SEMANTIC layer — --fg-*, --surface-*, --type-*, --font-*, --brand-*.
+    // The SEMANTIC layer: --fg-*, --surface-*, --type-*, --font-*, --brand-*.
     // 42 tokens, verified zero overlap with design-tokens.css: the two files
     // are complementary halves of canon, not competing copies.
     //
     // Added 2026-08-02. Canon has always had two token files; this repo synced
     // only one, so every semantic token was undefined here. That is not an
-    // abstract gap — an undefined custom property fails SILENTLY to the initial
+    // abstract gap: an undefined custom property fails SILENTLY to the initial
     // value rather than erroring, so canon's framing.css (written against this
     // layer) rendered muted metadata as full-bright body text. Measured on
     // cuts/09-osint-custody.html before this file was shipped:
@@ -91,7 +91,7 @@ const FILES = [
     // 2026-08-02 and the local copy had been hand-translated to raw substrate
     // (--text-dim for --fg-4, --fs-eyebrow/--mono for --type-eyebrow) to make
     // it render. That translation was a correct workaround for a missing
-    // dependency, not drift — but it meant the md5 guard asserted byte-equality
+    // dependency, not drift: but it meant the md5 guard asserted byte-equality
     // between two repos that did not share a token vocabulary, so the guard was
     // structurally unable to go green. Shipping colors-and-type.css removes the
     // reason for the fork; the byte-identical contract now actually holds.
@@ -123,10 +123,10 @@ function readCanon(rel) {
   }
 }
 
-// Provenance before verdict — a drift verdict must never be readable without its baseline.
+// Provenance before verdict: a drift verdict must never be readable without its baseline.
 if (!CANON) {
   console.warn(
-    `tokens:sync — no canon checkout found (looked for liminal-creative beside ${ROOT} and one level up).`
+    `tokens:sync: no canon checkout found (looked for liminal-creative beside ${ROOT} and one level up).`
   );
   console.warn(`  Skipping every file; the committed local copies are what the site serves.`);
 } else {
@@ -137,11 +137,11 @@ if (!CANON) {
       branch = `detached@${gitBuf(["rev-parse", "--short", "HEAD"]).toString("utf8").trim()}`;
     }
   } catch {
-    /* present but not a git repo — readCanon() reports per-file below */
+    /* present but not a git repo: readCanon() reports per-file below */
   }
   if (useWorktree) {
     console.warn(
-      `tokens:sync baseline: WORKING TREE ${CANON} (branch: ${branch}) — NOT a pinned ref, NOT canon`
+      `tokens:sync baseline: WORKING TREE ${CANON} (branch: ${branch}), NOT a pinned ref, NOT canon`
     );
   } else {
     console.log(`tokens:sync baseline: ${CANON} @ ${CANON_REF} [checkout is on: ${branch}]`);
@@ -152,17 +152,17 @@ let failed = 0;
 for (const f of FILES) {
   const upstream = readCanon(f.rel);
   if (upstream === null) {
-    console.warn(`tokens:sync — canon source missing for ${f.label}; skipping (committed local copy is what the site serves)`);
+    console.warn(`tokens:sync: canon source missing for ${f.label}; skipping (committed local copy is what the site serves)`);
     continue;
   }
   if (check) {
     const up = md5Buf(upstream);
     const lo = existsSync(f.local) ? md5(f.local) : "(missing)";
     if (up !== lo) {
-      console.error(`tokens:sync --check FAILED — ${f.label} (${lo}) ≠ canon (${up}). Run: npm run tokens:sync`);
+      console.error(`tokens:sync --check FAILED: ${f.label} (${lo}) ≠ canon (${up}). Run: npm run tokens:sync`);
       failed++;
     } else {
-      console.log(`tokens:sync --check OK — ${f.label} matches canon (md5 ${up})`);
+      console.log(`tokens:sync --check OK: ${f.label} matches canon (md5 ${up})`);
     }
   } else {
     writeFileSync(f.local, upstream);
