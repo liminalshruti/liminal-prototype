@@ -51,7 +51,13 @@
      from this first-impression surface. Caveat = editor's-notes marginalia. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* canon §5 faces (the pattern from PR 120): these cuts reference the spaced family names */
+@font-face{font-family:"Nineties Headliner";src:url("../fonts/nineties-headliner.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../fonts/PerfectlyNineties-Semibold.otf") format("opentype");font-weight:600;font-display:swap}
+</style>
 
 <!-- canon · 12-wheel tokens · single source of truth -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
@@ -506,7 +512,7 @@
     appearance: none;
     background: transparent;
     border: 0;
-    color: #8A8780;
+    color: var(--text-dim);
     font-family: var(--mono);
     font-size: var(--fs-eyebrow);
     letter-spacing: var(--ls-mono);
@@ -1037,7 +1043,7 @@
               <path d="M 1 7 A 6 6 0 0 1 7 1" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
               <text x="7" y="7.5" font-family="inherit" font-size="6" text-anchor="middle" fill="currentColor">◇</text>
             </svg>AGENCY · 9 BOUNDED</span>
-          <span class="live-indicator">live</span>
+          <span class="live-indicator">active</span>
         </div>
 
         <!-- orbital diagram · 4 register plates around central ◇ ──────────
@@ -1196,7 +1202,7 @@
       <div class="tray-panel-head">
         <span class="tpa-title" id="tpa-title">Tray</span>
         <span class="tpa-meta">
-          <strong id="tpa-live-count">·</strong> live · <span id="tpa-meta-detail">·</span>
+          <strong id="tpa-live-count">·</strong> active · <span id="tpa-meta-detail">·</span>
         </span>
       </div>
       <div class="tpa-sub" id="tpa-sub">·</div>
