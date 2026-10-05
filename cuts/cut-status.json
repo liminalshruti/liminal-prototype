@@ -53,8 +53,8 @@
       "drift": [
         {
           "id": "maturity-off-vocab",
-          "says": "Maturity · receipt-backed rendering (recreates the shipped liminal-agents flow ·",
-          "should": "Maturity · stub | sketch | refining | live"
+          "says": "Maturity · receipt-backed",
+          "should": "stub | sketch | refining | live (qualifier in parentheses)"
         }
       ]
     },
@@ -86,8 +86,8 @@
       "drift": [
         {
           "id": "maturity-off-vocab",
-          "says": "Maturity · prototype (deterministic fixture)",
-          "should": "Maturity · stub | sketch | refining | live"
+          "says": "Maturity · prototype",
+          "should": "stub | sketch | refining | live (qualifier in parentheses)"
         }
       ]
     },
@@ -100,9 +100,9 @@
       "contract": "LIM-1554: route and params of 11-govern.html?subject=spend&beat=loop&run=govern-run.json never change",
       "drift": [
         {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+          "id": "maturity-off-vocab",
+          "says": "Maturity · prototype",
+          "should": "stub | sketch | refining | live (qualifier in parentheses)"
         }
       ]
     },
@@ -146,7 +146,7 @@
       "drift": [
         {
           "id": "archive-header-claims-current",
-          "says": "Status · live · imported from Apr 30 Claude Design handoff (Cut C/A face-off in ",
+          "says": "Status · live",
           "should": "Status · archive (superseded, not maintained)"
         },
         {
@@ -164,7 +164,7 @@
       "drift": [
         {
           "id": "archive-header-claims-current",
-          "says": "Status · live · imported from Apr 30 Claude Design handoff",
+          "says": "Status · live",
           "should": "Status · archive (superseded, not maintained)"
         },
         {
@@ -182,7 +182,7 @@
       "drift": [
         {
           "id": "archive-header-claims-current",
-          "says": "Status · live · imported from Apr 30 Claude Design handoff",
+          "says": "Status · live",
           "should": "Status · archive (superseded, not maintained)"
         },
         {
@@ -239,7 +239,7 @@
       "drift": [
         {
           "id": "archive-header-claims-current",
-          "says": "Maturity · refining     (4-stage interactive narrative console, end-to-end; the ",
+          "says": "Maturity · refining",
           "should": "Status · archive (superseded, not maintained)"
         },
         {
@@ -257,7 +257,7 @@
       "drift": [
         {
           "id": "archive-header-claims-current",
-          "says": "Maturity · kernel-wired (frozen bundle; from-source rebuild broken)",
+          "says": "Maturity · kernel-wired",
           "should": "Status · archive (superseded, not maintained)"
         },
         {
@@ -375,7 +375,7 @@
       "drift": [
         {
           "id": "no-contract-header",
-          "says": "no Maturity/Status line",
+          "says": "no Maturity/Status in the header comment",
           "should": "contract block per cuts/CONTRIBUTING.md rule 3"
         }
       ]
@@ -390,14 +390,7 @@
       "path": "cuts/thread/connect.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/convergence.html",
@@ -406,9 +399,9 @@
       "frontDoor": false,
       "drift": [
         {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+          "id": "maturity-off-vocab",
+          "says": "Status · doc/sketch",
+          "should": "stub | sketch | refining | live (qualifier in parentheses)"
         }
       ]
     },
@@ -416,27 +409,13 @@
       "path": "cuts/thread/eventlog.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/extract.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/index.html",
@@ -446,7 +425,7 @@
       "drift": [
         {
           "id": "no-contract-header",
-          "says": "no Maturity/Status line",
+          "says": "no Maturity/Status in the header comment",
           "should": "contract block per cuts/CONTRIBUTING.md rule 3"
         }
       ]
@@ -455,14 +434,7 @@
       "path": "cuts/thread/insights.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/open-loops.html",
@@ -474,14 +446,7 @@
       "path": "cuts/thread/precision.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/prep-card.html",
@@ -493,27 +458,13 @@
       "path": "cuts/thread/recall.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/team.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/thread.html",
@@ -525,40 +476,19 @@
       "path": "cuts/thread/told-them.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "cuts/thread/update.html",
       "status": "live",
       "kind": "sketch-set",
-      "frontDoor": false,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": false
     },
     {
       "path": "molehunt/index.html",
       "status": "live",
       "kind": "cut",
-      "frontDoor": true,
-      "drift": [
-        {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
-        }
-      ]
+      "frontDoor": true
     },
     {
       "path": "team-drift/index.html",
@@ -567,9 +497,9 @@
       "frontDoor": true,
       "drift": [
         {
-          "id": "no-contract-header",
-          "says": "no Maturity/Status line",
-          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+          "id": "maturity-off-vocab",
+          "says": "Maturity · prototype",
+          "should": "stub | sketch | refining | live (qualifier in parentheses)"
         }
       ]
     },

@@ -10,22 +10,23 @@ const INV = JSON.parse(readFileSync("cuts/cut-status.json", "utf8"));
 const VOCAB = new Set(["stub", "sketch", "refining", "live"]);
 const byPath = new Map(INV.cuts.map((c) => [c.path, c]));
 
+// The status word, wherever the contract block puts it: its own line
+// ("  Maturity   · live") or inline ("… · Status · sketch · …", "Maturity: live.").
+// Only the file's first 80 lines are read, so the header and not body prose decides.
 function header(path) {
-  for (const line of readFileSync(path, "utf8").split("\n")) {
-    const m = line.match(/^\s*(Maturity|Status)\s*·\s*(.*)$/);
-    if (m) return `${m[1]} · ${m[2].trim()}`;
-  }
-  return null;
+  const top = readFileSync(path, "utf8").split("\n").slice(0, 80).join("\n");
+  const m = top.match(/\b(Maturity|Status)\s*[·:]\s*([^\s·,.(]+)/);
+  return m ? `${m[1]} · ${m[2]}` : null;
 }
 
 function staticDrift(c) {
   const h = header(c.path);
   const ids = [];
   if (c.status === "archive") {
-    if (h && /\b(live|refining|sketch|kernel-wired)\b/.test(h)) ids.push("archive-header-claims-current");
+    if (h && /^(live|refining|sketch|kernel-wired)$/.test(h.split(" · ")[1])) ids.push("archive-header-claims-current");
   } else if (c.kind !== "tool") {
     if (!h) ids.push("no-contract-header");
-    else if (c.status === "live" && !VOCAB.has(h.match(/· (\S+)/)?.[1])) ids.push("maturity-off-vocab");
+    else if (c.status === "live" && !VOCAB.has(h.split(" · ")[1])) ids.push("maturity-off-vocab");
   }
   return ids;
 }
@@ -48,7 +49,8 @@ test("every cut surface is listed once, with a known status", () => {
 test("frozen cuts name their ruling and say frozen in their own header", () => {
   for (const c of INV.cuts.filter((x) => x.status === "frozen")) {
     expect(c.ruling, `${c.path} ruling`).toBeTruthy();
-    expect(header(c.path), `${c.path} header`).toMatch(/frozen/i);
+    const top = readFileSync(c.path, "utf8").split("\n").slice(0, 80).join("\n");
+    expect(top, `${c.path} header`).toMatch(/frozen/i);
   }
 });
 
