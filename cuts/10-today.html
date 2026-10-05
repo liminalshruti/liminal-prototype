@@ -280,7 +280,7 @@
     padding: 1.6rem 1.7rem;
   }
   .tdy-loop-q {
-    font-family: var(--display, Georgia, serif);
+    font-family: var(--serif);
     font-weight: 500;
     font-size: 1.3rem;
     line-height: 1.25;
@@ -342,7 +342,7 @@
   }
   .tdy-sealed-line .ok { color: var(--ink-good); }
   .tdy-sealed-verdict {
-    font-family: var(--display, Georgia, serif);
+    font-family: var(--serif);
     font-style: italic;
     font-size: 1.05rem;
     color: var(--text);
@@ -393,7 +393,7 @@
     margin-bottom: 0.7rem;
   }
   .tdy-state-body {
-    font-family: var(--display, Georgia, serif);
+    font-family: var(--serif);
     font-size: 1.05rem;
     line-height: 1.5;
     color: var(--text-mid);
@@ -424,7 +424,7 @@
     margin: 2.4rem auto 0;
     padding-top: 1.3rem;
     border-top: 1px solid var(--border-soft);
-    font-family: var(--display, Georgia, serif);
+    font-family: var(--serif);
     font-style: italic;
     font-size: 0.9rem;
     color: var(--text-soft);
@@ -434,6 +434,9 @@
   .tdy-btn:hover { transform: translateY(-1.5px); }
   .tdy-btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
   @media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important} body{transition:none} .tdy-btn{transition:background .15s,color .15s} .tdy-btn:hover{transform:none} }
+  /* Option B (founder ruling 2026-10-05, PR 122): the display face is for the page
+     title only; card heads, ages and the nav name read in the serif here. */
+  .p-read__head, .p-read__age, .sn-name { font-family: var(--serif); }
 </style>
 
 <!-- harden · JS-off failsafe for the opacity:0 boot gate · body shows regardless -->
