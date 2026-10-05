@@ -1,0 +1,584 @@
+{
+  "$schema_note": "Status of every HTML surface under cuts/ plus the two front-door subfolders (DES-181). Machine-read by tests/cut-status.spec.js. status: live = current, editable · frozen = ruled no-edit (see ruling) · archive = superseded record under cuts/_archive/, no edits. drift lists every known disagreement between a file's status and its own header or on-page copy; the test fails on drift that is not listed AND on listed drift that is gone, so this file has to move with the fixes. Each drift fix is its own small change (DES-181 boundary); frozen and archive files are never edited under this file.",
+  "generated": "2026-10-05",
+  "docDrift": [
+    {
+      "doc": "cuts/TAXONOMY.md",
+      "says": "map table: 09 osint maturity \"live\", \"the real-kernel proof\"",
+      "should": "frozen per LIM-1135; front door already labels it \"archived concept\""
+    },
+    {
+      "doc": "cuts/TAXONOMY.md",
+      "says": "map table omits 04, 05, custody, thread/*, the tools and the archive",
+      "should": "point at cuts/cut-status.json for status; keep TAXONOMY for coordinates"
+    }
+  ],
+  "cuts": [
+    {
+      "path": "cuts/00-agency.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true
+    },
+    {
+      "path": "cuts/01-slate-tray.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true,
+      "demoPath": 1
+    },
+    {
+      "path": "cuts/02-forensic-agent.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/03-calibration.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true
+    },
+    {
+      "path": "cuts/04-onboarding.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/05-plugin-seed.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "maturity-off-vocab",
+          "says": "Maturity · receipt-backed rendering (recreates the shipped liminal-agents flow ·",
+          "should": "Maturity · stub | sketch | refining | live"
+        }
+      ]
+    },
+    {
+      "path": "cuts/06-margin-read.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true
+    },
+    {
+      "path": "cuts/08-liminal-custody.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true
+    },
+    {
+      "path": "cuts/09-osint-custody.html",
+      "status": "frozen",
+      "kind": "cut",
+      "frontDoor": true,
+      "ruling": "LIM-1135 (2026-08-21): kernel source gone, not rebuilt; no edits (PR 114)"
+    },
+    {
+      "path": "cuts/10-today.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true,
+      "demoPath": 3,
+      "drift": [
+        {
+          "id": "maturity-off-vocab",
+          "says": "Maturity · prototype (deterministic fixture)",
+          "should": "Maturity · stub | sketch | refining | live"
+        }
+      ]
+    },
+    {
+      "path": "cuts/11-govern.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true,
+      "demoPath": 2,
+      "contract": "LIM-1554: route and params of 11-govern.html?subject=spend&beat=loop&run=govern-run.json never change",
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/12-operating-plane.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true
+    },
+    {
+      "path": "cuts/_archive/00-hero-demo.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/01-slate-tray-speedrun.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/05-onboarding-argument.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-header-claims-current",
+          "says": "Status · live · imported from Apr 30 Claude Design handoff (Cut C/A face-off in ",
+          "should": "Status · archive (superseded, not maintained)"
+        },
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/06-onboarding-compare.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-header-claims-current",
+          "says": "Status · live · imported from Apr 30 Claude Design handoff",
+          "should": "Status · archive (superseded, not maintained)"
+        },
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/07-onboarding-radical.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-header-claims-current",
+          "says": "Status · live · imported from Apr 30 Claude Design handoff",
+          "should": "Status · archive (superseded, not maintained)"
+        },
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/11-govern-cockpit-iter.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/12-agency-govern-iter.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/index-agenthansa-frozen.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/pre-consolidation/08-liminal-custody.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-header-claims-current",
+          "says": "Maturity · refining     (4-stage interactive narrative console, end-to-end; the ",
+          "should": "Status · archive (superseded, not maintained)"
+        },
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/pre-consolidation/09-osint-custody.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-header-claims-current",
+          "says": "Maturity · kernel-wired (frozen bundle; from-source rebuild broken)",
+          "should": "Status · archive (superseded, not maintained)"
+        },
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "on-page copy says the kernel bundle is frozen, not that this page is archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/root-experiments/index-v04-frozen.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/root-experiments/ontology-agent-travel-more-3d.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/root-experiments/ontology-agent-travel-options.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_archive/root-experiments/ontology-agent-travel-real-3d.html",
+      "status": "archive",
+      "kind": "cut",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "archive-no-onpage-marker",
+          "says": "nothing on screen says archived",
+          "should": "a visible \"archived · not maintained\" line"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_compare.html",
+      "status": "live",
+      "kind": "tool",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/_console.html",
+      "status": "live",
+      "kind": "tool",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/_demo-lan-stitch.html",
+      "status": "live",
+      "kind": "tool",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/_demo-lan.html",
+      "status": "live",
+      "kind": "tool",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/_explore/frontdoor-synthesis.html",
+      "status": "live",
+      "kind": "tool",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/_sequences.html",
+      "status": "live",
+      "kind": "tool",
+      "frontDoor": true
+    },
+    {
+      "path": "cuts/_template.html",
+      "status": "live",
+      "kind": "tool",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/custody.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/thread/atlas.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/brief.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/thread/connect.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/convergence.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/eventlog.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/extract.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/index.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": true,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/insights.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/open-loops.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/thread/precision.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/prep-card.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/thread/recall.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/team.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/thread.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false
+    },
+    {
+      "path": "cuts/thread/told-them.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/thread/update.html",
+      "status": "live",
+      "kind": "sketch-set",
+      "frontDoor": false,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "molehunt/index.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "team-drift/index.html",
+      "status": "live",
+      "kind": "cut",
+      "frontDoor": true,
+      "drift": [
+        {
+          "id": "no-contract-header",
+          "says": "no Maturity/Status line",
+          "should": "contract block per cuts/CONTRIBUTING.md rule 3"
+        }
+      ]
+    },
+    {
+      "path": "cuts/_demo.html",
+      "status": "live",
+      "kind": "tool",
+      "frontDoor": false,
+      "pendingPr": "demo/decisions-with-receipts (LIM-2187)"
+    }
+  ]
+}
