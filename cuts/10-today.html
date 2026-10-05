@@ -56,7 +56,13 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230b0b0d'/%3E%3Cpath d='M16 5 27 16 16 27 5 16Z' fill='none' stroke='%23c9c4bc' stroke-width='1.6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600&family=Space+Mono:wght@400;700&family=Geist:wght@300;400;500;600&family=Geist+Mono:wght@400;500&family=Caveat:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* canon §5 faces (the pattern from PR 120): these cuts reference the spaced family names */
+@font-face{font-family:"Nineties Headliner";src:url("../fonts/nineties-headliner.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../fonts/perfectly-nineties-regular.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Perfectly Nineties";src:url("../fonts/PerfectlyNineties-Semibold.otf") format("opentype");font-weight:600;font-display:swap}
+</style>
 
 <!-- canon · single source of truth -->
 <link rel="stylesheet" href="../design-system/tokens/design-tokens.css">
@@ -84,15 +90,15 @@
     --paper-soft:   var(--frame-bg-3,  #15161A);
     --border:       var(--card-border, #232327);
     --border-soft:  var(--frame-border,#1F1F23);
-    --text-soft:    var(--text-dim,    #7A7A82);
+    --text-soft:    var(--text-dim);
     --easing:       var(--ease-out,    cubic-bezier(0.4, 0, 0.2, 1));
 
     /* register inks · bind to canon hue scales (register-named, not count-named) */
     --ink-clarity:  var(--clarity-500,    #8E66FB);
     --ink-judgment: var(--judgment,       #E90095);
-    --ink-good:     var(--connection-500, #3EE878);
+    --ink-good:     var(--connection-500);
     --ink-warn:     var(--wholeness-500,  #E90095);
-    --ink-amber:    var(--agency-500,     #FFD24A);
+    --ink-amber:    var(--agency-500);
   }
 
   /* The shell gives us .stage / .frame / .titlebar. Lay the surface
@@ -236,7 +242,7 @@
     align-items: baseline;
     margin-bottom: 0.85rem;
   }
-  .tdy-section-label .meta { color: var(--text-faint, #4A4A52); }
+  .tdy-section-label .meta { color: var(--text-faint); }
 
   /* ── the held read that needs a decision (left hero card) ── */
   /* ── the held read ───────────────────────────────────────────────
@@ -274,7 +280,7 @@
     padding: 1.6rem 1.7rem;
   }
   .tdy-loop-q {
-    font-family: var(--display, Georgia, serif);
+    font-family: var(--serif);
     font-weight: 500;
     font-size: 1.3rem;
     line-height: 1.25;
@@ -307,7 +313,7 @@
     align-items: baseline;
     gap: 0.5rem;
   }
-  .tdy-outcome .gloss { color: var(--text-faint, #4A4A52); font-size: 0.8rem; }
+  .tdy-outcome .gloss { color: var(--text-faint); font-size: 0.8rem; }
   .tdy-outcome:hover { border-color: var(--ink-clarity); background: var(--paper-soft); color: var(--text); }
   .tdy-outcome.good:hover  { border-color: var(--ink-good); }
   .tdy-outcome.warn:hover  { border-color: var(--ink-warn); }
@@ -336,7 +342,7 @@
   }
   .tdy-sealed-line .ok { color: var(--ink-good); }
   .tdy-sealed-verdict {
-    font-family: var(--display, Georgia, serif);
+    font-family: var(--serif);
     font-style: italic;
     font-size: 1.05rem;
     color: var(--text);
@@ -345,7 +351,7 @@
     font-family: var(--mono, "Geist Mono", monospace);
     font-size: 9.5px;
     letter-spacing: 0.08em;
-    color: var(--text-faint, #4A4A52);
+    color: var(--text-faint);
   }
 
   /* calibration ticker */
@@ -387,7 +393,7 @@
     margin-bottom: 0.7rem;
   }
   .tdy-state-body {
-    font-family: var(--display, Georgia, serif);
+    font-family: var(--serif);
     font-size: 1.05rem;
     line-height: 1.5;
     color: var(--text-mid);
@@ -418,7 +424,7 @@
     margin: 2.4rem auto 0;
     padding-top: 1.3rem;
     border-top: 1px solid var(--border-soft);
-    font-family: var(--display, Georgia, serif);
+    font-family: var(--serif);
     font-style: italic;
     font-size: 0.9rem;
     color: var(--text-soft);
@@ -428,6 +434,9 @@
   .tdy-btn:hover { transform: translateY(-1.5px); }
   .tdy-btn:active { transform: translateY(0) scale(.97); transition-duration: .08s; }
   @media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation:none!important} body{transition:none} .tdy-btn{transition:background .15s,color .15s} .tdy-btn:hover{transform:none} }
+  /* Option B (founder ruling 2026-10-05, PR 122): the display face is for the page
+     title only; card heads, ages and the nav name read in the serif here. */
+  .p-read__head, .p-read__age, .sn-name { font-family: var(--serif); }
 </style>
 
 <!-- harden · JS-off failsafe for the opacity:0 boot gate · body shows regardless -->
@@ -519,7 +528,7 @@
             <div class="tdy-section-label"><span>Close the loop</span><span class="meta">outcome due · 27 days ago</span></div>
             <div class="tdy-loop" id="tdy-loop">
               <div class="tdy-loop-q">You held the seed round to chase a cleaner close.</div>
-              <p class="tdy-loop-sub">How did that land? <em>Your answer is what makes the vault's calibration real.</em></p>
+              <p class="tdy-loop-sub">How did that land? <em>Your answer is what keeps the vault's calibration honest.</em></p>
 
               <div class="tdy-outcomes" id="tdy-outcomes">
                 <button class="tdy-outcome good" data-outcome="Resolved well · right call" data-disp="resolved-well">Resolved well <span class="gloss">· right call</span></button>

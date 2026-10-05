@@ -375,6 +375,7 @@
   }
   .da-hash-label { letter-spacing: var(--ls-mono-sm); text-transform: uppercase; }
   .da-hash code {
+    font-family: inherit; /* the UA gives <code> a bare monospace; keep var(--mono) */
     color: var(--vitality-soft);
     background: rgba(60,40,10,0.08);
     border: 1px solid rgba(60,40,10,0.16);
