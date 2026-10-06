@@ -1,0 +1,18 @@
+{
+  "packet_id": "2d2eb1c6-20bb-43b3-8f65-d89778acf2f1",
+  "corrections": [
+    {
+      "id": "a797f721-c0ea-41fe-8dc7-e81443704a42",
+      "packet_id": "2d2eb1c6-20bb-43b3-8f65-d89778acf2f1",
+      "source_type": "agent_response",
+      "original": "A brand pivot has been ratified: the headline shifts from product description to proof-of-process claim ('Decisions with receipts'). Two variables are currently collapsed into one decision: (1) which surface changes first (sequencing), and (2) how the receipt is made legible to non-technical visitors (UX/accessibility). These are independent problems being treated as one rollout question. Additionally, the first public proof bundle is gated on founder review but no review timeline or criteria are specified, creating a potential bottleneck between commitment and execution.",
+      "category": null,
+      "reason": "The Analyst is right that the headline and the proof must not drift apart, but the gate it asks for is already part of the ruling. The decision binds every use with truth guards: \"receipts\" means the record Liminal produces today, signed on the device, hash-linked and checkable offline, never enforcement; and until the tamper test is recorded as passed in our claim ledger, a public surface says only what is shown. Surfaces switch one at a time, each with my sign-off, not all at once. What the read missed is that the receipt is not future infrastructure: the offline verifier already runs and fails loudly on a one-byte change. What is still ahead is making it checkable without a terminal, and the \"goal\" link of the chain, which is direction, not product.",
+      "correction_kind": "outer",
+      "created_at": "2026-10-06 21:32:31"
+    }
+  ],
+  "correction_count": 1,
+  "signed_correction_ids": [],
+  "integrity": "separate narrative taxonomy: not part of packet.json; packet.v3 authenticates the complete judgment and device-recorded configured runtime, which is not provider-attested identity"
+}

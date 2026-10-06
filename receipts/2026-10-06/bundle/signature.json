@@ -1,0 +1,8 @@
+{
+  "packet_hash": "6a56d4282245cefacf801d5a43a90ba5839a940671b8a678d90db8195bb28632",
+  "packet_signature": "b799928b5a348be57f681864c9677d10fc0a117e64296cdab55fd060a05c1993243e65418c14daf376bbc4ac2d68e54cea2dc2e22b7ea8698da9060ea7014805",
+  "signature_alg": "ed25519:v1+packet.v3",
+  "canonical_version": "liminal.founder_packet.v3",
+  "device_public_key": "3f270ff5ebad2a4b6619cc342b2776280b3931aa66f2f35ade30bfe6505364d6",
+  "public_key_fingerprint": "9a884e5a2fa183ab5db045d7bb2a6540ab6a18e90f538c4ebc8acd023c201408"
+}
