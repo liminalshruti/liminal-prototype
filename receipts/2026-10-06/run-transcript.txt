@@ -1,0 +1,42 @@
+## 0. self-test
+$ node verify.mjs --self-test
+✓ SELF-TEST PASSED: 5/5 packet.v1, packet.v2, and packet.v3 golden vectors verified
+exit=0
+
+## 1. unpinned
+$ node verify.mjs .
+Computed hash: 6a56d4282245cefacf801d5a43a90ba5839a940671b8a678d90db8195bb28632
+Stored hash:   6a56d4282245cefacf801d5a43a90ba5839a940671b8a678d90db8195bb28632
+Canonical payload: liminal.founder_packet.v3
+INTEGRITY VALID: Content and embedded-key signature verify.
+⚠ SIGNER UNPINNED: Authenticated origin was not established. Re-run with --expect-fingerprint using a fingerprint obtained through an independent trusted channel.
+Public key fingerprint: 9a884e5a2fa183ab5db045d7bb2a6540ab6a18e90f538c4ebc8acd023c201408
+VERIFIER TRUST: obtain this verifier and the expected fingerprint through an independent trusted channel.
+
+No anchor information (local cryptographic proof only).
+exit=0
+
+## 2. pinned
+$ node verify.mjs . --expect-fingerprint 9a884e5a2fa183ab5db045d7bb2a6540ab6a18e90f538c4ebc8acd023c201408
+Computed hash: 6a56d4282245cefacf801d5a43a90ba5839a940671b8a678d90db8195bb28632
+Stored hash:   6a56d4282245cefacf801d5a43a90ba5839a940671b8a678d90db8195bb28632
+Canonical payload: liminal.founder_packet.v3
+✓ VERIFIED: Signature and independently pinned signer are valid.
+packet.v3 complete judgment and device-recorded configured-runtime attribution verify; model identity is not provider-attested
+Public key fingerprint: 9a884e5a2fa183ab5db045d7bb2a6540ab6a18e90f538c4ebc8acd023c201408
+VERIFIER TRUST: obtain this verifier and the expected fingerprint through an independent trusted channel.
+
+No anchor information (local cryptographic proof only).
+exit=0
+
+tamper: packet.json byte offset 167 changed 'r' -> 'R'
+## 3. tampered
+$ node verify.mjs .
+✗ TAMPERED (content): hash mismatch; stored 6a56d4282245cefacf801d5a43a90ba5839a940671b8a678d90db8195bb28632, recomputed 4993bf0b876ec31014042104954d78ceb4c10846ec5ee142e6fd4f8bb4ba19e4
+exit=1
+
+## 4. tampered copy unzipped under /tmp, run by absolute path
+$ node /tmp/promptb-real-XXXX/tampered/verify.mjs /tmp/promptb-real-XXXX/tampered
+✗ TAMPERED (content): hash mismatch; stored 6a56d4282245cefacf801d5a43a90ba5839a940671b8a678d90db8195bb28632, recomputed 4993bf0b876ec31014042104954d78ceb4c10846ec5ee142e6fd4f8bb4ba19e4
+exit=1
+
