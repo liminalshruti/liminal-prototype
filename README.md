@@ -132,13 +132,13 @@ Honest line between what runs today and what is built-but-not-yet-wired or roadm
 
 - **Algorand Builders Berlin, Agentic Commerce x402 Hackathon (Jun 6-7, 2026): 1st place, Main Track 2: Infrastructure / Existing Projects.** x402 agent commerce on Algorand with hash-only on-chain provenance anchoring and a settlement-refusal guard. The submission repo is public and archived as shipped ([algorand-berlin-2026](https://github.com/liminalshruti/algorand-berlin-2026)); its `audit/LATEST.md` lists TestNet transaction ids that resolve on any Algorand explorer, and the [demo page](https://liminalshruti.github.io/algorand-berlin-2026/) is live.
 - **AI Agent Economy Hackathon (Apr 25, 2026):** Judge feedback called the *refusal-as-designed-output* framing "the most original architectural idea in the cohort."
-- **NatSec Hackathon (Cerebral Valley × Palantir × USDoD × OpenAI):** Top 16 of 102 finalists. Architecture applied to defense use case, *do not automate the moral lever, equip the human holding it.*
+- **NatSec Hackathon (Cerebral Valley × Palantir × USDoD × OpenAI):** Ranked in the top 16 of 102 projects in the judges' scoring. Architecture applied to defense use case, *do not automate the moral lever, equip the human holding it.*
 - **a16z Speedrun SR007:** Applied May 6, 2026. Application ID `f952b90c-5099-4e3b-af17-555306085b7f`.
 
 ## Team
 
-- **Shruti Rajagopal**: Founder, CEO. UC Berkeley (Cognitive Science + CS). PM at Asana, Cloudflare, Robinhood, Ancestry. Background in Jungian psychology and somatic practice.
-- **Sean Nejad**: Co-founder, Engineering. Security and trust-boundary architecture. 11-year collaborator.
+- **Shruti Rajagopal Nejad**: Founder, CEO. UC Berkeley (Cognitive Science + CS). PM at Asana, Cloudflare, Robinhood, Ancestry. Background in Jungian psychology and somatic practice.
+- **Sean Nejad**: Security Advisor (Lead Product Security Engineer, Rubrik; OSCE3, OSCP, CISSP).
 
 ## Run locally
 
